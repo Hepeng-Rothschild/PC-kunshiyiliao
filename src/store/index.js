@@ -21,7 +21,9 @@ export default new Vuex.Store({
 				id: 1,
 				title: 'hello world'
 			}
-		]
+		],
+		topMenuList:new Array(),
+		leftMenuList:new Array()
 	},
 	getters,
 	mutations,

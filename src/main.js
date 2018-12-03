@@ -5,7 +5,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
-import { Button, Message, Modal } from 'iview';
+import { Button, Message, Modal, Row, Col } from 'iview';
 import VueI18n from 'vue-i18n';
 import axios from './plugins/http';
 import cookie from './utils/cookie';
@@ -56,6 +56,8 @@ Vue.use({
 // 设置iview部分全局组件
 Vue.component('Button', Button);
 Vue.component('Modal', Modal);
+Vue.component('Col', Col);
+Vue.component('Row', Row);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Modal = Modal;
 

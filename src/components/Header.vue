@@ -2,25 +2,25 @@
     <div class="header">
       <div class="header-content clearfix">
         <div class="header-left fl">
-          <img src="./images/header/logo.jpg" alt="vipkid logo" class="logo" @click="goHome">
-          <img src="./images/header/logo_desc.png" class="logo-desc">
+          <img src="../assets/images/header/logo.jpg" alt="vipkid logo" class="logo" @click="goHome">
+          <img src="../assets/images/header/logo_desc.png" class="logo-desc">
         </div>
         <div class="header-right fr">
           <span class="search-wrap">
-            <img src="./images/header/search_icon.png" class="search-icon">
+            <img src="../assets/images/header/search_icon.png" class="search-icon">
             <input type="text" :placeholder="$t('local.searchPlacehoder')" class="search-input" v-model.trim="value" @keyup.enter="search">
           </span>
-          <img src="./images/header/search_icon.png" class="phone" @click="iSearch">
-          <img src="./images/header/code.png" class="code" @click="codeFn">
-          <img src="./images/header/logout.png" class="logout" @click="logoutFn">
-          <img src="./images/header/phone_menu.png" class="menu" @click="menuSwitch">
+          <img src="../assets/images/header/search_icon.png" class="phone" @click="iSearch">
+          <img src="../assets/images/header/code.png" class="code" @click="codeFn">
+          <img src="../assets/images/header/logout.png" class="logout" @click="logoutFn">
+          <img src="../assets/images/header/phone_menu.png" class="menu" @click="menuSwitch">
           <ul class="logout-box" v-show="show">
             <li @click="cut" v-if="local == 'en_US'">中文</li>
             <li @click="cut" v-else>English</li>
             <li @click="logout">{{$t('local.logout')}}</li>
           </ul>
           <div v-if="codeShow" class="codeBox">
-            <img src="./images/header/code_box.png">
+            <img src="../assets/images/header/code_box.png">
             <div>{{$t('local.apping')}}</div>
           </div>
         </div>

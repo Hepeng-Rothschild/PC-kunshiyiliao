@@ -5,7 +5,7 @@
 <template>
 	<div class="inner-con">
 		<Header></Header>
-		<h3>{{tinymceHtml}}</h3>
+		<!-- <h3>{{tinymceHtml}}</h3> -->
 		<div>
 			<vue-editor :id="id" :height="height" @valueHandle="valueHandle"></vue-editor>
 		</div>
