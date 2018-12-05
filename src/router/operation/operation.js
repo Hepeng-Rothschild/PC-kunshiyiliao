@@ -30,9 +30,18 @@ const reviewList3 = {
     },
     component:()=>import("@/pages/operation/doctorReview/list3")
 }
+const kindeditorTest = {
+    path:'operation/kindeditor',
+    name:'kindeditor',
+    meta:{
+        title:'kindeditor demo'
+    },
+    component:()=>import("@/pages/operation/kindeditor")
+}
 export default {
     reviewList,
     reviewList1,
     reviewList2,
-    reviewList3
+    reviewList3,
+    kindeditorTest
 }

@@ -25,12 +25,18 @@ export default new Router({
 			component:()=>import('@/pages/index'),
 			redirect:'/index/operation/index',
 			children:[
+				//运营端路由
 				operation.reviewList,
 				operation.reviewList1,
 				operation.reviewList2,
 				operation.reviewList3,
+				operation.kindeditorTest,
+
+				//运维端路由
 				maintain.reviewList,
+				//统计端路由
 				statistics.reviewList,
+				//监管端路由
 				supervision.reviewList,
 			]
 		},

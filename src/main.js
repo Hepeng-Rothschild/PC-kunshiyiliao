@@ -15,7 +15,13 @@ import commonApi from './api/commonApi';
 import 'iview/dist/styles/iview.css';
 import './assets/css/base.css';
 
-
+//kindeditor
+import VueKindEditor from '@/plugins/kindeditor.js'
+import '@/../static/kindeditor/themes/default/default.css'
+import '@/../static/kindeditor/kindeditor-all-min.js'
+import '@/../static/kindeditor/lang/zh-CN.js'
+Vue.use(VueKindEditor)
+//设置title
 router.beforeEach((to, from, next) => {
 	// // 获取登陆认证信息
 	// let searchStr = window.location.search;
