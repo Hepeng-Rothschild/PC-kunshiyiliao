@@ -22,8 +22,9 @@ axios.defaults.withCredentials = true;
 // http request 拦截器
 axios.interceptors.request.use(
   	config => {
-		config.headers.Authorization = "Bearer "+ cookie.getCookie('access_token')	
-		// if (token && config.method.toUpperCase() === 'POST') {
+		if(cookie.getCookie('access_token'))
+			config.headers.Authorization = "Bearer "+ cookie.getCookie('access_token')
+		// if (config.method.toUpperCase() === 'POST') {
 		// 	let data = qs.parse(config.data);
 		// 	config.data = qs.stringify({
 		// 		...data,
@@ -45,9 +46,10 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
   	response => {
-		// console.log('response',response)
+		  console.log(response);
 		if (response.data.code === 401) {
-			window.location.href = response.data.location;
+			console.log(window.location.origin);
+			window.location.href = window.location.origin+"/#/login";
 			return Promise.reject(response);
 		}
     	return response;

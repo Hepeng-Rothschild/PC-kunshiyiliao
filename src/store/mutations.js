@@ -65,10 +65,10 @@ export default {
 			default:
 			state.leftMenuList = [
 				{id:1,level:1,name:"医生认证1",childLists:[
-					{id:2,level:2,name:"审核列表1",path:"/operation/index"},
-					{id:3,level:2,name:"审核列表2",path:"/operation/list1"},
-					{id:4,level:2,name:"审核列表3",path:"/operation/list2"},
-					{id:5,level:2,name:"审核列表4",path:"/operation/list3"},
+					{id:2,level:2,name:"审核列表1",path:"/index/operation/index"},
+					{id:3,level:2,name:"审核列表2",path:"/index/operation/list1"},
+					{id:4,level:2,name:"审核列表3",path:"/index/operation/list2"},
+					{id:5,level:2,name:"审核列表4",path:"/index/operation/list3"},
 				]}
 			]
 		}

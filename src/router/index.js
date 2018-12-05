@@ -10,21 +10,38 @@ export default new Router({
 	mode: 'hash',
   	routes: [
 		{
-	    	path: '/',
-	      	redirect: '/index'
+			path: '/',
+			meta:{
+				title:"互联网医院管理系统"
+			},
+	      	redirect: '/index/operation/index'
     	},
 		{
 			path: '/index',
 			name:'home',
-			component:()=>import('@/pages/home')
+			meta:{
+				title:"互联网医院管理系统"
+			},
+			component:()=>import('@/pages/index'),
+			redirect:'/index/operation/index',
+			children:[
+				operation.reviewList,
+				operation.reviewList1,
+				operation.reviewList2,
+				operation.reviewList3,
+				maintain.reviewList,
+				statistics.reviewList,
+				supervision.reviewList,
+			]
 		},
-		operation.reviewList,
-		operation.reviewList1,
-		operation.reviewList2,
-		operation.reviewList3,
-		maintain.reviewList,
-		statistics.reviewList,
-		supervision.reviewList,
+		{
+			path: '/login',
+			name:'login',
+			meta:{
+				title:"登陆"
+			},
+			component:()=>import('@/pages/login')
+		},
   		{
 		    path: '*',
 		    name: '404',

@@ -40,25 +40,25 @@ export default {
             this.$store.commit("setLeftMenuList",name);
             switch(name){
                 case 1:
-                    this.$router.push("/operation/index");
+                    this.$router.push("/index/operation/index");
                     break;
                 case 2:
-                    this.$router.push("/maintain/index");
+                    this.$router.push("/index/maintain/index");
                     break;
                 case 3:
-                    this.$router.push("/statistics/index");
+                    this.$router.push("/index/statistics/index");
                     break;
                 case 4:
-                    this.$router.push("/supervision/index");
+                    this.$router.push("/index/supervision/index");
                     break;
                 default :
-                    this.$router.push("/operation/index");
+                    this.$router.push("/index/operation/index");
             }
         }
     }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
     .topMenu{
 		margin-top: 10px !important;
 	}
