@@ -13,6 +13,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
+		version:"1.0",
 		// 国际化默认中文 （cookie里面取，然后存到store里面）
 		locale: 'zh-CN',
 		// 例子

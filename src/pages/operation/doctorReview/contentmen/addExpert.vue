@@ -141,8 +141,6 @@
 	            		name:"reviewlist12"
 	            	})
             	}
-            	
-            	
             	console.log(params);
             }
 		}

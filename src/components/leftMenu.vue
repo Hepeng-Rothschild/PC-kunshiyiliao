@@ -9,8 +9,8 @@
       <template v-if="item.childLists.length>0">
         <MenuItem
           :title="childItem.name"
-          v-for="childItem in item.childLists"
-          :key="childItem.id"
+          v-for="(childItem,index) in item.childLists"
+          :key="index"
           :name="item.id+'-'+childItem.id"
           :to="childItem.path"
           :replace="true"
@@ -41,5 +41,5 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 </style>

@@ -5,7 +5,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
-import { Button, Message, Modal, Row, Col } from 'iview';
+import { Button, Message, Modal, Row, Col, Icon } from 'iview';
 import VueI18n from 'vue-i18n';
 import axios from './plugins/http';
 import cookie from './utils/cookie';
@@ -15,32 +15,41 @@ import commonApi from './api/commonApi';
 import 'iview/dist/styles/iview.css';
 import './assets/css/base.css';
 
-/*
+//kindeditor
+import VueKindEditor from '@/plugins/kindeditor.js'
+import '@/../static/kindeditor/themes/default/default.css'
+import '@/../static/kindeditor/kindeditor-all-min.js'
+import '@/../static/kindeditor/lang/zh-CN.js'
+Vue.use(VueKindEditor)
+//设置title
 router.beforeEach((to, from, next) => {
-	// 获取登陆认证信息
-	let searchStr = window.location.search;
-	let url = commonApi.getAuthorizen + '?app=' + commonApi.authorApi;
-	if (searchStr.indexOf('ticket') > -1) {
-		url += searchStr ? ('&' + searchStr.substr(1)) : '';
-	};
-	const Authorization = cookie.getCookie('VIPKIDITSYSTEMAUTHORIZATION');
-	if (!Authorization) {
-		axios.get(url).then((res) => {
-			if (res.status) {
-				if (res.data.code === 'S00000') {
-					window.location.search = '';
-					next();
-				};
-			};
-		}).catch((error) => {
-			console.log(error);
-		});
-	} else {
-		// console.log(from);
-		next();
-	};
+	// // 获取登陆认证信息
+	// let searchStr = window.location.search;
+	// let url = commonApi.getAuthorizen + '?app=' + commonApi.authorApi;
+	// if (searchStr.indexOf('ticket') > -1) {
+	// 	url += searchStr ? ('&' + searchStr.substr(1)) : '';
+	// };
+	// const Authorization = cookie.getCookie('VIPKIDITSYSTEMAUTHORIZATION');
+	// if (!Authorization) {
+	// 	axios.get(url).then((res) => {
+	// 		if (res.status) {
+	// 			if (res.data.code === 'S00000') {
+	// 				window.location.search = '';
+	// 				next();
+	// 			};
+	// 		};
+	// 	}).catch((error) => {
+	// 		console.log(error);
+	// 	});
+	// } else {
+	// 	// console.log(from);
+	// 	next();
+	// };
+	let title = to.meta.title?to.meta.title:"互联网医院管理系统";
+	document.title = title;
+	next()
 });
-*/
+
 
 // const SSOHEART = require('./plugins/sso.heart-1.0.1.min.js');
 // 设置心跳，需要和迎双确定参数
@@ -58,6 +67,7 @@ Vue.component('Button', Button);
 Vue.component('Modal', Modal);
 Vue.component('Col', Col);
 Vue.component('Row', Row);
+Vue.component('Icon', Icon);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Modal = Modal;
 
