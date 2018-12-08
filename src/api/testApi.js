@@ -6,6 +6,7 @@ const fileImag = '/organization/uploadHospitalNewFiles' //上传医院图片接�
 
 const fileAll = '/operateapi/hospitaloperateuploadfiles' // 上传文件
 
+
 const login = "/operateapi/operate/login"; //登陆接口
 
 //动态新闻

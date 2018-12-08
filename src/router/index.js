@@ -12,25 +12,29 @@ export default new Router({
 		{
 			path: '/',
 			meta:{
+				index:0,
 				title:"互联网医院管理系统"
 			},
-	      	redirect: '/index/operation/index'
+	      	redirect: '/index'
     	},
 		{
 			path: '/index',
 			name:'home',
 			meta:{
+				index:1,
 				title:"互联网医院管理系统"
 			},
 			component:()=>import('@/pages/index'),
-			redirect:'/index/operation/index',
 			children:[
 				//运营端路由
 				operation.reviewList,
-				operation.reviewList1,
-				operation.reviewList2,
-				operation.reviewList3,
+				operation.reviewEdit,
+				operation.reviewreview,
+				operation.registerList,
+				operation.registerEdit,
+				operation.registerDetail,
 				operation.kindeditorTest,
+				operation.uploadFile,
 
 				//运维端路由
 				maintain.reviewList,
@@ -72,13 +76,18 @@ export default new Router({
 			path: '/login',
 			name:'login',
 			meta:{
+				index:1,
 				title:"登陆"
 			},
 			component:()=>import('@/pages/login')
 		},
   		{
 		    path: '*',
-		    name: '404',
+			name: '404',
+			meta:{
+				index:1,
+				title:"404 NOT FOUND"
+			},
 	      	component: () => import(/* webpackChunkName: 'not-found' */'@/pages/404')
 		}
   	]
