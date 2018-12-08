@@ -5,7 +5,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
-import { Button, Message, Modal, Row, Col, Icon } from 'iview';
+import { Button, Message, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber } from 'iview';
 import VueI18n from 'vue-i18n';
 import axios from './plugins/http';
 import cookie from './utils/cookie';
@@ -14,6 +14,12 @@ import commonApi from './api/commonApi';
 // 全局公共样式
 import 'iview/dist/styles/iview.css';
 import './assets/css/base.css';
+
+//注册全局过滤器
+import * as filters from "@/plugins/filter.js";
+Object.keys(filters).forEach(key => {
+	Vue.filter(key,filters[key]);
+});
 
 //kindeditor
 import VueKindEditor from '@/plugins/kindeditor.js'
@@ -68,11 +74,20 @@ Vue.component('Modal', Modal);
 Vue.component('Col', Col);
 Vue.component('Row', Row);
 Vue.component('Icon', Icon);
+Vue.component('Input', Input);
+Vue.component('InputNumber', InputNumber);
+Vue.component('Table', Table);
+Vue.component('Page', Page);
+Vue.component('Form', Form);
+Vue.component('FormItem', FormItem);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Modal = Modal;
 
 // 国际化
 Vue.use(VueI18n);
+
+// import 
+
 const i18n = new VueI18n({
 	// 语言标识
 	locale: 'zh-CN',
@@ -84,6 +99,9 @@ const i18n = new VueI18n({
 		'en-US': require('./commons/lang/en')
 	}
 });
+
+//资源所在地址
+Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
 
 Vue.config.productionTip = false;
 

@@ -1,47 +1,82 @@
 const reviewList = {
-    path:'operation/index',
+    path:'operation/doctorreview/list',
     name:'reviewlist',
     meta:{
-        title:'运营列表'
+        index:2,
+        title:'医生列表'
     },
     component:()=>import("@/pages/operation/doctorReview/list")
 }
-const reviewList1 = {
-    path:'operation/list1',
-    name:'reviewlist1',
+const reviewEdit = {
+    path:'operation/doctorreview/edit',
+    name:'reviewedit',
     meta:{
-        title:'审核列表1'
+        index:3,
+        title:'医生信息编辑'
     },
-    component:()=>import("@/pages/operation/doctorReview/list1")
+    component:()=>import("@/pages/operation/doctorReview/edit")
 }
-const reviewList2 = {
-    path:'operation/list2',
-    name:'reviewlist2',
+const reviewreview = {
+    path:'operation/doctorreview/review',
+    name:'reviewreview',
     meta:{
-        title:'审核列表2'
+        index:3,
+        title:'医生认证审核'
     },
-    component:()=>import("@/pages/operation/doctorReview/list2")
+    component:()=>import("@/pages/operation/doctorReview/review")
 }
-const reviewList3 = {
-    path:'operation/list3',
-    name:'reviewlist3',
+const registerList = {
+    path:'operation/register/list',
+    name:'registerlist',
     meta:{
-        title:'审核列表3'
+        index:2,
+        title:'医生排班列表'
     },
-    component:()=>import("@/pages/operation/doctorReview/list3")
+    component:()=>import("@/pages/operation/register/list")
+}
+const registerEdit = {
+    path:'operation/register/edit',
+    name:'registeredit',
+    meta:{
+        index:3,
+        title:'添加医生挂号信息'
+    },
+    component:()=>import("@/pages/operation/register/edit")
+}
+const registerDetail = {
+    path:'operation/register/detail',
+    name:'registerdetail',
+    meta:{
+        index:3,
+        title:'预约挂号详情'
+    },
+    component:()=>import("@/pages/operation/register/detail")
 }
 const kindeditorTest = {
     path:'operation/kindeditor',
     name:'kindeditor',
     meta:{
+        index:2,
         title:'kindeditor demo'
     },
     component:()=>import("@/pages/operation/kindeditor")
 }
+const uploadFile = {
+    path:'operation/upload/index',
+    name:'kindeditor',
+    meta:{
+        index:3,
+        title:'uploadFile'
+    },
+    component:()=>import("@/pages/operation/upload/index")
+}
 export default {
     reviewList,
-    reviewList1,
-    reviewList2,
-    reviewList3,
-    kindeditorTest
+    reviewEdit,
+    reviewreview,
+    registerList,
+    registerEdit,
+    registerDetail,
+    kindeditorTest,
+    uploadFile,
 }

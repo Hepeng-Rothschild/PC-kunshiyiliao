@@ -1,5 +1,5 @@
 <template>
-  <div class="table"> 
+  <div class="table-editor"> 
     <editor id="editor_id" height="500px" width="700px" :content.sync="editorText"
             :afterChange="afterChange()"
             pluginsPath="@/../static/kindeditor/plugins/"
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'table',
+  name: 'table-editor',
   data () {
     return {
       editorText: '请输入要编辑的内容...', // 双向同步的变量
@@ -28,6 +28,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+  .table-editor{
+    margin-left:1%;
+    width:98%;
+    background:#ffffff;
+    box-sizing: border-box;
+  }
 </style>

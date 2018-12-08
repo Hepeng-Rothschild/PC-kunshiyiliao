@@ -46,9 +46,9 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
   	response => {
-		  console.log(response);
+		//   console.log(response);
 		if (response.data.code === 401) {
-			console.log(window.location.origin);
+			// console.log(window.location.origin);
 			window.location.href = window.location.origin+"/#/login";
 			return Promise.reject(response);
 		}

@@ -1,16 +1,16 @@
 <template>
   <Menu
-    v-if="lists.length>0"
-    :active-name="lists[0].id+'-'+lists[0].childLists[0].id"
-    :open-names="['1']"
+    v-if="leftMenuLists.length>0"
+    :active-name="leftActiveName"
+    :open-names="openList"
   >
-    <Submenu :name="item.id" v-for="item in lists" :key="item.id">
+    <Submenu :name="index" v-for="(item,index) in leftMenuLists" :key="index">
       <template slot="title">{{item.name}}</template>
       <template v-if="item.childLists.length>0">
         <MenuItem
           :title="childItem.name"
-          v-for="childItem in item.childLists"
-          :key="childItem.id"
+          v-for="(childItem,index) in item.childLists"
+          :key="index"
           :name="item.id+'-'+childItem.id"
           :to="childItem.path"
           :replace="true"
@@ -26,13 +26,10 @@ export default {
   data() {
     return {};
   },
+  props:["leftActiveName","openList","leftMenuLists"],
   components: { Menu, Submenu, MenuItem, MenuGroup },
   created() {},
   computed: {
-    lists() {
-      console.log(this.$store.state.leftMenuList);
-      return this.$store.state.leftMenuList;
-    }
   },
   methods: {
     change(path) {
