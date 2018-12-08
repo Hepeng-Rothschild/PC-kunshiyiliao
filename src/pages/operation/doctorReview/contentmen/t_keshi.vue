@@ -22,12 +22,12 @@
 						<th>操作</th>
 					</tr>
 					<tr v-for = 'item,index in tableList'>
-						<td>{{ item.id }}</td>
-						<td>{{ item.keshi1 }}</td>
-						<td>{{ item.keshi2 }}</td>
-						<td>{{ item.yname }}</td>
-						<td>{{ item.yuyue }}</td>
-						<td>{{ item.tese }}</td>
+						<td>{{ item.sum }}</td>
+						<td>{{ item.title }}</td>
+						<td>{{ item.title }}</td>
+						<td>{{ item.title }}</td>
+						<td>{{ item.title }}</td>
+						<td>{{ item.title }}</td>
 						<td class='ltd'>
 							<span @click = 'navto'>编辑</span>
 						</td>
@@ -40,6 +40,7 @@
 
 <script>
 	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import api from "@/api/commonApi";
 	export default{
 		components:{
 			tmpHeader
@@ -48,8 +49,8 @@
 			return {
 				tableList:[
 					{
-						id:"01",
-						keshi1:"内科",
+						sum:"01",
+						title:"内科",
 						keshi2:"普通内科",
 						yname:"普通内科",
 						yuyue:"是",
@@ -58,11 +59,46 @@
 				]
 			}
 		},
+		mounted () {
+			this.$axios.post(api.tesekeshi,{
+				  "doctorId": 0,
+				  "doctorName": "string",
+				  "hospitalId": 87,
+				  "pageNo": 1,
+				  "pageSize": 10
+			}).then(res => {
+				let ret = res.data.object
+				let arr = [];
+				let sum = 1;
+				if (ret) {
+//					console.log(ret);
+					for (let i in ret[0]) {
+//						console.log(i);
+						arr.push({
+							sum:this.addZero(sum++),
+							title:i,
+							children:ret[0][i]
+						})
+					}
+					this.tableList = arr
+				}
+				
+				console.log(this.tableList);
+			}).catch (err => {
+				console.log(err)
+			})
+		},
 		methods: {
 			navto () {
 				this.$router.push({
 					name:"reviewlist25"
 				})
+			},
+			addZero (num) {
+				if (num < 9 ){
+					return '0' + num
+				}
+				return num
 			}
 		}
 	}

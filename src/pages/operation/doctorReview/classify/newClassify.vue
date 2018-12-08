@@ -167,7 +167,7 @@
 					flex: 1;
 					input {
 						margin: 0 10px;
-						width: 60px;
+						width: 80px;
 						height: 30px;
 						outline: none;
 						text-indent: 5px;

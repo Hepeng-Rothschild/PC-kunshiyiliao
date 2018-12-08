@@ -4,41 +4,43 @@
 		<tmpHeader />
 		<!--搜索/创建-->
 		<div class = 'headeri'>
-			<button @click = 'navto'>创建新闻</button>
 			<div>
-				<img src="" alt="" />
-				<input type = "text" placeholder = "新闻标题"/>
+				<span></span>
+				<input type = "text" placeholder = "新闻标题" v-model = 'search' @keyup="press"/>
 			</div>
+			<button @click = 'add'>创建新闻</button>
 		</div>
 		<!--表格列表-->
-		<div class="main">
+		<div class="main" v-show = 'changeDown.length'>
 			<table border="" cellspacing="" cellpadding="">
 				<tr>
 					<th>编号</th>
 					<th>新闻标题</th>
 					<th>首图</th>
-					<th>新闻内容</th>
 					<th>新闻来源</th>
 					<th>是否显示</th>
 					<th>是否置顶</th>
 					<th>操作</th>
 				</tr>
-				<tr v-for='item,index in tablesList'>
-					<th>{{ item.id }}</th>
+				<tr v-for='(item,index) in changeDown' :key='index'>
+					<th>{{ item.sum }}</th>
 					<th>{{ item.title }}</th>
-					<th>{{ item.newImg }}</th>
-					<th>{{ item.content }}</th>
-					<th>{{ item.source}}</th>
-					<th>是
-						 <!--<iswitch v-model="switch1" @on-change="change" size="small"/>-->
+					<th>
+						<img :src = "fileBaseUrl + item.newsHeadlines" alt = "111" style='margin:10px 0;width:100px;height:50px;'/>
 					</th>
-					<th>{{ item.zhiding }}</th>
-					<th @click='navto'>查看</th>
+					<th>{{ item.source}}</th>
+					<!--是否显示-->
+					<th>{{ item.enable === 1 ? '是':'否' }}</th>
+					<!--是否置顶-->
+					<th>{{ item.priority ==1 ? '是' : '否' }}</th>
+					<th @click='navto(item)' :data-id = 'item.id' :date-id="changeDown">
+						<span style = 'cursor:pointer;' :data-id = 'item.id'>查看</span>
+					</th>
 				</tr>
 			</table>
 		</div>
 		<!--底部空表格-->
-		<footer>
+		<footer v-show = '!changeDown.length'>
 			<table border="" cellspacing="" cellpadding="">
 				<tr>
 					<th>编号</th>
@@ -57,75 +59,85 @@
 </template>
 
 <script>
-	import { Switch } from 'iview'
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader'
-	export default{
+	import { Switch } from 'iview';
+	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import api from "@/api/commonApi";
+	import axios from "axios";
+	export default {
 		components: {
 			iswitch:Switch,
 			tmpHeader
 		},
+		created () {
+	       this.$nextTick(()=>{
+		       	axios.post(api.news,{
+		       		hospitalId:87,
+		       		pageNo:1,
+		       		pageSize:10
+		       	}).then(res => {
+		       		let ret = res.data.object.list;
+		       		ret.forEach((item,index) => {
+		       			item.sum = this.addZero(index);
+		       		})
+		       		this.tablesList = ret 
+		       	}).catch(err => {
+		       		console.log(err)
+		       	})
+	       })
+       	},
 		data () {
 			return {
 				switch1: false,
-				tablesList :[
-					{
-						id:"01",
-						title:"政府买单",
-						newImg:"龙静",
-						content:"XXXXXX",
-						source:"国家政策",
-						ishow:"true",
-						zhiding:"否",
-					},
-					{
-						id:"01",
-						title:"政府买单",
-						newImg:"龙静",
-						content:"XXXXXX",
-						source:"国家政策",
-						ishow:"true",
-						zhiding:"否",
-					},
-					{
-						id:"01",
-						title:"政府买单",
-						newImg:"龙静",
-						content:"XXXXXX",
-						source:"国家政策",
-						ishow:"true",
-						zhiding:"否",
-					},
-					{
-						id:"01",
-						title:"政府买单",
-						newImg:"龙静",
-						content:"XXXXXX",
-						source:"国家政策",
-						ishow:"true",
-						zhiding:"否",
-					},
-					{
-						id:"01",
-						title:"政府买单",
-						newImg:"龙静",
-						content:"XXXXXX",
-						source:"国家政策",
-						ishow:"true",
-						zhiding:"否",
-					}
-				]
+				tablesList :[],
+				search:""
 			}
 		},
 		methods: {
             change (status) {
                 this.$Message.info('开关状态：' + status);
             },
-            	navto () {
-            		this.$router.push({
-            			name:"reviewlist14"
-            		})
-            	}
-        }
+        	navto (item) {
+//      		console.log(item.id)
+        		let id = item.id
+        		this.$router.push({
+        			name:"reviewlist14",
+        			params:{
+        				id
+        			}
+        		})
+        	},
+        	add () {
+        		this.$router.push({
+        			name:"d_createdNews"
+        		})
+        	},
+	        addZero (num) {
+				num = num + 1;
+				if (num < 10){
+					return '0' + num
+				}
+				return num
+			},
+	        press () {
+	        	console.log(this.search);
+	        }
+      },
+      computed: {
+      	changeDown () {
+      		let arr = [];
+      		if (this.search === '') {
+      			return this.tablesList
+      		} else {
+      			for(let i = 0;i < this.tablesList.length;i++){
+      				if (this.tablesList[i].title.indexOf(this.search) != -1) {
+      					arr.push(this.tablesList[i]);
+      				}
+      			}
+      		}
+      		return arr
+      	}
+      }
+      
 	}
 </script>
 
@@ -133,12 +145,22 @@
 .news{
 	width:100%;
 	.headeri{
-		width:100%;
+		width:90%;
 		display:flex;
+		margin:0 auto;
 		flex-direction: row;
 		justify-content: space-between;
+		span{
+			display:inline-block;
+			width:20px;
+			margin-left:8px;
+			margin-top:5px;
+			height:20px;
+			background:url("../../../../assets/images/search.png") no-repeat;
+			background-size:100% 100%;
+		}
 		button{
-			width:150px;
+			width:80px;
 			height:30px;
 			margin-left:20px;
 			text-align:center;
@@ -152,11 +174,10 @@
 		div{
 			display:flex;
 			flex-direction:row;
-			border-radius:10px;
+			border-radius:15px;
 			border:1px solid black;
-			width:300px;
+			width:200px;
 			height:30px;
-			margin-right:20px;
 			input{
 				border:none;
 				outline:none;

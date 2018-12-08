@@ -30,7 +30,7 @@ export default {
   created() {},
   computed: {
     lists() {
-      console.log(this.$store.state.leftMenuList);
+//    console.log(this.$store.state.leftMenuList);
       return this.$store.state.leftMenuList;
     }
   },

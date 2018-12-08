@@ -56,10 +56,16 @@ export default new Router({
 			    maintain.reviewList23,
 			    maintain.reviewList24,
 			    maintain.reviewList25,
+			    maintain.c6,
+			    maintain.createdNews,
+			    maintain.addBanner,
+			    maintain.createNews,
+			    maintain.d_createdNews,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由
 				supervision.reviewList,
+				
 			]
 		},
 		{

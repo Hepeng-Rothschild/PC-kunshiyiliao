@@ -1,7 +1,7 @@
 <template>
 	<!--开通科室-->
 	<div class = 'addManagement'>
-		<div class = "addManag">
+		<div class = "addManag" ref = 'warp'>
 			<tmpHeader />
 			<h4 @click = 'btn'>选择院内开通科室</h4>
 			<div class = 'fuwu'>
@@ -134,13 +134,13 @@
 							<label for="">家医签约</label>
 						</div>
 						<div>
-							<input type="checkbox"  id="" name='合理用药' />
+							<input type="checkbox"  id="" name='合理用药'  data-id='1'/>
 							<label for="">家医履约</label>
 						</div>
 					</div>
 				</div>
 			</div>
-			<p style='text-align:center;'>注：已通科室如有医生信息，不能取消，需将科室内医生先移除后，方可操作。</p>
+			<p style='text-align:center;margin:10px 0;'>注：已通科室如有医生信息，不能取消，需将科室内医生先移除后，方可操作。</p>
 				<!--保存-->
 			<div class="expert_save">
 				<span @click = 'navto'>保存</span>
@@ -166,9 +166,21 @@
 				console.log(this.arr);
 			},
 			navto () {
-				this.$router.push({
-					name:"reviewlist19"
-				})
+				let wrap = this.$refs.warp;
+				let el = wrap.getElementsByTagName('input');
+				let arr = [];
+				let len = el.length;
+				for (let i = 0;i < len;i++) {
+					if (el[i].checked) {
+						console.log(el[i].getAttribute('data-id'));
+						arr.push(el[i]);
+					}
+				}
+				
+				console.log(arr);
+//				this.$router.push({
+//					name:"reviewlist19"
+//				})
 			}
 		}
 	}

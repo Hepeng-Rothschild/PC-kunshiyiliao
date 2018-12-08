@@ -6,7 +6,8 @@
 		<div class = 'iheader'>
 			<button @click = 'navto'>添加专家</button>
 			<div>
-				<img src="" alt="" />
+				<span></span>
+				<!--<img src="" alt="" />-->
 				<input type="text"placeholder="专家姓名" />
 			</div>
 		</div>
@@ -31,7 +32,7 @@
 					<th>{{ item.zhiwu }}</th>
 					<th>{{ item.techang }}</th>
 					<th>{{ item.jianjie }}</th>
-					<th @click = 'navto'>查看</th>
+					<th @click = 'navto'>编辑</th>
 				</tr>
 			</table>
 		</div>
@@ -40,59 +41,40 @@
 </template>
 
 <script>
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader'
+	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import api from "@/api/commonApi";
 	export default{
 		components:{
 			tmpHeader
 		},
 		data () {
 			return {
-				tablesList:[
-					{
-						id:'01',
-						name:"龙静",
-						tushi:"心内科",
-						zhicheng:"主任医师",
-						zhiwu:"无",
-						techang:"XXXX",
-						jianjie:"XXX",
-					},
-					{
-						id:'01',
-						name:"龙静",
-						tushi:"心内科",
-						zhicheng:"主任医师",
-						zhiwu:"无",
-						techang:"XXXX",
-						jianjie:"XXX",
-					},
-					{
-						id:'01',
-						name:"龙静",
-						tushi:"心内科",
-						zhicheng:"主任医师",
-						zhiwu:"无",
-						techang:"XXXX",
-						jianjie:"XXX",
-					},
-					{
-						id:'01',
-						name:"龙静",
-						tushi:"心内科",
-						zhicheng:"主任医师",
-						zhiwu:"无",
-						techang:"XXXX",
-						jianjie:"XXX",
-					}
-					
-				]
+				tablesList:[]
 			}
+		},
+		created () {
+			this.$axios.post(api.zj,{
+				  "hospitalId": 87,
+				  "pageNo": 1,
+				  "pageSize": 10
+			}).then(res => {
+				console.log(res.data);
+			}).catch (err => {
+				console.log(err)
+			})
 		},
 		methods:{
 			navto() {
 				this.$router.push({
 					name:"reviewlist15"
 				})
+			},
+			addZero (num) {
+				num = num + 1;
+				if (num < 10){
+					return '0' + num
+				}
+				return num
 			}
 		}
 	}
@@ -107,6 +89,7 @@
 		display:flex;
 		flex-direction:row;
 		justify-content: space-between;
+		
 		button{
 			border:none;
 			outline:none;
@@ -117,10 +100,23 @@
 		}
 		div{
 			width:200px;
+			/*flex:1;*/
 			height:30px;
 			border:1px solid black;
 			border-radius:20px;
+			display:flex;
+			flex-direction: row;
+			span{
+				display:inline-block;
+				width:20px;
+				margin-left:5px;
+				margin-top:4px;
+				height:20px;
+				background:url("../../../../assets/images/search.png") no-repeat;
+				background-size:100% 100%;
+			}
 			input{
+				width:calc(200px - 20px);
 				border:none;
 				outline:none;
 				text-indent:5px;

@@ -1,8 +1,9 @@
 <template>
 	<div class = 'addExpert'>
+	<!--导航-->
+		<tmpHeader />
 		<div class="main_expert">
-			<!--导航-->
-				<tmpHeader />
+			
 			<!--专家姓名-->
 			<div class="main_expert_item">
 				<div class="main_expert_title">
@@ -97,12 +98,10 @@
 
 <script>
 	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
-//	import vueEditor from '@/components/vueEditor';
 	import { Switch } from 'iview'
 	export default{
 		components: {
 			tmpHeader,
-//			vueEditor,
 			iSwitch:Switch
 		},
 		data () {

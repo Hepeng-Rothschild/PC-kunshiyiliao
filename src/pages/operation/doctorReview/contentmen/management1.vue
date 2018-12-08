@@ -37,8 +37,7 @@
 				<th>{{ item.zhuyuan }}</th>
 				<th>-</th>
 				<th>
-					<span>添加信息</span>
-					<span>编辑</span>
+					<span @click = 'navto'>编辑</span>
 				</th>
 			</tr>
 		</table>
@@ -67,6 +66,17 @@
 					}
 				]
 			}
+		},
+		methods :{
+			navto (item) {
+				this.$router.push({
+					name:"reviewlist10",
+					params:{
+						item
+					}
+				})
+				sessionStorage.setItem('homeID',2);
+			}
 		}
 	}
 </script>
@@ -91,6 +101,7 @@
 			border-radius:0;
 			border:1px solid black;
 			margin:0 10px;
+			text-indent:5px;
 		}
 		button{
 			width:50px;
@@ -108,6 +119,10 @@
 		tr{
 			th{
 				text-align:center;
+				span{
+					cursor:pointer;
+					user-select:none;
+				}
 			}
 		}
 	}

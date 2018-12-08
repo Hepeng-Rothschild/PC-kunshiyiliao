@@ -47,7 +47,7 @@
 			        multiple
 			        type="drag"
 			        
-					:action = "uploadUrl"
+			        :action = "uploadUrl"
 					:headers = 'fromData'
 					:data = 'uploadData'
 			        
@@ -119,38 +119,41 @@
 				lianjie:"",
 				isort:"",
 				switch1:true,
-				defaultList: [
-//                  {
-//                      'name': 'bc7521e033abdd1e92222d733590f104',
-//                      'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
-//                  }
-                ],
+				defaultList: [],
                 imgName: '',
                 visible: false,
                 uploadList: [],
                 
-				uploadModal: true,
+                uploadModal: true,
                 uploadData: {json:'{"urlCode":"203","flag":"1"}'},
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
                 uploadUrl:api.fileAll,
-                fromData:{'ContentType':'multipart/form-data'},                
+                fromData:{'ContentType':'multipart/form-data'}, 
                 images:""
 			}
 		},
 		methods: {
 			change (status) {
-//              this.$Message.info('开关状态：' + status);
+                this.$Message.info('开关状态：' + status);
             },
             save () {
             	let sum = 0;
             	if (this.switch1) {
             		sum = 1;
             	}
+//          	this.uploadList.push({
+//                  name: "a42bdcc1178e62b4694c830f028db5c0",
+//					percentage: 100,
+//					status: "finished",
+//					uid: 1544263544970,
+//					url: detail.cover
+//              })
             	let params = {
             		hospitalId: 82,
             		bannerName:this.title,
             		bannerUrl:this.lianjie,
             		priority:this.isort,
+            		id:this.$route.params.id,
             		enable:sum,
             		imageUrl:this.images
             	}
@@ -158,15 +161,14 @@
 				if (params.title == '') {
 					this.$Message.info('banner名称不能为空');
 				} else {
-					 this.$axios.post(api.bannerAdd, params).then(res => {
-		            	console.log(res);
-		            	if (res.data.message ==='success') {
-		            		this.$Message.info('添加成功');
+					 this.$axios.post(api.bannerChange, params ).then(res => {
+		            	if (res.data.message === 'success') {
+		            		this.$Message.info('修改成功');
 		            		setTimeout(()=>{
 		            			this.$router.push({
 				            		name:"reviewlist17"
 				            	})
-		            		},300)
+		            		},500)
 		            	}
 		            }).catch(err => {
 		            	console.log(err)
@@ -198,19 +200,51 @@
                     desc: 'File  ' + file.name + ' is too large, no more than 2M.'
                 });
             },
-            handleBeforeUpload (file) {
-               const check = this.uploadList.length < 1;
+            handleBeforeUpload () {
+                const check = this.uploadList.length < 1;
                 if (!check) {
                     this.$Message.info('只能上传一张图片');
                 }
                 return check
-                
             }
 		},
         mounted () {
             this.uploadList = this.$refs.upload.fileList;
-            
-           
+            let route = this.$route.params.id;
+            if (route) {
+            	this.$axios.post(api.getIdBanner,{
+	           		id:route
+	           	}).then(res => {
+	           		let ret = res.data.object;
+	           		if (ret) {
+	           			let ishow = true;
+	           			if (ret.enable == 0) {
+	           				ishow = false
+	           			}
+	           			this.title = ret.bannerName
+	            		this.lianjie = ret.bannerUrl
+	            		this.isort = ret.priority
+	            		this.iswitch1 = ishow
+	            		
+	            		console.log(ret.imageUrl)
+	            		
+	            		if (ret.imageUrl) {
+	            			this.uploadList.push({
+		                        name: "a42bdcc1178e62b4694c830f028db5c0",
+								percentage: 100,
+								status: "finished",
+								uid: 1544263544970,
+								url: this.fileBaseUrl + ret.imageUrl
+		                    })
+	            		}
+	            		
+	           		}
+	           		console.log(res)
+	           	}).catch(err =>{
+	           		console.log(err)
+	           	})
+            }
+           	
         }
 	}
 </script>

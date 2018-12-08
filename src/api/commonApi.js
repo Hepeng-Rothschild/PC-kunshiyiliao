@@ -9,7 +9,7 @@ const apiData = {
 	test,
 	production
 };
-let url = apiData.dev;
+let url = apiData.test;
 
 // export default {
 // 	// 获取登陆验证信息

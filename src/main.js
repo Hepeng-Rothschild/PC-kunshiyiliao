@@ -50,6 +50,8 @@ router.beforeEach((to, from, next) => {
 	next()
 });
 
+//静态资源地址
+Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
 
 // const SSOHEART = require('./plugins/sso.heart-1.0.1.min.js');
 // 设置心跳，需要和迎双确定参数

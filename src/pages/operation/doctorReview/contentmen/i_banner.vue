@@ -2,16 +2,19 @@
 	<!--Banner-->
 	<div class = 'iBanner'>
 		<div class = 'ibanner_main'>
+			<!--导航-->
 			<tmpHeader />
+			<!--搜索框-->
 			<div class = 'ibanner_header'>
 				<div class = 'header_input'>
 					<span>
-						<!--<Icon type=" i-icon i-icon-shop_fill" size="24" />-->
+						<Icon type=" i-icon i-icon-shop_fill" size="24" />
 					</span>
-					<input type="text" placeholder = '名称' />
+					<input type="text" placeholder = '名称' v-model = 'search' />
 				</div>
 				<button @click = 'navto'>添加Banner</button>
 			</div>
+			<!--表格列表-->
 			<div class = 'tabList'>
 				<table border="" cellspacing="" cellpadding="">
 					<tr>
@@ -23,16 +26,22 @@
 						<td>排序</td>
 						<td>操作</td>
 					</tr>
-					<tr v-for = 'item,index in tbleList'>
-						<td>{{ item.id }}</td>
-						<td>{{ item.name }}</td>
-						<td>{{ item.banner }}</td>
-						<td>{{ item.lianjie }}</td>
-						<td>{{ item.ishow }}</td>
-						<td>{{ item.isort }}</td>
-						<td>编辑</td>
+					<tr v-for = 'item,index in tbleList' v-show = 'tbleList.length'>
+						<td>{{ addZero(index) }}</td>
+						<td>{{ item.bannerName }}</td>
+						<td>
+							<img :src="fileBaseUrl + item.imageUrl" alt="" style='margin:10px 0;width:80px;height:80px;'/>
+						</td>
+						<td>{{ item.bannerUrl }}</td>
+						<td>{{ item.enable == 1? "是" :"否" }}</td>
+						<td>{{ item.priority }}</td>
+						<td @click = 'change(item)' style = 'cursor:pointer;'>编辑</td>
 					</tr>
 				</table>
+			</div>
+			<!--分页-->
+			<div style = 'text-align:center;'>
+				<Page :total = "tbleList.length" :page-size ='len' @on-change = 'pageChange'/>
 			</div>
 		</div>
 	</div>
@@ -40,31 +49,88 @@
 
 <script>
 	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
-	import { Icon } from 'iview'
+	import { Icon,Page } from 'iview'
+	import api from "@/api/commonApi";
 	export default{
 		components:{
 			tmpHeader,
-			Icon
+			Icon,
+			Page
 		},
 		data () {
 			return {
-				tbleList:[
-					{
-						id:'01',
-						name:"医院大图",
-						banner:"小图",
-						lianjie:"www.baidu.com",
-						ishow:"是",
-						isort:"1"
-					}
-				]
+				tbleList:[],
+				search:"",
+				arr:[],
+				len:10
 			}
 		},
 		methods: {
+			pageChange (e) {
+				this.$axios.post(api.bannerHome,{
+				 	"bannerName": "",
+				  	"hospitalId": 82,
+				  	"pageNo": e,
+				  	"pageSize": 10
+				}).then(res => {
+					let ret = res.data.object;
+					if (ret) {
+						this.tbleList = ret.list;
+						
+					}
+				})
+			},
 			navto () {
 				this.$router.push({
 					name:"reviewlist18"
 				})
+			},
+			change (item) {
+				this.$router.push({
+					name:"addBanner",
+					params:{
+						id:item.id
+					}
+				})
+			},
+			addZero (num) {
+				num = num + 1;
+				if (num < 10){
+					return '0' + num
+				}
+				return num
+			}
+		},
+		mounted () {
+			this.$axios.post(api.bannerHome,{
+			 	"bannerName": "",
+			  	"hospitalId": 82,
+			  	"pageNo": 1,
+			  	"pageSize": 10
+			}).then(res => {
+				let ret = res.data.object;
+				if (ret) {
+					this.tbleList = ret.list;
+					
+				}
+			})
+		},
+		watch : {
+			search : {
+				deep:true,
+				handler (oldval) {
+					this.$axios.post(api.bannerHome,{
+					 	"bannerName": oldval,
+					  	"hospitalId": 82,
+					  	"pageNo": 1,
+					  	"pageSize": 10
+					}).then(res => {
+						let ret = res.data.object
+						if (ret) {
+							this.tbleList = ret.list
+						}
+					})
+				}
 			}
 		}
 	}
@@ -93,7 +159,7 @@
 				span{
 					display:inline-block;
 					width:20px;
-					margin-top:5px;
+					margin-top:4px;
 					margin-left:5px;
 					height:20px;
 					background:url("../../../../assets/images/search.png") no-repeat;

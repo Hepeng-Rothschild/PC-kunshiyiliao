@@ -139,7 +139,6 @@
                 switch1:true,
                 editorText: '请输入要编辑的内容...',
                 
-				
 				uploadModal: true,
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
                 fromData:{'ContentType':'multipart/form-data'},
@@ -150,40 +149,6 @@
 		},
 		mounted () {
 			this.uploadList = this.$refs.upload.fileList;
-			let item = this.$route.params.id;
-			if (item) {
-				this.$axios.post(api.getNews,{
-					hospitalId:87,
-					id:item
-				}).then(res => {
-					if (res.data.object) {
-						let ret = res.data.object
-							this.title = ret.title;
-							this.editorText = ret.content;
-							this.isource = ret.source;
-							this.isort = ret.priority;
-							if (ret.enable == 1){
-							this.switch1 = true;
-						} else {
-							this.switch1 = false;
-						}
-						if (ret.newsHeadlines) {
-							this.uploadList.push({
-		                        name: "a42bdcc1178e62b4694c830f028db5c0",
-								percentage: 100,
-								status: "finished",
-								uid: 1544263544970,
-								url: this.fileBaseUrl + ret.newsHeadlines
-		                   })
-						}
-					}
-					
-				}).catch(err => {
-					console.log(err)
-				})
-				
-				
-			}
 
 		},
 		methods: {
@@ -240,8 +205,7 @@
 					newsHeadlines:this.images,
             		priority:this.isort,
             		source:this.isource,
-            		title:this.title,
-            		id:this.$route.params.id
+            		title:this.title
             	}
             	if (this.title == ''){
             		this.$Message.info('新闻标题不能为空');
@@ -249,29 +213,23 @@
             		this.$Message.info('新闻内容不能为空');
             	} else {
             		
-            		this.$axios.post(api.addNews,params).then(res => {
-						console.log(res)
-						if(res.data) {
-							setTimeout(() => {
-								this.$Message.info('修改成功');
-								setTimeout(() => {
-									this.$router.push({
-										name:"reviewlist11"
-									})
-								},500)
-							})
-						}
-						
-					}).catch(err => {
-						console.log(err);
-					})
-//					console.log(params);
-					
-//					this.$axios.post(api.newsA,params).then(res => {
-//						console.log(res);
+//          		this.$axios.post(api.addNews,params).then(res => {
+//						console.log(res)
+//						if(res.data) {
+//							setTimeout(() => {
+//								this.$Message.info('添加成功');
+//								setTimeout(() => {
+//									this.$router.push({
+//										name:"reviewlist11"
+//									})
+//								},500)
+//							})
+//						}
+//						
 //					}).catch(err => {
 //						console.log(err);
 //					})
+
             		console.log(params);
 					
             	}

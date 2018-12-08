@@ -164,6 +164,7 @@ import {Switch,Upload ,Icon} from 'iview'
 			}
 		},
 	  	methods: {
+	  		// 树
 	  		tab (e) {
 	  			let el = e.target;
 	  			let chilrens = el.parentNode.getElementsByTagName('ul');
@@ -185,6 +186,7 @@ import {Switch,Upload ,Icon} from 'iview'
 	  			el.classList.add('active');
 	  			
 	  		},
+	  	//保存
 	  		save () {
 	  			let params = {
 	  				name:this.keshiname,
@@ -211,6 +213,7 @@ import {Switch,Upload ,Icon} from 'iview'
             },
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
+                console.log(file);
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
             },
             handleSuccess (res, file) {
@@ -230,11 +233,12 @@ import {Switch,Upload ,Icon} from 'iview'
                 });
             },
             handleBeforeUpload () {
-                const check = this.uploadList.length < 5;
+                const check = this.uploadList.length < 1;
                 if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
+//                  this.$Notice.warning({
+//                      title: 'Up to five pictures can be uploaded.'
+//                  });
+                    this.$Message.info('最多只能上传一张图片');
                 }
                 return check;
             }

@@ -121,7 +121,8 @@
 			table{
 				width:100%;
 				tr:first-child{
-					background:rgb(228, 228, 228);
+					background:#e4e4e4;
+					padding:10px;
 				}
 				tr{
 					td{

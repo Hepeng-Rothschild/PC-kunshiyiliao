@@ -4,31 +4,10 @@
 		<div class="i-keshi_main">
 		<!--左侧选择-->
 			<div class="i-keshi_main-left" ref = 'oneList'>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
+				<ul class = 'allList' @dblclick = 'tab' v-for='item in tablsList'>
+					<li>+{{ item.title }}</li>
 					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
-						
-					</ul>
-				</ul>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
-					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
+						<li v-for = 'items in item.children' @dblclick = 'changes(items)'>+{{ items.childDept }}</li>
 					</ul>
 				</ul>
 			</div>
@@ -41,7 +20,7 @@
 						<span style='color:red;'>*&nbsp;&nbsp;</span>
 						<span>科室名称</span>
 					</div>
-					<input type="text" value='神经内科' disabled />
+					<input type="text"  disabled v-model = 'title'/>
 				</div>
 				<!--科室就诊位置-->
 				<div class="keshi_name">
@@ -143,6 +122,7 @@
 <script>
 import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
 import {Switch,Upload ,Icon} from 'iview'
+import api from "@/api/commonApi";
 	export default{
 		components:{
 			tmpHeader,
@@ -152,6 +132,7 @@ import {Switch,Upload ,Icon} from 'iview'
 		},
 		data () {
 			return {
+				title:"",
 				keshiname:"",
 				test1:"",
 				test2:"",
@@ -160,8 +141,31 @@ import {Switch,Upload ,Icon} from 'iview'
 				defaultList: [],
                 imgName: '',
                 visible: false,
-                uploadList: []
+                uploadList: [],
+                tablsList:[],
+                rightDetail:[],
+                currentId:-1
 			}
+		},
+		mounted () {
+			this.uploadList = this.$refs.upload.fileList;
+			
+			this.$axios.post(api.get_department,{
+				"hospitalId": 87,
+				'id':336
+			}).then(res => {
+				let ret = res.data.object;
+				if (ret) {
+					let arr = []
+					for (let i in ret[0]) {
+						arr.push({
+							title:i,
+							children:ret[0][i]
+						})
+						this.tablsList = arr
+					}
+				}
+			})
 		},
 	  	methods: {
 	  		tab (e) {
@@ -186,26 +190,69 @@ import {Switch,Upload ,Icon} from 'iview'
 	  			
 	  		},
 	  		save () {
+	  			let display = true;
+	  			if (this.switch1) display = false;
 	  			let params = {
-	  				name:this.keshiname,
-	  				test1:this.test1,
-	  				this2:this.test2,
-	  				switch1:this.switch1,
-	  				isort:this.isort
+	  				departmenticon:this.keshiname,
+	  				deptDetails:this.test1,
+	  				deptPosition:this.test2,
+	  				display,
+	  				priority:this.isort,
+	  				id:336,
+	  				hospitalId:87
 	  			}
 	  			
-	  			if (params.name===''){
+//	  			  "departmentdes": "string",
+//				  "departmenticon": "string",
+//				  "deptDetails": "string",
+//				  "deptNickname": "string",
+//				  "deptPosition": "string",
+//				  "dictType": "string",
+//				  "display": 0,
+//				  "hospitalId": 0,
+//				  "id": 0,
+//				  "positionPicture": "string",
+//				  "priority": 0,
+//				  "registeredReservation": 0,
+//				  "specialDept": 0
+	  			if (params.name === ''){
 	  				this.$Message.info('科室名称不能为空');
 	  			} else {
-	  				this.$router.push({
-		  				name:"reviewlist22"
-		  			})
-	  			}
-	  			
-	  			
-	  			
+	  				this.$axios.post(api.departmentChange, {
+	  					
+	  				}).then(res => {
+	  					let ret = res.data
+	  					console.log(ret);
+	  				})
+//	  				this.$router.push({
+//		  				name:"reviewlist22"
+//		  			})
+	  			} 
 	  			
 	  			console.log(params);
+	  		},
+	  		changes (item) {
+	  			let id = item.id;
+	  			this.currentId = id;
+	  			console.log(item);
+	  			this.$axios.post(api.departmentDetail,{
+					"hospitalId": 87,
+					id
+				}).then(res => {
+					let ret = res.data.object;
+					
+					let switch2 = true;
+					if (ret.display != 1) {
+						switch2 = false
+					}
+					this.title = ret.dictType;
+					this.test1 = ret.deptDetails;
+					this.test2 = ret.deptPosition
+					this.switch1 = switch2;
+					this.isort = ret.priority || 0;
+					
+					console.log(ret);
+				})
 	  		},
             handleView (name) {
                 this.imgName = name;
@@ -240,9 +287,6 @@ import {Switch,Upload ,Icon} from 'iview'
                 }
                 return check;
             }
-        },
-        mounted () {
-            this.uploadList = this.$refs.upload.fileList;
         }
 	}
 </script>

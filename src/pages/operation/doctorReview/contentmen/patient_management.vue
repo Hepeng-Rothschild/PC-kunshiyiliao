@@ -60,20 +60,7 @@
 					status: "锁定",
 					found: "2018-10-09 14：50",
 					targetDate: "2018-10-09"
-				},
-				{
-					id: "02",
-					wx: "VX-0193947564323",
-					phone: '17610653655',
-					name: '李偶偶',
-					sex: "男",
-					nexus: "本人",
-					ident: "未实名",
-					status: "正常",
-					found: "2018-10-09 14：50",
-					targetDate: "2018-10-09"
-				}
-			],
+				}],
 				selected: 'all'
 			}
 		},
@@ -116,12 +103,18 @@
 				display: flex;
 				flex-direction: row;
 				span {
-					display: inline-block;
-					width: 30px;
+					display:inline-block;
+					width:20px;
+					margin-top:2px;
+					margin-left:5px;
+					height:20px;
+					background:url("../../../../assets/images/search.png") no-repeat;
+					background-size:100% 100%;
 				}
 				input {
 					width: calc(100% - 32px);
 					border: none;
+					text-indent:5px;
 					outline: none;
 					background: none;
 				}

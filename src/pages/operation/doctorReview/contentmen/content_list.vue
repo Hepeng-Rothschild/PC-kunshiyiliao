@@ -5,8 +5,8 @@
 			<a href = "###">患者端运营</a>
 			<span>></span>
 			<span>内容管理</span>
-			<router-link class = 'homeBtn' to = '/operation/home_article'>发布</router-link>
-			<!--<button class = 'homeBtn'>发布</button>-->
+			<!--<router-link class = 'homeBtn' to = '/operation/home_article'>发布</router-link>-->
+			<button class = 'homeBtn' @click = 'homeBtn'>发布</button>
 		</h3>
 		<!--选择类型-->
 		<div class = 'homeSelect'>
@@ -14,18 +14,18 @@
 			<div class = 'selectType'>
 				<span>类型</span>
 				<select name = "type" v-model = 'type1'>
-					<option value = "全部" selected>全部</option>
-					<option value = "文章">文章</option>
-					<option value = "视频">视频</option>
+					<option value = "null" selected>全部</option>
+					<option value = "0">文章</option>
+					<option value = "1">视频</option>
 				</select>
 			</div>
 			<!--发布选择-->
 			<div class = 'selectType'>
 				<span>状态</span>
 				<select name = "type" v-model = 'type2'>
-					<option value = "全部" selected>全部</option>
-					<option value = "已发布">已发布</option>
-					<option value = "未发布">未发布</option>
+					<option value = "null" selected>全部</option>
+					<option value = "1">已发布</option>
+					<option value = "0">未发布</option>
 				</select>
 			</div>
 			<!--搜索输入-->
@@ -49,34 +49,30 @@
 				<th>时间</th>
 				<th>操作</th>
 			</tr>
-			<tr v-for = 'item,index in arr'>
-				<th>{{ item.num }}</th>
-				<th>{{ item.sort }}</th>
+			<tr v-for = 'item,index in tableList'>
+				<th>{{ addZero(index) }}</th>
+				<th>{{ item.priority }}</th>
 				<th>{{ item.title }}</th>
-				<th>{{ item.type }}</th>
-				<th>{{ item.lanmu }}</th>
-				<th :class = "{'red':item.release==='未发布'}">{{ item.release }}</th>
-				<!--<th class = "red" v-show = '!item.release'>未发布</th>
-				<th v-show = 'item.release'>已发布</th>-->
-				<th>{{ item.read }}</th>
-				<th>{{ item.coll}}</th>
-				<th>{{ item.time }}</th>
-				<th class = 'modi' @click="modal1 = true">
-					<span style = 'color: black;' @click = 'changeItem(item)'>修改</span>
-					<span v-show = 'item.release == "已发布"' style = 'color: black;' @click = 'bottomShelf(item,index)'>下架</span>
-					<span v-show = 'item.release == "未发布"' style = 'color: red;' @click = 'topShelf(item,index)'>上架</span>
-					<span style = 'color: black;' @click = 'roof(item,index,$event)'>置顶</span>
-					<!--<a href = "###" style = 'color: black;' @click = 'changeItem(item)'>修改</a>
-					<a href = "###" v-show = 'item.release == "已发布"' style = 'color: black;' @click = 'bottomShelf(item,index)'>下架</a>
-					<a href = "###" v-show = 'item.release == "未发布"' style = 'color: red;' @click = 'topShelf(item,index)'>上架</a> 
-					<a href = "###" style = 'color: black;' @click = 'roof(item,index)'>置顶</a>-->
+				<th v-show = 'item.type == 0'>文章</th>
+				<th v-show = 'item.type == 1'>视频</th>
+				<th>{{ item.columnName }}</th>
+				<th sytle = 'color:red;' v-show = 'item.idelete == 1'>未发布 </th>
+				<th  v-show = 'item.idelete == 0'>已发布 </th>
+				<th>{{ item.readAmount }}</th>
+				<th>{{ item.countFollow}}</th>
+				<th>{{ item.updateTime }}</th>
+				<th class = 'modi'>
+					<span style = 'color: black;cursor:pointer' @click = 'changeItem(item)'>修改</span>
+					<span v-show = 'item.idelete == 1' style = 'color: red;cursor:pointer' @click = 'bottomShelf(item,index)'>上架</span>
+					<span v-show = 'item.idelete == 0' style = 'color: black;cursor:pointer' @click = 'topShelf(item,index)'>下架</span>
+					<span style = 'color: black;cursor:pointer' @click = 'roof(item,index,$event)'>置顶</span>
 				</th>
 			</tr>
 		</table>
 		<!--分页器-->
-		<div class = 'paging'>
-			<Page :total = "100"  />		
-		</div>
+		<!--<div class = 'paging'>
+			<Page :total = "tableList.length" :page-size ='10' @on-change = 'pageChange'/>		
+		</div>-->
 		<!--info-->
 		<div class = 'info' v-show = 'flag'>
 			<h3>提示</h3>
@@ -98,13 +94,8 @@
 
 <script>
 	import { Page } from 'iview'
+	import api from "@/api/commonApi";
 	export default {
-		created () {
-			let route = this.$route.params.currentData;
-			if (route) {
-				this.tableList.push(route)
-			}
-		},
 		components:{
 			Page
 		},
@@ -112,109 +103,149 @@
 			return {
 				modal1: false,
 				currentIndex:-1,
-				type1:"全部",
-				type2:"全部",
-				allSelect:"全部",
-				val:"",
+				type1:"null",
+				type2:"null",
+				allSelect:"null",
+				val:null,
 				flag:false,
 				content:"",
 				tableList:[
-					{
-						time:"2019-12-1 16：55",
-						title:"冬至保暖需要什么？",
-						sort:1,
-						num:"01",
-						type:"文章",
-						release:'已发布',
-						read:"100",
-						coll:"100",
-						id:"1",
-						lanmu:"宝宝健康"
-					},
-					{
-						time:"2019-12-1 16：55",
-						title:"孩子如何预防感冒？医生告诉你妙招",
-						sort:2,
-						num:"02",
-						type:"视频",
-						release:'未发布',
-						read:"100",
-						coll:"100",
-						id:"1",
-						lanmu:"医师讲"
-					}
-				]
+//					{
+//						time:"2019-12-1 16：55",
+//						title:"冬至保暖需要什么？",
+//						sort:1,
+//						num:"01",
+//						type:"文章",
+//						release:'已发布',
+//						read:"100",
+//						coll:"100",
+//						id:"1",
+//						lanmu:"宝宝健康"
+//					},
+//					{
+//						time:"2019-12-1 16：55",
+//						title:"孩子如何预防感冒？医生告诉你妙招",
+//						sort:2,
+//						num:"02",
+//						type:"视频",
+//						release:'未发布',
+//						read:"100",
+//						coll:"100",
+//						id:"1",
+//						lanmu:"医师讲"
+//					}
+				],
+				arr1:[],
+				len:10
 			}
 		},
+		mounted () {
+			this.$axios.post(api.content_wrap, {
+			  "pageNo":1,
+			  "pageSize":5,
+			  "type":0,
+			  "enable":1
+			}).then(res => {
+				if(res.data.object){
+					let ret = res.data.object.list;
+					this.tableList = ret
+				}
+			})
+		},
 		methods : {
-			btn () {
-				console.log(this.type1,this.type2,this.val)
-			},
-			bottomShelf (item,index) {
-				this.content = "下架"
-				this.currentIndex = index
-				this.modal1 = true;
-			},
-			topShelf (item,index) {
-				this.content = "上架"
-				this.modal1 = true;
-				this.currentIndex = index
-			},
-			roof (item,index,event) {
-				console.log(event);
-				this.content = "置顶",
-				this.modal1 = true;
-				this.currentIndex = index
-			},
-			changeItem (item) {
+			homeBtn () {
 				this.$router.push({
-					name:"reviewlist5",
+					name:"reviewlist5"
+				})
+			},
+			pageChange (e) {
+				
+			},
+			//关键字查询列表
+			btn () {
+				this.$axios.post(api.content_wrap, {
+					"pageNo":1,
+					"pageSize":10,
+					"type":this.type1,
+					"enable":this.type2,
+					"title":this.val
+				}).then(res => {
+					if(res.data.object){
+						let ret = res.data.object.list;
+						this.tableList = ret
+					}
+				})
+			},
+			// 下架
+			bottomShelf (item,index) {
+				console.log(item)
+				this.$axios.post(api.up_wrap,{
+					ids:[item.articleId],
+					idelete:0
+				}).then(res => {
+					if (res.data.code) {
+						item.idelete = 0
+						this.$Message.info('下架成功' );
+						console.log(res.data);
+					}
+				})
+			},
+			// 上架
+			topShelf (item,index) {
+				this.$axios.post(api.up_wrap,{
+					ids:[item.articleId],
+					idelete:1
+				}).then(res => {
+					if (res.data.code) {
+						item.idelete = 1;
+						this.$Message.info('上架成功' );
+						console.log(res.data);
+					}
+				})
+			},
+			//置顶
+			roof (item,index,event) {
+				this.$axios.post(api.root, {
+					"priority":1,
+					"id": item.articleId
+				}).then(res => {
+					if (res.data.code) {
+						 this.$Message.info('置顶成功');
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			//根据ID修改对应的新闻资讯
+			changeItem (item) {
+				let id = item.articleId;
+				console.log(item);
+				this.$router.push({
+					name:"createNews",
 					params: {
-			          item
+		          		id
 			        }
 				})
 			},
+			//模态框
 			ok () {
 //              this.$Message.info('Clicked ok');
-					let a = this.tableList[this.currentIndex];
-                console.log(this.currentIndex);
-				if (this.content == '上架') {
-					this.tableList[this.currentIndex].release = '已发布'
-				} else if (this.content == '下架') {
-					this.tableList[this.currentIndex].release = '未发布'
-				} else if (this.content = '置顶') {
-//					let obj = 
-					this.tableList.splice(this.currentIndex, 1);
-					this.tableList.pop(a);
-					
-//					console.log(this.currentIndex);
-//					console.log(this.tableList);
-				}
+				let a = this.tableList[this.currentIndex];
+            		console.log(this.currentIndex);
+				
 				console.log(a);
 			},
             cancel () {
-//              this.$Message.info('Clicked cancel');
+            },
+            addZero (num) {
+            	num = num +1;
+            	if (num < 10) {
+            		return '0' + num
+            	}
+            	return num
             }
 		},
 		computed : {
-			arr () {
-				let ilist = [];
-				if (this.type1 == '全部' && this.type2 == '全部') {
-					return ilist = this.tableList
-				} else if (this.type1 == '全部') {
-					return ilist = this.tableList.filter(item => {
-					  	return item.release == this.type2
-					})
-				} else if (this.type2 == '全部') {
-					return ilist = this.tableList.filter(item => {
-					  	return item.type == this.type1
-					})
-				} else {
-					return ilist = this.tableList.filter(item => {
-					  	return item.type == this.type1 && item.release == this.type2
-					})
-				}
-			}
 		},
 		watch : {
 			type1:{

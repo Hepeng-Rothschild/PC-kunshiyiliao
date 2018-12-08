@@ -22,13 +22,13 @@
 						<th>操作</th>
 					</tr>
 					<tr v-for = 'item,index in tableList'>
-						<td>{{ item.id }}</td>
-						<td>{{ item.keshi1 }}</td>
-						<td>{{ item.keshi2 }}</td>
-						<td>{{ item.yname }}</td>
-						<td>{{ item.yuyue }}</td>
-						<td>{{ item.tese }}</td>
-						<td class='ltd' @click = 'navto'>编辑</td>
+						<td>{{ addZero(index) }}</td>
+						<td>{{ item.parentDept }}</td>
+						<td>{{ item.childDept }}</td>
+						<td>{{ item.address }}</td>
+						<td>{{ item.display !=1? '是' :'否' }}</td>
+						<td>{{ item.priority }}</td>
+						<td class='ltd' @click = 'navto(item)'>编辑</td>
 					</tr>
 				</table>
 			</div>
@@ -40,30 +40,49 @@
 
 <script>
 	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import api from "@/api/commonApi";
 	export default{
 		components:{
 			tmpHeader
 		},
 		data () {
 			return {
-				tableList:[
-					{
-						id:"01",
-						keshi1:"内科",
-						keshi2:"普通内科",
-						yname:"门诊楼2楼1-7诊室",
-						yuyue:"是",
-						tese:"1"
-					}
-				]
+				tableList:[]
 			}
 		},
 		methods:{
-			navto () {
+			navto (item) {
+				let id = item.id
 				this.$router.push({
-					name:"reviewlist23"
+					name:"reviewlist23",
+					params:{
+						id
+					}
 				})
+			},
+			addZero (num) {
+				num = num + 1;
+				if (num < 10){
+					return '0' + num
+				}
+				return num
 			}
+		},
+		mounted () {
+			this.$axios.post(api.k_department,{
+				  "childDept": "",
+				  "hospitalId": 87,
+				  "id": 0,
+				  "pageNo": 1,
+				  "pageSize": 10,
+				  "parentyDept": ""
+			}).then(res => {
+				let ret = res.data.object
+				if (ret) {
+					this.tableList = ret.list
+				}
+				
+			})
 		}
 	}
 </script>
