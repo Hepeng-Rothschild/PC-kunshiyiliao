@@ -52,6 +52,7 @@ const registerDetail = {
     },
     component:()=>import("@/pages/operation/register/detail")
 }
+
 const kindeditorTest = {
     path:'operation/kindeditor',
     name:'kindeditor',

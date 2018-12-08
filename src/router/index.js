@@ -38,6 +38,28 @@ export default new Router({
 
 				//运维端路由
 				maintain.reviewList,
+				maintain.reviewList4,
+			    maintain.reviewList5,
+			    maintain.reviewList6,
+			    maintain.reviewList7,
+			    maintain.reviewList8,
+			    maintain.reviewList9,
+			    maintain.reviewList10,
+			    maintain.reviewList11,
+			    maintain.reviewList12,
+			    maintain.reviewList13,
+			    maintain.reviewList14,
+			    maintain.reviewList15,
+			    maintain.reviewList16,
+			    maintain.reviewList17,
+			    maintain.reviewList18,
+			    maintain.reviewList19,
+			    maintain.reviewList20,
+			    maintain.reviewList21,
+			    maintain.reviewList22,
+			    maintain.reviewList23,
+			    maintain.reviewList24,
+			    maintain.reviewList25,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由
