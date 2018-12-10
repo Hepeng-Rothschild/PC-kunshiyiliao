@@ -174,7 +174,7 @@ export default {
     },
     created(){
         this.id = parseInt(this.$route.query.id);
-        this.$axios.post(api.registerdoctordetail,{registerId:this.id})
+        this.$axios.post(api.registerDoctorDetail,{registerId:this.id})
         .then(resp=>{
             this.info = resp.data.object;
             for (let i = 0; i < this.info.registerTimes.length; i++) {
@@ -207,7 +207,7 @@ export default {
                 this.registerFlag = 1;
             }
             
-            this.$axios.post(api.changeregisterstatus,{ id:this.id,iclose:this.registerFlag })
+            this.$axios.post(api.changeRegisterStatus,{ id:this.id,iclose:this.registerFlag })
             .then(resp=>{
                 if(resp.data.success){
                     this.$Message.info(this.icloseText+"成功")

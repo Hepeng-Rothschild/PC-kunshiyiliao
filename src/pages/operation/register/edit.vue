@@ -228,7 +228,7 @@ export default {
     }
     if (this.id) {
       this.$axios
-        .post(api.registerdoctordetail, { registerId: this.id })
+        .post(api.registerDoctorDetail, { registerId: this.id })
         .then(resp => {
           this.info = resp.data.object;
           for (let i = 0; i < this.info.registerTimes.length; i++) {
@@ -288,9 +288,9 @@ export default {
       params.registerTimes = tmpRegistertimes;
       let url = "";
       if (this.id) {
-        url = api.registerdocupdate;
+        url = api.registerDoctorUpdate;
       } else {
-        url = api.registerdocinsert;
+        url = api.registerDoctorInsert;
       }
       this.$axios
         .post(url, params)
@@ -334,7 +334,7 @@ export default {
       params.pageNo = pageNo;
       params.pageSize = this.pageSize;
       this.$axios
-        .post(api.registerdoclist, params)
+        .post(api.registerDoctorList, params)
         .then(resp => {
           if (resp.data.success) {
             this.doctorList = resp.data.object.list;

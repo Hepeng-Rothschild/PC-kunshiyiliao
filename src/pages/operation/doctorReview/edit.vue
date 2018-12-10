@@ -171,7 +171,7 @@ export default {
     },
     created(){
         this.id = this.$route.query.id;
-        this.$axios.post(api.delreviewdoctorinfo,{id:this.id})
+        this.$axios.post(api.delReviewDoctorInfo,{id:this.id})
         .then(resp=>{
             this.info = resp.data.object;
             if(this.info.docIcon){
@@ -196,7 +196,7 @@ export default {
         })
         //获取职称列表
         this.$axios
-        .post(api.gettitle)
+        .post(api.getTitle)
         .then(resp => {
             this.titleList = resp.data.object;
         })
@@ -205,7 +205,7 @@ export default {
         });
         //获取医院列表
         this.$axios
-        .post(api.hospitallist)
+        .post(api.hospitalList)
         .then(resp => {
             console.log(resp.data.object);
             this.hospitalList = resp.data.object;
@@ -234,7 +234,7 @@ export default {
             this.info.deptType = this.info.deptTypeId;
             this.info.title = this.info.titleType;
             this.$axios
-            .post(api.reviewdoctorupdate,this.info)
+            .post(api.reviewDoctorUpdate,this.info)
             .then(resp => {
                 if(resp.data.success){
                     this.$Message.success("修改成功");

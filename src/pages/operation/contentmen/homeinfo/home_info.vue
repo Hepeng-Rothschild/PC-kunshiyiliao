@@ -236,14 +236,14 @@
 			this.uploadList = this.$refs.upload.fileList;
 
 // 医院等级
-			this.$axios.post(api.management_all,{}).then(res => {
+			this.$axios.post(api.managementAll,{}).then(res => {
 				if (res.data) {
 					let ret = res.data.object;
 					this.types = ret
 				}
 			})
 // 医院信息
-			this.$axios.post(api.management_info,{
+			this.$axios.post(api.managementInfo,{
 				'hospitalId':this.id
 			}).then(res => {
 				console.log(res);
@@ -260,7 +260,7 @@
 						url: this.fileBaseUrl + ret.hosIcon
 					})
 // 公众号
-					this.$axios.post(api.management_gzh).then(res => {
+					this.$axios.post(api.managementGzh).then(res => {
 						if (res.data) {
 							let ret = res.data.object;
 							this.gzh = ret
@@ -268,7 +268,7 @@
 						// console.log(ret)
 					})
 // 医联体
-					this.$axios.post(api.management_ylt).then(res => {
+					this.$axios.post(api.managementYlt).then(res => {
 						
 						console.log(res);
 					})
