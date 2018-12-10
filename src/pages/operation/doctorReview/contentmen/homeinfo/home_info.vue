@@ -169,7 +169,7 @@
                 y_gzh:"选择公众号",
                 y_uid:"",
                 y_search1:'',
-                fileImages:api.fileImag,
+                fileImages:api.fileAll,
                 fromData:{'ContentType':'application/x-www-form-urlencoded'},
                 filetype:{type:1},
 			}

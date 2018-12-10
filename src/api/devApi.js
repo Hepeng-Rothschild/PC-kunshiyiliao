@@ -1,8 +1,6 @@
 //开发环境
-const fileImag = '/organization/uploadHospitalNewFiles' //上传医院图片接口
 
 const fileAll = '/operateapi/hospitaloperateuploadfiles' // 上传文件
-const uploadUrl = "/operateapi/hospitaluploadoperatefiles"; //上传文件api
 
 const login = "/operateapi/operate/login"; //登陆接口
 
@@ -34,9 +32,6 @@ const zj = '/operateapi/organizationpageexpertdoctor'   //专家列表分页
 //特色科室
 const tesekeshi = '/operateapi/organizationqueryspecialdept'   //特色科室
 
-
-const fileimages ='/operateapi/organizationuploadoperatefiles' 
-
 //banner接口
 const bannerHome = '/operateapi/bannerquerypagehospitalbannerlist' //Banner分页
 const bannerAdd = '/operateapi/bannerinserthospitalbanner'  //banner添加
@@ -53,13 +48,8 @@ const getDepartment = '/operateapi/organizationselectdeptlist'  //查看科室�
 const departmentDetail = '/operateapi/organizationquerydepbyid' //查看科室详情
 const departmentChange = '/operateapi/organizationupdateappointmentdept' //修改预约科室详情
 
-
-
-
 export default {
     login,
-    fileImag,
-    fileimages,
     fileAll,
     
     //内容管理

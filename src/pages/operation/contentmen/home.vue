@@ -37,7 +37,7 @@
 				<th>{{ item.inqCount }}</th>
 				<th>{{ item.hospitalCount }}</th>
 				<th>
-					<span @click = 'navto(item)'>编辑</span>
+					<span @click ='navto(item)'>编辑</span>
 				</th>
 			</tr>
 		</table>

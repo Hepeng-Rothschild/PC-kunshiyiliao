@@ -22,7 +22,7 @@
 				</div>
 				<div class="demo-upload-list" v-for="item in uploadList">
 			        <div v-if="item.status === 'finished'">
-			            <img :src="item.url">
+			            <img :src="fileBaseUrl + item.url">
 			            <div class="demo-upload-list-cover">
 			                <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
 			                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -120,7 +120,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save'>保存</div>
-				<div>取消</div>
+				<div @click="$router.back(-1)">取消</div>
 			</div>
 
 		</div>

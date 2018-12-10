@@ -66,9 +66,7 @@
 		},
 		methods: {
 			navto() {
-				this.$router.push({
-					name: ""
-				})
+				this.$router.push({path: "/index/operation/newClassify"})
 			},
 			aa (index) {
 				console.log(index);

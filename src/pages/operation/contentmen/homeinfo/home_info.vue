@@ -121,7 +121,7 @@
 			<!--保存-->
 			<div class = 'main_save'>
 				<div @click = 'save'>保存</div>
-				<div>取消</div>
+				<div @click="$router.push('/index/operation/home')">取消</div>
 			</div>
 		</div>
 	</div>
@@ -188,9 +188,9 @@
 					dizhi:this.y_dizhi,
 					gzh:this.y_gzh,
 					uid:this.y_uid,
-					switch1:this.switch1,
-					switch2:this.switch2,
-					switch3:this.switch3
+					switch1:Boolean(this.switch1),
+					switch2:Boolean(this.switch2),
+					switch3:Boolean(this.switch3)
 				}
 				console.log(params);
 			},
@@ -290,14 +290,14 @@
 					this.y_gzh = ret.appid
 					//uid
 					//互联网医院
-					this.switch1 = ret.internetHospital;
+					this.switch1 = Boolean(ret.internetHospital);
 					// console.log(ret);
 
 					// 医院联盟
 					// this.switch2 = 
 
 					// 处方流转
-					this.switch3 = ret.perscriptionId
+					this.switch3 = Boolean(ret.perscriptionId)
 
 				}
 			})

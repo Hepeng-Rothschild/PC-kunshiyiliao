@@ -151,7 +151,7 @@ import api from "@/api/commonApi";
 		mounted () {
 			this.uploadList = this.$refs.upload.fileList;
 			
-			this.$axios.post(api.get_department,{
+			this.$axios.post(api.getDepartment,{
 				"hospitalId": this.id,
 				'id':336
 			}).then(res => {

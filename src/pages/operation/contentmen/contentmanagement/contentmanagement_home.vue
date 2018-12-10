@@ -1,13 +1,6 @@
 <template>
 	<div class='contentHome'>
 		<!--标题-->
-		<h3 class='contentHomeTitle'>
-			<a href = "###">患者端运营</a>
-			<span>></span>
-			<span>内容管理</span>
-			<!--<router-link class = 'homeBtn' to = '/operation/home_article'>发布</router-link>-->
-			<button class = 'homeBtn' @click = 'homeBtn'>发布</button>
-		</h3>
 		<!--选择类型-->
 		<div class = 'homeSelect'>
 			<!--类型选择-->

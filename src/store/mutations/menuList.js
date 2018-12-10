@@ -6,19 +6,23 @@ const topMenu = [
 ];
 
 const operationLeftMenu = [
+    {id:1,level:1,name:"订单管理",childLists:[
+        {id:27,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor"},
+        {id:28,level:2,name:"fileuploadFile",path:"/index/operation/upload/index"},
+    ]},
     {id:1,level:1,name:"医生端运营",childLists:[
         {id:17,level:2,name:"医生认证",path:"/index/operation/doctorreview/list"},
-        {id:25,level:2,name:"医生排班列表",path:"/index/operation/register/list"},
+        {id:29,level:2,name:"医生排班列表",path:"/index/operation/register/list"},
         {id:18,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor"},
         {id:26,level:2,name:"fileuploadFile",path:"/index/operation/upload/index"},
     ]},
     {id:1,level:1,name:"患者端运营",childLists:[
-        {id:19,level:2,name:"审核列表1",path:"/index/operation/index1"},
-        {id:20,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor1"},
+        {id:30,level:2,name:"内容管理",path:"/index/operation/contentmanagement_home"},
+        {id:19,level:2,name:"内容分类",path:"/index/operation/f_Classify"},
+        // {id:20,level:2,name:"患者管理",path:"/index/operation/patient_management"},
     ]},
     {id:1,level:1,name:"机构运营",childLists:[
-        {id:21,level:2,name:"审核列表1",path:"/index/operation/index2"},
-        {id:22,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor2"},
+        // {id:21,level:2,name:"机构管理",path:"/index/operation/home"}
     ]}
 ];
 const maintainLeftMenu = [
