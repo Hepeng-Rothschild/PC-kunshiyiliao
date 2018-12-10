@@ -4,35 +4,29 @@
 		<tmpHeader />
 		<!--添加专家/搜索-->
 		<div class = 'iheader'>
-			<button @click = 'navto'>添加专家</button>
+			
 			<div>
 				<span></span>
-				<!--<img src="" alt="" />-->
-				<input type="text"placeholder="专家姓名" />
+				<input type="text"placeholder="已开通服务" />
 			</div>
+			<button @click = 'navto'>添加服务</button>
 		</div>
 		<!--表格列表-->
-		<div class="main">
+		<div class="main" v-show = 'tablesList.length'>
 			<table border="" cellspacing="" cellpadding="">
 				<tr>
 					<th>编号</th>
-					<th>专家姓名</th>
-					<th>专家科室</th>
-					<th>职称</th>
-					<th>职务</th>
-					<th>专业特长</th>
-					<th>个人简介</th>
+					<th>服务分类</th>
+					<th>已开通服务</th>
 					<th>操作</th>
 				</tr>
 				<tr v-for='item,index in tablesList'>
-					<th>{{ item.id }}</th>
-					<th>{{ item.name }}</th>
-					<th>{{ item.tushi }}</th>
-					<th>{{ item.zhicheng }}</th>
-					<th>{{ item.zhiwu }}</th>
-					<th>{{ item.techang }}</th>
-					<th>{{ item.jianjie }}</th>
-					<th @click = 'navto'>编辑</th>
+					<th>{{ addZero(index) }}</th>
+					<th>{{ item.menuName }}</th>
+					<th>
+						<span v-for = 'items in item.result'>{{ items }}、</span>
+					</th>
+					<th @click = 'navto(item)'  style = 'cursor:pointer;'>编辑</th>
 				</tr>
 			</table>
 		</div>
@@ -41,10 +35,10 @@
 </template>
 
 <script>
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader'
 	import api from "@/api/commonApi";
 	export default{
-		components:{
+		components: {
 			tmpHeader
 		},
 		data () {
@@ -52,22 +46,21 @@
 				tablesList:[]
 			}
 		},
-		created () {
-			this.$axios.post(api.zj,{
-				  "hospitalId": 87,
-				  "pageNo": 1,
-				  "pageSize": 10
+		mounted () {
+			this.$axios.post(api.server_,{
+				  "hospitalId": 82,
 			}).then(res => {
-				console.log(res.data);
-			}).catch (err => {
-				console.log(err)
+				let ret = res.data.object;
+				console.log(ret);
+				this.tablesList = ret;
 			})
 		},
 		methods:{
-			navto() {
+			navto (item) {
 				this.$router.push({
-					name:"reviewlist15"
+					name:"reviewlist16"
 				})
+				console.log(item)
 			},
 			addZero (num) {
 				num = num + 1;
@@ -89,7 +82,6 @@
 		display:flex;
 		flex-direction:row;
 		justify-content: space-between;
-		
 		button{
 			border:none;
 			outline:none;
@@ -100,26 +92,24 @@
 		}
 		div{
 			width:200px;
-			/*flex:1;*/
 			height:30px;
 			border:1px solid black;
-			border-radius:20px;
 			display:flex;
 			flex-direction: row;
-			span{
-				display:inline-block;
-				width:20px;
-				margin-left:5px;
-				margin-top:4px;
-				height:20px;
-				background:url("../../../../assets/images/search.png") no-repeat;
-				background-size:100% 100%;
-			}
+			border-radius:20px;
+				span{
+					display:inline-block;
+					width:20px;
+					margin-left:5px;
+					margin-top:4px;
+					height:20px;
+					background:url("../../../../../assets/images/search.png") no-repeat;
+					background-size:100% 100%;
+				}
 			input{
-				width:calc(200px - 20px);
 				border:none;
 				outline:none;
-				text-indent:5px;
+				text-indent:10px;
 				line-height:30px;
 				background:none;
 			}

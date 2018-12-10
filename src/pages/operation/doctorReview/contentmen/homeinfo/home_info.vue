@@ -34,9 +34,11 @@
 			        :before-upload="handleBeforeUpload"
 			        multiple
 			        type="drag"
+					
 			        :action="fileImages"
 			        :headers ="fromData"
 			        :data="filetype"
+
 			        style="display: inline-block;width:58px;">
 			        <div style="width: 58px;height:58px;line-height: 58px;">
 			            <Icon type="ios-camera" size="20"></Icon>

@@ -64,7 +64,8 @@ export default new Router({
 			    maintain.createdNews,
 			    maintain.addBanner,
 			    maintain.createNews,
-			    maintain.d_createdNews,
+				maintain.d_createdNews,
+				maintain.expert_edit,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由

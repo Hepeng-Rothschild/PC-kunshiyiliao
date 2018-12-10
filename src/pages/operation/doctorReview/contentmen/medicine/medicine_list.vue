@@ -30,7 +30,7 @@
 						<td>{{ item.yuyue }}</td>
 						<td>{{ item.tese }}</td>
 						<td class='ltd'>
-							<span @click = 'navto'>编辑</span>
+							<span @click = 'edit'>编辑</span>
 							<span>删除</span>
 						</td>
 					</tr>
@@ -65,6 +65,11 @@
 				this.$router.push({
 					name:"reviewlist20"
 				})
+			},
+			edit () {
+				this.$router.push({
+					name:"reviewlist21"
+				})
 			}
 		}
 	}
@@ -95,7 +100,7 @@
 					margin-top:5px;
 					margin-left:5px;
 					height:20px;
-					background:url("../../../../assets/images/search.png") no-repeat;
+					background:url("../../../../../assets/images/search.png") no-repeat;
 					background-size:100% 100%;
 				}
 				input{

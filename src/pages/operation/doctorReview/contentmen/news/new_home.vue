@@ -156,7 +156,7 @@
 			margin-left:8px;
 			margin-top:5px;
 			height:20px;
-			background:url("../../../../assets/images/search.png") no-repeat;
+			background:url("../../../../../assets/images/search.png") no-repeat;
 			background-size:100% 100%;
 		}
 		button{

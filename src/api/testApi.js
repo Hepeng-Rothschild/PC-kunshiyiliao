@@ -6,6 +6,8 @@ const fileImag = '/organization/uploadHospitalNewFiles' //上传医院图片接�
 
 const fileAll = '/operateapi/hospitaloperateuploadfiles' // 上传文件
 
+// 机构管理
+const management = '/hospitalqueryhospitaloperatelist'  //机构管理医院列表
 
 const login = "/operateapi/operate/login"; //登陆接口
 
@@ -66,6 +68,8 @@ export default {
     fileImag,
     fileimages,
     fileAll,
+    //机构管理
+    management,
     
     //内容管理
     content_wrap,

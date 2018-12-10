@@ -109,13 +109,14 @@
 					width:20px;
 					margin-left:5px;
 					height:20px;
-					background:url("../../../../assets/images/search.png") no-repeat;
+					background:url("../../../../../assets/images/search.png") no-repeat;
 					background-size:100% 100%;
 				}
 				input{
 					text-indent: 5px;
 					height:30px;
 					outline:none;
+					background:none;
 					border:none;
 					border-radius:0;
 					margin:0 10px;
