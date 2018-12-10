@@ -45,6 +45,7 @@
 </template>
 
 <script>
+	import api from "@/api/commonApi";
 	export default{
 		data () {
 			return {
@@ -66,6 +67,9 @@
 					}
 				]
 			}
+		},
+		mounted () {
+
 		},
 		methods :{
 			navto (item) {

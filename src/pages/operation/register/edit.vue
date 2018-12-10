@@ -1,7 +1,9 @@
 <template>
   <div class="registeradd">
     <Row>
-      <Col class="padding-t padding-b" :xs="24">{{littleTitle}}</Col>
+      <Col class="padding-t padding-b" :xs="24">
+        <b>{{littleTitle}}</b>
+      </Col>
     </Row>
     <Row style="line-height:32px;">
       <Col :xs="24" :md="3">{{hospitalName}}</Col>
@@ -403,6 +405,9 @@ export default {
   }
   .bordered {
     border: 1px solid #e5e5e5;
+  }
+  b {
+    font-weight: bold;
   }
 }
 </style>

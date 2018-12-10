@@ -71,9 +71,7 @@
 				let arr = [];
 				let sum = 1;
 				if (ret) {
-//					console.log(ret);
 					for (let i in ret[0]) {
-//						console.log(i);
 						arr.push({
 							sum:this.addZero(sum++),
 							title:i,
@@ -129,7 +127,7 @@
 					margin-top:5px;
 					margin-left:5px;
 					height:20px;
-					background:url("../../../../assets/images/search.png") no-repeat;
+					background:url("../../../../../assets/images/search.png") no-repeat;
 					background-size:100% 100%;
 				}
 				input{

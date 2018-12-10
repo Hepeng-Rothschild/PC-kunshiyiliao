@@ -2,7 +2,7 @@
 	<header>
 		<ul>
 			<li>
-				<router-link to='/index/maintain/Institutional_information'>医院信息</router-link>
+				<router-link to='/index/maintain/home_info'>医院信息</router-link>
 			</li>
 			<li>
 				<router-link to='/index/maintain/i_banner'>Banner</router-link>
