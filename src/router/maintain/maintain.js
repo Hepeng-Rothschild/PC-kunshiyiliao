@@ -15,7 +15,7 @@ const reviewList4 = {
 		title: '内容管理'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/contentmanagement/contentmanagement_home")
+		import("@/pages/operation/contentmen/contentmanagement/contentmanagement_home")
 }
 const reviewList5 = {
 	path: '/index/maintain/contentmanagement_add',
@@ -25,7 +25,7 @@ const reviewList5 = {
 		title: '内容管理-添加'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/contentmanagement/contentmanagement_add")
+		import("@/pages/operation/contentmen/contentmanagement/contentmanagement_add")
 }
 
 const createNews = {
@@ -36,7 +36,7 @@ const createNews = {
 		title: '内容管理-修改'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/contentmanagement/contentmanagement_edit")
+		import("@/pages/operation/contentmen/contentmanagement/contentmanagement_edit")
 }
 const createdNews = {
 	path: '/index/maintain/createNews',
@@ -46,7 +46,7 @@ const createdNews = {
 		title: '内容管理-创建新闻'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/contentmanagement/contentmanagement_edit")
+		import("@/pages/operation/contentmen/contentmanagement/contentmanagement_edit")
 }
 const c6 = {
 	path: '/index/maintain/f_Classify',
@@ -56,7 +56,7 @@ const c6 = {
 		title: '内容分类'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/classify/f_Classify")
+		import("@/pages/operation/classify/f_Classify")
 }
 
 const reviewList6 = {
@@ -67,7 +67,7 @@ const reviewList6 = {
 		title: '内容分类-添加'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/classify/addClassify")
+		import("@/pages/operation/classify/addClassify")
 }
 const reviewList7 = {
 	path: '/index/maintain/newClassify',
@@ -77,7 +77,7 @@ const reviewList7 = {
 		title: '内容分类-添加新分类'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/classify/newClassify")
+		import("@/pages/operation/classify/newClassify")
 }
 
 const reviewList8 = {
@@ -87,9 +87,8 @@ const reviewList8 = {
 		index: 2,
 		title: '患者管理'
 	},
-	// patientmanagement
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/patientmanagement/patientmanagement_home")
+		import("@/pages/operation/contentmen/patientmanagement/patientmanagement_home")
 }
 
 const reviewList9 = {
@@ -100,7 +99,7 @@ const reviewList9 = {
 		title: '机构管理'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/home.vue")
+		import("@/pages/operation/contentmen/home.vue")
 }
 const reviewList10 = {
 	path: '/index/maintain/home_info',
@@ -110,7 +109,7 @@ const reviewList10 = {
 		title: '医院信息'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/homeinfo/home_info")
+		import("@/pages/operation/contentmen/homeinfo/home_info")
 }
 
 const reviewList11 = {
@@ -121,7 +120,7 @@ const reviewList11 = {
 		title: '动态新闻'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/news/new_home")
+		import("@/pages/operation/contentmen/news/new_home")
 }
 
 const reviewList14 = {
@@ -132,7 +131,7 @@ const reviewList14 = {
 		title: '动态新闻-编辑'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/news/news_edit")
+		import("@/pages/operation/contentmen/news/news_edit")
 }
 const d_createdNews = {
 	path: '/index/maintain/news_add',
@@ -142,7 +141,7 @@ const d_createdNews = {
 		title: '动态新闻-新增'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/news/news_add")
+		import("@/pages/operation/contentmen/news/news_add")
 }
 const reviewList12 = {
 	path: '/index/maintain/expert',
@@ -152,7 +151,7 @@ const reviewList12 = {
 		title: '专家介绍'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/expert/expert_list")
+		import("@/pages/operation/contentmen/expert/expert_list")
 }
 const reviewList15 = {
 	path: '/index/maintain/expert_add',
@@ -162,7 +161,7 @@ const reviewList15 = {
 		title: '专家介绍-添加'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/expert/expert_add")
+		import("@/pages/operation/contentmen/expert/expert_add")
 }
 const expert_edit = {
 	path: '/index/maintain/expert_edit',
@@ -172,7 +171,7 @@ const expert_edit = {
 		title: '专家介绍-编辑'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/expert/expert_edit")
+		import("@/pages/operation/contentmen/expert/expert_edit")
 }
 const reviewList13 = {
 	path: '/index/maintain/service_management',
@@ -182,7 +181,7 @@ const reviewList13 = {
 		title: '服务管理'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/management/management_home")
+		import("@/pages/operation/contentmen/management/management_home")
 }
 
 
@@ -194,7 +193,7 @@ const reviewList16 = {
 		title: '服务管理-添加'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/management/management_add")
+		import("@/pages/operation/contentmen/management/management_add")
 }
 const reviewList17 = {
 	path: '/index/maintain/i_banner',
@@ -204,7 +203,7 @@ const reviewList17 = {
 		title: 'Banner'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/banner/banner_home")
+		import("@/pages/operation/contentmen/banner/banner_home")
 }
 const reviewList18 = {
 	path: '/index/maintain/banner_add',
@@ -214,7 +213,7 @@ const reviewList18 = {
 		title: 'Banner-添加'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/banner/banner_add")
+		import("@/pages/operation/contentmen/banner/banner_add")
 }
 const addBanner = {
 	path: '/index/maintain/banner_edit',
@@ -224,7 +223,7 @@ const addBanner = {
 		title: 'Banner-编辑'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/banner/banner_edit")
+		import("@/pages/operation/contentmen/banner/banner_edit")
 }
 const reviewList19 = {
 	path: '/index/maintain/i_keshi',
@@ -234,7 +233,7 @@ const reviewList19 = {
 		title: '院内科室'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/medicine/medicine_list")
+		import("@/pages/operation/contentmen/medicine/medicine_list")
 }
 const reviewList20 = {
 	path: '/index/maintain/medicine_add',
@@ -244,7 +243,7 @@ const reviewList20 = {
 		title: '院内科室-添加'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/medicine/medicine_add")
+		import("@/pages/operation/contentmen/medicine/medicine_add")
 }
 const reviewList21 = {
 	path: '/index/maintain/medicine_edit',
@@ -254,7 +253,7 @@ const reviewList21 = {
 		title: '院内科室-编辑'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/medicine/medicine_edit")
+		import("@/pages/operation/contentmen/medicine/medicine_edit")
 }
 const reviewList22 = {
 	path: '/index/maintain/k_department',
@@ -264,7 +263,7 @@ const reviewList22 = {
 		title: '预约科室'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/bookingoffice/bookingoffice_home")
+		import("@/pages/operation/contentmen/bookingoffice/bookingoffice_home")
 }
 const reviewList23 = {
 	path: '/index/maintain/bookingoffice_edit',
@@ -274,7 +273,7 @@ const reviewList23 = {
 		title: '预约科室-编辑'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/bookingoffice/bookingoffice_edit")
+		import("@/pages/operation/contentmen/bookingoffice/bookingoffice_edit")
 }
 const reviewList24 = {
 	path: '/index/maintain/t_keshi',
@@ -284,7 +283,7 @@ const reviewList24 = {
 		title: '特色科室'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/departments/departments_list")
+		import("@/pages/operation/contentmen/departments/departments_list")
 }
 const reviewList25 = {
 	path: '/index/maintain/departments_list',
@@ -294,7 +293,7 @@ const reviewList25 = {
 		title: '特色科室-添加'
 	},
 	component: () =>
-		import("@/pages/operation/doctorReview/contentmen/departments/departments_edit")
+		import("@/pages/operation/contentmen/departments/departments_edit")
 }
 
 export default {

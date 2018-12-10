@@ -7,7 +7,12 @@ const fileImag = '/organization/uploadHospitalNewFiles' //上传医院图片接�
 const fileAll = '/operateapi/hospitaloperateuploadfiles' // 上传文件
 
 // 机构管理
-const management = '/hospitalqueryhospitaloperatelist'  //机构管理医院列表
+const management = '/operateapi/hospitalqueryhospitaloperatelist'  //机构管理医院列表
+const management_info = '/operateapi/hospitalqueryhospitaloperatedtobyid'   //医院详细信息
+const management_all = '/operateapi/hospitalqueryhospitallevellist' //医院等级列表
+const management_gzh = '/operateapi/hospitalquerywxappnamelist'   //查询医院公众号
+const management_ylt = '/operateapi/hospitalqueryhospitalnamelist' //查询医院医联体
+
 
 const login = "/operateapi/operate/login"; //登陆接口
 
@@ -70,6 +75,10 @@ export default {
     fileAll,
     //机构管理
     management,
+    management_info,
+    management_all,
+    management_gzh,
+    management_ylt,
     
     //内容管理
     content_wrap,
