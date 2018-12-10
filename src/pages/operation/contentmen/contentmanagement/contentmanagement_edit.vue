@@ -129,7 +129,7 @@
 
 <script>
 	import api from "@/api/commonApi";
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import vueEditor from '@/components/vueEditors';
 	import { Switch,Upload ,Icon } from 'iview'
 	export default{
@@ -149,7 +149,8 @@
 				height: 200,
 				tinymceHtml: '',
 				defaultList: [],
-                imgName: '',
+				imgName: '',
+				id:sessionStorage.getItem('hospitalId'),
                 
                 select:1,
                 

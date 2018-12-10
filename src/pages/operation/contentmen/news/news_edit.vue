@@ -1,6 +1,6 @@
 <template>
 	<div class = 'addNews'>
-		<!--<tmpHeader />-->
+		<tmpHeader />
 		<div class = "main">
 			<!--新闻标题-->
 			<div class="main_title">
@@ -46,11 +46,12 @@
 			        multiple
 			        type="drag"
 			        
+			        
 					:action = "uploadUrl"
 					:headers = 'fromData'
 					:data = 'uploadData'
-					
-			        accept="image/jpeg,image/x-png,image/gif"
+			        
+			        
 			        style="display: inline-block;width:58px;">
 			        <div style="width: 58px;height:58px;line-height: 58px;">
 			            <Icon type="ios-camera" size="20"></Icon>
@@ -61,21 +62,6 @@
 			    </Modal>
 				<p>添加标题首图</p>
 			</div>
-			<!--栏目-->
-			<div class='lanmu'>
-				<div class='listImgTitle'>
-					<span style='color:red;'>*&nbsp;&nbsp;</span>
-					<span>栏目</span>
-				</div>
-				<select v-model='select'>
-					<option value="1">头条</option>
-					<option value="2">今日热点</option>
-					<option value="3">医学前沿</option>
-					<option value="4">宝宝喂养</option>
-					<option value="5">科普</option>
-					<option value="6">决策者说</option>
-				</select>
-			</div>
 			<!--新闻内容-->
 			<div class="main_content">
 				<div class = 'main_title_info'>
@@ -83,7 +69,6 @@
 					<span>新闻内容</span>
 				</div>
 				<div class = 'shuru'>
-					<!--<vue-editor :id="id" :height="height" @valueHandle="valueHandle" :tinymceHtml = 'tinymceHtml'></vue-editor>-->
 					<editor id="editor_id" height="500px" width="700px" :content.sync="editorText"
 			            :afterChange="afterChange()"
 			            pluginsPath="@/../static/kindeditor/plugins/"
@@ -115,30 +100,29 @@
 					<span style='color:red;'>&nbsp;&nbsp;</span>
 					<span>是否显示</span>
 				</div>
-				<iSwitch v-model="switch1" />
+				<iSwitch v-model="switch1" @on-change="change" />
 			</div>
 			<!--保存-->
 			<div class = 'save'>
-				<div @click = 'save'>保存</div>
+				<div @click = 'save' style = 'cursor:pointer'>保存</div>
 				<div>取消</div>
 			</div>
-
 		</div>
 	</div>
 </template>
 
 <script>
 	import api from "@/api/commonApi";
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import vueEditor from '@/components/vueEditors';
-	import { Switch,Upload ,Icon } from 'iview'
+	import {Switch,Upload ,Icon} from 'iview'
 	export default{
 		components:{
 			tmpHeader,
 			vueEditor,
 			iSwitch:Switch,
 			Upload,
-			Icon,
+			Icon
 		},
 		data () {
 			return {
@@ -150,59 +134,71 @@
 				tinymceHtml: '',
 				defaultList: [],
                 imgName: '',
-                
-                select:1,
-                
                 visible: false,
                 uploadList: [],
                 switch1:true,
-                
-                uploadData: {json:'{"urlCode":"201","flag":"1"}'},
-                activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-                uploadUrl:api.fileAll,
-                fromData:{'ContentType':'multipart/form-data'},
-                
-                images:"",
                 editorText: '请输入要编辑的内容...',
+                
+				
+				uploadModal: true,
+                activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
+                fromData:{'ContentType':'multipart/form-data'},
+                uploadUrl:api.fileAll,
+                uploadData: {json:'{"urlCode":"202","flag":"1"}'},
+				images:"",
+				id:sessionStorage.getItem('hospitalId')
 			}
 		},
 		mounted () {
-            this.uploadList = this.$refs.upload.fileList;
-            let id = this.$route.params.id;
-            if (id) {
-        	   this.$axios.post(api.getWrap,{
-	            	id
-	            }).then(res => {
-	            	if (res.data.code) {
-		            	let ret = res.data.object;
-		            	let detail = ret.operateArticle;
-		            	let flag = false;
-		            	
-						this.uploadList.push({
-	                        name: "a42bdcc1178e62b4694c830f028db5c0",
-							percentage: 100,
-							status: "finished",
-							uid: 1544263544970,
-							url: detail.cover
-	                    })
-						
-						if (detail.enable) {
-							flag = true;
+			this.uploadList = this.$refs.upload.fileList;
+			let item = this.$route.params.id;
+			if (item) {
+				this.$axios.post(api.getNews,{
+					hospitalId:this.id,
+					id:item
+				}).then(res => {
+					if (res.data.object) {
+						let ret = res.data.object
+							this.title = ret.title;
+							this.editorText = ret.content;
+							this.isource = ret.source;
+							this.isort = ret.priority;
+							if (ret.enable == 1){
+							this.switch1 = true;
+						} else {
+							this.switch1 = false;
 						}
-						//标题
-						this.title = detail.title;
-						this.isource = detail.source;
-						this.tinymceHtml = detail.content;
-						this.editorText = detail.content;
-						this.num = detail.priority;
-						this.switch1 = flag;
-						this.isort = detail.priority;
-						
-	            	}
-	            })
-            }
-       },
+						if (ret.newsHeadlines) {
+							this.uploadList.push({
+		                        name: "a42bdcc1178e62b4694c830f028db5c0",
+								percentage: 100,
+								status: "finished",
+								uid: 1544263544970,
+								url: this.fileBaseUrl + ret.newsHeadlines
+		                   })
+						}
+					}
+					
+				}).catch(err => {
+					console.log(err)
+				})
+				
+				
+			}
+
+		},
 		methods: {
+			onContentChange (val) {
+		      this.editorText = val
+		    },
+		    afterChange () {
+		    },
+			chan (e) {
+				console.log(e);
+			},
+			valueHandle (param) {
+				this.tinymceHtml = param;
+			},
 			handleView (name) {
                 this.imgName = name;
                 this.visible = true;
@@ -217,7 +213,6 @@
 				file.name = res.object[0].fileName;
             },
             handleFormatError (file) {
-            	console.log(file);
                 this.$Message.info('文件'+file.name+'上传失败');
             },
             handleMaxSize (file) {
@@ -230,62 +225,59 @@
                 }
                 return check;
             },
+            change (status) {
+//              this.$Message.info('开关状态：' + status);
+            },
             save () {
-            	let release = 0;
-				if(this.switch1) {
-					release = 1
-				}
-					
-            	let params = {
-            		//栏目
-					ids:[this.select],
-					operateArticle: {
-						//标题
-						title: this.title,
-						//图片
-						cover : this.images,
-						//排序
-						priority: this.isort,
-						//内容
-						content:this.editorText,
-						//够源
-						source:this.isource,
-						//显示
-						enable: release,
-						//新闻资讯ID
-						id:this.$route.params.id
-					}
-				}
+            	let params = {};
+            	let num = 1;
+            	if (!this.switch1) {
+            		num = 0;
+            	}
+            	params = {
+            		content:this.editorText,
+            		enable:num,
+            		hospitalId:this.id,
+					newsHeadlines:this.images,
+            		priority:this.isort,
+            		source:this.isource,
+            		title:this.title,
+            		id:this.$route.params.id
+            	}
             	if (this.title == ''){
             		this.$Message.info('新闻标题不能为空');
             	} else if (this.editorText == ''){
             		this.$Message.info('新闻内容不能为空');
             	} else {
             		
-					this.$axios.post(api.changeWrap,params).then(res => {
-						console.log(res);
-						if (res.data.code) {
-							this.$Message.info('修改成功' );
+            		this.$axios.post(api.addNews,params).then(res => {
+						console.log(res)
+						if(res.data) {
 							setTimeout(() => {
-								this.$router.push({
-									name: "reviewlist4"
-								})
-							},500)
+								this.$Message.info('修改成功');
+								setTimeout(() => {
+									this.$router.push({
+										name:"reviewlist11"
+									})
+								},500)
+							})
 						}
+						
 					}).catch(err => {
 						console.log(err);
 					})
+//					console.log(params);
+					
+//					this.$axios.post(api.newsA,params).then(res => {
+//						console.log(res);
+//					}).catch(err => {
+//						console.log(err);
+//					})
             		console.log(params);
-
 					
             	}
 
-           },
-           onContentChange (val) {
-		      this.editorText = val
-		    },
-		    afterChange () {
-		    }
+            }
 		}
 	}
 </script>
@@ -389,20 +381,6 @@
 				div{
 					margin:0;
 				}
-			}
-		}
-		.lanmu {
-			margin: 10px 0;
-			display: flex;
-			flex-direction: row;
-			line-height: 30px;
-			.listImgTitle {
-				width: 100px;
-				margin-right: 10px;
-			}
-			select {
-				width: 120px;
-				outline: none;
 			}
 		}
 		.main_source{

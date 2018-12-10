@@ -39,7 +39,7 @@
 </template>
 
 <script>
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader';
+	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import api from "@/api/commonApi";
 	export default{
 		components:{
@@ -47,7 +47,8 @@
 		},
 		data () {
 			return {
-				tableList:[]
+				tableList:[],
+				id:sessionStorage.getItem('hospitalId')
 			}
 		},
 		methods:{
@@ -71,7 +72,7 @@
 		mounted () {
 			this.$axios.post(api.kDepartment,{
 				  "childDept": "",
-				  "hospitalId": 87,
+				  "hospitalId": this.id,
 				  "id": 0,
 				  "pageNo": 1,
 				  "pageSize": 10,
@@ -109,7 +110,7 @@
 					width:20px;
 					margin-left:5px;
 					height:20px;
-					background:url("../../../../../assets/images/search.png") no-repeat;
+					background:url("../../../../assets/images/search.png") no-repeat;
 					background-size:100% 100%;
 				}
 				input{

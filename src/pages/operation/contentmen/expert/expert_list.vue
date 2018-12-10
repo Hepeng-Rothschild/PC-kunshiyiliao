@@ -4,29 +4,35 @@
 		<tmpHeader />
 		<!--添加专家/搜索-->
 		<div class = 'iheader'>
-			
+			<button @click = 'navto'>添加专家</button>
 			<div>
 				<span></span>
-				<input type="text"placeholder="已开通服务" />
+				<!--<img src="" alt="" />-->
+				<input type="text"placeholder="专家姓名" />
 			</div>
-			<button @click = 'navto'>添加服务</button>
 		</div>
 		<!--表格列表-->
-		<div class="main" v-show = 'tablesList.length'>
+		<div class="main">
 			<table border="" cellspacing="" cellpadding="">
 				<tr>
 					<th>编号</th>
-					<th>服务分类</th>
-					<th>已开通服务</th>
+					<th>专家科室</th>
+					<th>专家姓名</th>
+					<th>职称</th>
+					<th>职务</th>
+					<th>显示</th>
+					<th>排序</th>
 					<th>操作</th>
 				</tr>
 				<tr v-for='item,index in tablesList'>
 					<th>{{ addZero(index) }}</th>
-					<th>{{ item.menuName }}</th>
-					<th>
-						<span v-for = 'items in item.result'>{{ items }}、</span>
-					</th>
-					<th @click = 'navto(item)'  style = 'cursor:pointer;'>编辑</th>
+					<th>{{ item.doctorName }}</th>
+					<th>{{ item.deptType }}</th>
+					<th>{{ item.title }}</th>
+					<th>{{ item.title }}</th>
+					<th>{{ item.title }}</th>
+					<th>{{ item.title }}</th>
+					<th @click = 'edit'>编辑</th>
 				</tr>
 			</table>
 		</div>
@@ -35,32 +41,42 @@
 </template>
 
 <script>
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader'
+	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import api from "@/api/commonApi";
 	export default{
-		components: {
+		components:{
 			tmpHeader
 		},
 		data () {
 			return {
-				tablesList:[]
+				tablesList:[],
+				id:sessionStorage.getItem('hospitalId')
 			}
 		},
-		mounted () {
-			this.$axios.post(api._server,{
-				  "hospitalId": 82,
+		created () {
+			this.$axios.post(api.zj,{
+				  "hospitalId": this.id,
+				  "pageNo": 1,
+				  "pageSize": 10
 			}).then(res => {
-				let ret = res.data.object;
-				console.log(ret);
-				this.tablesList = ret;
+				console.log(res.data);
+				if (res.data.object) {
+					this.tablesList = res.data.object.list
+				}
+			}).catch (err => {
+				console.log(err)
 			})
 		},
 		methods:{
-			navto (item) {
+			navto () {
 				this.$router.push({
-					name:"reviewlist16"
+					name:"reviewlist15"
 				})
-				console.log(item)
+			},
+			edit () {
+				this.$router.push({
+					name:"expert_edit"
+				})
 			},
 			addZero (num) {
 				num = num + 1;
@@ -82,6 +98,7 @@
 		display:flex;
 		flex-direction:row;
 		justify-content: space-between;
+		
 		button{
 			border:none;
 			outline:none;
@@ -92,24 +109,26 @@
 		}
 		div{
 			width:200px;
+			/*flex:1;*/
 			height:30px;
 			border:1px solid black;
+			border-radius:20px;
 			display:flex;
 			flex-direction: row;
-			border-radius:20px;
-				span{
-					display:inline-block;
-					width:20px;
-					margin-left:5px;
-					margin-top:4px;
-					height:20px;
-					background:url("../../../../../assets/images/search.png") no-repeat;
-					background-size:100% 100%;
-				}
+			span{
+				display:inline-block;
+				width:20px;
+				margin-left:5px;
+				margin-top:4px;
+				height:20px;
+				background:url("../../../../assets/images/search.png") no-repeat;
+				background-size:100% 100%;
+			}
 			input{
+				width:calc(200px - 20px);
 				border:none;
 				outline:none;
-				text-indent:10px;
+				text-indent:5px;
 				line-height:30px;
 				background:none;
 			}
@@ -121,7 +140,7 @@
 		table{
 			width:100%;
 			tr:first-child{
-				background: #f2f2f2;
+				background: #ddd;
 			}
 			tr{
 				th{

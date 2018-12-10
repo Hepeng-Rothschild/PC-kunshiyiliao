@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import tmpHeader from '@/pages/operation/doctorReview/contentmen/tmpHeader'
+	import tmpHeader from '@/pages/operation/contentmen/tmpHeader'
 	import api from "@/api/commonApi";
 	export default{
 		components: {
@@ -43,12 +43,13 @@
 		},
 		data () {
 			return {
-				tablesList:[]
+				tablesList:[],
+				id:sessionStorage.getItem('hospitalId')
 			}
 		},
 		mounted () {
 			this.$axios.post(api._server,{
-				  "hospitalId": 82,
+				  "hospitalId": this.id,
 			}).then(res => {
 				let ret = res.data.object;
 				console.log(ret);
@@ -103,7 +104,7 @@
 					margin-left:5px;
 					margin-top:4px;
 					height:20px;
-					background:url("../../../../../assets/images/search.png") no-repeat;
+					background:url("../../../../assets/images/search.png") no-repeat;
 					background-size:100% 100%;
 				}
 			input{

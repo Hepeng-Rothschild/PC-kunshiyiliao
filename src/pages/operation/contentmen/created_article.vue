@@ -34,6 +34,7 @@
 					<span style='color:red;'>*&nbsp;&nbsp;</span>
 					<span>列表小图</span>
 				</div>
+
 				<div class="demo-upload-list" v-for="item in uploadList">
 					<div v-if="item.status === 'finished'">
 						<img :src="item.url">
@@ -52,16 +53,7 @@
 							:on-success="handleSuccess" 
 							:format="['jpg','jpeg','png']" 
 							:max-size="2048" 
-							:on-format-error="handleFormatError" 							:before-upload="handleBeforeUpload" 
-							multiple 
-							type="drag" 
-							
-							:action = "uploadUrl"
-							:headers = 'fromData'
-							:data = 'uploadData'
-							
-							style="display: inline-block;width:58px;">
-							
+							:on-format-error="handleFormatError" 							:on-exceeded-size="handleMaxSize" 							:before-upload="handleBeforeUpload" multiple type="drag" action="//jsonplaceholder.typicode.com/posts/" style="display: inline-block;width:58px;">
 					<div style="width: 58px;height:58px;line-height: 58px;">
 						<Icon type="ios-camera" size="20"></Icon>
 						
@@ -78,12 +70,8 @@
 					<span>栏目</span>
 				</div>
 				<select v-model='select'>
-					<option value="1">头条</option>
-					<option value="2">今日热点</option>
-					<option value="3">医学前沿</option>
-					<option value="4">宝宝喂养</option>
-					<option value="5">科普</option>
-					<option value="6">决策者说</option>
+					<option value="健康资讯">健康资讯</option>
+					<option value="宝宝健康">宝宝健康</option>
 				</select>
 			</div>
 			<!--排序-->
@@ -137,7 +125,6 @@
 <script>
 	import vueEditor from '@/components/vueEditor';
 	import { Switch, Upload, Icon } from 'iview'
-	import api from "@/api/commonApi";
 	export default {
 		components: {
 			vueEditor,
@@ -145,29 +132,37 @@
 			Upload,
 			Icon
 		},
-		data () {
+		created() {
+			let route = this.$route.params.item;
+			if(route) {
+				this.select = route.lanmu;
+				this.title = route.title;
+				this.num = route.sort
+
+			}
+			let myDate = new Date();
+		},
+		data() {
 			return {
 				id: 'tinymce-editor',
 				height: 200,
 				title: "",
 				ftitle: "",
-				select: "1",
+				select: "健康资讯",
 				num: "",
 				source: "",
 				switch1: true,
 				test: "",
 				img: [],
-				defaultList: [],
+				defaultList: [
+					{
+						'name': 'a42bdcc1178e62b4694c830f028db5c0',
+						'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+					}
+				],
 				imgName: '',
 				visible: false,
-				uploadList: [],
-				
-				uploadModal: true,
-				
-                activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-                fromData:{'ContentType':'multipart/form-data'},
-                uploadUrl:api.fileAll,
-                uploadData: {json:'{"urlCode":"201","flag":"1"}'}
+				uploadList: []
 			}
 		},
 		mounted() {
@@ -186,19 +181,30 @@
 				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
 			},
 			handleSuccess(res, file) {
-				console.log(res);
-				file.url = this.fileBaseUrl + res.object[0].smallFileName;
-				file.name = res.object[0].fileName;
+				console.log(file,this.uploadList);
+				file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+				file.name = '7eb99afb9d5f317c912f08b5212fd69a';
 			},
 			handleFormatError(file) {
-				this.$Message.info('上传失败');
+				this.$Notice.warning({
+					title: 'The file format is incorrect',
+					desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+				});
 			},
-			handleBeforeUpload(file) {
-				const check = this.uploadList.length < 1;
-                if (!check) {
-                    this.$Message.info('只能上传一张图片');
-                }
-                return check;
+			handleMaxSize(file) {
+				this.$Notice.warning({
+					title: 'Exceeding file size limit',
+					desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+				});
+			},
+			handleBeforeUpload() {
+				const check = this.uploadList.length < 5;
+				if(!check) {
+					this.$Notice.warning({
+						title: 'Up to five pictures can be uploaded.'
+					});
+				}
+				return check;
 			},
 			//保存
 			save() {
@@ -214,36 +220,36 @@
 				} else if(!this.test) {
 					this.$Message.info('新闻内容不能为空');
 				} else {
-					let release = 0;
+					let release = '未发布';
 					if(this.switch1) {
-						release = 1
+						release = '已发布'
 					}
+					//获取当前时间
+					let myDate = new Date();
+					let idate = myDate.toLocaleDateString() + ' ' + this.addZero(myDate.getHours()) + " : " + this.addZero(myDate.getMinutes());
+
 					//把页面上的参数获取到
 					let params = {
-						ids:[this.select],
-						operateArticle: {
-							title: this.title,
-							stbiosus: this.ftitle,
-							cover : this.uploadList[0].name,
-							priority: this.num,
-							content:this.tinymceHtml,
-							source:this.source,
-							enable: release
-						}
+						time: idate,
+						title: this.title,
+						sort: this.num,
+						num: "02",
+						type: '文章',
+						release,
+						read: "0",
+						coll: "0",
+						id: "2",
+						lanmu: this.select,
+						msg: this.test
 					}
-					this.$axios.post(api.createdWrap, params).then(res => {
-						if (res.data.code) {
-							this.$Message.info('添加成功' );
-							setTimeout(() => {
-								this.$router.push({
-									name: "reviewlist4"
-								})
-							},500)
+					this.$router.push({
+						name: "reviewlist4",
+						params: {
+							currentData: params
 						}
-					}).catch(err => {
-						console.log(err)
 					})
 				}
+				console.log(params)
 			},
 			addZero(num) {
 				if(num < 10) {

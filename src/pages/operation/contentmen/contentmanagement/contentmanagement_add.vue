@@ -161,6 +161,7 @@
 				imgName: '',
 				visible: false,
 				uploadList: [],
+				id:sessionStorage.getItem('hospitalId'),
 				
 				uploadModal: true,
 				

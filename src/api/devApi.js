@@ -2,7 +2,7 @@
 const fileImag = '/organization/uploadHospitalNewFiles' //上传医院图片接口
 
 const fileAll = '/operateapi/hospitaloperateuploadfiles' // 上传文件
-
+const uploadUrl = "/operateapi/hospitaluploadoperatefiles"; //上传文件api
 
 const login = "/operateapi/operate/login"; //登陆接口
 
@@ -20,11 +20,11 @@ const newsA = '/operateapi/organizationinsertnew' ; // 新增新闻
 
 
 //内容管理
-const content_wrap = '/operateapi/articlepagebyarticle'  // 内容管理列表
-const created_wrap = '/operateapi/articleinsert'   // 创建新闻
-const change_wrap = '/operateapi/articleupdate'   // 修改新闻
-const get_wrap = '/operateapi/articleselectbyid' //查询新闻
-const up_wrap = '/operateapi/articleideletebatch' //下架
+const contentWrap = '/operateapi/articlepagebyarticle'  // 内容管理列表
+const createdWrap = '/operateapi/articleinsert'   // 创建新闻
+const changeWrap = '/operateapi/articleupdate'   // 修改新闻
+const getWrap = '/operateapi/articleselectbyid' //查询新闻
+const upWrap = '/operateapi/articleideletebatch' //下架
 const root = '/operateapi/articlepriority';   //新闻置顶
 
 //专家列表
@@ -44,12 +44,12 @@ const bannerChange = '/operateapi/bannerupdatehospitalbanner' //banner 编辑
 const getIdBanner = '/operateapi/bannerqueryhospitalbannerbyid' //banner查找
 
 //服务管理
-const server_ = '/operateapi/hospitalmenuqueryhospitalmenulistbyid'  //服务管理列表
+const _server = '/operateapi/hospitalmenuqueryhospitalmenulistbyid'  //服务管理列表
 const getServer = '/operateapi/hospitalmenuqueryhospitalmenulist' //服务管理-编辑
 
 //预约科室接口
-const k_department = '/operateapi/organizationpageappointmentdept' //预约科室列表
-const get_department = '/operateapi/organizationselectdeptlist'  //查看科室列表
+const kDepartment = '/operateapi/organizationpageappointmentdept' //预约科室列表
+const getDepartment = '/operateapi/organizationselectdeptlist'  //查看科室列表
 const departmentDetail = '/operateapi/organizationquerydepbyid' //查看科室详情
 const departmentChange = '/operateapi/organizationupdateappointmentdept' //修改预约科室详情
 
@@ -63,12 +63,12 @@ export default {
     fileAll,
     
     //内容管理
-    content_wrap,
-    created_wrap,
+    contentWrap,
+    createdWrap,
     root,
-    change_wrap,
-    get_wrap,
-    up_wrap,
+    changeWrap,
+    getWrap,
+    upWrap,
     //动态新闻
     news,
     addNews,
@@ -83,18 +83,12 @@ export default {
     getIdBanner,
     bannerChange,
     //服务管理
-    server_,
+    _server,
     getServer,
     //预约科室
-    k_department,
-    get_department,
+    kDepartment,
+    getDepartment,
     departmentDetail,
     departmentChange,
     
 }
-
-//const baseConfig = {
-//  "dev":{fileUrl:"https://ydjk-dev.oss-cn-beijing.aliyuncs.com/"},
-//  "prod":{fileUrl:"https://ydjk-pro.oss-cn-beijing.aliyuncs.com/"},
-//  "test":{fileUrl:"https://ydjk-test.oss-cn-beijing.aliyuncs.com/"}
-//}
