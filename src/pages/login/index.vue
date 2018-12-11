@@ -86,7 +86,6 @@ export default {
                 this.loginFlag = false;
                 axios.post(api.login,params)
                 .then(resp=>{
-                    console.log(resp);
                     if(resp.data.success){
                         let times = 10*60*60;
                         // window.sessionStorage.setItem("access_token", resp.data.object.access_token)
@@ -98,6 +97,7 @@ export default {
                         this.iconClass = "alert-icon";
                         this.iconText = "!";
                         this.alertMsg = "登陆失败，请重试";
+                        this.verifyCode.refresh();
                     }
                 })
                 .catch(err=>{
@@ -109,6 +109,7 @@ export default {
                         this.iconText = "";
                         this.alertMsg = "";
                         this.$Message.info("服务器超时");
+                        this.verifyCode.refresh();
                     }
                 })
             }
@@ -124,7 +125,7 @@ export default {
                 this.noticeClassColor = "success-color";
                 this.iconClass = "success-icon";
                 this.iconText = "ok";
-                this.alertMsg = "输入正确，请登陆";
+                this.alertMsg = "";
             }
         }
     }

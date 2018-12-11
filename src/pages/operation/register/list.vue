@@ -8,7 +8,7 @@
           <Option value="0">全国</Option>
           <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
-        <Select class="w-select" v-model="searchType">
+        <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
           <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
         <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
@@ -182,6 +182,13 @@ export default {
     this.loadPage(1);
   },
   methods: {
+    changeSearchType(val){
+      if(val == 1){
+        this.keyPlaceHolder = "医院名称";
+      }else{
+        this.keyPlaceHolder = "医生名称";
+      }
+    },
     //加载列表数据
     loadPage(pageNo) {
       this.pageNo = pageNo;

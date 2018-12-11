@@ -25,7 +25,7 @@
         <img src="./../assets/images/heicon.jpg">
       </div>
       <div class="info">
-        <span>梁朝伟</span><br/>
+        <span>喜大普奔<sup>666</sup></span><br/>
         <a href="javascript:void(0);" @click="logout">退出</a>
       </div>
     </div>

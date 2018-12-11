@@ -129,7 +129,7 @@ export default {
         return {
             id:null,
             info:null,
-            docIcon:require('../../../assets/images/heicon.jpg'),
+            docIcon:"",
             titleList:[],
             deptList:[],
             gradeList:[],
