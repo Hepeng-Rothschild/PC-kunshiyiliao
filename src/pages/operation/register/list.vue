@@ -162,7 +162,7 @@ export default {
   mounted() {
     //获取省级列表
     this.$axios
-      .post(api.getprovince)
+      .post(api.getProvince)
       .then(resp => {
         this.cityList = resp.data.object;
       })
@@ -171,7 +171,7 @@ export default {
       });
     //获取职称列表
     this.$axios
-      .post(api.gettitle)
+      .post(api.getTitle)
       .then(resp => {
         this.titleList = resp.data.object;
       })
@@ -199,7 +199,7 @@ export default {
       params.pageNo = pageNo;
       params.pageSize = this.pageSize;
       this.$axios
-        .post(api.registerlist, params)
+        .post(api.registerList, params)
         .then(resp => {
           this.count = resp.data.object.count;
           this.doctorList = resp.data.object.list;

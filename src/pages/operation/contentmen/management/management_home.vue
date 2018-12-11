@@ -48,7 +48,7 @@
 			}
 		},
 		mounted () {
-			this.$axios.post(api.server_,{
+			this.$axios.post(api._server,{
 				  "hospitalId": this.id,
 			}).then(res => {
 				let ret = res.data.object;

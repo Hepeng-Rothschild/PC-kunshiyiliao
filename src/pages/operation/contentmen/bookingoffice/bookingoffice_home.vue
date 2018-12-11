@@ -70,7 +70,8 @@
 			}
 		},
 		mounted () {
-			this.$axios.post(api.k_department,{
+			this.$axios.post(api.kDepartment,{
+				  "childDept": "",
 				  "hospitalId": this.id,
 				  "id": 0,
 				  "pageNo": 1,

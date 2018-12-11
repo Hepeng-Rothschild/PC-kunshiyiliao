@@ -13,11 +13,11 @@
 						<div v-for = 'items,index in item.dtoList' >
 							<!-- <input type = "checkbox" :data-id = 'items.id' v-show = 'items.selected != 0' :checked = 'items.selected'/> -->
 							<!-- <input type = "checkbox" :data-id = 'items.id' :value = 'items.id' v-model = 'checkedNames'/> -->
-							<input type="checkbox" :value = 'items.id' v-if = '!items.selected' :data-id = 'items.id'>
-							<input type="checkbox" :value = 'items.id'  v-if = 'items.selected' checked :data-id = 'items.id'>
+							<input type="checkbox" :value = 'items.id' v-if = '!items.selected' :data-id = 'items.id' :id="'a' + items.id">
+							<input type="checkbox" :value = 'items.id'  v-if = 'items.selected' checked :data-id = 'items.id' :id="'a' + items.id">
 							<!-- <span v-show = 'items.selected == 0'>{{ items.selected }}</span>
 							<span v-show = 'items.selected != 0'>{{ items.selected }}</span> -->
-							<label :for="items.id">{{ items.menuName }}</label>
+							<label :for="'a' + items.id">{{ items.menuName }}</label>
 						</div>
 					</div>
 				</div>
@@ -48,8 +48,6 @@
 		},
 		methods: {
 			btn () {
-				console.log(this.arr);
-				console.log(this.checkedNames);
 			},
 			navto () {
 				let wrap = document.getElementsByClassName('addManag')[0];
@@ -63,17 +61,19 @@
 					}
 				}
 
-				console.log(arr);
 
 				this.$axios.post(api.setserver,{
 					hospitalId:this.id,
 					ids:arr
 				}).then(res => {
-					if (res.data) {
-						// this.$router.push({
-						// 	name:"reviewlist13"
-						// })
-						console.log(res.data)
+					if (res.data.code) {
+						this.$Message.info('修改成功');
+						setTimeout(() => {
+							this.$router.push({
+								name:"reviewlist13"
+							})
+						},500)
+						
 					}
 				})
 
@@ -139,8 +139,10 @@
 					flex-direction:row;
 					padding:14px 20px;
 					align-items:center;
+					flex-wrap:wrap;
 					div{
-						margin:0 20px;
+						width:20%;
+						margin:10px 20px;
 						display:flex;
 						flex-direction:row;
 						align-items:center;

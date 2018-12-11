@@ -128,7 +128,7 @@
 			<!--保存-->
 			<div class = 'main_save'>
 				<div @click = 'save'>保存</div>
-				<div>取消</div>
+				<div @click="$router.push('/index/operation/home')">取消</div>
 			</div>
 		</div>
 	</div>
@@ -192,9 +192,15 @@
 		    },
 			save () {
 				let images = this.images;
-				if (images) {
+				if (!images) {
 					images = this.uploadList[0].url
+					let len = this.fileBaseUrl.length
+					let parentlen = images.length
+					images = images.substr(len, parentlen)
+					
 				}
+					console.log(images);
+				
 					let switch1 = 0;
 					if (this.switch1) {
 						switch1 = 1;
@@ -208,45 +214,46 @@
 						switch3 = 1;
 					}
 
-
 				let params = {
-					// 名字
-					orgName:this.y_name,
-					// 机构等级 
-					grade:this.y_type,
-					// 图片名字
-					hosIcon:images,
-					// 简介
-					hosIntroduction:this.editorText,
-					// 模板
-					cssTemplate:this.y_module,
-					// 跳线
-					route:this.y_luxin,
-					// 医联体上级医院
+					hospitalId:this.id,
+					//上级编码
 					orgParentCode:this.y_search1,
-					// 手机号码
+					// 医院图标
+					hosIcon:images,
+					//机构等级
+					grade:this.y_type,
+					//模板
+					cssTemplate:this.y_module,
+					//路线
+					route:this.y_luxin,
+					//电话
 					telephone:this.y_phone,
-					// 地址
+					//简介
+					hosIntroduction:this.editorText,
+					//地址
 					hosAddr:this.y_dizhi,
 					//公众号
 					appid:this.y_gzh,
-					// 处方流转id
+					//处方平台UID
 					prescriptionId:this.y_uid,
 					//互联网医院
-					internetHospital:switch2,
+					swiinteinternetHospitalrnetHospitaltch1:switch1,
 					//医院联盟
-					unionHospital:switch1,
-					//开通处方流转
-					ipres:parseInt(switch3),
-					//医院ID
-					hospitalId:this.id
+					internetHospital:switch2,
+					//处方流转
+					ipres:switch3
 				}
 				console.log(params); 	
 
-				this.$axios.post(api.management_edit,params).then(res => {
+				this.$axios.post(api.managementEdit,params).then(res => {
 					console.log(res);
 					if (res.data.code) {
 						this.$Message.info('修改成功');
+						setTimeout(() => {
+							this.$router.push({
+								name:"reviewlist9"
+							})
+						}, 500);
 					}
 					}).catch(err => {
 					console.log(err);
@@ -291,14 +298,14 @@
 		mounted () {
 			this.uploadList = this.$refs.upload.fileList;
 // 医院等级
-			this.$axios.post(api.management_all,{}).then(res => {
+			this.$axios.post(api.managementAll,{}).then(res => {
 				if (res.data) {
 					let ret = res.data.object;
 					this.types = ret
 				}
 			})
 // 医院信息
-			this.$axios.post(api.management_info,{
+			this.$axios.post(api.managementInfo,{
 				'hospitalId':this.id
 			}).then(res => {
 				console.log(res);
@@ -312,22 +319,23 @@
 						percentage: 100,
 						status: "finished",
 						uid: 1544263544970,
-						// url:this.fileBaseUrl + ret.hosIcon
-						url:ret.hosIcon
+						url:this.fileBaseUrl + ret.hosIcon
+						// url:ret.hosIcon
 					})
 // 公众号
-					this.$axios.post(api.management_gzh).then(res => {
+					this.$axios.post(api.managementGzh).then(res => {
 						if (res.data) {
 							let ret = res.data.object;
 							this.gzh = ret
 						}
 					})
 // 医联体
-					this.$axios.post(api.management_ylt).then(res => {
-						if (res.data) {
-							let ret = res.data.object;
-							this.ylt = ret;
-						}
+					this.$axios.post(api.managementYlt).then(res => {
+						
+							if (res.data) {
+								let ret = res.data.object;
+								this.ylt = ret
+							}
 					})
 
 					// m机构等级 
@@ -348,35 +356,22 @@
 					this.y_gzh = ret.appid
 					//uid
 					//互联网医院
-					let switch1 = false;
-					if (ret.unionHospital != 0) {
-						switch1 = true;
-					}
-					this.switch1 = switch1;
-					console.log(switch1,ret.unionHospital);
-// 处方 流转平台ID		
-					this.y_uid = ret.prescriptionId
+					this.switch1 = Boolean(ret.internetHospital);
 					// 医院联盟
-					let switch2 = false;
-					if (ret.internetHospital !=0) {
-						switch2 = true;
-					}
-					this.switch2 = switch2
+					this.switch2 =  Boolean(ret.internetHospital)
 //医联体上级医院
-					// this.y_search1 = 
 					// 处方流转
-					let switch3 = false;
-					if (ret.ipres) {
-						switch3 = true
-
-					}
-					this.switch3 = switch3
-					// console.log(ret);
+					this.switch3 = Boolean(ret.ipres)
+					this.y_uid = ret.prescriptionId;
+console.log(ret);
 				}
 			})
-           
-        }
+		}
 	}
+           
+		
+
+	
 </script>
 
 <style scoped lang="less">

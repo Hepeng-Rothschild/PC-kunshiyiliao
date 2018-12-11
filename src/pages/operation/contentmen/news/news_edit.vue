@@ -105,7 +105,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save' style = 'cursor:pointer'>保存</div>
-				<div>取消</div>
+				<div @click="$router.back(-1)">取消</div>
 			</div>
 		</div>
 	</div>

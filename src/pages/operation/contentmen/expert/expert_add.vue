@@ -3,15 +3,23 @@
 	<!--导航-->
 		<tmpHeader />
 		<div class="main_expert">
-			
 			<!--专家姓名-->
 			<div class="main_expert_item">
 				<div class="main_expert_title">
 					<span style = 'color:red;'>*&nbsp;&nbsp;</span>
 					<span>专家姓名</span>
 				</div>
-				<input type="text" placeholder = "请输入专家姓名" v-model = 'name'/>
+				<input type="text" placeholder = "请输入专家姓名" v-model = 'name' />
 				<button @click = 'search'>检索</button>
+			</div>
+			<div class="main_expert_item">
+				<div class="main_expert_title">
+					<span style = 'color:red;'>*&nbsp;&nbsp;</span>
+					<span>选择专家</span>
+				</div>
+					<select v-model='keshi'  @change = 'changes'>
+						<option :value="index" name='index' v-for = 'item,index in list'>{{ item.doctorName }}</option>
+					</select>
 			</div>
 			<!--机构名称-->
 			<div class="main_expert_item">
@@ -19,7 +27,7 @@
 					<span style = 'color:red;'>&nbsp;&nbsp;</span>
 					<span>机构名称</span>
 				</div>
-				<input type="text" value='蚌埠中医院' v-model='yname'/>
+				<input type="text" value='蚌埠中医院' v-model='yname' disabled/>
 			</div>
 			<!--专家科室-->
 			<div class="main_expert_experts">
@@ -28,18 +36,9 @@
 					<span>专家科室</span>
 				</div>
 				<div class = 'iselected'>
-					<select v-model='keshi'>
-						<option value="泌尿科">泌尿科</option>
-						<option value="外科">外科</option>
-						<option value="神经科">神经科</option>
-					</select>
+					<span>{{ yKeshi }}</span>
 					<span>职称</span>
-					<select v-model='zhiwu'>
-						<option value="主任医师">主任医师</option>
-						<option value="副主任医师">副主任医师</option>
-						<option value="住院医师">住院医师</option>
-						<option value="主治医师">主治医师</option>
-					</select>
+					<span>{{ zhiwu }}</span>
 				</div>
 			</div>
 			<!--职务-->
@@ -57,7 +56,7 @@
 					<span>专业特长</span>
 				</div>
 				<div class = 'shuru'>
-					<textarea name="" rows="" cols="" v-model = 'expert1'></textarea>
+					<textarea name="" rows="" cols="" v-model = 'expert1' disabled></textarea>
 				</div>
 			</div>
 			<!--个人简介-->
@@ -67,7 +66,7 @@
 					<span>个人简介</span>
 				</div>
 				<div class = 'shuru'>
-					<textarea name="" rows="" cols="" v-model = 'expert2'></textarea>
+					<textarea name="" rows="" cols="" v-model = 'expert2' disabled></textarea>
 				</div>
 			</div>
 			<!--排序-->
@@ -95,7 +94,6 @@
 		</div>
 	</div>
 </template>
-
 <script>
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import { Switch } from 'iview'
@@ -120,20 +118,57 @@
 				expert1:"",
 				expert2:"",
 				post:"",
-				id:sessionStorage.getItem('hospitalId')
+				id:sessionStorage.getItem('hospitalId'),
+				list:[],
+				yKeshi:'',
+				currentId:-1
 
 			}
 		},
 		methods: {
+			changes () {
+					console.log(this.keshi);
+					let index = this.keshi;
+					let data = this.list[index];
+					// // 显示
+					this.switch1 = Boolean(data.iexpert)
+					// // 名字
+					this.name = data.doctorName
+					// // 机构名称
+
+					this.yname = data.hospitalName
+					// // 科室
+
+					this.yKeshi = data.deptType
+					// // 排序
+
+					this.isort = data.priority
+					// // 特长
+
+					this.expert1 = data.doctorGood
+					// // 简介
+
+					this.expert2 = data.personalIntroduction
+					//职称
+					this.zhiwu = data.title
+					//  职务
+					this.post = data.post
+
+					this.currentId = data.doctorId
+			},
 			search () {
-				console.log(this.name);
 				this.$axios.post(api.expertadd, {
 					hospitalId: this.id,
 					doctorName: this.name,
 					pageNo:1,
 					pageSize:10
-				}).then(res => {
-					console.log(res.data);	
+				}).then(res => {	
+					if (res.data.code) {
+						console.log(res.data)
+						this.list = res.data.object.list
+					}
+				}).catch(err => {
+					console.log(err)
 				})
 			},
 			//显示按钮
@@ -141,38 +176,40 @@
                 // this.$Message.info('开关状态：' + status);
             },
             save () {
+				let switch1 = 0;
+				if(this.switch1){
+					switch1 = 1;
+				}
+
             	let params = {
 					// 显示
-					ishow:this.switch1,
-					// 名字
-					name:this.name,
-					// 机构名称
-					yname:this.yname,
-					// 科室
-					keshi:this.keshi,
-					//职务
-					zhiwu:this.zhiwu,
+					iexpert:switch1,
 					// 排序
-					isort:this.isort,
-					// 特长
-					expert:this.expert1,
-					// 简介
-					expert2:this.expert2,
+					priority:this.isort,
 					// 职务
-					post:this.post
+					post:this.post,
+					//id
+					doctorId:this.currentId
 					
             	}
-            	if (params.name=='') {
-            		this.$Message.info('专家姓名不能为空');	
-            	} else {
-					// setTimeout(() => {
-					// 	this.$router.push({
-					// 		name:"reviewlist12"
-					// 	})
-					// }, 500);
-					this.$Message.info('添加成功');	
+            
+					this.$axios.post(api.expertedit, params).then(res => {
+						if (res.data.code) {
+							let ret = res.data;
+							setTimeout(() => {
+								this.$router.push({
+									name:"reviewlist12"
+								})
+							}, 500);
+							this.$Message.info('添加成功');	
+						}
+						console.log(res);
+					}).catch(err => {
+						console.log(err);
+					})
+					
             		
-            	}
+            	
             	console.log(params);
             }
 		}

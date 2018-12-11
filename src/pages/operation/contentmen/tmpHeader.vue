@@ -2,28 +2,28 @@
 	<header>
 		<ul>
 			<li>
-				<router-link to='/index/maintain/home_info'>医院信息</router-link>
+				<router-link to='/index/operation/home_info'>医院信息</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/i_banner'>Banner</router-link>
+				<router-link to='/index/operation/i_banner'>Banner</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/medicine_list'>院内科室</router-link>
+				<router-link to='/index/operation/i_keshi'>院内科室</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/news'>动态新闻</router-link>
+				<router-link to='/index/operation/news'>动态新闻</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/departments_list'>特色科室</router-link>
+				<router-link to='/index/operation/t_keshi'>特色科室</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/expert'>专家介绍</router-link>
+				<router-link to='/index/operation/expert'>专家介绍</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/management_home'>服务管理</router-link>
+				<router-link to='/index/operation/service_management'>服务管理</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/bookingoffice_home'>预约科室</router-link>
+				<router-link to='/index/operation/k_department'>预约科室</router-link>
 			</li>
 		</ul>
 	</header>

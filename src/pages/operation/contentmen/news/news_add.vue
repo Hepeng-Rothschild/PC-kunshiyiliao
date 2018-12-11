@@ -105,7 +105,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save' style = 'cursor:pointer'>保存</div>
-				<div>取消</div>
+				<div @click="$router.back(-1)">取消</div>
 			</div>
 		</div>
 	</div>
@@ -144,7 +144,8 @@
                 fromData:{'ContentType':'multipart/form-data'},
                 uploadUrl:api.fileAll,
                 uploadData: {json:'{"urlCode":"202","flag":"1"}'},
-                images:""
+				images:"",
+				id:sessionStorage.getItem('hospitalId')
 			}
 		},
 		mounted () {
@@ -201,7 +202,7 @@
             	params = {
             		content:this.editorText,
             		enable:num,
-            		hospitalId:87,
+            		hospitalId:this.id,
 					newsHeadlines:this.images,
             		priority:this.isort,
             		source:this.isource,
@@ -213,22 +214,22 @@
             		this.$Message.info('新闻内容不能为空');
             	} else {
             		
-//          		this.$axios.post(api.addNews,params).then(res => {
-//						console.log(res)
-//						if(res.data) {
-//							setTimeout(() => {
-//								this.$Message.info('添加成功');
-//								setTimeout(() => {
-//									this.$router.push({
-//										name:"reviewlist11"
-//									})
-//								},500)
-//							})
-//						}
-//						
-//					}).catch(err => {
-//						console.log(err);
-//					})
+         		this.$axios.post(api.newsA,params).then(res => {
+						console.log(res)
+						if(res.data.code) {
+							setTimeout(() => {
+								this.$Message.info('添加成功');
+								setTimeout(() => {
+									this.$router.push({
+										name:"reviewlist11"
+									})
+								},500)
+							})
+						}
+						
+					}).catch(err => {
+						console.log(err);
+					})
 
             		console.log(params);
 					

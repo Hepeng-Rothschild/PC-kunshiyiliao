@@ -167,7 +167,7 @@ export default {
     },
     created(){
         this.id = parseInt(this.$route.query.id);
-        this.$axios.post(api.delreviewdoctorinfo,{id:this.id})
+        this.$axios.post(api.delReviewDoctorInfo,{id:this.id})
         .then(resp=>{
             this.info = resp.data.object
             if(this.info.authStatus == 1){
@@ -181,7 +181,7 @@ export default {
         })
         //获取职称列表
         this.$axios
-        .post(api.gettitle)
+        .post(api.getTitle)
         .then(resp => {
             let tmpTitleList = resp.data.object;
             tmpTitleList.forEach(el=>{
@@ -242,7 +242,7 @@ export default {
             this.reviewStatus = null;
         },
         review(param,sMsg,fMsg){
-            this.$axios.post(api.reviewdoctor,param)
+            this.$axios.post(api.reviewDoctor,param)
             .then(resp=>{
                 if(resp.data.success){
                     this.$Message.info(sMsg);

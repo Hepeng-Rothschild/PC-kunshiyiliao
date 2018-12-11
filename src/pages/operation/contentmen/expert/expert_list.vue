@@ -76,7 +76,7 @@
 			edit (item) {
 				let id = item.doctorId
 				this.$router.push({
-					name:"expert_edit",
+					name:"expert_edits",
 					params:{
 						item
 					}

@@ -68,10 +68,11 @@
 				"pageNo": 1,
 				"pageSize": 10,
 			}).then(res => {
-				console.log(res)
+				
 				if (res.data.code) {
 					let ret = res.data.object.list;
 					this.tableList = ret
+					
 				}
 			}).catch(err => {
 
@@ -87,7 +88,7 @@
 				console.log(item);
 				let id = item.id
 				this.$router.push({
-					name:"reviewList21",
+					name:"expert_edit",
 					params:{
 						id
 					}

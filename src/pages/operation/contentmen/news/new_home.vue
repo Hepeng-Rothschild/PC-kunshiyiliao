@@ -26,7 +26,7 @@
 					<th>{{ item.sum }}</th>
 					<th>{{ item.title }}</th>
 					<th>
-						<img :src = "fileBaseUrl + item.newsHeadlines" alt = "111" style='margin:10px 0;width:100px;height:50px;'/>
+						<img :src = "(item.newsHeadlines=='' || item.newsHeadlines == null)? '' :fileBaseUrl + item.newsHeadlines" alt = "" style='margin:10px 0;width:100px;height:50px;'/>
 					</th>
 					<th>{{ item.source}}</th>
 					<!--是否显示-->
@@ -68,18 +68,22 @@
 			iswitch:Switch,
 			tmpHeader
 		},
-		created () {
+		mounted () {
 	       this.$nextTick(()=>{
 		       	axios.post(api.news,{
 		       		hospitalId:this.id,
 		       		pageNo:1,
 		       		pageSize:10
 		       	}).then(res => {
-		       		let ret = res.data.object.list;
-		       		ret.forEach((item,index) => {
-		       			item.sum = this.addZero(index);
-		       		})
-		       		this.tablesList = ret 
+					   if (res.data) {
+							let ret = res.data.object.list;
+							ret.forEach((item,index) => {
+								item.sum = this.addZero(index);
+							})
+							console.log(res);
+							this.tablesList = ret 
+					   }
+					   console.log(res);
 		       	}).catch(err => {
 		       		console.log(err)
 		       	})
@@ -95,7 +99,7 @@
 		},
 		methods: {
             change (status) {
-                this.$Message.info('开关状态：' + status);
+                // this.$Message.info('开关状态：' + status);
             },
         	navto (item) {
 //      		console.log(item.id)

@@ -1,13 +1,6 @@
 <template>
 	<div class='contentHome'>
 		<!--标题-->
-		<h3 class='contentHomeTitle'>
-			<a href = "###">患者端运营</a>
-			<span>></span>
-			<span>内容管理</span>
-			<!--<router-link class = 'homeBtn' to = '/operation/home_article'>发布</router-link>-->
-			<button class = 'homeBtn' @click = 'homeBtn'>发布</button>
-		</h3>
 		<!--选择类型-->
 		<div class = 'homeSelect'>
 			<!--类型选择-->
@@ -140,7 +133,7 @@
 			}
 		},
 		mounted () {
-			this.$axios.post(api.content_wrap, {
+			this.$axios.post(api.contentWrap, {
 			  "pageNo":1,
 			  "pageSize":5,
 			  "type":0,
@@ -163,7 +156,7 @@
 			},
 			//关键字查询列表
 			btn () {
-				this.$axios.post(api.content_wrap, {
+				this.$axios.post(api.contentWrap, {
 					"pageNo":1,
 					"pageSize":10,
 					"type":this.type1,
@@ -179,7 +172,7 @@
 			// 下架
 			bottomShelf (item,index) {
 				console.log(item)
-				this.$axios.post(api.up_wrap,{
+				this.$axios.post(api.upWrap,{
 					ids:[item.articleId],
 					idelete:0
 				}).then(res => {
@@ -192,7 +185,7 @@
 			},
 			// 上架
 			topShelf (item,index) {
-				this.$axios.post(api.up_wrap,{
+				this.$axios.post(api.upWrap,{
 					ids:[item.articleId],
 					idelete:1
 				}).then(res => {

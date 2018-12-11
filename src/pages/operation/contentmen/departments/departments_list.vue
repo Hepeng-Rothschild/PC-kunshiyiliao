@@ -26,7 +26,7 @@
 						<td>{{ item.parentDept }}</td>
 						<td>{{ item.childDept }}</td>
 						<td>{{ item.deptNickname }}</td>
-						<td>{{ item.display=='0'?'是':'否' }}</td>
+						<td>{{ item.display == '0'?'是':'否' }}</td>
 						<td>{{ item.priority }}</td>
 						<td class='ltd'>
 							<span @click = 'navto(item)' style = 'cursor:pointer;'>编辑</span>

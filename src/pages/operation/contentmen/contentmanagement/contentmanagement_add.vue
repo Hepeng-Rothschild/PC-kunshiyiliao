@@ -232,7 +232,7 @@
 							enable: release
 						}
 					}
-					this.$axios.post(api.created_wrap, params).then(res => {
+					this.$axios.post(api.createdWrap, params).then(res => {
 						if (res.data.code) {
 							this.$Message.info('添加成功' );
 							setTimeout(() => {

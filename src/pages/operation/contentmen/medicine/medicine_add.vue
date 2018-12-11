@@ -1,410 +1,217 @@
 <template>
-	<div class="i_addKeshi">
+	<!--服务管理-->
+	<div class = 'addManagement'>
 		<tmpHeader />
-		<div class="i-keshi_main">
-		<!--左侧选择-->
-			<div class="i-keshi_main-left" ref = 'oneList'>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
-					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
-						
-					</ul>
-				</ul>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
-					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
-					</ul>
-				</ul>
+		<div class = "addManag">
+			<h4 @click = 'btn'>选择院内开通科室</h4>
+			<div class = 'fuwu'>
+				<!--线上服务-->
+				<div class = 'xsfw' v-for = 'item,index in allMenuList' v-if = 'item.dept.list.length != 0'>
+					<p>{{ item.dept.entity.dictName }}</p>
+					<!--第一行-->
+					<div class="select_wufu" ref = 'all'>
+						<div v-for = 'items,index in item.dept.list' >
+							<input type="checkbox" :value = 'items.dictType' v-if = 'selectedArr.indexOf(items.id) == -1' :data-id = 'items.id' @click = 'forClick' :id="'a' + items.id">
+							<input type="checkbox" :value = 'items.dictType' :id="'a' + items.id" v-if = 'selectedArr.indexOf(items.id)  != -1' checked :data-id = 'items.id' @click = 'forClick'>
+							<label :for="'a' + items.id">{{ items.dictName }}</label>
+						</div>
+					</div>
+				</div>
 			</div>
-		<!--右侧科室-->
-			<div class="i-keshi_main-right">
-				<h2>科室信息</h2>
-				<!--科室名称-->
-				<div class="keshi_name">
-					<div class = 'left'>
-						<span style='color:red;'>*&nbsp;&nbsp;</span>
-						<span>科室名称</span>
-					</div>
-					<input type="text" value='神经内科' disabled />
-				</div>
-				<!--院内名称-->
-				<div class="keshi_name">
-					<div class = 'left'>
-						<span style='color:red;'>*&nbsp;&nbsp;</span>
-						<span>院内名称</span>
-					</div>
-					<input type="text" placeholder='神经内科' v-model = 'keshiname'/>
-					<p style = 'color:rgb(102, 102, 102);'>注：只在医院自身互联网平台显示</p>
-				</div>
-				<!--科室图标-->
-				<div class="keshi_name_fileImgs">
-					<div class = 'left'>
-						<span style='color:red;'>*&nbsp;&nbsp;</span>
-						<span>科室图标</span>
-					</div>
-					<div class = "input">
-					<div class="demo-upload-list" v-for="item in uploadList">
-			        <div v-if="item.status === 'finished'">
-			            <img :src="item.url">
-			            <div class="demo-upload-list-cover">
-			                <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-			                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-			            </div>
-			        </div>
-			        
-			        <div v-else>
-			            <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-			        </div>
-			    </div>
-				<Upload
-			        ref="upload"
-			        :show-upload-list="false"
-			        :default-file-list="defaultList"
-			        :on-success="handleSuccess"
-			        :format="['jpg','jpeg','png']"
-			        :max-size="2048"
-			        :on-format-error="handleFormatError"
-			        :on-exceeded-size="handleMaxSize"
-			        :before-upload="handleBeforeUpload"
-			        multiple
-			        type="drag"
-			        action="//jsonplaceholder.typicode.com/posts/"
-			        style="display: inline-block;width:58px;">
-			        <div style="width: 58px;height:58px;line-height: 58px;">
-			            <Icon type="ios-camera" size="20"></Icon>
-			        </div>
-			    </Upload>
-			    <Modal title="View Image" v-model="visible">
-			        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-			    </Modal>
-				</div>
-					<p style = 'color:rgb(102, 102, 102);'>注：如不上传，取平台科室默认图标</p>
-				</div>
-				<!--科室简介-->
-				<div class="keshi_name_text">
-					<div class = 'left'>
-						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
-						<span>科室简介</span>
-					</div>
-					<textarea name="" rows="" cols="" v-model='test1'></textarea>
-				</div>
-				<!--科室特色-->
-				<div class="keshi_name_text">
-					<div class = 'left'>
-						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
-						<span>科室特色</span>
-					</div>
-					<textarea name="" rows="" cols="" v-model='test2'></textarea>
-				</div>
-				<!--预约科室-->
-				<div class="keshi_name_text">
-					<div class = 'left'>
-						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
-						<span>是否预约科室</span>
-					</div>
-					<iSwitch v-model="switch1" style='margin-left:10px;'/>
-				</div>
-				<!--特色科室-->
-				<div class="keshi_name_text">
-					<div class = 'left'>
-						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
-						<span>是否特色科室</span>
-					</div>
-					<iSwitch v-model="switch2" style='margin-left:10px;'/>
-				</div>
 				<!--保存-->
-				<div class = 'save'>
-					<div @click = 'save'>保存</div>
-					<div>取消</div>
-				</div>
-			
+			<div class="expert_save">
+				<span @click = 'navto'>保存</span>
+				<span @click = 'btn'>取消</span>
 			</div>
 		</div>
-		
 	</div>
 </template>
 
 <script>
-import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
-import {Switch,Upload ,Icon} from 'iview'
+	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
+	import api from "@/api/commonApi";
 	export default{
-		components:{
-			tmpHeader,
-			iSwitch:Switch,
-			Upload,
-			Icon
-		},
 		data () {
 			return {
-				keshiname:"",
-				test1:"",
-				test2:"",
-				switch1:true,
-				switch2:true,
-				defaultList: [],
-                imgName: '',
-                visible: false,
-                uploadList: []
+				arr:[],
+				allMenuList:[],
+				checkedNames:[],
+				id:sessionStorage.getItem('hospitalId'),
+				selectedArr:[]
 			}
 		},
-	  	methods: {
-	  		// 树
-	  		tab (e) {
-	  			let el = e.target;
-	  			let chilrens = el.parentNode.getElementsByTagName('ul');
-	  			let ref = this.$refs.oneList;
-	  			if (chilrens.length >0) {
-	  				let flag = chilrens[0].style.display;
-		  			if (flag =='' || flag =='none') {
-		  				chilrens[0].style.display = 'block';
-		  			} else {
-		  				chilrens[0].style.display = 'none';
-		  			}
-	  			}
-	  			let ichildren = ref.getElementsByTagName('li');
-	  			for(let i = 0; i < ichildren.length; i++){
-	  				ichildren[i].classList.remove('active');
-	  				if(ichildren[i].localName){
-	  				}
-	  			}
-	  			el.classList.add('active');
-	  			
-	  		},
-	  	//保存
-	  		save () {
-	  			let params = {
-	  				name:this.keshiname,
-	  				test1:this.test1,
-	  				this2:this.test2,
-	  				switch1:this.switch1,
-	  				switch2:this.switch2
-	  			}
-	  			
-	  			console.log(params);
-	  			if (params.name == ''){
-	  				this.$Message.info('科室名称名称不能为空');
-	  			} else {
-	  				this.$router.push({	
-		  				name:"reviewlist19"
-		  			})
-	  			}
-	  			
-	  			
-	  		},
-            handleView (name) {
-                this.imgName = name;
-                this.visible = true;
-            },
-            handleRemove (file) {
-                const fileList = this.$refs.upload.fileList;
-                console.log(file);
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
-            handleSuccess (res, file) {
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
-            },
-            handleFormatError (file) {
-                this.$Notice.warning({
-                    title: 'The file format is incorrect',
-                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-                });
-            },
-            handleMaxSize (file) {
-                this.$Notice.warning({
-                    title: 'Exceeding file size limit',
-                    desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-                });
-            },
-            handleBeforeUpload () {
-                const check = this.uploadList.length < 1;
-                if (!check) {
-//                  this.$Notice.warning({
-//                      title: 'Up to five pictures can be uploaded.'
-//                  });
-                    this.$Message.info('最多只能上传一张图片');
-                }
-                return check;
-            }
-        },
-        mounted () {
-            this.uploadList = this.$refs.upload.fileList;
-        }
+		components: {
+			tmpHeader
+		},
+		methods: {
+			btn () {
+			},
+			toSelected (num) {
+				let flag = false;
+				for(let i = 0;i < this.selectedArr.length;i++){
+					if (this.selectedArr[i] == num) {
+						flag = true;
+					}
+				}
+				return flag
+			},
+			forClick (e) {
+				if (!e.target.checked) {
+					this.$axios.post(api.medicineExpertList, {
+						dictType:e.target.value,
+						hospitalId:this.id
+					}).then(res => {
+						if (res.data.object.file > 0) {
+							this.$Message.info('科室内有专家不可取消');
+							e.target.checked = true;
+						}
+					})
+				}
+			},
+			navto () {
+				let wrap = document.getElementsByClassName('addManag')[0];
+				let el = wrap.getElementsByTagName('input');
+				let len = el.length;
+				let arr = [];
+				for (let i = 0;i < len;i++) {
+					if (el[i].checked) {
+						arr.push(el[i].value);
+					}
+				}
+
+				let params = {
+					// 医院ID
+					hospitalId:this.id,
+					// 选中科室列表
+					dictTypes:arr
+
+				}
+
+					console.log(arr);
+				this.$axios.post(api.medicineSave, params).then(res => {
+					if (res.data.code) {
+						this.$Message.info('修改成功');
+						setTimeout(() => {
+							this.$router.push({
+								name:"reviewlist19"
+							})
+						},500)
+					}
+				})
+
+				
+			
+			}
+		},
+		mounted () {
+			
+		},
+		created () {
+			
+			this.$axios.post(api.medicineSelectedList,{
+				"id": this.id
+			}).then(res => {
+				if (res.data.code) {
+					let ret = res.data.object.hospitalVo.ids;
+					for(let i=0;i<ret.length;i++){
+						this.selectedArr.push(ret[i]);
+					}
+				}
+			})
+
+			this.$axios.post(api.medicineSearchList, {
+				// "hospitalId": this.id
+			}).then(res => {
+				if (res.data) {
+					let ret = res.data.object[0].list
+					this.allMenuList = ret;
+					this.toSelected(385);
+				}
+			}).catch(err => {
+				console.log(err)
+			})
+
+			
+		},
+		// 数据更新后的DOM结构
+		updated () {
+			let wrap = document.getElementsByClassName('addManag')[0];
+				let el = wrap.getElementsByTagName('input');
+				let len = el.length;
+				let arr = [];
+				for (let i = 0;i < len;i++) {
+					if (el[i].checked) {
+						arr.push(el[i]);
+					}
+				}
+		}
 	}
 </script>
 
 <style scoped lang="less">
- .demo-upload-list{
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        line-height: 60px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0,0,0,.2);
-        margin-right: 4px;
-    }
-    .demo-upload-list img{
-        width: 100%;
-        height: 100%;
-    }
-    .demo-upload-list-cover{
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,.6);
-    }
-    .demo-upload-list:hover .demo-upload-list-cover{
-        display: block;
-    }
-    .demo-upload-list-cover i{
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        margin: 0 2px;
-    }
-.i_addKeshi{
+.addManagement{
 	width:100%;
-	.i-keshi_main{
-		width:80%;
-		height:auto;
-		margin:0 auto;
+	.addManag{
 		display:flex;
-		flex-direction:row;
-		.i-keshi_main-left{
-			width:200px;
-			height:500px;
-			border:1px solid black;
-			margin-right:20px;
-			ul{
-				width:100%;
-				li{
-					width:100%;
-					padding-left:20px;
-					user-select:none;
-					cursor:pointer;
-				}
-				li.active{
-					background:#41c7db;
-				}
-			}
-			.oneList{
-				display:none;
-				li{
-					padding-left:40px;
-				}
-				li.active{
-					background:#41c7db;
-				}
-			}
-			.twoList{
-				display:none;
-				li{
-					padding-left:60px;
-				}
-				li.active{
-					background:#41c7db;
+		flex-direction:column;
+		padding:20px;
+		h4{
+			padding-left:4px;
+			border-left:2px solid blue;
+		}
+		.fuwu{
+			width:calc(100% - 100px);
+			margin: 0 auto;
+			display:flex;
+			flex-direction: column;
+			border-bottom:1px solid rgb(242, 242, 242);
+			.xsfw{
+				margin:10px 0;
+				.select_wufu{
+					margin:0 30px;
+					display:flex;
+					flex-direction:row;
+					padding:14px 20px;
+					align-items:center;
+					flex-wrap:wrap;
+					div{
+						margin:10px;
+						width:20%;
+						display:flex;
+						flex-direction:row;
+						align-items:center;
+						
+						input{
+							outline:none;
+							border:none;
+						}
+						label{
+							user-select:none;
+						}
+					}
+					
 				}
 			}
 		}
-		
-		.i-keshi_main-right{
-			flex:1;
-			/*border:1px solid red;*/
+		.expert_save{
+			width:200px;
+			height:50px;
+			margin:10px auto;
 			display:flex;
-			flex-direction:column;
-			padding:30px 0;
-			h2{
-				margin-left:10px;
-				font-size:20px;
-				padding-left:15px;
-				border-left:3px solid blue;
-			}
-			
-			.keshi_name{
-				display:flex;
-				flex-direction:row;
-				height:50px;
-				align-items:center;
-				.left{
-					min-width:100px;
-				}
-				input{
-					outline:none;
-					width:200px;
-					height:36px;
-				}
-				
-			}
-			.keshi_name_fileImgs{
-				display:flex;
-				flex-direction:row;
-				.left{
-					min-width:100px;
-				}
-				p{
-					margin-left:20px;
-				}
-			}
-			.keshi_name_text{
-				display:flex;
-				flex-direction:row;
-				margin-top:20px;
-				.left{
-					min-width:100px;
-				}
-				textarea{
-					outline:none;
-					width:400px;
-					height:100px;
-				}
-			}
-			.save{
-				width:200px;
+			flex-direction:row;
+			justify-content: space-between;
+			span{
+				display:inline-block;
+				width:60px;
 				height:30px;
-				display:flex;
-				flex-direction:row;
-				justify-content: space-around;
-				margin:0 auto;
-				div:first-child{
-					background:#359aff;
-				}
-				div{
-					width:80px;
-					height:30px;
-					background:#c9c9c9;
-					border-radius:20px;
-					text-align:center;
-					line-height:30px;
-					color:#fff;
-					cursor:pointer;
-				}
+				color:#fff;
+				border-radius:4px;
+				text-align:center;
+				line-height:30px;
+				background:#00BFFF;
+				cursor:pointer;
 			}
 		}
 	}
 }
-
 </style>

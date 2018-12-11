@@ -52,7 +52,7 @@ export default {
       imgName: "",
       visible: false,
       uploadList: [],
-      uploadUrl: api.fileUpload,
+      uploadUrl: api.fileAll,
       jsonCode:{json:'{"urlCode":"201"}'},
     };
   },

@@ -129,26 +129,22 @@ import api from "@/api/commonApi";
 				  let dataId = el.getAttribute('data-id');
 				  if (dataId) {
 					this.currentId = dataId;
-
-					this.$axios.post(api.departmentssearch,{
+					
+					this.$axios.post(api.departmentssearch, {
 						id:dataId
 					}).then(res => {
 						if (res.data) {
 							let ret = res.data.object;
 							//科室名
 							this.title = ret.dictType
-							
-							//   别名
-							//   name:this.keshiname,
+							//   简介
 							this.test1 = ret.departmentdes
-							//   //显示
-							let a = false;
-							if (ret.display) {
-								a = true;
-							}
-							this.switch1 = a
-							//   //排序
+							//   显示
+							this.switch1 = Boolean(ret.display)
+							//  排序
 							this.isort = ret.priority
+							//别名
+							this.keshiname = ret.deptNickname
 
 						}
 					}).catch(err => {
@@ -167,20 +163,19 @@ import api from "@/api/commonApi";
 					//   别名
 					deptNickname:this.keshiname,
 					//详情
-					deptDetails:this.test1,
-					//显示
-					priority:this.isort,
+					departmentdes:this.test1,
 					//排序
-					specialDept:switch1,
+					priority:this.isort,
+					//显示
+					display:switch1,
 					// ID
 					id: this.currentId
 
-					
 	  			}
-				  
 				  this.$axios.post(api.departmentChange, params).then(res => {
 					  	console.log(res.data)
 					  if (res.data) {
+						  this.$Message.info('修改成功');	
 						setTimeout(() => {
 							this.$router.push({
 								name:"reviewlist24"
@@ -245,7 +240,7 @@ import api from "@/api/commonApi";
 		display:flex;
 		flex-direction:row;
 		.i-keshi_main-left{
-			width:200px;
+			min-width:200px;
 			height:500px;
 			border:1px solid black;
 			margin-right:20px;

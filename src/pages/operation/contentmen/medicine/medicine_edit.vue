@@ -4,10 +4,10 @@
 		<div class="i-keshi_main">
 		<!--左侧选择-->
 			<div class="i-keshi_main-left" ref = 'oneList'>
-				<ul class = 'allList' @dblclick = 'tab' v-for='item,index in list'>
+				<ul class = 'allList' @dblclick.stop = 'tab' v-for='item,index in list'>
 					<li>+{{ item.parent.name }}</li>
 					<ul class = 'oneList'>
-						<li v-for = 'items,index in item.sub'  @dblclick = 'tab' :data-id='items.id'>+{{ items.childDept }}</li>
+						<li v-for = 'items,index in item.sub'  @dblclick.stop = 'tab' :data-id='items.id'>+{{ items.childDept }}</li>
 					
 					</ul>
 				</ul>
@@ -89,7 +89,7 @@
 						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
 						<span>科室简介</span>
 					</div>
-					<textarea name="" rows="" cols="" v-model='test1'></textarea>
+					 <textarea name="" rows="" cols="" v-model='test2'></textarea>
 				</div>
 				<!--科室特色-->
 				<div class="keshi_name_text">
@@ -97,7 +97,14 @@
 						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
 						<span>科室特色</span>
 					</div>
-					<textarea name="" rows="" cols="" v-model='test2'></textarea>
+					
+
+					<editor id="editor_id" height="300px" width="400px" :content.sync="editorText"
+			            :afterChange="afterChange()"
+			            pluginsPath="@/../static/kindeditor/plugins/"
+			            :loadStyleMode="false"
+			            @on-content-change="onContentChange">
+					</editor>
 				</div>
 				<!--预约科室-->
 				<div class="keshi_name_text">
@@ -152,14 +159,15 @@ import {Switch,Upload ,Icon} from 'iview'
 				uploadList: [],
 				id:sessionStorage.getItem('hospitalId'),
 				list:[],
-
+				editorText: '请输入要编辑的内容...',
 
 				uploadModal: true,
                 uploadData: {json:'{"urlCode":"203","flag":"1"}'},
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
                 uploadUrl:api.fileAll,
                 fromData:{'ContentType':'multipart/form-data'},                
-                images:""
+				images:"",
+				currentId:-1
 
 			}
 		},
@@ -186,7 +194,7 @@ import {Switch,Upload ,Icon} from 'iview'
 
 				let id = el.getAttribute('data-id')
 				if (id) {
-					console.log(id);
+					this.currentId = id;
 					this.$axios.post(api.medicinelistsearch,{
 						hospitalId: this.id,
 						id
@@ -199,17 +207,32 @@ import {Switch,Upload ,Icon} from 'iview'
 							// 别名
 							this.keshiname = ret.deptNickname
 							//简介
-							this.tese1 = ret.deptDetails;
+							this.test2 = ret.departmentdes
+							//特色
+							this.editorText = ret.deptDetails;
 							//预约科室
 							let switch1 = false;
 							if (ret.registeredReservation) {
 								switch1 = true;
 							}
-							this.switch1 = switch1;
-
+							this.switch1 = Boolean(ret.registeredReservation);
+							// 预约科室
+							this.switch2 = Boolean(ret.specialDept);
+							//图片
+							// if (ret.departmenticon) {
+								this.uploadList = []
+								this.uploadList.push({
+									name: "a42bdcc1178e62b4694c830f028db5c0",
+									percentage: 100,
+									status: "finished",
+									uid: 1544263544970,
+									url:this.fileBaseUrl + ret.departmenticon
+									// url:ret.departmenticon
+								})
+							// }
+							console.log(ret);
 							
-						console.log(ret)
-
+							
 						}
 					}).catch(err => {
 						console.log(err);
@@ -220,37 +243,46 @@ import {Switch,Upload ,Icon} from 'iview'
 	  		},
 	  	//保存
 	  		save () {
+				  let switch1 = 0;
+
+				  if (this.switch1) {
+					  switch1 = 1
+				  }
+				  let switch2 = 0;
+				  if (this.switch2) {
+					  switch2 = 1
+				  }
 	  			let params = {
 					//科室别名
-					  name:this.keshiname,
+					  deptNickname:this.keshiname,
 					//简介
-					  test1:this.test1,
+					  departmentdes:this.test2,
 					//特色
-					  this2:this.test2,
+					  deptDetails:this.editorText,
 					//预约科室
-					  switch1:this.switch1,
+					  switch1:switch1,
 					//特色科室
-	  				switch2:this.switch2
+					  specialDept:switch2,
+					  departmenticon:this.images,
+					  id:this.currentId
 	  			}
 	  			
-	  			console.log(params);
-	  			if (params.name == ''){
-	  				this.$Message.info('科室名称名称不能为空');
-	  			} else {
-
-					//   this.$axios.post(api.departmentChange, params).then(res => {
-					// 	if (res.data) {
-					// 		setTimeout(() => {
-					// 			this.$router.push({	
-					// 				name:"reviewlist19"
-					// 			})
-					// 		}, 500);
-					// 	}
-					// }).catch(err => {
-					// 	console.log(err)
-					// })
+	  			// console.log(params);
+	  			
+					this.$axios.post(api.medicineedit, params).then(res => {
+						if (res.data) {
+							setTimeout(() => {
+								this.$router.push({	
+									name:"reviewlist19"
+								})
+							}, 500);
+							console.log(res.data);
+						}
+					}).catch(err => {
+						console.log(err)
+					})
 	  				
-	  			}
+	  			
 	  			
 	  			
 	  		},
@@ -260,13 +292,20 @@ import {Switch,Upload ,Icon} from 'iview'
             },
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
-                console.log(file);
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				this.uploadList.splice(0,1);
             },
             handleSuccess (res, file) {
             	file.url =  this.fileBaseUrl + res.object[0].fileName;
 				this.images = res.object[0].fileName
 				file.name = res.object[0].fileName;
+				this.uploadList.push({
+					name: "a42bdcc1178e62b4694c830f028db5c0",
+					percentage: 100,
+					status: "finished",
+					uid: 1544263544970,
+					url: this.fileBaseUrl +  res.object[0].fileName
+				})	
             },
             handleFormatError (file) {
                 this.$Notice.warning({
@@ -286,7 +325,12 @@ import {Switch,Upload ,Icon} from 'iview'
                     this.$Message.info('最多只能上传一张图片');
                 }
                 return check;
-            }
+			},
+			onContentChange (val) {
+		      this.editorText = val
+		    },
+		    afterChange () {
+		    },
         },
         mounted () {
 			this.uploadList = this.$refs.upload.fileList;
@@ -298,6 +342,7 @@ import {Switch,Upload ,Icon} from 'iview'
 				if (res.data) {
 					let ret = res.data.object
 					this.list = ret
+					console.log(ret);
 				}
 			})
         }
@@ -350,7 +395,7 @@ import {Switch,Upload ,Icon} from 'iview'
 		display:flex;
 		flex-direction:row;
 		.i-keshi_main-left{
-			width:200px;
+			min-width:200px;
 			height:500px;
 			border:1px solid black;
 			margin-right:20px;

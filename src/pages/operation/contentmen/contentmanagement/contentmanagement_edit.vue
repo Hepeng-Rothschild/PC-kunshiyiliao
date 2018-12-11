@@ -22,7 +22,7 @@
 				</div>
 				<div class="demo-upload-list" v-for="item in uploadList">
 			        <div v-if="item.status === 'finished'">
-			            <img :src="item.url">
+			            <img :src="fileBaseUrl + item.url">
 			            <div class="demo-upload-list-cover">
 			                <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
 			                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -120,7 +120,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save'>保存</div>
-				<div>取消</div>
+				<div @click="$router.back(-1)">取消</div>
 			</div>
 
 		</div>
@@ -171,21 +171,24 @@
             this.uploadList = this.$refs.upload.fileList;
             let id = this.$route.params.id;
             if (id) {
-        	   this.$axios.post(api.get_wrap,{
+        	   this.$axios.post(api.getWrap,{
 	            	id
 	            }).then(res => {
 	            	if (res.data.code) {
 		            	let ret = res.data.object;
 		            	let detail = ret.operateArticle;
 		            	let flag = false;
-		            	
-						this.uploadList.push({
-	                        name: "a42bdcc1178e62b4694c830f028db5c0",
-							percentage: 100,
-							status: "finished",
-							uid: 1544263544970,
-							url: detail.cover
-	                    })
+		            	if (detail.cover) {
+							this.uploadList = []
+							this.uploadList.push({
+								name: "a42bdcc1178e62b4694c830f028db5c0",
+								percentage: 100,
+								status: "finished",
+								uid: 1544263544970,
+								url: detail.cover
+							})
+							console.log(detail.cover);
+						}
 						
 						if (detail.enable) {
 							flag = true;
@@ -213,9 +216,13 @@
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
             },
             handleSuccess (res, file) {
-				file.url =  this.fileBaseUrl + res.object[0].fileName;
+				// file.url =  this.fileBaseUrl + res.object[0].fileName;
+				file.url = res.object[0].fileName;
 				this.images = res.object[0].fileName
 				file.name = res.object[0].fileName;
+				console.log(file.url);
+				console.log(this.images)
+				console.log(file.name);
             },
             handleFormatError (file) {
             	console.log(file);
@@ -263,7 +270,7 @@
             		this.$Message.info('新闻内容不能为空');
             	} else {
             		
-					this.$axios.post(api.change_wrap,params).then(res => {
+					this.$axios.post(api.changeWrap,params).then(res => {
 						console.log(res);
 						if (res.data.code) {
 							this.$Message.info('修改成功' );

@@ -30,7 +30,7 @@
 						<td>{{ addZero(index) }}</td>
 						<td>{{ item.bannerName }}</td>
 						<td>
-							<img :src="fileBaseUrl + item.imageUrl" alt="" style='margin:10px 0;width:80px;height:80px;'/>
+							<img :src="item.imageUrl == ''? '' :fileBaseUrl + item.imageUrl" alt="" style='margin:10px 0;width:80px;height:80px;'/>
 						</td>
 						<td>{{ item.bannerUrl }}</td>
 						<td>{{ item.enable == 1? "是" :"否" }}</td>
@@ -40,9 +40,9 @@
 				</table>
 			</div>
 			<!--分页-->
-			<div style = 'text-align:center;'>
+			<!-- <div style = 'text-align:center;'>
 				<Page :total = "tbleList.length" :page-size ='len' @on-change = 'pageChange'/>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -72,7 +72,7 @@
 				 	"bannerName": "",
 				  	"hospitalId": this.id,
 				  	"pageNo": e,
-				  	"pageSize": 10
+				  	"pageSize": 100
 				}).then(res => {
 					let ret = res.data.object;
 					if (ret) {
@@ -105,7 +105,7 @@
 		// 页面加载时获取数据
 		mounted () {
 			console.log(this.id)
-			this.$axios.post(api.bannerHome,{
+			this.$axios.post(api.bannerHome, {
 			 	"bannerName": "",
 			  	"hospitalId": this.id,
 			  	"pageNo": 1,
@@ -123,7 +123,7 @@
 			search : {
 				deep:true,
 				handler (oldval) {
-					this.$axios.post(api.bannerHome,{
+					this.$axios.post(api.bannerHome, {
 					 	"bannerName": oldval,
 					  	"hospitalId": this.id,
 					  	"pageNo": 1,
@@ -197,6 +197,9 @@
 				tr{
 					td{
 						text-align:center;
+					}
+					td.none{
+						display:none;
 					}
 				}
 			}

@@ -94,7 +94,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save'>保存</div>
-				<div>取消</div>
+				<div @click="$router.back(-1)">取消</div>
 			</div>
 			
 		</div>
@@ -143,6 +143,8 @@
 //              this.$Message.info('开关状态：' + status);
             },
             save () {
+
+				
             	let sum = 0;
             	if (this.switch1) {
             		sum = 1;

@@ -152,12 +152,7 @@ import api from "@/api/commonApi";
 				test2:"",
 				switch1:true,
 				isort:'',
-				defaultList: [
-					{
-                     'name': 'bc7521e033abdd1e92222d733590f104',
-                     'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
-                 	}
-				],
+				defaultList: [],
                 imgName: '',
                 visible: false,
                 
@@ -181,7 +176,7 @@ import api from "@/api/commonApi";
 		mounted () {
 			this.uploadList = this.$refs.upload.fileList;
 			
-			this.$axios.post(api.get_department,{
+			this.$axios.post(api.getDepartment,{
 				"hospitalId": this.id,
 				'id':336
 			}).then(res => {
@@ -241,13 +236,12 @@ import api from "@/api/commonApi";
 	  				"id":this.currentId
 	  			}
 	  			
-
 	  			if (params.name === ''){
 	  				this.$Message.info('科室名称不能为空');
 	  			} else {
 	  				this.$axios.post(api.departmentChange, params).then(res => {
 						  if (res.data.code) {
-							  this.$Message.info('修改成功');
+							this.$Message.info('修改成功');
 						  }
 	  				})
 	  			} 
@@ -305,11 +299,19 @@ import api from "@/api/commonApi";
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
 				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				this.uploadList.splice(0,1);
             },
             handleSuccess (res, file) {
             	file.url =  this.fileBaseUrl + res.object[0].fileName;
 				this.images = res.object[0].fileName
 				file.name = res.object[0].fileName;
+				this.uploadList.push({
+					name: "a42bdcc1178e62b4694c830f028db5c0",
+					percentage: 100,
+					status: "finished",
+					uid: 1544263544970,
+					url: this.fileBaseUrl +  res.object[0].fileName
+				})	
             },
             handleFormatError (file) {
                 this.$Notice.warning({

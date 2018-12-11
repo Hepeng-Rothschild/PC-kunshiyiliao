@@ -94,7 +94,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save'>保存</div>
-				<div>取消</div>
+				<div @click="$router.back(-1)">取消</div>
 			</div>
 			
 		</div>
@@ -142,7 +142,20 @@
             	let sum = 0;
             	if (this.switch1) {
             		sum = 1;
-            	}
+				}
+				let images = this.images;
+				if (!images) {
+					if (this.uploadList != []) {
+						images = this.uploadList[0].url
+						let len = this.fileBaseUrl.length
+						let parentlen = images.length
+						images = images.substr(len, parentlen)
+					} else {
+						images =  ''
+					}
+				}
+				console.log(images);
+
             	let params = {
             		hospitalId: this.id,
             		bannerName:this.title,
@@ -150,7 +163,7 @@
             		priority:this.isort,
             		id:this.$route.params.id,
             		enable:sum,
-            		imageUrl:this.images
+            		imageUrl:images
             	}
             	console.log(params);
 				if (params.title == '') {
