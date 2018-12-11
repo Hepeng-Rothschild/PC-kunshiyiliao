@@ -5,6 +5,7 @@
 </template>
 
 <script> 
+import api from "./api/commonApi.js";
 export default {
 	name: 'App',
 	data(){

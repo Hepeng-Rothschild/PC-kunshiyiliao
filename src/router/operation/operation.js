@@ -64,13 +64,17 @@ const kindeditorTest = {
 }
 const uploadFile = {
     path:'operation/upload/index',
-    name:'kindeditor',
+    name:'uploadFile',
     meta:{
         index:3,
         title:'uploadFile'
     },
     component:()=>import("@/pages/operation/upload/index")
 }
+//医生端内容管理
+
+//医生端内容分类
+
 //患者端内容管理和分类
 const reviewList4 = {
 	path: 'operation/contentmanagement_home',
@@ -230,7 +234,7 @@ const reviewList15 = {
 }
 const expert_edit = {
 	path: 'operation/expert_edit',
-	name: 'reviewlist15',
+	name: 'expert_edit',
 	meta: {
 		index: 4,
 		title: '专家介绍-编辑'
@@ -312,7 +316,7 @@ const reviewList20 = {
 }
 const reviewList21 = {
 	path: 'operation/medicine_edit',
-	name: 'expert_edit',
+	name: 'reviewList21',
 	meta: {
 		index: 4,
 		title: '院内科室-编辑'

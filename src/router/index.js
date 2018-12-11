@@ -66,7 +66,8 @@ export default new Router({
 				operation.expert_edit,
 
 				//运维端路由
-				maintain.reviewList,
+				maintain.residentRegisterList,
+				maintain.doctorRegisterList,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由

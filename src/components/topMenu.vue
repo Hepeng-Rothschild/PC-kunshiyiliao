@@ -20,6 +20,9 @@
         <MenuItem name="4">
             监管平台
     </MenuItem>-->
+    <div class="logout">
+      <img src="./../assets/images/heicon.jpg">
+    </div>
   </Menu>
 </template>
 <script>
@@ -52,5 +55,18 @@ export default {
 <style lang="less" scoped>
 .topMenu {
   margin-top: 10px !important;
+  position:relative;
+  .logout{
+    display:inline-block;
+    position:absolute;
+    right:100px;
+    width:50px;
+    height:50px;
+    img{
+      width:50px;
+      height:50px;
+      border-radius: 50%;
+    }
+  }
 }
 </style>

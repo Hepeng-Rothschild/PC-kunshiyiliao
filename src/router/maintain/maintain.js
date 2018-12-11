@@ -1,14 +1,24 @@
-const reviewList = {
-    path:'maintain/index',
-    name:'reviewlist',
+const residentRegisterList = {
+    path:'maintain/residentregister/list',
+    name:'reviewlist3',
     meta:{
         index:2,
-        title:'运维列表'
+        title:'居民注册信息'
     },
-    component:()=>import("@/pages/maintain/doctorReview/list")
+    component:()=>import("@/pages/maintain/doctorregister/list")
+}
+const doctorRegisterList = {
+    path:'maintain/doctorregister/list',
+    name:'doctorregisterlist',
+    meta:{
+        index:2,
+        title:'医生注册信息'
+    },
+    component:()=>import("@/pages/maintain/doctorregister/list")
 }
 
 
 export default {
-	reviewList,
+	residentRegisterList,
+	doctorRegisterList,
 }
