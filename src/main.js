@@ -30,7 +30,6 @@ Vue.use(VueKindEditor)
 //设置title
 router.beforeEach((to, from, next) => {
 	if(to.path != "/login"){
-		// let access_token = window.sessionStorage.getItem("access_token");
 		let access_token = cookie.getCookie("access_token");
 		if(access_token != undefined){
 			let title = to.meta.title?to.meta.title:"互联网医院管理系统";

@@ -88,7 +88,6 @@ export default {
                 .then(resp=>{
                     if(resp.data.success){
                         let times = 10*60*60;
-                        // window.sessionStorage.setItem("access_token", resp.data.object.access_token)
                         cookie.setCookie("access_token", resp.data.object.access_token,times)
                         this.$router.push("/index");
                     }else{
