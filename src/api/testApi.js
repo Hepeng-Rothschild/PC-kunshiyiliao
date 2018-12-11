@@ -1,8 +1,6 @@
 //测试环境api
 
 const login = "/operateapi/operate/login"; //登陆接口
-
-
 const news = '/operateapi/organizationpagenews'; //动态新闻列表分页
 const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口
 const getProvince = "/operateapi/authenticationqueryprovince"; //获取省级列表

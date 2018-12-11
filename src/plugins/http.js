@@ -24,8 +24,8 @@ axios.interceptors.request.use(
   	config => {
 		// let access_token = window.sessionStorage.getItem('access_token'));
 		let access_token = cookie.getCookie('access_token');
-		// if(access_token != undefined)
-		// 	config.headers.Authorization = "Bearer "+ access_token;
+		if(access_token != undefined)
+			config.headers.Authorization = "Bearer "+ access_token;
 		// if (config.method.toUpperCase() === 'POST') {
 		// 	let data = qs.parse(config.data);
 		// 	config.data = qs.stringify({
