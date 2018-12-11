@@ -4,7 +4,6 @@
 		<tmpHeader />
 		<!--添加专家/搜索-->
 		<div class = 'iheader'>
-			
 			<div>
 				<span></span>
 				<input type="text"placeholder="已开通服务" />
@@ -30,13 +29,18 @@
 				</tr>
 			</table>
 		</div>
+		<!-- <div>
+			<Page :total="managementSize"  @on-change = 'pageChange'/>
+		</div>		 -->
 		
 	</div>
 </template>
 
 <script>
+//服务管理
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader'
 	import api from "@/api/commonApi";
+	import { Page } from 'iview'
 	export default{
 		components: {
 			tmpHeader
@@ -45,23 +49,21 @@
 			return {
 				tablesList:[],
 				id:sessionStorage.getItem('hospitalId')
+				// managementSize:10
 			}
 		},
 		mounted () {
-			this.$axios.post(api._server,{
-				  "hospitalId": this.id,
-			}).then(res => {
-				let ret = res.data.object;
-				console.log(ret);
-				this.tablesList = ret;
-			})
+			this.getManagementData()
 		},
-		methods:{
+		methods: {
+			//分页器改变
+			pageChange (index) {
+				this.getManagementData(index);
+			},
 			navto (item) {
 				this.$router.push({
 					name:"managementAdd"
 				})
-				console.log(item)
 			},
 			addZero (num) {
 				num = num + 1;
@@ -69,6 +71,16 @@
 					return '0' + num
 				}
 				return num
+			},
+			getManagementData () {
+				this.$axios.post(api._server, {
+					"hospitalId": this.id
+				}).then(res => {
+					if (res.data) {
+						let ret = res.data.object;
+						this.tablesList = ret;
+					}
+				})
 			}
 		}
 	}

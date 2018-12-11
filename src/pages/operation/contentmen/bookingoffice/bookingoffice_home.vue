@@ -21,7 +21,7 @@
 						<th>排序</th>
 						<th>操作</th>
 					</tr>
-					<tr v-for = 'item,index in tableList'>
+					<tr v-for = 'item,index in tableList' v-show = 'tableList.length'>
 						<td>{{ addZero(index) }}</td>
 						<td>{{ item.parentDept }}</td>
 						<td>{{ item.childDept }}</td>
@@ -33,25 +33,34 @@
 				</table>
 			</div>
 		</div>
-		
-		
+		<div style = 'text-align:center;margin:10px 0;'>
+			<Page :total="bookingofficeSize"  @on-change = 'pageChange'/>
+		</div>		
 	</div>
 </template>
 
 <script>
+// 预约科室
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import api from "@/api/commonApi";
+	import { Page } from 'iview'
 	export default{
 		components:{
-			tmpHeader
+			tmpHeader,
+			Page
 		},
 		data () {
 			return {
 				tableList:[],
-				id:sessionStorage.getItem('hospitalId')
+				id:sessionStorage.getItem('hospitalId'),
+				bookingofficeSize:10
 			}
 		},
 		methods:{
+			//分页器改变
+			pageChange (index) {
+				this.getBookingofficeData(index);
+			},
 			navto (item) {
 				let id = item.id
 				this.$router.push({
@@ -67,22 +76,25 @@
 					return '0' + num
 				}
 				return num
+			},
+			getBookingofficeData (pageNo) {
+				this.$axios.post(api.kDepartment, {
+					"childDept": "",
+					"hospitalId": this.id,
+					"id": 0,
+					pageNo,
+					"pageSize": 10,
+				}).then(res => {
+					if (res.data) {
+						let ret = res.data.object
+						this.tableList = ret.list
+						this.bookingofficeSize = ret.count
+					}
+				})
 			}
 		},
 		mounted () {
-			this.$axios.post(api.kDepartment,{
-				  "childDept": "",
-				  "hospitalId": this.id,
-				  "id": 0,
-				  "pageNo": 1,
-				  "pageSize": 10,
-			}).then(res => {
-				let ret = res.data.object
-				if (ret) {
-					this.tableList = ret.list
-				}
-				
-			})
+			this.getBookingofficeData(1);
 		}
 	}
 </script>

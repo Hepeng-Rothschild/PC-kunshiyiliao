@@ -42,7 +42,7 @@
 				<th>时间</th>
 				<th>操作</th>
 			</tr>
-			<tr v-for = 'item,index in tableList'>
+			<tr v-for = 'item,index in tableList' v-show = 'tableList.length'>
 				<th>{{ addZero(index) }}</th>
 				<th>{{ item.priority }}</th>
 				<th>{{ item.title }}</th>
@@ -62,10 +62,12 @@
 				</th>
 			</tr>
 		</table>
+		<div class="footer"  v-show = '!tableList.length'>暂无更多数据</div>
+
 		<!--分页器-->
-		<!--<div class = 'paging'>
-			<Page :total = "tableList.length" :page-size ='10' @on-change = 'pageChange'/>		
-		</div>-->
+		<div class = 'paging'>
+			<Page :total = "contentSize" @on-change = 'pageChange'/>		
+		</div>
 		<!--info-->
 		<div class = 'info' v-show = 'flag'>
 			<h3>提示</h3>
@@ -102,57 +104,37 @@
 				val:null,
 				flag:false,
 				content:"",
-				tableList:[
-//					{
-//						time:"2019-12-1 16：55",
-//						title:"冬至保暖需要什么？",
-//						sort:1,
-//						num:"01",
-//						type:"文章",
-//						release:'已发布',
-//						read:"100",
-//						coll:"100",
-//						id:"1",
-//						lanmu:"宝宝健康"
-//					},
-//					{
-//						time:"2019-12-1 16：55",
-//						title:"孩子如何预防感冒？医生告诉你妙招",
-//						sort:2,
-//						num:"02",
-//						type:"视频",
-//						release:'未发布',
-//						read:"100",
-//						coll:"100",
-//						id:"1",
-//						lanmu:"医师讲"
-//					}
-				],
+				tableList:[],
 				arr1:[],
-				len:10
+				len:10,
+				contentSize:10
 			}
 		},
 		mounted () {
-			this.$axios.post(api.contentWrap, {
-			  "pageNo":1,
-			  "pageSize":5,
-			  "type":0,
-			  "enable":1
-			}).then(res => {
-				if(res.data.object){
-					let ret = res.data.object.list;
-					this.tableList = ret
-				}
-			})
+			this.getContentData(1);
 		},
 		methods : {
+			getContentData (pageNo) {
+				this.$axios.post(api.contentWrap, {
+				pageNo,
+				"pageSize":10,
+				"type":0,
+				"enable":1
+				}).then(res => {
+					if(res.data){
+						let ret = res.data.object.list;
+						console.log(res);
+						this.tableList = ret
+					}
+				})
+			},
 			homeBtn () {
 				this.$router.push({
 					name:"contentmanagementAdd"
 				})
 			},
-			pageChange (e) {
-				
+			pageChange (index) {
+				this.getContentData(index);
 			},
 			//关键字查询列表
 			btn () {
@@ -179,7 +161,6 @@
 					if (res.data.code) {
 						item.idelete = 0
 						this.$Message.info('下架成功' );
-						console.log(res.data);
 					}
 				})
 			},
@@ -192,7 +173,6 @@
 					if (res.data.code) {
 						item.idelete = 1;
 						this.$Message.info('上架成功' );
-						console.log(res.data);
 					}
 				})
 			},
@@ -222,11 +202,7 @@
 			},
 			//模态框
 			ok () {
-//              this.$Message.info('Clicked ok');
 				let a = this.tableList[this.currentIndex];
-            		console.log(this.currentIndex);
-				
-				console.log(a);
 			},
             cancel () {
             },
@@ -237,8 +213,6 @@
             	}
             	return num
             }
-		},
-		computed : {
 		},
 		watch : {
 			type1:{
@@ -377,6 +351,12 @@
 					color:red;
 				}
 			}
+		}
+		.footer{
+			width:100%;
+			border:1px solid black;
+			border-top:none;
+			text-align:center;
 		}
 		/*分页器*/
 		.paging{

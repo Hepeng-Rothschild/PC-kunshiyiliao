@@ -22,7 +22,7 @@
 				<th>住院服务</th>
 				<th>操作</th>
 			</tr>
-			<tr v-for="item,index in tableList">
+			<tr v-for="item,index in tableList" v-show = 'tableList.length'>
 				<th>{{ addZero(index) }}</th>
 				<th>{{ item.provinceName }}</th>
 				<th>{{ item.orgName }}</th>
@@ -41,55 +41,53 @@
 				</th>
 			</tr>
 		</table>
+		<div class = 'footer' v-show = '!tableList.length'>暂无更多数据</div>
+		<div style = 'text-align:center;margin:10px 0;'>
+			<Page :total="homeSize"  @on-change = 'pageChange'/>
+		</div>
 	</div>
 </template>
 
 <script>
 	import api from "@/api/commonApi";
-	export default{
+	import { Page } from 'iview'
+	export default {
+		components: {
+				Page
+		},
 		data () {
 			return {
-				tableList :[
-					{
-						id:'01',
-						quyu:"安徽省",
-						jigou:"蚌埠中医院",
-						jianjie:"大罗",
-						leixing:"机构类型",
-						xinwen:3,
-						zhuanjia:3,
-						keshi:"-",
-						yuyue:"-",
-						xiangshang:"-",
-						menzhen:"-",
-						zhuyuan:"-",
-						yiyuan:"-",
-					}
-				],
-				val:""
+				tableList :[],
+				val:"",
+				homeSize:10
 			}
 		},
 		mounted () {
+			this.getDate(1);
+		},
+		methods :{
+			getDate (pageNo) {
 				this.$axios.post(api.management, {
-					pageNo:1,
+					pageNo,
 					pageSize:10
-					
 				}).then(res => {
-					console.log(res.data)
 					if (res.data) {
 						let ret = res.data.object.list;
+						this.homeSize = res.data.object.count
 						this.tableList = ret
 					}
 				}).catch(err => {
 					console.log(err);
-				}) 
-		},
-		methods :{
+				})
+			},
+			pageChange (index) {
+				this.getDate(index);
+			},
 			navto (item) {
 				sessionStorage.setItem('hospitalId',item.hospitalId);
 				this.$router.push({
 					name:"homeInfo",
-				})	
+				})
 			},
 			search () {
 				this.$axios.post(api.management, {
@@ -97,7 +95,6 @@
 					pageSize:10,
 					orgName:this.val
 				}).then(res => {
-					console.log(res.data)
 					if (res.data) {
 						let ret = res.data.object.list;
 						this.tableList = ret
@@ -161,6 +158,12 @@
 				}
 			}
 		}
+	}
+	.footer{
+		width:100%;
+		text-align:center;
+		border:1px solid black;
+		border-top:none;
 	}
 }
 </style>

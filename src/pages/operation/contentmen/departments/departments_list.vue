@@ -21,7 +21,7 @@
 						<th>排序</th>
 						<th>操作</th>
 					</tr>
-					<tr v-for = 'item,index in tableList'>
+					<tr v-for = 'item,index in tableList' v-show = 'tableList.length'>
 						<td>{{ addZero(index) }}</td>
 						<td>{{ item.parentDept }}</td>
 						<td>{{ item.childDept }}</td>
@@ -33,52 +33,44 @@
 						</td>
 					</tr>
 				</table>
+				<div class="footer"  v-show = '!tableList.length'>暂无更多数据</div>
 			</div>
+		</div>
+		<div style = 'text-align:center;margin:10px 0;'>
+			<Page :total="departmentsSize"  @on-change = 'pageChange'/>
 		</div>
 	</div>
 </template>
 
 <script>
+// 特色科室
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import api from "@/api/commonApi";
+	import { Page } from 'iview'
 	export default{
 		components:{
-			tmpHeader
+			tmpHeader,
+			Page
 		},
 		data () {
 			return {
-				tableList:[
-					{
-						sum:"01",
-						title:"内科",
-						keshi2:"普通内科",
-						yname:"普通内科",
-						yuyue:"是",
-						tese:"1"
-					}
-				],
-				id:sessionStorage.getItem('hospitalId')
+				tableList:[],
+				id:sessionStorage.getItem('hospitalId'),
+				departmentsSize:10
 			}
 		},
 		mounted () {
-			this.$axios.post(api.tesekeshi,{
-				  "hospitalId": this.id,
-				  "pageNo": 1,
-				  "pageSize": 10
-			}).then(res => {
-				if (res.data) {
-					let ret = res.data.object
-					this.tableList =  ret.list
-				}
-			}).catch (err => {
-				console.log(err)
-			})
+			this.getDepartmentsData(1);
 		},
 		methods: {
+			// 分页器,切换事件
+			pageChange (index) {
+				this.getDepartmentsData(index);
+			},
 			navto (item) {
 				let id = item.id
 				this.$router.push({
-					name:"reviewlist25",
+					name:"departmentsList",
 					params:{
 						id
 					}
@@ -89,6 +81,21 @@
 					return '0' + num
 				}
 				return num
+			},
+			getDepartmentsData (pageNo) {
+				this.$axios.post(api.tesekeshi,{
+					"hospitalId": this.id,
+					pageNo,
+					"pageSize": 10
+				}).then(res => {
+					if (res.data) {
+						let ret = res.data.object
+						this.tableList =  ret.list
+						this.departmentsSize = ret.count
+					}
+				}).catch (err => {
+					console.log(err)
+				})
 			}
 		}
 	}
@@ -142,6 +149,12 @@
 		.tabList{
 			width:100%;
 			margin:20px 0;
+			.footer{
+				width:100%;
+				border:1px solid black;
+				border-top:none;
+				text-align:center;
+			}
 			table{
 				width:100%;
 				tr:first-child{

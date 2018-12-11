@@ -213,15 +213,14 @@
             	} else if (this.editorText == ''){
             		this.$Message.info('新闻内容不能为空');
             	} else {
-            		
+            		// 添加
          		this.$axios.post(api.newsA,params).then(res => {
-						console.log(res)
 						if(res.data.code) {
 							setTimeout(() => {
 								this.$Message.info('添加成功');
 								setTimeout(() => {
 									this.$router.push({
-										name:"reviewlist11"
+										name:"operationNews"
 									})
 								},500)
 							})
@@ -231,7 +230,6 @@
 						console.log(err);
 					})
 
-            		console.log(params);
 					
             	}
 

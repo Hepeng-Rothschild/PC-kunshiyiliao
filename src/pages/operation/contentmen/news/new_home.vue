@@ -53,56 +53,43 @@
 					<th>操作</th>
 				</tr>
 			</table>
-			<div class='fooDiv'>没有数据</div>
+			<div class='fooDiv'>没有更多数据</div>
 		</footer>
+		<div style = 'text-align:center;margin:10px 0;'>
+			<Page :total="newsSize"  @on-change = 'pageChange'/>
+		</div>
 	</div>
 </template>
 
 <script>
-	import { Switch } from 'iview';
+// 动态新闻
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import api from "@/api/commonApi";
 	import axios from "axios";
+	import { Page } from 'iview'
 	export default {
 		components: {
-			iswitch:Switch,
-			tmpHeader
+			tmpHeader,
+			Page
 		},
 		mounted () {
-	       this.$nextTick(()=>{
-		       	axios.post(api.news,{
-		       		hospitalId:this.id,
-		       		pageNo:1,
-		       		pageSize:10
-		       	}).then(res => {
-					   if (res.data) {
-							let ret = res.data.object.list;
-							ret.forEach((item,index) => {
-								item.sum = this.addZero(index);
-							})
-							console.log(res);
-							this.tablesList = ret 
-					   }
-					   console.log(res);
-		       	}).catch(err => {
-		       		console.log(err)
-		       	})
-	       })
+		    this.getData(1)
        	},
 		data () {
 			return {
 				switch1: false,
 				tablesList :[],
 				search:"",
-				id:sessionStorage.getItem('hospitalId')
+				id:sessionStorage.getItem('hospitalId'),
+				newsSize:10
 			}
 		},
 		methods: {
-            change (status) {
-                // this.$Message.info('开关状态：' + status);
-            },
+			//分页器改变
+			pageChange (index) {
+				this.getData(index)
+			},
         	navto (item) {
-//      		console.log(item.id)
         		let id = item.id
         		this.$router.push({
         			name:"newsEdit",
@@ -124,8 +111,26 @@
 				return num
 			},
 	        press () {
-	        	console.log(this.search);
-	        }
+	        	// console.log(this.search);
+			},
+			getData (pageNo) {
+				axios.post(api.news,{
+		       		hospitalId:this.id,
+		       		pageNo,
+		       		pageSize:10
+		       	}).then(res => {
+					   if (res.data) {
+							let ret = res.data.object.list;
+							ret.forEach((item,index) => {
+								item.sum = this.addZero(index);
+							})
+							this.tablesList = ret 
+							this.newsSize = res.data.object.count
+					   }
+		       	}).catch(err => {
+		       		console.log(err)
+		       	})
+			}
       },
       computed: {
       	changeDown () {

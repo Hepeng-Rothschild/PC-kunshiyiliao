@@ -37,12 +37,14 @@
 						<td>{{ item.priority }}</td>
 						<td @click = 'change(item)' style = 'cursor:pointer;'>编辑</td>
 					</tr>
+					
 				</table>
+				<div class = 'footer' v-show = '!tbleList.length'>暂无更多数据</div>
 			</div>
-			<!--分页-->
-			<!-- <div style = 'text-align:center;'>
-				<Page :total = "tbleList.length" :page-size ='len' @on-change = 'pageChange'/>
-			</div> -->
+			<!-- 分页-->
+			<div style = 'text-align:center;margin:10px 0;'>
+				<Page :total = "bannerSize" @on-change = 'pageChange'/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -63,23 +65,13 @@
 				search:"",
 				arr:[],
 				len:10,
-				id:sessionStorage.getItem('hospitalId')
+				id:sessionStorage.getItem('hospitalId'),
+				bannerSize:10
 			}
 		},
 		methods: {
-			pageChange (e) {
-				this.$axios.post(api.bannerHome,{
-				 	"bannerName": "",
-				  	"hospitalId": this.id,
-				  	"pageNo": e,
-				  	"pageSize": 100
-				}).then(res => {
-					let ret = res.data.object;
-					if (ret) {
-						this.tbleList = ret.list;
-						
-					}
-				})
+			pageChange (index) {
+				this.getData(index)
 			},
 			navto () {
 				this.$router.push({
@@ -100,23 +92,25 @@
 					return '0' + num
 				}
 				return num
+			},
+			getData (pageNo) {
+				this.$axios.post(api.bannerHome, {
+					"bannerName": "",
+					"hospitalId": this.id,
+					pageNo,
+					"pageSize": 10
+				}).then(res => {
+					if (res.data) {
+						let ret = res.data.object;
+						this.tbleList = ret.list;
+						this.bannerSize = ret.count
+					}
+				})
 			}
 		},
 		// 页面加载时获取数据
 		mounted () {
-			console.log(this.id)
-			this.$axios.post(api.bannerHome, {
-			 	"bannerName": "",
-			  	"hospitalId": this.id,
-			  	"pageNo": 1,
-			  	"pageSize": 10
-			}).then(res => {
-				let ret = res.data.object;
-				if (ret) {
-					this.tbleList = ret.list;
-					
-				}
-			})
+			this.getData(1)
 		},
 		// 根据输入的值获取不同的数据
 		watch : {
@@ -129,8 +123,10 @@
 					  	"pageNo": 1,
 					  	"pageSize": 10
 					}).then(res => {
-						let ret = res.data.object
-						if (ret) {
+					
+						if (res.data) {
+							let ret = res.data.object
+							this.bannerSize = ret.count
 							this.tbleList = ret.list
 						}
 					})
@@ -170,7 +166,6 @@
 					background-size:100% 100%;
 				}
 				input{
-					
 					border:none;
 					outline:none;
 					background: none;
@@ -203,6 +198,12 @@
 					}
 				}
 			}
+			.footer{
+					width:100%;
+					text-align:center;
+					border:1px solid black;
+					border-top:none;
+				}
 		}
 	}
 }

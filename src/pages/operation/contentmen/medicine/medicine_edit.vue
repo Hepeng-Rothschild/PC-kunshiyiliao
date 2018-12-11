@@ -266,20 +266,19 @@ import {Switch,Upload ,Icon} from 'iview'
 					  id:this.currentId
 	  			}
 	  			
-	  			// console.log(params);
-	  			
-					this.$axios.post(api.medicineedit, params).then(res => {
-						if (res.data) {
-							setTimeout(() => {
-								this.$router.push({	
-									name:"reviewlist19"
-								})
-							}, 500);
-							console.log(res.data);
-						}
-					}).catch(err => {
-						console.log(err)
-					})
+				this.$axios.post(api.medicineedit, params).then(res => {
+					if (res.data) {
+						setTimeout(() => {
+							this.$Message.info('修改成功');
+							this.$router.push({	
+								name:"iKeshi"
+							})
+						}, 500);
+						console.log(res.data);
+					}
+				}).catch(err => {
+					console.log(err)
+				})
 	  				
 	  			
 	  			

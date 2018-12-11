@@ -198,7 +198,7 @@
 							let ret = res.data;
 							setTimeout(() => {
 								this.$router.push({
-									name:"reviewlist12"
+									name:"operationExpert"
 								})
 							}, 500);
 							this.$Message.info('添加成功');	

@@ -178,14 +178,10 @@
 		                   })
 						}
 					}
-					
 				}).catch(err => {
 					console.log(err)
 				})
-				
-				
 			}
-
 		},
 		methods: {
 			onContentChange (val) {
@@ -249,9 +245,7 @@
             	} else if (this.editorText == ''){
             		this.$Message.info('新闻内容不能为空');
             	} else {
-            		
             		this.$axios.post(api.addNews,params).then(res => {
-						console.log(res)
 						if(res.data) {
 							setTimeout(() => {
 								this.$Message.info('修改成功');
@@ -266,22 +260,13 @@
 					}).catch(err => {
 						console.log(err);
 					})
-//					console.log(params);
-					
-//					this.$axios.post(api.newsA,params).then(res => {
-//						console.log(res);
-//					}).catch(err => {
-//						console.log(err);
-//					})
-            		console.log(params);
+
 					
             	}
-
             }
 		}
 	}
 </script>
-
 <style scoped lang="less">
  .demo-upload-list{
         display: inline-block;

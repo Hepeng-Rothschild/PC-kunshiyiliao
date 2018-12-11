@@ -93,7 +93,7 @@
 						this.$Message.info('修改成功');
 						setTimeout(() => {
 							this.$router.push({
-								name:"reviewlist19"
+								name:"iKeshi"
 							})
 						},500)
 					}

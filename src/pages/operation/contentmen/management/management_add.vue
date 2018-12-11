@@ -56,7 +56,6 @@
 				let arr = [];
 				for (let i = 0;i < len;i++) {
 					if (el[i].checked) {
-						console.log(el[i].getAttribute('data-id'));
 						arr.push(el[i].getAttribute('data-id'));
 					}
 				}
@@ -70,15 +69,12 @@
 						this.$Message.info('修改成功');
 						setTimeout(() => {
 							this.$router.push({
-								name:"reviewlist13"
+								name:"serviceManagement"
 							})
 						},500)
-						
 					}
 				})
 
-				
-			
 			}
 		},
 		mounted () {
@@ -86,14 +82,10 @@
 			this.$axios.post(api.getServer, {
 				"hospitalId": this.id,
 			}).then(res => {
-				
 				if (res.data) {
 					let ret = res.data.object
 					this.allMenuList = ret;
-					console.log(ret);
-					
 				}
-				
 			}).catch(err => {
 				console.log(err)
 			})

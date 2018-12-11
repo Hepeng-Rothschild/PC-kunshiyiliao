@@ -93,8 +93,8 @@
 			</div>
 			<!--保存-->
 			<div class = 'save'>
-				<div @click = 'save'>保存</div>
-				<div @click="$router.back(-1)">取消</div>
+				<div @click = 'save' style = 'cursor:pointer;'>保存</div>
+				<div @click="$router.back(-1)"  style = 'cursor:pointer;'>取消</div>
 			</div>
 			
 		</div>
@@ -119,12 +119,7 @@
 				lianjie:"",
 				isort:"",
 				switch1:true,
-				defaultList: [
-//                  {
-//                      'name': 'bc7521e033abdd1e92222d733590f104',
-//                      'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
-//                  }
-                ],
+				defaultList: [],
                 imgName: '',
                 visible: false,
 				uploadList: [],

@@ -199,8 +199,6 @@
 					images = images.substr(len, parentlen)
 					
 				}
-					console.log(images);
-				
 					let switch1 = 0;
 					if (this.switch1) {
 						switch1 = 1;
@@ -242,22 +240,15 @@
 					internetHospital:switch2,
 					//处方流转
 					ipres:switch3
-				}
-				console.log(params); 	
+				}	
 
 				this.$axios.post(api.managementEdit,params).then(res => {
-					console.log(res);
 					if (res.data.code) {
 						this.$Message.info('修改成功');
-						setTimeout(() => {
-							this.$router.push({
-								name:"reviewlist9"
-							})
-						}, 500);
 					}
 					}).catch(err => {
-					console.log(err);
-				})
+						console.log(err);
+					})
 			},
 			valueHandle (param) {
 				this.tinymceHtml = param;
@@ -308,20 +299,21 @@
 			this.$axios.post(api.managementInfo,{
 				'hospitalId':this.id
 			}).then(res => {
-				console.log(res);
-				if (res.data.object) {
+				if (res.data) {
 					let ret = res.data.object;
 					// 名字
 					this.y_name = ret.orgName;
 					// 图片
-					this.uploadList.push({
-						name: "a42bdcc1178e62b4694c830f028db5c0",
-						percentage: 100,
-						status: "finished",
-						uid: 1544263544970,
-						url:this.fileBaseUrl + ret.hosIcon
-						// url:ret.hosIcon
-					})
+					if (ret.hosIcon) {
+						this.uploadList.push({
+							name: "a42bdcc1178e62b4694c830f028db5c0",
+							percentage: 100,
+							status: "finished",
+							uid: 1544263544970,
+							url:this.fileBaseUrl + ret.hosIcon
+						})
+					}
+					
 // 公众号
 					this.$axios.post(api.managementGzh).then(res => {
 						if (res.data) {
@@ -331,13 +323,11 @@
 					})
 // 医联体
 					this.$axios.post(api.managementYlt).then(res => {
-						
 							if (res.data) {
 								let ret = res.data.object;
 								this.ylt = ret
 							}
 					})
-
 					// m机构等级 
 					this.y_type = ret.grade;
 					// 医联体
@@ -363,7 +353,6 @@
 					// 处方流转
 					this.switch3 = Boolean(ret.ipres)
 					this.y_uid = ret.prescriptionId;
-console.log(ret);
 				}
 			})
 		}

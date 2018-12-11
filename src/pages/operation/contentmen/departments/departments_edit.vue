@@ -173,22 +173,17 @@ import api from "@/api/commonApi";
 
 	  			}
 				  this.$axios.post(api.departmentChange, params).then(res => {
-					  	console.log(res.data)
 					  if (res.data) {
 						  this.$Message.info('修改成功');	
 						setTimeout(() => {
 							this.$router.push({
-								name:"reviewlist24"
+								name:"tKeshi"
 							})
 						}, 500);
 					  }
 				  }).catch(err => {
 					  console.log(err)
 				  })
-	  			
-	  				
-	  			
-	  			console.log(params);
 	  		}
         }
 	}

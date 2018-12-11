@@ -93,12 +93,10 @@
 			</div>
 			<!--保存-->
 			<div class = 'save'>
-				<div @click = 'save'>保存</div>
-				<div @click="$router.back(-1)">取消</div>
+				<div @click = 'save'  style = 'cursor:pointer;'>保存</div>
+				<div @click="$router.back(-1)"  style = 'cursor:pointer;'>取消</div>
 			</div>
-			
 		</div>
-		
 	</div>
 </template>
 
@@ -235,7 +233,7 @@
 	            		this.isort = ret.priority
 	            		this.iswitch1 = ishow
 	            		
-	            		
+	            		//图片
 	            		if (ret.imageUrl) {
 	            			this.uploadList.push({
 		                        name: "a42bdcc1178e62b4694c830f028db5c0",
@@ -245,9 +243,7 @@
 								url: this.fileBaseUrl + ret.imageUrl
 		                    })
 	            		}
-	            		
 	           		}
-	           		console.log(res)
 	           	}).catch(err =>{
 	           		console.log(err)
 	           	})

@@ -183,7 +183,6 @@ import api from "@/api/commonApi";
 				if (res.data) {
 					let ret = res.data.object;
 					this.tablsList = ret
-					console.log(ret);
 				}
 			})
 		},
@@ -242,16 +241,19 @@ import api from "@/api/commonApi";
 	  				this.$axios.post(api.departmentChange, params).then(res => {
 						  if (res.data.code) {
 							this.$Message.info('修改成功');
+							setTimeout(() => {
+								this.$router.push({
+									name:"kDepartment"
+								})
+							})
 						  }
 	  				})
 	  			} 
 	  			
-	  			console.log(params);
 	  		},
 	  		changes (item) {
 	  			let id = item.id;
 	  			this.currentId = id;
-	  			console.log(item);
 	  			this.$axios.post(api.departmentDetail,{
 					"hospitalId": this.id,
 					id
@@ -262,7 +264,7 @@ import api from "@/api/commonApi";
 						if (ret.display != 1) {
 							switch2 = false
 						}
-						// console.log(ret.departmenticon);
+						//图片
 						this.uploadList = [];
 						if (ret.departmenticon) {
 							this.uploadList.push({
@@ -273,8 +275,6 @@ import api from "@/api/commonApi";
 								url: this.fileBaseUrl + ret.departmenticon
 							})
 						}
-						
-
 						// 标题
 						this.title = ret.dictType;
 						// 详情
@@ -286,10 +286,7 @@ import api from "@/api/commonApi";
 						// 排序
 						this.isort = ret.priority || 0;
 						
-						console.log(ret);
-
 					}
-					
 				})
 	  		},
             handleView (name) {
