@@ -70,7 +70,7 @@
 		methods:{
 			navto () {
 				this.$router.push({
-					name:"reviewlist15"
+					name:"expertAdd"
 				})
 			},
 			edit (item) {

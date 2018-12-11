@@ -55,7 +55,7 @@
 			navto (item) {
 				let id = item.id
 				this.$router.push({
-					name:"reviewlist23",
+					name:"bookingofficeEdit",
 					params:{
 						id
 					}

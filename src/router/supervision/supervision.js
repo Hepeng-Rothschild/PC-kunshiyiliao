@@ -1,6 +1,6 @@
 const reviewList = {
-    path:'supervision/index',
-    name:'reviewlist',
+    path:'supervision/index2',
+    name:'reviewlist1',
     meta:{
         index:2,
         title:'监管列表'

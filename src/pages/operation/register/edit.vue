@@ -13,7 +13,7 @@
                 {{title}}
       </Col>-->
       <Col :xs="24" :md="3">
-        <Button v-if="addBtnFlag" @click="loadPage(1)">添加专家</Button>
+        <Button type="primary" v-if="addBtnFlag" @click="loadPage(1)">添加专家</Button>
       </Col>
     </Row>
     <br>
@@ -123,8 +123,8 @@
       </Col>
     </Row>
     <br>
-    <Button @click="submit">保存</Button>
-    <Button @click="reback">返回</Button>
+    <Button type="primary" @click="submit">保存</Button>
+    <Button type="primary" @click="reback">返回</Button>
     <Modal v-model="docListModal">
       <p slot="header" style="text-align:center">
         <span>选择专家</span>

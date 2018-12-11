@@ -17,7 +17,7 @@
           <Option value="0">全部认证</Option>
           <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
         </Select>
-        <Button @click="loadPage(1)">
+        <Button type="primary" @click="loadPage(1)">
           <Icon type="ios-search" size="14"/>查询
         </Button>
       </Col>

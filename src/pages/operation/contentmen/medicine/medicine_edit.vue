@@ -8,7 +8,6 @@
 					<li>+{{ item.parent.name }}</li>
 					<ul class = 'oneList'>
 						<li v-for = 'items,index in item.sub'  @dblclick.stop = 'tab' :data-id='items.id'>+{{ items.childDept }}</li>
-					
 					</ul>
 				</ul>
 			</div>

@@ -114,8 +114,8 @@
             </Col>
         </Row>
         </Form>
-        <Button @click="submit('formInline')">提交</Button>
-        <Button @click="reback">返回</Button>
+        <Button type="primary" @click="submit('formInline')">提交</Button>
+        <Button type="primary" @click="reback">返回</Button>
         <Modal title="提示：" @on-ok="ok" @on-cancel="cancel" v-model="checkStatus" class-name="vertical-center-modal">
             <p>是否确认修改医生信息？</p>
         </Modal>
@@ -176,7 +176,7 @@ export default {
             this.info = resp.data.object;
             if(this.info.docIcon){
                 this.info.docIcon = JSON.parse(this.info.docIcon);
-                this.docIcon = api.fileBaseUrl+this.info.docIcon.fileName;
+                this.docIcon = this.fileBaseUrl+this.info.docIcon.fileName;
             }
             this.name = this.info.name;
             this.info.gender = String(this.info.gender);

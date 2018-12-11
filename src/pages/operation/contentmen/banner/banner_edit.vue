@@ -174,7 +174,7 @@
 		            		this.$Message.info('修改成功');
 		            		setTimeout(()=>{
 		            			this.$router.push({
-				            		name:"reviewlist17"
+				            		name:"iBanner"
 				            	})
 		            		},500)
 		            	}

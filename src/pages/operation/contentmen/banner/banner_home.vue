@@ -83,7 +83,7 @@
 			},
 			navto () {
 				this.$router.push({
-					name:"reviewlist18"
+					name:"bannerAdd"
 				})
 			},
 			change (item) {

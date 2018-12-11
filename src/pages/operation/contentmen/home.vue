@@ -88,7 +88,7 @@
 			navto (item) {
 				sessionStorage.setItem('hospitalId',item.hospitalId);
 				this.$router.push({
-					name:"reviewlist10",
+					name:"homeInfo",
 				})	
 			},
 			search () {

@@ -243,7 +243,7 @@
 						msg: this.test
 					}
 					this.$router.push({
-						name: "reviewlist4",
+						name: "contentmanagementHome",
 						params: {
 							currentData: params
 						}

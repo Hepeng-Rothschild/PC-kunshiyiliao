@@ -2,6 +2,7 @@
   <div class="table-editor"> 
     <editor id="editor_id" height="500px" width="700px" :content.sync="editorText"
             :afterChange="afterChange()"
+            :afterUpload="afterload()"
             pluginsPath="@/../static/kindeditor/plugins/"
             :loadStyleMode="false"
             @on-content-change="onContentChange"></editor>
@@ -23,6 +24,9 @@ export default {
       this.editorTextCopy = val;
     },
     afterChange () {
+    },
+    afterload(){
+      console.log(123)
     }
   }
 }

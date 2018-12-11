@@ -81,7 +81,7 @@
 		methods: {
 			navto () {
 				this.$router.push({
-					name:"reviewlist20"
+					name:"medicineAdd"
 				})
 			},
 			edit (item) {

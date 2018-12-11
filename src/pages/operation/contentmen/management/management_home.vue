@@ -59,7 +59,7 @@
 		methods:{
 			navto (item) {
 				this.$router.push({
-					name:"reviewlist16"
+					name:"managementAdd"
 				})
 				console.log(item)
 			},

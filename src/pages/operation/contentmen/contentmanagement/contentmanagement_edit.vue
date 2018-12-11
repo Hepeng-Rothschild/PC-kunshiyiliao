@@ -276,7 +276,7 @@
 							this.$Message.info('修改成功' );
 							setTimeout(() => {
 								this.$router.push({
-									name: "reviewlist4"
+									name: "contentmanagementHome"
 								})
 							},500)
 						}

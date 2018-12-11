@@ -5,6 +5,8 @@
 </template>
 
 <script> 
+import api from "./api/commonApi.js";
+import cookie from "./utils/cookie";
 export default {
 	name: 'App',
 	data(){

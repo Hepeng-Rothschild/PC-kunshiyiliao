@@ -17,13 +17,15 @@ const defaultHeaders = {
 // 设置默认头
 Object.assign(axios.defaults.headers.common, defaultHeaders);
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 
 // http request 拦截器
 axios.interceptors.request.use(
   	config => {
-		if(cookie.getCookie('access_token'))
-			config.headers.Authorization = "Bearer "+ cookie.getCookie('access_token')
+		// let access_token = window.sessionStorage.getItem('access_token'));
+		let access_token = cookie.getCookie('access_token');
+		// if(access_token != undefined)
+		// 	config.headers.Authorization = "Bearer "+ access_token;
 		// if (config.method.toUpperCase() === 'POST') {
 		// 	let data = qs.parse(config.data);
 		// 	config.data = qs.stringify({

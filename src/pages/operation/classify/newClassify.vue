@@ -100,7 +100,7 @@
 				} else {
 					this.$Message.info('ok');
 					this.$router.push({
-						name:"reviewlist6"
+						name:"addClassify"
 					})
 				}
 				console.log("++++++++++++++++++++++",params);
