@@ -4,31 +4,11 @@
 		<div class="i-keshi_main">
 		<!--左侧选择-->
 			<div class="i-keshi_main-left" ref = 'oneList'>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
+				<ul class = 'allList' @dblclick = 'tab' v-for='item,index in list'>
+					<li>+{{ item.parent.name }}</li>
 					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
-						
-					</ul>
-				</ul>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
-					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
+						<li v-for = 'items,index in item.sub'  @dblclick = 'tab' :data-id='items.id'>+{{ items.childDept }}</li>
+					
 					</ul>
 				</ul>
 			</div>
@@ -41,7 +21,7 @@
 						<span style='color:red;'>*&nbsp;&nbsp;</span>
 						<span>科室名称</span>
 					</div>
-					<input type="text" value='神经内科' disabled />
+					<input type="text"  disabled v-model='title'/>
 				</div>
 				<!--院内名称-->
 				<div class="keshi_name">
@@ -84,7 +64,14 @@
 			        :before-upload="handleBeforeUpload"
 			        multiple
 			        type="drag"
-			        action="//jsonplaceholder.typicode.com/posts/"
+
+
+
+					:action = "uploadUrl"
+					:headers = 'fromData'
+					:data = 'uploadData'
+
+
 			        style="display: inline-block;width:58px;">
 			        <div style="width: 58px;height:58px;line-height: 58px;">
 			            <Icon type="ios-camera" size="20"></Icon>
@@ -143,6 +130,7 @@
 <script>
 import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 import {Switch,Upload ,Icon} from 'iview'
+		import api from "@/api/commonApi";
 	export default{
 		components:{
 			tmpHeader,
@@ -152,6 +140,7 @@ import {Switch,Upload ,Icon} from 'iview'
 		},
 		data () {
 			return {
+				title:"",
 				keshiname:"",
 				test1:"",
 				test2:"",
@@ -160,7 +149,18 @@ import {Switch,Upload ,Icon} from 'iview'
 				defaultList: [],
                 imgName: '',
                 visible: false,
-                uploadList: []
+				uploadList: [],
+				id:sessionStorage.getItem('hospitalId'),
+				list:[],
+
+
+				uploadModal: true,
+                uploadData: {json:'{"urlCode":"203","flag":"1"}'},
+                activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
+                uploadUrl:api.fileAll,
+                fromData:{'ContentType':'multipart/form-data'},                
+                images:""
+
 			}
 		},
 	  	methods: {
@@ -169,9 +169,9 @@ import {Switch,Upload ,Icon} from 'iview'
 	  			let el = e.target;
 	  			let chilrens = el.parentNode.getElementsByTagName('ul');
 	  			let ref = this.$refs.oneList;
-	  			if (chilrens.length >0) {
+	  			if (chilrens.length > 0) {
 	  				let flag = chilrens[0].style.display;
-		  			if (flag =='' || flag =='none') {
+		  			if (flag =='' || flag == 'none') {
 		  				chilrens[0].style.display = 'block';
 		  			} else {
 		  				chilrens[0].style.display = 'none';
@@ -182,17 +182,54 @@ import {Switch,Upload ,Icon} from 'iview'
 	  				ichildren[i].classList.remove('active');
 	  				if(ichildren[i].localName){
 	  				}
-	  			}
+				  }
+
+				let id = el.getAttribute('data-id')
+				if (id) {
+					console.log(id);
+					this.$axios.post(api.medicinelistsearch,{
+						hospitalId: this.id,
+						id
+					}).then(res => {
+						
+						if (res.data.code) {
+							let ret = res.data.object;
+							// 科室名
+							this.title = ret.dictType;
+							// 别名
+							this.keshiname = ret.deptNickname
+							//简介
+							this.tese1 = ret.deptDetails;
+							//预约科室
+							let switch1 = false;
+							if (ret.registeredReservation) {
+								switch1 = true;
+							}
+							this.switch1 = switch1;
+
+							
+						console.log(ret)
+
+						}
+					}).catch(err => {
+						console.log(err);
+					})
+				}
 	  			el.classList.add('active');
 	  			
 	  		},
 	  	//保存
 	  		save () {
 	  			let params = {
-	  				name:this.keshiname,
-	  				test1:this.test1,
-	  				this2:this.test2,
-	  				switch1:this.switch1,
+					//科室别名
+					  name:this.keshiname,
+					//简介
+					  test1:this.test1,
+					//特色
+					  this2:this.test2,
+					//预约科室
+					  switch1:this.switch1,
+					//特色科室
 	  				switch2:this.switch2
 	  			}
 	  			
@@ -200,9 +237,19 @@ import {Switch,Upload ,Icon} from 'iview'
 	  			if (params.name == ''){
 	  				this.$Message.info('科室名称名称不能为空');
 	  			} else {
-	  				this.$router.push({	
-		  				name:"reviewlist19"
-		  			})
+
+					//   this.$axios.post(api.departmentChange, params).then(res => {
+					// 	if (res.data) {
+					// 		setTimeout(() => {
+					// 			this.$router.push({	
+					// 				name:"reviewlist19"
+					// 			})
+					// 		}, 500);
+					// 	}
+					// }).catch(err => {
+					// 	console.log(err)
+					// })
+	  				
 	  			}
 	  			
 	  			
@@ -217,8 +264,9 @@ import {Switch,Upload ,Icon} from 'iview'
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
             },
             handleSuccess (res, file) {
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+            	file.url =  this.fileBaseUrl + res.object[0].fileName;
+				this.images = res.object[0].fileName
+				file.name = res.object[0].fileName;
             },
             handleFormatError (file) {
                 this.$Notice.warning({
@@ -235,16 +283,23 @@ import {Switch,Upload ,Icon} from 'iview'
             handleBeforeUpload () {
                 const check = this.uploadList.length < 1;
                 if (!check) {
-//                  this.$Notice.warning({
-//                      title: 'Up to five pictures can be uploaded.'
-//                  });
                     this.$Message.info('最多只能上传一张图片');
                 }
                 return check;
             }
         },
         mounted () {
-            this.uploadList = this.$refs.upload.fileList;
+			this.uploadList = this.$refs.upload.fileList;
+			this.$axios.post(api.medicinesearch,{
+					"hospitalId": this.id,
+					"pageNo": 1,
+					"pageSize": 10
+			}).then(res => {
+				if (res.data) {
+					let ret = res.data.object
+					this.list = ret
+				}
+			})
         }
 	}
 </script>

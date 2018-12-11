@@ -165,7 +165,7 @@ const reviewList15 = {
 }
 const expert_edit = {
 	path: '/index/maintain/expert_edit',
-	name: 'reviewlist15',
+	name: 'expert_edit',
 	meta: {
 		index: 2,
 		title: '专家介绍-编辑'
@@ -174,7 +174,7 @@ const expert_edit = {
 		import("@/pages/operation/contentmen/expert/expert_edit")
 }
 const reviewList13 = {
-	path: '/index/maintain/service_management',
+	path: '/index/maintain/management_home',
 	name: 'reviewlist13',
 	meta: {
 		index: 2,
@@ -226,7 +226,7 @@ const addBanner = {
 		import("@/pages/operation/contentmen/banner/banner_edit")
 }
 const reviewList19 = {
-	path: '/index/maintain/i_keshi',
+	path: '/index/maintain/medicine_list',
 	name: 'reviewlist19',
 	meta: {
 		index: 2,
@@ -247,7 +247,7 @@ const reviewList20 = {
 }
 const reviewList21 = {
 	path: '/index/maintain/medicine_edit',
-	name: 'expert_edit',
+	name: 'reviewList21',
 	meta: {
 		index: 2,
 		title: '院内科室-编辑'
@@ -256,7 +256,7 @@ const reviewList21 = {
 		import("@/pages/operation/contentmen/medicine/medicine_edit")
 }
 const reviewList22 = {
-	path: '/index/maintain/k_department',
+	path: '/index/maintain/bookingoffice_home',
 	name: 'reviewlist22',
 	meta: {
 		index: 2,
@@ -276,7 +276,7 @@ const reviewList23 = {
 		import("@/pages/operation/contentmen/bookingoffice/bookingoffice_edit")
 }
 const reviewList24 = {
-	path: '/index/maintain/t_keshi',
+	path: '/index/maintain/departments_list',
 	name: 'reviewlist24',
 	meta: {
 		index: 2,
@@ -286,7 +286,7 @@ const reviewList24 = {
 		import("@/pages/operation/contentmen/departments/departments_list")
 }
 const reviewList25 = {
-	path: '/index/maintain/departments_list',
+	path: '/index/maintain/departments_edit',
 	name: 'reviewlist25',
 	meta: {
 		index: 2,

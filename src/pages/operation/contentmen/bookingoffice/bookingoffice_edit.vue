@@ -5,9 +5,9 @@
 		<!--左侧选择-->
 			<div class="i-keshi_main-left" ref = 'oneList'>
 				<ul class = 'allList' @dblclick = 'tab' v-for='item in tablsList'>
-					<li>+{{ item.title }}</li>
+					<li>+{{ item.name }}</li>
 					<ul class = 'oneList'>
-						<li v-for = 'items in item.children' @dblclick = 'changes(items)'>+{{ items.childDept }}</li>
+						<li v-for = 'items in item.child' @dblclick = 'changes(items)'>+{{ items.childDept }}</li>
 					</ul>
 				</ul>
 			</div>
@@ -62,7 +62,11 @@
 			        :before-upload="handleBeforeUpload"
 			        multiple
 			        type="drag"
-			        action="//jsonplaceholder.typicode.com/posts/"
+
+			        :action = "uploadUrl"
+					:headers = 'fromData'
+					:data = 'uploadData'
+
 			        style="display: inline-block;width:58px;">
 			        <div style="width: 58px;height:58px;line-height: 58px;">
 			            <Icon type="ios-camera" size="20"></Icon>
@@ -80,16 +84,26 @@
 						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
 						<span>科室简介</span>
 					</div>
-					<textarea name="" rows="" cols="" v-model='test1'></textarea>
+					<editor id="editor_id" height="300px" width="400px" :content.sync="editorText"
+			            :afterChange="afterChange()"
+			            pluginsPath="@/../static/kindeditor/plugins/"
+			            :loadStyleMode="false"
+			            @on-content-change="onContentChange">
+					</editor>
 				</div>
 				<!--科室特色-->
-				<div class="keshi_name_text">
+				<!-- <div class="keshi_name_text">
 					<div class = 'left'>
 						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
 						<span>科室特色</span>
 					</div>
-					<textarea name="" rows="" cols="" v-model='test2'></textarea>
-				</div>
+					<textarea name="" id="" cols="30" rows="10" v-model = 'test2'></textarea>
+					<editor id="editor_ids" height="300px" width="400px" :content.sync="editorTexts"
+			            :afterChange="afterChanges()"
+			            pluginsPath="@/../static/kindeditor/plugins/"
+			            :loadStyleMode="false"
+			            @on-content-change="onContentChanges"> 
+				</div> -->
 				<!--排序-->
 				<div class="keshi_name_text">
 					<div class = 'left'>
@@ -138,14 +152,30 @@ import api from "@/api/commonApi";
 				test2:"",
 				switch1:true,
 				isort:'',
-				defaultList: [],
+				defaultList: [
+					{
+                     'name': 'bc7521e033abdd1e92222d733590f104',
+                     'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
+                 	}
+				],
                 imgName: '',
                 visible: false,
-                uploadList: [],
+                
                 tablsList:[],
                 rightDetail:[],
 				currentId:-1,
-				id:sessionStorage.getItem('hospitalId')
+				id:sessionStorage.getItem('hospitalId'),
+				editorText: '请输入要编辑的内容...',
+				editorTexts: '请输入要编辑的内容...',
+
+
+				uploadList: [],
+				uploadModal: true,
+                uploadData: {json:'{"urlCode":"203","flag":"1"}'},
+                activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
+                uploadUrl:api.fileAll,
+                fromData:{'ContentType':'multipart/form-data'}, 
+				images:""
 			}
 		},
 		mounted () {
@@ -155,25 +185,29 @@ import api from "@/api/commonApi";
 				"hospitalId": this.id,
 				'id':336
 			}).then(res => {
-				let ret = res.data.object;
-				if (ret) {
-					let arr = []
-					for (let i in ret[0]) {
-						arr.push({
-							title:i,
-							children:ret[0][i]
-						})
-						this.tablsList = arr
-					}
+				if (res.data) {
+					let ret = res.data.object;
+					this.tablsList = ret
+					console.log(ret);
 				}
 			})
 		},
 	  	methods: {
+			onContentChange (val) {
+		      this.editorText = val
+		    },
+		    afterChange () {
+			},
+			onContentChanges (val) {
+		      this.editorText = val
+		    },
+		    afterChanges () {
+		    },
 	  		tab (e) {
 	  			let el = e.target;
 	  			let chilrens = el.parentNode.getElementsByTagName('ul');
 	  			let ref = this.$refs.oneList;
-	  			if (chilrens.length >0) {
+	  			if (chilrens.length > 0) {
 	  				let flag = chilrens[0].style.display;
 		  			if (flag =='' || flag =='none') {
 		  				chilrens[0].style.display = 'block';
@@ -191,27 +225,30 @@ import api from "@/api/commonApi";
 	  			
 	  		},
 	  		save () {
-	  			let display = true;
-	  			if (this.switch1) display = false;
+	  			let display = 0;
+	  			if (this.switch1) {
+					  display = 1
+				  }
 	  			let params = {
-	  				departmenticon:this.keshiname,
-	  				deptDetails:this.test1,
-	  				deptPosition:this.test2,
-	  				display,
-	  				priority:this.isort,
-	  				id:336,
-	  				hospitalId:this.id
+					// 头像
+					"departmenticon":this.images,
+					//   详情
+					"departmentdes":this.editorText,
+					//  位置
+	  				"deptPosition":this.keshiname,
+					display,
+	  				"priority":this.isort,
+	  				"id":this.currentId
 	  			}
 	  			
 
 	  			if (params.name === ''){
 	  				this.$Message.info('科室名称不能为空');
 	  			} else {
-	  				this.$axios.post(api.departmentChange, {
-	  					
-	  				}).then(res => {
-	  					let ret = res.data
-	  					console.log(ret);
+	  				this.$axios.post(api.departmentChange, params).then(res => {
+						  if (res.data.code) {
+							  this.$Message.info('修改成功');
+						  }
 	  				})
 	  			} 
 	  			
@@ -225,19 +262,40 @@ import api from "@/api/commonApi";
 					"hospitalId": this.id,
 					id
 				}).then(res => {
-					let ret = res.data.object;
-					
-					let switch2 = true;
-					if (ret.display != 1) {
-						switch2 = false
+					if (res.data) {
+						let ret = res.data.object;
+						let switch2 = true;
+						if (ret.display != 1) {
+							switch2 = false
+						}
+						// console.log(ret.departmenticon);
+						this.uploadList = [];
+						if (ret.departmenticon) {
+							this.uploadList.push({
+								name: "a42bdcc1178e62b4694c830f028db5c0",
+								percentage: 100,
+								status: "finished",
+								uid: 1544263544970,
+								url: this.fileBaseUrl + ret.departmenticon
+							})
+						}
+						
+
+						// 标题
+						this.title = ret.dictType;
+						// 详情
+						this.editorText = ret.departmentdes;
+						// 位置
+						this.keshiname = ret.deptPosition
+						// 开关
+						this.switch1 = switch2;
+						// 排序
+						this.isort = ret.priority || 0;
+						
+						console.log(ret);
+
 					}
-					this.title = ret.dictType;
-					this.test1 = ret.deptDetails;
-					this.test2 = ret.deptPosition
-					this.switch1 = switch2;
-					this.isort = ret.priority || 0;
 					
-					console.log(ret);
 				})
 	  		},
             handleView (name) {
@@ -246,11 +304,12 @@ import api from "@/api/commonApi";
             },
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
             },
             handleSuccess (res, file) {
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+            	file.url =  this.fileBaseUrl + res.object[0].fileName;
+				this.images = res.object[0].fileName
+				file.name = res.object[0].fileName;
             },
             handleFormatError (file) {
                 this.$Notice.warning({
@@ -265,11 +324,9 @@ import api from "@/api/commonApi";
                 });
             },
             handleBeforeUpload () {
-                const check = this.uploadList.length < 5;
+                const check = this.uploadList.length < 1;
                 if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
+                   this.$Message.info('只能上传一张图片');
                 }
                 return check;
             }
@@ -323,7 +380,7 @@ import api from "@/api/commonApi";
 		display:flex;
 		flex-direction:row;
 		.i-keshi_main-left{
-			width:200px;
+			min-width:200px;
 			height:500px;
 			border:1px solid black;
 			margin-right:20px;

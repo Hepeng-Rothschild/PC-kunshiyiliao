@@ -11,10 +11,12 @@
 					<!--第一行-->
 					<div class="select_wufu" ref = 'all'>
 						<div v-for = 'items,index in item.dtoList' >
-							<!--<input type = "checkbox" :data-id = 'items.id' v-show = 'items.selected != 0' :checked = 'items.selected'/>-->
-							<input type = "checkbox" :data-id = 'items.id' :value = 'items.id' v-model = 'checkedNames'/>
-							<!--<span v-show = 'items.selected == 0'>{{ items.selected }}</span>
-							<span v-show = 'items.selected != 0'>{{ items.selected }}</span>-->
+							<!-- <input type = "checkbox" :data-id = 'items.id' v-show = 'items.selected != 0' :checked = 'items.selected'/> -->
+							<!-- <input type = "checkbox" :data-id = 'items.id' :value = 'items.id' v-model = 'checkedNames'/> -->
+							<input type="checkbox" :value = 'items.id' v-if = '!items.selected' :data-id = 'items.id'>
+							<input type="checkbox" :value = 'items.id'  v-if = 'items.selected' checked :data-id = 'items.id'>
+							<!-- <span v-show = 'items.selected == 0'>{{ items.selected }}</span>
+							<span v-show = 'items.selected != 0'>{{ items.selected }}</span> -->
 							<label :for="items.id">{{ items.menuName }}</label>
 						</div>
 					</div>
@@ -57,13 +59,25 @@
 				for (let i = 0;i < len;i++) {
 					if (el[i].checked) {
 						console.log(el[i].getAttribute('data-id'));
-						arr.push(el[i]);
+						arr.push(el[i].getAttribute('data-id'));
 					}
 				}
+
 				console.log(arr);
-//				this.$router.push({
-//					name:"reviewlist13"
-//				})
+
+				this.$axios.post(api.setserver,{
+					hospitalId:this.id,
+					ids:arr
+				}).then(res => {
+					if (res.data) {
+						// this.$router.push({
+						// 	name:"reviewlist13"
+						// })
+						console.log(res.data)
+					}
+				})
+
+				
 			
 			}
 		},
@@ -72,18 +86,14 @@
 			this.$axios.post(api.getServer, {
 				"hospitalId": this.id,
 			}).then(res => {
-				let ret = res.data.object
-				if (ret) {
+				
+				if (res.data) {
+					let ret = res.data.object
 					this.allMenuList = ret;
 					console.log(ret);
-					for(let i=0;i<ret.length;i++){
-						for(let j=0;j<ret[i][j].length;j++){
-							console.log(ret[i][j].selected)
-						}
-					}
+					
 				}
 				
-//				console.log(ret.allMenuList)
 			}).catch(err => {
 				console.log(err)
 			})
@@ -100,7 +110,6 @@
 						arr.push(el[i]);
 					}
 				}
-//				console.log(arr);
 		}
 	}
 </script>

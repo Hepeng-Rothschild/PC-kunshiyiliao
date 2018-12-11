@@ -27,7 +27,7 @@
 						<td>{{ item.childDept }}</td>
 						<td>{{ item.address }}</td>
 						<td>{{ item.display !=1? '是' :'否' }}</td>
-						<td>{{ item.priority }}</td>
+						<td>{{ item.priority? item.priority :"0"}}</td>
 						<td class='ltd' @click = 'navto(item)'>编辑</td>
 					</tr>
 				</table>
@@ -71,12 +71,10 @@
 		},
 		mounted () {
 			this.$axios.post(api.k_department,{
-				  "childDept": "",
 				  "hospitalId": this.id,
 				  "id": 0,
 				  "pageNo": 1,
 				  "pageSize": 10,
-				  "parentyDept": ""
 			}).then(res => {
 				let ret = res.data.object
 				if (ret) {

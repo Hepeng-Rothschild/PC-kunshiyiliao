@@ -8,22 +8,22 @@
 				<router-link to='/index/maintain/i_banner'>Banner</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/i_keshi'>院内科室</router-link>
+				<router-link to='/index/maintain/medicine_list'>院内科室</router-link>
 			</li>
 			<li>
 				<router-link to='/index/maintain/news'>动态新闻</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/t_keshi'>特色科室</router-link>
+				<router-link to='/index/maintain/departments_list'>特色科室</router-link>
 			</li>
 			<li>
 				<router-link to='/index/maintain/expert'>专家介绍</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/service_management'>服务管理</router-link>
+				<router-link to='/index/maintain/management_home'>服务管理</router-link>
 			</li>
 			<li>
-				<router-link to='/index/maintain/k_department'>预约科室</router-link>
+				<router-link to='/index/maintain/bookingoffice_home'>预约科室</router-link>
 			</li>
 		</ul>
 	</header>

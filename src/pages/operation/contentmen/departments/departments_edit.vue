@@ -4,31 +4,10 @@
 		<div class="i-keshi_main">
 		<!--左侧选择-->
 			<div class="i-keshi_main-left" ref = 'oneList'>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
+				<ul class = 'allList' @dblclick = 'tab' v-for = 'item,index in departmentsList' >
+					<li>+{{ item.name}}</li>
 					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
-						
-					</ul>
-				</ul>
-				<ul class = 'allList' @dblclick = 'tab' >
-					<li>+科室</li>
-					<ul class = 'oneList'>
-						<li>+内科</li>
-						<ul class = 'twoList'>
-							<li>神经科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-							<li>免疫科</li>
-						</ul>
+						<li v-for = 'items,indexs in item.child' :data-id='items.id'>+{{ items.childDept }}</li>
 					</ul>
 				</ul>
 			</div>
@@ -41,7 +20,7 @@
 						<span style='color:red;'>*&nbsp;&nbsp;</span>
 						<span>科室名称</span>
 					</div>
-					<input type="text" value='神经内科' disabled />
+					<input type="text"  disabled  v-model='title'/>
 				</div>
 				<!--科室就诊位置-->
 				<div class="keshi_name">
@@ -91,6 +70,7 @@
 <script>
 import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 import {Switch,Upload ,Icon} from 'iview'
+import api from "@/api/commonApi";
 	export default{
 		components:{
 			tmpHeader,
@@ -106,10 +86,25 @@ import {Switch,Upload ,Icon} from 'iview'
 				switch1:true,
 				isort:'',
 				defaultList: [],
+				title:"",
                 imgName: '',
                 visible: false,
-                uploadList: []
+				uploadList: [],
+				id:sessionStorage.getItem('hospitalId'),
+				departmentsList:[],
+				currentId:-1
 			}
+		},
+		mounted () {
+			this.$axios.post(api.departmentseditleft,{
+ 					"hospitalId": this.id
+			}).then(res => {
+				if (res.data) {
+					let ret = res.data.object
+					console.log(ret)
+					this.departmentsList = ret
+				}
+			})
 		},
 	  	methods: {
 	  		tab (e) {
@@ -118,7 +113,7 @@ import {Switch,Upload ,Icon} from 'iview'
 	  			let ref = this.$refs.oneList;
 	  			if (chilrens.length >0) {
 	  				let flag = chilrens[0].style.display;
-		  			if (flag =='' || flag =='none') {
+		  			if (flag == '' || flag == 'none') {
 		  				chilrens[0].style.display = 'block';
 		  			} else {
 		  				chilrens[0].style.display = 'none';
@@ -130,29 +125,74 @@ import {Switch,Upload ,Icon} from 'iview'
 	  				if(ichildren[i].localName){
 	  				}
 	  			}
-	  			el.classList.add('active');
+				  el.classList.add('active');
+				  let dataId = el.getAttribute('data-id');
+				  if (dataId) {
+					this.currentId = dataId;
+
+					this.$axios.post(api.departmentssearch,{
+						id:dataId
+					}).then(res => {
+						if (res.data) {
+							let ret = res.data.object;
+							//科室名
+							this.title = ret.dictType
+							
+							//   别名
+							//   name:this.keshiname,
+							this.test1 = ret.departmentdes
+							//   //显示
+							let a = false;
+							if (ret.display) {
+								a = true;
+							}
+							this.switch1 = a
+							//   //排序
+							this.isort = ret.priority
+
+						}
+					}).catch(err => {
+						console.log(err)
+					})
+				  }
+				  
 	  			
 	  		},
 	  		save () {
+				  let switch1 = 0;
+				  if (this.switch1) {
+					  switch1 = 1;
+				  }
 	  			let params = {
-	  				name:this.keshiname,
-	  				test1:this.test1,
-	  				this2:this.test2,
-	  				switch1:this.switch1,
-	  				isort:this.isort
+					//   别名
+					deptNickname:this.keshiname,
+					//详情
+					deptDetails:this.test1,
+					//显示
+					priority:this.isort,
+					//排序
+					specialDept:switch1,
+					// ID
+					id: this.currentId
+
+					
 	  			}
+				  
+				  this.$axios.post(api.departmentChange, params).then(res => {
+					  	console.log(res.data)
+					  if (res.data) {
+						setTimeout(() => {
+							this.$router.push({
+								name:"reviewlist24"
+							})
+						}, 500);
+					  }
+				  }).catch(err => {
+					  console.log(err)
+				  })
 	  			
-	  			if (params.name =='') {
-	  				this.$Message.info('科室名称不能为空');
-	  			} else {
-	  				this.$router.push({
-		  				name:"reviewlist24"
-		  			})
-	  			}
-//	  			this.$Message.info('新闻内容不能为空');
-	  			this.$router.push({
-	  				name:"reviewlist24"
-	  			})
+	  				
+	  			
 	  			console.log(params);
 	  		}
         }

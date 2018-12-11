@@ -22,14 +22,14 @@
 						<th>操作</th>
 					</tr>
 					<tr v-for = 'item,index in tableList'>
-						<td>{{ item.sum }}</td>
-						<td>{{ item.title }}</td>
-						<td>{{ item.title }}</td>
-						<td>{{ item.title }}</td>
-						<td>{{ item.title }}</td>
-						<td>{{ item.title }}</td>
+						<td>{{ addZero(index) }}</td>
+						<td>{{ item.parentDept }}</td>
+						<td>{{ item.childDept }}</td>
+						<td>{{ item.deptNickname }}</td>
+						<td>{{ item.display=='0'?'是':'否' }}</td>
+						<td>{{ item.priority }}</td>
 						<td class='ltd'>
-							<span @click = 'navto'>编辑</span>
+							<span @click = 'navto(item)' style = 'cursor:pointer;'>编辑</span>
 						</td>
 					</tr>
 				</table>
@@ -62,35 +62,26 @@
 		},
 		mounted () {
 			this.$axios.post(api.tesekeshi,{
-				  "doctorId": 0,
-				  "doctorName": "string",
 				  "hospitalId": this.id,
 				  "pageNo": 1,
 				  "pageSize": 10
 			}).then(res => {
-				let ret = res.data.object
-				let arr = [];
-				let sum = 1;
-				if (ret) {
-					for (let i in ret[0]) {
-						arr.push({
-							sum:this.addZero(sum++),
-							title:i,
-							children:ret[0][i]
-						})
-					}
-					this.tableList = arr
+				if (res.data) {
+					let ret = res.data.object
+					this.tableList =  ret.list
 				}
-				
-				console.log(this.tableList);
 			}).catch (err => {
 				console.log(err)
 			})
 		},
 		methods: {
-			navto () {
+			navto (item) {
+				let id = item.id
 				this.$router.push({
-					name:"reviewlist25"
+					name:"reviewlist25",
+					params:{
+						id
+					}
 				})
 			},
 			addZero (num) {

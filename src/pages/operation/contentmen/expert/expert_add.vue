@@ -11,7 +11,7 @@
 					<span>专家姓名</span>
 				</div>
 				<input type="text" placeholder = "请输入专家姓名" v-model = 'name'/>
-				<button>检索</button>
+				<button @click = 'search'>检索</button>
 			</div>
 			<!--机构名称-->
 			<div class="main_expert_item">
@@ -19,7 +19,7 @@
 					<span style = 'color:red;'>&nbsp;&nbsp;</span>
 					<span>机构名称</span>
 				</div>
-				<input type="text" value='蚌埠中医院' disabled v-model='yname'/>
+				<input type="text" value='蚌埠中医院' v-model='yname'/>
 			</div>
 			<!--专家科室-->
 			<div class="main_expert_experts">
@@ -48,7 +48,7 @@
 					<span style = 'color:red;'>&nbsp;&nbsp;</span>
 					<span>职务</span>
 				</div>
-				<input type="text" placeholder = "请输入专家职务"  style= 'width:200px;'/>
+				<input type="text" placeholder = "请输入专家职务"  style= 'width:200px;' v-model='post'/>
 			</div>
 			<!--专业特长-->
 			<div class="main_expert_inputi">
@@ -57,7 +57,7 @@
 					<span>专业特长</span>
 				</div>
 				<div class = 'shuru'>
-					<textarea name="" rows="" cols="" disabled>11111111111</textarea>
+					<textarea name="" rows="" cols="" v-model = 'expert1'></textarea>
 				</div>
 			</div>
 			<!--个人简介-->
@@ -67,7 +67,7 @@
 					<span>个人简介</span>
 				</div>
 				<div class = 'shuru'>
-					<textarea name="" rows="" cols="" disabled></textarea>
+					<textarea name="" rows="" cols="" v-model = 'expert2'></textarea>
 				</div>
 			</div>
 			<!--排序-->
@@ -99,6 +99,7 @@
 <script>
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import { Switch } from 'iview'
+	import api from "@/api/commonApi";
 	export default{
 		components: {
 			tmpHeader,
@@ -112,33 +113,65 @@
 				tinymceHtml: '',
 				switch1:true,
 				name:"",
-				yname:"蚌埠中医院",
-				keshi:"泌尿科",
-				zhiwu:"主任医师",
+				yname:"",
+				keshi:"",
+				zhiwu:"",
 				isort:"",
+				expert1:"",
+				expert2:"",
+				post:"",
+				id:sessionStorage.getItem('hospitalId')
+
 			}
 		},
 		methods: {
-			
+			search () {
+				console.log(this.name);
+				this.$axios.post(api.expertadd, {
+					hospitalId: this.id,
+					doctorName: this.name,
+					pageNo:1,
+					pageSize:10
+				}).then(res => {
+					console.log(res.data);	
+				})
+			},
 			//显示按钮
 			change (status) {
-                this.$Message.info('开关状态：' + status);
+                // this.$Message.info('开关状态：' + status);
             },
             save () {
             	let params = {
-            		ishow:this.switch1,
-            		name:this.name,
-            		yname:this.yname,
-            		keshi:this.keshi,
-            		zhiwu:this.zhiwu,
-            		isort:this.isort
+					// 显示
+					ishow:this.switch1,
+					// 名字
+					name:this.name,
+					// 机构名称
+					yname:this.yname,
+					// 科室
+					keshi:this.keshi,
+					//职务
+					zhiwu:this.zhiwu,
+					// 排序
+					isort:this.isort,
+					// 特长
+					expert:this.expert1,
+					// 简介
+					expert2:this.expert2,
+					// 职务
+					post:this.post
+					
             	}
             	if (params.name=='') {
             		this.$Message.info('专家姓名不能为空');	
             	} else {
-            		this.$router.push({
-	            		name:"reviewlist12"
-	            	})
+					// setTimeout(() => {
+					// 	this.$router.push({
+					// 		name:"reviewlist12"
+					// 	})
+					// }, 500);
+					this.$Message.info('添加成功');	
+            		
             	}
             	console.log(params);
             }

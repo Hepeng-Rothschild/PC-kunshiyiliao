@@ -59,7 +59,9 @@
 			<!--医联体上级医院-->
 			<div class="main_info">
 				<span>医联体上级医院</span>
-				<input type="text" placeholder='机构搜索' v-model = 'y_search1'/>
+				<select v-model = 'y_search1'>
+					<option :value="item.orgCode" v-for = 'item,index in ylt'>{{ item.orgName }}</option>
+				</select>
 			</div>
 			<!--背景模板-->
 			<div class="main_moban">
@@ -73,7 +75,12 @@
 			<div class="main_jianjie">
 				<span>机构简介</span>
 				<div>
-					<vue-editor :id="id" :height="height" @valueHandle="valueHandle"></vue-editor>
+					<editor id="editor_id" height="500px" width="700px" :content.sync="editorText"
+			            :afterChange="afterChange()"
+			            pluginsPath="@/../static/kindeditor/plugins/"
+			            :loadStyleMode="false"
+			            @on-content-change="onContentChange">
+					</editor>
 				</div>
 			</div>
 			<!--机构路线-->
@@ -153,17 +160,19 @@
                 switch1:true,
                 switch2:true,
                 switch3:true,
-                y_name:"蚌埠中医院",
+                y_name:"",
                 y_type:6001,
                 y_module:"2",
                 y_luxin:"",
                 y_search:"",
                 y_phone:"",
                 y_dizhi:"",
-                y_gzh:"选择公众号",
+                y_gzh:"",
                 y_uid:"",
 				y_search1:'',
 				gzh:[],
+				ylt:[],
+				editorText: '请输入要编辑的内容...',
 				
                 uploadModal: true,
                 uploadData: {json:'{"urlCode":"203","flag":"1"}'},
@@ -176,23 +185,72 @@
 			}
 		},
 		methods: {
+			 onContentChange (val) {
+		      this.editorText = val
+		    },
+		    afterChange () {
+		    },
 			save () {
-				let params = {
-					name:this.y_name,
-					type:this.y_type,
-					module:this.y_module,
-					luxian:this.y_luxin,
-					search:this.y_search,
-					search1:this.y_search1,
-					phone:this.y_phone,
-					dizhi:this.y_dizhi,
-					gzh:this.y_gzh,
-					uid:this.y_uid,
-					switch1:this.switch1,
-					switch2:this.switch2,
-					switch3:this.switch3
+				let images = this.images;
+				if (images) {
+					images = this.uploadList[0].url
 				}
-				console.log(params);
+					let switch1 = 0;
+					if (this.switch1) {
+						switch1 = 1;
+					}
+					let switch2 = 0;
+					if (this.switch2) {
+						switch2 = 1;
+					}
+					let switch3 = 0;
+					if (this.switch3) {
+						switch3 = 1;
+					}
+
+
+				let params = {
+					// 名字
+					orgName:this.y_name,
+					// 机构等级 
+					grade:this.y_type,
+					// 图片名字
+					hosIcon:images,
+					// 简介
+					hosIntroduction:this.editorText,
+					// 模板
+					cssTemplate:this.y_module,
+					// 跳线
+					route:this.y_luxin,
+					// 医联体上级医院
+					orgParentCode:this.y_search1,
+					// 手机号码
+					telephone:this.y_phone,
+					// 地址
+					hosAddr:this.y_dizhi,
+					//公众号
+					appid:this.y_gzh,
+					// 处方流转id
+					prescriptionId:this.y_uid,
+					//互联网医院
+					internetHospital:switch2,
+					//医院联盟
+					unionHospital:switch1,
+					//开通处方流转
+					ipres:parseInt(switch3),
+					//医院ID
+					hospitalId:this.id
+				}
+				console.log(params); 	
+
+				this.$axios.post(api.management_edit,params).then(res => {
+					console.log(res);
+					if (res.data.code) {
+						this.$Message.info('修改成功');
+					}
+					}).catch(err => {
+					console.log(err);
+				})
 			},
 			valueHandle (param) {
 				this.tinymceHtml = param;
@@ -223,18 +281,15 @@
                 });
             },
             handleBeforeUpload () {
-                const check = this.uploadList.length < 5;
+                const check = this.uploadList.length < 1;
                 if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
+					this.$Message.info('只能上传一张图片');
                 }
                 return check;
             }
 		},
 		mounted () {
 			this.uploadList = this.$refs.upload.fileList;
-
 // 医院等级
 			this.$axios.post(api.management_all,{}).then(res => {
 				if (res.data) {
@@ -247,7 +302,7 @@
 				'hospitalId':this.id
 			}).then(res => {
 				console.log(res);
-				if (res.data) {
+				if (res.data.object) {
 					let ret = res.data.object;
 					// 名字
 					this.y_name = ret.orgName;
@@ -257,7 +312,8 @@
 						percentage: 100,
 						status: "finished",
 						uid: 1544263544970,
-						url: this.fileBaseUrl + ret.hosIcon
+						// url:this.fileBaseUrl + ret.hosIcon
+						url:ret.hosIcon
 					})
 // 公众号
 					this.$axios.post(api.management_gzh).then(res => {
@@ -265,24 +321,26 @@
 							let ret = res.data.object;
 							this.gzh = ret
 						}
-						// console.log(ret)
 					})
 // 医联体
 					this.$axios.post(api.management_ylt).then(res => {
-						
-						console.log(res);
+						if (res.data) {
+							let ret = res.data.object;
+							this.ylt = ret;
+						}
 					})
 
-					// !!!!!等级 
-
-					this.y_type = 6002;
+					// m机构等级 
+					this.y_type = ret.grade;
 					// 医联体
-					this.y_search1 = ret.nick || 0;
+					this.y_search1 = ret.orgParentCode;
 					// 模板
 					this.y_module = ret.cssTemplate
-//路线
+					// 简介
+					this.editorText = ret.hosIntroduction
+					//路线
 					this.y_luxin = ret.route
-//电话
+					//电话
 					this.y_phone = ret.telephone
 					// 地址
 					this.y_dizhi = ret.hosAddr
@@ -290,15 +348,30 @@
 					this.y_gzh = ret.appid
 					//uid
 					//互联网医院
-					this.switch1 = ret.internetHospital;
-					// console.log(ret);
-
+					let switch1 = false;
+					if (ret.unionHospital != 0) {
+						switch1 = true;
+					}
+					this.switch1 = switch1;
+					console.log(switch1,ret.unionHospital);
+// 处方 流转平台ID		
+					this.y_uid = ret.prescriptionId
 					// 医院联盟
-					// this.switch2 = 
-
+					let switch2 = false;
+					if (ret.internetHospital !=0) {
+						switch2 = true;
+					}
+					this.switch2 = switch2
+//医联体上级医院
+					// this.y_search1 = 
 					// 处方流转
-					this.switch3 = ret.perscriptionId
+					let switch3 = false;
+					if (ret.ipres) {
+						switch3 = true
 
+					}
+					this.switch3 = switch3
+					// console.log(ret);
 				}
 			})
            

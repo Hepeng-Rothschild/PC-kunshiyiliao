@@ -13,6 +13,9 @@ const management_all = '/operateapi/hospitalqueryhospitallevellist' //医院等�
 const management_gzh = '/operateapi/hospitalquerywxappnamelist'   //查询医院公众号
 const management_ylt = '/operateapi/hospitalqueryhospitalnamelist' //查询医院医联体
 
+const management_edit = '/operateapi/hospitalupdatehospitaloperatedtobyid' //保存医院详情
+
+
 
 const login = "/operateapi/operate/login"; //登陆接口
 
@@ -28,7 +31,6 @@ const addNews = '/operateapi/organizationupdatenew'; //修改新闻详情
 const newsA = '/operateapi/organizationinsertnew' ; // 新增新闻
 
 
-
 //内容管理
 const content_wrap = '/operateapi/articlepagebyarticle'  // 内容管理列表
 const created_wrap = '/operateapi/articleinsert'   // 创建新闻
@@ -39,10 +41,15 @@ const root = '/operateapi/articlepriority';   //新闻置顶
 
 //专家列表
 const zj = '/operateapi/organizationpageexpertdoctor'   //专家列表分页
+const expertedit = '/operateapi/organizationupdateexpertdoctor' //专家信息修改
+const expertadd = '/operateapi/organizationqueryDdoctorlist' //专家列表新增
 
 
 //特色科室
-const tesekeshi = '/operateapi/organizationqueryspecialdept'   //特色科室
+const tesekeshi = '/operateapi/organizationselectspecialdept'   //特色科室
+const departmentseditleft = '/operateapi/organizationqueryspecialdept'  //特色科室左侧科室查询
+const departmentssearch = '/operateapi/organizationquerydepbyid' // 特色科室右侧科室详情查询
+const departmentseditright = '/operateapi/organizationupdateappointmentdept' // 特色科室右侧科室详情修改
 
 
 const fileimages ='/operateapi/organizationuploadoperatefiles' 
@@ -53,16 +60,22 @@ const bannerAdd = '/operateapi/bannerinserthospitalbanner'  //banner添加
 const bannerChange = '/operateapi/bannerupdatehospitalbanner' //banner 编辑
 const getIdBanner = '/operateapi/bannerqueryhospitalbannerbyid' //banner查找
 
+// 院内科室
+const medicine = '/operateapi/organizationpagehosdept'  // 院内科室查询
+const medicinesearch = '/operateapi/organizationselecthosdept'  //院内科室列表查询
+const medicinelistsearch = '/operateapi/organizationquerydepbyid' //院内科室详情查询
+// const medicineadd = ''//院内科室添加
+// const medicineedit = ''//院内科室编辑
 //服务管理
 const server_ = '/operateapi/hospitalmenuqueryhospitalmenulistbyid'  //服务管理列表
 const getServer = '/operateapi/hospitalmenuqueryhospitalmenulist' //服务管理-编辑
+const setserver = '/operateapi/hospitalmenuupdatehospitalmenu'     // 编辑服务保存
 
 //预约科室接口
 const k_department = '/operateapi/organizationpageappointmentdept' //预约科室列表
-const get_department = '/operateapi/organizationselectdeptlist'  //查看科室列表
-const departmentDetail = '/operateapi/organizationquerydepbyid' //查看科室详情
+const get_department = '/operateapi/organizationselectdeptlist'  //查看预约科室列表
+const departmentDetail = '/operateapi/organizationquerydepbyid' //查看预约科室详情
 const departmentChange = '/operateapi/organizationupdateappointmentdept' //修改预约科室详情
-
 
 
 
@@ -79,6 +92,7 @@ export default {
     management_all,
     management_gzh,
     management_ylt,
+    management_edit,
     
     //内容管理
     content_wrap,
@@ -91,18 +105,30 @@ export default {
     news,
     addNews,
     newsA,
+    // 专家列表
     zj,
+    expertedit,
     getNews,
+    expertadd,
     //特色科室
     tesekeshi,
+    departmentseditleft,
+    departmentseditright,
+    departmentssearch,
     //banner接口
     bannerHome,
     bannerAdd,
     getIdBanner,
     bannerChange,
+    //院内科室
+    medicine,
+    medicinesearch,
+    medicinelistsearch,
     //服务管理
     server_,
     getServer,
+    setserver,
+    
     //预约科室
     k_department,
     get_department,

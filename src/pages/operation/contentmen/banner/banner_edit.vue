@@ -143,13 +143,6 @@
             	if (this.switch1) {
             		sum = 1;
             	}
-//          	this.uploadList.push({
-//                  name: "a42bdcc1178e62b4694c830f028db5c0",
-//					percentage: 100,
-//					status: "finished",
-//					uid: 1544263544970,
-//					url: detail.cover
-//              })
             	let params = {
             		hospitalId: this.id,
             		bannerName:this.title,
@@ -183,7 +176,8 @@
             },
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				console.log(this.upload);
             },
             handleSuccess (res, file) {
             	file.url =  this.fileBaseUrl + res.object[0].fileName;
@@ -228,14 +222,13 @@
 	            		this.isort = ret.priority
 	            		this.iswitch1 = ishow
 	            		
-	            		console.log(ret.imageUrl)
 	            		
 	            		if (ret.imageUrl) {
 	            			this.uploadList.push({
 		                        name: "a42bdcc1178e62b4694c830f028db5c0",
 								percentage: 100,
 								status: "finished",
-								uid: 1544263544970,
+								uid: 1544263544971,
 								url: this.fileBaseUrl + ret.imageUrl
 		                    })
 	            		}

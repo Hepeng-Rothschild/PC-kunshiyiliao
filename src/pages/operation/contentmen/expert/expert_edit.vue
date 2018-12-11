@@ -3,15 +3,14 @@
 	<!--导航-->
 		<tmpHeader />
 		<div class="main_expert">
-			
 			<!--专家姓名-->
 			<div class="main_expert_item">
 				<div class="main_expert_title">
 					<span style = 'color:red;'>*&nbsp;&nbsp;</span>
 					<span>专家姓名</span>
 				</div>
-				<input type="text" placeholder = "请输入专家姓名" v-model = 'name'/>
-				<button>检索</button>
+				<input type="text" placeholder = "请输入专家姓名" v-model = 'name' disabled />
+				<!-- <button>检索</button> -->
 			</div>
 			<!--机构名称-->
 			<div class="main_expert_item">
@@ -28,13 +27,11 @@
 					<span>专家科室</span>
 				</div>
 				<div class = 'iselected'>
-					<select v-model='keshi'>
-						<option value="泌尿科">泌尿科</option>
-						<option value="外科">外科</option>
-						<option value="神经科">神经科</option>
+					<select v-model='keshi' disabled>
+						<option :value="keshi">{{ keshi }}</option>
 					</select>
 					<span>职称</span>
-					<select v-model='zhiwu'>
+					<select v-model='zhiwu'  disabled>
 						<option value="主任医师">主任医师</option>
 						<option value="副主任医师">副主任医师</option>
 						<option value="住院医师">住院医师</option>
@@ -48,7 +45,7 @@
 					<span style = 'color:red;'>&nbsp;&nbsp;</span>
 					<span>职务</span>
 				</div>
-				<input type="text" placeholder = "请输入专家职务"  style= 'width:200px;'/>
+				<input type="text" placeholder = "请输入专家职务"  style= 'width:200px;' v-model = 'post'/>
 			</div>
 			<!--专业特长-->
 			<div class="main_expert_inputi">
@@ -57,7 +54,7 @@
 					<span>专业特长</span>
 				</div>
 				<div class = 'shuru'>
-					<textarea name="" rows="" cols="" disabled>11111111111</textarea>
+					<textarea name="" rows="" cols="" disabled v-model = 'doctorGood'></textarea>
 				</div>
 			</div>
 			<!--个人简介-->
@@ -67,7 +64,7 @@
 					<span>个人简介</span>
 				</div>
 				<div class = 'shuru'>
-					<textarea name="" rows="" cols="" disabled></textarea>
+					<textarea name="" rows="" cols="" disabled v-model = 'personalIntroduction'></textarea>
 				</div>
 			</div>
 			<!--排序-->
@@ -99,6 +96,7 @@
 <script>
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader';
 	import { Switch } from 'iview'
+	import api from "@/api/commonApi";
 	export default{
 		components: {
 			tmpHeader,
@@ -112,33 +110,63 @@
 				tinymceHtml: '',
 				switch1:true,
 				name:"",
-				yname:"蚌埠中医院",
-				keshi:"泌尿科",
-				zhiwu:"主任医师",
+				yname:"",
+				keshi:"",
+				zhiwu:"",
 				isort:"",
+				personalIntroduction:"",
+				doctorGood:"",
+				post:""
 			}
 		},
+		mounted () {
+			console.log(this.$route.params.item);
+			let data = this.$route.params.item
+			this.name = data.doctorName;
+			this.yname = data.hospitalName;
+			this.personalIntroduction = data.personalIntroduction;
+			this.doctorGood = data.doctorGood;
+			this.zhiwu = data.title
+			this.post = data.post
+			this.keshi = data.deptType
+			this.isort = data.priority
+		},
 		methods: {
-			
 			//显示按钮
 			change (status) {
-                this.$Message.info('开关状态：' + status);
+                // this.$Message.info('开关状态：' + status);
             },
             save () {
+				let switch1 = 0;
+				if (this.switch1) {
+					switch1 = 1
+				}
+				let hospitalId = sessionStorage.getItem('hospitalId');
+				let doctorId = this.$route.params.item.doctorId
             	let params = {
-            		ishow:this.switch1,
-            		name:this.name,
-            		yname:this.yname,
-            		keshi:this.keshi,
-            		zhiwu:this.zhiwu,
-            		isort:this.isort
+					// 显示
+					iexpert: switch1,
+					//排序
+					priority:this.isort,
+					// 职务
+					post:this.post,
+					doctorId,
+					hospitalId
+				
             	}
-            	if (params.name=='') {
+            	if (params.name == '') {
             		this.$Message.info('专家姓名不能为空');	
             	} else {
-            		this.$router.push({
-	            		name:"reviewlist12"
-	            	})
+					this.$axios.post(api.expertedit, params).then(res => {
+						if (res.data.code) {
+							this.$Message.info('修改成功');	
+							setTimeout(() => {
+								this.$router.push({
+									name:"reviewlist12"
+								})
+							}, 500)
+						}
+					})
             	}
             	console.log(params);
             }
