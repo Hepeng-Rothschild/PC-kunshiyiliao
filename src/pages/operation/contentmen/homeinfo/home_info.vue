@@ -144,7 +144,8 @@
 <script>
 	import vueEditor from '@/components/vueEditor';
 	import tmpHeader from '@/pages/operation/contentmen/tmpHeader'
-	import { Switch,Upload ,Icon } from 'iview'
+  import { Switch,Upload ,Icon } from 'iview'
+  import cookie from '@/utils/cookie.js';
 	import api from "@/api/commonApi";
 	export default{
 		components:{
@@ -161,42 +162,40 @@
 				tinymceHtml: '',
 				defaultList: [],
 				types:[],
-                imgName: '',
-                visible: false,
-                uploadList: [],
-                switch1:true,
-                switch2:true,
-                switch3:true,
-                y_name:"",
-                y_type:6001,
-                y_module:"2",
-                y_luxin:"",
-                y_search:"",
-                y_phone:"",
-                y_dizhi:"",
-                y_gzh:"",
-                y_uid:"",
-				y_search1:'',
-				gzh:[],
-				ylt:[],
-				editorText: '请输入要编辑的内容...',
-				
-                uploadModal: true,
-                uploadData: {json:'{"urlCode":"203","flag":"1"}'},
-                activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-                uploadUrl:api.fileAll,
-                fromData:{'ContentType':'multipart/form-data'}, 
+        imgName: '',
+        visible: false,
+        uploadList: [],
+        switch1:true,
+        switch2:true,
+        switch3:true,
+        y_name:"",
+        y_type:6001,
+        y_module:"2",
+        y_luxin:"",
+        y_search:"",
+        y_phone:"",
+        y_dizhi:"",
+        y_gzh:"",
+        y_uid:"",
+        y_search1:'',
+        gzh:[],
+        ylt:[],
+        editorText: '请输入要编辑的内容...',
+        uploadModal: true,
+        uploadData: {json:'{"urlCode":"203","flag":"1"}'},
+        activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
+        uploadUrl:api.fileAll,
 				images:"",
 				
 				id:sessionStorage.getItem('hospitalId'),
 			}
 		},
 		methods: {
-			 onContentChange (val) {
-		      this.editorText = val
-		    },
-		    afterChange () {
-		    },
+      onContentChange (val) {
+        this.editorText = val
+      },
+      afterChange () {
+      },
 			save () {
 				let images = this.images;
 				if (!images) {
@@ -260,38 +259,38 @@
 				this.tinymceHtml = param;
 			},
 			handleView (name) {
-                this.imgName = name;
-                this.visible = true;
-            },
-            handleRemove (file) {
-                const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
-            handleSuccess (res, file) {
-           		file.url =  this.fileBaseUrl + res.object[0].fileName;
-				this.images = res.object[0].fileName
-				file.name = res.object[0].fileName;
-            },
-            handleFormatError (file) {
-                this.$Notice.warning({
-                    title: 'The file format is incorrect',
-                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-                });
-            },
-            handleMaxSize (file) {
-                this.$Notice.warning({
-                    title: 'Exceeding file size limit',
-                    desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-                });
-            },
-            handleBeforeUpload () {
-                const check = this.uploadList.length < 1;
-                if (!check) {
-					this.$Message.info('只能上传一张图片');
-                }
-                return check;
-            }
-		},
+          this.imgName = name;
+          this.visible = true;
+      },
+      handleRemove (file) {
+        const fileList = this.$refs.upload.fileList;
+        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+      },
+      handleSuccess (res, file) {
+        file.url =  this.fileBaseUrl + res.object[0].fileName;
+        this.images = res.object[0].fileName
+        file.name = res.object[0].fileName;
+      },
+      handleFormatError (file) {
+        this.$Notice.warning({
+            title: 'The file format is incorrect',
+            desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+        });
+      },
+      handleMaxSize (file) {
+        this.$Notice.warning({
+            title: 'Exceeding file size limit',
+            desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+        });
+      },
+      handleBeforeUpload () {
+        const check = this.uploadList.length < 1;
+        if (!check) {
+          this.$Message.info('只能上传一张图片');
+        }
+        return check;
+      }
+    },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
     // 医院等级

@@ -161,7 +161,6 @@
                 uploadData: {json:'{"urlCode":"201","flag":"1"}'},
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
                 uploadUrl:api.fileAll,
-                fromData:{'ContentType':'multipart/form-data'},
                 
                 images:"",
                 editorText: '请输入要编辑的内容...',

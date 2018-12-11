@@ -163,8 +163,7 @@ import {Switch,Upload ,Icon} from 'iview'
 				uploadModal: true,
                 uploadData: {json:'{"urlCode":"203","flag":"1"}'},
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-                uploadUrl:api.fileAll,
-                fromData:{'ContentType':'multipart/form-data'},                
+                uploadUrl:api.fileAll,             
 				images:"",
 				currentId:-1
 

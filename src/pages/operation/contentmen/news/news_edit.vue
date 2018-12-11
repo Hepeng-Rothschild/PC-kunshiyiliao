@@ -142,7 +142,6 @@
 				
 				uploadModal: true,
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-                fromData:{'ContentType':'multipart/form-data'},
                 uploadUrl:api.fileAll,
                 uploadData: {json:'{"urlCode":"202","flag":"1"}'},
 				images:"",

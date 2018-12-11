@@ -58,8 +58,6 @@ export default {
     },
     logout(){
       cookie.delCookie("access_token");
-      // window.sessionStorage.removeItem("access_token");
-      // window.sessionStorage.clear();
       this.$router.push("/login")
     }
   }

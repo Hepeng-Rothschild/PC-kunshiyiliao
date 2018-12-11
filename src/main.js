@@ -30,7 +30,6 @@ Vue.use(VueKindEditor)
 //设置title
 router.beforeEach((to, from, next) => {
 	if(to.path != "/login"){
-		// let access_token = window.sessionStorage.getItem("access_token");
 		let access_token = cookie.getCookie("access_token");
 		if(access_token != undefined){
 			let title = to.meta.title?to.meta.title:"互联网医院管理系统";
@@ -43,10 +42,6 @@ router.beforeEach((to, from, next) => {
 		next();
 	}
 });
-
-//静态资源地址
-Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
-
 // const SSOHEART = require('./plugins/sso.heart-1.0.1.min.js');
 // 设置心跳，需要和迎双确定参数
 // SSOHEART.ssoHeart.init('http://sso.vipkid.work:8080/cas');
@@ -91,9 +86,13 @@ const i18n = new VueI18n({
 });
 
 //资源所在地址
-// Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
+Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
 // Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
-Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
+// Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
+Vue.prototype.fromData = {
+	'ContentType':'multipart/form-data',
+	'Authorization':"Bearer "+ cookie.getCookie('access_token')
+};
 
 Vue.config.productionTip = false;
 
