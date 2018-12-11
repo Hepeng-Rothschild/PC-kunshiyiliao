@@ -90,7 +90,7 @@
 		methods: {
 			navto () {
 				this.$router.push({
-					name:"reviewlist25"
+					name:"departmentsList"
 				})
 			},
 			addZero (num) {

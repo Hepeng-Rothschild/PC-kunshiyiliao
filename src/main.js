@@ -29,31 +29,19 @@ import '@/../static/kindeditor/lang/zh-CN.js'
 Vue.use(VueKindEditor)
 //设置title
 router.beforeEach((to, from, next) => {
-	// // 获取登陆认证信息
-	// let searchStr = window.location.search;
-	// let url = commonApi.getAuthorizen + '?app=' + commonApi.authorApi;
-	// if (searchStr.indexOf('ticket') > -1) {
-	// 	url += searchStr ? ('&' + searchStr.substr(1)) : '';
-	// };
-	// const Authorization = cookie.getCookie('VIPKIDITSYSTEMAUTHORIZATION');
-	// if (!Authorization) {
-	// 	axios.get(url).then((res) => {
-	// 		if (res.status) {
-	// 			if (res.data.code === 'S00000') {
-	// 				window.location.search = '';
-	// 				next();
-	// 			};
-	// 		};
-	// 	}).catch((error) => {
-	// 		console.log(error);
-	// 	});
-	// } else {
-	// 	// console.log(from);
-	// 	next();
-	// };
-	let title = to.meta.title?to.meta.title:"互联网医院管理系统";
-	document.title = title;
-	next()
+	if(to.path != "/login"){
+		// let access_token = window.sessionStorage.getItem("access_token");
+		let access_token = cookie.getCookie("access_token");
+		if(access_token != undefined){
+			let title = to.meta.title?to.meta.title:"互联网医院管理系统";
+			document.title = title;
+			next()
+		}else{
+			next("/login")
+		}
+	}else{
+		next();
+	}
 });
 
 //静态资源地址
@@ -104,6 +92,8 @@ const i18n = new VueI18n({
 
 //资源所在地址
 Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
+// Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
+// Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
 
 Vue.config.productionTip = false;
 

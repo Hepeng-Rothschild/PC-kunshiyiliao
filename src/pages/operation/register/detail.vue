@@ -154,9 +154,9 @@
             </Col>
         </Row>
         <br>
-        <Button @click="changeRegisterFlag">{{icloseText}}预约</Button>
-        <Button @click="toEdit">编辑</Button>
-        <Button @click="reback">返回</Button>
+        <Button type="primary" @click="changeRegisterFlag">{{icloseText}}预约</Button>
+        <Button type="primary" @click="toEdit">编辑</Button>
+        <Button type="primary" @click="reback">返回</Button>
     </div>
 </template>
 <script>

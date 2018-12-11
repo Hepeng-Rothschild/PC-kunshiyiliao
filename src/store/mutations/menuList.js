@@ -24,7 +24,7 @@ const operationLeftMenu = [
         // {id:20,level:2,name:"患者管理",path:"/index/operation/patient_management"},
     ]},
     {id:1,level:1,name:"机构运营",childLists:[
-        // {id:21,level:2,name:"机构管理",path:"/index/operation/home"}
+        {id:21,level:2,name:"机构管理",path:"/index/operation/home"}
     ]}
 ];
 const maintainLeftMenu = [

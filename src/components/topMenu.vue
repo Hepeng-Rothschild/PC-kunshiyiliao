@@ -21,12 +21,19 @@
             监管平台
     </MenuItem>-->
     <div class="logout">
-      <img src="./../assets/images/heicon.jpg">
+      <div class="avatar">
+        <img src="./../assets/images/heicon.jpg">
+      </div>
+      <div class="info">
+        <span>梁朝伟</span><br/>
+        <a href="javascript:void(0);" @click="logout">退出</a>
+      </div>
     </div>
   </Menu>
 </template>
 <script>
 import { Menu, MenuItem } from "iview";
+import cookie from "./../utils/cookie.js";
 export default {
   data() {
     return {
@@ -48,6 +55,12 @@ export default {
     changeTop(name) {
       this.$store.commit("setLeftMenuList", name);
       this.$router.push("/index");
+    },
+    logout(){
+      cookie.delCookie("access_token");
+      // window.sessionStorage.removeItem("access_token");
+      // window.sessionStorage.clear();
+      this.$router.push("/login")
     }
   }
 };
@@ -57,15 +70,24 @@ export default {
   margin-top: 10px !important;
   position:relative;
   .logout{
-    display:inline-block;
+    display:inline-flex;
+    justify-content: start;
     position:absolute;
-    right:100px;
-    width:50px;
+    right:30px;
+    width:150px;
     height:50px;
-    img{
-      width:50px;
-      height:50px;
-      border-radius: 50%;
+    .avatar{
+      img{
+        width:50px;
+        height:50px;
+        border-radius: 50%;
+      }
+    }
+    .info{
+      line-height:22px;
+      position:relative;
+      top:10px;
+      left:10px;
     }
   }
 }

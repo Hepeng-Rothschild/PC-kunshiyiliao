@@ -88,8 +88,10 @@ export default {
                 .then(resp=>{
                     console.log(resp);
                     if(resp.data.success){
-                        cookie.setCookie("access_token", resp.data.object.access_token)
-                        this.$router.push("/index/operation/index");
+                        let times = 10*60*60;
+                        // window.sessionStorage.setItem("access_token", resp.data.object.access_token)
+                        cookie.setCookie("access_token", resp.data.object.access_token,times)
+                        this.$router.push("/index");
                     }else{
                         this.loginFlag = true;
                         this.noticeClassColor = "alert-color";

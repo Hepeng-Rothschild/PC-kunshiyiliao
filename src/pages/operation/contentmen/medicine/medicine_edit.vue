@@ -201,7 +201,7 @@ import {Switch,Upload ,Icon} from 'iview'
 	  				this.$Message.info('科室名称名称不能为空');
 	  			} else {
 	  				this.$router.push({	
-		  				name:"reviewlist19"
+		  				name:"iKeshi"
 		  			})
 	  			}
 	  			

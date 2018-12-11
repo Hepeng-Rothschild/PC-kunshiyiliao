@@ -137,7 +137,7 @@
             		this.$Message.info('专家姓名不能为空');	
             	} else {
             		this.$router.push({
-	            		name:"reviewlist12"
+	            		name:"operationExpert"
 	            	})
             	}
             	console.log(params);

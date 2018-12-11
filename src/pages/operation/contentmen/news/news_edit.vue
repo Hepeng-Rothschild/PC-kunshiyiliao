@@ -257,7 +257,7 @@
 								this.$Message.info('修改成功');
 								setTimeout(() => {
 									this.$router.push({
-										name:"reviewlist11"
+										name:"operationNews"
 									})
 								},500)
 							})

@@ -76,9 +76,9 @@ const uploadFile = {
 //医生端内容分类
 
 //患者端内容管理和分类
-const reviewList4 = {
+const contentmanagementHome = {
 	path: 'operation/contentmanagement_home',
-	name: 'reviewlist4',
+	name: 'contentmanagementHome',
 	meta: {
 		index: 2,
 		title: '内容管理'
@@ -86,9 +86,9 @@ const reviewList4 = {
 	component: () =>
 		import("@/pages/operation/contentmen/contentmanagement/contentmanagement_home")
 }
-const reviewList5 = {
+const contentmanagementAdd = {
 	path: 'operation/contentmanagement_add',
-	name: 'reviewlist5',
+	name: 'contentmanagementAdd',
 	meta: {
 		index: 3,
 		title: '内容管理-添加'
@@ -128,9 +128,9 @@ const c6 = {
 		import("@/pages/operation/classify/f_Classify")
 }
 
-const reviewList6 = {
+const addClassify = {
 	path: 'operation/addClassify',
-	name: 'reviewlist6',
+	name: 'addClassify',
 	meta: {
 		index: 3,
 		title: '内容分类-添加'
@@ -138,9 +138,9 @@ const reviewList6 = {
 	component: () =>
 		import("@/pages/operation/classify/addClassify")
 }
-const reviewList7 = {
+const newClassify = {
 	path: 'operation/newClassify',
-	name: 'reviewlist7',
+	name: 'newClassify',
 	meta: {
 		index: 3,
 		title: '内容分类-添加新分类'
@@ -149,9 +149,9 @@ const reviewList7 = {
 		import("@/pages/operation/classify/newClassify")
 }
 
-const reviewList8 = {
+const patientManagement = {
 	path: 'operation/patient_management',
-	name: 'reviewlist8',
+	name: 'patientManagement',
 	meta: {
 		index: 2,
 		title: '患者管理'
@@ -160,9 +160,9 @@ const reviewList8 = {
 		import("@/pages/operation/patientmanagement/patientmanagement_home")
 }
 //机构运营
-const reviewList9 = {
+const operationHome = {
 	path: 'operation/home',
-	name: 'reviewlist9',
+	name: 'operationHome',
 	meta: {
 		index: 2,
 		title: '机构管理'
@@ -170,9 +170,9 @@ const reviewList9 = {
 	component: () =>
 		import("@/pages/operation/contentmen/home.vue")
 }
-const reviewList10 = {
+const homeInfo = {
 	path: 'operation/home_info',
-	name: 'reviewlist10',
+	name: 'homeInfo',
 	meta: {
 		index: 3,
 		title: '医院信息'
@@ -181,9 +181,9 @@ const reviewList10 = {
 		import("@/pages/operation/contentmen/homeinfo/home_info")
 }
 
-const reviewList11 = {
+const operationNews = {
 	path: 'operation/news',
-	name: 'reviewlist11',
+	name: 'operationNews',
 	meta: {
 		index: 3,
 		title: '动态新闻'
@@ -192,9 +192,9 @@ const reviewList11 = {
 		import("@/pages/operation/contentmen/news/new_home")
 }
 
-const reviewList14 = {
+const newsEdit = {
 	path: 'operation/news_edit',
-	name: 'reviewlist14',
+	name: 'newsEdit',
 	meta: {
 		index: 4,
 		title: '动态新闻-编辑'
@@ -212,9 +212,9 @@ const d_createdNews = {
 	component: () =>
 		import("@/pages/operation/contentmen/news/news_add")
 }
-const reviewList12 = {
+const operationExpert = {
 	path: 'operation/expert',
-	name: 'reviewlist12',
+	name: 'operationExpert',
 	meta: {
 		index: 3,
 		title: '专家介绍'
@@ -222,9 +222,9 @@ const reviewList12 = {
 	component: () =>
 		import("@/pages/operation/contentmen/expert/expert_list")
 }
-const reviewList15 = {
+const expertAdd = {
 	path: 'operation/expert_add',
-	name: 'reviewlist15',
+	name: 'expertAdd',
 	meta: {
 		index: 4,
 		title: '专家介绍-添加'
@@ -242,9 +242,9 @@ const expert_edit = {
 	component: () =>
 		import("@/pages/operation/contentmen/expert/expert_edit")
 }
-const reviewList13 = {
+const serviceManagement = {
 	path: 'operation/service_management',
-	name: 'reviewlist13',
+	name: 'serviceManagement',
 	meta: {
 		index: 3,
 		title: '服务管理'
@@ -254,9 +254,9 @@ const reviewList13 = {
 }
 
 
-const reviewList16 = {
+const managementAdd = {
 	path: 'operation/management_add',
-	name: 'reviewlist16',
+	name: 'managementAdd',
 	meta: {
 		index: 4,
 		title: '服务管理-添加'
@@ -264,9 +264,9 @@ const reviewList16 = {
 	component: () =>
 		import("@/pages/operation/contentmen/management/management_add")
 }
-const reviewList17 = {
+const iBanner = {
 	path: 'operation/i_banner',
-	name: 'reviewlist17',
+	name: 'iBanner',
 	meta: {
 		index: 3,
 		title: 'Banner'
@@ -274,9 +274,9 @@ const reviewList17 = {
 	component: () =>
 		import("@/pages/operation/contentmen/banner/banner_home")
 }
-const reviewList18 = {
+const bannerAdd = {
 	path: 'operation/banner_add',
-	name: 'reviewlist18',
+	name: 'bannerAdd',
 	meta: {
 		index: 4,
 		title: 'Banner-添加'
@@ -294,9 +294,9 @@ const addBanner = {
 	component: () =>
 		import("@/pages/operation/contentmen/banner/banner_edit")
 }
-const reviewList19 = {
+const iKeshi = {
 	path: 'operation/i_keshi',
-	name: 'reviewlist19',
+	name: 'iKeshi',
 	meta: {
 		index: 3,
 		title: '院内科室'
@@ -304,9 +304,9 @@ const reviewList19 = {
 	component: () =>
 		import("@/pages/operation/contentmen/medicine/medicine_list")
 }
-const reviewList20 = {
+const medicineAdd = {
 	path: 'operation/medicine_add',
-	name: 'reviewlist20',
+	name: 'medicineAdd',
 	meta: {
 		index: 4,
 		title: '院内科室-添加'
@@ -314,9 +314,9 @@ const reviewList20 = {
 	component: () =>
 		import("@/pages/operation/contentmen/medicine/medicine_add")
 }
-const reviewList21 = {
+const medicineEdit = {
 	path: 'operation/medicine_edit',
-	name: 'reviewList21',
+	name: 'medicineEdit',
 	meta: {
 		index: 4,
 		title: '院内科室-编辑'
@@ -324,9 +324,9 @@ const reviewList21 = {
 	component: () =>
 		import("@/pages/operation/contentmen/medicine/medicine_edit")
 }
-const reviewList22 = {
+const kDepartment = {
 	path: 'operation/k_department',
-	name: 'reviewlist22',
+	name: 'kDepartment',
 	meta: {
 		index: 3,
 		title: '预约科室'
@@ -334,9 +334,9 @@ const reviewList22 = {
 	component: () =>
 		import("@/pages/operation/contentmen/bookingoffice/bookingoffice_home")
 }
-const reviewList23 = {
+const bookingofficeEdit = {
 	path: 'operation/bookingoffice_edit',
-	name: 'reviewlist23',
+	name: 'bookingofficeEdit',
 	meta: {
 		index: 4,
 		title: '预约科室-编辑'
@@ -344,9 +344,9 @@ const reviewList23 = {
 	component: () =>
 		import("@/pages/operation/contentmen/bookingoffice/bookingoffice_edit")
 }
-const reviewList24 = {
+const tKeshi = {
 	path: 'operation/t_keshi',
-	name: 'reviewlist24',
+	name: 'tKeshi',
 	meta: {
 		index: 3,
 		title: '特色科室'
@@ -354,9 +354,9 @@ const reviewList24 = {
 	component: () =>
 		import("@/pages/operation/contentmen/departments/departments_list")
 }
-const reviewList25 = {
+const departmentsList = {
 	path: 'operation/departments_list',
-	name: 'reviewlist25',
+	name: 'departmentsList',
 	meta: {
 		index: 4,
 		title: '特色科室-添加'
@@ -374,28 +374,28 @@ export default {
     kindeditorTest,
     uploadFile,
     //机构运营
-	reviewList4,
-	reviewList5,
-	reviewList6,
-	reviewList7,
-	reviewList8,
-	reviewList9,
-	reviewList10,
-	reviewList11,
-	reviewList12,
-	reviewList13,
-	reviewList14,
-	reviewList15,
-	reviewList16,
-	reviewList17,
-	reviewList18,
-	reviewList19,
-	reviewList20,
-	reviewList21,
-	reviewList22,
-	reviewList23,
-	reviewList24,
-	reviewList25,
+	contentmanagementHome,
+	contentmanagementAdd,
+	addClassify,
+	newClassify,
+	patientManagement,
+	operationHome,
+	homeInfo,
+	operationNews,
+	operationExpert,
+	serviceManagement,
+	newsEdit,
+	expertAdd,
+	managementAdd,
+	iBanner,
+	bannerAdd,
+	iKeshi,
+	medicineAdd,
+	medicineEdit,
+	kDepartment,
+	bookingofficeEdit,
+	tKeshi,
+	departmentsList,
 	expert_edit,
 	c6,
 	createdNews,

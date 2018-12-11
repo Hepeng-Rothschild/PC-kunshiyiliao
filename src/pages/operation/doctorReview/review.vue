@@ -7,7 +7,7 @@
         </Row>
         <Row>
             <Col :xs="24">
-                <b>头像：</b><Avatar shape="square" icon="ios-person" :src="require('../../../assets/images/heicon.jpg')"/>
+                <b>头像：</b><Avatar shape="square" icon="ios-person" :src="docIcon"/>
             </Col>
         </Row>
         <Row class="borderBottom" v-if="info">
@@ -73,43 +73,63 @@
         <Row>
             <Col :xs="12">
                 <b>身份证(正反面照)</b>
+                <Row>
+                    <Col :xs=24>
+                        <div class="img-box">
+                            <img :src="idcardFront" @click="handleView(idcardFront)">
+                        </div>
+                    </Col>
+                    <Col :xs=24>
+                        <div class="img-box">
+                            <img :src="idcardFront" @click="handleView(idcardFront)">
+                        </div>
+                    </Col>
+                </Row>
             </Col>
-            <Col :xs="12">
+            <Col :xs="12" v-if="practiceCertificate.length>0">
                 <b>医师执业证(首页+个人信息页)</b>
+                <Row>
+                    <Col :xs=24 v-for="(item,index) of practiceCertificate" :key="index">
+                        <div class="img-box">
+                            <img :src="fileBaseUrl+item.fileName" @click="handleView(fileBaseUrl+item.fileName)">
+                        </div>
+                    </Col>
+                </Row>
             </Col>
-        </Row>
-        <Row>
-            <Col :xs="12">
-                
-            </Col>
-            <Col :xs="12">
-                
-            </Col>
-        </Row>
-        <Row>
-            <Col :xs="12">
+            <Col :xs="12" v-if="qualificationCertificate.length>0">
                 <b>医师资格证(首页+毕业院校)</b>
+                <Row>
+                    <Col :xs=24 v-for="(item,index) of qualificationCertificate" :key="index">
+                        <div class="img-box">
+                            <img :src="fileBaseUrl+item.fileName" @click="handleView(fileBaseUrl+item.fileName)">
+                        </div>
+                    </Col>
+                </Row>
             </Col>
             <Col :xs="12">
                 <b>专业技术资格证(职称证)</b>
+                <Row>
+                    <Col :xs=24>
+                        <div class="img-box">
+                            <img :src="specialtyCertificate" @click="handleView(specialtyCertificate)">
+                        </div>
+                    </Col>
+                </Row>
             </Col>
-        </Row>
-        <Row>
             <Col :xs="12">
-                
-            </Col>
-            <Col :xs="12">
-                
+                <b>医生签名</b>
+                <Row>
+                    <Col :xs=24>
+                        <div class="img-box">
+                            <img :src="prescriptionSignature" @click="handleView(prescriptionSignature)">
+                        </div>
+                    </Col>
+                </Row>
             </Col>
         </Row>
-        <Row>
-            <Col :xs="24">
-                
-            </Col>
-        </Row>
-        <Button v-if="showReviewBtn" @click="reviewPass">审核通过</Button>
-        <Button v-if="showReviewBtn" @click="reviewPassNo">审核不通过</Button>
-        <Button @click="reback">返回</Button>
+        <Button type="primary" v-if="showReviewBtn" @click="reviewPass">审核通过</Button>
+        <Button type="primary" v-if="showReviewBtn" @click="reviewPassNo">审核不通过</Button>
+        <Button type="primary" @click="reback">返回</Button>
         <Modal title="审核提示：" @on-ok="ok" @on-cancel="cancel" v-model="reviewYesStatus" class-name="vertical-center-modal">
             <p><i class="alert-icon" style="display:inline-block; vertical-align: middle; width:20px; height:20px; text-align:center; border-radius:50%; background:#f00; color:#ffffff; font-size:14px; line-height:20px;">!</i>&nbsp;&nbsp;{{reviewMsg}}</p>
         </Modal>
@@ -135,6 +155,9 @@
                 </Col>
             </Row>
         </Modal>
+        <Modal title="预览" v-model="showViewModal">
+            <img :src="modalSrc" v-if="showViewModal" style="width: 100%">
+        </Modal>
     </div>
 </template>
 <script>
@@ -145,12 +168,19 @@ export default {
         return {
             id:null,
             info:null,
+            docIcon:require('../../../assets/images/heicon.jpg'),
             reviewYesStatus:false,
             reviewNoStatus:false,
             reviewStatus:null,
             reviewMsg:"确认审核通过，是否继续？",
             reviewNoMsg:"",
             reviewNoRemark:"",
+            idcardFront:require('../../../assets/images/heicon.jpg'),
+            idcardBack:require('../../../assets/images/heicon.jpg'),
+            specialtyCertificate:require('../../../assets/images/heicon.jpg'),
+            prescriptionSignature:require('../../../assets/images/heicon.jpg'),
+            practiceCertificate:[],
+            qualificationCertificate:[],
             checkAlert:"",
             loading: true,
             titleList: {},
@@ -162,7 +192,9 @@ export default {
                 reviewNoMsg:[
                     { required: true, message: '不通过原因不能为空', trigger: 'blur' }
                 ]
-            }
+            },
+            showViewModal:false,
+            modalSrc:'',
         };
     },
     created(){
@@ -170,6 +202,25 @@ export default {
         this.$axios.post(api.delReviewDoctorInfo,{id:this.id})
         .then(resp=>{
             this.info = resp.data.object
+            if(this.info.docIcon){
+                this.info.docIcon = JSON.parse(this.info.docIcon);
+                this.docIcon = this.fileBaseUrl+this.info.docIcon.fileName;
+            }
+            this.info.idcardFront = JSON.parse(this.info.idcardFront);
+            this.info.idcardBack = JSON.parse(this.info.idcardBack);
+            this.info.specialtyCertificate = JSON.parse(this.info.specialtyCertificate);
+            this.info.prescriptionSignature = JSON.parse(this.info.prescriptionSignature);
+            this.info.practiceCertificate = JSON.parse(this.info.practiceCertificate);
+            this.info.qualificationCertificate = JSON.parse(this.info.qualificationCertificate);
+
+            this.idcardFront = this.fileBaseUrl+this.info.idcardFront.fileName;
+            this.idcardBack = this.fileBaseUrl+this.info.idcardBack.fileName;
+            this.specialtyCertificate = this.fileBaseUrl+this.info.specialtyCertificate.fileName;
+            this.prescriptionSignature = this.fileBaseUrl+this.info.prescriptionSignature.fileName;
+
+            this.practiceCertificate = this.info.practiceCertificate;
+            this.qualificationCertificate = this.info.qualificationCertificate;
+
             if(this.info.authStatus == 1){
                 this.showReviewBtn = true;
             }else{
@@ -196,6 +247,19 @@ export default {
         Avatar,Upload
     },
     methods:{
+        handleView (src) {
+            console.log("111");
+            this.modalSrc = src;
+            this.showViewModal = true;
+        },
+        showView(e){
+            e.stopPropagation();
+            this.viewStatus = true;
+        },
+        hideView(e){
+            e.stopPropagation();
+            this.viewStatus = false;
+        },
         reback(){
             this.$router.back(-1);
         },
@@ -297,6 +361,25 @@ export default {
         }
         b{
             font-weight:bold;
+        }
+        .img-box{
+            width:100%;
+            margin:10px 0px;
+            position:relative;
+            .view-box{
+                position:absolute;
+                left:0px;
+                bottom:0;
+                width:50px;
+                height:30px;
+                text-align: center;
+                background:rgba(0,0,0,.5);
+                .showViewEye{
+                    width:50px;
+                    height:30px;
+                    cursor: pointer;
+                }
+            }
         }
     }
 </style>

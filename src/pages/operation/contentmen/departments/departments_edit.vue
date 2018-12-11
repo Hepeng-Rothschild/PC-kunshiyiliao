@@ -146,12 +146,12 @@ import {Switch,Upload ,Icon} from 'iview'
 	  				this.$Message.info('科室名称不能为空');
 	  			} else {
 	  				this.$router.push({
-		  				name:"reviewlist24"
+		  				name:"tKeshi"
 		  			})
 	  			}
 //	  			this.$Message.info('新闻内容不能为空');
 	  			this.$router.push({
-	  				name:"reviewlist24"
+	  				name:"tKeshi"
 	  			})
 	  			console.log(params);
 	  		}

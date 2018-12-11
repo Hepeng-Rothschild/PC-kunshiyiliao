@@ -101,7 +101,7 @@
 //      		console.log(item.id)
         		let id = item.id
         		this.$router.push({
-        			name:"reviewlist14",
+        			name:"newsEdit",
         			params:{
         				id
         			}

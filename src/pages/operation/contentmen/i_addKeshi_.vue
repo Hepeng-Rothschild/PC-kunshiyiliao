@@ -179,7 +179,7 @@
 				
 				console.log(arr);
 //				this.$router.push({
-//					name:"reviewlist19"
+//					name:"iKeshi"
 //				})
 			}
 		}

@@ -148,7 +148,7 @@
 		methods : {
 			homeBtn () {
 				this.$router.push({
-					name:"reviewlist5"
+					name:"contentmanagementAdd"
 				})
 			},
 			pageChange (e) {

@@ -63,12 +63,12 @@
 		methods: {
 			navto () {
 				this.$router.push({
-					name:"reviewlist20"
+					name:"medicineAdd"
 				})
 			},
 			edit () {
 				this.$router.push({
-					name:"reviewlist21"
+					name:"medicineEdit"
 				})
 			}
 		}
