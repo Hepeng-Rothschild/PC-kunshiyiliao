@@ -201,26 +201,17 @@ export default {
         this.id = parseInt(this.$route.query.id);
         this.$axios.post(api.delReviewDoctorInfo,{id:this.id})
         .then(resp=>{
-            this.info = resp.data.object
-            if(this.info.docIcon){
-                this.info.docIcon = JSON.parse(this.info.docIcon);
-                this.docIcon = this.fileBaseUrl+this.info.docIcon.fileName;
-            }
-            this.info.idcardFront = JSON.parse(this.info.idcardFront);
-            this.info.idcardBack = JSON.parse(this.info.idcardBack);
-            this.info.specialtyCertificate = JSON.parse(this.info.specialtyCertificate);
-            this.info.prescriptionSignature = JSON.parse(this.info.prescriptionSignature);
-            this.info.practiceCertificate = JSON.parse(this.info.practiceCertificate);
-            this.info.qualificationCertificate = JSON.parse(this.info.qualificationCertificate);
+            this.info = resp.data.object;
+            this.tryCatch(this.info.docIcon) && (this.docIcon = this.fileBaseUrl+this.tryCatch(this.info.docIcon).fileName);
+            this.tryCatch(this.info.idcardFront) && (this.idcardFront = this.fileBaseUrl+this.tryCatch(this.info.idcardFront).fileName);
 
-            this.idcardFront = this.fileBaseUrl+this.info.idcardFront.fileName;
-            this.idcardBack = this.fileBaseUrl+this.info.idcardBack.fileName;
-            this.specialtyCertificate = this.fileBaseUrl+this.info.specialtyCertificate.fileName;
-            this.prescriptionSignature = this.fileBaseUrl+this.info.prescriptionSignature.fileName;
+            this.tryCatch(this.info.idcardBack) && (this.idcardBack = this.fileBaseUrl+this.tryCatch(this.info.idcardBack).fileName);            
+            this.tryCatch(this.info.specialtyCertificate) && (this.specialtyCertificate = this.fileBaseUrl+this.tryCatch(this.info.specialtyCertificate).fileName);                        
+            this.tryCatch(this.info.prescriptionSignature) && (this.prescriptionSignature = this.fileBaseUrl+this.tryCatch(this.info.prescriptionSignature).fileName);                                    
 
-            this.practiceCertificate = this.info.practiceCertificate;
-            this.qualificationCertificate = this.info.qualificationCertificate;
-
+            this.tryCatch(this.info.practiceCertificate).length>0 && (this.practiceCertificate = this.tryCatch(this.info.practiceCertificate));                                                
+            
+            this.tryCatch(this.info.qualificationCertificate).length>0 && (this.qualificationCertificate = this.tryCatch(this.info.qualificationCertificate));                                                            
             if(this.info.authStatus == 1){
                 this.showReviewBtn = true;
             }else{
