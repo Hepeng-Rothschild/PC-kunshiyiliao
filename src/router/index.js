@@ -71,10 +71,16 @@ export default new Router({
 				//运维端路由
 				maintain.residentRegisterList,					
 				maintain.doctorRegisterList,
+				maintain.doctorRegisterBatchOne,
+				maintain.doctorRegisterBatchTwo,
+				maintain.doctorRegisterBatchThree,
 					// 机构注册信息
 				maintain.mechanismregList,
 				maintain.mechanismregAdd,
 				maintain.mechanismregEdit,
+				maintain.mechanismregBatchOne,
+				maintain.mechanismregBatchTwo,
+				maintain.mechanismregBatchThree,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由

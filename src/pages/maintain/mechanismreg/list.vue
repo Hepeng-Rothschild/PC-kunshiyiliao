@@ -4,7 +4,7 @@
       <!-- 头部信息 -->
       <header>
         <div class="btn">
-          <button style="background:#716bb2;">批量导入</button>
+          <button style="background:#716bb2;" @click = 'batch'>批量导入</button>
           <button style="background:#4d8f8f;" @click = 'add'>新增机构</button>
         </div>
         <div class="search">
@@ -27,21 +27,21 @@
             <th>注册时间</th>
             <th>操作</th>
           </tr>
-          <tr>
-            <th>编号</th>
-            <th>城市</th>
-            <th>机构名称</th>
-            <th>机构编码</th>
-            <th>机构类型</th>
-            <th>机构等级</th>
+          <tr v-for = 'item,index in list'>
+            <th>{{ addZero(index) }}</th>
+            <th>{{ item.city }}</th>
+            <th>{{ item.hospitalName }}</th>
+            <th>{{ item.internetHospital == '0'? '企业' :'医院' }}</th>
+            <th>{{ item.orgCode }}</th>
+            <th>{{ item.grade }}</th>
             <th>联系人姓名</th>
-            <th>联系电话</th>
-            <th>状态</th>
-            <th>注册时间</th>
+            <th>{{ item.linkmanTelephone }}</th>
+            <th>{{ item.enable == '0'? '入驻' :'关闭'}}</th>
+            <th>{{ item.createTime }}</th>
             <th>
-              <span style = 'cursor:pointer' @click = 'edit'>编辑</span>
+              <span style = 'cursor:pointer' @click = 'edit(item)'>编辑</span>
               <span style = 'cursor:pointer'>删除</span>
-              <span style = 'cursor:pointer'>停用</span>
+              <span style = 'cursor:pointer' @click = 'enable(item)'>{{ item.enable == '0'? '启用' :'停用' }}</span>
             </th>
           </tr>
         </table>
@@ -66,7 +66,34 @@ export default {
       Name: ""
     };
   },
+  mounted () {
+    this.getMechanismreg(1);
+  },
   methods: {
+    //停用/启用
+    enable (item) {
+      let id = item.id;
+      let enable = 0;
+      if (!item.enable) {
+        enable = 1;
+      }
+      
+      this.$axios.post(api.mechanismregEnable,{
+        enable,
+        id
+      }).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          item.enable = enable;
+          this.$Message.info('修改成功');
+        }
+      })
+    },
+    batch () {
+      this.$router.push({
+        name:"mechanismregeditbatchone"
+      })
+    },
     nameChange() {
       console.log(this.Name);
     },
@@ -78,10 +105,31 @@ export default {
         name:"mechanismregadd"
       })
     },
-    edit () {
-      this.$router.push({
-        name:"mechanismregedit"
+    edit (item) {
+      console.log(item)
+      // this.$router.push({
+      //   name:"mechanismregedit"
+      // })
+    },
+    getMechanismreg (pageNo) {
+      this.$axios.post(api.mechanismregList,{
+          pageNo,
+          pageSize:10
+      }).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object
+          this.doctorregisterSize = ret.count
+          this.list = ret.list;
+          console.log(ret);
+        }
       })
+    },
+    addZero (num) {
+      num = num + 1
+      if (num < 10) {
+        return '0' + num
+      }
+      return num 
     }
   },
   components: {
