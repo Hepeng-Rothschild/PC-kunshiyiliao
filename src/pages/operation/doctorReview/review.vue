@@ -219,7 +219,7 @@ export default {
             }
         })
         .catch(err=>{
-            this.$Message.info("服务器超时，请重新访问")
+            // this.$Message.info("服务器超时，请重新访问")
         })
         //获取职称列表
         this.$axios

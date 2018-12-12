@@ -17,6 +17,7 @@ const operationLeftMenu = [
         // {id:34,level:2,name:"内容分类",path:"/index/operation/register/list"},
         // {id:18,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor"},
         // {id:26,level:2,name:"fileuploadFile",path:"/index/operation/upload/index"},
+        
     ]},
     {id:1,level:1,name:"患者端运营",childLists:[
         {id:30,level:2,name:"内容管理",path:"/index/operation/contentmanagement_home"},
