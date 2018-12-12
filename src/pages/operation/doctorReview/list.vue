@@ -218,7 +218,7 @@ export default {
         }
       })
       .catch(err=>{
-        this.$Message.info("服务器超时，请重试");
+        // this.$Message.info("服务器超时，请重试");
       })
     },
     cancel(){

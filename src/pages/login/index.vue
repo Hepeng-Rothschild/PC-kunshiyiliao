@@ -110,7 +110,7 @@ export default {
                         this.iconClass = "";
                         this.iconText = "";
                         this.alertMsg = "";
-                        this.$Message.info("服务器超时");
+                        // this.$Message.info("服务器超时");
                         this.verifyCode.refresh();
                     }
                 })

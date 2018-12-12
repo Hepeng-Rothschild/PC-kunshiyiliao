@@ -252,7 +252,7 @@ export default {
           this.remarks = this.info.remarks;
         })
         .catch(err => {
-          this.$Message.info("服务器超时，请重新访问");
+          // this.$Message.info("服务器超时，请重新访问");
         });
     }
   },

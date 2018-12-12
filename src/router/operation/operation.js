@@ -395,6 +395,16 @@ const departmentsList = {
 	component: () =>
 		import("@/pages/operation/contentmen/departments/departments_edit")
 }
+const doctorServerManage = {
+	path: 'operation/doctormanage',
+	name: 'departmentsList',
+	meta: {
+		index: 4,
+		title: '医生端服务管理'
+	},
+	component: () =>
+		import("@/pages/operation/dovtorservermanage/doctorservermanage")
+}
 export default {
     reviewList,
     reviewEdit,
@@ -433,6 +443,7 @@ export default {
 	addBanner,
 	createNews,
 	d_createdNews,
+	doctorServerManage,
 	// 医生端内容管理
 	contentCheckList,
 	contentCheckListAdd,
