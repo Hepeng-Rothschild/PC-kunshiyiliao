@@ -53,7 +53,6 @@ const zj = '/operateapi/organizationpageexpertdoctor'   //专家列表分页
 const expertedit = '/operateapi/organizationupdateexpertdoctor' //专家信息修改
 const expertadd = '/operateapi/organizationqueryDdoctorlist' //专家列表新增
 
-
 //特色科室
 const tesekeshi = '/operateapi/organizationselectspecialdept'   //特色科室
 const departmentseditleft = '/operateapi/organizationqueryspecialdept'  //特色科室左侧科室查询

@@ -81,7 +81,7 @@
           </div>
           <!-- 医院等级 -->
           <select v-model = 'mechanismGrade'>
-            <option value = '1'>三级甲等</option>
+            <option :value = 'item.dictType' v-for= 'item in grade'>{{ item.dictName }}</option>
           </select>
         </div>
         <!-- 机构电话 -->
@@ -151,12 +151,15 @@ export default {
             //城市列表
             provList:[],
             cityList:[],
-            countyList:[]
+            countyList:[],
+            //医院等级 列表
+            grade:[]
         }
     },
     mounted () {
       //获取省级信息
       this.getCity();
+      this.getGrent();
     },
     methods: {
         save () {
@@ -189,7 +192,15 @@ export default {
             }
             console.log(params);
         },
-      
+      //获取医院等级 
+      getGrent () {
+        this.$axios.post(api.managementAll).then(res => {
+          if (res.data) {
+            let ret = res.data.object;
+            this.grade = ret;
+          }
+        })
+      },
          // 获取省级
         getCity () {
             this.$axios.post(api.getCity).then(res => {

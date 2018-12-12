@@ -308,14 +308,18 @@
           // 名字
           this.y_name = ret.orgName;
           // 图片
-          this.uploadList.push({
-            name: "a42bdcc1178e62b4694c830f028db5c0",
-            percentage: 100,
-            status: "finished",
-            uid: 1544263544970,
-            url: this.fileBaseUrl + ret.hosIcon
-            // url:ret.hosIcon
-          });
+          if (ret.hosIcon) {
+            this.uploadList.push({
+              name: "a42bdcc1178e62b4694c830f028db5c0",
+              percentage: 100,
+              status: "finished",
+              uid: 1544263544970,
+              url: this.fileBaseUrl + ret.hosIcon
+            });
+          }
+          
+
+          console.log(this.uploadList);
           // 公众号
           this.$axios.post(api.managementGzh).then(res => {
             if (res.data) {
