@@ -63,6 +63,9 @@ export default new Router({
 			    operation.createNews,
 				operation.d_createdNews,
 				operation.expert_edit,
+				
+				operation.doctorServerManageList,
+				operation.doctorServerManageEdit,
 				// 医生端运营内容管理
 				operation.contentCheckList,
 				operation.contentCheckListAdd,

@@ -99,6 +99,8 @@ const getCity = '/operateapi/sysprovinceprovincecitylist' //获取省级区域�
 
 const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县列表
 /* ********************************************* */
+const doctorList = '/operateapi/doctorpage' //医生列表
+const doctorServerManage = '/operateapi/organizationquerymenulist' //医生端服务管理列表
 
 export default {
     login,
@@ -184,4 +186,7 @@ export default {
     getDoctorInfo,
     getCity,
     getCounty,
+
+    doctorServerManage,
+    doctorList,
 }
