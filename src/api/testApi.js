@@ -53,7 +53,6 @@ const zj = '/operateapi/organizationpageexpertdoctor'   //专家列表分页
 const expertedit = '/operateapi/organizationupdateexpertdoctor' //专家信息修改
 const expertadd = '/operateapi/organizationqueryDdoctorlist' //专家列表新增
 
-
 //特色科室
 const tesekeshi = '/operateapi/organizationselectspecialdept'   //特色科室
 const departmentseditleft = '/operateapi/organizationqueryspecialdept'  //特色科室左侧科室查询
@@ -90,6 +89,15 @@ const getDepartment = '/operateapi/organizationselectdeptlist'  //查看科室�
 const departmentDetail = '/operateapi/organizationquerydepbyid' //查看科室详情
 const departmentChange = '/operateapi/organizationupdateappointmentdept' //修改预约科室详情
 
+//运维端!!!
+const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
+
+
+const getDoctorInfo = '/operateapi/residentpagedoctor'  //获取医生注册信息
+
+const getCity = '/operateapi/sysprovinceprovincecitylist' //获取省级区域列表
+
+const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县列表
 /* ********************************************* */
 
 export default {
@@ -169,4 +177,11 @@ export default {
     departmentDetail,
     departmentChange,
     /* ********************************************** */
+
+    //运维端
+
+    residentReg,
+    getDoctorInfo,
+    getCity,
+    getCounty,
 }

@@ -71,7 +71,38 @@ const uploadFile = {
     },
     component:()=>import("@/pages/operation/upload/index")
 }
+
 //医生端内容管理
+const contentCheckList = {
+	path: 'operation/contentCheck/list',
+	name: 'contentcontentCheck',
+	meta: {
+		index: 2,
+		title: '医生端内容管理'
+	},
+	component: () =>
+		import("@/pages/operation/contentCheck/contentmanagement_home")
+}
+const contentCheckListAdd = {
+	path: 'operation/contentCheck/add',
+	name: 'contentCheckAdd',
+	meta: {
+		index: 2,
+		title: '医生端内容管理-添加'
+	},
+	component: () =>
+		import("@/pages/operation/contentCheck/contentmanagement_add")
+}
+const contentCheckListEdit = {
+	path: 'operation/contentCheck/edit',
+	name: 'contentCheckEdit',
+	meta: {
+		index: 2,
+		title: '医生端内容管理-编辑'
+	},
+	component: () =>
+		import("@/pages/operation/contentCheck/contentmanagement_edit")
+}
 
 //医生端内容分类
 
@@ -413,4 +444,8 @@ export default {
 	createNews,
 	d_createdNews,
 	doctorServerManage,
+	// 医生端内容管理
+	contentCheckList,
+	contentCheckListAdd,
+	contentCheckListEdit,
 }

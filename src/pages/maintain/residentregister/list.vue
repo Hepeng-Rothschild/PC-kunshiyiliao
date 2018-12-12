@@ -1,15 +1,89 @@
 <template>
   <div class="residentregister">
-    
+    <div class="container">
+      <!-- 头部信息 -->
+      <header>
+        <div class="search">
+          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model = 'Name' @keyup = 'nameChange'>
+        </div>
+      </header> 
+      <!-- 列表 -->
+      <div class="list">
+        <table border cellspacing cellpadding>
+          <tr>
+            <th>编号</th>
+            <th>openID</th>
+            <th>居民姓名</th>
+            <th>注册昵称</th>
+            <th>联系方式（手机）</th>
+            <th>注册微信公众号</th>
+            <th>微信号<br/>绑定机构名称</th>
+            <th>注册时间</th>
+          </tr>
+          <tr v-for = 'item,index in list'>
+            <th>{{ addZero(index) }}</th>
+            <th>{{ item.openid }}</th>
+            <th>{{ item.userName }}</th>
+            <th>{{ item.nickname }}</th>
+            <th>{{ item.telephone }}</th>
+            <th>{{ item.appNick }}</th>
+            <th>{{ item.appMechanism }}</th>
+            <th>{{ item.createTime }}</th>
+          </tr>
+        </table>
+        <div class = 'notData' v-show = '!list.length'>暂无更多数据</div>
+      </div>
+    </div>
+    <!--分页器-->
+		<div class = 'paging'>
+			<Page :total = "residentregisterSize" @on-change = 'pageChange'/>		
+		</div>
   </div>
 </template>
 <script>
+// 居民注册信息
 import api from "@/api/commonApi";
+import { Page } from 'iview'
 export default {
   data() {
-    return {}
+    return {
+      residentregisterSize:10,
+      list:[],
+      Name:""
+    };
+  },
+  mounted () {
+    this.getData(1);
+  },
+  methods: {
+    pageChange (index) {
+        this.getData(index);
+    },
+    nameChange () {
+      console.log(this.Name);
+    },
+    getData (pageNo) {
+      this.$axios.post(api.residentReg,{
+        pageNo,
+        pageSize:10
+    }).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.residentregisterSize = ret.count
+          this.list = ret.list;
+        }
+      })
+    },
+    addZero (num) {
+      num = num + 1;
+      if (num <10) {
+        return '0' + num
+      }
+      return num
+    }
   },
   components: {
+    Page
   }
 };
 </script>
@@ -20,6 +94,70 @@ export default {
   width: 98%;
   background: #ffffff;
   box-sizing: border-box;
-  
+  .container {
+    width: 90%;
+    margin: 0 auto;
+    header {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .search {
+        background-color: rgb(255, 255, 255);
+        width: 276px;
+        height: 32px;
+        border-radius: 16px;
+        border-width: 1px;
+        border-color: rgb(102, 102, 102);
+        border-style: solid;
+        text-align:right;
+        input {
+          text-align: left;
+          font-size: 14px;
+          font-weight: 400;
+          font-style: normal;
+          text-decoration: none;
+          border: none;
+          outline: none;
+          font-family: 微软雅黑;
+          color: rgb(102, 102, 102);
+          padding-left: 28px;
+          width: 100%;
+          line-height: 32px;
+          background: none;
+        }
+      }
+    }
+    .list {
+      width: 100%;
+      margin:10px 0;
+      table {
+        width: 100%;
+        tr {
+          th {
+            text-align: center;
+          }
+        }
+        tr:first-child{
+          background-color: rgb(228, 228, 228);
+          color: rgb(102, 102, 102);
+        }
+      }
+      .notData{
+        width:100%;
+        text-align:center;
+        border:1px solid black;
+        border-top:none;
+        
+      }
+    }
+  }
+  .paging{
+			width:100%;
+			margin:10px auto;
+			text-align:center;
+		}
 }
 </style>

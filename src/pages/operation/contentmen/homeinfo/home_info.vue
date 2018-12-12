@@ -43,13 +43,9 @@
             <Icon type="ios-camera" size="20"></Icon>
           </div>
         </Upload>
-        <Modal title="View Image" v-model="visible">
-          <img
-            :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'"
-            v-if="visible"
-            style="width: 100%"
-          >
-        </Modal>
+          <Modal title="预览图片" v-model="visible">
+			        <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+			    </Modal>
         <span>添加图片</span>
       </div>
       <!--机构等级-->
@@ -312,14 +308,18 @@
           // 名字
           this.y_name = ret.orgName;
           // 图片
-          this.uploadList.push({
-            name: "a42bdcc1178e62b4694c830f028db5c0",
-            percentage: 100,
-            status: "finished",
-            uid: 1544263544970,
-            url: this.fileBaseUrl + ret.hosIcon
-            // url:ret.hosIcon
-          });
+          if (ret.hosIcon) {
+            this.uploadList.push({
+              name: "a42bdcc1178e62b4694c830f028db5c0",
+              percentage: 100,
+              status: "finished",
+              uid: 1544263544970,
+              url: this.fileBaseUrl + ret.hosIcon
+            });
+          }
+          
+
+          console.log(this.uploadList);
           // 公众号
           this.$axios.post(api.managementGzh).then(res => {
             if (res.data) {

@@ -72,8 +72,8 @@
 			            <Icon type="ios-camera" size="20"></Icon>
 			        </div>
 			    </Upload>
-			    <Modal title="View Image" v-model="visible">
-			        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+			    <Modal title="预览图片" v-model="visible">
+			        <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
 			    </Modal>
 				</div>
 					<p style = 'color:rgb(102, 102, 102);'>注：如不上传，取平台科室默认图标</p>
@@ -129,7 +129,6 @@
 			
 			</div>
 		</div>
-		
 	</div>
 </template>
 
@@ -155,14 +154,12 @@ import api from "@/api/commonApi";
 				defaultList: [],
                 imgName: '',
                 visible: false,
-                
                 tablsList:[],
                 rightDetail:[],
 				currentId:-1,
 				id:sessionStorage.getItem('hospitalId'),
 				editorText: '请输入要编辑的内容...',
 				editorTexts: '请输入要编辑的内容...',
-
 
 				uploadList: [],
 				uploadModal: true,
@@ -174,8 +171,7 @@ import api from "@/api/commonApi";
 		},
 		mounted () {
 			this.uploadList = this.$refs.upload.fileList;
-			
-			this.$axios.post(api.getDepartment,{
+			this.$axios.post(api.getDepartment, {
 				"hospitalId": this.id,
 				'id':336
 			}).then(res => {
@@ -222,9 +218,11 @@ import api from "@/api/commonApi";
 	  			if (this.switch1) {
 					  display = 1
 				  }
+				let images = this.images;
+				
 	  			let params = {
 					// 头像
-					"departmenticon":this.images,
+					// "departmenticon":this.images,
 					//   详情
 					"departmentdes":this.editorText,
 					//  位置
@@ -232,9 +230,12 @@ import api from "@/api/commonApi";
 					display,
 	  				"priority":this.isort,
 	  				"id":this.currentId
-	  			}
+				  }
+				  if (images != '') {
+					  params.departmenticon = images;
+					}
 	  			
-	  			if (params.name === ''){
+	  			if (params.name === '') {
 	  				this.$Message.info('科室名称不能为空');
 	  			} else {
 	  				this.$axios.post(api.departmentChange, params).then(res => {
@@ -253,7 +254,7 @@ import api from "@/api/commonApi";
 	  		changes (item) {
 	  			let id = item.id;
 	  			this.currentId = id;
-	  			this.$axios.post(api.departmentDetail,{
+	  			this.$axios.post(api.departmentDetail, {
 					"hospitalId": this.id,
 					id
 				}).then(res => {
@@ -274,6 +275,7 @@ import api from "@/api/commonApi";
 								url: this.fileBaseUrl + ret.departmenticon
 							})
 						}
+						console.log(ret)
 						// 标题
 						this.title = ret.dictType;
 						// 详情
@@ -301,13 +303,15 @@ import api from "@/api/commonApi";
             	file.url =  this.fileBaseUrl + res.object[0].fileName;
 				this.images = res.object[0].fileName
 				file.name = res.object[0].fileName;
-				this.uploadList.push({
-					name: "a42bdcc1178e62b4694c830f028db5c0",
-					percentage: 100,
-					status: "finished",
-					uid: 1544263544970,
-					url: this.fileBaseUrl +  res.object[0].fileName
-				})	
+				if (this.uploadList.length >1) {
+					this.uploadList.push({
+						name: "a42bdcc1178e62b4694c830f028db5c0",
+						percentage: 100,
+						status: "finished",
+						uid: 1544263544970,
+						url: this.fileBaseUrl +  res.object[0].fileName
+					})	
+				}
             },
             handleFormatError (file) {
                 this.$Notice.warning({
