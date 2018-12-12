@@ -174,10 +174,7 @@ export default {
         this.$axios.post(api.delReviewDoctorInfo,{id:this.id})
         .then(resp=>{
             this.info = resp.data.object;
-            if(this.info.docIcon){
-                this.info.docIcon = JSON.parse(this.info.docIcon);
-                this.docIcon = this.fileBaseUrl+this.info.docIcon.fileName;
-            }
+            this.tryCatch(this.info.docIcon) && (this.docIcon = this.fileBaseUrl+this.tryCatch(this.info.docIcon).fileName);
             this.name = this.info.name;
             this.info.gender = String(this.info.gender);
             this.age = this.info.age;

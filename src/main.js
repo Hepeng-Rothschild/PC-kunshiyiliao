@@ -95,7 +95,32 @@ Vue.prototype.fromData = {
 };
 
 Vue.config.productionTip = false;
-
+Vue.prototype.tryCatch = function(jsonStr){
+	let tmpObj = null;
+	try{
+		tmpObj = JSON.parse(jsonStr);
+		switch(tmpObj.constructor){
+			case "Array":
+				console.log(1);
+				tmpObj.forEach((el,i) => {
+					tmpObj[i].fileName = (el.fileName || "");
+					tmpObj[i].smallFileName = (el.smallFileName || "");
+				});
+				break;
+			case "Object":
+				console.log(2);
+				tmpObj.fileName = (tmpObj.fileName || "");
+				tmpObj.smallFileName = (el.smallFileName || "");
+				break;
+		}
+		// console.log("这里是转换之后的变量");
+		// console.log(tmpObj);
+		return tmpObj;
+	}
+	catch(err){
+	    return tmpObj;
+	}
+}
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',

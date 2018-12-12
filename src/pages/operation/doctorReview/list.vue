@@ -54,10 +54,12 @@ export default {
         {title:"头像",key:"avatar",align:"center",width:"80px",
           render:(h,params)=>{
             let avatar = params.row.avatar;
+            let defaultSrc = require("@/assets/images/heicon.jpg");
             return h("img",
             {
               attrs:{
-                src: avatar,style:'width:100%;height:100%;border-radius:50%;'
+                src: avatar || defaultSrc,
+                style:'width:100%;height:100%;border-radius:50%;',
               }
             })
           }
@@ -74,7 +76,6 @@ export default {
         {title:"操作",key:"operate",align:"center",width:"130px",render:(h,params)=>{
           let id=params.row.id
           var btnTxt = "查看";
-          console.log(params.row.authStatus);
           if(params.row.authStatus == '审核中'){
             btnTxt = "审核";
           }
@@ -181,14 +182,7 @@ export default {
         for(let i=0;i<this.doctorList.length;i++){
           let item = this.doctorList[i];
           this.doctorList[i].iNum = i+1;
-          let avatar = "";
-          try{
-            avatar = JSON.parse(item.docIcon);
-          }
-          catch(err){
-            console.log("头像格式有误,解析失败")
-          }
-          this.doctorList[i].avatar = api.fileBaseUrl+avatar.fileName;
+          this.tryCatch(item.docIcon) && (this.doctorList[i].avatar = this.fileBaseUrl+this.tryCatch(item.docIcon).fileName);
           this.doctorList[i].imginquiry = this.openList[this.doctorList[i].authStatus];
           this.doctorList[i].phoneinquiry = this.openList[this.doctorList[i].authStatus];
           this.doctorList[i].videoinquiry = this.openList[this.doctorList[i].authStatus];
