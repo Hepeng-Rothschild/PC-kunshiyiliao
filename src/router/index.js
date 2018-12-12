@@ -63,10 +63,18 @@ export default new Router({
 			    operation.createNews,
 				operation.d_createdNews,
 				operation.expert_edit,
+				// 医生端运营内容管理
+				operation.contentCheckList,
+				operation.contentCheckListAdd,
+				operation.contentCheckListEdit,
 
 				//运维端路由
-				maintain.residentRegisterList,
+				maintain.residentRegisterList,					
 				maintain.doctorRegisterList,
+					// 机构注册信息
+				maintain.mechanismregList,
+				maintain.mechanismregAdd,
+				maintain.mechanismregEdit,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由

@@ -63,21 +63,16 @@
 			        :before-upload="handleBeforeUpload"
 			        multiple
 			        type="drag"
-
-
-
 					:action = "uploadUrl"
 					:headers = 'fromData'
 					:data = 'uploadData'
-
-
 			        style="display: inline-block;width:58px;">
 			        <div style="width: 58px;height:58px;line-height: 58px;">
 			            <Icon type="ios-camera" size="20"></Icon>
 			        </div>
 			    </Upload>
-			    <Modal title="View Image" v-model="visible">
-			        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+			    <Modal title="预览图片" v-model="visible">
+			        <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
 			    </Modal>
 				</div>
 					<p style = 'color:rgb(102, 102, 102);'>注：如不上传，取平台科室默认图标</p>
@@ -197,7 +192,6 @@ import {Switch,Upload ,Icon} from 'iview'
 						hospitalId: this.id,
 						id
 					}).then(res => {
-						
 						if (res.data.code) {
 							let ret = res.data.object;
 							// 科室名
@@ -217,8 +211,9 @@ import {Switch,Upload ,Icon} from 'iview'
 							// 预约科室
 							this.switch2 = Boolean(ret.specialDept);
 							//图片
-							// if (ret.departmenticon) {
-								this.uploadList = []
+							this.uploadList = [];
+							if (ret.departmenticon) {
+								
 								this.uploadList.push({
 									name: "a42bdcc1178e62b4694c830f028db5c0",
 									percentage: 100,
@@ -227,7 +222,7 @@ import {Switch,Upload ,Icon} from 'iview'
 									url:this.fileBaseUrl + ret.departmenticon
 									// url:ret.departmenticon
 								})
-							// }
+							}
 							console.log(ret);
 							
 							
@@ -250,6 +245,7 @@ import {Switch,Upload ,Icon} from 'iview'
 				  if (this.switch2) {
 					  switch2 = 1
 				  }
+				  let images = this.images;
 	  			let params = {
 					//科室别名
 					  deptNickname:this.keshiname,
@@ -258,22 +254,27 @@ import {Switch,Upload ,Icon} from 'iview'
 					//特色
 					  deptDetails:this.editorText,
 					//预约科室
-					  switch1:switch1,
+					  registeredReservation:switch1,
 					//特色科室
 					  specialDept:switch2,
-					  departmenticon:this.images,
+
+					//   departmenticon:this.images,
+
 					  id:this.currentId
-	  			}
-	  			
+				  }
+				  //图片
+				   if (images != '') {
+					  params.departmenticon = images;
+					}
+				  
 				this.$axios.post(api.medicineedit, params).then(res => {
 					if (res.data) {
+						this.$Message.info('修改成功');
 						setTimeout(() => {
-							this.$Message.info('修改成功');
 							this.$router.push({	
 								name:"iKeshi"
 							})
 						}, 500);
-						console.log(res.data);
 					}
 				}).catch(err => {
 					console.log(err)
@@ -293,16 +294,20 @@ import {Switch,Upload ,Icon} from 'iview'
 				this.uploadList.splice(0,1);
             },
             handleSuccess (res, file) {
+				console.log(file);
             	file.url =  this.fileBaseUrl + res.object[0].fileName;
 				this.images = res.object[0].fileName
 				file.name = res.object[0].fileName;
-				this.uploadList.push({
-					name: "a42bdcc1178e62b4694c830f028db5c0",
-					percentage: 100,
-					status: "finished",
-					uid: 1544263544970,
-					url: this.fileBaseUrl +  res.object[0].fileName
-				})	
+				if(this.uploadList.length < 1) {
+					this.uploadList.push({
+						name: "a42bdcc1178e62b4694c830f028db5c0",
+						percentage: 100,
+						status: "finished",
+						uid: 1544263544970,
+						url: this.fileBaseUrl +  res.object[0].fileName
+					})
+					console.log(this.uploadList);
+				}
             },
             handleFormatError (file) {
                 this.$Notice.warning({
@@ -339,7 +344,6 @@ import {Switch,Upload ,Icon} from 'iview'
 				if (res.data) {
 					let ret = res.data.object
 					this.list = ret
-					console.log(ret);
 				}
 			})
         }

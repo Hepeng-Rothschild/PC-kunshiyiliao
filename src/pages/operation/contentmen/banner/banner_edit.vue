@@ -57,8 +57,8 @@
 			            <Icon type="ios-camera" size="20"></Icon>
 			        </div>
 			    </Upload>
-			    <Modal title="View Image" v-model="visible">
-			        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+			    <Modal title="预览图片" v-model="visible">
+			        <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
 			    </Modal>
 				</div>
 			</div>
@@ -167,7 +167,7 @@
 					this.$Message.info('banner名称不能为空');
 				} else {
 					 this.$axios.post(api.bannerChange, params ).then(res => {
-		            	if (res.data.message === 'success') {
+		            	if (res.data.code) {
 		            		this.$Message.info('修改成功');
 		            		setTimeout(()=>{
 		            			this.$router.push({
@@ -187,7 +187,6 @@
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
 				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-				console.log(this.upload);
             },
             handleSuccess (res, file) {
             	file.url =  this.fileBaseUrl + res.object[0].fileName;

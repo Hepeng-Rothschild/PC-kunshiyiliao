@@ -166,7 +166,7 @@
 
 					}
 					.ltd{
-						color:blue;
+						color:black;
 						user-select:none;
 						cursor: pointer;
 					}

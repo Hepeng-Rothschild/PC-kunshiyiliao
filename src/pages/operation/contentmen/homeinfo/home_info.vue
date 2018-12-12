@@ -43,13 +43,9 @@
             <Icon type="ios-camera" size="20"></Icon>
           </div>
         </Upload>
-        <Modal title="View Image" v-model="visible">
-          <img
-            :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'"
-            v-if="visible"
-            style="width: 100%"
-          >
-        </Modal>
+          <Modal title="预览图片" v-model="visible">
+			        <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+			    </Modal>
         <span>添加图片</span>
       </div>
       <!--机构等级-->
