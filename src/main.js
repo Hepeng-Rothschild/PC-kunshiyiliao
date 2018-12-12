@@ -34,9 +34,9 @@ router.beforeEach((to, from, next) => {
 		if(access_token != undefined){
 			let title = to.meta.title?to.meta.title:"互联网医院管理系统";
 			document.title = title;
-			next()
+			next();
 		}else{
-			next("/login")
+			next("/login");
 		}
 	}else{
 		next();

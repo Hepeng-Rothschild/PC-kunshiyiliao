@@ -181,7 +181,13 @@ export default {
         for(let i=0;i<this.doctorList.length;i++){
           let item = this.doctorList[i];
           this.doctorList[i].iNum = i+1;
-          let avatar = JSON.parse(item.docIcon);
+          let avatar = "";
+          try{
+            avatar = JSON.parse(item.docIcon);
+          }
+          catch(err){
+            console.log("头像格式有误,解析失败")
+          }
           this.doctorList[i].avatar = api.fileBaseUrl+avatar.fileName;
           this.doctorList[i].imginquiry = this.openList[this.doctorList[i].authStatus];
           this.doctorList[i].phoneinquiry = this.openList[this.doctorList[i].authStatus];

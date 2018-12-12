@@ -49,6 +49,12 @@ export default {
             loginFlag:true,
         };
     },
+    beforeCreate(){
+        let assets_token = cookie.getCookie("access_token");
+        if(assets_token){
+            cookie.delCookie("access_token");
+        }
+    },
     mounted(){
         this.verifyCode = new GVerify("verify");
     },
@@ -66,7 +72,7 @@ export default {
                 return ;
             }
             if(!this.username || !this.password){
-                this.noticeClassColor = "alert-color";
+                this.noticeClassColor = "alert-color"; 
                 this.iconClass = "alert-icon";
                 this.iconText = "!";
                 this.alertMsg = "请输入用户名和密码";
@@ -78,9 +84,6 @@ export default {
                 this.alertMsg = "输入正确，登陆中...";
             }
             let params = "username=" + this.username + "&password=" + this.password;
-            // let params = {};
-            // params.username = this.username;
-            // params.password = this.password;
 
             if(this.loginFlag){
                 this.loginFlag = false;
