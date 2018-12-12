@@ -3,7 +3,7 @@
     <div class="container">
       <!-- 头部信息 -->
       <header>
-        <button>批量导入</button>
+        <Button @click = 'branch'>批量导入</Button>
         <div class="search">
           <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model = 'Name' @keyup = 'nameChange'>
         </div>
@@ -57,7 +57,7 @@
 <script>
 // 医生注册信息
 import api from "@/api/commonApi";
-import { Page } from 'iview'
+import { Page ,Upload } from 'iview'
 export default {
   data() {
     return {
@@ -70,6 +70,11 @@ export default {
     this.getDoctorData(1);
   },
   methods: {
+    branch () {
+      this.$router.push({
+        name:"doctorregisterbatchone"
+      })
+    },
     pageChange (index) {
       this.getDoctorData(index)
     },
@@ -97,7 +102,8 @@ export default {
     }
   },
   components: {
-    Page
+    Page,
+    Upload
   }
 };
 </script>

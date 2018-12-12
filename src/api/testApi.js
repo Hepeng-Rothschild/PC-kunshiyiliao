@@ -92,12 +92,16 @@ const departmentChange = '/operateapi/organizationupdateappointmentdept' //修�
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
 
+const uploadXls = '/operateapi/organizationinsertbatchdoctor' //批量上传信息
 
 const getDoctorInfo = '/operateapi/residentpagedoctor'  //获取医生注册信息
 
 const getCity = '/operateapi/sysprovinceprovincecitylist' //获取省级区域列表
 
 const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县列表
+// 机械注册信息
+const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注册信息列表查询
+const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
 /* ********************************************* */
 const doctorList = '/operateapi/doctorpage' //医生列表
 const doctorServerManage = '/operateapi/organizationquerymenulist' //医生端服务管理列表
@@ -182,6 +186,7 @@ export default {
 
     //运维端
 
+    uploadXls,
     residentReg,
     getDoctorInfo,
     getCity,
@@ -189,4 +194,7 @@ export default {
 
     doctorServerManage,
     doctorList,
+    // 机构注册信息
+    mechanismregList,
+    mechanismregEnable,
 }
