@@ -395,15 +395,25 @@ const departmentsList = {
 	component: () =>
 		import("@/pages/operation/contentmen/departments/departments_edit")
 }
-const doctorServerManage = {
-	path: 'operation/doctormanage',
-	name: 'departmentsList',
+const doctorServerManageList = {
+	path: 'operation/doctormanage/list',
+	name: 'doctorServerManageList',
 	meta: {
-		index: 4,
-		title: '医生端服务管理'
+		index: 2,
+		title: '医生列表'
 	},
 	component: () =>
-		import("@/pages/operation/dovtorservermanage/doctorservermanage")
+		import("@/pages/operation/dovtorservermanage/list")
+}
+const doctorServerManageEdit = {
+	path: 'operation/doctormanage/edit',
+	name: 'doctorServerManageEdit',
+	meta: {
+		index: 3,
+		title: '医生服务管理'
+	},
+	component: () =>
+		import("@/pages/operation/dovtorservermanage/edit")
 }
 export default {
     reviewList,
@@ -443,7 +453,8 @@ export default {
 	addBanner,
 	createNews,
 	d_createdNews,
-	doctorServerManage,
+	doctorServerManageList,
+	doctorServerManageEdit,
 	// 医生端内容管理
 	contentCheckList,
 	contentCheckListAdd,

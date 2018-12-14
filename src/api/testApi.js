@@ -104,6 +104,8 @@ const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注
 const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
 // const mechanismregAdd = '' // 新增机构
 /* ********************************************* */
+const doctorList = '/operateapi/doctorpage' //医生列表
+const doctorServerManage = '/operateapi/organizationquerymenulist' //医生端服务管理列表
 
 export default {
     login,
@@ -190,6 +192,9 @@ export default {
     getDoctorInfo,
     getCity,
     getCounty,
+
+    doctorServerManage,
+    doctorList,
     // 机构注册信息
     mechanismregList,
     mechanismregEnable,
