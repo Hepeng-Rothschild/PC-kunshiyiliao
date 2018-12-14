@@ -106,8 +106,10 @@ const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
 const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
 const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
 /* ********************************************* */
-const doctorList = '/operateapi/doctorpage' //医生列表
-const doctorServerManage = '/operateapi/organizationquerymenulist' //医生端服务管理列表
+const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
+const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
+const doctorServerManageById = '/operateapi/doctormenuselectmenuidsbydoctorid' //查询某个医生的服务管理列表
+const doctorServerManageUpdate = '/operateapi/doctormenuinsertorupdatemenu' //修改某个医生的服务管理
 
 export default {
     login,
@@ -196,6 +198,8 @@ export default {
     getCounty,
 
     doctorServerManage,
+    doctorServerManageById,
+    doctorServerManageUpdate,
     doctorList,
     // 机构注册信息
     mechanismregList,

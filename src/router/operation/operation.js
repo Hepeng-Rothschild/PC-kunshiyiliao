@@ -62,14 +62,14 @@ const kindeditorTest = {
     },
     component:()=>import("@/pages/operation/kindeditor")
 }
-const uploadFile = {
-    path:'operation/upload/index',
-    name:'uploadFile',
+const uploaddemo = {
+    path:'operation/uploaddemo',
+    name:'uploaddemo',
     meta:{
-        index:3,
-        title:'uploadFile'
+        index:2,
+        title:'uploaddemo'
     },
-    component:()=>import("@/pages/operation/upload/index")
+    component:()=>import("@/pages/operation/upload")
 }
 
 //医生端内容管理
@@ -422,8 +422,8 @@ export default {
     registerList,
     registerEdit,
     registerDetail,
-    kindeditorTest,
-    uploadFile,
+	kindeditorTest,
+	uploaddemo,
     //机构运营
 	contentmanagementHome,
 	contentmanagementAdd,
@@ -459,4 +459,5 @@ export default {
 	contentCheckList,
 	contentCheckListAdd,
 	contentCheckListEdit,
+	
 }

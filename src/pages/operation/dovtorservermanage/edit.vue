@@ -8,7 +8,7 @@
       </h4>
       <div class="fuwu">
         <!--线上服务-->
-        <div class="xsfw" v-for="(item,index) of allMenuList">
+        <div class="xsfw" v-for="(item,index) of allServerList">
           <p>{{ item.name }}</p>
           <!--第一行-->
           <div class="select_wufu" ref="all">
@@ -47,8 +47,9 @@ export default {
   data() {
     return {
       arr: [],
-      allMenuList: [],
-      id: sessionStorage.getItem("hospitalId"),
+      allServiceList: [],
+      docServiceList: [],
+      id: null,
       editFlag: false
     };
   },
@@ -60,20 +61,18 @@ export default {
       let arr = [];
       for (let i = 0; i < len; i++) {
         if (el[i].checked) {
-          arr.push(el[i].getAttribute("data-id"));
+          arr.push(parseInt(el[i].getAttribute("data-id")));
         }
       }
       this.$axios
-        .post(api.setserver, {
-          doctorId: this.id,
-          ids: arr
+        .post(api.doctorServerManageUpdate, {
+          doctorId: parseInt(this.id),
+          menuIds: arr
         })
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
-            setTimeout(() => {
-              this.$router.push("/index/operation/doctormanage/list");
-            }, 500);
+            this.$router.push("/index/operation/doctormanage/list");
           }
         });
     },
@@ -83,31 +82,52 @@ export default {
     toDetail() {
       this.editFlag = false;
     },
-    reback(){
-      this.$router.back(-1)
+    reback() {
+      this.$router.back(-1);
     }
   },
-  mounted() {
+  created() {
+    this.id = this.$route.query.id;
     this.$axios
       .post(api.doctorServerManage)
-      .then(res => {
-        if (res.data.success) {
-          let ret = res.data.object;
-          for (let i = 0; i < ret.length; i++) {
-            for (let j = 0; j < ret[i].child.length; j++) {
-              if (j % 2 == 1) {
-                ret[i].child[j].selected = 1;
-                this.arr.push(ret[i].child[j].id);
-              }
-            }
-          }
-          this.allMenuList = ret;
+      .then(resp => {
+        if (resp.data.success) {
+          let tmpData = resp.data.object;
+          this.allServiceList = tmpData;
         }
       })
       .catch(err => {
         console.log(err);
       });
-
+    let param = {};
+    param.doctorId = this.id;
+    this.$axios
+      .post(api.doctorServerManageById, param)
+      .then(resp => {
+        this.docServiceList = resp.data.object;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  computed: {
+    allServerList() {
+      for (let i = 0; i < this.allServiceList.length; i++) {
+        //循环获取child
+        for (let j = 0; j < this.allServiceList[i].child.length; j++) {
+          //循环child对比id
+          let index = this.docServiceList.indexOf(
+            this.allServiceList[i].child[j].id
+          );
+          if (index != -1) {
+            this.allServiceList[i].child[j].selected = 1;
+          } else {
+            this.allServiceList[i].child[j].selected = 0;
+          }
+        }
+      }
+      return this.allServiceList;
+    }
   }
 };
 </script>

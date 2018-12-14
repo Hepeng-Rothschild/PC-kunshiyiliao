@@ -2,21 +2,12 @@
   <div class="doctorreviewlist">
     <Row>
       <Col :xs="24">
-        <Select class="w-select" v-model="city">
-          <Option value="0">全国</Option>
-          <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
-        </Select>
-        <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-          <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
-        </Select>
-        <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
-        <Select class="w-select" v-model="dictType" placeholder="职称级别">
-          <Option v-for="item in titleList" :value="item.dictType" :key="item.dictType">{{item.dictName}}</Option>
-        </Select>
-        <Select class="w-select" v-model="authStatus">
-          <Option value="0">全部认证</Option>
-          <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
-        </Select>
+        医生：
+        <Input class="w-input" v-model="doctorName" placeholder="请输入医生名称"/>&nbsp;&nbsp;&nbsp;&nbsp;
+        科室：
+        <Input class="w-input" v-model="dept" placeholder="请输入科室关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
+        职称：
+        <Input class="w-input" v-model="title" placeholder="请输入职称关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button type="primary" @click="loadPage(1)">
           <Icon type="ios-search" size="14"/>查询
         </Button>
@@ -24,9 +15,6 @@
     </Row>
     <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
     <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
-    <Modal title="提示：" @on-ok="ok" @on-cancel="cancel" v-model="modalConfirm" class-name="vertical-center-modal">
-      <p>{{confirmInfo}}</p>
-    </Modal>
   </div>
 </template>
 <script>
@@ -35,143 +23,79 @@ import api from "@/api/commonApi";
 export default {
   data() {
     return {
-      cityList: [],
-      city: "0",
-      searchTypeList: [
-        { id: 1, name: "医院名称" },
-        { id: 2, name: "医生姓名" }
-      ],
-      searchType: 1,
-      searchKey: "",
-      keyPlaceHolder: "医院名称",
-      titleList: "",
-      dictType: "",
-      statusList: ["未认证", "审核中", "审核通过", "审核未通过"],
-      openList: ["未开通","未开通","已开通","未开通"],
-      authStatus: "0",
-      columns:[
-        {title:"医生ID",key:"id",align:"center"},
-        {title:"医生姓名",key:"name",align:"center"},
-        {title:"科室",key:"deptType",align:"center"},
-        {title:"职称",key:"title",align:"center"},
-        {title:"联系电话",key:"phone",align:"center"},
-        {title:"操作",key:"operate",align:"center",render:(h,params)=>{
-          let id=params.row.id
-          return h("a",{
-              attrs:{
-                href:"javascript:void(0);"
-              },
-              on:{
-                click:()=>{
-                  this.$router.push({path:"/index/operation/doctormanage/edit",query:{id}})
+      doctorName: "",
+      dept: "",
+      title: "",
+      columns: [
+        { title: "序号", key: "iNum", align: "center" },
+        { title: "医生姓名", key: "doctorName", align: "center" },
+        { title: "科室", key: "deptType", align: "center" },
+        { title: "职称", key: "title", align: "center" },
+        { title: "联系电话", key: "phone", align: "center" },
+        {
+          title: "操作",
+          key: "operate",
+          align: "center",
+          render: (h, params) => {
+            console.log(params.row);
+            let id = params.row.doctorId;
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: "javascript:void(0);"
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({
+                      path: "/index/operation/doctormanage/edit",
+                      query: { id }
+                    });
+                  }
                 }
-              }
-            },"管理服务")
-        }}
+              },
+              "管理服务"
+            );
+          }
+        }
       ],
-      doctorList:[
-        {iNum:1,avatar:require("@/assets/images/header/code_box.png"),operat:""}
-      ],
-      count:0,
-      pageSize:10,
-      pageNo:1,
-      modalConfirm:false,
-      confirmInfo:'',
-      delIndex:null,
-      delId:null
+      doctorList: [],
+      count: 0,
+      pageSize: 10,
+      pageNo: 1
     };
   },
   components: {
     Select,
-    Option,
+    Option
   },
   mounted() {
-    //获取省级列表
-    this.$axios
-      .post(api.getProvince)
-      .then(resp => {
-        this.cityList = resp.data.object;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    //获取职称列表
-    this.$axios
-      .post(api.getTitle)
-      .then(resp => {
-        this.titleList = resp.data.object;
-      })
-      .catch(err => {
-        console.log(err);
-      });
     //上来就加载第一页数据
-    this.loadPage(1)
+    this.loadPage(1);
   },
-  methods:{
-    changeSearchType(val){
-      if(val == 1){
-        this.keyPlaceHolder = "医院名称";
-      }else{
-        this.keyPlaceHolder = "医生名称";
-      }
-    },
+  methods: {
     //加载列表数据
-    loadPage(pageNo){
+    loadPage(pageNo) {
       this.pageNo = pageNo;
       var params = {};
-      params.province = parseInt(this.city==0?null:this.city);
-      params.title = this.dictType;
-      params.authStatus = this.authStatus==0?"":this.authStatus;
-      if(this.searchType == 1){
-          params.hospitalName = this.searchKey;
-          params.name = "";
-      }else{
-          params.name = this.searchKey;
-          params.hospitalName = "";
-      }
+      params.deptType = this.dept;
+      params.doctorName = this.doctorName;
+      params.title = this.title;
       params.pageNo = pageNo;
       params.pageSize = this.pageSize;
       this.$axios
-      .post(api.getReviewDoctorList,params)
-      .then(resp => {
-        this.count = resp.data.object.count;
-        this.doctorList = resp.data.object.list;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    },
-    delDoctor(index,id,name){
-      this.confirmInfo = "是否确认删除“"+name+"”?";
-      this.modalConfirm = true;
-      this.delIndex = index;
-      this.delId = id;
-    },
-    ok(){
-      let params = {};
-      params.id = this.delId;
-      this.$axios.post(api.delReviewDoctor,params)
-      .then(resp=>{
-        if(resp.data.success){
-          this.doctorList.splice(this.delIndex,1);
-          this.modalConfirm = false;
-          this.confirmInfo = '';
-          this.delIndex = null;
-          this.delId = null;
-          this.$Message.info("删除成功");
-        }else{
-          this.$Message.info("删除失败，请重试");
-        }
-      })
-      .catch(err=>{
-        // this.$Message.info("服务器超时，请重试");
-      })
-    },
-    cancel(){
-      this.modalConfirm = false;
-      this.confirmInfo = '';
-      this.delIndex = null;
-      this.delId = null;
+        .post(api.doctorList, params)
+        .then(resp => {
+          console.log(resp);
+          this.count = resp.data.object.count;
+          this.doctorList = resp.data.object.list;
+          for(let i=0;i<this.doctorList.length;i++){
+            this.doctorList[i].iNum = i+1;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
@@ -189,8 +113,8 @@ export default {
   .w-input {
     width: 200px;
   }
-  .m-table{
-    margin:10px 0;
+  .m-table {
+    margin: 10px 0;
   }
 }
 </style>

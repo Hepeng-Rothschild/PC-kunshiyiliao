@@ -1,5 +1,4 @@
 //生产环境api
-
 const login = "/operateapi/operate/login"; //登陆接口
 const news = '/operateapi/organizationpagenews'; //动态新闻列表分页
 const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口
@@ -53,7 +52,6 @@ const zj = '/operateapi/organizationpageexpertdoctor'   //专家列表分页
 const expertedit = '/operateapi/organizationupdateexpertdoctor' //专家信息修改
 const expertadd = '/operateapi/organizationqueryDdoctorlist' //专家列表新增
 
-
 //特色科室
 const tesekeshi = '/operateapi/organizationselectspecialdept'   //特色科室
 const departmentseditleft = '/operateapi/organizationqueryspecialdept'  //特色科室左侧科室查询
@@ -90,7 +88,24 @@ const getDepartment = '/operateapi/organizationselectdeptlist'  //查看科室�
 const departmentDetail = '/operateapi/organizationquerydepbyid' //查看科室详情
 const departmentChange = '/operateapi/organizationupdateappointmentdept' //修改预约科室详情
 
+//运维端!!!
+const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
+
+const uploadXls = '/operateapi/organizationinsertbatchdoctor' //批量上传信息
+
+const getDoctorInfo = '/operateapi/residentpagedoctor'  //获取医生注册信息
+
+const getCity = '/operateapi/sysprovinceprovincecitylist' //获取省级区域列表
+
+const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县列表
+// 机械注册信息
+const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注册信息列表查询
+const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
 /* ********************************************* */
+const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
+const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
+const doctorServerManageById = '/operateapi/doctormenuselectmenuidsbydoctorid' //查询某个医生的服务管理列表
+const doctorServerManageUpdate = '/operateapi/doctormenuinsertorupdatemenu' //修改某个医生的服务管理
 
 export default {
     login,
@@ -169,4 +184,20 @@ export default {
     departmentDetail,
     departmentChange,
     /* ********************************************** */
+
+    //运维端
+
+    uploadXls,
+    residentReg,
+    getDoctorInfo,
+    getCity,
+    getCounty,
+
+    doctorServerManage,
+    doctorServerManageById,
+    doctorServerManageUpdate,
+    doctorList,
+    // 机构注册信息
+    mechanismregList,
+    mechanismregEnable,
 }

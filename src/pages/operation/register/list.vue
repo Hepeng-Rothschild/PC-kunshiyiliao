@@ -31,6 +31,7 @@
       title="提示："
       v-model="registertimesFlag"
       class-name="vertical-center-modal"
+      footer-hide
     >
     <p v-html="timesHtml" style="text-align:center;"></p>
     </Modal>

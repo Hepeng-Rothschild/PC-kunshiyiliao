@@ -8,7 +8,6 @@ const topMenu = [
 const operationLeftMenu = [
     {id:1,level:1,name:"订单管理",childLists:[
         // {id:27,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor"},
-        // {id:28,level:2,name:"fileuploadFile",path:"/index/operation/upload/index"},
     ]},
     {id:1,level:1,name:"医生端运营",childLists:[
         {id:17,level:2,name:"医生认证",path:"/index/operation/doctorreview/list"},
@@ -39,7 +38,7 @@ const maintainLeftMenu = [
     ]}
 ];
 const statisticsLeftMenu = [
-    {id:1,level:1,name:"统计端列表demo",childLists:[
+    {id:1,level:1,name:"统计端列表",childLists:[
         // {id:2,level:2,name:"审核列表1"},
         // {id:3,level:2,name:"审核列表2"},
         // {id:4,level:2,name:"审核列表3"},
@@ -47,7 +46,7 @@ const statisticsLeftMenu = [
     ]}
 ];
 const supervisionLeftMenu = [
-    {id:1,level:1,name:"监管端列表demo",childLists:[
+    {id:1,level:1,name:"监管端列表",childLists:[
         // {id:2,level:2,name:"审核列表1"},
         // {id:3,level:2,name:"审核列表2"},
         // {id:4,level:2,name:"审核列表3"},

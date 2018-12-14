@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="doctorreviewedit">
     <div class="demo-upload-list" v-for="item in uploadList">
       <template v-if="item.status === 'finished'">
         <img :src="item.url">
@@ -15,16 +15,17 @@
     <Upload
       ref="upload"
       name="file"
-      :data="jsonCode"
+      :data="jsonObj"
       :show-upload-list="false"
       :default-file-list="defaultList"
       :on-success="handleSuccess"
       :format="['jpg','jpeg','png']"
-      :max-size="2048"
+      :max-size="maxSize"
       :on-format-error="handleFormatError"
       :on-exceeded-size="handleMaxSize"
       :before-upload="handleBeforeUpload"
       multiple
+      :headers="fromData"
       type="drag"
       :action="uploadUrl"
       style="display: inline-block;width:58px;"
@@ -35,7 +36,7 @@
     </Upload>
     <Modal title="View Image" v-model="visible">
       <img
-        :src="fileBaseUrl + imgName + '/large'"
+        :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'"
         v-if="visible"
         style="width: 100%"
       >
@@ -44,17 +45,24 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { Upload, Progress } from "iview";
+import { Avatar, Select, Option, Upload } from "iview";
 export default {
   data() {
     return {
-      defaultList: [],
+      defaultList: [
+        {url:"https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar"}
+      ],
       imgName: "",
       visible: false,
       uploadList: [],
-      uploadUrl: api.fileAll,
-      jsonCode:{json:'{"urlCode":"201"}'},
+      uploadUrl:api.fileAll,
+      jsonObj:{json:'{"urlCode":"203","flag":"1"}'},
+      count:5,
+      maxSize:5, //单位kb
     };
+  },
+  components:{
+      Upload
   },
   methods: {
     handleView(name) {
@@ -66,30 +74,26 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
-      file.url =
-        "https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar";
-      file.name = "7eb99afb9d5f317c912f08b5212fd69a";
+        console.log("上传成功");
+        file.url = this.fileBaseUrl+res.object[0].fileName;
     },
     handleFormatError(file) {
       this.$Notice.warning({
-        title: "The file format is incorrect",
-        desc:
-          "File format of " +
-          file.name +
-          " is incorrect, please select jpg or png."
+        title: "上传格式不正确",
+        desc:`文件${file.name}的格式不正确，请上传jpg/jpeg/png格式图片`
       });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
-        title: "Exceeding file size limit",
-        desc: "File  " + file.name + " is too large, no more than 2M."
+        title: `文件大小超出限制`,
+        desc: `文件${file.name}过大，文件最大限制${this.maxSize}KB`
       });
     },
     handleBeforeUpload() {
-      const check = this.uploadList.length < 5;
+      const check = this.uploadList.length < this.count;
       if (!check) {
         this.$Notice.warning({
-          title: "Up to five pictures can be uploaded."
+          title: `最多上传${this.count}张图片`
         });
       }
       return check;
@@ -97,48 +101,51 @@ export default {
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
-  },
-  components: {
-    Upload,
-    Progress
   }
 };
 </script>
-<style>
-.demo-upload-list {
-  display: inline-block;
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #fff;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  margin-right: 4px;
-}
-.demo-upload-list img {
-  width: 100%;
-  height: 100%;
-}
-.demo-upload-list-cover {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.6);
-}
-.demo-upload-list:hover .demo-upload-list-cover {
-  display: block;
-}
-.demo-upload-list-cover i {
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 0 2px;
+<style lang="less" scoped>
+.doctorreviewedit {
+  margin-left: 1%;
+  padding: 10px;
+  width: 98%;
+  background: #ffffff;
+  box-sizing: border-box;
+  .demo-upload-list {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    margin-right: 4px;
+  }
+  .demo-upload-list img {
+    width: 100%;
+    height: 100%;
+  }
+  .demo-upload-list-cover {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .demo-upload-list:hover .demo-upload-list-cover {
+    display: block;
+  }
+  .demo-upload-list-cover i {
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+  }
 }
 </style>
