@@ -33,7 +33,7 @@ export default {
 	data(){
 		return {
 			breadList:[
-				{path:"/",title:"首页"}
+				{path:"",title:"首页"}
 			],
 			breadTitle:'',
 			showWelcome:true,

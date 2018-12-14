@@ -5,7 +5,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
-import { Button, Message, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber } from 'iview';
+import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload } from 'iview';
 import VueI18n from 'vue-i18n';
 import axios from './plugins/http';
 import cookie from './utils/cookie';
@@ -24,7 +24,7 @@ Object.keys(filters).forEach(key => {
 //kindeditor
 import VueKindEditor from '@/plugins/kindeditor.js'
 import '@/../static/kindeditor/themes/default/default.css'
-import '@/../static/kindeditor/kindeditor-all-min.js'
+import '@/../static/kindeditor/kindeditor-all.js'
 import '@/../static/kindeditor/lang/zh-CN.js'
 Vue.use(VueKindEditor)
 //设置title
@@ -65,7 +65,9 @@ Vue.component('Table', Table);
 Vue.component('Page', Page);
 Vue.component('Form', Form);
 Vue.component('FormItem', FormItem);
+Vue.component('Upload', Upload);
 Vue.prototype.$Message = Message;
+Vue.prototype.$Notice = Notice;
 Vue.prototype.$Modal = Modal;
 
 // 国际化

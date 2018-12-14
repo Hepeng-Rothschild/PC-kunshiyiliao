@@ -34,7 +34,8 @@ export default new Router({
 				operation.registerEdit,
 				operation.registerDetail,
 				operation.kindeditorTest,
-				operation.uploadFile,
+				operation.uploaddemo,
+
 				operation.contentmanagementHome,
 			    operation.contentmanagementAdd,
 			    operation.addClassify,
