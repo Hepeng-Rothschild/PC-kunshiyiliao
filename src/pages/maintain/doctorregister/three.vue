@@ -1,37 +1,50 @@
 <template>
   <div class="two">
     <div class="container">
-        <tmptab :active = '2'></tmptab>
-<!-- 可传入数据 -->
+      <tmptab :active="2"></tmptab>
+      <!-- 可传入数据 -->
       <div class="info">
         <span>本次可导入</span>
-        <span>数据:5条</span>
+        <span>数据:{{ success }}条</span>
       </div>
-<!-- 不可传入数据 -->
+      <!-- 不可传入数据 -->
       <div class="info">
         <span>本次不可导入</span>
-        <span>数据:5条</span>
+        <span>数据:{{ error }}条</span>
       </div>
-      <button class = 'btn' @click = 'btn'>完成</button>
+      <button class="btn" @click="btn">完成</button>
     </div>
   </div>
 </template>
 <script>
-import { Upload } from 'iview'
-import tmptab from './tmptab'
+import { Upload } from "iview";
+import tmptab from "./tmptab";
 export default {
-    components:{
-        Upload,
-        tmptab
-    },
-    methods: {
-        btn () {
-            this.$router.push({
-                name:"doctorregisterlist"
-            })
-        }
+  components: {
+    Upload,
+    tmptab
+  },
+  data() {
+    return {
+      success: 0,
+      error: 0
+    };
+  },
+  mounted() {
+    let fail = this.$route.params;
+    console.log(fail);
+    if (fail) {
+      this.success = fail.success;
+      this.error = fail.error;
     }
-
+  },
+  methods: {
+    btn() {
+      this.$router.push({
+        name: "doctorregisterlist"
+      });
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -41,26 +54,26 @@ export default {
   width: 98%;
   background: #ffffff;
   box-sizing: border-box;
-  .container{
-      width:100%;
-      display:flex;
-      flex-direction: column;
+  .container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     .info {
       width: 60%;
       background: #fffbf6;
       padding: 20px 30px;
       margin: 20px auto;
     }
-    .btn{
-        border:none;
-        outline:none;
-        background:skyblue;
-        width:150px;
-        line-height:30px;
-        color:#fff;
-        font-size:18px;
-        margin:0 auto;
-        border-radius:4px;
+    .btn {
+      border: none;
+      outline: none;
+      background: skyblue;
+      width: 150px;
+      line-height: 30px;
+      color: #fff;
+      font-size: 18px;
+      margin: 0 auto;
+      border-radius: 4px;
     }
   }
 }

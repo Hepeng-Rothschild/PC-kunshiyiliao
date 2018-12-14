@@ -89,7 +89,7 @@
 			<!--保存-->
 			<div class="expert_save">
 				<span @click = 'save'>保存</span>
-				<span>取消</span>
+				<span @click = '$router.back()'>取消</span>
 			</div>
 		</div>
 	</div>

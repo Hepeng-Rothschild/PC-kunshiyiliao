@@ -128,7 +128,7 @@
 				uploadModal: true,
                 uploadData: {json:'{"urlCode":"203","flag":"1"}'},
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-                uploadUrl:api.fileAll,          
+                uploadUrl:api.fileAll,
                 images:""
 			}
 		},
@@ -152,7 +152,7 @@
             		imageUrl:this.images
             	}
             	console.log(params);
-				if (params.title == '') {
+				if (params.bannerName == '') {
 					this.$Message.info('banner名称不能为空');
 				} else {
 					 this.$axios.post(api.bannerAdd, params).then(res => {

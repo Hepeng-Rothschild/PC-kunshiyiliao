@@ -105,7 +105,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save' style = 'cursor:pointer'>保存</div>
-				<div @click="$router.back(-1)">取消</div>
+				<div @click="$router.back(-1)" style = 'cursor:pointer'>取消</div>
 			</div>
 		</div>
 	</div>
@@ -167,6 +167,7 @@
 						} else {
 							this.switch1 = false;
 						}
+						
 						if (ret.newsHeadlines) {
 							this.uploadList.push({
 		                        name: "a42bdcc1178e62b4694c830f028db5c0",
@@ -174,7 +175,8 @@
 								status: "finished",
 								uid: 1544263544970,
 								url: this.fileBaseUrl + ret.newsHeadlines
-		                   })
+						   })
+						   this.img = ret.newsHeadlines
 						}
 					}
 				}).catch(err => {
@@ -228,22 +230,28 @@
             	let num = 1;
             	if (!this.switch1) {
             		num = 0;
-            	}
+				}
+				let images = '';
+					if (this.uploadList.length && this.images) {
+						images = this.images
+					}
             	params = {
             		content:this.editorText,
             		enable:num,
             		hospitalId:this.id,
-					newsHeadlines:this.images,
             		priority:this.isort,
             		source:this.isource,
             		title:this.title,
             		id:this.$route.params.id
-            	}
+				}
+				params.newsHeadlines = images
             	if (this.title == ''){
             		this.$Message.info('新闻标题不能为空');
             	} else if (this.editorText == ''){
             		this.$Message.info('新闻内容不能为空');
-            	} else {
+            	} else if (params.newsHeadlines == '') {
+					this.$Message.info('新闻首图不能为空');
+				} else {
             		this.$axios.post(api.addNews,params).then(res => {
 						if(res.data) {
 							setTimeout(() => {
@@ -255,7 +263,6 @@
 								},500)
 							})
 						}
-						
 					}).catch(err => {
 						console.log(err);
 					})

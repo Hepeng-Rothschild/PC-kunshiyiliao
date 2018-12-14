@@ -81,6 +81,11 @@ export default new Router({
 				maintain.mechanismregBatchOne,
 				maintain.mechanismregBatchTwo,
 				maintain.mechanismregBatchThree,
+					//系统管理
+				maintain.adminList,
+				maintain.adminAdd,
+				maintain.adminReset,
+    			maintain.adminEdit,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由

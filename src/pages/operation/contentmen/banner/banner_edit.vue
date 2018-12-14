@@ -128,7 +128,6 @@
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
                 uploadUrl:api.fileAll,
 				images:""
-				
 			}
 		},
 		methods: {
@@ -142,7 +141,7 @@
 				}
 				let images = this.images;
 				if (!images) {
-					if (this.uploadList != []) {
+					if (this.uploadList.length) {
 						images = this.uploadList[0].url
 						let len = this.fileBaseUrl.length
 						let parentlen = images.length
@@ -151,7 +150,6 @@
 						images =  ''
 					}
 				}
-				console.log(images);
 
             	let params = {
             		hospitalId: this.id,
@@ -162,8 +160,7 @@
             		enable:sum,
             		imageUrl:images
             	}
-            	console.log(params);
-				if (params.title == '') {
+				if (params.bannerName == '') {
 					this.$Message.info('banner名称不能为空');
 				} else {
 					 this.$axios.post(api.bannerChange, params ).then(res => {

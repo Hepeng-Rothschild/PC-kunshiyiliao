@@ -5,12 +5,12 @@
 <!-- 可传入数据 -->
       <div class="info">
         <span>本次可导入</span>
-        <span>数据:5条</span>
+        <span>数据:{{ success }}条</span>
       </div>
 <!-- 不可传入数据 -->
       <div class="info">
         <span>本次不可导入</span>
-        <span>数据:5条</span>
+        <span>数据:{{ error }}条</span>
       </div>
       <button class = 'btn' @click = 'btn'>完成</button>
     </div>
@@ -23,6 +23,20 @@ export default {
     components:{
         Upload,
         tmptab
+    },
+    data () {
+      return {
+        success:0,
+        error:0
+      }
+    },
+    mounted () {
+      let fail = this.$route.params;
+      console.log(fail);
+      if (fail) {
+        this.success = fail.success 
+        this.error = fail.error 
+      }
     },
     methods: {
         btn () {

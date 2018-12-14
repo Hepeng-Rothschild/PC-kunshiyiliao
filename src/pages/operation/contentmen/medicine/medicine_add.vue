@@ -45,6 +45,7 @@
 		},
 		methods: {
 			btn () {
+				this.$router.back();
 			},
 			toSelected (num) {
 				let flag = false;

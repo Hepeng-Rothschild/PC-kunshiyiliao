@@ -105,7 +105,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save' style = 'cursor:pointer'>保存</div>
-				<div @click="$router.back(-1)">取消</div>
+				<div @click="$router.back(-1)" style = 'cursor:pointer'>取消</div>
 			</div>
 		</div>
 	</div>
@@ -197,21 +197,27 @@
             	let num = 1;
             	if (!this.switch1) {
             		num = 0;
-            	}
+				}
+				let images = '';
+				if (this.uploadList.length) {
+					images = this.images;
+				}
             	params = {
             		content:this.editorText,
             		enable:num,
             		hospitalId:this.id,
-					newsHeadlines:this.images,
             		priority:this.isort,
             		source:this.isource,
             		title:this.title
-            	}
+				}
+				params.newsHeadlines = images
             	if (this.title == ''){
             		this.$Message.info('新闻标题不能为空');
             	} else if (this.editorText == ''){
             		this.$Message.info('新闻内容不能为空');
-            	} else {
+            	} else if (params.newsHeadlines == ''){
+					this.$Message.info('新闻首图不能为空');
+				} else {
             		// 添加
          		this.$axios.post(api.newsA,params).then(res => {
 						if(res.data.code) {
@@ -224,7 +230,6 @@
 								},500)
 							})
 						}
-						
 					}).catch(err => {
 						console.log(err);
 					})

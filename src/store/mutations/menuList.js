@@ -31,9 +31,12 @@ const operationLeftMenu = [
 const maintainLeftMenu = [
     {id:2,level:1,name:"索引管理",childLists:[
         {id:31,level:2,name:"居民注册信息",path:"/index/maintain/residentregister/list"},
-        // {id:32,level:2,name:"医生注册信息",path:"/index/maintain/doctorregister/list"},
-        // {id:33,level:2,name:"机构注册信息",path:"/index/maintain/mechanismreg/list"},
+        {id:32,level:2,name:"医生注册信息",path:"/index/maintain/doctorregister/list"},
+        {id:33,level:2,name:"机构注册信息",path:"/index/maintain/mechanismreg/list"},
     ]},
+    {id:2,level:1,name:"系统管理",childLists:[
+        {id:31,level:2,name:"账号管理",path:"/index/maintain/admin/list"},
+    ]}
 ];
 const statisticsLeftMenu = [
     {id:1,level:1,name:"统计端列表demo",childLists:[

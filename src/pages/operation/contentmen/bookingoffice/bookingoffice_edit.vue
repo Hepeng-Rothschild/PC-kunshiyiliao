@@ -4,10 +4,10 @@
 		<div class="i-keshi_main">
 		<!--左侧选择-->
 			<div class="i-keshi_main-left" ref = 'oneList'>
-				<ul class = 'allList' @dblclick = 'tab' v-for='item in tablsList'>
-					<li>+{{ item.name }}</li>
+				<ul class = 'allList' @click = 'tab' v-for='item in tablsList'>
+					<li><span>+</span>{{ item.name }}</li>
 					<ul class = 'oneList'>
-						<li v-for = 'items in item.child' @dblclick = 'changes(items)'>+{{ items.childDept }}</li>
+						<li v-for = 'items in item.child' @click = 'changes(items)'>{{ items.childDept }}</li>
 					</ul>
 				</ul>
 			</div>
@@ -124,7 +124,7 @@
 				<!--保存-->
 				<div class = 'save'>
 					<div @click = 'save'>保存</div>
-					<div>取消</div>
+					<div @click = '$router.back()'>取消</div>
 				</div>
 			
 			</div>
@@ -170,6 +170,10 @@ import api from "@/api/commonApi";
 			}
 		},
 		mounted () {
+			let id = this.$route.params;
+			if (id) {
+				this.changes(id)
+			}
 			this.uploadList = this.$refs.upload.fileList;
 			this.$axios.post(api.getDepartment, {
 				"hospitalId": this.id,
@@ -199,9 +203,11 @@ import api from "@/api/commonApi";
 	  			if (chilrens.length > 0) {
 	  				let flag = chilrens[0].style.display;
 		  			if (flag =='' || flag =='none') {
-		  				chilrens[0].style.display = 'block';
+						  chilrens[0].style.display = 'block';
+						  el.parentNode.getElementsByTagName('span')[0].innerHTML = '-'
 		  			} else {
-		  				chilrens[0].style.display = 'none';
+						  chilrens[0].style.display = 'none';
+						  el.parentNode.getElementsByTagName('span')[0].innerHTML = '+'
 		  			}
 	  			}
 	  			let ichildren = ref.getElementsByTagName('li');

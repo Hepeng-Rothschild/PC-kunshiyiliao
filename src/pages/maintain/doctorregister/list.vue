@@ -3,14 +3,14 @@
     <div class="container">
       <!-- 头部信息 -->
       <header>
-        <Button @click = 'branch'>批量导入</Button>
+        <Button @click="branch">批量导入</Button>
         <div class="search">
-          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model = 'Name' @keyup = 'nameChange'>
+          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model="Name" @keyup="nameChange">
         </div>
       </header>
       <!-- 列表 -->
       <div class="list">
-        <table border cellspacing cellpadding>
+        <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <th>编号</th>
             <th>医生姓名</th>
@@ -25,7 +25,7 @@
             <th>注册时间</th>
             <th>数据来源</th>
           </tr>
-          <tr v-for = 'item,index in list'>
+          <tr v-for="item,index in list">
             <th>{{ addZero(index) }}</th>
             <th>{{ item.doctorName }}</th>
             <th>{{ item.gender == '0'? '女' :'男' }}</th>
@@ -36,69 +36,76 @@
             <th>{{ item.phone }}</th>
 
             <!-- <th style = 'max-width:200px;'>{{ item.personalIntroduction }}</th>
-            <th style = 'max-width:200px;'>{{ item.doctorGood }}</th> -->
-
-            <th class = 'one'>{{ item.personalIntroduction }}</th>
-            <th class = 'one'>{{ item.doctorGood }}</th>
+            <th style = 'max-width:200px;'>{{ item.doctorGood }}</th>-->
+            <th class="one">{{ item.personalIntroduction }}</th>
+            <th class="one">{{ item.doctorGood }}</th>
 
             <th>{{ item.createTime }}</th>
             <th>{{ item.ibatch == '0'? '批量导入' :'个人注册'}}</th>
           </tr>
         </table>
-        <div class = 'notData' v-show = '!list.length'>暂无更多数据</div>
+        <div class="notData" v-show="!list.length">暂无更多数据</div>
       </div>
     </div>
     <!--分页器-->
-		<div class = 'paging'>
-			<Page :total = "doctorregisterSize" @on-change = 'pageChange'/>		
-		</div>
+    <div class="paging">
+      <Page :total="doctorregisterSize" @on-change="pageChange"/>
+    </div>
   </div>
 </template>
 <script>
 // 医生注册信息
 import api from "@/api/commonApi";
-import { Page ,Upload } from 'iview'
+import { Page, Upload } from "iview";
 export default {
   data() {
     return {
-      doctorregisterSize:10,
-      list:[],
-      Name:""
+      doctorregisterSize: 10,
+      list: [],
+      Name: ""
     };
   },
-  mounted () {
+  mounted() {
     this.getDoctorData(1);
   },
   methods: {
-    branch () {
-      this.$router.push({
-        name:"doctorregisterbatchone"
-      })
+    branch() {
+      this.$router.push({ 
+        name: "doctorregisterbatchone"
+      });
     },
-    pageChange (index) {
-      this.getDoctorData(index)
+    pageChange(index) {
+      this.getDoctorData(index);
     },
-    nameChange () {
+    nameChange() {
       console.log(this.Name);
+      this.getDoctorData(1, this.Name);
     },
-    getDoctorData (pageNo) {
-      this.$axios.post(api.getDoctorInfo,{
-        pageNo,
-        pageSize:10
-      }).then(res => {
+    getDoctorData(pageNo, val) {
+      let params = {
+          pageNo,
+          pageSize: 10
+        }
+        if (val != '') {
+          params.doctorName = val;
+        }
+      this.$axios
+        .post(api.getDoctorInfo, params)
+        .then(res => {
           if (res.data) {
-            let ret = res.data.object
+            let ret = res.data.object;
             this.doctorregisterSize = ret.pageSize;
             this.list = ret.list;
+            console.log(ret);
           }
-      })
+        });
     },
-    addZero (num) {
+    addZero(num) {
       num = num + 1;
       if (num < 10) {
-        return '0' + num
+        return "0" + num;
       }
-      return num
+      return num;
     }
   },
   components: {
@@ -125,10 +132,10 @@ export default {
       align-items: center;
       justify-content: space-between;
       button {
-        background: #716bb2;
+        background: skyblue;
         border: none;
         outline: none;
-        color: #ffb2b2;
+        color: #fff;
         width: 128px;
         height: 39px;
         border-radius: 2px;
@@ -160,40 +167,48 @@ export default {
     }
     .list {
       width: 100%;
-      margin:10px 0;
+      margin: 10px 0;
       table {
         width: 100%;
-        tr:first-child{
-          background-color: rgb(228, 228, 228);
-          color: rgb(102, 102, 102);
+        border: 1px solid #ddd;
+        tr:nth-child(odd) {
+          background: #f8f8f9;
+        }
+        tr:nth-child(even) {
+          background: #fff;
+        }
+        tr:not(:first-child):hover {
+          background: #9dcae4;
         }
         tr {
+          border-top: 1px solid #ddd;
+          height: 40px;
           th {
             text-align: center;
           }
-          th.one{
-            max-width:150px;
-            padding:0 6px;
+          th.one {
+            max-width: 150px;
+            padding: 0 6px;
             text-align: center;
             overflow: hidden;
-            text-overflow:ellipsis;
+            text-overflow: ellipsis;
             white-space: nowrap;
           }
         }
       }
-      .notData{
-        width:100%;
-        text-align:center;
-        border:1px solid black;
-        border-top:none;
-        
+      .notData {
+        width: 100%;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-top: none;
+        line-height:40px;
       }
     }
   }
-  .paging{
-			width:100%;
-			margin:10px auto;
-			text-align:center;
-		}
+  .paging {
+    width: 100%;
+    margin: 10px auto;
+    text-align: center;
+  }
 }
 </style>

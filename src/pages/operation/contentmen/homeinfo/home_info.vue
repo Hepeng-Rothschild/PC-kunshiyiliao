@@ -5,7 +5,7 @@
       <!--机构名称 -->
       <div class="main_info">
         <span>机构名称</span>
-        <input type="text" value="蚌埠中医院" disabled v-model="y_name">
+        <input type="text" :value="title" disabled>
       </div>
       <!--机构首图-->
       <div class="main_imgs">
@@ -43,9 +43,9 @@
             <Icon type="ios-camera" size="20"></Icon>
           </div>
         </Upload>
-          <Modal title="预览图片" v-model="visible">
-			        <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
-			    </Modal>
+        <Modal title="预览图片" v-model="visible">
+          <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+        </Modal>
         <span>添加图片</span>
       </div>
       <!--机构等级-->
@@ -110,6 +110,7 @@
       <div class="main_moban">
         <span>互联网医院公众号</span>
         <select v-model="y_gzh">
+          <option value="">请选择</option>
           <option :value="item.appid" v-for="item,index in gzh">{{ item.nick }}</option>
         </select>
       </div>
@@ -130,179 +131,208 @@
       </div>
       <!--保存-->
       <div class="main_save">
-        <div @click="save">保存</div>
-        <div @click="$router.push('/index/operation/home')">取消</div>
+        <div @click="save" style="cursor:pointer;">保存</div>
+        <div @click="$router.push('/index/operation/home')" style="cursor:pointer;">取消</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-	import vueEditor from '@/components/vueEditor';
-	import tmpHeader from '@/pages/operation/contentmen/tmpHeader'
-  import { Switch,Upload ,Icon } from 'iview'
-  import cookie from '@/utils/cookie.js';
-	import api from "@/api/commonApi";
-	export default{
-		components:{
-			tmpHeader,
-			iSwitch:Switch,
-			Upload,
-			Icon,
-			vueEditor
-		},
-		data () {
-			return {
-				id: 'tinymce-editor',
-				height: 300,
-				tinymceHtml: '',
-				defaultList: [],
-				types:[],
-        imgName: '',
-        visible: false,
-        uploadList: [],
-        switch1:true,
-        switch2:true,
-        switch3:true,
-        y_name:"",
-        y_type:6001,
-        y_module:"2",
-        y_luxin:"",
-        y_search:"",
-        y_phone:"",
-        y_dizhi:"",
-        y_gzh:"",
-        y_uid:"",
-        y_search1:'',
-        gzh:[],
-        ylt:[],
-        editorText: '请输入要编辑的内容...',
-        uploadModal: true,
-        uploadData: {json:'{"urlCode":"203","flag":"1"}'},
-        activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-        uploadUrl:api.fileAll,
-				images:"",
-				
-				id:sessionStorage.getItem('hospitalId'),
-			}
-		},
-		methods: {
-      onContentChange (val) {
-        this.editorText = val
-      },
-      afterChange () {
-      },
-			save () {
-				let images = this.images;
-				if (!images) {
-					images = this.uploadList[0].url
-					let len = this.fileBaseUrl.length
-					let parentlen = images.length
-					images = images.substr(len, parentlen)
-					
-				}
-					let switch1 = 0;
-					if (this.switch1) {
-						switch1 = 1;
-					}
-					let switch2 = 0;
-					if (this.switch2) {
-						switch2 = 1;
-					}
-					let switch3 = 0;
-					if (this.switch3) {
-						switch3 = 1;
-					}
+import vueEditor from "@/components/vueEditor";
+import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
+import { Switch, Upload, Icon } from "iview";
+import cookie from "@/utils/cookie.js";
+import api from "@/api/commonApi";
+export default {
+  components: {
+    tmpHeader,
+    iSwitch: Switch,
+    Upload,
+    Icon,
+    vueEditor
+  },
+  data() {
+    return {
+      id: "tinymce-editor",
+      height: 300,
+      tinymceHtml: "",
+      defaultList: [],
+      types: [],
+      imgName: "",
+      title:"",
+      visible: false,
+      uploadList: [],
+      switch1: true,
+      switch2: true,
+      switch3: true,
+      y_name: "",
+      y_type: 6001,
+      y_module: "2",
+      y_luxin: "",
+      y_search: "",
+      y_phone: "",
+      y_dizhi: "",
+      y_gzh: "",
+      y_uid: "",
+      y_search1: "",
+      gzh: [],
+      ylt: [],
+      editorText: "请输入要编辑的内容...",
+      uploadModal: true,
+      uploadData: { json: '{"urlCode":"203","flag":"1"}' },
+      activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
+      uploadUrl: api.fileAll,
+      images: "",
 
-				let params = {
-					hospitalId:this.id,
-					//上级编码
-					orgParentCode:this.y_search1,
-					// 医院图标
-					hosIcon:images,
-					//机构等级
-					grade:this.y_type,
-					//模板
-					cssTemplate:this.y_module,
-					//路线
-					route:this.y_luxin,
-					//电话
-					telephone:this.y_phone,
-					//简介
-					hosIntroduction:this.editorText,
-					//地址
-					hosAddr:this.y_dizhi,
-					//公众号
-					appid:this.y_gzh,
-					//处方平台UID
-					prescriptionId:this.y_uid,
-					//互联网医院
-					swiinteinternetHospitalrnetHospitaltch1:switch1,
-					//医院联盟
-					internetHospital:switch2,
-					//处方流转
-					ipres:switch3
-				}
-				this.$axios.post(api.managementEdit,params).then(res => {
-					if (res.data.code) {
-						this.$Message.info('修改成功');
-					}
-					}).catch(err => {
-						console.log(err);
-					})
-			},
-			valueHandle (param) {
-				this.tinymceHtml = param;
-			},
-			handleView (name) {
-          this.imgName = name;
-          this.visible = true;
-      },
-      handleRemove (file) {
-        const fileList = this.$refs.upload.fileList;
-        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-      },
-      handleSuccess (res, file) {
-        file.url =  this.fileBaseUrl + res.object[0].fileName;
-        this.images = res.object[0].fileName
-        file.name = res.object[0].fileName;
-      },
-      handleFormatError (file) {
-        this.$Notice.warning({
-            title: 'The file format is incorrect',
-            desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-        });
-      },
-      handleMaxSize (file) {
-        this.$Notice.warning({
-            title: 'Exceeding file size limit',
-            desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-        });
-      },
-      handleBeforeUpload () {
-        const check = this.uploadList.length < 1;
-        if (!check) {
-          this.$Message.info('只能上传一张图片');
-        }
-        return check;
-      }
+      id: sessionStorage.getItem("hospitalId")
+    };
+  },
+  methods: {
+    onContentChange(val) {
+      this.editorText = val;
     },
-  mounted() {
-    this.uploadList = this.$refs.upload.fileList;
+    afterChange() {},
+    save() {
+      let images = '';
+      if (this.images && this.uploadList.length) {
+        images = this.uploadList[0].url;
+        let len = this.fileBaseUrl.length;
+        let parentlen = images.length;
+        images = images.substr(len, parentlen);
+      }
+      let switch1 = 0;
+      if (this.switch1) {
+        switch1 = 1;
+      }
+      let switch2 = 0;
+      if (this.switch2) {
+        switch2 = 1;
+      }
+      let switch3 = 0;
+      if (this.switch3) {
+        switch3 = 1;
+      }
+
+      let params = {
+        hospitalId: this.id,
+        //上级编码
+        orgParentCode: this.y_search1,
+        // 医院图标
+        hosIcon: images,
+        //机构等级
+        grade: this.y_type,
+        //模板
+        cssTemplate: this.y_module,
+        //路线
+        route: this.y_luxin,
+        //电话
+        telephone: this.y_phone,
+        //简介
+        hosIntroduction: this.editorText,
+        //地址
+        hosAddr: this.y_dizhi,
+        //公众号
+        appid: this.y_gzh,
+        //处方平台UID
+        prescriptionId: this.y_uid,
+        //互联网医院
+        internetHospital: switch1,
+        //医院联盟
+        unionHospital: switch2,
+        //处方流转
+        ipres: switch3
+      };
+      console.log(params.appid);
+      console.log(params);
+      if (params.internetHospital) {
+        if (params.appid == '') {
+            this.$Message.info("请选择关联公众号");
+            return 1
+          }
+      }
+      
+      this.$axios.post(api.managementEdit, params).then(res => {
+              if (res.data.code) {
+                this.$Message.info("修改成功");
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            })
+    },
+    valueHandle(param) {
+      this.tinymceHtml = param;
+    },
+    handleView(name) {
+      this.imgName = name;
+      this.visible = true;
+    },
+    handleRemove(file) {
+      const fileList = this.$refs.upload.fileList;
+      this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+    },
+    handleSuccess(res, file) {
+      file.url = this.fileBaseUrl + res.object[0].fileName;
+      this.images = res.object[0].fileName;
+      file.name = res.object[0].fileName;
+    },
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "The file format is incorrect",
+        desc:
+          "File format of " +
+          file.name +
+          " is incorrect, please select jpg or png."
+      });
+    },
+    handleMaxSize(file) {
+      this.$Notice.warning({
+        title: "Exceeding file size limit",
+        desc: "File  " + file.name + " is too large, no more than 2M."
+      });
+    },
+    handleBeforeUpload() {
+      const check = this.uploadList.length < 1;
+      if (!check) {
+        this.$Message.info("只能上传一张图片");
+      }
+      return check;
+    }
+  },
+  created() {
     // 医院等级
     this.$axios.post(api.managementAll, {}).then(res => {
-      if (res.data) {
+      if (res.data.code) {
         let ret = res.data.object;
         this.types = ret;
       }
-    });
+    })
+    // 医联体
+    this.$axios.post(api.managementYlt).then(res => {
+      if (res.data) {
+        let ret = res.data.object;
+        this.ylt = ret;
+      }
+    })
+    // 公众号
+    this.$axios.post(api.managementGzh).then(res => {
+      if (res.data.code) {
+        let ret = res.data.object;
+        this.gzh = ret;
+        
+      }
+      console.log(res);
+    })
+  },
+  mounted() {
+    this.uploadList = this.$refs.upload.fileList;
     // 医院信息
     this.$axios
       .post(api.managementInfo, {
         hospitalId: this.id
       })
       .then(res => {
-        console.log(res);
         if (res.data.object) {
           let ret = res.data.object;
           // 名字
@@ -318,28 +348,12 @@
             });
           }
           
-
-          console.log(this.uploadList);
-          // 公众号
-          this.$axios.post(api.managementGzh).then(res => {
-            if (res.data) {
-              let ret = res.data.object;
-              this.gzh = ret;
-            }
-          });
-          // 医联体
-          this.$axios.post(api.managementYlt).then(res => {
-            if (res.data) {
-              let ret = res.data.object;
-              this.ylt = ret;
-            }
-          });
-
+          this.title = ret.orgName
           // m机构等级
           this.y_type = ret.grade;
-          // 医联体
+          // 医联体上级医院
           this.y_search1 = ret.orgParentCode;
-          // 模板
+          // 背景模板
           this.y_module = ret.cssTemplate;
           // 简介
           this.editorText = ret.hosIntroduction;
@@ -355,7 +369,7 @@
           //互联网医院
           this.switch1 = Boolean(ret.internetHospital);
           // 医院联盟
-          this.switch2 = Boolean(ret.internetHospital);
+          this.switch2 = Boolean(ret.unionHospital);
           //医联体上级医院
           // 处方流转
           this.switch3 = Boolean(ret.ipres);

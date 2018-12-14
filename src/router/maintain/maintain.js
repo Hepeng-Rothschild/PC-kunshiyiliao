@@ -7,6 +7,7 @@ const residentRegisterList = {
     },
     component:()=>import("@/pages/maintain/residentregister/list")
 }
+// 医生注册信息
 const doctorRegisterList = {
     path:'maintain/doctorregister/list',
     name:'doctorregisterlist',
@@ -44,7 +45,7 @@ const doctorRegisterBatchThree = {
     component:()=>import("@/pages/maintain/doctorregister/three")
 }
 
-
+// 机构注册信息
 const mechanismregList = {
     path:'maintain/mechanismreg/list',
     name:'mechanismreglist',
@@ -99,18 +100,63 @@ const mechanismregBatchThree = {
     },
     component:()=>import("@/pages/maintain/mechanismreg/three")
 }
+//系统管理
+const adminList = {
+    path:'maintain/admin/list',
+    name:'adminlist',
+    meta:{
+        index:2,
+        title:'系统管理'
+    },
+    component:()=>import("@/pages/maintain/admin/list")
+}
+const adminAdd = {
+    path:'maintain/admin/add',
+    name:'adminadd',
+    meta:{
+        index:2,
+        title:'添加账号'
+    },
+    component:()=>import("@/pages/maintain/admin/add")
+}
+const adminEdit = {
+    path:'maintain/admin/edit',
+    name:'adminedit',
+    meta:{
+        index:2,
+        title:'编辑账号'
+    },
+    component:()=>import("@/pages/maintain/admin/edit")
+}
+const adminReset = {
+    path:'maintain/admin/reset',
+    name:'adminreset',
+    meta:{
+        index:2,
+        title:'重置密码'
+    },
+    component:()=>import("@/pages/maintain/admin/reset")
+}
+
 
 export default {
-	residentRegisterList,
+    residentRegisterList,
+    //医生 注册信息
     doctorRegisterList,
     doctorRegisterBatchOne,
     doctorRegisterBatchTwo,
     doctorRegisterBatchThree,
+    //机构注册信息
     mechanismregList,
     mechanismregAdd,
     mechanismregEdit,
     mechanismregBatchOne,
     mechanismregBatchTwo,
     mechanismregBatchThree,
+    //系统管理
+    adminList,
+    adminAdd,
+    adminReset,
+    adminEdit,
    
 }

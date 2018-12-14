@@ -83,7 +83,6 @@
 					<span>新闻内容</span>
 				</div>
 				<div class = 'shuru'>
-					<!--<vue-editor :id="id" :height="height" @valueHandle="valueHandle" :tinymceHtml = 'tinymceHtml'></vue-editor>-->
 					<editor id="editor_id" height="500px" width="700px" :content.sync="editorText"
 			            :afterChange="afterChange()"
 			            pluginsPath="@/../static/kindeditor/plugins/"
@@ -119,7 +118,7 @@
 			</div>
 			<!--保存-->
 			<div class = 'save'>
-				<div @click = 'save'>保存</div>
+				<div @click = 'save' style = 'cursor:pointer;'>保存</div>
 				<div @click="$router.back(-1)">取消</div>
 			</div>
 
@@ -186,9 +185,7 @@
 								uid: 1544263544970,
 								url: detail.cover
 							})
-							console.log(detail.cover);
 						}
-						
 						if (detail.enable) {
 							flag = true;
 						}
