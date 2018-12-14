@@ -164,7 +164,8 @@ export default {
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
-      currentId: -1
+      currentId: -1,
+      source:""
     };
   },
   methods: {
@@ -207,7 +208,8 @@ export default {
       if (this.switch2) {
         switch2 = 1;
       }
-      let images = this.images;
+
+      let images = "";
       let params = {
         //科室别名
         deptNickname: this.keshiname,
@@ -223,9 +225,14 @@ export default {
         id: this.currentId
       };
       //图片
-      if (images != "") {
-        params.departmenticon = images;
+      if (this.images != "" && this.uploadList.length) {
+        params.departmenticon = this.images;
+      } else if (this.uploadList.length) {
+         params.departmenticon = this.source;
+      } else {
+        params.departmenticon =''
       }
+      console.log(params);
 
       this.$axios
         .post(api.medicineedit, params)
@@ -243,7 +250,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-        });
+        })
     },
     handleView(name) {
       this.imgName = name;
@@ -255,9 +262,8 @@ export default {
       this.uploadList.splice(0, 1);
     },
     handleSuccess(res, file) {
-      console.log(file);
       file.url = this.fileBaseUrl + res.object[0].fileName;
-      this.images = res.object[0].fileName;
+      this.images = JSON.stringify(res.object[0]);
       file.name = res.object[0].fileName;
       if (this.uploadList.length < 1) {
         this.uploadList.push({
@@ -267,7 +273,6 @@ export default {
           uid: 1544263544970,
           url: this.fileBaseUrl + res.object[0].fileName
         });
-        console.log(this.uploadList);
       }
     },
     handleFormatError(file) {
@@ -325,15 +330,16 @@ export default {
               this.switch2 = Boolean(ret.specialDept);
               //图片
               this.uploadList = [];
+              console.log(ret);
               if (ret.departmenticon) {
-                this.uploadList.push({
-                  name: "a42bdcc1178e62b4694c830f028db5c0",
-                  percentage: 100,
-                  status: "finished",
-                  uid: 1544263544970,
-                  url: this.fileBaseUrl + ret.departmenticon
-                  // url:ret.departmenticon
-                });
+                this.source = ret.departmenticon;
+                  this.uploadList.push({
+                    name: "a42bdcc1178e62b4694c830f028db5c0",
+                    percentage: 100,
+                    status: "finished",
+                    uid: 1544263544970,
+                    url: this.analysisImages(this.source)
+                  });
               }
             }
           })
@@ -341,6 +347,30 @@ export default {
             console.log(err);
           });
       }
+    },
+    analysisImages(json) {
+      try {
+        json = JSON.parse(json);
+        return this.fileBaseUrl + json.fileName;
+      } catch (error) {
+        return "";
+      }
+    },
+    byIdGetDom (id) {
+      let wrapper = document.getElementsByClassName("i-keshi_main-left")[0];
+      let li = wrapper.getElementsByTagName('li');
+      this.currentId = id;
+      let el = ''
+      for (let i = 0;i < li.length;i++) {
+        if (li[i].getAttribute('data-id')) {
+          if (id == li[i].getAttribute('data-id')) {
+            el = li[i]
+          }
+        }
+      }
+      let parent = el.parentNode;
+      el.classList.add("active");
+      parent.style.display = 'block';
     }
   },
   created() {
@@ -351,7 +381,6 @@ export default {
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
-
     this.$axios
       .post(api.medicinesearch, {
         hospitalId: this.id,
@@ -364,6 +393,11 @@ export default {
           this.list = ret;
         }
       });
+  },
+  updated () {
+    // this.$nextTick(() => {
+    //   this.byIdGetDom(424)
+    // })
   }
 }
 </script>

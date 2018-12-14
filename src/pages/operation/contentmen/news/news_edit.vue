@@ -145,7 +145,8 @@
                 uploadUrl:api.fileAll,
                 uploadData: {json:'{"urlCode":"202","flag":"1"}'},
 				images:"",
-				id:sessionStorage.getItem('hospitalId')
+				id:sessionStorage.getItem('hospitalId'),
+				source:""
 			}
 		},
 		mounted () {
@@ -168,14 +169,16 @@
 							this.switch1 = false;
 						}
 						
+						
 						if (ret.newsHeadlines) {
 							this.uploadList.push({
 		                        name: "a42bdcc1178e62b4694c830f028db5c0",
 								percentage: 100,
 								status: "finished",
 								uid: 1544263544970,
-								url: this.fileBaseUrl + ret.newsHeadlines
+								url: this.analysisImages(ret.newsHeadlines)
 						   })
+						   this.source = ret.newsHeadlines
 						   this.img = ret.newsHeadlines
 						}
 					}
@@ -206,7 +209,7 @@
             },
             handleSuccess (res, file) {
 				file.url =  this.fileBaseUrl + res.object[0].fileName;
-				this.images = res.object[0].fileName
+				this.images =  JSON.stringify(res.object[0]);
 				file.name = res.object[0].fileName;
             },
             handleFormatError (file) {
@@ -232,8 +235,12 @@
             		num = 0;
 				}
 				let images = '';
-					if (this.uploadList.length && this.images) {
+					if (this.images !='' && this.uploadList.length) {
 						images = this.images
+					} else if (this.uploadList.length) {
+						images = this.source
+					} else {
+						images = ''
 					}
             	params = {
             		content:this.editorText,
@@ -245,6 +252,7 @@
             		id:this.$route.params.id
 				}
 				params.newsHeadlines = images
+				// console.log(params);
             	if (this.title == ''){
             		this.$Message.info('新闻标题不能为空');
             	} else if (this.editorText == ''){
@@ -269,7 +277,15 @@
 
 					
             	}
-            }
+			},
+			analysisImages(json) {
+				try {
+					json = JSON.parse(json);
+					return this.fileBaseUrl + json.fileName;
+				} catch (error) {
+					return "";
+				}
+			}
 		}
 	}
 </script>

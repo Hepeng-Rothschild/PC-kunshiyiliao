@@ -6,7 +6,7 @@
       <div class="ibanner_header">
         <div class="header_input">
           <span></span>
-          <input type="text" placeholder="一级科室/二级科室">
+          <input type="text" placeholder="一级科室/二级科室" v-model = 'search'  @click = 'searchs'>
         </div>
       </div>
       <!--列表-->
@@ -26,7 +26,7 @@
             <td>{{ item.parentDept }}</td>
             <td>{{ item.childDept }}</td>
             <td>{{ item.deptNickname }}</td>
-            <td>{{ item.display == '0'?'否':'是' }}</td>
+            <td>{{ changeshow(item.display) }}</td>
             <td>{{ item.priority }}</td>
             <td class="ltd">
               <span @click="navto(item)" style="cursor:pointer;">编辑</span>
@@ -56,7 +56,8 @@ export default {
     return {
       tableList: [],
       id: sessionStorage.getItem("hospitalId"),
-      departmentsSize: 10
+      departmentsSize: 10,
+      search:""
     };
   },
   mounted() {
@@ -65,7 +66,14 @@ export default {
   methods: {
     // 分页器,切换事件
     pageChange(index) {
-      this.getDepartmentsData(index);
+      if (this.search) {
+        this.getDepartmentsData(index,this.search);
+      } else {
+        this.getDepartmentsData(index);
+      }
+    },
+    searchs() {
+      this.getDepartmentsData(1,this.search);
     },
     navto(item) {
       let id = item.id;
@@ -83,13 +91,17 @@ export default {
       }
       return num;
     },
-    getDepartmentsData(pageNo) {
-      this.$axios
-        .post(api.tesekeshi, {
+    getDepartmentsData(pageNo,val) {
+      let params = {
           hospitalId: this.id,
           pageNo,
           pageSize: 10
-        })
+        }
+        if (val != '') {
+          params.searchKey = val
+        }
+      this.$axios
+        .post(api.tesekeshi, params)
         .then(res => {
           if (res.data.code) {
             let ret = res.data.object;
@@ -100,6 +112,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    changeshow (show) {
+      if (show !=1) {
+        return '否'
+      }
+      return '是'
     }
   }
 };

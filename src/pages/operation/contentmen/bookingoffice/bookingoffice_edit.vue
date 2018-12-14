@@ -166,7 +166,8 @@ import api from "@/api/commonApi";
                 uploadData: {json:'{"urlCode":"203","flag":"1"}'},
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
                 uploadUrl:api.fileAll,
-				images:""
+				images:"",
+				source:""
 			}
 		},
 		mounted () {
@@ -224,7 +225,7 @@ import api from "@/api/commonApi";
 	  			if (this.switch1) {
 					  display = 1
 				  }
-				let images = this.images;
+				let images =''
 				
 	  			let params = {
 					// 头像
@@ -237,9 +238,14 @@ import api from "@/api/commonApi";
 	  				"priority":this.isort,
 	  				"id":this.currentId
 				  }
-				  if (images != '') {
-					  params.departmenticon = images;
+				   if (this.images != "" && this.uploadList.length) {
+						params.departmenticon = this.images;
+					} else if (this.uploadList.length) {
+						params.departmenticon = this.source;
+					} else {
+						params.departmenticon =''
 					}
+					console.log(params);
 	  			
 	  			if (params.name === '') {
 	  				this.$Message.info('科室名称不能为空');
@@ -273,15 +279,15 @@ import api from "@/api/commonApi";
 						//图片
 						this.uploadList = [];
 						if (ret.departmenticon) {
+							this.source = ret.departmenticon;
 							this.uploadList.push({
 								name: "a42bdcc1178e62b4694c830f028db5c0",
 								percentage: 100,
 								status: "finished",
 								uid: 1544263544970,
-								url: this.fileBaseUrl + ret.departmenticon
+								url: this.analysisImages(this.source)
 							})
 						}
-						console.log(ret)
 						// 标题
 						this.title = ret.dictType;
 						// 详情
@@ -306,18 +312,19 @@ import api from "@/api/commonApi";
 				this.uploadList.splice(0,1);
             },
             handleSuccess (res, file) {
-            	file.url =  this.fileBaseUrl + res.object[0].fileName;
-				this.images = res.object[0].fileName
+            	 file.url = this.fileBaseUrl + res.object[0].fileName;
+				this.images = JSON.stringify(res.object[0]);
 				file.name = res.object[0].fileName;
-				if (this.uploadList.length >1) {
-					this.uploadList.push({
+				if (this.uploadList.length < 1) {
+						this.uploadList.push({
 						name: "a42bdcc1178e62b4694c830f028db5c0",
 						percentage: 100,
 						status: "finished",
 						uid: 1544263544970,
-						url: this.fileBaseUrl +  res.object[0].fileName
-					})	
+						url: this.fileBaseUrl + res.object[0].fileName
+					});
 				}
+				console.log(this.uploadList);
             },
             handleFormatError (file) {
                 this.$Notice.warning({
@@ -337,7 +344,15 @@ import api from "@/api/commonApi";
                    this.$Message.info('只能上传一张图片');
                 }
                 return check;
-            }
+			},
+			analysisImages(json) {
+				try {
+					json = JSON.parse(json);
+					return  this.fileBaseUrl + json.fileName;
+				} catch (error) {
+					return "";
+				}
+			}
         }
 	}
 </script>

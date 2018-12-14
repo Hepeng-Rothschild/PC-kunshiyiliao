@@ -27,7 +27,7 @@
             <td>{{ item.parentDept }}</td>
             <td>{{ item.childDept }}</td>
             <td>{{ item.address }}</td>
-            <td>{{ item.display !=1? '是' :'否' }}</td>
+            <td>{{ item.display !=1? '否' :'是' }}</td>
             <td>{{ item.priority? item.priority :"0"}}</td>
             <td class="ltd" @click="navto(item)">编辑</td>
           </tr>
@@ -62,7 +62,11 @@ export default {
   methods: {
     //分页器改变
     pageChange(index) {
-      this.getBookingofficeData(index);
+      if (this.val) {
+        this.getBookingofficeData(index, this.val);
+      } else {
+        this.getBookingofficeData(index);
+      }
     },
     navto(item) {
       let id = item.id;
@@ -188,7 +192,7 @@ export default {
             text-align: center;
           }
           .ltd {
-            color: blue;
+            color: black;
             user-select: none;
             cursor: pointer;
           }

@@ -73,12 +73,17 @@ export default {
   methods: {
     //分页器改变
     pageChange(index) {
-      this.getMedicineData(index);
+      if (this.val) {
+        this.getMedicineData(index, this.val);
+      } else {
+        this.getMedicineData(index);
+      }
+      
     },
     // 模糊查询
     change() {
-      console.log(this.val);
       this.getMedicineData(1, this.val);
+      
     },
     navto() {
       this.$router.push({
@@ -87,7 +92,6 @@ export default {
     },
     edit(item) {
       let id = item.id;
-      console.log(item);
       this.$router.push({
         name: "medicineEdit",
         params: {

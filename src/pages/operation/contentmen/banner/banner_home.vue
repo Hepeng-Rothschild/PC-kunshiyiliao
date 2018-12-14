@@ -30,8 +30,13 @@
             <td>{{ addZero(index) }}</td>
             <td>{{ item.bannerName }}</td>
             <td>
-              <img
+              <!-- <img
                 :src="item.imageUrl == ''? '' :fileBaseUrl + item.imageUrl"
+                alt
+                style="margin:10px 0;width:80px;height:80px;"
+              > -->
+              <img
+                :src="analysisImages(item.imageUrl)"
                 alt
                 style="margin:10px 0;width:80px;height:80px;"
               >
@@ -96,14 +101,18 @@ export default {
       }
       return num;
     },
-    getData(pageNo) {
-      this.$axios
-        .post(api.bannerHome, {
+    getData(pageNo, val) {
+      let params = {
           bannerName: "",
           hospitalId: this.id,
           pageNo,
           pageSize: 10
-        })
+        } 
+        if (val != '') {
+          params.bannerName= val
+        }
+      this.$axios
+        .post(api.bannerHome, params)
         .then(res => {
           if (res.data) {
             let ret = res.data.object;
@@ -111,6 +120,14 @@ export default {
             this.bannerSize = ret.count;
           }
         });
+    },
+    analysisImages (json) {
+      try {
+        json = JSON.parse(json);
+        return this.fileBaseUrl + json.fileName
+      } catch (error) {
+        return ''
+      }
     }
   },
   // 页面加载时获取数据
@@ -122,20 +139,7 @@ export default {
     search: {
       deep: true,
       handler(oldval) {
-        this.$axios
-          .post(api.bannerHome, {
-            bannerName: oldval,
-            hospitalId: this.id,
-            pageNo: 1,
-            pageSize: 10
-          })
-          .then(res => {
-            if (res.data) {
-              let ret = res.data.object;
-              this.bannerSize = ret.count;
-              this.tbleList = ret.list;
-            }
-          });
+        this.getData(1,oldval)
       }
     }
   }

@@ -1,8 +1,67 @@
 <template>
-  <div class="reset">reset</div>
+  <div class="reset">
+    <div class="container">
+      <header>
+        <div>重置密码</div>
+      </header>
+      <div class="main">
+        <!-- 登录账号 -->
+        <div class="item">
+          <div class="item-left">
+            <span style="color:red;">*</span>
+            <span>登录账号</span>
+          </div>
+          <input type="text">
+        </div>
+        <p class = 'info'>登录账号不建议与用户姓名相同</p>
+        <!-- 旧的密码 -->
+         <div class="item">
+          <div class="item-left">
+            <span style="color:red;">*</span>
+            <span>旧的密码</span>
+          </div>
+          <input type="text" placeholder="请输入历史密码信息">
+        </div>
+        <!-- 重置密码 -->
+        <div class="item">
+          <div class="item-left">
+            <span style="color:red;">*</span>
+            <span>重置密码</span>
+          </div>
+          <input type="text">
+        </div>
+       <p class = 'info'>密码必须包含数字,大小写字母长度不低于6位</p>
+       <!-- 确认密码 -->
+      <div class="item">
+          <div class="item-left">
+            <span style="color:red;">*</span>
+            <span>确认密码</span>
+          </div>
+          <input type="text">
+        </div>
+       <p class = 'info'>密码必须包含数字,大小写字母长度不低于6位</p>
+        <!-- 保存 -->
+        <div class="save">
+          <div @click="$router.back()">取消</div>
+          <div @click="save">保存</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-export default {};
+export default {
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+    save () {
+
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .reset {
@@ -14,6 +73,67 @@ export default {};
   .container {
     width: 90%;
     margin: 0 auto;
+    header {
+      div {
+        border-left: 2px solid blue;
+        padding-left: 10px;
+        font-size: 18px;
+      }
+    }
+    .main {
+      width: 100%;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+
+      .item {
+        width: 500px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 10px auto;
+        .item-left {
+          width: 150px;
+          span {
+            width: 30px;
+          }
+        }
+        input {
+          display: inline-block;
+          width: 400px;
+          border-radius: 4px;
+          border: 1px solid #ddd;
+          text-indent: 10px;
+          line-height: 40px;
+          background: #fff;
+          outline: none;
+        }
+      }
+      .info {
+        text-align: center;
+        color: #999;
+      }
+      .save {
+        display: flex;
+        flex-direction: row;
+        width: 300px;
+        justify-content: space-around;
+        margin: 20px auto;
+        div:last-child {
+          background: skyblue;
+        }
+        div {
+          width: 80px;
+          height: 30px;
+          border-radius: 4px;
+          background: #ddd;
+          text-align: center;
+          line-height: 30px;
+          color: #fff;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 </style>

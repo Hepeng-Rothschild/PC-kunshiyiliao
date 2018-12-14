@@ -34,7 +34,7 @@
             <th>{{ item.internetHospital == '0'? '企业' :'医院' }}</th>
             <th>{{ item.orgCode }}</th>
             <th>{{ item.grade }}</th>
-            <th>联系人姓名</th>
+            <th>{{ item.linkman }}</th>
             <th>{{ item.linkmanTelephone }}</th>
             <th>{{ item.enable == '0'? '入驻' :'关闭'}}</th>
             <th>{{ item.createTime }}</th>
@@ -105,8 +105,12 @@ export default {
       })
     },
     edit (item) {
+      let id = item.id;
       this.$router.push({
-        name:"mechanismregedit"
+        name:"mechanismregedit",
+        params:{
+          id
+        }
       })
     },
     getMechanismreg (pageNo,name) {
@@ -122,7 +126,6 @@ export default {
           let ret = res.data.object
           this.doctorregisterSize = ret.count
           this.list = ret.list;
-          console.log(ret);
         }
       })
     },

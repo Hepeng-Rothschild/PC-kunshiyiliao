@@ -12,7 +12,16 @@
 					<input type="text" placeholder = '请输入新闻标题' maxlength = "30" v-model='title'/>
 					<span>{{ title.length }}/30</span>
 				</div>
-				
+			</div>
+			<div class="main_title">
+				<div class = 'main_title_info'>
+					<span style = 'color:red;'>*&nbsp;&nbsp;</span>
+					<span>副标题</span>
+				</div>
+				<div class = "input">
+					<input type="text" placeholder = '请输入新闻副标题' maxlength = "30" v-model='titles'/>
+					<span>{{ titles.length }}/30</span>
+				</div>
 			</div>
 			<!--添加大图-->
 			<div class="main_imgs">
@@ -119,7 +128,7 @@
 			<!--保存-->
 			<div class = 'save'>
 				<div @click = 'save' style = 'cursor:pointer;'>保存</div>
-				<div @click="$router.back(-1)">取消</div>
+				<div @click="$router.back(-1)" style = 'cursor:pointer;'>取消</div>
 			</div>
 
 		</div>
@@ -162,7 +171,9 @@
                 uploadUrl:api.fileAll,
                 
                 images:"",
-                editorText: '请输入要编辑的内容...',
+				editorText: '请输入要编辑的内容...',
+				source:"",
+				titles:"",
 			}
 		},
 		mounted () {
@@ -178,19 +189,25 @@
 		            	let flag = false;
 		            	if (detail.cover) {
 							this.uploadList = []
+							this.source = detail.cover;
 							this.uploadList.push({
 								name: "a42bdcc1178e62b4694c830f028db5c0",
 								percentage: 100,
 								status: "finished",
 								uid: 1544263544970,
-								url: detail.cover
+								url: this.analysisImages(detail.cover)
 							})
+							console.log(this.analysisImages(detail.cover));
 						}
+						console.log(ret);
 						if (detail.enable) {
 							flag = true;
 						}
 						//标题
 						this.title = detail.title;
+
+						this.titles = detail.synopsis || ''
+
 						this.isource = detail.source;
 						this.tinymceHtml = detail.content;
 						this.editorText = detail.content;
@@ -209,16 +226,13 @@
             },
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+				this.uploadList.splice(fileList.indexOf(file),1);
             },
             handleSuccess (res, file) {
-				// file.url =  this.fileBaseUrl + res.object[0].fileName;
 				file.url = res.object[0].fileName;
-				this.images = res.object[0].fileName
+				this.images = JSON.stringify(res.object[0]);
 				file.name = res.object[0].fileName;
-				console.log(file.url);
-				console.log(this.images)
-				console.log(file.name);
             },
             handleFormatError (file) {
             	console.log(file);
@@ -236,8 +250,16 @@
             },
             save () {
             	let release = 0;
-				if(this.switch1) {
+				if (this.switch1) {
 					release = 1
+				}
+				let images = '';
+				if (this.images && this.uploadList.length) {
+					images = this.images;
+				} else if (this.uploadList.length) {
+					images = this.source;
+				} else {
+					images = ''
 				}
 					
             	let params = {
@@ -246,8 +268,10 @@
 					operateArticle: {
 						//标题
 						title: this.title,
+						// 副标题
+						synopsis:this.titles,
 						//图片
-						cover : this.images,
+						cover : images,
 						//排序
 						priority: this.isort,
 						//内容
@@ -260,6 +284,7 @@
 						id:this.$route.params.id
 					}
 				}
+				console.log(params.operateArticle.cover);
             	if (this.title == ''){
             		this.$Message.info('新闻标题不能为空');
             	} else if (this.editorText == ''){
@@ -279,7 +304,7 @@
 					}).catch(err => {
 						console.log(err);
 					})
-            		console.log(params);
+            		// console.log(params);
 
 					
             	}
@@ -289,7 +314,15 @@
 		      this.editorText = val
 		    },
 		    afterChange () {
-		    }
+			},
+			analysisImages(json) {
+				try {
+					json = JSON.parse(json);
+					return json.fileName;
+				} catch (error) {
+					return "";
+				}
+			}
 		}
 	}
 </script>
