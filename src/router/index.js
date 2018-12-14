@@ -68,9 +68,9 @@ export default new Router({
 				operation.doctorServerManageList,
 				operation.doctorServerManageEdit,
 				// 医生端运营内容管理
-				operation.contentCheckList,
-				operation.contentCheckListAdd,
-				operation.contentCheckListEdit,
+				operation.doctorContentCheckList,
+				operation.doctorContentCheckListAdd,
+				operation.doctorContentCheckListEdit,
 
 				//运维端路由
 				maintain.residentRegisterList,					

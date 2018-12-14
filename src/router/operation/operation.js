@@ -73,35 +73,35 @@ const uploaddemo = {
 }
 
 //医生端内容管理
-const contentCheckList = {
-	path: 'operation/contentCheck/list',
-	name: 'contentcontentCheck',
+const doctorContentCheckList = {
+	path: 'operation/doctorContentCheck/list',
+	name: 'contentdoctorContentCheck',
 	meta: {
 		index: 2,
 		title: '医生端内容管理'
 	},
 	component: () =>
-		import("@/pages/operation/contentCheck/contentmanagement_home")
+		import("@/pages/operation/doctorContentCheck/home")
 }
-const contentCheckListAdd = {
-	path: 'operation/contentCheck/add',
-	name: 'contentCheckAdd',
+const doctorContentCheckListAdd = {
+	path: 'operation/doctorContentCheck/add',
+	name: 'doctorContentCheckAdd',
 	meta: {
-		index: 2,
+		index: 3,
 		title: '医生端内容管理-添加'
 	},
 	component: () =>
-		import("@/pages/operation/contentCheck/contentmanagement_add")
+		import("@/pages/operation/doctorContentCheck/edit")
 }
-const contentCheckListEdit = {
-	path: 'operation/contentCheck/edit',
-	name: 'contentCheckEdit',
+const doctorContentCheckListEdit = {
+	path: 'operation/doctorContentCheck/edit',
+	name: 'doctorContentCheckEdit',
 	meta: {
-		index: 2,
+		index: 3,
 		title: '医生端内容管理-编辑'
 	},
 	component: () =>
-		import("@/pages/operation/contentCheck/contentmanagement_edit")
+		import("@/pages/operation/doctorContentCheck/edit")
 }
 
 //医生端内容分类
@@ -456,8 +456,8 @@ export default {
 	doctorServerManageList,
 	doctorServerManageEdit,
 	// 医生端内容管理
-	contentCheckList,
-	contentCheckListAdd,
-	contentCheckListEdit,
+	doctorContentCheckList,
+	doctorContentCheckListAdd,
+	doctorContentCheckListEdit,
 	
 }

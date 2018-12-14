@@ -47,6 +47,8 @@ const getWrap = '/operateapi/articleselectbyid' //查询新闻
 const upWrap = '/operateapi/articleideletebatch' //下架
 const root = '/operateapi/articlepriority';   //新闻置顶
 
+//医生端内容管理
+
 //专家列表
 const zj = '/operateapi/organizationpageexpertdoctor'   //专家列表分页
 const expertedit = '/operateapi/organizationupdateexpertdoctor' //专家信息修改
@@ -91,7 +93,7 @@ const departmentChange = '/operateapi/organizationupdateappointmentdept' //修�
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
 
-const uploadXls = '/operateapi/organizationinsertbatchdoctor' //批量上传信息
+const uploadXls = '/operateapi/organizationinsertbatchdoctor' //批量上传医生信息
 
 const getDoctorInfo = '/operateapi/residentpagedoctor'  //获取医生注册信息
 
@@ -101,6 +103,7 @@ const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县
 // 机械注册信息
 const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注册信息列表查询
 const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
+// const mechanismregAdd = '' // 新增机构
 /* ********************************************* */
 const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
 const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
