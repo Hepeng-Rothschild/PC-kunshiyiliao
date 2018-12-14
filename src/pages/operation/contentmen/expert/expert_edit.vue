@@ -10,7 +10,6 @@
 					<span>专家姓名</span>
 				</div>
 				<input type="text" placeholder = "请输入专家姓名" v-model = 'name' disabled />
-				<!-- <button>检索</button> -->
 			</div>
 			<!--机构名称-->
 			<div class="main_expert_item">
@@ -87,7 +86,7 @@
 			<!--保存-->
 			<div class="expert_save">
 				<span @click = 'save'>保存</span>
-				<span>取消</span>
+				<span @click = '$router.back()'>取消</span>
 			</div>
 		</div>
 	</div>
@@ -120,16 +119,18 @@
 			}
 		},
 		mounted () {
-			console.log(this.$route.params.item);
 			let data = this.$route.params.item
-			this.name = data.doctorName;
-			this.yname = data.hospitalName;
-			this.personalIntroduction = data.personalIntroduction;
-			this.doctorGood = data.doctorGood;
-			this.zhiwu = data.title
-			this.post = data.post
-			this.keshi = data.deptType
-			this.isort = data.priority
+			if (data) {
+				this.name = data.doctorName;
+				this.yname = data.hospitalName;
+				this.personalIntroduction = data.personalIntroduction;
+				this.doctorGood = data.doctorGood;
+				this.zhiwu = data.title
+				this.post = data.post
+				this.keshi = data.deptType
+				this.isort = data.priority
+				this.switch1 = Boolean(data.iexpert)
+			}
 		},
 		methods: {
 			//显示按钮
@@ -152,7 +153,6 @@
 					post:this.post,
 					doctorId,
 					hospitalId
-				
             	}
             	if (params.name == '') {
             		this.$Message.info('专家姓名不能为空');	
@@ -177,7 +177,6 @@
 <style scoped lang="less">
 .addExpert{
 	width:100%;
-	
 	.main_expert{
 		width:80%;
 		display:flex;

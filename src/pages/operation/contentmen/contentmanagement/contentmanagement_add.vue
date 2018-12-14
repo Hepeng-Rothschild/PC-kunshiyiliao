@@ -67,7 +67,7 @@
 						
 					</div>
 				</Upload>
-				<Modal title="View Image" v-model="visible">
+				<Modal title="预览图片" v-model="visible">
 					<img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
 				</Modal>
 			</div>
@@ -102,7 +102,12 @@
 					<span>新闻内容</span>
 				</div>
 				<div class='articletext'>
-					<vue-editor :id="id" :height="height" @valueHandle="valueHandle" class='inputAll'></vue-editor>
+					<editor id="editor_id" height="500px" width="700px" :content.sync="editorText"
+			            :afterChange="afterChange()"
+			            pluginsPath="@/../static/kindeditor/plugins/"
+			            :loadStyleMode="false"
+			            @on-content-change="onContentChange">
+					</editor>
 				</div>
 
 			</div>
@@ -163,17 +168,26 @@
 				uploadList: [],
 				id:sessionStorage.getItem('hospitalId'),
 				
+                editorText: '请输入要编辑的内容...',
+				
 				uploadModal: true,
 				
                 activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
                 uploadUrl:api.fileAll,
-                uploadData: {json:'{"urlCode":"201","flag":"1"}'}
+				uploadData: {json:'{"urlCode":"201","flag":"1"}'},
+				images:''
 			}
 		},
 		mounted() {
 			this.uploadList = this.$refs.upload.fileList;
+			console.log('contentmanagementAdd')
 		},
 		methods: {
+			onContentChange (val) {
+		      this.editorText = val
+		    },
+		    afterChange () {
+		    },
 			valueHandle(val) {
 				this.test = val;
 			},
@@ -186,9 +200,10 @@
 				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
 			},
 			handleSuccess(res, file) {
-				console.log(res);
-				file.url = this.fileBaseUrl + res.object[0].smallFileName;
+            	file.url =  this.fileBaseUrl + res.object[0].fileName;
+				this.images = res.object[0].fileName
 				file.name = res.object[0].fileName;
+				console.log(file);
 			},
 			handleFormatError(file) {
 				this.$Message.info('上传失败');
@@ -211,8 +226,6 @@
 					this.$Message.info('主标题不排序不能为空能为空');
 				} else if(!this.select) {
 					this.$Message.info('请选择类型');
-				} else if(!this.test) {
-					this.$Message.info('新闻内容不能为空');
 				} else {
 					let release = 0;
 					if(this.switch1) {
@@ -224,13 +237,20 @@
 						operateArticle: {
 							title: this.title,
 							stbiosus: this.ftitle,
-							cover : this.uploadList[0].name,
+							cover:'',
 							priority: this.num,
-							content:this.tinymceHtml,
+							content:this.editorText,
 							source:this.source,
 							enable: release
 						}
 					}
+					let images = '';
+					if (this.images) {
+						images = this.images;
+					}
+					params.operateArticle.cover = images;
+					
+					console.log(params);
 					this.$axios.post(api.createdWrap, params).then(res => {
 						if (res.data.code) {
 							this.$Message.info('添加成功' );

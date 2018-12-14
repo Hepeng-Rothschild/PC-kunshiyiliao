@@ -4,10 +4,10 @@
 		<div class="i-keshi_main">
 		<!--左侧选择-->
 			<div class="i-keshi_main-left" ref = 'oneList'>
-				<ul class = 'allList' @dblclick = 'tab' v-for = 'item,index in departmentsList' >
-					<li>+{{ item.name}}</li>
+				<ul class = 'allList' @click = 'tab' v-for = 'item,index in departmentsList' >
+					<li><span>+</span>{{ item.name}}</li>
 					<ul class = 'oneList'>
-						<li v-for = 'items,indexs in item.child' :data-id='items.id'>+{{ items.childDept }}</li>
+						<li v-for = 'items,indexs in item.child' :data-id='items.id'>{{ items.childDept }}</li>
 					</ul>
 				</ul>
 			</div>
@@ -58,9 +58,8 @@
 				<!--保存-->
 				<div class = 'save'>
 					<div @click = 'save'>保存</div>
-					<div>取消</div>
+					<div @click = '$router.back()'>取消</div>
 				</div>
-			
 			</div>
 		</div>
 		
@@ -96,12 +95,13 @@ import api from "@/api/commonApi";
 			}
 		},
 		mounted () {
+			let id = this.$route.params.id;
+			this.getDepartmentsData(id)
 			this.$axios.post(api.departmentseditleft,{
  					"hospitalId": this.id
 			}).then(res => {
 				if (res.data) {
 					let ret = res.data.object
-					console.log(ret)
 					this.departmentsList = ret
 				}
 			})
@@ -111,48 +111,26 @@ import api from "@/api/commonApi";
 	  			let el = e.target;
 	  			let chilrens = el.parentNode.getElementsByTagName('ul');
 	  			let ref = this.$refs.oneList;
-	  			if (chilrens.length >0) {
+	  			if (chilrens.length > 0) {
 	  				let flag = chilrens[0].style.display;
 		  			if (flag == '' || flag == 'none') {
-		  				chilrens[0].style.display = 'block';
+						  chilrens[0].style.display = 'block';
+						  el.parentNode.getElementsByTagName('span')[0].innerHTML = '-'
 		  			} else {
-		  				chilrens[0].style.display = 'none';
+						  chilrens[0].style.display = 'none';
+						el.parentNode.getElementsByTagName('span')[0].innerHTML = '+'
 		  			}
-	  			}
+				  }
 	  			let ichildren = ref.getElementsByTagName('li');
 	  			for(let i = 0; i < ichildren.length; i++){
 	  				ichildren[i].classList.remove('active');
-	  				if(ichildren[i].localName){
-	  				}
+	  				
 	  			}
 				  el.classList.add('active');
 				  let dataId = el.getAttribute('data-id');
 				  if (dataId) {
-					this.currentId = dataId;
-					
-					this.$axios.post(api.departmentssearch, {
-						id:dataId
-					}).then(res => {
-						if (res.data) {
-							let ret = res.data.object;
-							//科室名
-							this.title = ret.dictType
-							//   简介
-							this.test1 = ret.departmentdes
-							//   显示
-							this.switch1 = Boolean(ret.display)
-							//  排序
-							this.isort = ret.priority
-							//别名
-							this.keshiname = ret.deptNickname
-
-						}
-					}).catch(err => {
-						console.log(err)
-					})
+					this.getDepartmentsData(dataId);
 				  }
-				  
-	  			
 	  		},
 	  		save () {
 				  let switch1 = 0;
@@ -171,7 +149,8 @@ import api from "@/api/commonApi";
 					// ID
 					id: this.currentId
 
-	  			}
+				  }
+				//   console.log(params);
 				  this.$axios.post(api.departmentChange, params).then(res => {
 					  if (res.data) {
 						  this.$Message.info('修改成功');	
@@ -184,7 +163,30 @@ import api from "@/api/commonApi";
 				  }).catch(err => {
 					  console.log(err)
 				  })
-	  		}
+			  },
+			  getDepartmentsData (id) {
+				  this.currentId = id;
+					this.$axios.post(api.departmentssearch, {
+						id
+					}).then(res => {
+						if (res.data) {
+							let ret = res.data.object;
+							//科室名
+							this.title = ret.dictType
+							//   简介
+							this.test1 = ret.departmentdes
+							//   显示
+							this.switch1 = Boolean(ret.display)
+							//  排序
+							this.isort = ret.priority
+							//别名
+							this.keshiname = ret.deptNickname
+
+						}
+					}).catch(err => {
+						console.log(err)
+					})
+			  }
         }
 	}
 </script>

@@ -4,9 +4,10 @@
       <!-- 头部信息 -->
       <header>
         <div class="search">
-          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model = 'Name' @keyup = 'nameChange'>
+          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model="Name">
         </div>
-      </header> 
+        <button @click="nameChange">查询</button>
+      </header>
       <!-- 列表 -->
       <div class="list">
         <table border cellspacing cellpadding>
@@ -17,10 +18,12 @@
             <th>注册昵称</th>
             <th>联系方式（手机）</th>
             <th>注册微信公众号</th>
-            <th>微信号<br/>绑定机构名称</th>
+            <th>微信号
+              <br>绑定机构名称
+            </th>
             <th>注册时间</th>
           </tr>
-          <tr v-for = 'item,index in list'>
+          <tr v-for="item,index in list">
             <th>{{ addZero(index) }}</th>
             <th>{{ item.openid }}</th>
             <th>{{ item.userName }}</th>
@@ -31,55 +34,60 @@
             <th>{{ item.createTime }}</th>
           </tr>
         </table>
-        <div class = 'notData' v-show = '!list.length'>暂无更多数据</div>
+        <div class="notData" v-show="!list.length">暂无更多数据</div>
       </div>
     </div>
     <!--分页器-->
-		<div class = 'paging'>
-			<Page :total = "residentregisterSize" @on-change = 'pageChange'/>		
-		</div>
+    <div class="paging">
+      <Page :total="residentregisterSize" @on-change="pageChange"/>
+    </div>
   </div>
 </template>
 <script>
 // 居民注册信息
 import api from "@/api/commonApi";
-import { Page } from 'iview'
+import { Page } from "iview";
 export default {
   data() {
     return {
-      residentregisterSize:10,
-      list:[],
-      Name:""
+      residentregisterSize: 10,
+      list: [],
+      Name: ""
     };
   },
-  mounted () {
+  mounted() {
     this.getData(1);
   },
   methods: {
-    pageChange (index) {
-        this.getData(index);
+    pageChange(index) {
+      this.getData(index);
     },
-    nameChange () {
-      console.log(this.Name);
+    nameChange() {
+      this.getData(1, this.Name);
     },
-    getData (pageNo) {
-      this.$axios.post(api.residentReg,{
+    getData(pageNo, val) {
+      let params = {
         pageNo,
-        pageSize:10
-    }).then(res => {
-        if (res.data) {
-          let ret = res.data.object;
-          this.residentregisterSize = ret.count
-          this.list = ret.list;
-        }
-      })
-    },
-    addZero (num) {
-      num = num + 1;
-      if (num <10) {
-        return '0' + num
+        pageSize: 10
+      };
+      if (val != "") {
+        params.searchKey = val;
       }
-      return num
+      this.$axios.post(api.residentReg, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.residentregisterSize = ret.count;
+          this.list = ret.list;
+          console.log(ret.list);
+        }
+      });
+    },
+    addZero(num) {
+      num = num + 1;
+      if (num < 10) {
+        return "0" + num;
+      }
+      return num;
     }
   },
   components: {
@@ -103,16 +111,15 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: space-between;
       .search {
         background-color: rgb(255, 255, 255);
-        width: 276px;
         height: 32px;
+        width: 276px;
         border-radius: 16px;
         border-width: 1px;
         border-color: rgb(102, 102, 102);
         border-style: solid;
-        text-align:right;
+        text-align: right;
         input {
           text-align: left;
           font-size: 14px;
@@ -129,35 +136,56 @@ export default {
           background: none;
         }
       }
+      button {
+        width: 100px;
+        text-align: center;
+        line-height: 32px;
+        border: none;
+        outline: none;
+        background: skyblue;
+        text-align: center;
+        border-radius: 4px;
+        color: #fff;
+        margin-left: 10px;
+      }
     }
     .list {
       width: 100%;
-      margin:10px 0;
+      margin: 10px 0;
       table {
         width: 100%;
+        border: 1px solid #ddd;
         tr {
+          border-top: 1px solid #ddd;
+          height: 40px;
           th {
             text-align: center;
           }
         }
-        tr:first-child{
-          background-color: rgb(228, 228, 228);
-          color: rgb(102, 102, 102);
+        tr:nth-child(odd) {
+          background: #f8f8f9;
+        }
+        tr:nth-child(even) {
+          background: #fff;
+        }
+        tr:not(:first-child):hover {
+          background: #9dcae4;
         }
       }
-      .notData{
-        width:100%;
-        text-align:center;
-        border:1px solid black;
-        border-top:none;
+      .notData {
+        width: 100%;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-top: none;
+        line-height:40px;
         
       }
     }
   }
-  .paging{
-			width:100%;
-			margin:10px auto;
-			text-align:center;
-		}
+  .paging {
+    width: 100%;
+    margin: 10px auto;
+    text-align: center;
+  }
 }
 </style>

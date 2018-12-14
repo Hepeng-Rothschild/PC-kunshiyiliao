@@ -25,7 +25,7 @@
 				<!--保存-->
 			<div class="expert_save">
 				<span @click = 'navto'>保存</span>
-				<span @click = 'btn'>取消</span>
+				<span  @click = '$router.back()'>取消</span>
 			</div>
 		</div>
 	</div>

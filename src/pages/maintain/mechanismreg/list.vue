@@ -4,11 +4,11 @@
       <!-- 头部信息 -->
       <header>
         <div class="btn">
-          <button style="background:#716bb2;" @click = 'batch'>批量导入</button>
-          <button style="background:#4d8f8f;" @click = 'add'>新增机构</button>
+          <button @click = 'batch'>批量导入</button>
+          <button @click = 'add'>新增机构</button>
         </div>
         <div class="search">
-          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model="Name" @keyup="nameChange">
+          <input type="text" placeholder="机构名称" v-model="Name" @keyup='nameChange' >
         </div>
       </header>
       <!-- 列表 -->
@@ -77,7 +77,6 @@ export default {
       if (!item.enable) {
         enable = 1;
       }
-      
       this.$axios.post(api.mechanismregEnable,{
         enable,
         id
@@ -95,7 +94,7 @@ export default {
       })
     },
     nameChange() {
-      console.log(this.Name);
+     this.getMechanismreg(1, this.Name);
     },
     pageChange (index) {
 
@@ -106,16 +105,19 @@ export default {
       })
     },
     edit (item) {
-      console.log(item)
-      // this.$router.push({
-      //   name:"mechanismregedit"
-      // })
+      this.$router.push({
+        name:"mechanismregedit"
+      })
     },
-    getMechanismreg (pageNo) {
-      this.$axios.post(api.mechanismregList,{
+    getMechanismreg (pageNo,name) {
+      let params = {
           pageNo,
           pageSize:10
-      }).then(res => {
+      }
+      if (name != '') {
+        params.searchKey = name
+      }
+      this.$axios.post(api.mechanismregList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object
           this.doctorregisterSize = ret.count
@@ -163,7 +165,8 @@ export default {
         button {
           border: none;
           outline: none;
-          color: #e2adad;
+          color: #FFF;
+          background: skyblue;
           width: 128px;
           height: 39px;
           border-radius: 2px;
@@ -199,11 +202,19 @@ export default {
       margin:10px 0;
       table {
         width: 100%;
-        tr:first-child{
-          background-color: rgb(228, 228, 228);
-          color: rgb(102, 102, 102);
+        border:1px solid #ddd;
+         tr:nth-child(odd) {
+          background: #f8f8f9;
+        }
+        tr:nth-child(even) {
+          background: #fff;
+        }
+        tr:not(:first-child):hover {
+          background: #9dcae4;
         }
         tr {
+          border-top:1px solid #ddd;
+          height:40px;
           th {
             text-align: center;
           }
@@ -212,7 +223,8 @@ export default {
       .notData{
         width:100%;
         text-align:center;
-        border:1px solid black;
+        border:1px solid #ddd;
+        line-height: 40px;
         border-top:none;
         
       }

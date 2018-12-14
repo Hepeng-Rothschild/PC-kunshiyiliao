@@ -164,7 +164,7 @@ const addClassify = {
 	name: 'addClassify',
 	meta: {
 		index: 3,
-		title: '内容分类-添加'
+		title: '内容分类-编辑'
 	},
 	component: () =>
 		import("@/pages/operation/classify/addClassify")

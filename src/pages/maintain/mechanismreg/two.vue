@@ -1,38 +1,38 @@
 <template>
   <div class="two">
     <div class="container">
-<!-- 进度条tab -->
+      <!-- 进度条tab -->
       <tmptab :active="1"></tmptab>
-<!-- 可传入数据 -->
+      <!-- 可传入数据 -->
       <div class="info">
         <span>本次可导入</span>
-        <span>数据:5条</span>
+        <span>数据:{{ all.success }}条</span>
       </div>
-<!-- 不可传入数据 -->
+      <!-- 不可传入数据 -->
       <div class="info">
         <span>本次不可导入</span>
-        <span>数据:5条</span>
+        <span>数据:{{ list.length }}条</span>
       </div>
       <div class="next">
-        <button @click = 'next'>下一步</button>
-        <span @click = 'prev'>返回重新上传</span>
+        <button @click="next">下一步</button>
+        <span @click="prev">返回重新上传</span>
       </div>
-<!-- 列表 -->
+      <!-- 列表 -->
       <div class="list">
-        <table border cellspacing cellpadding>
+        <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <th>编号</th>
             <th>医生姓名</th>
-            <th>医生名称</th>
+            <th>医院名称</th>
             <th>医生手机号码</th>
             <th>错误提示</th>
           </tr>
-           <tr v-for = 'item in list'>
+          <tr v-for="item in list">
             <th>编号</th>
-            <th>{{ item.name }}</th>
-            <th>医生名称</th>
-            <th>医生手机号码</th>
-            <th>错误提示</th>
+            <th>{{ item.doctorName }}</th>
+            <th>{{ item.hospitalName }}</th>
+            <th>{{ item.phone }}</th>
+            <th>{{ item.errorPrompt }}</th>
           </tr>
         </table>
       </div>
@@ -47,28 +47,39 @@ export default {
     Upload,
     tmptab
   },
-  data () {
-      return {
-          list:[
-              {
-                  name:'00'
-              }
-          ]
-      }
+  data() {
+    return {
+      list: [],
+      all: {}
+    };
+  },
+  mounted() {
+    let fail = this.$route.params.fail;
+    if (fail) {
+      console.log(fail);
+      this.all = fail;
+      this.list = fail.fail;
+    }
   },
   methods: {
     //   下一步
-      next () {
-        //   console.log(1)
-        this.$router.push({
-            name:"mechanismregeditbatchthree"
-        })
-      },
+    next() {
+     let fail = this.$route.params.fail;
+     let success = fail.success;
+     let error = fail.fail.length;
+     console.log(success,error);
+      this.$router.push({
+        name: "mechanismregeditbatchthree",
+        params:{
+          success,
+          error
+        }
+      });
+    },
     //   上一步
-      prev () {
-          this.$router.back();
-      }
-
+    prev() {
+      this.$router.back();
+    }
   }
 };
 </script>
@@ -101,31 +112,39 @@ export default {
       }
       span {
         color: red;
-        cursor:pointer;
+        cursor: pointer;
       }
     }
-       .list {
-            width: 80%;
-            margin:10px auto;
-            table {
-                width: 100%;
-                tr:first-child{
-                background-color: rgb(228, 228, 228);
-                color: rgb(102, 102, 102);
-                }
-                tr {
-                    th {
-                        text-align: center;
-                    }
-                }
-            }
-            .notData{
-                width:100%;
-                text-align:center;
-                border:1px solid black;
-                border-top:none;
-                
-            }
+    .list {
+      width: 80%;
+      margin: 10px auto;
+      table {
+        border: 1px solid #ddd;
+        width: 100%;
+
+        tr:nth-child(odd) {
+          background: #f8f8f9;
+        }
+        tr:nth-child(even) {
+          background: #fff;
+        }
+        tr:not(:first-child):hover {
+          background: #9dcae4;
+        }
+        tr {
+          border-top: 1px solid #ddd;
+          height: 40px;
+          th {
+            text-align: center;
+          }
+        }
+      }
+      .notData {
+        width: 100%;
+        text-align: center;
+        border: 1px solid black;
+        border-top: none;
+      }
     }
   }
 }
