@@ -133,7 +133,7 @@
 			<!--保存/取消-->
 			<div class='queding'>
 				<button @click='save'>保存</button>
-				<button>取消</button>
+				<button @click = '$router.back()'>取消</button>
 			</div>
 		</div>
 	</div>
@@ -180,7 +180,6 @@
 		},
 		mounted() {
 			this.uploadList = this.$refs.upload.fileList;
-			console.log('contentmanagementAdd')
 		},
 		methods: {
 			onContentChange (val) {
@@ -201,9 +200,8 @@
 			},
 			handleSuccess(res, file) {
             	file.url =  this.fileBaseUrl + res.object[0].fileName;
-				this.images = res.object[0].fileName
+				this.images = JSON.stringify(res.object[0]);
 				file.name = res.object[0].fileName;
-				console.log(file);
 			},
 			handleFormatError(file) {
 				this.$Message.info('上传失败');
@@ -236,8 +234,7 @@
 						ids:[this.select],
 						operateArticle: {
 							title: this.title,
-							stbiosus: this.ftitle,
-							cover:'',
+							synopsis: this.ftitle,
 							priority: this.num,
 							content:this.editorText,
 							source:this.source,
@@ -245,12 +242,16 @@
 						}
 					}
 					let images = '';
-					if (this.images) {
+					if (this.images && this.uploadList.length) {
 						images = this.images;
+					} else if (this.uploadList.length) {
+						images = this.uploadList[0].url
+					} else {
+						images = ''
 					}
 					params.operateArticle.cover = images;
 					
-					console.log(params);
+					console.log(params.operateArticle.cover);
 					this.$axios.post(api.createdWrap, params).then(res => {
 						if (res.data.code) {
 							this.$Message.info('添加成功' );

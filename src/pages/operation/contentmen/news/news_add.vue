@@ -173,7 +173,7 @@
             },
             handleSuccess (res, file) {
 				file.url =  this.fileBaseUrl + res.object[0].fileName;
-				this.images = res.object[0].fileName
+				this.images =  JSON.stringify(res.object[0]);
 				file.name = res.object[0].fileName;
             },
             handleFormatError (file) {
@@ -211,6 +211,7 @@
             		title:this.title
 				}
 				params.newsHeadlines = images
+				console.log(params);
             	if (this.title == ''){
             		this.$Message.info('新闻标题不能为空');
             	} else if (this.editorText == ''){
@@ -220,23 +221,20 @@
 				} else {
             		// 添加
          		this.$axios.post(api.newsA,params).then(res => {
-						if(res.data.code) {
+					if(res.data.code) {
+						setTimeout(() => {
+							this.$Message.info('添加成功');
 							setTimeout(() => {
-								this.$Message.info('添加成功');
-								setTimeout(() => {
-									this.$router.push({
-										name:"operationNews"
-									})
-								},500)
-							})
-						}
+								this.$router.push({
+									name:"operationNews"
+								})
+							},500)
+						})
+					}
 					}).catch(err => {
 						console.log(err);
 					})
-
-					
             	}
-
             }
 		}
 	}

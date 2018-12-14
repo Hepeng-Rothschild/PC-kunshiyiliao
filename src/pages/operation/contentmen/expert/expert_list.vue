@@ -69,7 +69,11 @@ export default {
   methods: {
     //分页器改变
     pageChange(index) {
-      this.getExpertData(index);
+     if (this.val != ''){
+        this.getExpertData(index, this.val);
+     } else {
+        this.getExpertData(index);
+     }
     },
     // 模糊查询
     valChange() {

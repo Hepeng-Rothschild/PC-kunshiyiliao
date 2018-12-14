@@ -5,50 +5,50 @@
       <header>医院基本信息</header>
       <div class="container-main">
         <!-- 序号 -->
-        <div class="number">
+        <!-- <div class="number">
           <div class="left">
             <span>&nbsp;</span>
             <span>序号</span>
           </div>
           <p>{{ number }}</p>
-        </div>
+        </div>-->
         <!-- 区域 -->
         <div class="region">
           <div class="left">
             <span style="color:red;">*</span>
             <span>区域</span>
           </div>
-         <!-- 省 -->
-          <select v-model = 'regionProv' @change = 'provChange'>
+          <!-- 省 -->
+          <select v-model="regionProv" @change="provChange">
             <option value="-1">--请选择--</option>
-            <option :value = 'item.id' v-for = 'item in provList'>{{ item.name }}</option>
+            <option :value="item.id" v-for="item in provList">{{ item.name }}</option>
           </select>
           <!-- 市 -->
-          <select v-model= 'regionCity' @change = "cityChange">
+          <select v-model="regionCity" @change="cityChange">
             <option value="-1">--请选择--</option>
-            <option :value = 'item.id' v-for = 'item in cityList'>{{ item.city }}</option>
+            <option :value="item.id" v-for="item in cityList">{{ item.city }}</option>
           </select>
           <!-- 县 -->
-          <select v-model = 'regionCounty'>
+          <!-- <select v-model="regionCounty">
             <option value="-1">--请选择--</option>
-            <option :value = 'item.id' v-for = 'item in countyList'>{{ item.area }}</option>
-          </select>
+            <option :value="item.id" v-for="item in countyList">{{ item.area }}</option>
+          </select> -->
         </div>
         <!-- 机构名称 -->
         <div class="address">
           <div class="left">
-            <span style = 'color:red;'>*</span>
+            <span style="color:red;">*</span>
             <span>机构名称:</span>
           </div>
-          <input type="text" placeholder = '机构全称' v-model = 'mechanismName'>
+          <input type="text" placeholder="机构全称" v-model="mechanismName">
         </div>
         <!-- 机构组织编码 -->
         <div class="address">
           <div class="left">
-            <span style = 'color:red;'>*</span>
+            <span style="color:red;">*</span>
             <span>机构组织编码:</span>
           </div>
-          <input type="text" placeholder = '医疗组织机构代码' v-model ='mechanismCode'>
+          <input type="text" placeholder="医疗组织机构代码" v-model="mechanismCode">
         </div>
         <!-- 机构类型 -->
         <div class="region">
@@ -57,8 +57,8 @@
             <span>机构类型</span>
           </div>
           <!-- 医院 -->
-          <select v-model = 'mechanismType1'>
-            <option value = '1'>公立医院</option>
+          <select v-model="mechanismType1">
+            <option value="1">医院</option>
           </select>
         </div>
         <!-- 机构等级 -->
@@ -68,30 +68,30 @@
             <span>机构等级</span>
           </div>
           <!-- 医院等级 -->
-          <select v-model = 'mechanismGrade'>
-            <option :value = 'item.dictType' v-for= 'item in grade'>{{ item.dictName }}</option>
+          <select v-model="mechanismGrade">
+            <option :value="item.dictType" v-for="item in grade">{{ item.dictName }}</option>
           </select>
         </div>
         <!-- 机构联系人 -->
         <div class="address">
           <div class="left">
-            <span style = 'color:red;'>&nbsp;</span>
+            <span style="color:red;">&nbsp;</span>
             <span>机构联系人:</span>
           </div>
-          <input type="text" placeholder = '姓名' v-model = 'Contacts'>
+          <input type="text" placeholder="姓名" v-model="Contacts">
         </div>
         <!-- 联系人电话 -->
         <div class="address">
           <div class="left">
-            <span style = 'color:red;'>&nbsp;</span>
+            <span style="color:red;">&nbsp;</span>
             <span>联系人电话:</span>
           </div>
-          <input type="text" placeholder = '电话号码' v-model = 'phone'>
+          <input type="text" placeholder="电话号码" v-model="phone">
         </div>
         <!-- 保存 -->
-        <div class = 'save'>
-            <div style = 'background:#fff;' @click = '$router.back()'>取消</div>
-            <div style = 'background:#4dd3d2;color:#fff;' @click = 'save'>提交</div>
+        <div class="save">
+          <div style="background:#fff;" @click="$router.back()">取消</div>
+          <div style="background:#4dd3d2;color:#fff;" @click="save">提交</div>
         </div>
       </div>
     </div>
@@ -100,121 +100,168 @@
 <script>
 import api from "@/api/commonApi";
 export default {
-    data () {
-        return {
-            // 序号
-            number:'010101020312',
-            // 省
-            regionProv:'-1',
-            // 市
-            regionCity:'-1',
-            //县
-            regionCounty:'-1',
-            //机构全称
-            mechanismName:"",
-            //机构代码
-            mechanismCode:"",
-            //机构类型
-            mechanismType1:"1",
-            //机构等级
-            mechanismGrade:"1",
-            //联系人
-            Contacts:"",
-            //联系人电话
-            phone:"",
-            //城市列表
-            provList:[],
-            cityList:[],
-            countyList:[],
-            //医院等级 列表
-            grade:[]
-        }
-    },
-    mounted () {
-        this.getCity()
-        this.getGrent()
-    },
-    methods: {
-        save () {
-            let params = {
-                number:this.number,
-                // 省
-                regionProv:this.regionProv,
-                // 市
-                regionCity:this.regionCity,
-                //县
-                regionCounty:this.regionCounty,
-                //详细地址
-                address:this.address,
-                //机构全称
-                mechanismName:this.mechanismName,
-                //机构代码
-                mechanismCode:this.mechanismCode,
-                //机构类型
-                mechanismType1:this.mechanismType1,
-                //公私
-                mechanismType2:this.mechanismType2,
-                //机构等级
-                mechanismGrade:this.mechanismGrade,
-                //机构电话
-                mechanismPhone:this.mechanismPhone,
-                //联系人
-                Contacts:this.Contacts,
-                //联系人电话
-                phone:this.phone
-            }
-            console.log(params);
-        },
-        //获取医院等级 
-      getGrent () {
-        this.$axios.post(api.managementAll).then(res => {
-          
-          if (res.data) {
+  data() {
+    return {
+      // 序号
+      number: "010101020312",
+      // 省
+      regionProv: "-1",
+      // 市
+      regionCity: "-1",
+      //县
+      regionCounty: "-1",
+      //机构全称
+      mechanismName: "",
+      //机构代码
+      mechanismCode: "",
+      //机构类型
+      mechanismType1: "0",
+      //机构等级
+      mechanismGrade: "1",
+      //联系人
+      Contacts: "",
+      //联系人电话
+      phone: "",
+      //城市列表
+      provList: [],
+      cityList: [],
+      countyList: [],
+      //医院等级 列表
+      grade: []
+    };
+  },
+  created() {
+    this.getCity();
+    this.getGrent();
+  },
+  mounted() {
+    let id = this.$route.params.id;
+    if (id) {
+      this.$axios
+        .post(api.mechanismregSearch, {
+          hospitalId: id
+        })
+        .then(res => {
+          if (res.data.code) {
             let ret = res.data.object;
-            this.grade = ret;
+            //省
+            this.regionProv = ret.provinceCode;
+            //市
+            this.regionCity = ret.cityCode;
+            //区
+            this.regionCounty = ret.districtCode;
+            // //机构全称
+            this.mechanismName = ret.orgName;
+            // //机构代码
+            this.mechanismCode = ret.appid;
+            // //机构类型
+            this.mechanismType1 = ret.hospitalType;
+            // //机构等级
+            this.mechanismGrade = ret.grade;
+            // //联系人
+            this.Contacts = ret.linkman;
+            // //联系人电话
+            this.phone = ret.linkmanTelephone;
+
+            console.log(ret);
+          }
+        });
+    }
+  },
+  methods: {
+    save() {
+      let params = {
+        // 省
+        provinceCode: this.regionProv,
+        // 市
+        cityCode: this.regionCity,
+        //县
+        districtCode: this.regionCounty,
+        //机构全称
+        orgName: this.mechanismName,
+        //机构代码
+        appid: this.mechanismCode,
+        //机构类型
+        hospitalType: this.mechanismType1,
+        //机构等级
+        grade: this.mechanismGrade,
+        //联系人
+        linkman: this.Contacts,
+        //联系人电话
+        linkmanTelephone: this.phone
+      };
+      if (
+        this.regionProv == "-1" ||
+        this.regionCity == "-1" ||
+        this.regionCounty == "-1"
+      ) {
+        this.$Message.info("区域不能为空");
+      } else if (this.mechanismName == "") {
+        this.$Message.info("机构名称不能为空");
+      } else if (this.mechanismCode =='') {
+  this.$Message.info("组织机构代码不能为空");
+      } else if (this.mechanismType1 =='-1') {
+        this.$Message.info("机构类型不能为空");
+      } else {
+        this.$axios.post(api.mechanismregEdit,params).then(res => {
+          if (res.data.code) {
+            let ret =  res.data;
+            console.log(ret);
           }
         })
-      },
-         // 获取省级
-        getCity () {
-            this.$axios.post(api.getCity).then(res => {
-              if (res.data) {
-                let ret = res.data.object;
-                this.provList = ret;
-                 this.countyList = []
-                 this.cityList = []
-              }
-            })
-          
-          
-        },
-        // 省级改变获取市级
-        provChange () {
-          let list = this.provList
-          let len = list.length
-          if (list != -1) {
-            for (let i = 0;i < len;i++) {
-                if (list[i].id == this.regionProv) {
-                  this.cityList = list[i].cityList
-                }
-            }
-          }
-        },
-        //市级改变获取县级
-        cityChange () {
-          if (this.regionCity != -1) {
-            this.$axios.post(api.getCounty,{
-              "cityId": this.regionCity
-            }).then(res => {
-              if (res.data) {
-                let ret = res.data.object;
-                this.countyList = ret
-              }
-            })
+      }
+      console.log(params);
+    },
+    //获取医院等级
+    getGrent() {
+      this.$axios.post(api.managementAll).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.grade = ret;
+        }
+      });
+    },
+    // 获取省级
+    getCity() {
+      this.$axios.post(api.getCity).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.provList = ret;
+          this.countyList = [];
+          this.cityList = [];
+          this.provChange(this.regionProv);
+        }
+      });
+    },
+    // 省级改变获取市级
+    provChange() {
+      let list = this.provList;
+      let len = list.length;
+      if (list != -1) {
+        for (let i = 0; i < len; i++) {
+          if (list[i].id == this.regionProv) {
+            this.cityList = list[i].cityList;
           }
         }
+      }
+    },
+    //市级改变获取县级
+    cityChange() {
+      if (this.regionCity != -1) {
+        this.$axios
+          .post(api.getCounty, {
+            cityId: this.regionCity
+          })
+          .then(res => {
+            if (res.data) {
+              let ret = res.data.object;
+              this.countyList = ret;
+            }
+          });
+      }
     }
-}
+  }
+};
 </script>
 <style lang="less" scoped>
 .mechanismregEdit {
@@ -257,38 +304,39 @@ export default {
       .region {
         select {
           width: 100px;
-          margin-right:10px;
+          margin-right: 10px;
           option {
             text-align: center;
           }
         }
       }
-      .address{
-          input{
-              width:400px;
-              height:25px;
-              border:1px solid black;
-              outline:none;
-              background:#fff;
-              text-indent: 5px;
-          }
+      .address {
+        input {
+          width: 400px;
+          height: 25px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          outline: none;
+          background: #fff;
+          text-indent: 5px;
+        }
       }
-      .save{
-          width:300px;
-          
-          display:flex;
-          justify-content: space-between;
-          margin:20px auto;
-          flex-direction:row;
-          div{
-              cursor:pointer;
-              width:100px;
-              height:40px;
-              border-radius:6px;
-              border:1px solid #c8c8c8;
-              text-align:center;
-              line-height:40px;
-          }
+      .save {
+        width: 300px;
+
+        display: flex;
+        justify-content: space-between;
+        margin: 20px auto;
+        flex-direction: row;
+        div {
+          cursor: pointer;
+          width: 100px;
+          height: 40px;
+          border-radius: 6px;
+          border: 1px solid #c8c8c8;
+          text-align: center;
+          line-height: 40px;
+        }
       }
     }
   }

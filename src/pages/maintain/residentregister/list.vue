@@ -60,7 +60,12 @@ export default {
   },
   methods: {
     pageChange(index) {
-      this.getData(index);
+      
+      if (this.Name) {
+        this.getData(index,this.Name);
+      } else {
+        this.getData(index);
+      }
     },
     nameChange() {
       this.getData(1, this.Name);

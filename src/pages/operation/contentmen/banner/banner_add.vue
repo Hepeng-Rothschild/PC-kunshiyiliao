@@ -137,26 +137,27 @@
 //              this.$Message.info('开关状态：' + status);
             },
             save () {
-
-				
             	let sum = 0;
             	if (this.switch1) {
             		sum = 1;
-            	}
+				}
+				let images = '';
+				if (this.images !== '') {
+					images = this.images;
+				}
             	let params = {
             		hospitalId: this.id,
             		bannerName:this.title,
             		bannerUrl:this.lianjie,
             		priority:this.isort,
             		enable:sum,
-            		imageUrl:this.images
+            		imageUrl:images
             	}
-            	console.log(params);
 				if (params.bannerName == '') {
 					this.$Message.info('banner名称不能为空');
 				} else {
+				
 					 this.$axios.post(api.bannerAdd, params).then(res => {
-		            	console.log(res);
 		            	if (res.data.message ==='success') {
 		            		this.$Message.info('添加成功');
 		            		setTimeout(()=>{
@@ -180,7 +181,7 @@
             },
             handleSuccess (res, file) {
             	file.url =  this.fileBaseUrl + res.object[0].fileName;
-				this.images = res.object[0].fileName
+				this.images =  JSON.stringify(res.object[0]);
 				file.name = res.object[0].fileName;
             },
             handleFormatError (file) {
@@ -206,8 +207,6 @@
 		},
         mounted () {
             this.uploadList = this.$refs.upload.fileList;
-            
-           
         }
 	}
 </script>

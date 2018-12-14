@@ -131,17 +131,20 @@ export default {
         name: "contentmanagementAdd"
       });
     },
-    getContentData(pageNo) {
-      this.$axios
-        .post(api.contentWrap, {
+    getContentData(pageNo,val) {
+      let params = {
           pageNo,
           pageSize: 10
-        })
+        }
+        if (val != '') {
+          params.title = val
+        }
+      this.$axios
+        .post(api.contentWrap, params)
         .then(res => {
           if (res.data) {
             let ret = res.data.object;
             this.contentSize = ret.count;
-            console.log(res);
             this.tableList = ret.list;
           }
         });
@@ -152,28 +155,19 @@ export default {
       });
     },
     pageChange(index) {
-      this.getContentData(index);
+      
+      if (this.val != '') {
+          this.getContentData(index, this.val);
+      } else {
+        this.getContentData(index);
+      }
     },
     //关键字查询列表
     btn() {
-      this.$axios
-        .post(api.contentWrap, {
-          pageNo: 1,
-          pageSize: 10,
-          type: this.type1,
-          enable: this.type2,
-          title: this.val
-        })
-        .then(res => {
-          if (res.data.object) {
-            let ret = res.data.object.list;
-            this.tableList = ret;
-          }
-        });
+      this.getContentData(1, this.val);
     },
     // 下架
     bottomShelf(item, index) {
-      console.log(111);
       this.$axios
         .post(api.upWrap, {
           ids: [item.articleId],

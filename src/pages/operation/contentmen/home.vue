@@ -2,7 +2,7 @@
   <div class="management1">
     <header>
       <span>机构名称</span>
-      <input type="text" placeholder="请输入医疗机构名称" v-model="val" @keyup="search">
+      <input type="text" placeholder="请输入医疗机构名称" v-model="val">
       <button @click="search">查询</button>
     </header>
     <table border="0" cellspacing="0" cellpadding="0">
@@ -66,12 +66,16 @@ export default {
     this.getDate(1);
   },
   methods: {
-    getDate(pageNo) {
-      this.$axios
-        .post(api.management, {
+    getDate(pageNo,val) {
+      let params = {
           pageNo,
           pageSize: 10
-        })
+        }
+        if (val != '') {
+          params.orgName = val
+        }
+      this.$axios
+        .post(api.management, params)
         .then(res => {
           if (res.data) {
             let ret = res.data.object.list;
@@ -84,7 +88,11 @@ export default {
         });
     },
     pageChange(index) {
-      this.getDate(index);
+      if (this.val != '') {
+        this.getDate(index, this.val);
+      } else {
+        this.getDate(index);
+      }
     },
     navto(item) {
       sessionStorage.setItem("hospitalId", item.hospitalId);
@@ -93,21 +101,7 @@ export default {
       });
     },
     search() {
-      this.$axios
-        .post(api.management, {
-          pageNo: 1,
-          pageSize: 10,
-          orgName: this.val
-        })
-        .then(res => {
-          if (res.data) {
-            let ret = res.data.object.list;
-            this.tableList = ret;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.getDate(1, this.val)
     },
     addZero(num) {
       num = num + 1;
@@ -124,6 +118,7 @@ export default {
 .management1 {
   width: calc(100% - 60px);
   padding: 0 30px;
+  margin:0 auto;
   header {
     width: 100%;
     display: flex;

@@ -104,20 +104,20 @@
       <!--是否开通互联网医院-->
       <div class="main_yy">
         <span class="main_yy_name">是否开通互联网医院</span>
-        <iSwitch v-model="switch1"/>
+        <iSwitch v-model="switch1"  @on-change="change"/>
       </div>
       <!--互联网医院公众号-->
       <div class="main_moban">
         <span>互联网医院公众号</span>
-        <select v-model="y_gzh">
-          <option value="">请选择</option>
+        <select v-model="y_gzh" :disabled='status'>
+          <option value="null">请选择</option>
           <option :value="item.appid" v-for="item,index in gzh">{{ item.nick }}</option>
         </select>
       </div>
       <!--是否加入医院联盟-->
       <div class="main_yy">
         <span class="main_yy_name">是否加入医院联盟</span>
-        <iSwitch v-model="switch2"/>
+        <iSwitch v-model="switch2" :disabled='status'/>
       </div>
       <!--是否开通处方流转-->
       <div class="main_yy">
@@ -173,7 +173,7 @@ export default {
       y_search: "",
       y_phone: "",
       y_dizhi: "",
-      y_gzh: "",
+      y_gzh: null,
       y_uid: "",
       y_search1: "",
       gzh: [],
@@ -184,22 +184,32 @@ export default {
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
-
-      id: sessionStorage.getItem("hospitalId")
+      id: sessionStorage.getItem("hospitalId"),
+      status:false
     };
   },
   methods: {
     onContentChange(val) {
       this.editorText = val;
     },
+    change (status) {
+        if (status) {
+          this.status = false;
+        } else {
+          this.status = true;
+          this.y_gzh = null
+          this.switch2 = false;
+        }
+    },
     afterChange() {},
     save() {
       let images = '';
-      if (this.images && this.uploadList.length) {
-        images = this.uploadList[0].url;
-        let len = this.fileBaseUrl.length;
-        let parentlen = images.length;
-        images = images.substr(len, parentlen);
+      if (this.images != '' && this.uploadList.length) {
+         images = this.images;
+      } else if (this.uploadList.length) {
+        images = this.source
+      } else {
+        images = ''
       }
       let switch1 = 0;
       if (this.switch1) {
@@ -243,23 +253,21 @@ export default {
         //处方流转
         ipres: switch3
       };
-      console.log(params.appid);
-      console.log(params);
-      if (params.internetHospital) {
-        if (params.appid == '') {
-            this.$Message.info("请选择关联公众号");
-            return 1
-          }
+      if (!switch1) {
+        params.appid = null;
       }
+      console.log(params);
+        this.$axios.post(api.managementEdit, params).then(res => {
+            if (res.data.code) {
+              this.$Message.info("修改成功");
+            }
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+          })
       
-      this.$axios.post(api.managementEdit, params).then(res => {
-              if (res.data.code) {
-                this.$Message.info("修改成功");
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            })
+          
     },
     valueHandle(param) {
       this.tinymceHtml = param;
@@ -274,7 +282,7 @@ export default {
     },
     handleSuccess(res, file) {
       file.url = this.fileBaseUrl + res.object[0].fileName;
-      this.images = res.object[0].fileName;
+      this.images = JSON.stringify(res.object[0]);
       file.name = res.object[0].fileName;
     },
     handleFormatError(file) {
@@ -298,6 +306,14 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
+    },
+    analysisImages(json) {
+      try {
+        json = JSON.parse(json);
+        return json.fileName;
+      } catch (error) {
+        return "";
+      }
     }
   },
   created() {
@@ -322,7 +338,6 @@ export default {
         this.gzh = ret;
         
       }
-      console.log(res);
     })
   },
   mounted() {
@@ -339,13 +354,14 @@ export default {
           this.y_name = ret.orgName;
           // 图片
           if (ret.hosIcon) {
+            this.source = ret.hosIcon
             this.uploadList.push({
               name: "a42bdcc1178e62b4694c830f028db5c0",
               percentage: 100,
               status: "finished",
               uid: 1544263544970,
-              url: this.fileBaseUrl + ret.hosIcon
-            });
+              url: this.fileBaseUrl + this.analysisImages(ret.hosIcon)
+            })
           }
           
           this.title = ret.orgName
@@ -368,13 +384,17 @@ export default {
           //uid
           //互联网医院
           this.switch1 = Boolean(ret.internetHospital);
+          if (this.switch1) {
+            this.status = false;
+          } else {
+            this.status = true;
+          }
           // 医院联盟
           this.switch2 = Boolean(ret.unionHospital);
           //医联体上级医院
           // 处方流转
           this.switch3 = Boolean(ret.ipres);
           this.y_uid = ret.prescriptionId;
-          console.log(ret);
         }
       });
   }

@@ -5,13 +5,13 @@
     <!--搜索/创建-->
     <div class="headeri">
       <div>
-        <span></span>
-        <input type="text" placeholder="新闻标题" v-model="search" @keyup="press">
+        <span @click = 'press'></span>
+        <input type="text" placeholder="新闻标题" v-model="search" >
       </div>
       <button @click="add">创建新闻</button>
     </div>
     <!--表格列表-->
-    <div class="main" v-show="changeDown.length">
+    <div class="main" v-show="tablesList.length">
       <table border cellspacing cellpadding>
         <tr>
           <th>编号</th>
@@ -22,12 +22,17 @@
           <th>是否置顶</th>
           <th>操作</th>
         </tr>
-        <tr v-for="(item,index) in changeDown" :key="index">
-          <th>{{ item.sum }}</th>
+        <tr v-for="(item,index) in tablesList" :key="index">
+          <th>{{ addZero(index) }}</th>
           <th>{{ item.title }}</th>
           <th>
-            <img
+            <!-- <img
               :src="(item.newsHeadlines=='' || item.newsHeadlines == null)? '' :fileBaseUrl + item.newsHeadlines"
+              alt
+              style="margin:10px 0;width:100px;height:50px;"
+            > -->
+            <img
+              :src="analysisImages(item.newsHeadlines)"
               alt
               style="margin:10px 0;width:100px;height:50px;"
             >
@@ -37,14 +42,14 @@
           <th>{{ item.enable === 1 ? '是':'否' }}</th>
           <!--是否置顶-->
           <th>{{ item.priority ==1 ? '是' : '否' }}</th>
-          <th :data-id="item.id" :date-id="changeDown">
+          <th :data-id="item.id" :date-id="tablesList.length">
             <span style="cursor:pointer;" :data-id="item.id" @click="navto(item)">编辑</span>
           </th>
         </tr>
       </table>
     </div>
     <!--底部空表格-->
-    <footer v-show="!changeDown.length">
+    <footer v-show="!tablesList.length">
       <table border="0" cellspacing="0" cellpadding="0">
         <tr>
           <th>编号</th>
@@ -77,7 +82,7 @@ export default {
     Page
   },
   mounted() {
-    this.getData(1);
+    // this.getData(1);
   },
   data() {
     return {
@@ -115,21 +120,22 @@ export default {
       return num;
     },
     press() {
-      // console.log(this.search);
+      this.getData(1,this.search);
     },
-    getData(pageNo) {
-      axios
-        .post(api.news, {
+    getData(pageNo, val) {
+      let params = {
           hospitalId: this.id,
           pageNo,
           pageSize: 10
-        })
+        }
+        if (val != '') {
+          params.searchKey = val
+        }
+      axios
+        .post(api.news, params)
         .then(res => {
-          if (res.data) {
+          if (res.data.code) {
             let ret = res.data.object.list;
-            ret.forEach((item, index) => {
-              item.sum = this.addZero(index);
-            });
             this.tablesList = ret;
             this.newsSize = res.data.object.count;
           }
@@ -137,21 +143,14 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
-  },
-  computed: {
-    changeDown() {
-      let arr = [];
-      if (this.search === "") {
-        return this.tablesList;
-      } else {
-        for (let i = 0; i < this.tablesList.length; i++) {
-          if (this.tablesList[i].title.indexOf(this.search) != -1) {
-            arr.push(this.tablesList[i]);
-          }
-        }
+    },
+    analysisImages (json) {
+      try {
+        json = JSON.parse(json);
+        return this.fileBaseUrl + json.fileName
+      } catch (error) {
+        return ''
       }
-      return arr;
     }
   }
 };

@@ -102,7 +102,9 @@ const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县
 // 机械注册信息
 const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注册信息列表查询
 const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
-// const mechanismregAdd = '' // 新增机构
+const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
+const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
+const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
 /* ********************************************* */
 const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
 const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
@@ -242,4 +244,7 @@ export default {
     recommendDetailById,
     recommendUpdate,
     recommendUpdateFlag
+    mechanismregAdd,
+    mechanismregSearch,
+    mechanismregEdit
 }
