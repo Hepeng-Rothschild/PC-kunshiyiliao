@@ -77,7 +77,7 @@ export default {
       this.$axios
         .post(api.management, params)
         .then(res => {
-          if (res.data) {
+          if (res.data.code) {
             let ret = res.data.object.list;
             this.homeSize = res.data.object.count;
             this.tableList = ret;

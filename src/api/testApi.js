@@ -105,6 +105,8 @@ const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册
 const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
 const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
 const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
+
+const mechanismregUpLoad = '/operateapi/organizationinsertbatchhospital' //批量上传机构信息
 /* ********************************************* */
 const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
 const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
@@ -206,5 +208,6 @@ export default {
     mechanismregEnable,
     mechanismregAdd,
     mechanismregSearch,
-    mechanismregEdit
+    mechanismregEdit,
+    mechanismregUpLoad,
 }

@@ -131,23 +131,21 @@ export default {
         name: "contentmanagementAdd"
       });
     },
-    getContentData(pageNo,val) {
+    getContentData(pageNo, val) {
       let params = {
-          pageNo,
-          pageSize: 10
+        pageNo,
+        pageSize: 10
+      };
+      if (val != "") {
+        params.title = val;
+      }
+      this.$axios.post(api.contentWrap, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.contentSize = ret.count;
+          this.tableList = ret.list;
         }
-        if (val != '') {
-          params.title = val
-        }
-      this.$axios
-        .post(api.contentWrap, params)
-        .then(res => {
-          if (res.data) {
-            let ret = res.data.object;
-            this.contentSize = ret.count;
-            this.tableList = ret.list;
-          }
-        });
+      });
     },
     homeBtn() {
       this.$router.push({
@@ -155,9 +153,8 @@ export default {
       });
     },
     pageChange(index) {
-      
-      if (this.val != '') {
-          this.getContentData(index, this.val);
+      if (this.val != "") {
+        this.getContentData(index, this.val);
       } else {
         this.getContentData(index);
       }
@@ -203,6 +200,8 @@ export default {
         })
         .then(res => {
           if (res.data.code) {
+            this.tableList.splice(index, 1);
+            this.tableList.unshift(item);
             this.$Message.info("置顶成功");
           }
         })
@@ -387,7 +386,8 @@ export default {
   }
   .footer {
     width: calc(100% - 60px);
-    border: 1px solid black;
+    border: 1px solid #ddd;
+    line-height: 30px;
     margin: 0 auto;
     border-top: none;
     text-align: center;

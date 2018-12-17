@@ -40,7 +40,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>详细地址:</span>
           </div>
-          <input type="text" placeholder v-model="address">
+          <input type="text" placeholder v-model.trim="address">
         </div>
         <!-- 机构名称 -->
         <div class="address">
@@ -48,7 +48,7 @@
             <span style="color:red;">*</span>
             <span>机构名称:</span>
           </div>
-          <input type="text" placeholder="机构全称" v-model="mechanismName">
+          <input type="text" placeholder="机构全称" v-model.trim="mechanismName">
         </div>
         <!-- 机构组织编码 -->
         <div class="address">
@@ -56,7 +56,7 @@
             <span style="color:red;">*</span>
             <span>机构组织编码:</span>
           </div>
-          <input type="text" placeholder="医疗组织机构代码" v-model="mechanismCode">
+          <input type="text" placeholder="医疗组织机构代码" v-model.trim="mechanismCode">
         </div>
         <!-- 机构类型 -->
         <div class="region">
@@ -204,13 +204,18 @@ export default {
       } else if (this.mechanismType1 == "" || this.mechanismType2 == "") {
         this.$Message.info("机构类型不能为空");
       } else {
-        console.log(params);
+        // console.log(params);
         this.$axios.post(api.mechanismregAdd, params).then(res => {
-          console.log(res.data);
           if (res.data.code) {
             this.$Message.info("添加成功");
+            setTimeout(() => {
+              this.$router.push({
+                name:"mechanismreglist"
+              },500)
+            })
+            
           }
-        });
+        })
       }
     },
     //获取医院等级

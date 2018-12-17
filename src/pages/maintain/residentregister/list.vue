@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     pageChange(index) {
-      
       if (this.Name) {
         this.getData(index,this.Name);
       } else {
@@ -81,9 +80,16 @@ export default {
       this.$axios.post(api.residentReg, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          this.residentregisterSize = ret.count;
-          this.list = ret.list;
-          console.log(ret.list);
+          if (ret.list) {
+            this.residentregisterSize = ret.count;
+            this.list = ret.list;
+          } else {
+            this.residentregisterSize = 10
+            this.list = []
+            this.$Message.info("查询结果为空");
+          }
+        } else {
+          this.$Message.info("查询失败");
         }
       });
     },

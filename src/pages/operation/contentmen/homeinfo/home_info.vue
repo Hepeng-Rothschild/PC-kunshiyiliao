@@ -89,17 +89,17 @@
       <!--机构路线-->
       <div class="main_info">
         <span>机构路线</span>
-        <input type="text" placeholder="请输入机构乘车路线" v-model="y_luxin">
+        <input type="text" placeholder="请输入机构乘车路线" v-model.trim="y_luxin">
       </div>
       <!--机构电话-->
       <div class="main_info">
         <span>机构电话</span>
-        <input type="text" placeholder="多个电话用,分隔" v-model="y_phone">
+        <input type="text" placeholder="请输入机构电话" v-model.trim="y_phone" maxlength="12">
       </div>
       <!--机构地址-->
       <div class="main_info">
         <span>机构地址</span>
-        <input type="text" placeholder="请输入机构地址" v-model="y_dizhi">
+        <input type="text" placeholder="请输入机构地址" v-model.trim="y_dizhi">
       </div>
       <!--是否开通互联网医院-->
       <div class="main_yy">

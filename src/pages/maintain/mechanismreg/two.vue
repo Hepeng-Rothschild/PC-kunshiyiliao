@@ -18,7 +18,7 @@
         <span @click="prev">返回重新上传</span>
       </div>
       <!-- 列表 -->
-      <div class="list">
+      <div class="list" v-show = 'list.length'>
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <th>编号</th>

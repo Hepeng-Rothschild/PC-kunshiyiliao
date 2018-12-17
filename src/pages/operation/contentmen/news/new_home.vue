@@ -5,8 +5,9 @@
     <!--搜索/创建-->
     <div class="headeri">
       <div>
-        <span @click = 'press'></span>
-        <input type="text" placeholder="新闻标题" v-model="search" >
+        <!--  @click = 'press' -->
+        <span></span>
+        <input type="text" placeholder="新闻标题" v-model="search" @keyup='press'>
       </div>
       <button @click="add">创建新闻</button>
     </div>
@@ -82,7 +83,7 @@ export default {
     Page
   },
   mounted() {
-    // this.getData(1);
+    this.getData(1);
   },
   data() {
     return {

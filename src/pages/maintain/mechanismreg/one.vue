@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      uploadUrl: api.uploadXls,
+      uploadUrl: api.mechanismregUpLoad,
       uploadData: { json: '{"urlCode":"203","flag":"1"}' },
       disabled: true,
       errorData: {}
@@ -44,7 +44,7 @@ export default {
     next() {
       if (!this.disabled) {
         this.$router.push({
-          name: "doctorregisterbatchtwo",
+          name: "mechanismregeditbatchtwo",
           params: {
             fail: this.errorData
           }

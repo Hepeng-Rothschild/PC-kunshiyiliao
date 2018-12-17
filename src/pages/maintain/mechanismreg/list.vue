@@ -36,11 +36,11 @@
             <th>{{ item.grade }}</th>
             <th>{{ item.linkman }}</th>
             <th>{{ item.linkmanTelephone }}</th>
-            <th>{{ item.enable == '0'? '入驻' :'关闭'}}</th>
+            <th>{{ item.enable == '0'? '关闭' :'入驻'}}</th>
             <th>{{ item.createTime }}</th>
             <th>
               <span style = 'cursor:pointer' @click = 'edit(item)'>编辑</span>
-              <span style = 'cursor:pointer'>删除</span>
+              <!-- <span style = 'cursor:pointer'>删除</span> -->
               <span style = 'cursor:pointer' @click = 'enable(item)'>{{ item.enable == '0'? '启用' :'停用' }}</span>
             </th>
           </tr>
@@ -77,7 +77,7 @@ export default {
       if (!item.enable) {
         enable = 1;
       }
-      this.$axios.post(api.mechanismregEnable,{
+      this.$axios.post(api.mechanismregEnable, {
         enable,
         id
       }).then(res => {
@@ -97,7 +97,11 @@ export default {
      this.getMechanismreg(1, this.Name);
     },
     pageChange (index) {
-
+      if (this.Name) {
+        this.getMechanismreg(1, this.Name);
+      } else {
+        this.getMechanismreg(index);
+      }
     },
     add () {
       this.$router.push({

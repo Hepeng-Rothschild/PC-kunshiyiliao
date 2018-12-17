@@ -5,7 +5,7 @@
       <header>
         <Button @click="branch">批量导入</Button>
         <div class="search">
-          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model="Name" @keyup="nameChange">
+          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model="Name" @keyup='nameChange'>
         </div>
       </header>
       <!-- 列表 -->
@@ -41,7 +41,7 @@
             <th class="one">{{ item.doctorGood }}</th>
 
             <th>{{ item.createTime }}</th>
-            <th>{{ item.ibatch == '0'? '批量导入' :'个人注册'}}</th>
+            <th>{{ item.ibatch == '0'? '个人注册' :'批量导入'}}</th>
           </tr>
         </table>
         <div class="notData" v-show="!list.length">暂无更多数据</div>
@@ -76,6 +76,11 @@ export default {
     },
     pageChange(index) {
       this.getDoctorData(index);
+      if (this.Name) {
+         this.getDoctorData(1, this.Name);
+      } else {
+         this.getDoctorData(index);
+      }
     },
     nameChange() {
       console.log(this.Name);
@@ -86,17 +91,17 @@ export default {
           pageNo,
           pageSize: 10
         }
+        
         if (val != '') {
-          params.doctorName = val;
+          params.searchKey = val;
         }
       this.$axios
         .post(api.getDoctorInfo, params)
         .then(res => {
-          if (res.data) {
+          if (res.data.code) {
             let ret = res.data.object;
-            this.doctorregisterSize = ret.pageSize;
+            this.doctorregisterSize = ret.count;
             this.list = ret.list;
-            console.log(ret);
           }
         });
     },

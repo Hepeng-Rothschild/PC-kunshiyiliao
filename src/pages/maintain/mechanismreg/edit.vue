@@ -40,7 +40,7 @@
             <span style="color:red;">*</span>
             <span>机构名称:</span>
           </div>
-          <input type="text" placeholder="机构全称" v-model="mechanismName">
+          <input type="text" placeholder="机构全称" v-model.trim="mechanismName">
         </div>
         <!-- 机构组织编码 -->
         <div class="address">
@@ -48,7 +48,7 @@
             <span style="color:red;">*</span>
             <span>机构组织编码:</span>
           </div>
-          <input type="text" placeholder="医疗组织机构代码" v-model="mechanismCode">
+          <input type="text" placeholder="医疗组织机构代码" v-model.trim="mechanismCode">
         </div>
         <!-- 机构类型 -->
         <div class="region">
@@ -164,6 +164,8 @@ export default {
             this.phone = ret.linkmanTelephone;
 
             console.log(ret);
+          } else {
+            console.log(res);
           }
         });
     }

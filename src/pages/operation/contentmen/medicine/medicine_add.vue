@@ -3,7 +3,7 @@
 	<div class = 'addManagement'>
 		<tmpHeader />
 		<div class = "addManag">
-			<h4 @click = 'btn'>选择院内开通科室</h4>
+			<h4>选择院内开通科室</h4>
 			<div class = 'fuwu'>
 				<!--线上服务-->
 				<div class = 'xsfw' v-for = 'item,index in allMenuList' v-if = 'item.dept.list.length != 0'>

@@ -2,12 +2,12 @@
   <div class="Theone">
     <div class="container">
       <tmptab :active="0"></tmptab>
-      <div class="download">下载医生信息表模板</div>
+      <div class="download">下载机构信息表模板</div>
       <div class="uploading">
         <Upload multiple type="drag" :action="uploadUrl" :on-success="handleSuccess">
           <div style="padding: 20px 0">
             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-            <p>上传填写好的医生信息表</p>
+            <p>上传填写好的机构信息表</p>
           </div>
         </Upload>
       </div>

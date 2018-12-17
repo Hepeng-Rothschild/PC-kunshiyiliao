@@ -299,9 +299,14 @@
 			.input{
 				position:relative;
 				width:400px;
+				border:1px solid #ddd;
+				border-radius:4px;
 				input{
 					display:inline-block;
-					width:100%;
+					width:88%;
+					border:none;
+					background: none;
+					text-indent:4px;
 					outline: none;
 				}
 				span{
