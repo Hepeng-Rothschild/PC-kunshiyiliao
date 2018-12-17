@@ -25,8 +25,8 @@ axios.defaults.withCredentials = false;
 axios.interceptors.request.use(
   	config => {
 		let access_token = cookie.getCookie('access_token');
-		if(access_token != undefined)
-			config.headers.Authorization = "Bearer "+ access_token;
+		// if(access_token != undefined)
+		// 	config.headers.Authorization = "Bearer "+ access_token;
     	return config;
   	},
 	err => {

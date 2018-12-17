@@ -1,6 +1,6 @@
 <template>
   <div class="doctorContentHome">
-    <Tabs :animated="false" @on-click="changeComponent">
+    <Tabs :animated="false" v-model="tabId" @on-click="changeComponent">
       <TabPane :label="item.name" v-for="(item,index) of tabs" :key="item.id">
         <Row class="tt-row">
           <Col :xs="24">
@@ -22,7 +22,7 @@
             <Button type="primary" @click="loadPage(1)">
               <Icon type="ios-search" size="14"/>查询
             </Button>
-            <!-- <Button class="abs-right" type="primary" @click="toAdd">新增</Button> -->
+            <Button class="abs-right" type="primary" @click="toAdd">新增</Button>
           </Col>
         </Row>
         <Table class="list-table" stripe :columns="columns" :data="datas"></Table>
@@ -109,17 +109,17 @@ export default {
           }
 
           return [
-            // h("a",{
-            //   attrs:{
-            //     href:"javascript:void(0);"
-            //   },
-            //   on:{
-            //     click:()=>{
-            //       this.toEdit(id);
-            //     }
-            //   }
-            // },"编辑"),
-            // " | ",
+            h("a",{
+              attrs:{
+                href:"javascript:void(0);"
+              },
+              on:{
+                click:()=>{
+                  this.toEdit(id);
+                }
+              }
+            },"编辑"),
+            " | ",
             h("a",{
               on:{
                 click:()=>{
@@ -185,17 +185,17 @@ export default {
             enable = 1;
           }
           return [
-            // h("a",{
-            //   attrs:{
-            //     href:"javascript:void(0);"
-            //   },
-            //   on:{
-            //     click:()=>{
-            //       this.toEdit(id);
-            //     }
-            //   }
-            // },"编辑"),
-            // " | ",
+            h("a",{
+              attrs:{
+                href:"javascript:void(0);"
+              },
+              on:{
+                click:()=>{
+                  this.toEdit(id);
+                }
+              }
+            },"编辑"),
+            " | ",
             h("a",{
               on:{
                 click:()=>{
@@ -253,17 +253,17 @@ export default {
             enable = 1;
           }
           return [
-            // h("a",{
-            //   attrs:{
-            //     href:"javascript:void(0);"
-            //   },
-            //   on:{
-            //     click:()=>{
-            //       this.toEdit(id);
-            //     }
-            //   }
-            // },"编辑"),
-            // " | ",
+            h("a",{
+              attrs:{
+                href:"javascript:void(0);"
+              },
+              on:{
+                click:()=>{
+                  this.toEdit(id);
+                }
+              }
+            },"编辑"),
+            " | ",
             h("a",{
               on:{
                 click:()=>{
@@ -287,6 +287,8 @@ export default {
     };
   },
   created() {
+    
+    this.$route.query.tabId && (this.tabId = this.$route.query.tabId);
     this.tabId == 0 && (
       this.columns = this.healthEducation,
       this.sonTabList = this.healthEducationSontab,
@@ -306,10 +308,18 @@ export default {
   },
   methods: {
     toAdd(){
-      this.$router.push({path:'/index/operation/doctorContentCheck/add',query:{tabId:this.tabId}})
+      let tmpUrl = "";
+      this.tabId == 0 && (tmpUrl = "/index/operation/doctorContentCheck/hel-add");
+      this.tabId == 1 && (tmpUrl = "/index/operation/doctorContentCheck/cls-add");
+      this.tabId == 2 && (tmpUrl = "/index/operation/doctorContentCheck/hot-add");
+      this.$router.push({path:tmpUrl,query:{tabId:this.tabId}})
     },
     toEdit(id){
-      this.$router.push({path:'/index/operation/doctorContentCheck/add',query:{id,tabId:this.tabId}})
+      let tmpUrl = "";
+      this.tabId == 0 && (tmpUrl = "/index/operation/doctorContentCheck/hel-edit");
+      this.tabId == 1 && (tmpUrl = "/index/operation/doctorContentCheck/cls-edit");
+      this.tabId == 2 && (tmpUrl = "/index/operation/doctorContentCheck/hot-edit");
+      this.$router.push({path:tmpUrl,query:{id,tabId:this.tabId}})
     },
     changeEnable(index,id,url,enable) {
       let engable = null;

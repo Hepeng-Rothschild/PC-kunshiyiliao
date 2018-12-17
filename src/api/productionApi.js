@@ -6,7 +6,7 @@ const getProvince = "/operateapi/authenticationqueryprovince"; //获取省级列
 const getTitle = "/operateapi/authenticationquerytitle"; //获取职称列表
 const getReviewDoctorList = "/operateapi/authenticationdoctorpage"; //获取审核医生列表
 const delReviewDoctor = "/operateapi/authenticationdelete"; //删除审核医生列表
-const delReviewDoctorInfo = "/operateapi/authenticationquerydoctor"; //审核医生列表详情
+const reviewDoctorInfo = "/operateapi/authenticationquerydoctor"; //审核医生列表详情
 const reviewDoctor = "/operateapi/authenticationupdate"; //医生审核
 const reviewDoctorUpdate = "/operateapi/authenticationupdatedoctorbyoperate"; //医生审核修改信息
 const hospitalList = "/operateapi/authenticationqueryhospital"; //医生审核
@@ -46,8 +46,6 @@ const changeWrap = '/operateapi/articleupdate'   // 修改新闻
 const getWrap = '/operateapi/articleselectbyid' //查询新闻
 const upWrap = '/operateapi/articleideletebatch' //下架
 const root = '/operateapi/articlepriority';   //新闻置顶
-
-//医生端内容管理
 
 //专家列表
 const zj = '/operateapi/organizationpageexpertdoctor'   //专家列表分页
@@ -103,13 +101,35 @@ const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县
 // 机械注册信息
 const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注册信息列表查询
 const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
-// const mechanismregAdd = '' // 新增机构
+const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
+const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
+const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
 /* ********************************************* */
 const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
 const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
 const doctorServerManageById = '/operateapi/doctormenuselectmenuidsbydoctorid' //查询某个医生的服务管理列表
 const doctorServerManageUpdate = '/operateapi/doctormenuinsertorupdatemenu' //修改某个医生的服务管理
 
+//内容管理
+//1.健康宣教
+const educationInsert = '/operateapi/educationinsert'; //新增健康宣教
+const educationArticleList = '/operateapi/educationqueryarticlelist'; //健康宣教list
+const educationDetailById = '/operateapi/educationselectbyid';//根据ID查询健康宣教详情
+const educationUpdate = '/operateapi/educationupdate';//更新健康宣教信息
+const educationUpdateFlag = '/operateapi/educationupdateenable';//更改健康宣教状态
+//2.经典案例
+const doctorclassicDelete = '/operateapi/doctorclassiccasedelete'; //删除经典案例
+const doctorclassicInsert = '/operateapi/doctorclassiccaseinser'; //新增经典案例
+const doctorclassicArticleList = '/operateapi/doctorclassiccasepage'; //经典案例list
+const doctorclassicDetailById = '/operateapi/doctorclassiccasequerybyid';//根据ID查询经典案例详情
+const doctorclassicUpdate = '/operateapi/doctorclassiccaseupdate';//更新经典案例信息
+const doctorclassicUpdateFlag = '/operateapi/doctorclassiccaseenableddisable';//更改经典案例状态
+//3.热门推荐
+const recommendInsert = '/operateapi/recommendarticleinsert'; //新增热门推荐
+const recommendArticleList = '/operateapi/recommendarticlepagerecommend'; //热门推荐list
+const recommendDetailById = '/operateapi/recommendarticleselectbyprimarykey';//根据ID查询热门推荐详情
+const recommendUpdate = '/operateapi/recommendarticleupdate';//更新热门推荐信息
+const recommendUpdateFlag = '/operateapi/recommendarticleupdateenable';//更改热门推荐状态
 export default {
     login,
     fileAll,
@@ -127,7 +147,7 @@ export default {
     getTitle,
     getReviewDoctorList,
     delReviewDoctor,
-    delReviewDoctorInfo,
+    reviewDoctorInfo,
     reviewDoctor,
     hospitalList,
     reviewDoctorUpdate,
@@ -203,4 +223,27 @@ export default {
     // 机构注册信息
     mechanismregList,
     mechanismregEnable,
+
+    //健康宣教
+    educationInsert,
+    educationArticleList,
+    educationDetailById,
+    educationUpdate,
+    educationUpdateFlag,
+    //经典案例
+    doctorclassicDelete,
+    doctorclassicInsert,
+    doctorclassicArticleList,
+    doctorclassicDetailById,
+    doctorclassicUpdate,
+    doctorclassicUpdateFlag,
+    //热门推荐
+    recommendInsert,
+    recommendArticleList,
+    recommendDetailById,
+    recommendUpdate,
+    recommendUpdateFlag,
+    mechanismregAdd,
+    mechanismregSearch,
+    mechanismregEdit
 }
