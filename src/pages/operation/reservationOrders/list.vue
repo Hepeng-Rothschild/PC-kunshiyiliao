@@ -2,39 +2,51 @@
   <div class="doctorreviewlist">
     <Row>
       <Col :xs="24">
-        <Select class="w-select" v-model="city">
-          <Option value="0">全国</Option>
-          <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
-        </Select>
-        <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-          <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
-        </Select>
-        <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
-        <Select class="w-select" v-model="dictType" placeholder="职称级别">
-          <Option v-for="item in titleList" :value="item.dictType" :key="item.dictType">{{item.dictName}}</Option>
-        </Select>
-        <Select class="w-select" v-model="authStatus">
-          <Option value="0">全部认证</Option>
-          <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
-        </Select>
+        <Input class="w-input" v-model="searchKey" placeholder="订单号、医院、科室、医生、就诊人"/>
         <Button type="primary" @click="loadPage(1)">
           <Icon type="ios-search" size="14"/>查询
         </Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Select class="w-select" v-model="authStatus">
+          <Option value="0">全部</Option>
+          <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
+        </Select>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>日期:</span>
+        <DatePicker type="date" placeholder="开始日期" style="width: 200px"></DatePicker>
+        <span>至</span>
+        <DatePicker type="date" placeholder="结束日期" style="width: 200px"></DatePicker>
+      </Col>
+    </Row>
+    <br>
+    <Row>
+      <Col :xs="24">
+        <span>医院</span>
+        <Select class="w-select" v-model="authStatus">
+          <Option value="0">全部</Option>
+          <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
+        </Select>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>履约率</span>
+        <Input class="w-num-input" @on-focus="blurInput" v-model="coolRate" placeholder=""/>
+        <span>爽约率</span>
+        <Input class="w-num-input" @on-focus="blurInput" v-model="performanceRate" placeholder=""/>
       </Col>
     </Row>
     <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
     <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
-    <Modal title="提示：" @on-ok="ok" @on-cancel="cancel" v-model="modalConfirm" class-name="vertical-center-modal">
-      <p>{{confirmInfo}}</p>
-    </Modal>
   </div>
 </template>
 <script>
-import { Select, Option } from "iview";
+import { Select, Option, DatePicker } from "iview";
 import api from "@/api/commonApi";
 export default {
   data() {
     return {
+      //订单管理 start
+      coolRate:"49%",
+      performanceRate:"53%",
+      //订单管理 end
       cityList: [],
       city: "0",
       searchTypeList: [
@@ -46,7 +58,7 @@ export default {
       keyPlaceHolder: "医院名称",
       titleList: "",
       dictType: "",
-      statusList: ["未认证", "审核中", "审核通过", "审核未通过"],
+      statusList: ["爽约","履约","取消","退号"],
       openList: ["未开通","未开通","已开通","未开通"],
       authStatus: "0",
       columns:[
@@ -112,7 +124,9 @@ export default {
           ]
         }}
       ],
-      doctorList:[],
+      doctorList:[
+        {iNum:1,avatar:require("@/assets/images/header/code_box.png"),operat:""}
+      ],
       count:0,
       pageSize:10,
       pageNo:1,
@@ -125,6 +139,7 @@ export default {
   components: {
     Select,
     Option,
+    DatePicker
   },
   mounted() {
     //获取省级列表
@@ -224,6 +239,9 @@ export default {
       this.confirmInfo = '';
       this.delIndex = null;
       this.delId = null;
+    },
+    blurInput(e){
+      e.target.blur();
     }
   }
 };
@@ -239,7 +257,10 @@ export default {
     width: 100px;
   }
   .w-input {
-    width: 200px;
+    width: 220px;
+  }
+  .w-num-input {
+    width: 100px;
   }
   .m-table{
     margin:10px 0;

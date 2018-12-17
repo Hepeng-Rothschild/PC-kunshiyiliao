@@ -244,7 +244,7 @@ export default {
   created() {
     this.id = parseInt(this.$route.query.id);
     this.$axios
-      .post(api.delReviewDoctorInfo, { id: this.id })
+      .post(api.reviewDoctorInfo, { id: this.id })
       .then(resp => {
         this.info = resp.data.object;
         if (this.info.authStatus == 1) {

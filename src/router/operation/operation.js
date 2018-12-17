@@ -73,35 +73,75 @@ const uploaddemo = {
 }
 
 //医生端内容管理
-const contentCheckList = {
-	path: 'operation/contentCheck/list',
-	name: 'contentcontentCheck',
+const doctorContentCheckList = {
+	path: 'operation/doctorContentCheck/list',
+	name: 'doctorContentCheckList',
 	meta: {
 		index: 2,
 		title: '医生端内容管理'
 	},
 	component: () =>
-		import("@/pages/operation/contentCheck/contentmanagement_home")
+		import("@/pages/operation/doctorContentCheck/home")
 }
-const contentCheckListAdd = {
-	path: 'operation/contentCheck/add',
-	name: 'contentCheckAdd',
+const doctorContentCheckListHelAdd = {
+	path: 'operation/doctorContentCheck/hel-add',
+	name: 'doctorContentCheckListHelAdd',
 	meta: {
-		index: 2,
+		index: 3,
 		title: '医生端内容管理-添加'
 	},
 	component: () =>
-		import("@/pages/operation/contentCheck/contentmanagement_add")
+		import("@/pages/operation/doctorContentCheck/healthEducationEdit")
 }
-const contentCheckListEdit = {
-	path: 'operation/contentCheck/edit',
-	name: 'contentCheckEdit',
+const doctorContentCheckListHelEdit = {
+	path: 'operation/doctorContentCheck/hel-edit',
+	name: 'doctorContentCheckListHelEdit',
 	meta: {
-		index: 2,
+		index: 3,
 		title: '医生端内容管理-编辑'
 	},
 	component: () =>
-		import("@/pages/operation/contentCheck/contentmanagement_edit")
+		import("@/pages/operation/doctorContentCheck/healthEducationEdit")
+}
+const doctorContentCheckListClsAdd = {
+	path: 'operation/doctorContentCheck/cls-add',
+	name: 'doctorContentCheckListClsAdd',
+	meta: {
+		index: 3,
+		title: '医生端内容管理-添加'
+	},
+	component: () =>
+		import("@/pages/operation/doctorContentCheck/classicCaseEdit")
+}
+const doctorContentCheckListClsEdit = {
+	path: 'operation/doctorContentCheck/cls-edit',
+	name: 'doctorContentCheckListClsEdit',
+	meta: {
+		index: 3,
+		title: '医生端内容管理-编辑'
+	},
+	component: () =>
+		import("@/pages/operation/doctorContentCheck/classicCaseEdit")
+}
+const doctorContentCheckListHotAdd = {
+	path: 'operation/doctorContentCheck/hot-add',
+	name: 'doctorContentCheckListHotAdd',
+	meta: {
+		index: 3,
+		title: '医生端内容管理-添加'
+	},
+	component: () =>
+		import("@/pages/operation/doctorContentCheck/hotRecommendEdit")
+}
+const doctorContentCheckListHotEdit = {
+	path: 'operation/doctorContentCheck/hot-edit',
+	name: 'doctorContentCheckListHotEdit',
+	meta: {
+		index: 3,
+		title: '医生端内容管理-编辑'
+	},
+	component: () =>
+		import("@/pages/operation/doctorContentCheck/hotRecommendEdit")
 }
 
 //医生端内容分类
@@ -415,6 +455,16 @@ const doctorServerManageEdit = {
 	component: () =>
 		import("@/pages/operation/dovtorservermanage/edit")
 }
+const reservationOrders = {
+	path: 'operation/reservationOrders/list',
+	name: 'reservationOrders',
+	meta: {
+		index: 2,
+		title: '预约挂号订单管理'
+	},
+	component: () =>
+		import("@/pages/operation/reservationOrders/list")
+}
 export default {
     reviewList,
     reviewEdit,
@@ -456,8 +506,13 @@ export default {
 	doctorServerManageList,
 	doctorServerManageEdit,
 	// 医生端内容管理
-	contentCheckList,
-	contentCheckListAdd,
-	contentCheckListEdit,
-	
+	doctorContentCheckList,
+	doctorContentCheckListHelAdd,
+	doctorContentCheckListHelEdit,
+	doctorContentCheckListClsAdd,
+	doctorContentCheckListClsEdit,
+	doctorContentCheckListHotAdd,
+	doctorContentCheckListHotEdit,
+	//订单管理
+	reservationOrders,
 }

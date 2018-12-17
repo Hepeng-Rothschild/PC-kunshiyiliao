@@ -7,7 +7,6 @@
       :content.sync="editorText"
       :afterChange="afterChange()"
       pluginsPath="@/../static/kindeditor/plugins/"
-      :uploadJson="uploadJson"
       :loadStyleMode="false"
       @on-content-change="onContentChange"
     ></editor>
@@ -23,7 +22,6 @@ export default {
     return {
       editorText: "请输入要编辑的内容...", // 双向同步的变量
       editorTextCopy: "", // content-change 事件回掉改变的对象 要提交到后台的数据
-      uploadJson: ""
     };
   },
   methods: {
@@ -32,9 +30,6 @@ export default {
     },
     afterChange() {}
   },
-  created(){
-    this.uploadJson = api.fillAll;
-  }
 };
 </script>
 

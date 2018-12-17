@@ -93,7 +93,7 @@ Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
 // Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
 Vue.prototype.fromData = {
 	'ContentType':'multipart/form-data',
-	'Authorization':"Bearer "+ cookie.getCookie('access_token')
+	// 'Authorization':"Bearer "+ cookie.getCookie('access_token')
 };
 
 Vue.config.productionTip = false;
@@ -103,20 +103,16 @@ Vue.prototype.tryCatch = function(jsonStr){
 		tmpObj = JSON.parse(jsonStr);
 		switch(tmpObj.constructor){
 			case "Array":
-				console.log(1);
 				tmpObj.forEach((el,i) => {
 					tmpObj[i].fileName = (el.fileName || "");
 					tmpObj[i].smallFileName = (el.smallFileName || "");
 				});
 				break;
 			case "Object":
-				console.log(2);
 				tmpObj.fileName = (tmpObj.fileName || "");
 				tmpObj.smallFileName = (el.smallFileName || "");
 				break;
 		}
-		// console.log("这里是转换之后的变量");
-		// console.log(tmpObj);
 		return tmpObj;
 	}
 	catch(err){

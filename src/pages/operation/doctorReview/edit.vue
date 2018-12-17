@@ -14,7 +14,12 @@
             </div>
           </template>
           <template v-else>
-            <Progress v-if="item.showProgress" class="progress" :percent="item.percentage" hide-info></Progress>
+            <Progress
+              v-if="item.showProgress"
+              class="progress"
+              :percent="item.percentage"
+              hide-info
+            ></Progress>
           </template>
         </span>
         <Upload
@@ -108,10 +113,10 @@
           <Row>
             <Col :xs="24">
               <i class="req-icon">*</i>医院名称：
-              <FormItem prop="hospitalName">
-                <Select class="w-select" v-model="info.hospitalName">
+              <FormItem prop="hospitalId">
+                <Select class="w-select" @on-change="changeHospital" v-model="info.hospitalId">
                   <Option
-                    :value="item.orgName"
+                    :value="item.id"
                     :key="index"
                     v-for="(item,index) of hospitalList"
                   >{{item.orgName}}</Option>
@@ -192,7 +197,6 @@ export default {
       id: null,
       info: null,
       docIcon: "",
-
       defaultList: [],
       uploadList: [],
       uploadUrl: api.fileAll,
@@ -218,8 +222,8 @@ export default {
         hospitalGrade: [
           { required: true, message: "请选择医院级别", trigger: "blur" }
         ],
-        hospitalName: [
-          { required: true, message: "请选择医院", trigger: "blur" }
+        hospitalId: [
+          { type:'number', required: true, message: "请选择医院", trigger: "blur" }
         ],
         phone: [
           { required: true, message: "联系方式不能为空", trigger: "blur" }
@@ -236,7 +240,7 @@ export default {
   created() {
     this.id = this.$route.query.id;
     this.$axios
-      .post(api.delReviewDoctorInfo, { id: this.id })
+      .post(api.reviewDoctorInfo, { id: this.id })
       .then(resp => {
         this.info = resp.data.object;
         this.tryCatch(this.info.docIcon) &&
@@ -300,17 +304,30 @@ export default {
     },
     ok() {
       this.checkStatus = false;
-      this.info.id = parseInt(this.info.id);
-      this.info.deptType = this.info.deptTypeId;
-      this.info.title = this.info.titleType;
+      let subMitObj = {};
+      subMitObj.id = parseInt(this.info.id);
+      subMitObj.name = this.info.name;
+      subMitObj.hospitalId = String(this.info.hospitalId);
+      subMitObj.phone = this.info.phone;
+      subMitObj.deptType = this.info.deptTypeId;
+      subMitObj.title = this.info.titleType;
+      subMitObj.docIcon = this.info.docIcon;
+      subMitObj.personalIntroduction = this.info.personalIntroduction;
+      subMitObj.gender = parseInt(this.info.gender);
+      subMitObj.doctorGood = this.info.doctorGood;
+      this.hospitalList.forEach((el, i) => {
+        if(el.id == this.info.hospitalId){
+          subMitObj.hospitalName = el.orgName;
+        }
+      });
       this.$axios
-        .post(api.reviewDoctorUpdate, this.info)
+        .post(api.reviewDoctorUpdate, subMitObj)
         .then(resp => {
           if (resp.data.success) {
             this.$Message.success("修改成功");
             this.$router.push("/index/operation/doctorreview/list");
           } else {
-            this.$Message.fail("修改失败，请重试");
+            this.$Message.error("修改失败，请重试");
           }
         })
         .catch(err => {
@@ -325,12 +342,12 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
-        if(res.success){
-            this.info.docIcon = JSON.stringify(res.object[0]);
-            file.url = this.fileBaseUrl + res.object[0].fileName;
-        }else{
-            this.alertMsg("网络错误上传失败，请重试");
-        }
+      if (res.success) {
+        this.info.docIcon = JSON.stringify(res.object[0]);
+        file.url = this.fileBaseUrl + res.object[0].fileName;
+      } else {
+        this.alertMsg("网络错误上传失败，请重试");
+      }
     },
     handleFormatError(file) {
       this.alertMsg("只支持jpg/jpeg/png格式上传");
@@ -357,6 +374,22 @@ export default {
         },
         duration: 3
       });
+    },
+    changeHospital(val) {
+      let param = {};
+      param.hospitalId = val;
+      this.$axios
+        .post(api.getDeptListByHospitalId, param)
+        .then(resp => {
+          this.info.deptTypeId = "";
+          if (resp.data.success) {
+            this.deptList = resp.data.object; 
+
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
@@ -447,7 +480,7 @@ export default {
   margin: 0 2px;
   line-height: 32px;
 }
-.progress{
-    width:32px;
+.progress {
+  width: 32px;
 }
 </style>
