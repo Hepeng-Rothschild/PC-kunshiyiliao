@@ -44,7 +44,7 @@
     </div>
 
     <div style="text-align:center;margin:10px 0;">
-      <Page :total="medicineSize" @on-change="pageChange"/>
+      <Page :total="medicineSize" @on-change="pageChange" :current="pageNo"/>
     </div>
   </div>
 </template>
@@ -64,30 +64,38 @@ export default {
       tableList: [],
       id: sessionStorage.getItem("hospitalId"),
       medicineSize: 10,
-      val: ""
+      val: "",
+      pageNo: 1
     };
   },
   mounted() {
-    this.getMedicineData(1);
+    let pageNo = this.$route.params.pageNo;
+    console.log(pageNo);
+    if (pageNo) {
+      this.pageNo = pageNo;
+    }
+    this.getMedicineData(this.pageNo);
   },
   methods: {
     //分页器改变
     pageChange(index) {
+      this.pageNo = index;
       if (this.val) {
         this.getMedicineData(index, this.val);
       } else {
         this.getMedicineData(index);
       }
-      
     },
     // 模糊查询
     change() {
       this.getMedicineData(1, this.val);
-      
     },
     navto() {
       this.$router.push({
-        name: "medicineAdd"
+        name: "medicineAdd",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     },
     edit(item) {
@@ -95,9 +103,10 @@ export default {
       this.$router.push({
         name: "medicineEdit",
         params: {
-          id
+          id,
+          pageNo:this.pageNo
         }
-      })
+      });
     },
     addZero(num) {
       num = num + 1;
@@ -189,7 +198,7 @@ export default {
       }
       .btn1 {
         padding: 6px 8px;
-        background:skyblue;
+        background: skyblue;
         color: #fff;
         border: none;
         outline: none;
@@ -204,8 +213,8 @@ export default {
         border: 1px solid #ddd;
         border-top: none;
         text-align: center;
-        height:40px;
-        line-height:40px;
+        height: 40px;
+        line-height: 40px;
       }
       table {
         width: 100%;

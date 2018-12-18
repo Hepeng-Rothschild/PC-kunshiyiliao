@@ -11,7 +11,7 @@
             <span>序号</span>
           </div>
           <p>{{ number }}</p>
-        </div> -->
+        </div>-->
         <!-- 区域 -->
         <div class="region">
           <div class="left">
@@ -34,14 +34,6 @@
             <option :value="item.id" v-for="item in countyList">{{ item.area }}</option>
           </select>
         </div>
-        <!-- 详细地址 -->
-        <div class="address">
-          <div class="left">
-            <span style="color:red;">&nbsp;</span>
-            <span>详细地址:</span>
-          </div>
-          <input type="text" placeholder v-model.trim="address">
-        </div>
         <!-- 机构名称 -->
         <div class="address">
           <div class="left">
@@ -49,6 +41,14 @@
             <span>机构名称:</span>
           </div>
           <input type="text" placeholder="机构全称" v-model.trim="mechanismName">
+        </div>
+         <!-- 详细地址 -->
+        <div class="address">
+          <div class="left">
+            <span style="color:red;">&nbsp;</span>
+            <span>详细地址:</span>
+          </div>
+          <input type="text" placeholder='机构详细地址' v-model.trim="address">
         </div>
         <!-- 机构组织编码 -->
         <div class="address">
@@ -91,7 +91,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>机构电话:</span>
           </div>
-          <input type="text" placeholder v-model="mechanismPhone">
+          <input type="text" placeholder='机构电话' v-model="mechanismPhone">
         </div>
         <!-- 机构联系人 -->
         <div class="address">
@@ -111,7 +111,7 @@
         </div>
         <!-- 保存 -->
         <div class="save">
-          <div style="background:#fff;" @click="$router.back()">取消</div>
+          <div style="background:#fff;" @click="back">取消</div>
           <div style="background:#4dd3d2;color:#fff;" @click="save">提交</div>
         </div>
       </div>
@@ -165,32 +165,33 @@ export default {
   methods: {
     save() {
       let params = {
-          // 省
-          provinceCode: this.regionProv,
-          // 市
-          cityCode: this.regionCity,
-          //县
-          districtCode: this.regionCounty,
-          //详细地址
-          hosAddr: this.address,
-          //机构名称
-          orgName: this.mechanismName,
-          //机构组织代码
-          orgCode: this.mechanismCode,
-          //机构类型
-          hospitalType: this.mechanismType1,
-          //公私
-          property: this.mechanismType2,
-          //机构等级
-          grade: this.mechanismGrade,
-          //机构电话
-          telephone: this.mechanismPhone,
-          //联系人
-          linkman: this.Contacts,
-          //联系人电话
-          linkmanTelephone: this.phone
-        }
-      
+        // 省
+        provinceCode: this.regionProv,
+        // 市
+        cityCode: this.regionCity,
+        //县
+        districtCode: this.regionCounty,
+        //详细地址
+        hosAddr: this.address,
+        //机构名称
+        orgName: this.mechanismName,
+        //机构组织代码
+        orgCode: this.mechanismCode,
+        // appid: this.mechanismCode,
+        //机构类型
+        hospitalType: this.mechanismType1,
+        //公私
+        property: this.mechanismType2,
+        //机构等级
+        grade: this.mechanismGrade,
+        //机构电话
+        telephone: this.mechanismPhone,
+        //联系人
+        linkman: this.Contacts,
+        //联系人电话
+        linkmanTelephone: this.phone
+      };
+
       if (
         this.regionProv == "-1" ||
         this.regionCity == "-1" ||
@@ -208,15 +209,28 @@ export default {
         this.$axios.post(api.mechanismregAdd, params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");
+            let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
               this.$router.push({
-                name:"mechanismreglist"
-              },500)
-            })
-            
+                  name: "mechanismreglist",
+                  params: {
+                    pageNo
+                  }
+                })
+            },500);
           }
-        })
+        });
       }
+    },
+    back() {
+      let pageNo = this.$route.params.pageNo;
+      console.log(pageNo);
+      this.$router.push({
+        name: "mechanismreglist",
+        params: {
+          pageNo
+        }
+      });
     },
     //获取医院等级
     getGrent() {

@@ -42,6 +42,13 @@
           </div>
           <input type="text" placeholder="机构全称" v-model.trim="mechanismName">
         </div>
+        <div class="address">
+          <div class="left">
+            <span style="color:red;">*</span>
+            <span>机构地址:</span>
+          </div>
+          <input type="text" placeholder="机构地址" v-model.trim="hosAddr">
+        </div>
         <!-- 机构组织编码 -->
         <div class="address">
           <div class="left">
@@ -90,7 +97,7 @@
         </div>
         <!-- 保存 -->
         <div class="save">
-          <div style="background:#fff;" @click="$router.back()">取消</div>
+          <div style="background:#fff;" @click="back">取消</div>
           <div style="background:#4dd3d2;color:#fff;" @click="save">提交</div>
         </div>
       </div>
@@ -127,7 +134,9 @@ export default {
       cityList: [],
       countyList: [],
       //医院等级 列表
-      grade: []
+      grade: [],
+      hosAddr:"",
+      hospitalId:""
     };
   },
   created() {
@@ -136,6 +145,7 @@ export default {
   },
   mounted() {
     let id = this.$route.params.id;
+    // let pageNo = this.$route.params.pargeNo;
     if (id) {
       this.$axios
         .post(api.mechanismregSearch, {
@@ -162,6 +172,10 @@ export default {
             this.Contacts = ret.linkman;
             // //联系人电话
             this.phone = ret.linkmanTelephone;
+            // 地址
+            this.hosAddr = ret.hosAddr
+            // 医院ID
+            this.hospitalId = ret.hospitalId;
 
             console.log(ret);
           } else {
@@ -178,11 +192,11 @@ export default {
         // 市
         cityCode: this.regionCity,
         //县
-        districtCode: this.regionCounty,
+        // districtCode: this.regionCounty,
         //机构全称
         orgName: this.mechanismName,
         //机构代码
-        appid: this.mechanismCode,
+        orgCode: this.mechanismCode,
         //机构类型
         hospitalType: this.mechanismType1,
         //机构等级
@@ -190,12 +204,15 @@ export default {
         //联系人
         linkman: this.Contacts,
         //联系人电话
-        linkmanTelephone: this.phone
+        linkmanTelephone: this.phone,
+        // 地址
+        hosAddr: this.hosAddr,
+        // 医院Id
+        id:this.hospitalId
       };
       if (
         this.regionProv == "-1" ||
-        this.regionCity == "-1" ||
-        this.regionCounty == "-1"
+        this.regionCity == "-1"
       ) {
         this.$Message.info("区域不能为空");
       } else if (this.mechanismName == "") {
@@ -207,12 +224,32 @@ export default {
       } else {
         this.$axios.post(api.mechanismregEdit,params).then(res => {
           if (res.data.code) {
-            let ret =  res.data;
-            console.log(ret);
+            let ret = res.data;
+            this.$Message.info("修改成功");
+            let pageNo = this.$route.params.pageNo
+            setTimeout(() => {
+              this.$router.push({
+                name:"mechanismreglist",
+                params:{
+                  pageNo
+                }
+              })
+            },500)
+          } else {
+            this.$Message.info("修改失败请重试");
           }
         })
       }
       console.log(params);
+    },
+    back () {
+      let pageNo = this.$route.params.pageNo
+      this.$router.push({
+        name:"mechanismreglist",
+        params:{
+          pageNo
+        }
+      })
     },
     //获取医院等级
     getGrent() {

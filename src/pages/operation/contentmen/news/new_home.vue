@@ -66,7 +66,7 @@
       <div class="fooDiv">没有更多数据</div>
     </footer>
     <div style="text-align:center;margin:10px 0;">
-      <Page :total="newsSize" @on-change="pageChange"/>
+      <Page :total="newsSize" @on-change="pageChange" :current='pageNo'/>
     </div>
   </div>
 </template>
@@ -83,7 +83,11 @@ export default {
     Page
   },
   mounted() {
-    this.getData(1);
+    let pageNo = this.$route.params.pageNo
+    if(pageNo) {
+      this.pageNo = pageNo;
+    }
+    this.getData(this.pageNo);
   },
   data() {
     return {
@@ -91,26 +95,37 @@ export default {
       tablesList: [],
       search: "",
       id: sessionStorage.getItem("hospitalId"),
-      newsSize: 10
+      newsSize: 10,
+      pageNo:1
     };
   },
   methods: {
     //分页器改变
     pageChange(index) {
-      this.getData(index);
+      this.pageNo = index;
+      if (this.search) {
+        this.getData(index,this.search);
+      } else {
+        this.getData(index);
+      }
+      
     },
     navto(item) {
       let id = item.id;
       this.$router.push({
         name: "newsEdit",
         params: {
-          id
+          id,
+          pageNo:this.pageNo
         }
       });
     },
     add() {
       this.$router.push({
-        name: "d_createdNews"
+        name: "d_createdNews",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     },
     addZero(num) {

@@ -51,7 +51,7 @@
       </div>
       <!-- 分页-->
       <div style="text-align:center;margin:10px 0;">
-        <Page :total="bannerSize" @on-change="pageChange"/>
+        <Page :total="bannerSize" @on-change="pageChange" :current='pageNo'/>
       </div>
     </div>
   </div>
@@ -74,23 +74,34 @@ export default {
       arr: [],
       len: 10,
       id: sessionStorage.getItem("hospitalId"),
-      bannerSize: 10
+      bannerSize: 10,
+      pageNo:1
     };
   },
   methods: {
     pageChange(index) {
-      this.getData(index);
+      this.pageNo = index
+      if (this.search) {
+          this.getData(1,this.search);
+      } else {
+         this.getData(index);
+      }
+     
     },
     navto() {
       this.$router.push({
-        name: "bannerAdd"
+        name: "bannerAdd",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     },
     change(item) {
       this.$router.push({
         name: "addBanner",
         params: {
-          id: item.id
+          id: item.id,
+          pageNo:this.pageNo
         }
       });
     },
@@ -132,7 +143,11 @@ export default {
   },
   // 页面加载时获取数据
   mounted() {
-    this.getData(1);
+    let pageNo = this.$route.params.pageNo;
+    if (pageNo) {
+      this.pageNo = pageNo
+    }
+    this.getData(this.pageNo);
   },
   // 根据输入的值获取不同的数据
   watch: {
@@ -145,7 +160,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="less" scoped >
 .iBanner {

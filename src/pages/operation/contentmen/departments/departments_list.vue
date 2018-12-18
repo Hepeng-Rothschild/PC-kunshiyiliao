@@ -37,7 +37,7 @@
       </div>
     </div>
     <div style="text-align:center;margin:10px 0;">
-      <Page :total="departmentsSize" @on-change="pageChange"/>
+      <Page :total="departmentsSize" @on-change="pageChange" :current = "pageNo"/>
     </div>
   </div>
 </template>
@@ -57,15 +57,21 @@ export default {
       tableList: [],
       id: sessionStorage.getItem("hospitalId"),
       departmentsSize: 10,
-      search:""
+      search:"",
+      pageNo:1
     };
   },
   mounted() {
-    this.getDepartmentsData(1);
+     let pageNo = this.$route.params.pageNo
+    if(pageNo) {
+      this.pageNo = pageNo;
+    }
+    this.getDepartmentsData(this.pageNo);
   },
   methods: {
     // 分页器,切换事件
     pageChange(index) {
+      this.pageNo = index
       if (this.search) {
         this.getDepartmentsData(index,this.search);
       } else {
@@ -80,7 +86,8 @@ export default {
       this.$router.push({
         name: "departmentsList",
         params: {
-          id
+          id,
+          pageNo:this.pageNo
         }
       });
     },

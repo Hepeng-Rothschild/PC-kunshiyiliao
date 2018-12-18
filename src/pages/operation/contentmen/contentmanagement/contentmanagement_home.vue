@@ -82,7 +82,7 @@
 
     <!--分页器-->
     <div class="paging">
-      <Page :total="contentSize" @on-change="pageChange"/>
+      <Page :total="contentSize" @on-change="pageChange" :current = 'pageNo'/>
     </div>
     <!--info-->
     <div class="info" v-show="flag">
@@ -119,16 +119,25 @@ export default {
       tableList: [],
       arr1: [],
       len: 10,
-      contentSize: 10
+      contentSize: 10,
+      pageNo:1
     };
   },
   mounted() {
-    this.getContentData(1);
+    let pageNo = this.$route.params.pageNo;
+    if (pageNo) {
+      this.pageNo = pageNo
+    }
+    console.log(pageNo);
+    this.getContentData(this.pageNo);
   },
   methods: {
     add() {
       this.$router.push({
-        name: "contentmanagementAdd"
+        name: "contentmanagementAdd",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     },
     getContentData(pageNo, val) {
@@ -149,10 +158,14 @@ export default {
     },
     homeBtn() {
       this.$router.push({
-        name: "contentmanagementAdd"
+        name: "contentmanagementAdd",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     },
     pageChange(index) {
+      this.pageNo = index
       if (this.val != "") {
         this.getContentData(index, this.val);
       } else {
@@ -216,7 +229,8 @@ export default {
       this.$router.push({
         name: "createNews",
         params: {
-          id
+          id,
+          pageNo:this.pageNo
         }
       });
     },

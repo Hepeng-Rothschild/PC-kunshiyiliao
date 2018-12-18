@@ -13,7 +13,7 @@
       </header>
       <!-- 列表 -->
       <div class="list">
-        <table border cellspacing cellpadding>
+        <table border='0' cellspacing='0' cellpadding='0'>
           <tr>
             <th>编号</th>
             <th>城市</th>
@@ -49,7 +49,7 @@
       </div>
       <!--分页器-->
 		<div class = 'paging'>
-			<Page :total = "doctorregisterSize" @on-change = 'pageChange'/>		
+			<Page :total = "doctorregisterSize" @on-change = 'pageChange' :current='pageNo'/>		
 		</div>
     </div>
   </div>
@@ -63,11 +63,16 @@ export default {
     return {
       doctorregisterSize: 10,
       list: [],
-      Name: ""
+      Name: "",
+      pageNo:1
     };
   },
   mounted () {
-    this.getMechanismreg(1);
+    let pageNo = this.$route.params.pageNo;
+    if (pageNo) {
+      this.pageNo = pageNo
+    }
+    this.getMechanismreg(this.pageNo);
   },
   methods: {
     //停用/启用
@@ -97,15 +102,19 @@ export default {
      this.getMechanismreg(1, this.Name);
     },
     pageChange (index) {
+      this.pageNo = index;
       if (this.Name) {
-        this.getMechanismreg(1, this.Name);
+        this.getMechanismreg(this.pageNo, this.Name);
       } else {
-        this.getMechanismreg(index);
+        this.getMechanismreg(this.pageNo);
       }
     },
     add () {
       this.$router.push({
-        name:"mechanismregadd"
+        name:"mechanismregadd",
+        params:{
+          pageNo:this.pageNo
+        }
       })
     },
     edit (item) {
@@ -113,7 +122,8 @@ export default {
       this.$router.push({
         name:"mechanismregedit",
         params:{
-          id
+          id,
+          pageNo:this.pageNo
         }
       })
     },

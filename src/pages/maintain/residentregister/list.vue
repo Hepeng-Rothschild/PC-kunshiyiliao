@@ -10,7 +10,7 @@
       </header>
       <!-- 列表 -->
       <div class="list">
-        <table border cellspacing cellpadding>
+         <table border='0' cellspacing='0' cellpadding='0'>
           <tr>
             <th>编号</th>
             <th>openID</th>
