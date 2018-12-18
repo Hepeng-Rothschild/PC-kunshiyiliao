@@ -71,7 +71,7 @@
             <Col :xs="24" :md="12">
               <i class="req-icon">*</i>年龄：
               <FormItem prop="age">
-                <Input class="w-input" v-model="info.age" number/>
+                <Input class="w-input" @on-focus="blurInput" v-model="info.age" number/>
               </FormItem>
             </Col>
             <Col :xs="24" :md="12">
@@ -196,6 +196,7 @@ export default {
     return {
       id: null,
       info: null,
+      pageNo:null,
       docIcon: "",
       defaultList: [],
       uploadList: [],
@@ -214,7 +215,6 @@ export default {
           { required: true, message: "医生姓名不能为空", trigger: "blur" }
         ],
         gender: [{ required: true, message: "性别不能为空", trigger: "blur" }],
-        age: [{ required: true, message: "年龄不能为空", trigger: "blur" }],
         titleType: [{ required: true, message: "请选择职称", trigger: "blur" }],
         deptTypeId: [
           { required: true, message: "请选择科室", trigger: "blur" }
@@ -239,6 +239,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id;
+    this.pageNo = parseInt(this.$route.query.pageNo);
     this.$axios
       .post(api.reviewDoctorInfo, { id: this.id })
       .then(resp => {
@@ -300,7 +301,7 @@ export default {
       });
     },
     reback() {
-      this.$router.back(-1);
+      this.$router.push({path:"/index/operation/doctorreview/list",query:{pageNo:this.pageNo}});
     },
     ok() {
       this.checkStatus = false;
@@ -325,7 +326,7 @@ export default {
         .then(resp => {
           if (resp.data.success) {
             this.$Message.success("修改成功");
-            this.$router.push("/index/operation/doctorreview/list");
+            this.$router.push({path:"/index/operation/doctorreview/list",query:{pageNo:this.pageNo}});
           } else {
             this.$Message.error("修改失败，请重试");
           }
@@ -390,6 +391,9 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    blurInput(e){
+      e.target.blur();
     }
   }
 };

@@ -161,6 +161,7 @@ export default {
       },
       editTt: "",
       id: null,
+      pageNo:null,
       tabId:null,
       tabList: [{ id: 0, name: "全部" }],
       healthEducationSontab: [
@@ -184,6 +185,7 @@ export default {
   created() {
     let id = parseInt(this.$route.query.id);
     this.tabId = parseInt(this.$route.query.tabId);
+    this.pageNo = parseInt(this.$route.query.pageNo);
     this.tabList = this.healthEducationSontab;
     if (isNaN(id)) {
       this.editTt = `新增-健康宣教`;
@@ -228,7 +230,7 @@ export default {
             .then(resp => {
               if (resp.data.success) {
                 this.$Message.success(msg);
-                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId}});
+                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
               } else {
                 this.$Message.fail("修改失败，请重试");
               }
@@ -242,7 +244,7 @@ export default {
       });
     },
     reback() {
-      this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId}});
+      this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
     },
     onContentChange(val) {
       this.eduInfo.content = val;

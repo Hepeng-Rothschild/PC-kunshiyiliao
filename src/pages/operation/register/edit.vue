@@ -166,6 +166,7 @@ export default {
     return {
       id: null,
       info: null,
+      pageNo:null,
       littleTitle: "编辑",
       addBtnFlag: false,
       doctorName: null,
@@ -219,6 +220,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id;
+    this.pageNo = parseInt(this.$route.query.pageNo);
     if (this.id) {
       this.littleTitle = "编辑";
       this.addBtnFlag = false;
@@ -297,7 +299,7 @@ export default {
         .then(resp => {
           if (resp.data.success) {
             this.$Message.info("添加成功");
-            this.$router.back(-1);
+            this.$router.push({path:"/index/operation/register/list",query:{pageNo:this.pageNo}});
           } else {
             this.$Message.info("添加失败，请重试");
           }
@@ -307,7 +309,7 @@ export default {
         });
     },
     reback() {
-      this.$router.back(-1);
+      this.$router.push({path:"/index/operation/register/list",query:{pageNo:this.pageNo}});
     },
     chooseDoc(
       hospitalName,

@@ -212,6 +212,7 @@ export default {
     return {
       id: null,
       info: null,
+      pageNo:null,
       docIcon: "",
       reviewYesStatus: false,
       reviewNoStatus: false,
@@ -243,6 +244,7 @@ export default {
   },
   created() {
     this.id = parseInt(this.$route.query.id);
+    this.pageNo = parseInt(this.$route.query.pageNo);
     this.$axios
       .post(api.reviewDoctorInfo, { id: this.id })
       .then(resp => {
@@ -304,7 +306,6 @@ export default {
   },
   methods: {
     handleView(src) {
-      console.log("111");
       this.modalSrc = src;
       this.showViewModal = true;
     },
@@ -317,7 +318,8 @@ export default {
       this.viewStatus = false;
     },
     reback() {
-      this.$router.back(-1);
+      // this.$router.back(-1);
+      this.$router.push({path:"/index/operation/doctorreview/list",query:{pageNo:this.pageNo}});
     },
     reviewPass() {
       this.reviewYesStatus = true;
@@ -369,7 +371,7 @@ export default {
         .then(resp => {
           if (resp.data.success) {
             this.$Message.info(sMsg);
-            this.$router.push("/index/operation/doctorreview/list");
+            this.$router.push({path:"/index/operation/doctorreview/list",query:{pageNo:this.pageNo}});
           } else {
             this.$Message.info(fMsg);
             this.reviewYesStatus = false;

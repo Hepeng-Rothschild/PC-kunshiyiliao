@@ -353,6 +353,7 @@ export default {
       },
       editTt: "",
       id: null,
+      pageNo:null,
       tabId: null,
       titleList: [],
       deptList: [],
@@ -378,6 +379,7 @@ export default {
   created() {
     let id = parseInt(this.$route.query.id);
     this.tabId = parseInt(this.$route.query.tabId);
+    this.pageNo = parseInt(this.$route.query.pageNo);
     this.tabList = this.classicCaseSontab;
     if (isNaN(id)) {
       this.editTt = `新增-经典案例`;
@@ -448,7 +450,7 @@ export default {
             .then(resp => {
               if (resp.data.success) {
                 this.$Message.success(successMsg);
-                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId}});
+                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
               } else {
                 this.$Message.error(failMsg);
               }
@@ -462,7 +464,7 @@ export default {
       });
     },
     reback() {
-      this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId}});
+      this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
     },
     introductionOnContentChange(val) {
       this.info.introduction = val;

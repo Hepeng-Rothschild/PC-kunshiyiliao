@@ -1,4 +1,5 @@
 //生产环境api
+
 const login = "/operateapi/operate/login"; //登陆接口
 const news = '/operateapi/organizationpagenews'; //动态新闻列表分页
 const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口
@@ -77,6 +78,8 @@ const medicineSearchList = '/operateapi/operate/diction/department'  //查询所
 const medicineSelectedList = '/operateapi/hospitaldetail'  // 选中科室的列表
 const medicineExpertList = '/operateapi/organizationquerydeptindoctor'  //院内科室专家列表
 const medicineSave = '/operateapi/organizationupdatesavehospitaldept' // 院内科室保存
+const getDeptListByHospitalId = '/operateapi/authenticationquerydeptbyhospitalid' // 根据医院查询对应科室列表
+
 //服务管理
 const _server = '/operateapi/hospitalmenuqueryhospitalmenulistbyid'  //服务管理列表
 const getServer = '/operateapi/hospitalmenuqueryhospitalmenulist' //服务管理-编辑
@@ -104,6 +107,8 @@ const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册
 const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
 const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
 const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
+
+const mechanismregUpLoad = '/operateapi/organizationinsertbatchhospital' //批量上传机构信息
 /* ********************************************* */
 const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
 const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
@@ -119,7 +124,7 @@ const educationUpdate = '/operateapi/educationupdate';//更新健康宣教信息
 const educationUpdateFlag = '/operateapi/educationupdateenable';//更改健康宣教状态
 //2.经典案例
 const doctorclassicDelete = '/operateapi/doctorclassiccasedelete'; //删除经典案例
-const doctorclassicInsert = '/operateapi/doctorclassiccaseinser'; //新增经典案例
+const doctorclassicInsert = '/operateapi/doctorclassiccaseinsert'; //新增经典案例
 const doctorclassicArticleList = '/operateapi/doctorclassiccasepage'; //经典案例list
 const doctorclassicDetailById = '/operateapi/doctorclassiccasequerybyid';//根据ID查询经典案例详情
 const doctorclassicUpdate = '/operateapi/doctorclassiccaseupdate';//更新经典案例信息
@@ -196,6 +201,7 @@ export default {
     medicineExpertList,
     medicineSave,
     medicineedit,
+    getDeptListByHospitalId,
     //服务管理
     _server,
     getServer,
@@ -245,5 +251,6 @@ export default {
     recommendUpdateFlag,
     mechanismregAdd,
     mechanismregSearch,
-    mechanismregEdit
+    mechanismregEdit,
+    mechanismregUpLoad,
 }

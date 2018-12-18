@@ -86,7 +86,7 @@ export default {
               },
               on:{
                 click:()=>{
-                  this.$router.push({path:"/index/operation/doctorReview/review",query:{id}})
+                  this.$router.push({path:"/index/operation/doctorReview/review",query:{id,pageNo:this.pageNo}})
                 }
               }
             },btnTxt),
@@ -97,7 +97,7 @@ export default {
               },
               on:{
                 click:()=>{
-                  this.$router.push({path:"/index/operation/doctorReview/edit",query:{id}})
+                  this.$router.push({path:"/index/operation/doctorReview/edit",query:{id,pageNo:this.pageNo}})
                 }
               }
             },"编辑"),
@@ -127,6 +127,8 @@ export default {
     Option,
   },
   mounted() {
+    let pageNo = this.$route.query.pageNo
+    pageNo = pageNo?pageNo:1;
     //获取省级列表
     this.$axios
       .post(api.getProvince)
@@ -146,7 +148,7 @@ export default {
         console.log(err);
       });
     //上来就加载第一页数据
-    this.loadPage(1)
+    this.loadPage(pageNo)
   },
   methods:{
     changeSearchType(val){

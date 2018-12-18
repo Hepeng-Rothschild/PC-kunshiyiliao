@@ -287,7 +287,8 @@ export default {
     };
   },
   created() {
-    
+    let pageNo = this.$route.query.pageNo
+    pageNo = pageNo?pageNo:1;
     this.$route.query.tabId && (this.tabId = this.$route.query.tabId);
     this.tabId == 0 && (
       this.columns = this.healthEducation,
@@ -304,7 +305,7 @@ export default {
       this.sonTabList = this.hotRecommendSontab,
       this.listApi = this.hotRecommendApi
     );
-    this.loadPage(1);
+    this.loadPage(pageNo);
   },
   methods: {
     toAdd(){
@@ -312,14 +313,14 @@ export default {
       this.tabId == 0 && (tmpUrl = "/index/operation/doctorContentCheck/hel-add");
       this.tabId == 1 && (tmpUrl = "/index/operation/doctorContentCheck/cls-add");
       this.tabId == 2 && (tmpUrl = "/index/operation/doctorContentCheck/hot-add");
-      this.$router.push({path:tmpUrl,query:{tabId:this.tabId}})
+      this.$router.push({path:tmpUrl,query:{tabId:this.tabId,pageNo:this.pageNo}})
     },
     toEdit(id){
       let tmpUrl = "";
       this.tabId == 0 && (tmpUrl = "/index/operation/doctorContentCheck/hel-edit");
       this.tabId == 1 && (tmpUrl = "/index/operation/doctorContentCheck/cls-edit");
       this.tabId == 2 && (tmpUrl = "/index/operation/doctorContentCheck/hot-edit");
-      this.$router.push({path:tmpUrl,query:{id,tabId:this.tabId}})
+      this.$router.push({path:tmpUrl,query:{id,tabId:this.tabId,pageNo:this.pageNo}})
     },
     changeEnable(index,id,url,enable) {
       let engable = null;

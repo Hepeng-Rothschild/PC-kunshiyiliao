@@ -109,7 +109,7 @@ export default {
                     click: () => {
                       this.$router.push({
                         path: "/index/operation/register/detail",
-                        query: { id }
+                        query: { id,pageNo:this.pageNo }
                       });
                     }
                   }
@@ -127,7 +127,7 @@ export default {
                     click: () => {
                       this.$router.push({
                         path: "/index/operation/register/edit",
-                        query: { id }
+                        query: { id,pageNo:this.pageNo }
                       });
                     }
                   }
@@ -161,6 +161,8 @@ export default {
     Option
   },
   mounted() {
+    let pageNo = this.$route.query.pageNo
+    pageNo = pageNo?pageNo:1;
     //获取省级列表
     this.$axios
       .post(api.getProvince)
@@ -180,7 +182,7 @@ export default {
         console.log(err);
       });
     //上来就加载第一页数据
-    this.loadPage(1);
+    this.loadPage(pageNo);
   },
   methods: {
     changeSearchType(val){
@@ -247,7 +249,7 @@ export default {
       this.registertimesFlag = true;
     },
     addDoc(){
-      this.$router.push("/index/operation/register/edit");
+      this.$router.push({path:"/index/operation/register/edit",query:{pageNo:this.pageNo}});
     }
   }
 };

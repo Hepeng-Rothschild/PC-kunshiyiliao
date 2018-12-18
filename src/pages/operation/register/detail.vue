@@ -167,6 +167,7 @@ export default {
         return {
             id:null,
             info:null,
+            pageNo:null,
             littleTitle:"查看",
             icloseText:"关闭",
             registerFlag:null,
@@ -174,6 +175,7 @@ export default {
     },
     created(){
         this.id = parseInt(this.$route.query.id);
+        this.pageNo = parseInt(this.$route.query.pageNo);
         this.$axios.post(api.registerDoctorDetail,{registerId:this.id})
         .then(resp=>{
             this.info = resp.data.object;
@@ -198,7 +200,7 @@ export default {
     },
     methods:{
         reback(){
-            this.$router.push("/index/operation/register/list")
+            this.$router.push({path:"/index/operation/register/list",query:{pageNo:this.pageNo}});
         },
         changeRegisterFlag(){
             if(this.registerFlag == 1){
@@ -225,8 +227,7 @@ export default {
             })
         },
         toEdit(){
-            console.log(this.id);
-            this.$router.push({path:"/index/operation/register/edit",query:{id:this.id}})
+            this.$router.push({path:"/index/operation/register/edit",query:{id:this.id,pageNo:this.pageNo}})
         }
     }
 }

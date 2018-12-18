@@ -154,6 +154,7 @@ export default {
       editTt: "",
       id: null,
       tabId: null,
+      pageNo:null,
       tabList: [{ id: 0, name: "全部" }],
       tabs: ["健康宣教", "经典案例", "热门推荐"],
       hotRecommendSontab: [
@@ -176,6 +177,7 @@ export default {
   created() {
     let id = parseInt(this.$route.query.id);
     this.tabId = parseInt(this.$route.query.tabId);
+    this.pageNo = parseInt(this.$route.query.pageNo);
     this.tabList = this.hotRecommendSontab;
     if (isNaN(id)) {
       this.editTt = `新增-热门推荐`;
@@ -220,7 +222,7 @@ export default {
             .then(resp => {
               if (resp.data.success) {
                 this.$Message.success(successMsg);
-                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId}});
+                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
               } else {
                 this.$Message.error(failMsg);
               }
@@ -234,7 +236,7 @@ export default {
       });
     },
     reback() {
-      this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId}});
+      this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
     },
     onContentChange(val) {
       this.info.content = val;

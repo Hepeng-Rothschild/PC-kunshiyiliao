@@ -49,7 +49,7 @@ export default {
                   click: () => {
                     this.$router.push({
                       path: "/index/operation/doctormanage/edit",
-                      query: { id }
+                      query: { id,pageNo:this.pageNo }
                     });
                   }
                 }
@@ -70,8 +70,10 @@ export default {
     Option
   },
   mounted() {
+    let pageNo = this.$route.query.pageNo
+    pageNo = pageNo?pageNo:1;
     //上来就加载第一页数据
-    this.loadPage(1);
+    this.loadPage(pageNo);
   },
   methods: {
     //加载列表数据

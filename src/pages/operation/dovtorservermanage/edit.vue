@@ -50,6 +50,7 @@ export default {
       allServiceList: [],
       docServiceList: [],
       id: null,
+      pageNo:null,
       editFlag: false
     };
   },
@@ -72,7 +73,7 @@ export default {
         .then(res => {
           if (res.data.success) {
             this.$Message.info("修改成功");
-            this.$router.push("/index/operation/doctormanage/list");
+            this.$router.push({path:"/index/operation/doctormanage/list",query:{pageNo:this.pageNo}});
           }
         });
     },
@@ -83,11 +84,12 @@ export default {
       this.editFlag = false;
     },
     reback() {
-      this.$router.back(-1);
+      this.$router.push({path:"/index/operation/doctormanage/list",query:{pageNo:this.pageNo}});
     }
   },
   created() {
     this.id = this.$route.query.id;
+    this.pageNo = parseInt(this.$route.query.pageNo);
     this.$axios
       .post(api.doctorServerManage)
       .then(resp => {
