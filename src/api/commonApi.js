@@ -3,13 +3,19 @@
 */
 import dev from "./devApi";
 import test from "./testApi";
+import store from "../store";
 import production from "./productionApi";
 const apiData = {
 	dev,
 	test,
 	production
 };
-let url = apiData.test;
+let url;
+if(store.state.env == "production"){
+	url = apiData.production;
+}else{
+	url = apiData.test;
+}
 
 // export default {
 // 	// 获取登陆验证信息

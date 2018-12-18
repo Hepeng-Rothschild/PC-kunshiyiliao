@@ -10,7 +10,6 @@ import VueI18n from 'vue-i18n';
 import axios from './plugins/http';
 import cookie from './utils/cookie';
 import commonApi from './api/commonApi';
-
 // 全局公共样式
 import 'iview/dist/styles/iview.css';
 import './assets/css/base.css';
@@ -29,18 +28,22 @@ import '@/../static/kindeditor/lang/zh-CN.js'
 Vue.use(VueKindEditor)
 //设置title
 router.beforeEach((to, from, next) => {
-	// if(to.path != "/login"){
-	// 	let access_token = cookie.getCookie("access_token");
-	// 	if(access_token != undefined){
-	// 		let title = to.meta.title?to.meta.title:"互联网医院管理系统";
-	// 		document.title = title;
-	// 		next();
-	// 	}else{
-	// 		next("/login");
-	// 	}
-	// }else{
+	if(store.state.env == "production"){
+		if(to.path != "/login"){
+			let access_token = cookie.getCookie("access_token");
+			if(access_token != undefined){
+				let title = to.meta.title?to.meta.title:"互联网医院管理系统";
+				document.title = title;
+				next();
+			}else{
+				next("/login");
+			}
+		}else{
+			next();
+		}
+	}else{
 		next();
-	// }
+	}
 });
 // const SSOHEART = require('./plugins/sso.heart-1.0.1.min.js');
 // 设置心跳，需要和迎双确定参数
@@ -88,13 +91,20 @@ const i18n = new VueI18n({
 });
 
 //资源所在地址
-Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
 // Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
-// Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
-Vue.prototype.fromData = {
-	'ContentType':'multipart/form-data',
-	// 'Authorization':"Bearer "+ cookie.getCookie('access_token')
-};
+if(store.state.env == "production"){
+	Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fromData = {
+		'ContentType':'multipart/form-data',
+		'Authorization':"Bearer "+ cookie.getCookie('access_token')
+	};
+}else{
+	Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fromData = {
+		'ContentType':'multipart/form-data'
+	};
+}
+
 
 Vue.config.productionTip = false;
 Vue.prototype.tryCatch = function(jsonStr){

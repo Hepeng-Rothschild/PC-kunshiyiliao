@@ -39,6 +39,8 @@ export default {
         this.disabled = false;
         this.errorData = ret;
         this.$Message.info('上传成功');
+      } else {
+        this.$Message.info('上传失败,请重试');
       }
     },
     next() {
