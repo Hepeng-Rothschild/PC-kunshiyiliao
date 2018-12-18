@@ -14,7 +14,7 @@
           <Option v-for="item in titleList" :value="item.dictType" :key="item.dictType">{{item.dictName}}</Option>
         </Select>
         <Select class="w-select" v-model="authStatus">
-          <Option value="0">全部认证</Option>
+          <Option value="9">全部认证</Option>
           <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
         </Select>
         <Button type="primary" @click="loadPage(1)">
@@ -48,7 +48,7 @@ export default {
       dictType: "",
       statusList: ["未认证", "审核中", "审核通过", "审核未通过"],
       openList: ["未开通","未开通","已开通","未开通"],
-      authStatus: "0",
+      authStatus: "9",
       columns:[
         {title:"序号",key:"iNum",align:"center",width:"60px"},
         {title:"头像",key:"avatar",align:"center",width:"80px",
@@ -164,7 +164,7 @@ export default {
       var params = {};
       params.province = parseInt(this.city==0?null:this.city);
       params.title = this.dictType;
-      params.authStatus = this.authStatus==0?"":this.authStatus;
+      params.authStatus = this.authStatus==9?"":this.authStatus;
       if(this.searchType == 1){
           params.hospitalName = this.searchKey;
           params.name = "";

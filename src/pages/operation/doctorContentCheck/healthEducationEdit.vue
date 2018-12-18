@@ -6,7 +6,7 @@
     <Form ref="formInline" v-if="eduInfo" :model="eduInfo" :rules="eduInfoRules" inline>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>标题：
+          <i class="req-icon">*</i>标题：
           <FormItem prop="title">
             <Input class="w-input" v-model="eduInfo.title" :maxlength="20" placeholder="请输入标题"/>
           </FormItem>
@@ -14,7 +14,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>概要：
+          <i class="req-icon">*</i>概要：
           <FormItem prop="synopsis">
             <Input class="w-input" v-model="eduInfo.synopsis" :maxlength="20" placeholder="请输入概要"/>
           </FormItem>
@@ -86,14 +86,13 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>内容：
+          <i class="req-icon">*</i>内容：
           <FormItem prop="content">
             <editor
               id="editor_id"
               height="500px"
               width="700px"
               :content.sync="editorText"
-              :afterChange="afterChange()"
               pluginsPath="@/../static/kindeditor/plugins/"
               :loadStyleMode="false"
               @on-content-change="onContentChange"
@@ -171,14 +170,13 @@ export default {
         { id: 4, name: "用药" },
         { id: 5, name: "日常" }
       ],
-      editorText: "请输入要编辑的内容...",
+      editorText: "请输入...",
       editorTextCopy: "", // content-change 事件回掉改变的对象 要提交到后台的数据
       eduInfoRules: {
-        // title: [
-        //   { required: true, message: "标题不能为空", trigger: "blur" }
-        // ],
-        // synopsis: [{ required: true, message: "概要不能为空", trigger: "blur" }],
-        // source: [{ required: true, message: "来源不能为空", trigger: "blur" }]
+        title: [
+          { required: true, message: "标题不能为空", trigger: "blur" }
+        ],
+        synopsis: [{ required: true, message: "概要不能为空", trigger: "blur" }],
       }
     };
   },
@@ -220,24 +218,28 @@ export default {
     submit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          let msg = this.id ? "修改成功" : "添加成功" ;
-          let subApi = this.id ? api.educationUpdate : api.educationInsert;
-          this.eduInfo.id = this.id && parseInt(this.id);
-          this.eduInfo.enable = parseInt(this.eduInfo.enable);
-          this.eduInfo.priority = parseInt(this.eduInfo.priority);
-          this.$axios
-            .post(subApi, this.eduInfo)
-            .then(resp => {
-              if (resp.data.success) {
-                this.$Message.success(msg);
-                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
-              } else {
-                this.$Message.fail("修改失败，请重试");
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          if(this.eduInfo.content != '请输入...' && this.eduInfo.content != ""){
+            let msg = this.id ? "修改成功" : "添加成功" ;
+            let subApi = this.id ? api.educationUpdate : api.educationInsert;
+            this.eduInfo.id = this.id && parseInt(this.id);
+            this.eduInfo.enable = parseInt(this.eduInfo.enable);
+            this.eduInfo.priority = isNaN(parseInt(this.eduInfo.priority))?1:parseInt(this.eduInfo.priority);
+            this.$axios
+              .post(subApi, this.eduInfo)
+              .then(resp => {
+                if (resp.data.success) {
+                  this.$Message.success(msg);
+                  this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
+                } else {
+                  this.$Message.fail("修改失败，请重试");
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }else{
+            this.$Message.error("内容不能为空")
+          }
         } else {
           this.$Message.error("数据不正确");
         }
@@ -249,7 +251,6 @@ export default {
     onContentChange(val) {
       this.eduInfo.content = val;
     },
-    afterChange() {},
     handleView(name) {
       this.imgName = name;
       this.visible = true;

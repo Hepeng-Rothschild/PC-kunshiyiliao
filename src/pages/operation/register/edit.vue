@@ -12,8 +12,9 @@
       <!-- <Col :xs="24" :md="3">
                 {{title}}
       </Col>-->
-      <Col :xs="24" :md="3">
+      <Col :xs="24" :md="5">
         <Button type="primary" v-if="addBtnFlag" @click="loadPage(1)">添加专家</Button>
+        <span class="expert-msg" :class="{'show-msg': expertMsgStatus}">请添加专家</span>
       </Col>
     </Row>
     <br>
@@ -166,7 +167,7 @@ export default {
     return {
       id: null,
       info: null,
-      pageNo:null,
+      pageNo: null,
       littleTitle: "编辑",
       addBtnFlag: false,
       doctorName: null,
@@ -215,8 +216,19 @@ export default {
       doctorKey: "",
       pageNo: 0,
       pageSize: 2,
-      count: 0
+      count: 0,
+
+      expertMsgStatus: false
     };
+  },
+  watch: {
+    doctorId(newId, oldId) {
+      if (newId == null || newId == "" || newId == undefined) {
+        this.expertMsgStatus = true;
+      } else {
+        this.expertMsgStatus = false;
+      }
+    }
   },
   created() {
     this.id = this.$route.query.id;
@@ -227,6 +239,7 @@ export default {
     } else {
       this.littleTitle = "添加";
       this.addBtnFlag = true;
+      this.expertMsgStatus = true;
     }
     if (this.id) {
       this.$axios
@@ -294,22 +307,32 @@ export default {
       } else {
         url = api.registerDoctorInsert;
       }
-      this.$axios
-        .post(url, params)
-        .then(resp => {
-          if (resp.data.success) {
-            this.$Message.info("添加成功");
-            this.$router.push({path:"/index/operation/register/list",query:{pageNo:this.pageNo}});
-          } else {
-            this.$Message.info("添加失败，请重试");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      if (params.doctorId) {
+        this.$axios
+          .post(url, params)
+          .then(resp => {
+            if (resp.data.success) {
+              this.$Message.info("添加成功");
+              this.$router.push({
+                path: "/index/operation/register/list",
+                query: { pageNo: this.pageNo }
+              });
+            } else {
+              this.$Message.info("添加失败，请重试");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        this.expertMsgStatus = true;
+      }
     },
     reback() {
-      this.$router.push({path:"/index/operation/register/list",query:{pageNo:this.pageNo}});
+      this.$router.push({
+        path: "/index/operation/register/list",
+        query: { pageNo: this.pageNo }
+      });
     },
     chooseDoc(
       hospitalName,
@@ -410,6 +433,13 @@ export default {
   }
   b {
     font-weight: bold;
+  }
+  .expert-msg {
+    color: #f00;
+    display: none;
+  }
+  .show-msg {
+    display: inline-block;
   }
 }
 </style>

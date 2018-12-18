@@ -6,7 +6,7 @@
     <Form ref="formInline" v-if="info" :model="info" :rules="infoRules" inline>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>标题：
+          <i class="req-icon">*</i>标题：
           <FormItem prop="title">
             <Input class="w-input" v-model="info.title" :maxlength="20" placeholder="请输入标题"/>
           </FormItem>
@@ -14,7 +14,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>概要：
+          <i class="req-icon">*</i>概要：
           <FormItem prop="synopsis">
             <Input class="w-input" v-model="info.synopsis" :maxlength="20" placeholder="请输入概要"/>
           </FormItem>
@@ -156,21 +156,17 @@ export default {
       tabId: null,
       pageNo:null,
       tabList: [{ id: 0, name: "全部" }],
-      tabs: ["健康宣教", "经典案例", "热门推荐"],
       hotRecommendSontab: [
         { id: 1, name: "头条" },
         { id: 2, name: "今日热点" },
         { id: 3, name: "医学前沿" },
         { id: 4, name: "决策者说" }
       ],
-      editorText: "请输入要编辑的内容...",
+      editorText: "请输入...",
       editorTextCopy: "", // content-change 事件回掉改变的对象 要提交到后台的数据
       infoRules: {
-        // title: [
-        //   { required: true, message: "标题不能为空", trigger: "blur" }
-        // ],
-        // synopsis: [{ required: true, message: "概要不能为空", trigger: "blur" }],
-        // source: [{ required: true, message: "来源不能为空", trigger: "blur" }]
+        title: [{ required: true, message: "标题不能为空", trigger: "blur" }],
+        synopsis: [{ required: true, message: "概要不能为空", trigger: "blur" }]
       }
     };
   },
@@ -212,24 +208,30 @@ export default {
     submit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          let successMsg = this.id ? "修改成功" : "新增成功";
-          let failMsg = this.id ? "修改失败" : "新增失败";
-          let subApi = this.id ? api.recommendUpdate : api.recommendInsert;
-          this.info.id = this.id && parseInt(this.id);
-          this.info.enable = parseInt(this.info.enable);
-          this.$axios
-            .post(subApi, this.info)
-            .then(resp => {
-              if (resp.data.success) {
-                this.$Message.success(successMsg);
-                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
-              } else {
-                this.$Message.error(failMsg);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          if(this.eduInfo.content != '请输入...' && this.eduInfo.content != ""){
+          console.log("zouzhe1");
+            let successMsg = this.id ? "修改成功" : "新增成功";
+            let failMsg = this.id ? "修改失败" : "新增失败";
+            let subApi = this.id ? api.recommendUpdate : api.recommendInsert;
+            this.info.id = this.id && parseInt(this.id);
+            this.info.enable = parseInt(this.info.enable);
+            this.$axios
+              .post(subApi, this.info)
+              .then(resp => {
+                if (resp.data.success) {
+                  this.$Message.success(successMsg);
+                  this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
+                } else {
+                  this.$Message.error(failMsg);
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }else{
+            console.log("zouzhe2");
+            this.$Message.error("内容不能为空")
+          }
         } else {
           this.$Message.error("数据不正确");
         }
