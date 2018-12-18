@@ -9,7 +9,7 @@
           <span>新闻标题</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="请输入新闻标题" maxlength="30" v-model="title">
+          <input type="text" placeholder="请输入新闻标题" maxlength="30" v-model.trim="title">
           <span>{{ title.length }}/30</span>
         </div>
       </div>
@@ -19,7 +19,7 @@
           <span>副标题</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="请输入新闻副标题" maxlength="30" v-model="titles">
+          <input type="text" placeholder="请输入新闻副标题" maxlength="30" v-model.trim="titles">
           <span>{{ titles.length }}/30</span>
         </div>
       </div>
@@ -113,7 +113,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>新闻来源</span>
         </div>
-        <input type="text" placeholder="请输入新闻的来源" v-model="isource">
+        <input type="text" placeholder="请输入新闻的来源" v-model.trim="isource">
       </div>
       <!--排序-->
       <div class="main_sort">
@@ -121,7 +121,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" v-model="isort">
+        <input type="text" v-model.trim="isort">
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--是否显示-->
@@ -130,7 +130,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch v-model="switch1"/>
+        <iSwitch v-model.trim="switch1"/>
       </div>
       <!--保存-->
       <div class="save">

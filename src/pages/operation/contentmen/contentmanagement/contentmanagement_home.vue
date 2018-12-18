@@ -7,23 +7,23 @@
       <div class="selectType">
         <span>类型</span>
         <select name="type" v-model="type1">
-          <option value="null" selected>全部</option>
-          <option value="0">文章</option>
-          <option value="1">视频</option>
+          <option value="" selected>全部</option>
+          <option value="1">文章</option>
+          <option value="">视频</option>
         </select>
       </div>
       <!--发布选择-->
       <div class="selectType">
         <span>状态</span>
         <select name="type" v-model="type2">
-          <option value="null" selected>全部</option>
-          <option value="1">已发布</option>
+          <option value="" selected>全部</option>
           <option value="0">未发布</option>
+          <option value="1">已发布</option>
         </select>
       </div>
       <!--搜索输入-->
       <div class="search">
-        <input type="text" placeholder="文章名称" v-model="val">
+        <input type="text" placeholder="文章名称" v-model.trim="val">
       </div>
       <!--搜索按钮-->
       <button class="submit" @click="btn">搜索</button>
@@ -50,13 +50,13 @@
         <!-- 标题 -->
         <th>{{ item.title }}</th>
         <!-- 类型 -->
-        <th v-show="item.type != 1">文章</th>
-        <th v-show="item.type == 1">视频</th>
+        <th v-show="item.type == 1">文章</th>
+        <th v-show="item.type != 1">视频</th>
         <!-- 栏目 -->
         <th>{{ item.columnName || '' }}</th>
         <!-- 状态 -->
-        <th style="color:red;" v-show="item.idelete == 1">未发布</th>
-        <th v-show="item.idelete == 0">已发布</th>
+        <th style="color:red;" v-show="item.enable == 0">未发布</th>
+        <th v-show="item.enable == 1">已发布</th>
         <!-- 阅读量 -->
         <th>{{ item.readAmount }}</th>
         <!-- 收藏量 -->
@@ -65,12 +65,12 @@
         <th class="modi">
           <span style="color: black;cursor:pointer" @click="changeItem(item)">修改</span>
           <span
-            v-show="item.idelete == 1"
+            v-show="item.enable == 0"
             style="color: red;cursor:pointer"
             @click="bottomShelf(item,index)"
           >上架</span>
           <span
-            v-show="item.idelete == 0"
+            v-show="item.enable == 1"
             style="color: black;cursor:pointer"
             @click="topShelf(item,index)"
           >下架</span>
@@ -79,7 +79,6 @@
       </tr>
     </table>
     <div class="footer" v-show="!tableList.length">暂无更多数据</div>
-
     <!--分页器-->
     <div class="paging">
       <Page :total="contentSize" @on-change="pageChange" :current = 'pageNo'/>
@@ -110,10 +109,10 @@ export default {
     return {
       modal1: false,
       currentIndex: -1,
-      type1: "null",
-      type2: "null",
+      type1: "",
+      type2: "",
       allSelect: "null",
-      val: null,
+      val: '',
       flag: false,
       content: "",
       tableList: [],
@@ -128,7 +127,6 @@ export default {
     if (pageNo) {
       this.pageNo = pageNo
     }
-    console.log(pageNo);
     this.getContentData(this.pageNo);
   },
   methods: {
@@ -138,15 +136,21 @@ export default {
         params:{
           pageNo:this.pageNo
         }
-      });
+      })
     },
-    getContentData(pageNo, val) {
+    getContentData(pageNo, val,type,enable) {
       let params = {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
+      if (Boolean(val)) {
         params.title = val;
+      }
+      if (Boolean(type)) {
+        params.type = Number(type);
+      }
+      if (Boolean(enable)) {
+        params.enable = Number(enable);
       }
       this.$axios.post(api.contentWrap, params).then(res => {
         if (res.data.code) {
@@ -166,15 +170,19 @@ export default {
     },
     pageChange(index) {
       this.pageNo = index
-      if (this.val != "") {
-        this.getContentData(index, this.val);
-      } else {
-        this.getContentData(index);
-      }
+      this.getContentData(index, this.val,this.type1,this.type2);
     },
     //关键字查询列表
     btn() {
-      this.getContentData(1, this.val);
+      let type1 = this.type1;
+      let type2 = this.type2;
+      if (type1 == null) {
+          type1 = ''
+      }
+      if (type2 == null) {
+        type2 =''
+      }
+      this.getContentData(1, this.val,type1,type2);
     },
     // 下架
     bottomShelf(item, index) {

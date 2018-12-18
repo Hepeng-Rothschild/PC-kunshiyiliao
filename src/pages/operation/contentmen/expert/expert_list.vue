@@ -3,7 +3,7 @@
     <!--列表-->
     <tmpHeader/>
     <!--添加专家/搜索-->
-    <div class="iheader">
+    <div class="iheader" v-show = '!flag'>
       <button @click="navto">添加专家</button>
       <div class="box">
         <div class="boxs">
@@ -14,7 +14,7 @@
       </div>
     </div>
     <!--表格列表-->
-    <div class="main">
+    <div class="main" v-show = '!flag'>
       <table border="0" cellspacing="0" cellpadding="0">
         <tr>
           <th>编号</th>
@@ -40,7 +40,7 @@
       <div class="footer" v-show="!tablesList.length">暂无更多数据</div>
     </div>
     <div style="text-align:center;margin:10px 0;">
-      <Page :total="expertSize" @on-change="pageChange" :current ='pageNo'/>
+      <Page :total="expertSize" @on-change="pageChange" :current ='pageNo' v-show = '!flag'/>
     </div>
   </div>
 </template>
@@ -61,7 +61,8 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
       expertSize: 10,
       val: "",
-      pageNo:1
+      pageNo:1,
+      flag:''
     };
   },
   created() {
@@ -70,7 +71,9 @@ export default {
       this.pageNo = pageNo;
     }
     this.getExpertData(pageNo);
-    console.log(pageNo)
+  },
+  mounted () {
+    this.status();
   },
   methods: {
     //分页器改变
@@ -81,6 +84,18 @@ export default {
      } else {
         this.getExpertData(index);
      }
+    },
+    status() {
+      let flag = localStorage.getItem("status");
+      if (!Boolean(flag)) {
+        this.$Message.info("您还没有开通互联网医院,去开通");
+        this.flag = true;
+        setTimeout(() => {
+          this.$router.push({
+            name: "homeInfo"
+          });
+        }, 600)
+      }
     },
     // 模糊查询
     valChange() {

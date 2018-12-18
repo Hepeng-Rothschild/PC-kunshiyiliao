@@ -10,7 +10,7 @@
           <span>
             <Icon type=" i-icon i-icon-shop_fill" size="24"/>
           </span>
-          <input type="text" placeholder="名称" v-model="search">
+          <input type="text" placeholder="名称" v-model.trim="search">
         </div>
         <button @click="navto">添加Banner</button>
       </div>

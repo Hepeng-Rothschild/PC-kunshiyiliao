@@ -1,19 +1,19 @@
 <template>
-  <div class="news">
+  <div class="news" >
     <!--头部选择-->
     <tmpHeader/>
     <!--搜索/创建-->
-    <div class="headeri">
+    <div class="headeri"  v-show = '!flag'>
       <div>
         <!--  @click = 'press' -->
         <span></span>
-        <input type="text" placeholder="新闻标题" v-model="search" @keyup='press'>
+        <input type="text" placeholder="新闻标题" v-model="search" @keyup="press">
       </div>
       <button @click="add">创建新闻</button>
     </div>
     <!--表格列表-->
-    <div class="main" v-show="tablesList.length">
-      <table border cellspacing cellpadding>
+    <div class="main" v-show="tablesList.length"  >
+      <table border cellspacing cellpadding v-show = '!flag'>
         <tr>
           <th>编号</th>
           <th>新闻标题</th>
@@ -31,7 +31,7 @@
               :src="(item.newsHeadlines=='' || item.newsHeadlines == null)? '' :fileBaseUrl + item.newsHeadlines"
               alt
               style="margin:10px 0;width:100px;height:50px;"
-            > -->
+            >-->
             <img
               :src="analysisImages(item.newsHeadlines)"
               alt
@@ -65,8 +65,8 @@
       </table>
       <div class="fooDiv">没有更多数据</div>
     </footer>
-    <div style="text-align:center;margin:10px 0;">
-      <Page :total="newsSize" @on-change="pageChange" :current='pageNo'/>
+    <div style="text-align:center;margin:10px 0;" v-show = '!flag'> 
+      <Page :total="newsSize" @on-change="pageChange" :current="pageNo"/>
     </div>
   </div>
 </template>
@@ -83,8 +83,9 @@ export default {
     Page
   },
   mounted() {
-    let pageNo = this.$route.params.pageNo
-    if(pageNo) {
+    this.status();
+    let pageNo = this.$route.params.pageNo;
+    if (pageNo) {
       this.pageNo = pageNo;
     }
     this.getData(this.pageNo);
@@ -96,7 +97,8 @@ export default {
       search: "",
       id: sessionStorage.getItem("hospitalId"),
       newsSize: 10,
-      pageNo:1
+      pageNo: 1,
+      flag: false
     };
   },
   methods: {
@@ -104,11 +106,22 @@ export default {
     pageChange(index) {
       this.pageNo = index;
       if (this.search) {
-        this.getData(index,this.search);
+        this.getData(index, this.search);
       } else {
         this.getData(index);
       }
-      
+    },
+    status() {
+      let flag = localStorage.getItem("status");
+      if (!Boolean(flag)) {
+        this.$Message.info("您还没有开通互联网医院,去开通");
+        this.flag = true;
+        setTimeout(() => {
+          this.$router.push({
+            name: "homeInfo"
+          });
+        }, 600)
+      }
     },
     navto(item) {
       let id = item.id;
@@ -116,15 +129,15 @@ export default {
         name: "newsEdit",
         params: {
           id,
-          pageNo:this.pageNo
+          pageNo: this.pageNo
         }
       });
     },
     add() {
       this.$router.push({
         name: "d_createdNews",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
       });
     },
@@ -136,17 +149,17 @@ export default {
       return num;
     },
     press() {
-      this.getData(1,this.search);
+      this.getData(1, this.search);
     },
     getData(pageNo, val) {
       let params = {
-          hospitalId: this.id,
-          pageNo,
-          pageSize: 10
-        }
-        if (val != '') {
-          params.searchKey = val
-        }
+        hospitalId: this.id,
+        pageNo,
+        pageSize: 10
+      };
+      if (val != "") {
+        params.searchKey = val;
+      }
       axios
         .post(api.news, params)
         .then(res => {
@@ -160,12 +173,12 @@ export default {
           console.log(err);
         });
     },
-    analysisImages (json) {
+    analysisImages(json) {
       try {
         json = JSON.parse(json);
-        return this.fileBaseUrl + json.fileName
+        return this.fileBaseUrl + json.fileName;
       } catch (error) {
-        return ''
+        return "";
       }
     }
   }
@@ -270,9 +283,9 @@ export default {
       }
     }
     .fooDiv {
-	  width: 100%;
-	  height:40px;
-	  line-height:40px;
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
       border: 1px solid #ddd;
       border-top-color: transparent;
       text-align: center;

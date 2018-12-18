@@ -104,12 +104,12 @@
       <!--是否开通互联网医院-->
       <div class="main_yy">
         <span class="main_yy_name">是否开通互联网医院</span>
-        <iSwitch v-model="switch1"  @on-change="change"/>
+        <iSwitch v-model="switch1" @on-change="change"/>
       </div>
       <!--互联网医院公众号-->
       <div class="main_moban">
         <span>互联网医院公众号</span>
-        <select v-model="y_gzh" :disabled='status'>
+        <select v-model="y_gzh" :disabled="status">
           <option value="null">请选择</option>
           <option :value="item.appid" v-for="item,index in gzh">{{ item.nick }}</option>
         </select>
@@ -117,7 +117,7 @@
       <!--是否加入医院联盟-->
       <div class="main_yy">
         <span class="main_yy_name">是否加入医院联盟</span>
-        <iSwitch v-model="switch2" :disabled='status'/>
+        <iSwitch v-model="switch2" :disabled="status"/>
       </div>
       <!--是否开通处方流转-->
       <div class="main_yy">
@@ -160,7 +160,7 @@ export default {
       defaultList: [],
       types: [],
       imgName: "",
-      title:"",
+      title: "",
       visible: false,
       uploadList: [],
       switch1: true,
@@ -185,31 +185,31 @@ export default {
       uploadUrl: api.fileAll,
       images: "",
       id: sessionStorage.getItem("hospitalId"),
-      status:false
+      status: false
     };
   },
   methods: {
     onContentChange(val) {
       this.editorText = val;
     },
-    change (status) {
-        if (status) {
-          this.status = false;
-        } else {
-          this.status = true;
-          this.y_gzh = null
-          this.switch2 = false;
-        }
+    change(status) {
+      if (status) {
+        this.status = false;
+      } else {
+        this.status = true;
+        this.y_gzh = null;
+        this.switch2 = false;
+      }
     },
     afterChange() {},
     save() {
-      let images = '';
-      if (this.images != '' && this.uploadList.length) {
-         images = this.images;
+      let images = "";
+      if (this.images != "" && this.uploadList.length) {
+        images = this.images;
       } else if (this.uploadList.length) {
-        images = this.source
+        images = this.source;
       } else {
-        images = ''
+        images = "";
       }
       let switch1 = 0;
       if (this.switch1) {
@@ -256,18 +256,17 @@ export default {
       if (!switch1) {
         params.appid = null;
       }
-      console.log(params);
-        this.$axios.post(api.managementEdit, params).then(res => {
-            if (res.data.code) {
-              this.$Message.info("修改成功");
-            }
-            console.log(res);
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      
-          
+      this.$axios
+        .post(api.managementEdit, params)
+        .then(res => {
+          if (res.data.code) {
+            this.$Message.info("修改成功");
+          }
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     valueHandle(param) {
       this.tinymceHtml = param;
@@ -323,22 +322,21 @@ export default {
         let ret = res.data.object;
         this.types = ret;
       }
-    })
+    });
     // 医联体
     this.$axios.post(api.managementYlt).then(res => {
       if (res.data) {
         let ret = res.data.object;
         this.ylt = ret;
       }
-    })
+    });
     // 公众号
     this.$axios.post(api.managementGzh).then(res => {
       if (res.data.code) {
         let ret = res.data.object;
         this.gzh = ret;
-        
       }
-    })
+    });
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
@@ -354,17 +352,17 @@ export default {
           this.y_name = ret.orgName;
           // 图片
           if (ret.hosIcon) {
-            this.source = ret.hosIcon
+            this.source = ret.hosIcon;
             this.uploadList.push({
               name: "a42bdcc1178e62b4694c830f028db5c0",
               percentage: 100,
               status: "finished",
               uid: 1544263544970,
               url: this.fileBaseUrl + this.analysisImages(ret.hosIcon)
-            })
+            });
           }
-          
-          this.title = ret.orgName
+
+          this.title = ret.orgName;
           // m机构等级
           this.y_type = ret.grade;
           // 医联体上级医院
@@ -386,9 +384,12 @@ export default {
           this.switch1 = Boolean(ret.internetHospital);
           if (this.switch1) {
             this.status = false;
+            localStorage.setItem('status','show')
           } else {
             this.status = true;
+            localStorage.setItem('status','')
           }
+          
           // 医院联盟
           this.switch2 = Boolean(ret.unionHospital);
           //医联体上级医院

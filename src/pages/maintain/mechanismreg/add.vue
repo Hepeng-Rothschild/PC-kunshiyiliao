@@ -91,7 +91,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>机构电话:</span>
           </div>
-          <input type="text" placeholder='机构电话' v-model="mechanismPhone">
+          <input type="text" placeholder='机构电话' v-model="mechanismPhone" maxlength="12">
         </div>
         <!-- 机构联系人 -->
         <div class="address">

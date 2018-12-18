@@ -11,7 +11,7 @@
           <span>banner名称</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="医院大图" v-model="title">
+          <input type="text" placeholder="医院大图" v-model.trim="title">
         </div>
       </div>
       <!--banner图片-->
@@ -68,7 +68,7 @@
           <span>banner链接</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="无" v-model="lianjie">
+          <input type="text" placeholder="无" v-model.trim="lianjie">
         </div>
       </div>
       <!--排序-->
@@ -78,7 +78,7 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <input type="text" v-model="isort" style="width:100px;">
+          <input type="text" v-model.trim="isort" style="width:100px;">
         </div>
       </div>
       <!--是否显示-->
@@ -87,7 +87,7 @@
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <iSwitch v-model="switch1" @on-change="change"/>
+        <iSwitch v-model.trim="switch1" @on-change="change"/>
       </div>
       <!--保存-->
       <div class="save">

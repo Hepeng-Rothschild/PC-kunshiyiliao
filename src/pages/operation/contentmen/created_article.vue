@@ -13,7 +13,7 @@
 					<span>新闻标题</span>
 				</div>
 				<div class='edit_input_right'>
-					<input type="text" placeholder="请输入新闻标题" v-model='title' maxlength="30" />
+					<input type="text" placeholder="请输入新闻标题" v-model.trim='title' maxlength="30" />
 					<span>{{title.length}}/30</span>
 				</div>
 			</div>
@@ -24,7 +24,7 @@
 					<span>副标题</span>
 				</div>
 				<div class='edit_input_right'>
-					<input type="text" placeholder="请输入新闻标题" v-model='ftitle' maxlength="30" />
+					<input type="text" placeholder="请输入新闻标题" v-model.trim='ftitle' maxlength="30" />
 					<span>{{ftitle.length}}/30</span>
 				</div>
 			</div>

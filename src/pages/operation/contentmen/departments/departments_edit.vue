@@ -23,7 +23,7 @@
             <span style="color:red;">*&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
-          <input type="text" disabled v-model="title">
+          <input type="text" disabled v-model.trim="title">
         </div>
         <!--科室就诊位置-->
         <div class="keshi_name">
@@ -31,7 +31,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>院内名称</span>
           </div>
-          <input type="text" placeholder="内一科" v-model="keshiname">
+          <input type="text" placeholder="内一科" v-model.trim="keshiname">
         </div>
         <!--科室简介-->
         <div class="keshi_name_text">
@@ -47,7 +47,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>排序</span>
           </div>
-          <input type="text" v-model="isort" style="width:80px;outline:none;">
+          <input type="text" v-model.trim="isort" style="width:80px;outline:none;">
           <p style="margin-left:5px;">备注：只能填写数字，1代表置顶以此类推</p>
         </div>
         <!--是否显示-->

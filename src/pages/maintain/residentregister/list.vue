@@ -4,7 +4,7 @@
       <!-- 头部信息 -->
       <header>
         <div class="search">
-          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model="Name">
+          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model.trim="Name">
         </div>
         <button @click="nameChange">查询</button>
       </header>

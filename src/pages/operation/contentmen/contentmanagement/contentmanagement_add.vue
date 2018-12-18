@@ -13,7 +13,7 @@
           <span>新闻标题</span>
         </div>
         <div class="edit_input_right">
-          <input type="text" placeholder="请输入新闻标题" v-model="title" maxlength="30">
+          <input type="text" placeholder="请输入新闻标题" v-model.trim="title" maxlength="30">
           <span>{{title.length}}/30</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
           <span>副标题</span>
         </div>
         <div class="edit_input_right">
-          <input type="text" placeholder="请输入新闻标题" v-model="ftitle" maxlength="30">
+          <input type="text" placeholder="请输入新闻标题" v-model.trim="ftitle" maxlength="30">
           <span>{{ftitle.length}}/30</span>
         </div>
       </div>
@@ -89,13 +89,22 @@
           <option value="6">决策者说</option>
         </select>
       </div>
+      <div class="lanmu">
+        <div class="listImgTitle">
+          <span style="color:red;">*&nbsp;&nbsp;</span>
+          <span>类型</span>
+        </div>
+        <select v-model="type">
+          <option value="1">文章</option>
+        </select>
+      </div>
       <!--排序-->
       <div class="sort">
         <div class="listImgTitle">
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" v-model="num">
+        <input type="text" v-model.trim="num">
         <p>备注：只能填写数字，1代表置顶以此类推</p>
       </div>
       <!--新闻内容-->
@@ -173,7 +182,7 @@ export default {
       visible: false,
       uploadList: [],
       id: sessionStorage.getItem("hospitalId"),
-
+      type: "",
       editorText: "请输入要编辑的内容...",
 
       uploadModal: true,
@@ -225,7 +234,7 @@ export default {
         params: {
           pageNo
         }
-      })
+      });
     },
     //保存
     save() {
@@ -233,10 +242,12 @@ export default {
       if (!this.title) {
         this.$Message.info("主标题不能为空");
       } else if (!this.ftitle) {
-        this.$Message.info("主标题副标题不能为空不能为空");
+        this.$Message.info("副标题不能为空");
       } else if (!this.num) {
-        this.$Message.info("主标题不排序不能为空能为空");
+        this.$Message.info("排序不能为空");
       } else if (!this.select) {
+        this.$Message.info("请选择栏目");
+      } else if (!this.type) {
         this.$Message.info("请选择类型");
       } else {
         let release = 0;
@@ -252,7 +263,8 @@ export default {
             priority: this.num,
             content: this.editorText,
             source: this.source,
-            enable: release
+            enable: release,
+            type: this.type
           }
         };
         let images = "";
@@ -270,8 +282,8 @@ export default {
           .post(api.createdWrap, params)
           .then(res => {
             if (res.data.code) {
-			  this.$Message.info("添加成功");
-			let pageNo = this.$route.params.pageNo;
+              this.$Message.info("添加成功");
+              let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
                 this.$router.push({
                   name: "contentmanagementHome",
@@ -281,8 +293,8 @@ export default {
                 });
               }, 500);
             } else {
-				this.$Message.info("添加失败请重试");
-			}
+              this.$Message.info("添加失败请重试");
+            }
           })
           .catch(err => {
             console.log(err);

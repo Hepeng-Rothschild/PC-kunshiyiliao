@@ -5,7 +5,7 @@
       <header>
         <Button @click="branch">批量导入</Button>
         <div class="search">
-          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model="Name" @keyup='nameChange'>
+          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model.trim="Name" @keyup='nameChange'>
         </div>
       </header>
       <!-- 列表 -->

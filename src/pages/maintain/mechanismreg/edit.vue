@@ -163,7 +163,7 @@ export default {
             // //机构全称
             this.mechanismName = ret.orgName;
             // //机构代码
-            this.mechanismCode = ret.appid;
+            this.mechanismCode = ret.orgCode;
             // //机构类型
             this.mechanismType1 = ret.hospitalType;
             // //机构等级
@@ -176,7 +176,6 @@ export default {
             this.hosAddr = ret.hosAddr
             // 医院ID
             this.hospitalId = ret.hospitalId;
-
             console.log(ret);
           } else {
             console.log(res);

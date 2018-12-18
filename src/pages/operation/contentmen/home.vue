@@ -28,7 +28,9 @@
         <th>{{ item.orgName }}</th>
         <th>{{ item.linkman }}</th>
         <th>{{ item.linkmanTelephone }}</th>
-        <th>{{ item.grade }}</th>
+
+        <th v-show='item.hospitalType==1'>医院</th>
+
         <th>{{ item.newsCount }}</th>
         <th>{{ item.doctorCount }}</th>
         <th>{{ item.specialDeptCount }}</th>

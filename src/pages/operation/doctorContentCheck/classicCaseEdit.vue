@@ -8,7 +8,7 @@
         <Col :xs="24" :md="24">
           <i class="req-icon"></i>医生：
           <FormItem prop="doctorName">
-            <Input class="w-input" v-model="info.doctorName" :maxlength="20" placeholder="请输入医生姓名"/>
+            <Input class="w-input" v-model.trim="info.doctorName" :maxlength="20" placeholder="请输入医生姓名"/>
           </FormItem>
         </Col>
       </Row>
@@ -16,7 +16,7 @@
         <Col :xs="24" :md="24">
           <i class="req-icon"></i>职称：
           <FormItem prop="title">
-            <Input class="w-input" v-model="info.title" :maxlength="20" placeholder="请输入职称"/>
+            <Input class="w-input" v-model.trim="info.title" :maxlength="20" placeholder="请输入职称"/>
           </FormItem>
         </Col>
       </Row>
@@ -24,7 +24,7 @@
         <Col :xs="24" :md="24">
           <i class="req-icon"></i>医院：
           <FormItem prop="hospital">
-            <Input class="w-input" v-model="info.hospital" :maxlength="20" placeholder="请输入医院名称"/>
+            <Input class="w-input" v-model.trim="info.hospital" :maxlength="20" placeholder="请输入医院名称"/>
           </FormItem>
         </Col>
       </Row>
@@ -32,7 +32,7 @@
         <Col :xs="24" :md="24">
           <i class="req-icon"></i>科室：
           <FormItem prop="dept">
-            <Input class="w-input" v-model="info.dept" :maxlength="20" placeholder="请输入科室名称"/>
+            <Input class="w-input" v-model.trim="info.dept" :maxlength="20" placeholder="请输入科室名称"/>
           </FormItem>
         </Col>
       </Row>
@@ -40,7 +40,7 @@
         <Col :xs="24" :md="24">
           <i class="req-icon"></i>标题：
           <FormItem prop="articleName">
-            <Input class="w-input" v-model="info.articleName" :maxlength="20" placeholder="请输入标题"/>
+            <Input class="w-input" v-model.trim="info.articleName" :maxlength="20" placeholder="请输入标题"/>
           </FormItem>
         </Col>
       </Row>

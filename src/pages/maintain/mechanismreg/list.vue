@@ -8,7 +8,7 @@
           <button @click = 'add'>新增机构</button>
         </div>
         <div class="search">
-          <input type="text" placeholder="机构名称" v-model="Name" @keyup='nameChange' >
+          <input type="text" placeholder="机构名称" v-model.trim="Name" @keyup='nameChange' >
         </div>
       </header>
       <!-- 列表 -->
@@ -18,8 +18,8 @@
             <th>编号</th>
             <th>城市</th>
             <th>机构名称</th>
-            <th>机构编码</th>
             <th>机构类型</th>
+            <th>机构编码</th>
             <th>机构等级</th>
             <th>联系人姓名</th>
             <th>联系电话</th>

@@ -6,7 +6,7 @@
       <header>
         <div>
           <span></span>
-          <input type="text" placeholder="一级科室二级科室" v-model="val">
+          <input type="text" placeholder="一级科室二级科室" v-model.trim="val">
         </div>
         <button @click="valChange" class="btn">查询</button>
       </header>
@@ -116,7 +116,6 @@ export default {
       this.pageNo = pageNo;
     }
     this.getBookingofficeData(1);
-    console.log(pageNo)
   }
 };
 </script>

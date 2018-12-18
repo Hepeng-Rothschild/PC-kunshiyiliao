@@ -2,11 +2,11 @@
   <div class="i_keshi">
     <tmpHeader/>
     <!--搜索-->
-    <div class="i-keshi_main">
+    <div class="i-keshi_main" v-show = '!flag'>
       <div class="ibanner_header">
         <div class="header_input">
           <span></span>
-          <input type="text" placeholder="一级科室/二级科室" v-model = 'search'  @click = 'searchs'>
+          <input type="text" placeholder="一级科室/二级科室" v-model.trim = 'search'  @keyup = 'searchs'>
         </div>
       </div>
       <!--列表-->
@@ -36,7 +36,7 @@
         <div class="footer" v-show="!tableList.length">暂无更多数据</div>
       </div>
     </div>
-    <div style="text-align:center;margin:10px 0;">
+    <div style="text-align:center;margin:10px 0;" v-show = '!flag'>
       <Page :total="departmentsSize" @on-change="pageChange" :current = "pageNo"/>
     </div>
   </div>
@@ -58,10 +58,12 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
       departmentsSize: 10,
       search:"",
-      pageNo:1
+      pageNo:1,
+      flag:""
     };
   },
   mounted() {
+    this.status()
      let pageNo = this.$route.params.pageNo
     if(pageNo) {
       this.pageNo = pageNo;
@@ -76,6 +78,18 @@ export default {
         this.getDepartmentsData(index,this.search);
       } else {
         this.getDepartmentsData(index);
+      }
+    },
+    status() {
+      let flag = localStorage.getItem("status");
+      if (!Boolean(flag)) {
+        this.$Message.info("您还没有开通互联网医院,去开通");
+        this.flag = true;
+        setTimeout(() => {
+          this.$router.push({
+            name: "homeInfo"
+          })
+        }, 600)
       }
     },
     searchs() {

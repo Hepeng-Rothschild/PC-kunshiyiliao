@@ -70,7 +70,6 @@ export default {
   },
   mounted() {
     let pageNo = this.$route.params.pageNo;
-    console.log(pageNo);
     if (pageNo) {
       this.pageNo = pageNo;
     }
