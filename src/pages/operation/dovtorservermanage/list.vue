@@ -37,7 +37,6 @@ export default {
           key: "operate",
           align: "center",
           render: (h, params) => {
-            console.log(params.row);
             let id = params.row.doctorId;
             return h(
               "a",
@@ -88,7 +87,6 @@ export default {
       this.$axios
         .post(api.doctorList, params)
         .then(resp => {
-          console.log(resp);
           this.count = resp.data.object.count;
           this.doctorList = resp.data.object.list;
           for(let i=0;i<this.doctorList.length;i++){

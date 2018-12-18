@@ -6,7 +6,7 @@
     <Form ref="formInline" v-if="info" :model="info" :rules="infoRules" inline>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>医生：
+          <i class="req-icon">*</i>医生：
           <FormItem prop="doctorName">
             <Input class="w-input" v-model.trim="info.doctorName" :maxlength="20" placeholder="请输入医生姓名"/>
           </FormItem>
@@ -14,7 +14,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>职称：
+          <i class="req-icon">*</i>职称：
           <FormItem prop="title">
             <Input class="w-input" v-model.trim="info.title" :maxlength="20" placeholder="请输入职称"/>
           </FormItem>
@@ -22,7 +22,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>医院：
+          <i class="req-icon">*</i>医院：
           <FormItem prop="hospital">
             <Input class="w-input" v-model.trim="info.hospital" :maxlength="20" placeholder="请输入医院名称"/>
           </FormItem>
@@ -30,7 +30,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>科室：
+          <i class="req-icon">*</i>科室：
           <FormItem prop="dept">
             <Input class="w-input" v-model.trim="info.dept" :maxlength="20" placeholder="请输入科室名称"/>
           </FormItem>
@@ -38,7 +38,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>标题：
+          <i class="req-icon">*</i>标题：
           <FormItem prop="articleName">
             <Input class="w-input" v-model.trim="info.articleName" :maxlength="20" placeholder="请输入标题"/>
           </FormItem>
@@ -46,7 +46,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>概要：
+          <i class="req-icon">*</i>概要：
           <FormItem prop="synopsis">
             <Input class="w-input" v-model="info.synopsis" :maxlength="20" placeholder="请输入概要"/>
           </FormItem>
@@ -101,7 +101,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>专家介绍：
+          <i class="req-icon">*</i>专家介绍：
           <FormItem prop="introduction">
             <editor
               id="introduction"
@@ -117,7 +117,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>病例详情：
+          <i class="req-icon">*</i>病例详情：
           <FormItem prop="details">
             <editor
               id="details"
@@ -133,7 +133,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>入院诊断：
+          <i class="req-icon">*</i>入院诊断：
           <FormItem prop="diagnosis">
             <editor
               id="diagnosis"
@@ -149,7 +149,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>治疗方案：
+          <i class="req-icon">*</i>治疗方案：
           <FormItem prop="programme">
             <editor
               id="programme"
@@ -165,7 +165,7 @@
       </Row>
       <Row>
         <Col :xs="24" :md="24">
-          <i class="req-icon"></i>病例分析：
+          <i class="req-icon">*</i>病例分析：
           <FormItem prop="analysis">
             <editor
               id="analysis"
@@ -339,7 +339,7 @@ export default {
         synopsis: "",
         source: "",
         enable: "1",
-        headUrl: "",
+        headUrl: "aa",
         type: 1,
         content: "",
         dept: "",
@@ -353,7 +353,7 @@ export default {
       },
       editTt: "",
       id: null,
-      pageNo:null,
+      pageNo: null,
       tabId: null,
       titleList: [],
       deptList: [],
@@ -361,18 +361,27 @@ export default {
       tabList: [{ id: 0, name: "全部" }],
       classicCaseSontab: [],
 
-      introductionText: "请输入要编辑的内容...",
-      detailsText: "请输入要编辑的内容...",
-      diagnosisText: "请输入要编辑的内容...",
-      programmeText: "请输入要编辑的内容...",
-      analysisText: "请输入要编辑的内容...",
+      introductionText: "请输入...",
+      detailsText: "请输入...",
+      diagnosisText: "请输入...",
+      programmeText: "请输入...",
+      analysisText: "请输入...",
 
       infoRules: {
-        // title: [
-        //   { required: true, message: "标题不能为空", trigger: "blur" }
-        // ],
-        // synopsis: [{ required: true, message: "概要不能为空", trigger: "blur" }],
-        // source: [{ required: true, message: "来源不能为空", trigger: "blur" }]
+        doctorName: [
+          { required: true, message: "医生不能为空", trigger: "blur" }
+        ],
+        title: [{ required: true, message: "职称不能为空", trigger: "blur" }],
+        hospital: [
+          { required: true, message: "医院不能为空", trigger: "blur" }
+        ],
+        dept: [{ required: true, message: "科室不能为空", trigger: "blur" }],
+        articleName: [
+          { required: true, message: "标题不能为空", trigger: "blur" }
+        ],
+        synopsis: [
+          { required: true, message: "概要不能为空", trigger: "blur" }
+        ]
       }
     };
   },
@@ -399,19 +408,19 @@ export default {
               });
             this.headUrlSubmitList.push(this.tryCatch(this.info.headUrl));
             let tmpPicture = this.tryCatch(this.info.picture);
-            if(tmpPicture.length>0){
-              tmpPicture.forEach((el,ind)=>{
+            if (tmpPicture.length > 0) {
+              tmpPicture.forEach((el, ind) => {
                 this.pictureSubmitList.push(el);
                 this.pictureList.push({
-                  url:
-                    this.fileBaseUrl + el.fileName
+                  url: this.fileBaseUrl + el.fileName
                 });
-              })
+              });
             }
             this.tryCatch(this.info.bannerImage) &&
               this.bannerImageList.push({
                 url:
-                  this.fileBaseUrl + this.tryCatch(this.info.bannerImage).fileName
+                  this.fileBaseUrl +
+                  this.tryCatch(this.info.bannerImage).fileName
               });
             this.introductionText = this.info.introduction;
             this.detailsText = this.info.details;
@@ -438,19 +447,62 @@ export default {
         if (valid) {
           let successMsg = this.id ? "修改成功" : "新增成功";
           let failMsg = this.id ? "修改失败" : "新增失败";
-          let subApi = this.id ? api.doctorclassicUpdate : api.doctorclassicInsert;
+          let subApi = this.id
+            ? api.doctorclassicUpdate
+            : api.doctorclassicInsert;
           this.info.id = this.id && parseInt(this.id);
           this.info.enable = parseInt(this.info.enable);
           this.info.priority = parseInt(this.info.priority);
           this.info.headUrl = JSON.stringify(this.headUrlSubmitList[0]);
           this.info.picture = JSON.stringify(this.pictureSubmitList);
           this.info.bannerImage = JSON.stringify(this.bannerImageSubmitList[0]);
+          if (
+            this.info.introduction == "" ||
+            this.info.introduction == "请输入..."
+          ) {
+            this.$Message.error("专家介绍不能为空");
+            return;
+          }
+          if (this.info.details == "" || this.info.details == "请输入...") {
+            this.$Message.error("病例详情不能为空");
+            return;
+          }
+          if (this.info.diagnosis == "" || this.info.diagnosis == "请输入...") {
+            this.$Message.error("入院诊断不能为空");
+            return;
+          }
+          if (this.info.programme == "" || this.info.programme == "请输入...") {
+            this.$Message.error("治疗方案不能为空");
+            return;
+          }
+          if (this.info.analysis == "" || this.info.analysis == "请输入...") {
+            this.$Message.error("病例分析不能为空");
+            return;
+          }
+          // console.log(this.info.headUrl);
+          // console.log(this.info.picture);
+          // console.log(this.info.bannerImage);
+          // if (this.info.headUrl == "null" || this.info.headUrl == "" || this.info.headUrl == undefined || this.info.headUrl == null) {
+          //   this.$Message.error("头像不能为空");
+          //   return;
+          // }
+          // if (this.info.picture == "" || this.info.picture == null || this.info.picture.length<=0 || this.info.picture.length=="[]") {
+          //   this.$Message.error("病例资料不能为空");
+          //   return;
+          // }
+          // if (this.info.bannerImage == "" || this.info.bannerImage == null || this.info.bannerImage == undefined || this.info.bannerImage == "null") {
+          //   this.$Message.error("banner图不能为空");
+          //   return;
+          // }
           this.$axios
             .post(subApi, this.info)
             .then(resp => {
               if (resp.data.success) {
                 this.$Message.success(successMsg);
-                this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
+                this.$router.push({
+                  path: "/index/operation/doctorContentCheck/list",
+                  query: { tabId: this.tabId, pageNo: this.pageNo }
+                });
               } else {
                 this.$Message.error(failMsg);
               }
@@ -464,7 +516,10 @@ export default {
       });
     },
     reback() {
-      this.$router.push({path:"/index/operation/doctorContentCheck/list",query:{tabId:this.tabId,pageNo:this.pageNo}});
+      this.$router.push({
+        path: "/index/operation/doctorContentCheck/list",
+        query: { tabId: this.tabId, pageNo: this.pageNo }
+      });
     },
     introductionOnContentChange(val) {
       this.info.introduction = val;
@@ -495,7 +550,7 @@ export default {
     headUrlHandleSuccess(res, file) {
       if (res.success) {
         console.log("上传成功");
-        this.headUrlSubmitList.push(res.object[0])
+        this.headUrlSubmitList.push(res.object[0]);
         file.url = this.fileBaseUrl + res.object[0].fileName;
       } else {
         this.alertMsg("网络错误上传失败，请重试");
@@ -529,7 +584,7 @@ export default {
     pictureHandleSuccess(res, file) {
       if (res.success) {
         console.log("上传成功");
-        this.pictureSubmitList.push(res.object[0])
+        this.pictureSubmitList.push(res.object[0]);
         file.url = this.fileBaseUrl + res.object[0].fileName;
       } else {
         this.alertMsg("网络错误上传失败，请重试");
@@ -556,14 +611,17 @@ export default {
     //轮播图 start
     bannerImageHandleRemove(file) {
       let url = file.url.slice(file.url.indexOf("classic"));
-      this.bannerImageSubmitList.splice(this.bannerImageSubmitList.indexOf(url), 1);
+      this.bannerImageSubmitList.splice(
+        this.bannerImageSubmitList.indexOf(url),
+        1
+      );
       const fileList = this.$refs.bannerImageUpload.fileList;
       this.$refs.bannerImageUpload.fileList.splice(fileList.indexOf(file), 1);
     },
     bannerImageHandleSuccess(res, file) {
       if (res.success) {
         console.log("上传成功");
-        this.bannerImageSubmitList.push(res.object[0])
+        this.bannerImageSubmitList.push(res.object[0]);
         file.url = this.fileBaseUrl + res.object[0].fileName;
       } else {
         this.alertMsg("网络错误上传失败，请重试");

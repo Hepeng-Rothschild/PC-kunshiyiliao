@@ -69,7 +69,7 @@
           </Row>
           <Row>
             <Col :xs="24" :md="12">
-              <i class="req-icon">*</i>年龄：
+              <i class="req-icon"></i>年龄：
               <FormItem prop="age">
                 <Input class="w-input" @on-focus="blurInput" v-model="info.age" number/>
               </FormItem>
