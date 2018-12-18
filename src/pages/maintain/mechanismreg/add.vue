@@ -48,7 +48,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>详细地址:</span>
           </div>
-          <input type="text" placeholder='机构详细地址' v-model.trim="address">
+          <input type="text" placeholder='请填写详细地址:省,市,区' v-model.trim="address">
         </div>
         <!-- 机构组织编码 -->
         <div class="address">

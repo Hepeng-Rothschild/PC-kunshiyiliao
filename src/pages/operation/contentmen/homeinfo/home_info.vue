@@ -256,13 +256,19 @@ export default {
       if (!switch1) {
         params.appid = null;
       }
+      if (this.switch1) {
+        localStorage.setItem('status','show')
+      } else {
+        localStorage.setItem('status','')
+      }
       this.$axios
         .post(api.managementEdit, params)
         .then(res => {
           if (res.data.code) {
             this.$Message.info("修改成功");
+          } else {
+            this.$Message.info("修改失败,请重试");
           }
-          console.log(res);
         })
         .catch(err => {
           console.log(err);
@@ -389,7 +395,6 @@ export default {
             this.status = true;
             localStorage.setItem('status','')
           }
-          
           // 医院联盟
           this.switch2 = Boolean(ret.unionHospital);
           //医联体上级医院
