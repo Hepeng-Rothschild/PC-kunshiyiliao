@@ -5,7 +5,10 @@
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
         <ul class="allList" @click.stop="tab" v-for="item,index in list">
-          <li><span>+</span>{{ item.parent.name }}</li>
+          <li>
+            <span>+</span>
+            {{ item.parent.name }}
+          </li>
           <ul class="oneList">
             <li
               v-for="items,index in item.sub"
@@ -125,7 +128,7 @@
         <!--保存-->
         <div class="save">
           <div @click="save">保存</div>
-          <div @click="$router.back()">取消</div>
+          <div @click="back">取消</div>
         </div>
       </div>
     </div>
@@ -165,7 +168,7 @@ export default {
       uploadUrl: api.fileAll,
       images: "",
       currentId: -1,
-      source:""
+      source: ""
     };
   },
   methods: {
@@ -178,13 +181,13 @@ export default {
         let flag = chilrens[0].style.display;
         if (flag == "" || flag == "none") {
           chilrens[0].style.display = "block";
-          el.parentNode.getElementsByTagName('span')[0].innerHTML = '-'
+          el.parentNode.getElementsByTagName("span")[0].innerHTML = "-";
         } else {
           chilrens[0].style.display = "none";
-          el.parentNode.getElementsByTagName('span')[0].innerHTML = '+'
+          el.parentNode.getElementsByTagName("span")[0].innerHTML = "+";
         }
       }
-       
+
       let ichildren = ref.getElementsByTagName("li");
       for (let i = 0; i < ichildren.length; i++) {
         ichildren[i].classList.remove("active");
@@ -197,6 +200,15 @@ export default {
         this.getRightData(this.currentId);
       }
       el.classList.add("active");
+    },
+    back() {
+      let pageNo = this.$route.params.pageNo;
+      this.$router.push({
+        name: "iKeshi",
+        params: {
+          pageNo
+        }
+      });
     },
     //保存
     save() {
@@ -228,9 +240,9 @@ export default {
       if (this.images != "" && this.uploadList.length) {
         params.departmenticon = this.images;
       } else if (this.uploadList.length) {
-         params.departmenticon = this.source;
+        params.departmenticon = this.source;
       } else {
-        params.departmenticon =''
+        params.departmenticon = "";
       }
       console.log(params);
 
@@ -239,9 +251,13 @@ export default {
         .then(res => {
           if (res.data.code) {
             this.$Message.info("修改成功");
+            let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
               this.$router.push({
-                name: "iKeshi"
+                name: "iKeshi",
+                params: {
+                  pageNo
+                }
               });
             }, 500);
           } else {
@@ -250,7 +266,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-        })
+        });
     },
     handleView(name) {
       this.imgName = name;
@@ -333,13 +349,13 @@ export default {
               console.log(ret);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;
-                  this.uploadList.push({
-                    name: "a42bdcc1178e62b4694c830f028db5c0",
-                    percentage: 100,
-                    status: "finished",
-                    uid: 1544263544970,
-                    url: this.analysisImages(this.source)
-                  });
+                this.uploadList.push({
+                  name: "a42bdcc1178e62b4694c830f028db5c0",
+                  percentage: 100,
+                  status: "finished",
+                  uid: 1544263544970,
+                  url: this.analysisImages(this.source)
+                });
               }
             }
           })
@@ -356,21 +372,21 @@ export default {
         return "";
       }
     },
-    byIdGetDom (id) {
+    byIdGetDom(id) {
       let wrapper = document.getElementsByClassName("i-keshi_main-left")[0];
-      let li = wrapper.getElementsByTagName('li');
+      let li = wrapper.getElementsByTagName("li");
       this.currentId = id;
-      let el = ''
-      for (let i = 0;i < li.length;i++) {
-        if (li[i].getAttribute('data-id')) {
-          if (id == li[i].getAttribute('data-id')) {
-            el = li[i]
+      let el = "";
+      for (let i = 0; i < li.length; i++) {
+        if (li[i].getAttribute("data-id")) {
+          if (id == li[i].getAttribute("data-id")) {
+            el = li[i];
           }
         }
       }
       let parent = el.parentNode;
       el.classList.add("active");
-      parent.style.display = 'block';
+      parent.style.display = "block";
     }
   },
   created() {
@@ -394,12 +410,12 @@ export default {
         }
       });
   },
-  updated () {
+  updated() {
     // this.$nextTick(() => {
     //   this.byIdGetDom(424)
     // })
   }
-}
+};
 </script>
 <style scoped lang="less">
 .demo-upload-list {

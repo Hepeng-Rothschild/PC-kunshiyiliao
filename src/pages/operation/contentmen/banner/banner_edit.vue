@@ -92,7 +92,7 @@
       <!--保存-->
       <div class="save">
         <div @click="save" style="cursor:pointer;">保存</div>
-        <div @click="$router.back(-1)" style="cursor:pointer;">取消</div>
+        <div @click="back" style="cursor:pointer;">取消</div>
       </div>
     </div>
   </div>
@@ -133,6 +133,15 @@ export default {
     change(status) {
       this.$Message.info("开关状态：" + status);
     },
+    back () {
+      let pageNo = this.$route.params.pageNo;
+      this.$router.push({
+        name: "iBanner",
+        params: {
+          pageNo
+        }
+      })
+    },
     save() {
       let sum = 0;
       if (this.switch1) {
@@ -164,13 +173,19 @@ export default {
       } else {
          this.$axios.post(api.bannerChange, params ).then(res => {
         	if (res.data.code) {
-        		this.$Message.info('修改成功');
+            this.$Message.info('修改成功');
+             let pageNo = this.$route.params.pageNo;
         		setTimeout(()=>{
         			this.$router.push({
-                		name:"iBanner"
+                    name:"iBanner",
+                    params:{
+                      pageNo
+                    }
                 	})
         		},500)
-        	}
+        	} else {
+            this.$Message.info('修改失败请重试');
+          }
         }).catch(err => {
         	console.log(err)
         })

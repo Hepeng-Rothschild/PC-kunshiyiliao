@@ -32,11 +32,11 @@
             <td class="ltd" @click="navto(item)">编辑</td>
           </tr>
         </table>
-        <div class="footer" v-show= '!tableList.length'>暂无更多数据</div>
+        <div class="footer" v-show="!tableList.length">暂无更多数据</div>
       </div>
     </div>
     <div style="text-align:center;margin:10px 0;">
-      <Page :total="bookingofficeSize" @on-change="pageChange"/>
+      <Page :total="bookingofficeSize" @on-change="pageChange" :current="pageNo"/>
     </div>
   </div>
 </template>
@@ -56,12 +56,14 @@ export default {
       tableList: [],
       id: sessionStorage.getItem("hospitalId"),
       bookingofficeSize: 10,
-      val: ""
+      val: "",
+      pageNo: 1
     };
   },
   methods: {
     //分页器改变
     pageChange(index) {
+      this.pageNo = index;
       if (this.val) {
         this.getBookingofficeData(index, this.val);
       } else {
@@ -73,7 +75,8 @@ export default {
       this.$router.push({
         name: "bookingofficeEdit",
         params: {
-          id
+          id,
+          pageNo:this.pageNo
         }
       });
     },
@@ -108,7 +111,12 @@ export default {
     }
   },
   mounted() {
+    let pageNo = this.$route.params.pageNo;
+    if (pageNo) {
+      this.pageNo = pageNo;
+    }
     this.getBookingofficeData(1);
+    console.log(pageNo)
   }
 };
 </script>

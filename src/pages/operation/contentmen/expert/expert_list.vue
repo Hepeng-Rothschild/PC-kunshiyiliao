@@ -40,7 +40,7 @@
       <div class="footer" v-show="!tablesList.length">暂无更多数据</div>
     </div>
     <div style="text-align:center;margin:10px 0;">
-      <Page :total="expertSize" @on-change="pageChange"/>
+      <Page :total="expertSize" @on-change="pageChange" :current ='pageNo'/>
     </div>
   </div>
 </template>
@@ -60,15 +60,22 @@ export default {
       tablesList: [],
       id: sessionStorage.getItem("hospitalId"),
       expertSize: 10,
-      val: ""
+      val: "",
+      pageNo:1
     };
   },
   created() {
-    this.getExpertData(1);
+    let pageNo = this.$route.params.pageNo
+    if(pageNo) {
+      this.pageNo = pageNo;
+    }
+    this.getExpertData(pageNo);
+    console.log(pageNo)
   },
   methods: {
     //分页器改变
     pageChange(index) {
+      this.pageNo = index
      if (this.val != ''){
         this.getExpertData(index, this.val);
      } else {
@@ -81,7 +88,10 @@ export default {
     },
     navto() {
       this.$router.push({
-        name: "expertAdd"
+        name: "expertAdd",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     },
     edit(item) {
@@ -89,7 +99,8 @@ export default {
       this.$router.push({
         name: "expert_edits",
         params: {
-          item
+          item,
+          pageNo:this.pageNo
         }
       });
     },
