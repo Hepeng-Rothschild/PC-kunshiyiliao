@@ -117,7 +117,19 @@
       <!--是否加入医院联盟-->
       <div class="main_yy">
         <span class="main_yy_name">是否加入医院联盟</span>
-        <iSwitch v-model="switch2" :disabled="status"/>
+        <iSwitch v-model="switch2" :disabled="status" @on-change="change2"/>
+      </div>
+      <!--医院联盟排序-->
+      <div class="main_info">
+        <span>医院联盟排序</span>
+        <input
+          type="text"
+          placeholder="医院联盟排序"
+          style="width:120px;"
+          v-model.trim="hospitalSort"
+          :disabled="hospitalFlag"
+        >
+        <p>备注:只能填写数字,1代表置顶以些类推</p>
       </div>
       <!--是否开通处方流转-->
       <div class="main_yy">
@@ -185,7 +197,9 @@ export default {
       uploadUrl: api.fileAll,
       images: "",
       id: sessionStorage.getItem("hospitalId"),
-      status: false
+      status: false,
+      hospitalSort: "",
+      hospitalFlag: false
     };
   },
   methods: {
@@ -199,6 +213,13 @@ export default {
         this.status = true;
         this.y_gzh = null;
         this.switch2 = false;
+      }
+    },
+    change2(status) {
+      if (status) {
+        this.hospitalFlag = false;
+      } else {
+        this.hospitalFlag = true;
       }
     },
     afterChange() {},
@@ -251,15 +272,18 @@ export default {
         //医院联盟
         unionHospital: switch2,
         //处方流转
-        ipres: switch3
+        ipres: switch3,
+
+        internetHospitalSort:this.hospitalSort
       };
+      // hospitalSort
       if (!switch1) {
         params.appid = null;
       }
       if (this.switch1) {
-        localStorage.setItem('status','show')
+        localStorage.setItem("status", "show");
       } else {
-        localStorage.setItem('status','')
+        localStorage.setItem("status", "");
       }
       this.$axios
         .post(api.managementEdit, params)
@@ -390,13 +414,20 @@ export default {
           this.switch1 = Boolean(ret.internetHospital);
           if (this.switch1) {
             this.status = false;
-            localStorage.setItem('status','show')
+            localStorage.setItem("status", "show");
           } else {
             this.status = true;
-            localStorage.setItem('status','')
+            localStorage.setItem("status", "");
           }
           // 医院联盟
           this.switch2 = Boolean(ret.unionHospital);
+          this.hospitalSort = ret.internetHospitalSort;
+          // hospitalFlag
+          if (this.switch2) {
+            this.hospitalFlag = false;
+          } else {
+            this.hospitalFlag = true;
+          }
           //医联体上级医院
           // 处方流转
           this.switch3 = Boolean(ret.ipres);
@@ -458,6 +489,7 @@ export default {
       width: 80%;
       height: 30px;
       margin: 5px auto;
+      align-items:center;
       span {
         display: inline-block;
         min-width: 100px;

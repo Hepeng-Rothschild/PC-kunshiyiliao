@@ -20,6 +20,7 @@
         <th>线上服务</th>
         <th>门诊服务</th>
         <th>住院服务</th>
+        <th>联盟排序</th>
         <th>操作</th>
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
@@ -38,6 +39,7 @@
         <th>{{ item.onlineCount }}</th>
         <th>{{ item.inqCount }}</th>
         <th>{{ item.hospitalCount }}</th>
+        <th>{{ item.internetHospitalSort }}</th>
         <th>
           <span @click="navto(item)">编辑</span>
         </th>

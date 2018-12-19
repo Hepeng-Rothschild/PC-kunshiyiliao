@@ -32,7 +32,7 @@
           <th>{{ item.doctorName }}</th>
           <th>{{ item.title }}</th>
           <th>{{ item.post }}</th>
-          <th>{{ item.iexpert ? '是' :'否' }}</th>
+          <th>{{ item.display ? '是' :'否' }}</th>
           <th>{{ item.priority }}</th>
           <th @click="edit(item)" style="cursor:pointer">编辑</th>
         </tr>

@@ -72,7 +72,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" style="width:100px;" v-model="isort">
+        <input type="text" style="width:100px;" v-model="isort" @keyup="isorts">
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--显示-->
@@ -82,6 +82,13 @@
           <span>是否显示</span>
         </div>
         <iSwitch v-model="switch1" @on-change="change"/>
+      </div>
+      <div class="main_expert_item">
+        <div class="main_expert_title">
+          <span style="color:red;">&nbsp;&nbsp;</span>
+          <span>是否为专家</span>
+        </div>
+        <iSwitch v-model="switch2"/>
       </div>
       <!--保存-->
       <div class="expert_save">
@@ -115,7 +122,8 @@ export default {
       isort: "",
       personalIntroduction: "",
       doctorGood: "",
-      post: ""
+      post: "",
+      switch2: true
     };
   },
   mounted() {
@@ -129,10 +137,17 @@ export default {
       this.post = data.post;
       this.keshi = data.deptType;
       this.isort = data.priority;
-      this.switch1 = Boolean(data.iexpert);
+      this.switch1 = Boolean(data.display);
+      this.switch2 = Boolean(data.iexpert);
     }
   },
   methods: {
+    isorts() {
+      if (this.isort <= 0) {
+        this.isort = "";
+        this.$Message.info("排序置顶为1");
+      }
+    },
     //显示按钮
     change(status) {
       // this.$Message.info('开关状态：' + status);
@@ -151,17 +166,22 @@ export default {
       if (this.switch1) {
         switch1 = 1;
       }
+      let switch2 = 0;
+      if (this.switch2) {
+        switch2 = 1;
+      }
       let hospitalId = sessionStorage.getItem("hospitalId");
       let doctorId = this.$route.params.item.doctorId;
       let params = {
         // 显示
-        iexpert: switch1,
+        display: switch1,
         //排序
         priority: this.isort,
         // 职务
         post: this.post,
         doctorId,
-        hospitalId
+        hospitalId,
+        iexpert: switch2
       };
       if (params.name == "") {
         this.$Message.info("专家姓名不能为空");

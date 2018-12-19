@@ -135,6 +135,8 @@ const recommendArticleList = '/operateapi/recommendarticlepagerecommend'; //热�
 const recommendDetailById = '/operateapi/recommendarticleselectbyprimarykey';//根据ID查询热门推荐详情
 const recommendUpdate = '/operateapi/recommendarticleupdate';//更新热门推荐信息
 const recommendUpdateFlag = '/operateapi/recommendarticleupdateenable';//更改热门推荐状态
+
+const downloadTxt ='/operateapi/organizationdownloadtemplate'  //批量上传信息模板下载
 export default {
     login,
     fileAll,
@@ -253,4 +255,5 @@ export default {
     mechanismregSearch,
     mechanismregEdit,
     mechanismregUpLoad,
+    downloadTxt,
 }
