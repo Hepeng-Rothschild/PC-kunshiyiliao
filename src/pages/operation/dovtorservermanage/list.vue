@@ -2,12 +2,7 @@
   <div class="doctorreviewlist">
     <Row>
       <Col :xs="24">
-        医生：
-        <Input class="w-input" v-model="doctorName" placeholder="请输入医生名称"/>&nbsp;&nbsp;&nbsp;&nbsp;
-        科室：
-        <Input class="w-input" v-model="dept" placeholder="请输入科室关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
-        职称：
-        <Input class="w-input" v-model="title" placeholder="请输入职称关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
+        <Input class="w-input" v-model="searchKey" placeholder="输入医生科室或职称关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button type="primary" @click="loadPage(1)">
           <Icon type="ios-search" size="14"/>查询
         </Button>
@@ -23,9 +18,7 @@ import api from "@/api/commonApi";
 export default {
   data() {
     return {
-      doctorName: "",
-      dept: "",
-      title: "",
+      searchKey:"",
       columns: [
         { title: "序号", key: "iNum", align: "center" },
         { title: "医生姓名", key: "doctorName", align: "center" },
@@ -79,9 +72,7 @@ export default {
     loadPage(pageNo) {
       this.pageNo = pageNo;
       var params = {};
-      params.deptType = this.dept;
-      params.doctorName = this.doctorName;
-      params.title = this.title;
+      params.searchKey = this.searchKey;
       params.pageNo = pageNo;
       params.pageSize = this.pageSize;
       this.$axios
