@@ -6,6 +6,7 @@
 import Vue from 'vue';
 import router from './../router';
 import axios from 'axios';
+import store from '../store';
 // import qs from 'qs';
 import cookie from '../utils/cookie.js';
 
@@ -24,9 +25,11 @@ axios.defaults.withCredentials = false;
 // http request 拦截器
 axios.interceptors.request.use(
   	config => {
-		let access_token = cookie.getCookie('access_token');
-		// if(access_token != undefined)
-		// 	config.headers.Authorization = "Bearer "+ access_token;
+		if(store.state.env == "production"){
+			let access_token = cookie.getCookie('access_token');
+			if(access_token != undefined)
+				config.headers.Authorization = "Bearer "+ access_token;
+		}
     	return config;
   	},
 	err => {
