@@ -205,9 +205,9 @@ export default {
                 uid: 1544263544970,
                 url: this.analysisImages(detail.cover)
               });
-              console.log(this.analysisImages(detail.cover));
+              // console.log(this.analysisImages(detail.cover));
             }
-            console.log(ret);
+            // console.log(ret);
             if (detail.enable) {
               flag = true;
             }
@@ -242,7 +242,7 @@ export default {
       file.name = res.object[0].fileName;
     },
     handleFormatError(file) {
-      console.log(file);
+      // console.log(file);
       this.$Message.info("文件" + file.name + "上传失败");
     },
     handleMaxSize(file) {
@@ -300,7 +300,7 @@ export default {
           id: this.$route.params.id
         }
       };
-      console.log(params.operateArticle.cover);
+      // console.log(params.operateArticle.cover);
       if (this.title == "") {
         this.$Message.info("新闻标题不能为空");
       } else if (this.editorText == "") {

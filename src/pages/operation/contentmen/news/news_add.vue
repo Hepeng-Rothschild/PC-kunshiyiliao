@@ -156,7 +156,7 @@ export default {
     },
     afterChange() {},
     chan(e) {
-      console.log(e);
+      // console.log(e);
     },
     valueHandle(param) {
       this.tinymceHtml = param;
@@ -209,7 +209,7 @@ export default {
         title: this.title
       };
       params.newsHeadlines = images;
-      console.log(params);
+      // console.log(params);
       if (this.title == "") {
         this.$Message.info("新闻标题不能为空");
       } else if (this.editorText == "") {
@@ -245,7 +245,7 @@ export default {
     },
     back() {
 	  let pageNo = this.$route.params.pageNo;
-	  console.log(pageNo);
+	  // console.log(pageNo);
       this.$router.push({
         name: "operationNews",
         params: {

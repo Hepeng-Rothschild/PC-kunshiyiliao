@@ -110,7 +110,7 @@ export default {
         dictTypes: arr
       };
 
-      console.log(arr);
+      // console.log(arr);
       this.$axios.post(api.medicineSave, params).then(res => {
         if (res.data.code) {
           this.$Message.info("修改成功");

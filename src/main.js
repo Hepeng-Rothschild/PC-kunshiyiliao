@@ -20,6 +20,10 @@ Object.keys(filters).forEach(key => {
 	Vue.filter(key,filters[key]);
 });
 
+//注册全局函数
+import {GetDate} from "@/commons/function.js";
+Vue.prototype.GetDate = GetDate;
+
 //kindeditor
 import VueKindEditor from '@/plugins/kindeditor.js'
 import '@/../static/kindeditor/themes/default/default.css'

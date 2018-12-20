@@ -171,7 +171,7 @@
 			},
 			// 下架
 			bottomShelf (item,index) {
-				console.log(item)
+				// console.log(item)
 				this.$axios.post(api.upWrap,{
 					ids:[item.articleId],
 					idelete:0
@@ -179,7 +179,7 @@
 					if (res.data.code) {
 						item.idelete = 0
 						this.$Message.info('下架成功' );
-						console.log(res.data);
+						// console.log(res.data);
 					}
 				})
 			},
@@ -192,7 +192,7 @@
 					if (res.data.code) {
 						item.idelete = 1;
 						this.$Message.info('上架成功' );
-						console.log(res.data);
+						// console.log(res.data);
 					}
 				})
 			},
@@ -212,7 +212,7 @@
 			//根据ID修改对应的新闻资讯
 			changeItem (item) {
 				let id = item.articleId;
-				console.log(item);
+				// console.log(item);
 				this.$router.push({
 					name:"createNews",
 					params: {
@@ -224,9 +224,9 @@
 			ok () {
 //              this.$Message.info('Clicked ok');
 				let a = this.tableList[this.currentIndex];
-            		console.log(this.currentIndex);
+            		// console.log(this.currentIndex);
 				
-				console.log(a);
+				// console.log(a);
 			},
             cancel () {
             },

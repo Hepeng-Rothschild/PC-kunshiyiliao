@@ -163,7 +163,7 @@
 		},
 		methods: {
 			btn () {
-				console.log(this.arr);
+				// console.log(this.arr);
 			},
 			navto () {
 				let wrap = this.$refs.warp;
@@ -172,7 +172,7 @@
 				let len = el.length;
 				for (let i = 0;i < len;i++) {
 					if (el[i].checked) {
-						console.log(el[i].getAttribute('data-id'));
+						// console.log(el[i].getAttribute('data-id'));
 						arr.push(el[i]);
 					}
 				}

@@ -233,7 +233,7 @@ export default {
     //根据ID修改对应的新闻资讯
     changeItem(item) {
       let id = item.articleId;
-      console.log(item);
+      // console.log(item);
       this.$router.push({
         name: "createNews",
         params: {

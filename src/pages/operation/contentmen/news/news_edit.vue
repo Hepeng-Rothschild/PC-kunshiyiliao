@@ -194,7 +194,7 @@ export default {
     },
     afterChange() {},
     chan(e) {
-      console.log(e);
+      // console.log(e);
     },
     valueHandle(param) {
       this.tinymceHtml = param;

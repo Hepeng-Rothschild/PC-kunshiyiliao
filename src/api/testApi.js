@@ -154,8 +154,11 @@ const updateSymptomInfo = '/operateapi/symptomupdate';//更改症状信息
 const insertSymptom = '/operateapi/symptominsert';//添加症状信息
 const selectSymptomInfo = '/operateapi/symptomselect';//查询症状信息
 
-
 const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传信息模板下载
+
+//订单管理
+const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
+
 export default {
     login,
     //字典
@@ -293,4 +296,7 @@ export default {
     selectSymptomInfo,
 
     downloadTxt,
+
+    //订单管理
+    orderManageAppointRegistList
 }

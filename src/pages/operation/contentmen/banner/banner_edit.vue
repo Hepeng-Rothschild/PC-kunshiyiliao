@@ -167,7 +167,7 @@ export default {
         enable: sum,
         imageUrl: images
       };
-      console.log(params);
+      // console.log(params);
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {

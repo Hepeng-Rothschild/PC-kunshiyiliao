@@ -217,7 +217,7 @@
 				file.name = res.object[0].fileName;
             },
             handleFormatError (file) {
-            	console.log(file);
+            	// console.log(file);
                 this.$Message.info('文件'+file.name+'上传失败');
             },
             handleMaxSize (file) {
@@ -263,7 +263,7 @@
             	} else {
             		
 					this.$axios.post(api.changeWrap,params).then(res => {
-						console.log(res);
+						// console.log(res);
 						if (res.data.code) {
 							this.$Message.info('修改成功' );
 							setTimeout(() => {
@@ -275,7 +275,7 @@
 					}).catch(err => {
 						console.log(err);
 					})
-            		console.log(params);
+            		// console.log(params);
 
 					
             	}

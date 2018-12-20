@@ -186,7 +186,7 @@
 				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
 			},
 			handleSuccess(res, file) {
-				console.log(res);
+				// console.log(res);
 				file.url = this.fileBaseUrl + res.object[0].smallFileName;
 				file.name = res.object[0].fileName;
 			},
