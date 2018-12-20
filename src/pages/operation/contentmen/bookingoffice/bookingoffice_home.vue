@@ -28,7 +28,7 @@
             <td>{{ item.childDept }}</td>
             <td>{{ item.address }}</td>
             <td>{{ item.display !=1? '否' :'是' }}</td>
-            <td>{{ item.priority? item.priority :"0"}}</td>
+            <td>{{ item.priority }}</td>
             <td class="ltd" @click="navto(item)">编辑</td>
           </tr>
         </table>

@@ -2,16 +2,22 @@
   <div class="Theone">
     <div class="container">
       <tmptab :active="0"></tmptab>
-      <div class="download">下载医生信息表模板</div>
+      <div class="download" @click="download">下载医生信息表模板</div>
       <div class="uploading">
-        <Upload multiple type="drag" :action="uploadUrl" :on-success="handleSuccess" :headers='fromData'>
+        <Upload
+          multiple
+          type="drag"
+          :action="uploadUrl"
+          :on-success="handleSuccess"
+          :headers="fromData"
+        >
           <div style="padding: 20px 0">
             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
             <p>上传填好的机构信息表</p>
           </div>
         </Upload>
       </div>
-      <button class="next" @click="next" >下一步</button>
+      <button class="next" @click="next">下一步</button>
     </div>
   </div>
 </template>
@@ -33,14 +39,26 @@ export default {
     };
   },
   methods: {
+    download() {
+      this.$axios
+        .post(api.downloadTxt, {
+          type: 2
+        })
+        .then(res => {
+          if (res.data.code) {
+            let ret = res.data;
+            window.open(ret.message);
+          }
+        });
+    },
     handleSuccess(res, file) {
       if (res.code) {
         let ret = res.object[0];
         this.disabled = false;
         this.errorData = ret;
-        this.$Message.info('上传成功');
+        this.$Message.info("上传成功");
       } else {
-        this.$Message.info('上传失败,请重试');
+        this.$Message.info("上传失败,请重试");
       }
     },
     next() {
@@ -52,7 +70,7 @@ export default {
           }
         });
       } else {
-        this.$Message.info('请选择批量上传的文件');
+        this.$Message.info("请选择批量上传的文件");
       }
     }
   }
