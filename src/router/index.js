@@ -95,7 +95,15 @@ export default new Router({
 				maintain.adminList,
 				maintain.adminAdd,
 				maintain.adminReset,
-    			maintain.adminEdit,
+				maintain.adminEdit,
+				//疾病/症状管理
+				maintain.diseaseList,
+				maintain.diseaseEdit,
+				maintain.symptomList,
+				maintain.symptomEdit,
+				
+				//字典管理
+    			maintain.dictionary,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由

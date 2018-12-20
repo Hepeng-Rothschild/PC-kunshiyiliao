@@ -28,7 +28,7 @@ import '@/../static/kindeditor/lang/zh-CN.js'
 Vue.use(VueKindEditor)
 //设置title
 router.beforeEach((to, from, next) => {
-	if(store.state.env == "production"){
+	if(store.state.env == "production" || store.state.env == "test"){
 		if(to.path != "/login"){
 			let access_token = cookie.getCookie("access_token");
 			if(access_token != undefined){
@@ -98,10 +98,16 @@ if(store.state.env == "production"){
 		'ContentType':'multipart/form-data',
 		'Authorization':"Bearer "+ cookie.getCookie('access_token')
 	};
-}else{
+}else if(store.state.env == "dev"){
 	Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data'
+	};
+}else if(store.state.env == "test"){
+	Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fromData = {
+		'ContentType':'multipart/form-data',
+		'Authorization':"Bearer "+ cookie.getCookie('access_token')
 	};
 }
 

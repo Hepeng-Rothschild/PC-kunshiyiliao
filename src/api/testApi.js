@@ -1,6 +1,12 @@
-//测试环境api
 
 const login = "/operateapi/operate/login"; //登陆接口
+
+//字典
+const dictionaryList = "/operateapi/operate/diction/list";//字典列表
+const dictionaryInsert = "/operateapi/operate/diction/insert";//添加字典
+const dictionaryUpdate = "/operateapi/operate/diction/update";//修改字典
+
+
 const news = '/operateapi/organizationpagenews'; //动态新闻列表分页
 const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口
 const getProvince = "/operateapi/authenticationqueryprovince"; //获取省级列表
@@ -135,8 +141,26 @@ const recommendArticleList = '/operateapi/recommendarticlepagerecommend'; //热�
 const recommendDetailById = '/operateapi/recommendarticleselectbyprimarykey';//根据ID查询热门推荐详情
 const recommendUpdate = '/operateapi/recommendarticleupdate';//更新热门推荐信息
 const recommendUpdateFlag = '/operateapi/recommendarticleupdateenable';//更改热门推荐状态
+//疾病/症状管理
+const getDiseaseList = '/operateapi/diseasepage';//查询疾病列表
+const changeDiseaseStatus = '/operateapi/diseasedelete';//更改疾病状态
+const updateDiseaseInfo = '/operateapi/diseaseupdate';//更改疾病信息
+const insertDisease = '/operateapi/diseaseinsert';//添加疾病信息
+const selectDiseaseInfo = '/operateapi/diseaseselect';//查询疾病信息
+
+const getSymptomList = '/operateapi//symptompage';//查询症状列表
+const changeSymptomStatus = '/operateapi/symptomdelete';//更改症状状态
+const updateSymptomInfo = '/operateapi/symptomupdate';//更改症状信息
+const insertSymptom = '/operateapi/symptominsert';//添加症状信息
+const selectSymptomInfo = '/operateapi/symptomselect';//查询症状信息
+
 export default {
     login,
+    //字典
+    dictionaryList,
+    dictionaryInsert,
+    dictionaryUpdate,
+
     fileAll,
     //机构管理
     management,
@@ -253,4 +277,16 @@ export default {
     mechanismregSearch,
     mechanismregEdit,
     mechanismregUpLoad,
+
+    //疾病症状
+    getDiseaseList,
+    changeDiseaseStatus,
+    updateDiseaseInfo,
+    insertDisease,
+    selectDiseaseInfo,
+    getSymptomList,
+    changeSymptomStatus,
+    updateSymptomInfo,
+    insertSymptom,
+    selectSymptomInfo
 }
