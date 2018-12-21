@@ -2,7 +2,7 @@
   <div class="Theone">
     <div class="container">
       <tmptab :active="0"></tmptab>
-      <div class="download" @click="download">下载医生信息表模板</div>
+      <div class="download" @click="download">下载机构信息表模板</div>
       <div class="uploading">
         <Upload
           multiple
