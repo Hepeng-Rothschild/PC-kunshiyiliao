@@ -224,7 +224,7 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      console.log(pageNo);
+      // console.log(pageNo);
       this.$router.push({
         name: "mechanismreglist",
         params: {

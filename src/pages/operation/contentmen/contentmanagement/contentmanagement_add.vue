@@ -277,7 +277,7 @@ export default {
         }
         params.operateArticle.cover = images;
 
-        console.log(params.operateArticle.cover);
+        // console.log(params.operateArticle.cover);
         this.$axios
           .post(api.createdWrap, params)
           .then(res => {

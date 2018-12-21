@@ -209,7 +209,7 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           if(this.eduInfo.content != '请输入...' && this.eduInfo.content != ""){
-          console.log("zouzhe1");
+          // console.log("zouzhe1");
             let successMsg = this.id ? "修改成功" : "新增成功";
             let failMsg = this.id ? "修改失败" : "新增失败";
             let subApi = this.id ? api.recommendUpdate : api.recommendInsert;
@@ -229,7 +229,7 @@ export default {
                 console.log(err);
               });
           }else{
-            console.log("zouzhe2");
+            // console.log("zouzhe2");
             this.$Message.error("内容不能为空")
           }
         } else {

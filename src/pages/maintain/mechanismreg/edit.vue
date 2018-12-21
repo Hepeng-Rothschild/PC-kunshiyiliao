@@ -176,9 +176,9 @@ export default {
             this.hosAddr = ret.hosAddr
             // 医院ID
             this.hospitalId = ret.hospitalId;
-            console.log(ret);
+            // console.log(ret);
           } else {
-            console.log(res);
+            // console.log(res);
           }
         });
     }
@@ -239,7 +239,7 @@ export default {
           }
         })
       }
-      console.log(params);
+      // console.log(params);
     },
     back () {
       let pageNo = this.$route.params.pageNo

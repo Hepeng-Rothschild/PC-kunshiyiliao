@@ -342,7 +342,7 @@ export default {
           url: this.fileBaseUrl + res.object[0].fileName
         });
       }
-      console.log(this.uploadList);
+      // console.log(this.uploadList);
     },
     handleFormatError(file) {
       this.$Notice.warning({

@@ -64,11 +64,10 @@ export default {
       });
     },
     pageChange (index) {
-	  console.log(index);
+	  // console.log(index);
 	  
 	},
 	change () {
-		console.log(111);
 		this.$router.push({
 			name:"addClassify"
 		})

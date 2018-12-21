@@ -137,6 +137,51 @@ const adminReset = {
     },
     component:()=>import("@/pages/maintain/admin/reset")
 }
+const dictionary = {
+    path:'maintain/dictionary/tree',
+    name:'dictionary',
+    meta:{
+        index:2,
+        title:'字典管理'
+    },
+    component:()=>import("@/pages/maintain/dictionary/tree")
+}
+const diseaseList = {
+    path:'maintain/disease/list',
+    name:'diseaseList',
+    meta:{
+        index:2,
+        title:'疾病管理'
+    },
+    component:()=>import("@/pages/maintain/disease/list")
+}
+const diseaseEdit = {
+    path:'maintain/disease/edit',
+    name:'diseaseEdit',
+    meta:{
+        index:3,
+        title:'疾病编辑'
+    },
+    component:()=>import("@/pages/maintain/disease/edit")
+}
+const symptomList = {
+    path:'maintain/symptom/list',
+    name:'symptomList',
+    meta:{
+        index:2,
+        title:'症状管理'
+    },
+    component:()=>import("@/pages/maintain/symptom/list")
+}
+const symptomEdit = {
+    path:'maintain/symptom/edit',
+    name:'symptomEdit',
+    meta:{
+        index:3,
+        title:'症状编辑'
+    },
+    component:()=>import("@/pages/maintain/symptom/edit")
+}
 
 
 export default {
@@ -158,5 +203,11 @@ export default {
     adminAdd,
     adminReset,
     adminEdit,
-   
+    //字典管理
+    dictionary,
+    //疾病/症状管理
+    diseaseList,
+    diseaseEdit,
+    symptomList,
+    symptomEdit
 }

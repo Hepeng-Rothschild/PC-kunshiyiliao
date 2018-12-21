@@ -83,7 +83,7 @@ export default {
       }
     },
     nameChange() {
-      console.log(this.Name);
+      // console.log(this.Name);
       this.getDoctorData(1, this.Name);
     },
     getDoctorData(pageNo, val) {

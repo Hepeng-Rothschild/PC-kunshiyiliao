@@ -244,7 +244,7 @@ export default {
       } else {
         params.departmenticon = "";
       }
-      console.log(params);
+      // console.log(params);
 
       this.$axios
         .post(api.medicineedit, params)
@@ -346,7 +346,7 @@ export default {
               this.switch2 = Boolean(ret.specialDept);
               //图片
               this.uploadList = [];
-              console.log(ret);
+              // console.log(ret);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;
                 this.uploadList.push({

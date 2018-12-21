@@ -13,8 +13,10 @@ const apiData = {
 let url;
 if(store.state.env == "production"){
 	url = apiData.production;
-}else{
+}else if(store.state.env == "test"){
 	url = apiData.test;
+}else if(store.state.env == "dev"){
+	url = apiData.dev;
 }
 
 // export default {

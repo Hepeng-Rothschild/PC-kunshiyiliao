@@ -134,7 +134,7 @@ export default {
         this.$Message.info("请选择性别");
       } else {
         this.$Message.info("添加成功");
-        console.log(params);
+        // console.log(params);
         
       }
     }

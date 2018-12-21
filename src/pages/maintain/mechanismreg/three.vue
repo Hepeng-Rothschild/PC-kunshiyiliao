@@ -32,7 +32,7 @@ export default {
     },
     mounted () {
       let fail = this.$route.params;
-      console.log(fail);
+      // console.log(fail);
       if (fail) {
         this.success = fail.success 
         this.error = fail.error 
