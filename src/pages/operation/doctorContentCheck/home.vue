@@ -288,8 +288,8 @@ export default {
   },
   created() {
     let pageNo = this.$route.query.pageNo
-    pageNo = pageNo?pageNo:1;
-    this.$route.query.tabId && (this.tabId = this.$route.query.tabId);
+    pageNo = pageNo?parseInt(pageNo):1;
+    this.tabId = this.$route.query.tabId ? this.$route.query.tabId:0;
     this.tabId == 0 && (
       this.columns = this.healthEducation,
       this.sonTabList = this.healthEducationSontab,
@@ -305,6 +305,8 @@ export default {
       this.sonTabList = this.hotRecommendSontab,
       this.listApi = this.hotRecommendApi
     );
+    console.log(this.tabId);
+    console.log(this.columns);
     this.loadPage(pageNo);
   },
   methods: {
@@ -377,6 +379,7 @@ export default {
           for(let key in dataList){
             dataList[key].iNum = parseInt(key)+1;
           }
+          console.log(dataList);
           this.datas = dataList;
         }else{
           console.log("网络连接失败")

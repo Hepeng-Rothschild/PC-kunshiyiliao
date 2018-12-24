@@ -46,6 +46,7 @@
 <script>
 import api from "@/api/commonApi";
 import { Avatar, Select, Option, Upload } from "iview";
+import code from "@/config/base.js";
 export default {
   data() {
     return {
@@ -56,7 +57,7 @@ export default {
       visible: false,
       uploadList: [],
       uploadUrl:api.fileAll,
-      jsonObj:{json:'{"urlCode":"203","flag":"1"}'},
+      jsonObj:{json:'{"urlCode":"'+ code.urlCode.hospitalBanner +'"}'},
       count:5,
       maxSize:5, //单位kb
     };

@@ -101,6 +101,7 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Switch, Upload, Icon } from "iview";
+import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
@@ -122,7 +123,7 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
 
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"203","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",

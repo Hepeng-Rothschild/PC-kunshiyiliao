@@ -86,16 +86,12 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
-          <editor
-            id="editor_id"
-            height="300px"
-            width="400px"
-            :content.sync="editorText"
-            :afterChange="afterChange()"
-            pluginsPath="@/../static/kindeditor/plugins/"
-            :loadStyleMode="false"
-            @on-content-change="onContentChange"
-          ></editor>
+          <vueEditor
+              id="editor_id"
+              :textHtml="info.content"
+              :urlCode="urlCode"
+              @valueHandle="afterChange"
+          ></vueEditor>
         </div>
         <!--科室特色-->
         <!-- <div class="keshi_name_text">
@@ -140,13 +136,16 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Switch, Upload, Icon } from "iview";
+import code from "@/config/base.js";
+import vueEditor from "@/components/vueEditor";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
     iSwitch: Switch,
     Upload,
-    Icon
+    Icon,
+    vueEditor
   },
   data() {
     return {
@@ -166,13 +165,18 @@ export default {
       editorText: "请输入要编辑的内容...",
       editorTexts: "请输入要编辑的内容...",
 
+      info:{
+        content:""
+      },
+
       uploadList: [],
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"203","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
-      source: ""
+      source: "",
+      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
     };
   },
   mounted() {
@@ -194,14 +198,9 @@ export default {
       });
   },
   methods: {
-    onContentChange(val) {
-      this.editorText = val;
+    afterChange(val) {
+      this.info.content = val;
     },
-    afterChange() {},
-    onContentChanges(val) {
-      this.editorText = val;
-    },
-    afterChanges() {},
     tab(e) {
       let el = e.target;
       let chilrens = el.parentNode.getElementsByTagName("ul");
@@ -244,7 +243,7 @@ export default {
         // 头像
         // "departmenticon":this.images,
         //   详情
-        departmentdes: this.editorText,
+        departmentdes: this.info.content,
         //  位置
         deptPosition: this.keshiname,
         display,
@@ -310,7 +309,7 @@ export default {
             // 标题
             this.title = ret.dictType;
             // 详情
-            this.editorText = ret.departmentdes;
+            this.info.content = ret.departmentdes;
             // 位置
             this.keshiname = ret.deptPosition;
             // 开关

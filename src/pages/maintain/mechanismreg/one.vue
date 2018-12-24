@@ -24,6 +24,7 @@
 <script>
 import { Upload } from "iview";
 import tmptab from "./tmptab";
+import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
@@ -33,7 +34,7 @@ export default {
   data() {
     return {
       uploadUrl: api.mechanismregUpLoad,
-      uploadData: { json: '{"urlCode":"203","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
       disabled: true,
       errorData: {}
     };
