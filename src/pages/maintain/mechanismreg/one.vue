@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       uploadUrl: api.mechanismregUpLoad,
-      uploadData: { json: '{"urlCode":"203","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"9997"}' },
       disabled: true,
       errorData: {}
     };

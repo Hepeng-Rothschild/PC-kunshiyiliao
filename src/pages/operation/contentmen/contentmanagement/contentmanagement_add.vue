@@ -114,16 +114,12 @@
           <span>新闻内容</span>
         </div>
         <div class="articletext">
-          <editor
-            id="editor_id"
-            height="500px"
-            width="700px"
-            :content.sync="editorText"
-            :afterChange="afterChange()"
-            pluginsPath="@/../static/kindeditor/plugins/"
-            :loadStyleMode="false"
-            @on-content-change="onContentChange"
-          ></editor>
+          <vueEditor
+              id="analysis"
+              :textHtml="editorText"
+              :urlCode="urlCode"
+              @valueHandle="afterChange"
+          ></vueEditor>
         </div>
       </div>
       <!--新闻来源-->
@@ -189,18 +185,18 @@ export default {
 
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
-      uploadData: { json: '{"urlCode":"201","flag":"1"}' },
-      images: ""
+      uploadData: { json: '{"urlCode":"9996"}' },
+      images: "",
+      urlCode: '{"urlCode":"9990"}',
     };
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
   },
   methods: {
-    onContentChange(val) {
+    afterChange(val) {
       this.editorText = val;
     },
-    afterChange() {},
     valueHandle(val) {
       this.test = val;
     },

@@ -56,7 +56,7 @@ export default {
       visible: false,
       uploadList: [],
       uploadUrl:api.fileAll,
-      jsonObj:{json:'{"urlCode":"203","flag":"1"}'},
+      jsonObj:{json:'{"urlCode":"9997"}'},
       count:5,
       maxSize:5, //单位kb
     };

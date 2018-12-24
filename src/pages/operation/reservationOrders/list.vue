@@ -14,7 +14,7 @@
                         <Option value="9">全部</Option>
                         <Option
                             v-for="(item,index) in statusList"
-                            :value="index"
+                            :value="index+1"
                             :key="index"
                         >{{item}}</Option>
                     </Select>
@@ -77,7 +77,7 @@ export default {
             status: "9",
             startDate: "",
             endDate: "",
-            statusList: ["爽约", "履约", "取消", "退号"],
+            statusList: ["退诊", "取消", "履约", "爽约"],
             hospitalList: [],
             hospitalId: "0",
             columns: [
@@ -96,8 +96,9 @@ export default {
                     key: "status",
                     align: "center",
                     render: (h, params) => {
-                        let status = params.row.day;
+                        let status = params.row.status;
                         let statusText;
+                        console.log(status);
                         switch(status){
                             case 0:
                                 statusText = "即将就诊";

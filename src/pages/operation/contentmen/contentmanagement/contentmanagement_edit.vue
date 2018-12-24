@@ -95,16 +95,12 @@
           <span>新闻内容</span>
         </div>
         <div class="shuru">
-          <editor
-            id="editor_id"
-            height="500px"
-            width="700px"
-            :content.sync="editorText"
-            :afterChange="afterChange()"
-            pluginsPath="@/../static/kindeditor/plugins/"
-            :loadStyleMode="false"
-            @on-content-change="onContentChange"
-          ></editor>
+          <vueEditor
+              id="contentEdit"
+              :textHtml="info.content"
+              :urlCode="urlCode"
+              @valueHandle="afterChange"
+          ></vueEditor>
         </div>
       </div>
       <!--新闻来源-->
@@ -144,7 +140,7 @@
 <script>
 import api from "@/api/commonApi";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import vueEditor from "@/components/vueEditors";
+import vueEditor from "@/components/vueEditor";
 import { Switch, Upload, Icon } from "iview";
 export default {
   components: {
@@ -161,23 +157,25 @@ export default {
       isource: "",
       id: "tinymce-editor",
       height: 200,
-      tinymceHtml: "",
       defaultList: [],
       imgName: "",
       id: sessionStorage.getItem("hospitalId"),
-
+      info:{
+        content:""
+      },
       select: 1,
 
       visible: false,
       uploadList: [],
       switch1: true,
 
-      uploadData: { json: '{"urlCode":"201","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"9996"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
 
+      urlCode: '{"urlCode":"9990"}',
+
       images: "",
-      editorText: "请输入要编辑的内容...",
       source: "",
       titles: ""
     };
@@ -213,15 +211,12 @@ export default {
             }
             //标题
             this.title = detail.title;
-
             this.titles = detail.synopsis || "";
-
             this.isource = detail.source;
-            this.tinymceHtml = detail.content;
-            this.editorText = detail.content;
             this.num = detail.priority;
             this.switch1 = flag;
             this.isort = detail.priority;
+            this.info.content = detail.content;
           }
         });
     }
@@ -291,7 +286,7 @@ export default {
           //排序
           priority: this.isort,
           //内容
-          content: this.editorText,
+          content: this.info.content,
           //够源
           source: this.isource,
           //显示
@@ -300,10 +295,9 @@ export default {
           id: this.$route.params.id
         }
       };
-      // console.log(params.operateArticle.cover);
       if (this.title == "") {
         this.$Message.info("新闻标题不能为空");
-      } else if (this.editorText == "") {
+      } else if (this.info.content == "") {
         this.$Message.info("新闻内容不能为空");
       } else {
         this.$axios
@@ -330,10 +324,9 @@ export default {
         // console.log(params);
       }
     },
-    onContentChange(val) {
-      this.editorText = val;
+    afterChange(val) {
+      this.info.content = val;
     },
-    afterChange() {},
     analysisImages(json) {
       try {
         json = JSON.parse(json);

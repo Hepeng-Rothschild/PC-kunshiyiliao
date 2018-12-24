@@ -95,7 +95,6 @@ const i18n = new VueI18n({
 });
 
 //资源所在地址
-// Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
 if(store.state.env == "production"){
 	Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {

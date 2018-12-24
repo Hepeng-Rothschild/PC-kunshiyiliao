@@ -74,16 +74,12 @@
       <div class="main_jianjie">
         <span>机构简介</span>
         <div>
-          <editor
-            id="editor_id"
-            height="500px"
-            width="700px"
-            :content.sync="editorText"
-            :afterChange="afterChange()"
-            pluginsPath="@/../static/kindeditor/plugins/"
-            :loadStyleMode="false"
-            @on-content-change="onContentChange"
-          ></editor>
+          <vueEditor
+              id="homeInfo"
+              :textHtml="info.content"
+              :urlCode="urlCode"
+              @valueHandle="afterChange"
+          ></vueEditor>
         </div>
       </div>
       <!--机构路线-->
@@ -166,7 +162,9 @@ export default {
   },
   data() {
     return {
-      id: "tinymce-editor",
+      info:{
+        content:""
+      },
       height: 300,
       tinymceHtml: "",
       defaultList: [],
@@ -190,21 +188,21 @@ export default {
       y_search1: "",
       gzh: [],
       ylt: [],
-      editorText: "请输入要编辑的内容...",
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"203","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"9997","flag":"1"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
       id: sessionStorage.getItem("hospitalId"),
       status: false,
       hospitalSort: "",
-      hospitalFlag: false
+      hospitalFlag: false,
+      urlCode: '{"urlCode":"9990"}',
     };
   },
   methods: {
-    onContentChange(val) {
-      this.editorText = val;
+    afterChange(val) {
+      this.info.content = val;
     },
     change(status) {
       if (status) {
@@ -222,7 +220,6 @@ export default {
         this.hospitalFlag = true;
       }
     },
-    afterChange() {},
     save() {
       let images = "";
       if (this.images != "" && this.uploadList.length) {
@@ -260,7 +257,7 @@ export default {
         //电话
         telephone: this.y_phone,
         //简介
-        hosIntroduction: this.editorText,
+        hosIntroduction: this.info.content,
         //地址
         hosAddr: this.y_dizhi,
         //公众号
@@ -400,7 +397,7 @@ export default {
           // 背景模板
           this.y_module = ret.cssTemplate;
           // 简介
-          this.editorText = ret.hosIntroduction;
+          this.info.content = ret.hosIntroduction;
           //路线
           this.y_luxin = ret.route;
           //电话

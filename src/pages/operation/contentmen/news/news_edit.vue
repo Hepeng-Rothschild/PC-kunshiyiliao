@@ -65,16 +65,12 @@
           <span>新闻内容</span>
         </div>
         <div class="shuru">
-          <editor
-            id="editor_id"
-            height="500px"
-            width="700px"
-            :content.sync="editorText"
-            :afterChange="afterChange()"
-            pluginsPath="@/../static/kindeditor/plugins/"
-            :loadStyleMode="false"
-            @on-content-change="onContentChange"
-          ></editor>
+          <vueEditor
+              id="editor_id"
+              :textHtml="info.content"
+              :urlCode="urlCode"
+              @valueHandle="afterChange"
+          ></vueEditor>
         </div>
       </div>
       <!--新闻来源-->
@@ -114,7 +110,7 @@
 <script>
 import api from "@/api/commonApi";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import vueEditor from "@/components/vueEditors";
+import vueEditor from "@/components/vueEditor";
 import { Switch, Upload, Icon } from "iview";
 export default {
   components: {
@@ -137,15 +133,17 @@ export default {
       visible: false,
       uploadList: [],
       switch1: true,
-      editorText: "请输入要编辑的内容...",
-
+      info:{
+        content:""
+      },
       uploadModal: true,
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
-      uploadData: { json: '{"urlCode":"202","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"9998"}' },
       images: "",
       id: sessionStorage.getItem("hospitalId"),
-      source: ""
+      source: "",
+      urlCode: '{"urlCode":"9990"}',
     };
   },
   mounted() {
@@ -161,7 +159,7 @@ export default {
           if (res.data.object) {
             let ret = res.data.object;
             this.title = ret.title;
-            this.editorText = ret.content;
+            this.info.content = ret.content;
             this.isource = ret.source;
             this.isort = ret.priority;
             if (ret.enable == 1) {
@@ -189,10 +187,9 @@ export default {
     }
   },
   methods: {
-    onContentChange(val) {
-      this.editorText = val;
+    afterChange(val) {
+      this.info.content = val;
     },
-    afterChange() {},
     chan(e) {
       // console.log(e);
     },
@@ -243,7 +240,7 @@ export default {
         images = "";
       }
       params = {
-        content: this.editorText,
+        content: this.info.content,
         enable: num,
         hospitalId: this.id,
         priority: this.isort,
@@ -255,7 +252,7 @@ export default {
       // console.log(params);
       if (this.title == "") {
         this.$Message.info("新闻标题不能为空");
-      } else if (this.editorText == "") {
+      } else if (this.info.content == "") {
         this.$Message.info("新闻内容不能为空");
       } else if (params.newsHeadlines == "") {
         this.$Message.info("新闻首图不能为空");

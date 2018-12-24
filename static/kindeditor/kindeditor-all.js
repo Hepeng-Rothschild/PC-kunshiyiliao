@@ -4293,7 +4293,9 @@ _extend(KUploadButton, {
 				self.options.afterUpload.call(self, data);
 			}
 		});
+		console.log(self.form[0]);
 		self.form[0].submit();
+		console.log(self);
 		return self;
 	},
 	remove : function() {
@@ -7201,8 +7203,8 @@ KindEditor.plugin('image', function(K) {
 		allowImageRemote = K.undef(self.allowImageRemote, true),
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
 		allowFileManager = K.undef(self.allowFileManager, false),
-		// uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
-		uploadJson = K.undef('/operateapi/hospitaloperateuploadfiles'),
+		uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
+		// uploadJson = K.undef('/operateapi/hospitaloperateuploadfiles'),
 		imageTabIndex = K.undef(self.imageTabIndex, 0),
 		imgPath = self.pluginsPath + 'image/images/',
 		extraParams = K.undef(self.extraFileUploadParams, {}),
@@ -7285,6 +7287,7 @@ KindEditor.plugin('image', function(K) {
 							return;
 						}
 						dialog.showLoading(self.lang('uploadLoading'));
+						console.log(uploadbutton);
 						uploadbutton.submit();
 						localUrlBox.val('');
 						return;

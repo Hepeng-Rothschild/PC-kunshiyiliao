@@ -7,7 +7,7 @@
 
 <template>
 	<div class="tinymce-editor">
-		<editor :id="id" v-model="tinymceHtml" :init="init"></editor>
+		<editor :id="id" v-model="editorHtml" :init="init"></editor>
 	</div>
 </template>
 
@@ -34,6 +34,8 @@ import 'tinymce/plugins/contextmenu';
 import 'tinymce/plugins/wordcount';
 import 'tinymce/plugins/colorpicker';
 import 'tinymce/plugins/textcolor';
+import cookie from "./../utils/cookie.js";
+import api from "@/api/commonApi";
 export default {
 	components: {
 		Editor
@@ -54,11 +56,19 @@ export default {
 		toolbar: {
 			default: '',
 			type: String
+		},
+		urlCode: {
+			default:'',
+			type: String
+		},
+		textHtml:{
+			default:'<p style="color:#666;">请输入内容...<p>',
+			type:String
 		}
 	},
 	data () {
 		return {
-			tinymceHtml: '<p style="color:#666;">请输入内容...<p>',
+			// tinymceHtml: '<p style="color:#666;">请输入内容...<p>',
 			init: {
 				language_url: '../../static/tinymce/langs/zh_CN.js',
 				language: 'zh_CN',
@@ -70,7 +80,8 @@ export default {
 				images_upload_handler: (blobInfo, success, failure) => {
 					this.handleImgUpload(blobInfo, success, failure);
 				}
-			}
+			},
+			editorHtml:''
 		};
 	},
 	created () {
@@ -79,22 +90,27 @@ export default {
 	},
 	mounted () {
 		tinymce.init({});
-		this.$emit('valueHandle', this.tinymceHtml);
 	},
 	methods: {
 		handleImgUpload (blobInfo, success, failure) {
 			let formdata = new FormData();
-			formdata.set('userFile', blobInfo.blob());
-			this.$axios.post('http://172.23.251.3:8084/hr/hr/uploadAttachment', formdata).then(res => {
-				success(res.data.data[0].attachmentUrl);
+			formdata.set('file', blobInfo.blob());
+			formdata.set('json', this.urlCode);
+			this.$axios.post(api.fileAll, formdata,{
+				headers:this.fromData
+			}).then(res => {
+				success(this.fileBaseUrl + res.data.object[0].fileName);
 			}).catch(res => {
 				failure('error');
 			});
 		}
 	},
 	watch: {
-		tinymceHtml (newValue, oldValue) {
-			this.$emit('valueHandle', newValue);
+		textHtml (val) {
+			this.editorHtml = val ;
+		},
+		editorHtml (newValue, oldValue) {
+			this.$emit('valueHandle', newValue) ;
 		}
 	}
 };

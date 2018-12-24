@@ -98,16 +98,12 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室特色</span>
           </div>
-          <editor
-            id="editor_id"
-            height="300px"
-            width="400px"
-            :content.sync="editorText"
-            :afterChange="afterChange()"
-            pluginsPath="@/../static/kindeditor/plugins/"
-            :loadStyleMode="false"
-            @on-content-change="onContentChange"
-          ></editor>
+          <vueEditor
+              id="editor_id"
+              :textHtml="info.content"
+              :urlCode="urlCode"
+              @valueHandle="afterChange"
+          ></vueEditor>
         </div>
         <!--预约科室-->
         <div class="keshi_name_text">
@@ -138,13 +134,15 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Switch, Upload, Icon } from "iview";
+import vueEditor from "@/components/vueEditor";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
     iSwitch: Switch,
     Upload,
-    Icon
+    Icon,
+    vueEditor
   },
   data() {
     return {
@@ -160,15 +158,17 @@ export default {
       uploadList: [],
       id: sessionStorage.getItem("hospitalId"),
       list: [],
-      editorText: "请输入要编辑的内容...",
-
+      info:{
+        content:""
+      },
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"203","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"9997"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
       currentId: -1,
-      source: ""
+      source: "",
+      urlCode: '{"urlCode":"9990"}',
     };
   },
   methods: {
@@ -228,7 +228,7 @@ export default {
         //简介
         departmentdes: this.test2,
         //特色
-        deptDetails: this.editorText,
+        deptDetails: this.info.content,
         //预约科室
         registeredReservation: switch1,
         //特色科室
@@ -313,10 +313,9 @@ export default {
       }
       return check;
     },
-    onContentChange(val) {
-      this.editorText = val;
+    afterChange(val) {
+      this.info.content = val;
     },
-    afterChange() {},
     getRightData(id) {
       if (id) {
         this.currentId = id;
@@ -335,7 +334,7 @@ export default {
               //简介
               this.test2 = ret.departmentdes;
               //特色
-              this.editorText = ret.deptDetails;
+              this.info.content = ret.deptDetails;
               //预约科室
               let switch1 = false;
               if (ret.registeredReservation) {

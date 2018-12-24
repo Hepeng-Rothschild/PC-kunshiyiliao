@@ -1,6 +1,6 @@
 <template>
   <div class="table-editor">
-    <editor
+    <!-- <editor
       id="editor_id"
       height="500px"
       width="700px"
@@ -9,27 +9,31 @@
       pluginsPath="@/../static/kindeditor/plugins/"
       :loadStyleMode="false"
       @on-content-change="onContentChange"
-    ></editor>
-    <div>editorTextCopy: {{ editorTextCopy }}</div>
+    ></editor> -->
+    <vueEditor id="editorDemo" :textHtml="textHtml" :urlCode="urlCode" @valueHandle="afterChange"></vueEditor>
   </div>
 </template>
 
 <script>
 import api from "@/api/commonApi.js";
+import vueEditor from "@/components/vueEditor";
 export default {
   name: "table-editor",
   data() {
     return {
-      editorText: "请输入要编辑的内容...", // 双向同步的变量
-      editorTextCopy: "", // content-change 事件回掉改变的对象 要提交到后台的数据
+      urlCode:'{"urlCode":"102"}', //上传图片的code码
+      textHtml:""
     };
   },
   methods: {
-    onContentChange(val) {
-      this.editorTextCopy = val;
-    },
-    afterChange() {}
+    afterChange(val) {
+      this.textHtml = val;
+      console.log(this.textHtml);
+    }
   },
+  components:{
+    vueEditor
+  }
 };
 </script>
 
