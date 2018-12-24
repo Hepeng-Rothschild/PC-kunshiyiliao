@@ -190,6 +190,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
+import code from "@/config/base.js";
 import { Avatar, Select, Option } from "iview";
 export default {
   data() {
@@ -201,7 +202,7 @@ export default {
       defaultList: [],
       uploadList: [],
       uploadUrl: api.fileAll,
-      jsonObj: { json: '{"urlCode":"102"}' },
+      jsonObj: { json: '{"urlCode":"'+code.reviewAvatar+'"}' },
       count: 1,
       maxSize: 2028, //单位kb
 

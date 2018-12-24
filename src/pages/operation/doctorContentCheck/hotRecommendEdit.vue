@@ -150,6 +150,7 @@
 <script>
 import api from "@/api/commonApi";
 import { Avatar, Select, Option } from "iview";
+import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
 export default {
     components: {
@@ -163,8 +164,8 @@ export default {
             defaultList: [],
             uploadList: [],
             uploadUrl: api.fileAll,
-            jsonObj: { json: '{"urlCode":"9994"}' },
-            urlCode: '{"urlCode":"9990"}',
+            jsonObj: { json: '{"urlCode":"'+ code.urlCode.hotRecommend +'"}' },
+            urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
             count: 1,
             maxSize: 2028, //单位kb
             imgName: "",

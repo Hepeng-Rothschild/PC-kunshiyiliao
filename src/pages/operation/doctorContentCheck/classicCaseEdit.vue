@@ -355,6 +355,7 @@
 <script>
 import api from "@/api/commonApi";
 import { Avatar, Select, Option } from "iview";
+import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
 export default {
     components: {
@@ -370,7 +371,7 @@ export default {
             headUrlUploadlList: [],
             headUrlSubmitList: [],
             uploadUrl: api.fileAll,
-            headUrlJsonObj: { json: '{"urlCode":"9995"}' }, //头像:205 病例资料:208  轮播图:209
+            headUrlJsonObj: { json: '{"urlCode":"'+ code.urlCode.classicCase +'"}' }, //头像:205 病例资料:208  轮播图:209
             headUrlCount: 1,
             headUrlMaxSize: 2028, //单位kb
             // 头像 end
@@ -379,7 +380,7 @@ export default {
             pictureUploadList: [],
             pictureSubmitList: [],
             uploadUrl: api.fileAll,
-            pictureJsonObj: { json: '{"urlCode":"9992"}' }, //头像:205 病例资料:208  轮播图:209
+            pictureJsonObj: { json: '{"urlCode":"'+ code.urlCode.classicCaseData +'"}' }, //头像:205 病例资料:208  轮播图:209
             pictureCount: 9,
             pictureMaxSize: 2028, //单位kb
             // 病历资料 end
@@ -388,7 +389,7 @@ export default {
             bannerImageUploadList: [],
             bannerImageSubmitList: [],
             uploadUrl: api.fileAll,
-            bannerImageJsonObj: { json: '{"urlCode":"9991"}' }, //头像:205 病例资料:208  轮播图:209
+            bannerImageJsonObj: { json: '{"urlCode":"'+ code.urlCode.classicCaseCarousel +'"}' }, //头像:205 病例资料:208  轮播图:209
             bannerImageCount: 1,
             bannerImageMaxSize: 2028, //单位kb
             // banner-image end
@@ -423,7 +424,7 @@ export default {
             tabList: [{ id: 0, name: "全部" }],
             classicCaseSontab: [],
 
-            urlCode: '{"urlCode":"9990"}',
+            urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
 
             infoRules: {
                 doctorName: [

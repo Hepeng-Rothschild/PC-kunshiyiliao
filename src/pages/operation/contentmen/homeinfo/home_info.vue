@@ -150,6 +150,7 @@
 import vueEditor from "@/components/vueEditor";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Switch, Upload, Icon } from "iview";
+import code from "@/config/base.js";
 import cookie from "@/utils/cookie.js";
 import api from "@/api/commonApi";
 export default {
@@ -189,7 +190,7 @@ export default {
       gzh: [],
       ylt: [],
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"9997","flag":"1"}' },
+      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
@@ -197,7 +198,7 @@ export default {
       status: false,
       hospitalSort: "",
       hospitalFlag: false,
-      urlCode: '{"urlCode":"9990"}',
+      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
     };
   },
   methods: {

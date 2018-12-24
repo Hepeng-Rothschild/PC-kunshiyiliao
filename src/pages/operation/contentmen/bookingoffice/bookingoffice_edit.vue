@@ -136,6 +136,7 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Switch, Upload, Icon } from "iview";
+import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
 import api from "@/api/commonApi";
 export default {
@@ -170,12 +171,12 @@ export default {
 
       uploadList: [],
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"9997"}' },
+      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
       source: "",
-      urlCode: '{"urlCode":"9990"}',
+      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
     };
   },
   mounted() {

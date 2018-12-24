@@ -111,6 +111,7 @@
 import api from "@/api/commonApi";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import vueEditor from "@/components/vueEditor";
+import code from "@/config/base.js";
 import { Switch, Upload, Icon } from "iview";
 export default {
   components: {
@@ -139,10 +140,10 @@ export default {
       uploadModal: true,
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
-      uploadData: { json: '{"urlCode":"9998"}' },
+      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalDynamicNews +'"}' },
       images: "",
       id: sessionStorage.getItem("hospitalId"),
-      urlCode: '{"urlCode":"9990"}',
+      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
     };
   },
   mounted() {
