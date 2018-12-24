@@ -202,7 +202,7 @@ export default {
       defaultList: [],
       uploadList: [],
       uploadUrl: api.fileAll,
-      jsonObj: { json: '{"urlCode":"'+code.reviewAvatar+'"}' },
+      jsonObj: { json: '{"urlCode":"'+code.urlCode.reviewAvatar+'"}' },
       count: 1,
       maxSize: 2028, //单位kb
 
