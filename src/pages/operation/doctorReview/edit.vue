@@ -136,7 +136,7 @@
             <Col :xs="24">
               <i class="req-icon">*</i>身份证号：
               <FormItem prop="idcard">
-                <Input class="w-input" v-model="info.idcard" number placeholder="请输入身份证号"/>
+                <Input class="w-input" v-model="info.idcard" placeholder="请输入身份证号"/>
               </FormItem>
             </Col>
           </Row>
