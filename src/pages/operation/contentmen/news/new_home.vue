@@ -13,7 +13,7 @@
     </div>
     <!--表格列表-->
     <div class="main" v-show="tablesList.length"  >
-      <table border cellspacing cellpadding v-show = '!flag'>
+      <table border='0' cellspacing='0' cellpadding='0' v-show = '!flag'>
         <tr>
           <th>编号</th>
           <th>新闻标题</th>

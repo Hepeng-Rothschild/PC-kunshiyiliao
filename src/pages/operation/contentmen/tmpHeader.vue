@@ -25,6 +25,9 @@
       <li>
         <router-link to="/index/operation/k_department">预约科室</router-link>
       </li>
+      <li>
+        <router-link to="/index/operation/remoteClinic_list">远程门诊</router-link>
+      </li>
     </ul>
   </header>
 </template>

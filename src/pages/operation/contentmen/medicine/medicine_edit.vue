@@ -125,6 +125,14 @@
           </div>
           <iSwitch v-model="switch2" style="margin-left:10px;"/>
         </div>
+        <!--远程门诊-->
+        <div class="keshi_name_text">
+          <div class="left">
+            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+            <span>是否开通远程门诊</span>
+          </div>
+          <iSwitch v-model="switch3" style="margin-left:10px;"/>
+        </div>
         <!--保存-->
         <div class="save">
           <div @click="save">保存</div>
@@ -154,6 +162,7 @@ export default {
       test2: "",
       switch1: true,
       switch2: true,
+      switch3:true,
       defaultList: [],
       imgName: "",
       visible: false,

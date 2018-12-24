@@ -435,6 +435,28 @@ const departmentsList = {
 	component: () =>
 		import("@/pages/operation/contentmen/departments/departments_edit")
 }
+// 远程门诊
+const remoteClinic = {
+	path: 'operation/remoteClinic_list',
+	name: 'remoteClinicList',
+	meta: {
+		index: 3,
+		title: '远程门诊'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/remoteClinic/list")
+}
+const remoteClinicEdit = {
+	path: 'operation/remoteClinic_edit',
+	name: 'remoteClinicEdit',
+	meta: {
+		index: 4,
+		title: '远程门诊-查看'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/remoteClinic/edit")
+}
+// 医生列表
 const doctorServerManageList = {
 	path: 'operation/doctormanage/list',
 	name: 'doctorServerManageList',
@@ -455,6 +477,7 @@ const doctorServerManageEdit = {
 	component: () =>
 		import("@/pages/operation/dovtorservermanage/edit")
 }
+// 预约挂号
 const reservationOrders = {
 	path: 'operation/reservationOrders/list',
 	name: 'reservationOrders',
@@ -505,6 +528,9 @@ export default {
 	d_createdNews,
 	doctorServerManageList,
 	doctorServerManageEdit,
+	// 远程门诊
+	remoteClinic,
+	remoteClinicEdit,
 	// 医生端内容管理
 	doctorContentCheckList,
 	doctorContentCheckListHelAdd,

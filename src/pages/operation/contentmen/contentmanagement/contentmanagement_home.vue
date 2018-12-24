@@ -33,20 +33,20 @@
     <table border="0" cellspacing="0" cellpadding="0">
       <tr>
         <th>序号</th>
-        <th>排序</th>
+        
         <th>标题</th>
         <th>类型</th>
         <th>栏目</th>
         <th>状态</th>
         <th>阅读量</th>
         <th>收藏量</th>
+        <th>排序</th>
         <th>时间</th>
         <th>操作</th>
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
         <th>{{ addZero(index) }}</th>
-        <!-- 排序 -->
-        <th>{{ item.priority }}</th>
+      
         <!-- 标题 -->
         <th>{{ item.title }}</th>
         <!-- 类型 -->
@@ -61,6 +61,8 @@
         <th>{{ item.readAmount }}</th>
         <!-- 收藏量 -->
         <th>{{ item.countFollow}}</th>
+          <!-- 排序 -->
+        <th>{{ item.priority }}</th>
         <th>{{ item.updateTime }}</th>
         <th class="modi">
           <span style="color: black;cursor:pointer" @click="changeItem(item)">修改</span>
