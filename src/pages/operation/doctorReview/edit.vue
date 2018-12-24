@@ -239,6 +239,7 @@ export default {
     };
   },
   created() {
+    console.log(code);
     this.id = this.$route.query.id;
     this.pageNo = parseInt(this.$route.query.pageNo);
     this.$axios
