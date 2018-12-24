@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
-config/
 /output/
+/config/
 /dist/
 npm-debug.log*
 yarn-debug.log*
