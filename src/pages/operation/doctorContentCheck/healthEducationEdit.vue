@@ -196,6 +196,7 @@ export default {
                 type: 1,
                 content: ""
             },
+            
             editTt: "",
             id: null,
             pageNo: null,

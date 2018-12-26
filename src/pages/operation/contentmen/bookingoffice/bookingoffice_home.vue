@@ -102,7 +102,7 @@ export default {
         params.searchKey = val;
       }
       this.$axios.post(api.kDepartment, params).then(res => {
-        if (res.data) {
+        if (res.data.code) {
           let ret = res.data.object;
           this.tableList = ret.list;
           this.bookingofficeSize = ret.count;

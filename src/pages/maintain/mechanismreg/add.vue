@@ -274,7 +274,7 @@ export default {
               let ret = res.data.object;
               this.countyList = ret;
             }
-          });
+          })
       }
     }
   }
