@@ -97,6 +97,11 @@ const getDepartment = '/operateapi/organizationselectdeptlist'  //查看科室�
 const departmentDetail = '/operateapi/organizationquerydepbyid' //查看科室详情
 const departmentChange = '/operateapi/organizationupdateappointmentdept' //修改预约科室详情
 
+// 远程门诊
+const searchRoomList = '/operateapi/hospitalselectbyprovincecode'  //根据省份和医院名模糊查询
+const searchRoomSelectAdd = '/operateapi/applyremotinsert'   // 关联远程门诊医院
+const searchCurrentRoom = '/operateapi/applyremotqueryremotelist'  //查询当前医院下关联的远程门诊医院
+
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
 
@@ -241,6 +246,11 @@ export default {
     getDepartment,
     departmentDetail,
     departmentChange,
+    // 远程门诊
+    searchRoomList,
+    searchRoomSelectAdd,
+    searchCurrentRoom,
+
     /* ********************************************** */
 
     //运维端

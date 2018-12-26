@@ -202,7 +202,7 @@ export default {
       defaultList: [],
       uploadList: [],
       uploadUrl: api.fileAll,
-      jsonObj: { json: '{"urlCode":"'+code.urlCode.reviewAvatar+'"}' },
+      jsonObj: { json: '{"urlCode":"'+code.reviewAvatar+'"}' },
       count: 1,
       maxSize: 2028, //单位kb
 
@@ -239,7 +239,6 @@ export default {
     };
   },
   created() {
-    console.log(code);
     this.id = this.$route.query.id;
     this.pageNo = parseInt(this.$route.query.pageNo);
     this.$axios

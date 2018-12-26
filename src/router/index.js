@@ -67,6 +67,7 @@ export default new Router({
 				// 远程 门诊
 				operation.remoteClinic,
 				operation.remoteClinicEdit,
+				operation.remoteClinicRoom,
 				
 				operation.doctorServerManageList,
 				operation.doctorServerManageEdit,

@@ -99,10 +99,11 @@
             <span>科室特色</span>
           </div>
           <vueEditor
-              id="editor_id"
-              :textHtml="info.content"
-              :urlCode="urlCode"
-              @valueHandle="afterChange"
+            id="editor_id"
+            :textHtml="info.content"
+            :urlCode="urlCode"
+            @valueHandle="afterChange"
+            style='margin:0;'
           ></vueEditor>
         </div>
         <!--预约科室-->
@@ -161,24 +162,24 @@ export default {
       test2: "",
       switch1: true,
       switch2: true,
-      switch3:true,
+      switch3: true,
       defaultList: [],
       imgName: "",
       visible: false,
       uploadList: [],
       id: sessionStorage.getItem("hospitalId"),
       list: [],
-      info:{
-        content:""
+      info: {
+        content: ""
       },
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
       currentId: -1,
       source: "",
-      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
     };
   },
   methods: {
@@ -230,6 +231,10 @@ export default {
       if (this.switch2) {
         switch2 = 1;
       }
+      let switch3 = 0;
+      if (this.switch3) {
+        switch3 = 1;
+      }
 
       let images = "";
       let params = {
@@ -243,8 +248,9 @@ export default {
         registeredReservation: switch1,
         //特色科室
         specialDept: switch2,
-
-        id: this.currentId
+        id: this.currentId,
+        // 科室开通远程门诊
+        iremote: switch3
       };
       //图片
       if (this.images != "" && this.uploadList.length) {
@@ -254,7 +260,7 @@ export default {
       } else {
         params.departmenticon = "";
       }
-      // console.log(params);
+      console.log(params);
 
       this.$axios
         .post(api.medicineedit, params)
@@ -355,6 +361,8 @@ export default {
               this.switch2 = Boolean(ret.specialDept);
               //图片
               this.uploadList = [];
+
+              this.switch3 = Boolean(ret.iremote);
               // console.log(ret);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;

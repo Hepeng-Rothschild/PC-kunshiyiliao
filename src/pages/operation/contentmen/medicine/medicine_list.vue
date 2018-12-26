@@ -212,6 +212,7 @@ export default {
         border: 1px solid #ddd;
         border-top: none;
         text-align: center;
+        background:#fff;
         height: 40px;
         line-height: 40px;
       }

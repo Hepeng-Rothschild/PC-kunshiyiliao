@@ -100,6 +100,7 @@ export default {
     },
     navto(item) {
       sessionStorage.setItem("hospitalId", item.hospitalId);
+      sessionStorage.setItem("hospitalName",item.orgName)
       this.$router.push({
         name: "homeInfo"
       });
@@ -182,6 +183,7 @@ export default {
     border: 1px solid #dddddd;
     height:40px;
     line-height:40px;
+    background:#fff;
     border-top: none;
   }
 }

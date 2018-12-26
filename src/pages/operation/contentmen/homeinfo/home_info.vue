@@ -75,10 +75,10 @@
         <span>机构简介</span>
         <div>
           <vueEditor
-              id="homeInfo"
-              :textHtml="info.content"
-              :urlCode="urlCode"
-              @valueHandle="afterChange"
+            id="homeInfo"
+            :textHtml="info.content"
+            :urlCode="urlCode"
+            @valueHandle="afterChange"
           ></vueEditor>
         </div>
       </div>
@@ -132,6 +132,11 @@
         <span class="main_yy_name">是否开通处方流转</span>
         <iSwitch v-model="switch3"/>
       </div>
+      <!--是否加入远程门诊-->
+      <div class="main_yy">
+        <span class="main_yy_name">是否加入远程门诊</span>
+        <iSwitch v-model="switch4"/>
+      </div>
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
@@ -163,8 +168,8 @@ export default {
   },
   data() {
     return {
-      info:{
-        content:""
+      info: {
+        content: ""
       },
       height: 300,
       tinymceHtml: "",
@@ -177,6 +182,7 @@ export default {
       switch1: true,
       switch2: true,
       switch3: true,
+      switch4: false,
       y_name: "",
       y_type: 6001,
       y_module: "2",
@@ -190,7 +196,7 @@ export default {
       gzh: [],
       ylt: [],
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
@@ -198,7 +204,7 @@ export default {
       status: false,
       hospitalSort: "",
       hospitalFlag: false,
-      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
     };
   },
   methods: {
@@ -242,7 +248,10 @@ export default {
       if (this.switch3) {
         switch3 = 1;
       }
-
+      let switch4 = 0
+      if (this.switch4) {
+        switch4 = 1;
+      }
       let params = {
         hospitalId: this.id,
         //上级编码
@@ -271,8 +280,10 @@ export default {
         unionHospital: switch2,
         //处方流转
         ipres: switch3,
-
-        internetHospitalSort:this.hospitalSort
+        // 医院排序
+        internetHospitalSort: this.hospitalSort,
+        // 开启远程门诊
+        iremote:switch4
       };
       // hospitalSort
       if (!switch1) {
@@ -426,6 +437,10 @@ export default {
           } else {
             this.hospitalFlag = true;
           }
+
+           // 开启远程门诊
+           this.switch4 = Boolean(ret.iremote)
+          
           //医联体上级医院
           // 处方流转
           this.switch3 = Boolean(ret.ipres);
@@ -487,7 +502,7 @@ export default {
       width: 80%;
       height: 30px;
       margin: 5px auto;
-      align-items:center;
+      align-items: center;
       span {
         display: inline-block;
         min-width: 100px;

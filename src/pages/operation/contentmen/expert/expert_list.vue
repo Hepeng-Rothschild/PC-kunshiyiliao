@@ -157,7 +157,7 @@ export default {
   width: 100%;
   background:#fff;
   .iheader {
-    width: 90%;
+    width: 80%;
     margin: 20px auto;
     display: flex;
     flex-direction: row;
@@ -214,7 +214,7 @@ export default {
     }
   }
   .main {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
     .footer {
       width: 100%;

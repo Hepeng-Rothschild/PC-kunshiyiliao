@@ -125,7 +125,7 @@ export default {
       this.$axios
         .post(api.bannerHome, params)
         .then(res => {
-          if (res.data) {
+          if (res.data.code) {
             let ret = res.data.object;
             this.tbleList = ret.list;
             this.bannerSize = ret.count;

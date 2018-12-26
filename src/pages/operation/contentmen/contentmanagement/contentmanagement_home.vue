@@ -411,7 +411,7 @@ export default {
   .footer {
     width: calc(100% - 60px);
     border: 1px solid #ddd;
-    line-height: 30px;
+    line-height: 40px;
     margin: 0 auto;
     border-top: none;
     text-align: center;

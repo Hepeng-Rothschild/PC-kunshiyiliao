@@ -456,6 +456,16 @@ const remoteClinicEdit = {
 	component: () =>
 		import("@/pages/operation/contentmen/remoteClinic/edit")
 }
+const remoteClinicRoom = {
+	path: 'operation/remoteClinicRoom',
+	name: 'remoteClinicRoomList',
+	meta: {
+		index: 4,
+		title: '远程门诊-云诊室列表'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/remoteClinic/room")
+}
 // 医生列表
 const doctorServerManageList = {
 	path: 'operation/doctormanage/list',
@@ -531,6 +541,7 @@ export default {
 	// 远程门诊
 	remoteClinic,
 	remoteClinicEdit,
+	remoteClinicRoom,
 	// 医生端内容管理
 	doctorContentCheckList,
 	doctorContentCheckListHelAdd,
