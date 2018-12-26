@@ -32,22 +32,22 @@ import '@/../static/kindeditor/lang/zh-CN.js'
 Vue.use(VueKindEditor)
 //设置title
 router.beforeEach((to, from, next) => {
-	// if(store.state.env == "production" || store.state.env == "test"){
-	// 	if(to.path != "/login"){
-	// 		let access_token = cookie.getCookie("access_token");
-	// 		if(access_token != undefined){
-	// 			let title = to.meta.title?to.meta.title:"互联网医院管理系统";
-	// 			document.title = title;
-	// 			next();
-	// 		}else{
-	// 			next("/login");
-	// 		}
-	// 	}else{
-	// 		next();
-	// 	}
-	// }else{
+	if(store.state.env == "production" || store.state.env == "test"){
+		if(to.path != "/login"){
+			let access_token = cookie.getCookie("access_token");
+			if(access_token != undefined){
+				let title = to.meta.title?to.meta.title:"互联网医院管理系统";
+				document.title = title;
+				next();
+			}else{
+				next("/login");
+			}
+		}else{
+			next();
+		}
+	}else{
 		next();
-	// }
+	}
 });
 // const SSOHEART = require('./plugins/sso.heart-1.0.1.min.js');
 // 设置心跳，需要和迎双确定参数
