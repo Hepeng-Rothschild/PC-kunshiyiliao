@@ -6,7 +6,6 @@ const dictionaryList = "/operateapi/operate/diction/list";//字典列表
 const dictionaryInsert = "/operateapi/operate/diction/insert";//添加字典
 const dictionaryUpdate = "/operateapi/operate/diction/update";//修改字典
 
-
 const news = '/operateapi/organizationpagenews'; //动态新闻列表分页
 const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口
 const getProvince = "/operateapi/authenticationqueryprovince"; //获取省级列表
@@ -159,6 +158,18 @@ const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传�
 //订单管理
 const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
 
+//服务项目管理
+const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项目列表
+const fdspackageiteminsert ='/operateapi/fdspackageiteminsert';  //新增服务项目
+const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项目详情
+const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项目
+//服务包管理
+const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增服务包
+const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
+const servicepackageselectbyid ='/operateapi/servicepackageselectbyid';  //服务包详情
+//通过省份ID查询医院列表
+const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
+
 export default {
     login,
     //字典
@@ -294,9 +305,20 @@ export default {
     updateSymptomInfo,
     insertSymptom,
     selectSymptomInfo,
-
     downloadTxt,
 
     //订单管理
-    orderManageAppointRegistList
+    orderManageAppointRegistList,
+
+    //服务项管理
+    fdspackageitempage,
+    fdspackageiteminsert,
+    fdspackageitemselectbyid,
+    fdspackageitemupdate,
+    //服务包管理
+    servicepackagepage,
+    servicepackageinsert,
+    servicepackageselectbyid,
+    
+    hospitalselectbyprovincecode,
 }

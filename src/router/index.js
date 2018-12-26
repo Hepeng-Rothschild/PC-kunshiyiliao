@@ -77,6 +77,13 @@ export default new Router({
 				operation.doctorContentCheckListHotEdit,
 				//订单管理
 				operation.reservationOrders,
+				//服务包管理
+				operation.servicePackagePList,
+				operation.servicePackagePAdd,
+				operation.servicePackagePEdit,
+				operation.servicePackageItemList,
+				operation.servicePackageItemAdd,
+				operation.servicePackageItemEdit,
 				
 				//运维端路由
 				maintain.residentRegisterList,					

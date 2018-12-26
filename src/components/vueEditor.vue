@@ -70,9 +70,9 @@ export default {
 		return {
 			// tinymceHtml: '<p style="color:#666;">请输入内容...<p>',
 			init: {
-				language_url: '../../static/tinymce/langs/zh_CN.js',
+				language_url: './static/tinymce/langs/zh_CN.js',
 				language: 'zh_CN',
-				skin_url: '../../static/tinymce/skins/lightgray',
+				skin_url: './static/tinymce/skins/lightgray',
 				height: 500,
 				plugins: 'link lists image code table colorpicker textcolor wordcount contextmenu',
 				toolbar: 'bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | undo redo | link unlink image code | removeformat',

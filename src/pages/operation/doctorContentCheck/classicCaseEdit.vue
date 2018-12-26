@@ -63,6 +63,7 @@
                         <Input
                             class="w-input"
                             v-model.trim="info.articleName"
+                            type="textarea"
                             :maxlength="20"
                             placeholder="请输入标题"
                         />
@@ -76,6 +77,7 @@
                         <Input
                             class="w-input"
                             v-model="info.synopsis"
+                            type="textarea"
                             :maxlength="20"
                             placeholder="请输入概要"
                         />

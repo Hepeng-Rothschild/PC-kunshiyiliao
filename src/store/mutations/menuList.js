@@ -25,7 +25,11 @@ const operationLeftMenu = [
     ]},
     {id:1,level:1,name:"机构运营",childLists:[
         {id:21,level:2,name:"机构管理",path:"/index/operation/home"}
-    ]}
+    ]},
+    {id:1,level:1,name:"服务包管理",childLists:[
+        // {id:40,level:2,name:"服务包管理",path:"/index/operation/servicePackage/pList"},
+        {id:41,level:2,name:"服务项目管理",path:"/index/operation/servicePackage/itemList"}
+    ]},
 ];
 const maintainLeftMenu = [
     {id:2,level:1,name:"索引管理",childLists:[

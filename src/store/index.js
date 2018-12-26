@@ -7,6 +7,7 @@ import Vuex from 'vuex';
 import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
+import addressConfig from '@/config/address.js';
 
 // 状态管理vuex
 Vue.use(Vuex);
@@ -17,15 +18,11 @@ export default new Vuex.Store({
 		version:"1.0",
 		// 国际化默认中文 （cookie里面取，然后存到store里面）
 		locale: 'zh-CN',
-		// 例子
-		mapList: [
-			{
-				id: 1,
-				title: 'hello world'
-			}
-		],
+
 		topMenuList:new Array(),
-		leftMenuList:new Array()
+		leftMenuList:new Array(),
+		//所有省市区
+		address:addressConfig.address
 	},
 	getters,
 	mutations,
