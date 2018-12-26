@@ -11,6 +11,7 @@
                         <Input
                             class="w-input"
                             v-model="eduInfo.title"
+                            type="textarea"
                             :maxlength="20"
                             placeholder="请输入标题"
                         />
@@ -24,6 +25,7 @@
                         <Input
                             class="w-input"
                             v-model="eduInfo.synopsis"
+                            type="textarea"
                             :maxlength="20"
                             placeholder="请输入概要"
                         />

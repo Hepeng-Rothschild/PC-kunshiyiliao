@@ -6,7 +6,6 @@ const dictionaryList = "/operateapi/operate/diction/list";//字典列表
 const dictionaryInsert = "/operateapi/operate/diction/insert";//添加字典
 const dictionaryUpdate = "/operateapi/operate/diction/update";//修改字典
 
-
 const news = '/operateapi/organizationpagenews'; //动态新闻列表分页
 const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口
 const getProvince = "/operateapi/authenticationqueryprovince"; //获取省级列表
@@ -163,6 +162,12 @@ const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传�
 
 //订单管理
 const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
+
+//服务项管理
+const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项列表
+const fdspackageiteminsert ='/operateapi/fdspackageitempage';  //新增服务项
+const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项详情
+const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项
 
 export default {
     login,

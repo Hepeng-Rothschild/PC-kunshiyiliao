@@ -498,6 +498,66 @@ const reservationOrders = {
 	component: () =>
 		import("@/pages/operation/reservationOrders/list")
 }
+const servicePackagePList = {
+	path: 'operation/servicePackage/pList',
+	name: 'servicePackagePList',
+	meta: {
+		index: 2,
+		title: '服务包管理'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/packageList")
+}
+const servicePackagePAdd = {
+	path: 'operation/servicePackage/pAdd',
+	name: 'servicePackagePAdd',
+	meta: {
+		index: 3,
+		title: '添加服务包'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/packageEdit")
+}
+const servicePackagePEdit = {
+	path: 'operation/servicePackage/pEdit',
+	name: 'servicePackagePEdit',
+	meta: {
+		index: 3,
+		title: '编辑服务包'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/packageEdit")
+}
+const servicePackageItemList = {
+	path: 'operation/servicePackage/itemList',
+	name: 'servicePackageitemList',
+	meta: {
+		index: 2,
+		title: '服务项目管理'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/itemList")
+}
+const servicePackageItemAdd = {
+	path: 'operation/servicePackage/itemAdd',
+	name: 'servicePackageitemAdd',
+	meta: {
+		index: 3,
+		title: '添加服务项'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/itemEdit")
+}
+const servicePackageItemEdit = {
+	path: 'operation/servicePackage/itemEdit',
+	name: 'servicePackageitemEdit',
+	meta: {
+		index: 3,
+		title: '编辑服务项'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/itemEdit")
+}
 export default {
     reviewList,
     reviewEdit,
@@ -552,4 +612,12 @@ export default {
 	doctorContentCheckListHotEdit,
 	//订单管理
 	reservationOrders,
+	//服务包管理
+	servicePackagePList,
+	servicePackagePAdd,
+	servicePackagePEdit,
+	//服务项目管理
+	servicePackageItemList,
+	servicePackageItemAdd,
+	servicePackageItemEdit,
 }
