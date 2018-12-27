@@ -143,10 +143,6 @@ export default {
       });
     },
     save() {
-      let sum = 0;
-      if (this.switch1) {
-        sum = 1;
-      }
       let images = "";
       if (this.images !== "") {
         images = this.images;
@@ -156,7 +152,7 @@ export default {
         bannerName: this.title,
         bannerUrl: this.lianjie,
         priority: this.isort,
-        enable: sum,
+        enable: Number(this.switch1),
         imageUrl: images
       };
       if (params.bannerName == "") {

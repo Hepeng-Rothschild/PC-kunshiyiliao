@@ -359,6 +359,7 @@ export default {
       text-align: center;
       line-height: 30px;
       cursor: pointer;
+      user-select: none;
     }
   }
 }

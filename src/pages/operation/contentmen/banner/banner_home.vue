@@ -59,8 +59,8 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Icon, Page } from "iview";
 import api from "@/api/commonApi";
+import { Icon, Page } from "iview";
 export default {
   components: {
     tmpHeader,
@@ -208,7 +208,6 @@ export default {
     .tabList {
       width: 80%;
       margin: 20px auto;
-      
       table {
         width: 100%;
         border: 1px solid #ddd;

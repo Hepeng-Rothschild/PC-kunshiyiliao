@@ -29,6 +29,9 @@
       <li>
         <router-link to="/index/operation/remoteClinic_list">远程门诊</router-link>
       </li>
+      <li>
+        <router-link to="/index/operation/doctorremoteClinic_list">远程门诊类型</router-link>
+      </li>
     </ul>
   </header>
 </template>
@@ -66,8 +69,7 @@ header {
       a {
         display: block;
         color: black;
-        padding: 8px 10px;
-        font-size: 18px;
+        padding: 6px 8px;
         cursor: pointer;
         user-select: none;
         border-bottom: 2px solid transparent;

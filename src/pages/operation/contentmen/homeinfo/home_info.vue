@@ -248,7 +248,7 @@ export default {
       if (this.switch3) {
         switch3 = 1;
       }
-      let switch4 = 0
+      let switch4 = 0;
       if (this.switch4) {
         switch4 = 1;
       }
@@ -283,17 +283,13 @@ export default {
         // 医院排序
         internetHospitalSort: this.hospitalSort,
         // 开启远程门诊
-        iremote:switch4
+        iremote: switch4
       };
       // hospitalSort
       if (!switch1) {
         params.appid = null;
       }
-      if (this.switch1) {
-        localStorage.setItem("status", "show");
-      } else {
-        localStorage.setItem("status", "");
-      }
+
       this.$axios
         .post(api.managementEdit, params)
         .then(res => {
@@ -306,6 +302,13 @@ export default {
         .catch(err => {
           console.log(err);
         });
+      if (this.switch1) {
+        localStorage.setItem("status", "show");
+        sessionStorage.setItem("doctor", "show");
+      } else {
+        localStorage.setItem("status", "");
+        sessionStorage.setItem("doctor", "");
+      }
     },
     valueHandle(param) {
       this.tinymceHtml = param;
@@ -438,9 +441,14 @@ export default {
             this.hospitalFlag = true;
           }
 
-           // 开启远程门诊
-           this.switch4 = Boolean(ret.iremote)
-          
+          // 开启远程门诊
+          this.switch4 = Boolean(ret.iremote);
+          if (this.switch4) {
+            sessionStorage.setItem("doctor", "show");
+          } else {
+            sessionStorage.setItem("doctor", "");
+          }
+
           //医联体上级医院
           // 处方流转
           this.switch3 = Boolean(ret.ipres);
@@ -509,6 +517,7 @@ export default {
         line-height: 30px;
       }
       input {
+        line-height: 30px;
         display: inline-block;
         width: calc(100% - 300px);
         outline: none;
