@@ -22,7 +22,7 @@
                         :key="item.id"
                     >{{item.name}}</Option>
                 </Select>
-                <Select class="w-select" placeholder="区" v-model="area">
+                <Select class="w-select" @on-change="changeArea" placeholder="区/县" v-model="area">
                     <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
                 </Select>
                 <Select class="w-select" placeholder="医院" v-model="hospitalId">
@@ -30,14 +30,14 @@
                         v-for="item in hospitalList"
                         :value="item.id"
                         :key="item.id"
-                    >{{item.name}}</Option>
+                    >{{item.orgName}}</Option>
                 </Select>
                 <span>服务包名称</span>
                 <Input class="w-input" v-model="itemName" placeholder="请输入服务包名称"/>
                 <Button type="primary" @click="loadPage(1)">
-                    <Icon type="ios-search" size="14"/>查询
+                    <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
                 </Button>
-                <Button type="warning" @click="goAdd">添加服务项</Button>
+                <Button type="warning" @click="goAdd">添加服务包</Button>
                 <Button type="default" @click="goImport">批量导入</Button>
             </Col>
         </Row>
@@ -59,7 +59,7 @@ export default {
             province: "0",
             city: "0",
             area: "0",
-            hospitalId: "",
+            hospitalId: "0",
 
             columns: [
                 {
@@ -82,14 +82,21 @@ export default {
                     width: 120
                 },
                 {
-                    title: "创建时间",
-                    key: "createTime",
+                    title: "服务项目归属",
+                    key: "attribution",
                     align: "center",
-                    width: 120
+                    width: 200,
+                    render:(h,params)=>{
+                        return h("span",{
+                            domProps:{
+                                innerHTML:params.row.attribution
+                            }
+                        })
+                    }
                 },
                 {
-                    title: "创建机构/者",
-                    key: "createPerson",
+                    title: "创建时间",
+                    key: "createTime",
                     align: "center",
                     width: 120
                 },
@@ -128,18 +135,18 @@ export default {
                     key: "packagestatus",
                     align: "center",
                     width: 90,
-                    render:(h,params)=>{
+                    render: (h, params) => {
                         let text = "";
-                        if(params.row.packagestatus == 1){
+                        if (params.row.packagestatus == 1) {
                             text = "启用";
-                        }else{
+                        } else {
                             text = "禁用";
                         }
-                        return h("span",{
-                            domProps:{
-                                innerHTML:text
+                        return h("span", {
+                            domProps: {
+                                innerHTML: text
                             }
-                        })
+                        });
                     }
                 },
                 {
@@ -203,8 +210,7 @@ export default {
     },
     mounted() {
         this.provinceList = this.$store.getters.getProvinceList;
-        let pageNo = this.$route.query.pageNo;
-        pageNo = pageNo ? pageNo : 1;
+        let pageNo = this.$route.query.pageNo?this.$route.query.pageNo:1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -216,6 +222,21 @@ export default {
         changeCity() {
             this.area = "0";
             this.areaList = this.$store.getters.getAreaList(this.city);
+        },
+        changeArea() {
+            this.hospitalId = "0";
+            var params = {};
+            params.province = parseInt(
+                this.province == 0 ? null : this.province
+            );
+            this.$axios
+                .post(api.hospitalselectbyprovincecode, params)
+                .then(resp => {
+                    this.hospitalList = resp.data.object;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         },
         goAdd() {
             this.$router.push({ path: "/index/operation/servicePackage/pAdd" });
@@ -236,6 +257,9 @@ export default {
             );
             params.city = parseInt(this.city == 0 ? null : this.city);
             params.area = parseInt(this.area == 0 ? null : this.area);
+            params.hospitalId = parseInt(
+                this.hospitalId == 0 ? null : this.hospitalId
+            );
             params.itemName = this.itemName ? this.itemName : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
@@ -243,11 +267,79 @@ export default {
                 .post(api.servicepackagepage, params)
                 .then(resp => {
                     this.count = resp.data.object.count;
-                    this.dataList = resp.data.object.list;
+                    this.dataList = [];
+                    resp.data.object.list.map((el,i)=>{
+                        let promise = new Promise((resolve, reject) =>{
+                            this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                        });
+                        promise.then(val=>{
+                            el.attribution = val;
+                            this.dataList.push(el)
+                        })
+                    })
                 })
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        
+        getAttribution(resolve,provinceId, cityId, areaId, hospitalId) {
+            let attribution = "";
+            if (hospitalId) {
+                var params = {};
+                params.province = parseInt(
+                    provinceId == 0
+                        ? null
+                        : provinceId
+                );
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        let tmpHospitalList = resp.data.object;
+                        for (let item of tmpHospitalList) {
+                            if (item.id == hospitalId) {
+                                attribution += item.orgName;
+                                // console.log(attribution);
+                                // return attribution;
+                                resolve(attribution);
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            } else {
+                if (provinceId) {
+                    let tmpProvinceList = this.$store.getters.getProvinceList;
+                    for (let item of tmpProvinceList) {
+                        if (item.value == provinceId) {
+                            attribution += item.name;
+                        }
+                    }
+                }
+                if (cityId) {
+                    let tmpCityList = this.$store.getters.getCityList(
+                        provinceId
+                    );
+                    for (let item of tmpCityList) {
+                        if (item.id == cityId) {
+                            attribution += "&nbsp;&nbsp;" + item.name;
+                        }
+                    }
+                }
+                if (areaId) {
+                    let tmpAreaList = this.$store.getters.getAreaList(
+                        cityId
+                    );
+                    for (let item of tmpAreaList) {
+                        if (item.id == areaId) {
+                            attribution += "&nbsp;&nbsp;" + item.name;
+                        }
+                    }
+                }
+                // return attribution;
+                resolve(attribution);
+            }
         }
     }
 };

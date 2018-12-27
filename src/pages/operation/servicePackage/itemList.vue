@@ -33,9 +33,9 @@
                     >{{item.orgName}}</Option>
                 </Select>
                 <span>服务项名称</span>
-                <Input class="w-input" v-model="searchKey" placeholder="请输入服务包名称"/>
+                <Input class="w-input" v-model="searchKey" placeholder="请输入服务项名称"/>
                 <Button type="primary" @click="loadPage(1)">
-                    <Icon type="ios-search" size="14"/>查询
+                    <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
                 </Button>
                 <Button type="warning" @click="goAdd">添加服务项</Button>
                 <Button type="default" @click="goImport">批量导入</Button>
@@ -107,20 +107,11 @@ export default {
                     title: "服务项目归属",
                     key: "attribution",
                     align: "center",
-                    width: 120,
-                    render: (h, params) => {
-                        return h();
-                    }
+                    width: 160
                 },
                 {
                     title: "创建时间",
                     key: "createTime",
-                    align: "center",
-                    width: 120
-                },
-                {
-                    title: "创建机构/者",
-                    key: "createPerson",
                     align: "center",
                     width: 120
                 },
@@ -216,8 +207,7 @@ export default {
     },
     mounted() {
         this.provinceList = this.$store.getters.getProvinceList;
-        let pageNo = this.$route.query.pageNo;
-        pageNo = pageNo ? pageNo : 1;
+        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -274,11 +264,75 @@ export default {
                 .post(api.fdspackageitempage, params)
                 .then(resp => {
                     this.count = resp.data.object.count;
-                    this.dataList = resp.data.object.list;
+                    this.dataList = [];
+                    resp.data.object.list.map((el,i)=>{
+                        let promise = new Promise((resolve, reject) =>{
+                            this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                        });
+                        promise.then(val=>{
+                            el.attribution = val;
+                            this.dataList.push(el)
+                        })
+                    })
                 })
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        getAttribution(resolve,provinceId, cityId, areaId, hospitalId) {
+            let attribution = "";
+            if (hospitalId) {
+                var params = {};
+                params.province = parseInt(
+                    provinceId == 0
+                        ? null
+                        : provinceId
+                );
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        let tmpHospitalList = resp.data.object;
+                        for (let item of tmpHospitalList) {
+                            if (item.id == hospitalId) {
+                                attribution += item.orgName;
+                                resolve(attribution);
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            } else {
+                if (provinceId) {
+                    let tmpProvinceList = this.$store.getters.getProvinceList;
+                    for (let item of tmpProvinceList) {
+                        if (item.value == provinceId) {
+                            attribution += item.name;
+                        }
+                    }
+                }
+                if (cityId) {
+                    let tmpCityList = this.$store.getters.getCityList(
+                        provinceId
+                    );
+                    for (let item of tmpCityList) {
+                        if (item.id == cityId) {
+                            attribution += "&nbsp;&nbsp;" + item.name;
+                        }
+                    }
+                }
+                if (areaId) {
+                    let tmpAreaList = this.$store.getters.getAreaList(
+                        cityId
+                    );
+                    for (let item of tmpAreaList) {
+                        if (item.id == areaId) {
+                            attribution += "&nbsp;&nbsp;" + item.name;
+                        }
+                    }
+                }
+                resolve(attribution);
+            }
         }
     }
 };

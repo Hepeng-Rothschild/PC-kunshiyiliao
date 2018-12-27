@@ -5,13 +5,17 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
-import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload } from 'iview';
 import VueI18n from 'vue-i18n';
 import axios from './plugins/http';
 import cookie from './utils/cookie';
 import commonApi from './api/commonApi';
 // 全局公共样式
 import 'iview/dist/styles/iview.css';
+import 'iview/dist/styles/fonts/ionicons.eot';
+import 'iview/dist/styles/fonts/ionicons.svg';
+import 'iview/dist/styles/fonts/ionicons.ttf';
+import 'iview/dist/styles/fonts/ionicons.woff';
+import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload } from 'iview';
 import './assets/css/base.css';
 
 //注册全局过滤器

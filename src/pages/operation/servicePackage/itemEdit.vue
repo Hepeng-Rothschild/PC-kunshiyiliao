@@ -6,10 +6,10 @@
         <Form ref="formInline" :model="info" :rules="infoRules" inline>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>服务项目类型：
+                    <i class="req-icon"></i>服务项目类型：
                 </Col>
                 <Col :xs="21">
-                    <FormItem prop="nature">
+                    <FormItem prop="nature" v-if="natureList.length>0">
                         <Select class="w-select" v-model="info.nature" @on-change="changeHospital">
                             <Option
                                 v-for="item of natureList"
@@ -22,7 +22,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>服务项目归属：
+                    <i class="req-icon"></i>服务项目归属：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="paytype">
@@ -32,6 +32,7 @@
                             placeholder="省"
                             v-model="info.provinceId"
                         >
+                            <!-- <Option value="0">全国</Option> -->
                             <Option
                                 v-for="item in provinceList"
                                 :value="item.value"
@@ -85,7 +86,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>服务项目名称：
+                    <i class="req-icon"></i>服务项目名称：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="serviceName">
@@ -100,7 +101,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>操作规范：
+                    <i class="req-icon"></i>操作规范：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="serviceDes">
@@ -116,19 +117,19 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>年服务次数：
+                    <i class="req-icon"></i>年服务次数：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="numberYear">
                         <Select class="w-select" v-model="info.numberYear">
-                            <Option v-for="item of numberYear" :value="item">{{item}}/次</Option>
+                            <Option v-for="(item,index) of numberYear" :value="item" :key="index">{{item}}/次</Option>
                         </Select>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>执行机构/医生：
+                    <i class="req-icon"></i>执行机构/医生：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="executingAgency">
@@ -144,7 +145,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>收费标准：
+                    <i class="req-icon"></i>收费标准：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amt">
@@ -154,7 +155,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>实收金额：
+                    <i class="req-icon"></i>实收金额：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amountReceived">
@@ -164,7 +165,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>自付金额：
+                    <i class="req-icon"></i>自付金额：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="residentowncost">
@@ -174,7 +175,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>政府补贴：
+                    <i class="req-icon"></i>政府补贴：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="governmentsubsidycost">
@@ -188,7 +189,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>是否启用：
+                    <i class="req-icon"></i>是否启用：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="packagestatus">
@@ -206,7 +207,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>备注：
+                    <i class="req-icon"></i>备注：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="remarks">
@@ -276,7 +277,7 @@ export default {
     created() {
         this.provinceList = this.$store.getters.getProvinceList;
         let id = parseInt(this.$route.query.id);
-        this.pageNo = parseInt(this.$route.query.pageNo);
+        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
         if (isNaN(id)) {
             this.editTt = `添加服务包`;
         } else {
@@ -359,21 +360,19 @@ export default {
                     let subApi = this.id
                         ? api.fdspackageitemupdate
                         : api.fdspackageiteminsert;
-                    console.log(this.info);
                     let params = {};
                     params.id = this.id ? this.id : null;
-                    console.log("提交保存");
                     params.serviceName = this.info.serviceName;
                     params.residentowncost = this.info.residentowncost;
                     params.governmentsubsidycost = this.info.governmentsubsidycost;
                     params.amt = this.info.amt;
                     params.packagestatus = parseInt(this.info.packagestatus);
                     params.ascription = parseInt(this.info.ascription);
-                    params.hospitalId = this.info.hospitalId;
+                    params.hospitalId = this.info.hospitalId == 0 || this.info.hospitalId == undefined ?"":parseInt(this.info.hospitalId);
                     params.serviceDes = this.info.serviceDes;
-                    params.provinceId = parseInt(this.info.provinceId);
-                    params.cityId = parseInt(this.info.cityId);
-                    params.areaId = parseInt(this.info.areaId);
+                    params.provinceId = this.info.provinceId == 0 || this.info.provinceId == undefined ? "":parseInt(this.info.provinceId);
+                    params.cityId = this.info.cityId == 0 || this.info.cityId == undefined ? "" : parseInt(this.info.cityId);
+                    params.areaId = this.info.areaId == 0 || this.info.areaId == undefined ? "" : parseInt(this.info.areaId);
                     params.remarks = this.info.remarks;
                     params.numberYear = parseInt(this.info.numberYear);
                     params.executingAgency = parseInt(this.info.executingAgency);
