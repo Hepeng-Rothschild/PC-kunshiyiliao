@@ -101,6 +101,13 @@ const searchRoomList = '/operateapi/hospitalselectbyprovincecode'  //根据省�
 const searchRoomSelectAdd = '/operateapi/applyremotinsert'   // 关联远程门诊医院
 const searchCurrentRoom = '/operateapi/applyremotqueryremotelist'  //查询当前医院下关联的远程门诊医院
 
+// 远程门诊类型维护 
+
+const DoctorRemoteClinicTypeList = '/operateapi/outpatientquerylist'    //查询当前医院下远程门诊类型
+const DoctorRemoteClinicTypeAdd  = '/operateapi/outpatientinsert'   //新增远程门诊类型
+const DoctorRemoteClinicTypeSearch = '/operateapi/outpatientquerybyid'  //查找远程门诊详情
+const DoctorRemoteClinicTypeEdit ='/operateapi/outpatientupdate'   //修改远程门诊类型
+
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
 
@@ -255,6 +262,11 @@ export default {
     searchRoomList,
     searchRoomSelectAdd,
     searchCurrentRoom,
+    // 远程门诊类型
+    DoctorRemoteClinicTypeList,
+    DoctorRemoteClinicTypeAdd,
+    DoctorRemoteClinicTypeSearch,
+    DoctorRemoteClinicTypeEdit,
 
     /* ********************************************** */
 
