@@ -8,24 +8,24 @@ Vue.use(Router);
 
 export default new Router({
 	mode: 'hash',
-  	routes: [
+	routes: [
 		{
 			path: '/',
-			meta:{
-				index:0,
-				title:"互联网医院管理系统"
+			meta: {
+				index: 0,
+				title: "互联网医院管理系统"
 			},
-	      	redirect: '/index'
-    	},
+			redirect: '/index'
+		},
 		{
 			path: '/index',
-			name:'home',
-			meta:{
-				index:1,
-				title:"互联网医院管理系统"
+			name: 'home',
+			meta: {
+				index: 1,
+				title: "互联网医院管理系统"
 			},
-			component:()=>import('@/pages/index'),
-			children:[
+			component: () => import('@/pages/index'),
+			children: [
 				//运营端路由
 				operation.reviewList,
 				operation.reviewEdit,
@@ -37,38 +37,38 @@ export default new Router({
 				operation.uploaddemo,
 
 				operation.contentmanagementHome,
-			    operation.contentmanagementAdd,
-			    operation.addClassify,
-			    operation.newClassify,
-			    operation.patientManagement,
-			    operation.operationHome,
-			    operation.homeInfo,
-			    operation.operationNews,
-			    operation.operationExpert,
-			    operation.serviceManagement,
-			    operation.newsEdit,
-			    operation.expertAdd,
-			    operation.managementAdd,
-			    operation.iBanner,
-			    operation.bannerAdd,
-			    operation.iKeshi,
-			    operation.medicineAdd,
-			    operation.medicineEdit,
-			    operation.kDepartment,
-			    operation.bookingofficeEdit,
-			    operation.tKeshi,
-			    operation.departmentsList,
-			    operation.c6,
-			    operation.createdNews,
-			    operation.addBanner,
-			    operation.createNews,
+				operation.contentmanagementAdd,
+				operation.addClassify,
+				operation.newClassify,
+				operation.patientManagement,
+				operation.operationHome,
+				operation.homeInfo,
+				operation.operationNews,
+				operation.operationExpert,
+				operation.serviceManagement,
+				operation.newsEdit,
+				operation.expertAdd,
+				operation.managementAdd,
+				operation.iBanner,
+				operation.bannerAdd,
+				operation.iKeshi,
+				operation.medicineAdd,
+				operation.medicineEdit,
+				operation.kDepartment,
+				operation.bookingofficeEdit,
+				operation.tKeshi,
+				operation.departmentsList,
+				operation.c6,
+				operation.createdNews,
+				operation.addBanner,
+				operation.createNews,
 				operation.d_createdNews,
 				operation.expert_edit,
 				// 远程 门诊
 				operation.remoteClinic,
 				operation.remoteClinicEdit,
 				operation.remoteClinicRoom,
-				
+
 				operation.doctorServerManageList,
 				operation.doctorServerManageEdit,
 				// 医生端运营内容管理
@@ -88,21 +88,29 @@ export default new Router({
 				operation.servicePackageItemList,
 				operation.servicePackageItemAdd,
 				operation.servicePackageItemEdit,
-				
+				// 远程门诊
+				operation.DoctorRemoteclinicList,
+				operation.DoctorRemoteclinicEdit,
+				operation.DoctorRemoteclinicAdd,
+				// 远程门诊类型维护
+				operation.doctorremoteClinicTypeList,
+				operation.doctorremoteClinicTypeAdd,
+				operation.doctorremoteClinicTypeEdit,
+
 				//运维端路由
-				maintain.residentRegisterList,					
+				maintain.residentRegisterList,
 				maintain.doctorRegisterList,
 				maintain.doctorRegisterBatchOne,
 				maintain.doctorRegisterBatchTwo,
 				maintain.doctorRegisterBatchThree,
-					// 机构注册信息
+				// 机构注册信息
 				maintain.mechanismregList,
 				maintain.mechanismregAdd,
 				maintain.mechanismregEdit,
 				maintain.mechanismregBatchOne,
 				maintain.mechanismregBatchTwo,
 				maintain.mechanismregBatchThree,
-					//系统管理
+				//系统管理
 				maintain.adminList,
 				maintain.adminAdd,
 				maintain.adminReset,
@@ -112,33 +120,33 @@ export default new Router({
 				maintain.diseaseEdit,
 				maintain.symptomList,
 				maintain.symptomEdit,
-				
+
 				//字典管理
-    			maintain.dictionary,
+				maintain.dictionary,
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由
 				supervision.reviewList,
-				
+
 			]
 		},
 		{
 			path: '/login',
-			name:'login',
-			meta:{
-				index:1,
-				title:"登陆"
+			name: 'login',
+			meta: {
+				index: 1,
+				title: "登陆"
 			},
-			component:()=>import('@/pages/login')
+			component: () => import('@/pages/login')
 		},
-  		{
-		    path: '*',
+		{
+			path: '*',
 			name: '404',
-			meta:{
-				index:1,
-				title:"404 NOT FOUND"
+			meta: {
+				index: 1,
+				title: "404 NOT FOUND"
 			},
-	      	component: () => import(/* webpackChunkName: 'not-found' */'@/pages/404')
+			component: () => import(/* webpackChunkName: 'not-found' */'@/pages/404')
 		}
-  	]
+	]
 });

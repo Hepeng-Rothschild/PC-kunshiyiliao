@@ -132,7 +132,7 @@ export default {
   },
   methods: {
     change(status) {
-      this.$Message.info("开关状态：" + status);
+      // this.$Message.info("开关状态：" + status);
     },
     back () {
       let pageNo = this.$route.params.pageNo;
@@ -144,10 +144,6 @@ export default {
       })
     },
     save() {
-      let sum = 0;
-      if (this.switch1) {
-        sum = 1;
-      }
 	  let images = "";
 		// 上传
       if (this.images != "") {
@@ -165,7 +161,7 @@ export default {
         bannerUrl: this.lianjie,
         priority: this.isort,
         id: this.$route.params.id,
-        enable: sum,
+        enable: Number(this.switch1),
         imageUrl: images
       };
       // console.log(params);
@@ -247,14 +243,10 @@ export default {
         .then(res => {
           let ret = res.data.object;
           if (ret) {
-            let ishow = true;
-            if (ret.enable == 0) {
-              ishow = false;
-            }
             this.title = ret.bannerName;
             this.lianjie = ret.bannerUrl;
             this.isort = ret.priority;
-            this.iswitch1 = ishow;
+            this.switch1 = Boolean(ret.enable);
             //图片
             if (ret.imageUrl) {
               this.sourceImages = ret.imageUrl;

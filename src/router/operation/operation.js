@@ -1,75 +1,75 @@
 const reviewList = {
-    path:'operation/doctorreview/list',
-    name:'reviewlist',
-    meta:{
-        index:2,
-        title:'医生列表'
-    },
-    component:()=>import("@/pages/operation/doctorReview/list")
+	path: 'operation/doctorreview/list',
+	name: 'reviewlist',
+	meta: {
+		index: 2,
+		title: '医生列表'
+	},
+	component: () => import("@/pages/operation/doctorReview/list")
 }
 const reviewEdit = {
-    path:'operation/doctorreview/edit',
-    name:'reviewedit',
-    meta:{
-        index:3,
-        title:'医生信息编辑'
-    },
-    component:()=>import("@/pages/operation/doctorReview/edit")
+	path: 'operation/doctorreview/edit',
+	name: 'reviewedit',
+	meta: {
+		index: 3,
+		title: '医生信息编辑'
+	},
+	component: () => import("@/pages/operation/doctorReview/edit")
 }
 const reviewreview = {
-    path:'operation/doctorreview/review',
-    name:'reviewreview',
-    meta:{
-        index:3,
-        title:'医生认证审核'
-    },
-    component:()=>import("@/pages/operation/doctorReview/review")
+	path: 'operation/doctorreview/review',
+	name: 'reviewreview',
+	meta: {
+		index: 3,
+		title: '医生认证审核'
+	},
+	component: () => import("@/pages/operation/doctorReview/review")
 }
 const registerList = {
-    path:'operation/register/list',
-    name:'registerlist',
-    meta:{
-        index:2,
-        title:'医生排班列表'
-    },
-    component:()=>import("@/pages/operation/register/list")
+	path: 'operation/register/list',
+	name: 'registerlist',
+	meta: {
+		index: 2,
+		title: '医生排班列表'
+	},
+	component: () => import("@/pages/operation/register/list")
 }
 const registerEdit = {
-    path:'operation/register/edit',
-    name:'registeredit',
-    meta:{
-        index:3,
-        title:'添加医生挂号信息'
-    },
-    component:()=>import("@/pages/operation/register/edit")
+	path: 'operation/register/edit',
+	name: 'registeredit',
+	meta: {
+		index: 3,
+		title: '添加医生挂号信息'
+	},
+	component: () => import("@/pages/operation/register/edit")
 }
 const registerDetail = {
-    path:'operation/register/detail',
-    name:'registerdetail',
-    meta:{
-        index:3,
-        title:'预约挂号详情'
-    },
-    component:()=>import("@/pages/operation/register/detail")
+	path: 'operation/register/detail',
+	name: 'registerdetail',
+	meta: {
+		index: 3,
+		title: '预约挂号详情'
+	},
+	component: () => import("@/pages/operation/register/detail")
 }
 
 const kindeditorTest = {
-    path:'operation/kindeditor',
-    name:'kindeditor',
-    meta:{
-        index:2,
-        title:'kindeditor demo'
-    },
-    component:()=>import("@/pages/operation/kindeditor")
+	path: 'operation/kindeditor',
+	name: 'kindeditor',
+	meta: {
+		index: 2,
+		title: 'kindeditor demo'
+	},
+	component: () => import("@/pages/operation/kindeditor")
 }
 const uploaddemo = {
-    path:'operation/uploaddemo',
-    name:'uploaddemo',
-    meta:{
-        index:2,
-        title:'uploaddemo'
-    },
-    component:()=>import("@/pages/operation/upload")
+	path: 'operation/uploaddemo',
+	name: 'uploaddemo',
+	meta: {
+		index: 2,
+		title: 'uploaddemo'
+	},
+	component: () => import("@/pages/operation/upload")
 }
 
 //医生端内容管理
@@ -466,6 +466,37 @@ const remoteClinicRoom = {
 	component: () =>
 		import("@/pages/operation/contentmen/remoteClinic/room")
 }
+// 远程门诊类型维护
+const doctorremoteClinicTypeList = {
+	path: 'operation/doctorremoteClinic_list',
+	name: 'doctorremoteClinicTypeList',
+	meta: {
+		index: 3,
+		title: '远程门诊类型'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/doctorremoteClinicType/list")
+}
+const doctorremoteClinicTypeAdd = {
+	path: 'operation/doctorremoteClinic_Add',
+	name: 'doctorremoteClinicTypeAdd',
+	meta: {
+		index: 4,
+		title: '远程门诊类型-添加'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/doctorremoteClinicType/add")
+}
+const doctorremoteClinicTypeEdit = {
+	path: 'operation/doctorremoteClinic_Edit',
+	name: 'doctorremoteClinicTypeEdit',
+	meta: {
+		index: 4,
+		title: '远程门诊类型-编辑'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/doctorremoteClinicType/edit")
+}
 // 医生列表
 const doctorServerManageList = {
 	path: 'operation/doctormanage/list',
@@ -498,6 +529,39 @@ const reservationOrders = {
 	component: () =>
 		import("@/pages/operation/reservationOrders/list")
 }
+// 医生远程门诊
+const DoctorRemoteclinicList = {
+	path: 'operation/remoteclinic/list',
+	name: 'DoctorRemoteclinicList',
+	meta: {
+		index: 2,
+		title: '远程门诊'
+	},
+	component: () =>
+		import("@/pages/operation/remoteclinic/list")
+}
+const DoctorRemoteclinicEdit = {
+	path: 'operation/remoteclinic/edit',
+	name: 'DoctorRemoteclinicEdit',
+	meta: {
+		index: 2,
+		title: '远程门诊-编辑'
+	},
+	component: () =>
+		import("@/pages/operation/remoteclinic/edit")
+}
+
+const DoctorRemoteclinicAdd = {
+	path: 'operation/remoteclinic/add',
+	name: 'DoctorRemoteclinicAdd',
+	meta: {
+		index: 2,
+		title: '远程门诊-新增'
+	},
+	component: () =>
+		import("@/pages/operation/remoteclinic/add")
+}
+
 const servicePackagePList = {
 	path: 'operation/servicePackage/pList',
 	name: 'servicePackagePList',
@@ -559,15 +623,15 @@ const servicePackageItemEdit = {
 		import("@/pages/operation/servicePackage/itemEdit")
 }
 export default {
-    reviewList,
-    reviewEdit,
-    reviewreview,
-    registerList,
-    registerEdit,
-    registerDetail,
+	reviewList,
+	reviewEdit,
+	reviewreview,
+	registerList,
+	registerEdit,
+	registerDetail,
 	kindeditorTest,
 	uploaddemo,
-    //机构运营
+	//机构运营
 	contentmanagementHome,
 	contentmanagementAdd,
 	addClassify,
@@ -602,6 +666,11 @@ export default {
 	remoteClinic,
 	remoteClinicEdit,
 	remoteClinicRoom,
+	// 远程门诊类型维护
+	doctorremoteClinicTypeList,
+	doctorremoteClinicTypeAdd,
+	doctorremoteClinicTypeEdit,
+
 	// 医生端内容管理
 	doctorContentCheckList,
 	doctorContentCheckListHelAdd,
@@ -612,7 +681,7 @@ export default {
 	doctorContentCheckListHotEdit,
 	//订单管理
 	reservationOrders,
-	//服务包管理
+	//服务包管理f
 	servicePackagePList,
 	servicePackagePAdd,
 	servicePackagePEdit,
@@ -620,4 +689,10 @@ export default {
 	servicePackageItemList,
 	servicePackageItemAdd,
 	servicePackageItemEdit,
+	// 远程门诊
+	DoctorRemoteclinicList,
+	DoctorRemoteclinicEdit,
+	DoctorRemoteclinicAdd,
+
+
 }

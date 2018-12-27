@@ -96,6 +96,11 @@ const getDepartment = '/operateapi/organizationselectdeptlist'  //查看科室�
 const departmentDetail = '/operateapi/organizationquerydepbyid' //查看科室详情
 const departmentChange = '/operateapi/organizationupdateappointmentdept' //修改预约科室详情
 
+// 远程门诊
+const searchRoomList = '/operateapi/hospitalselectbyprovincecode'  //根据省份和医院名模糊查询
+const searchRoomSelectAdd = '/operateapi/applyremotinsert'   // 关联远程门诊医院
+const searchCurrentRoom = '/operateapi/applyremotqueryremotelist'  //查询当前医院下关联的远程门诊医院
+
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
 
@@ -158,17 +163,11 @@ const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传�
 //订单管理
 const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
 
-//服务项目管理
-const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项目列表
-const fdspackageiteminsert ='/operateapi/fdspackageiteminsert';  //新增服务项目
-const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项目详情
-const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项目
-//服务包管理
-const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增服务包
-const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
-const servicepackageselectbyid ='/operateapi/servicepackageselectbyid';  //服务包详情
-//通过省份ID查询医院列表
-const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
+//服务项管理
+const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项列表
+const fdspackageiteminsert ='/operateapi/fdspackageitempage';  //新增服务项
+const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项详情
+const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项
 
 export default {
     login,
@@ -252,6 +251,11 @@ export default {
     getDepartment,
     departmentDetail,
     departmentChange,
+    // 远程门诊
+    searchRoomList,
+    searchRoomSelectAdd,
+    searchCurrentRoom,
+
     /* ********************************************** */
 
     //运维端
@@ -305,20 +309,9 @@ export default {
     updateSymptomInfo,
     insertSymptom,
     selectSymptomInfo,
+
     downloadTxt,
 
     //订单管理
-    orderManageAppointRegistList,
-
-    //服务项管理
-    fdspackageitempage,
-    fdspackageiteminsert,
-    fdspackageitemselectbyid,
-    fdspackageitemupdate,
-    //服务包管理
-    servicepackagepage,
-    servicepackageinsert,
-    servicepackageselectbyid,
-    
-    hospitalselectbyprovincecode,
+    orderManageAppointRegistList
 }

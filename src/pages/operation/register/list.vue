@@ -1,8 +1,8 @@
 <template>
   <div class="doctorreviewlist">
+    <tempHeader />
     <Row>
       <Col :xs="24">
-        <Button type="primary" @click="addDoc">添加医生挂号信息</Button>
         <br>
         <Select class="w-select" v-model="city">
           <Option value="0">全国</Option>
@@ -23,6 +23,7 @@
         <Button type="primary" @click="loadPage(1)">
           <Icon type="ios-search" size="14"/>查询
         </Button>
+        <Button type="primary" @click="addDoc">添加医生挂号信息</Button>
       </Col>
     </Row>
     <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
@@ -40,6 +41,7 @@
 <script>
 import { Select, Option } from "iview";
 import api from "@/api/commonApi";
+import tempHeader from '@/components/tmpHeader'
 export default {
   data() {
     return {
@@ -158,7 +160,8 @@ export default {
   },
   components: {
     Select,
-    Option
+    Option,
+    tempHeader
   },
   mounted() {
     let pageNo = this.$route.query.pageNo
