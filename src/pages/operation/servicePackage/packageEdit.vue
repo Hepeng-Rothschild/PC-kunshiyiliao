@@ -29,7 +29,6 @@
                             v-model="info.packagestatus"
                             :true-value="1"
                             :false-value="0"
-                            @on-change="change"
                         >
                             <span slot="open">是</span>
                             <span slot="close">否</span>

@@ -4,9 +4,9 @@
       <li>
         <router-link to="/index/operation/register/list">医生排班列表</router-link>
       </li>
-      <li>
+      <!-- <li>
         <router-link to="/index/operation/remoteclinic/list">远程门诊排班</router-link>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>

@@ -76,7 +76,6 @@
                             :true-value="1"
                             :false-value="0"
                             size="large"
-                            @on-change="change"
                         >
                             <span slot="open">公有</span>
                             <span slot="close">私有</span>
