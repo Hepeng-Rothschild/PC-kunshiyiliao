@@ -168,6 +168,7 @@ const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项目列�
 const fdspackageiteminsert ='/operateapi/fdspackageiteminsert';  //新增服务项目
 const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项目详情
 const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项目
+const fdspackageiteminsertbatch ='/operateapi/fdspackageiteminsertbatch';  //服务项目导入
 //服务包管理
 const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增/修改服务包
 const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
@@ -337,10 +338,11 @@ export default {
     fdspackageiteminsert,
     fdspackageitemselectbyid,
     fdspackageitemupdate,
-//服务包管理
+    fdspackageiteminsertbatch,
+    //服务包管理
     servicepackageinsert,
     servicepackagepage,
     servicepackageselectbyid,
-//通过省份ID查询医院列表
+    //通过省份ID查询医院列表
     hospitalselectbyprovincecode,
 }

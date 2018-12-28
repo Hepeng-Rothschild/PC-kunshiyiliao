@@ -38,7 +38,7 @@
                     <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
                 </Button>
                 <Button type="warning" @click="goAdd">添加服务项</Button>
-                <Button type="default" @click="goImport">批量导入</Button>
+                <!-- <Button type="default" @click="goImport">批量导入</Button> -->
             </Col>
         </Row>
         <Table class="m-table" :columns="columns" :data="dataList"></Table>
@@ -70,12 +70,12 @@ export default {
                     key: "iNum",
                     align: "center",
                     width: 60,
-                    render: (h,params) => {
-                        return h("span",{
-                            domProps:{
-                                innerHTML:params.row._index+1
+                    render: (h, params) => {
+                        return h("span", {
+                            domProps: {
+                                innerHTML: params.row._index + 1
                             }
-                        })
+                        });
                     }
                 },
                 {
@@ -150,19 +150,19 @@ export default {
                     key: "packagestatus",
                     align: "center",
                     width: 90,
-                    render:(h,params)=>{
+                    render: (h, params) => {
                         let packagestatus = params.row.packagestatus;
                         let text = "";
-                        if(packagestatus == 1){
+                        if (packagestatus == 1) {
                             text = "启用";
-                        }else{
+                        } else {
                             text = "禁用";
                         }
-                        return h("span",{
-                            domProps:{
-                                innerHTML:text
+                        return h("span", {
+                            domProps: {
+                                innerHTML: text
                             }
-                        })
+                        });
                     }
                 },
                 {
@@ -207,7 +207,9 @@ export default {
     },
     mounted() {
         this.provinceList = this.$store.getters.getProvinceList;
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -237,16 +239,22 @@ export default {
         },
         goAdd() {
             this.$router.push({
-                path: "/index/operation/servicePackage/itemAdd"
+                path: "/index/operation/servicePackage/itemAdd",
+                query: { pageNo: this.pageNo }
             });
         },
         goEdit(id) {
             this.$router.push({
                 path: "/index/operation/servicePackage/itemEdit",
-                query: { id }
+                query: { id, pageNo: this.pageNo }
             });
         },
-        goImport() {},
+        goImport() {
+            this.$router.push({
+                path: "/index/operation/servicePackage/itemImportOne",
+                query: { pageNo: this.pageNo }
+            });
+        },
         //加载列表数据
         loadPage(pageNo) {
             this.pageNo = pageNo;
@@ -256,7 +264,11 @@ export default {
             );
             params.city = parseInt(this.city == 0 ? null : this.city);
             params.area = parseInt(this.area == 0 ? null : this.area);
-            params.hospitalId = parseInt(this.hospitalId == 0 || this.hospitalId == "" ? null : this.hospitalId);
+            params.hospitalId = parseInt(
+                this.hospitalId == 0 || this.hospitalId == ""
+                    ? null
+                    : this.hospitalId
+            );
             params.searchKey = this.searchKey == "" ? null : this.searchKey;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
@@ -265,29 +277,53 @@ export default {
                 .then(resp => {
                     this.count = resp.data.object.count;
                     this.dataList = [];
-                    resp.data.object.list.map((el,i)=>{
-                        let promise = new Promise((resolve, reject) =>{
-                            this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                    resp.data.object.list.map((el, i) => {
+                        /* 这儿注释代码不许删除掉 */
+                        // let promise = new Promise((resolve, reject) =>{
+                        //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                        // });
+                        // promise.then(val=>{
+                        //     el.attribution = val;
+                        //     this.dataList.push(el)
+                        // })
+                        let promise = new Promise((resolve, reject) => {
+                            this.attribution(resolve, el);
                         });
-                        promise.then(val=>{
+                        promise.then(val => {
                             el.attribution = val;
-                            this.dataList.push(el)
-                        })
-                    })
+                            this.dataList.push(el);
+                        });
+                    });
                 })
                 .catch(err => {
                     console.log(err);
                 });
         },
-        getAttribution(resolve,provinceId, cityId, areaId, hospitalId) {
+        attribution(resolve, opt) {
+            let attribution = "";
+            if (opt.hospitalId) {
+                attribution += opt.belong;
+            } else {
+                if (opt.provinceId) {
+                    attribution += opt.province;
+                    if (opt.cityId) {
+                        let pat = new RegExp(opt.province);
+                        !pat.test(opt.city) &&
+                            (attribution += "&nbsp;&nbsp;" + opt.city);
+                        if (opt.areaId) {
+                            attribution += "&nbsp;&nbsp;" + opt.area;
+                        }
+                    }
+                }
+            }
+            resolve(attribution);
+        },
+        /* getAttribution 函数不许删除 */
+        getAttribution(resolve, provinceId, cityId, areaId, hospitalId) {
             let attribution = "";
             if (hospitalId) {
                 var params = {};
-                params.province = parseInt(
-                    provinceId == 0
-                        ? null
-                        : provinceId
-                );
+                params.province = parseInt(provinceId == 0 ? null : provinceId);
                 this.$axios
                     .post(api.hospitalselectbyprovincecode, params)
                     .then(resp => {
@@ -322,9 +358,7 @@ export default {
                     }
                 }
                 if (areaId) {
-                    let tmpAreaList = this.$store.getters.getAreaList(
-                        cityId
-                    );
+                    let tmpAreaList = this.$store.getters.getAreaList(cityId);
                     for (let item of tmpAreaList) {
                         if (item.id == areaId) {
                             attribution += "&nbsp;&nbsp;" + item.name;

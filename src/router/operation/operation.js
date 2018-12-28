@@ -633,6 +633,36 @@ const servicePackageItemEdit = {
 	component: () =>
 		import("@/pages/operation/servicePackage/itemEdit")
 }
+const servicePackageItemImportOne = {
+	path: 'operation/servicePackage/itemImportOne',
+	name: 'servicePackageItemImportOne',
+	meta: {
+		index: 3,
+		title: '服务项批量导入'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/itemImportOneStep")
+}
+const servicePackageItemImportTwo = {
+	path: 'operation/servicePackage/itemImportTwo',
+	name: 'servicePackageItemImportTwo',
+	meta: {
+		index: 3,
+		title: '服务项批量导入'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/itemImportTwoStep")
+}
+const servicePackageItemImportThree = {
+	path: 'operation/servicePackage/itemImportThree',
+	name: 'servicePackageItemImportThree',
+	meta: {
+		index: 3,
+		title: '服务项批量导入'
+	},
+	component: () =>
+		import("@/pages/operation/servicePackage/itemImportThreeStep")
+}
 export default {
 	reviewList,
 	reviewEdit,
@@ -702,6 +732,9 @@ export default {
 	servicePackageItemList,
 	servicePackageItemAdd,
 	servicePackageItemEdit,
+	servicePackageItemImportOne,
+	servicePackageItemImportTwo,
+	servicePackageItemImportThree,
 	// 远程门诊
 	DoctorRemoteclinicList,
 	DoctorRemoteclinicEdit,

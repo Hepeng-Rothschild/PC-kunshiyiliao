@@ -6,7 +6,7 @@
         <Form ref="formInline" :model="info" :rules="infoRules" inline>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>服务包名称：
+                    <i class="req-icon">*</i>服务包名称：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="itemName">
@@ -250,7 +250,7 @@ export default {
                 hospitalId: null,
                 id: null,
                 packageItemsIds: null,
-                provinceId: "0",
+                provinceId: "1",
                 packagestatus: 1,
                 ascription: 1
             },
@@ -273,7 +273,15 @@ export default {
             area: "0",
             hospitalId: "",
 
-            infoRules: {},
+            infoRules: {
+                itemName:[
+                    {
+                        required: true,
+                        message: "服务包名称不能为空",
+                        trigger: "blur"
+                    }
+                ]
+            },
             switch1: false,
             searchKey: null,
 
@@ -392,6 +400,11 @@ export default {
         this.tabList = this.healthEducationSontab;
         if (isNaN(id)) {
             this.editTt = `添加服务包`;
+            if (this.info.provinceId) {
+                this.cityList = this.$store.getters.getCityList(
+                    this.info.provinceId
+                );
+            }
         } else {
             this.editTt = `修改服务包`;
             this.id = id;
@@ -403,19 +416,18 @@ export default {
                         for(let item of this.info.packageItems){
                             this.selData.push({id:item.id,serviceName:item.serviceName})
                         }
-
                         this.info.provinceId = String(this.info.provinceId);
-                        if (this.info.cityId) {
+                        if (this.info.provinceId) {
                             this.cityList = this.$store.getters.getCityList(
                                 this.info.provinceId
                             );
                         }
-                        if (this.info.areaId) {
+                        if (this.info.cityId) {
                             this.areaList = this.$store.getters.getAreaList(
                                 this.info.cityId
                             );
                         }
-                        if (this.info.hospitalId) {
+                        if (this.info.areaId) {
                             var params = {};
                             params.province = parseInt(
                                 this.info.provinceId == 0
@@ -555,13 +567,12 @@ export default {
                     console.log(err);
                 });
         },
-        change(status) {
-            this.$Message.info("开关状态：" + status);
-        },
         changeProvince() {
             this.info.cityId = "0";
             this.info.areaId = "0";
+            this.areaList = [];
             this.info.hospitalId = "0";
+            this.hospitalList = [];
             this.cityList = this.$store.getters.getCityList(
                 this.info.provinceId
             );
@@ -569,6 +580,7 @@ export default {
         changeCity() {
             this.info.areaId = "0";
             this.info.hospitalId = "0";
+            this.hospitalList = [];
             this.areaList = this.$store.getters.getAreaList(this.info.cityId);
         },
         changeArea() {
@@ -589,6 +601,9 @@ export default {
         submit(name) {
             this.$refs[name].validate(valid => {
                 if (valid) {
+                    if(this.selData.length<=0){
+                        this.$Message.error("已选服务项目不能为空")
+                    }
                     let msg = this.id ? "修改" : "添加";
                     let params = {};
                     params.id = this.id ? this.id : null;
