@@ -22,6 +22,7 @@ export default {
             columns: [
                 { title: "序号", key: "iNum", align: "center" },
                 { title: "医生姓名", key: "doctorName", align: "center" },
+                { title: "所在医院", key: "hospitalName", align: "center" },
                 { title: "科室", key: "deptType", align: "center" },
                 { title: "职称", key: "title", align: "center" },
                 { title: "联系电话", key: "phone", align: "center" },
