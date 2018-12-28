@@ -26,6 +26,8 @@ const registerDoctorInsert = "/operateapi/registerinsertdoctorappointment"; //�
 const doctorRomteclinicAdd = '/operateapi/remotedoctorinsert'  //新增远程门诊医生排班
 const doctorRomteclinicEdit = '/operateapi/remotedoctorupdate' //编辑远程门诊医生排班详情
 const doctorRomteclinicSearchExpert = '/operateapi/remotedoctorselectremotedoctorlist'  //专家查找
+const doctorRomteclinicList ='/operateapi/remotedoctorpageremotedoctor' //远程门诊医生列表
+const doctorRomteclinicDetail='/operateapi/remotedoctorselectoutpatientdoctorscheduling' //查询远程门诊医生详情
 
 // 机构管理
 const management = '/operateapi/hospitalqueryhospitaloperatelist'  //机构管理医院列表
@@ -212,6 +214,8 @@ export default {
     doctorRomteclinicAdd,
     doctorRomteclinicEdit,
     doctorRomteclinicSearchExpert,
+    doctorRomteclinicList,
+    doctorRomteclinicDetail,
 
     /* ********************************************** */
     

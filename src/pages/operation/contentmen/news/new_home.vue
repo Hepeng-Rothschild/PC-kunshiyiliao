@@ -115,6 +115,7 @@ export default {
       let flag = localStorage.getItem("status");
       if (!Boolean(flag)) {
         this.$Message.info("您还没有开通互联网医院,去开通");
+        sessionStorage.setItem("homeIndex", 0);
         this.flag = true;
         setTimeout(() => {
           this.$router.push({

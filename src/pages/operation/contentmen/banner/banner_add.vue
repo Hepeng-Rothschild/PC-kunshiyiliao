@@ -268,12 +268,12 @@ export default {
   background: #fff;
   .i_addBanner_main {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: column;
     h3 {
       padding-left: 6px;
-      border-left: 2px solid blue;
+      border-left: 2px solid skyblue;
     }
     .main_title {
       width: 80%;

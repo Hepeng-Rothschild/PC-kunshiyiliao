@@ -11,7 +11,7 @@
       <!-- 医院名称 -->
       <!-- <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
         <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
-      </Select> -->
+      </Select>-->
       <!-- 检索的医院名称 -->
       <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'"/>
       <!-- 职称 -->
@@ -21,7 +21,7 @@
           :value="item.dictType"
           :key="item.dictType"
         >{{item.dictName}}</Option>
-      </Select> -->
+      </Select>-->
       <!-- 查询 -->
       <Button type="primary" class="primary" @click="search">
         <Icon type="ios-search" size="14"/>查询
@@ -41,27 +41,48 @@
           <td>启用标示</td>
           <td>操作</td>
         </tr>
-
-        <tr v-for = 'item,index in list' v-show = 'list.length'>
-          <td>{{ item.sum }}</td>
-          <td>{{ item.name }}</td>
-          <td>科室</td>
-          <td @click="showModel" style="cursor:pointer;">
-            <p>上午:门诊时间</p>
-            <p>下午:门诊时间</p>
+        <tr v-for="item,index in list" v-show="list.length">
+          <td>{{ index+1 }}</td>
+          <td>{{ item.doctorName }}</td>
+          <td>{{ item.deptName }}</td>
+          <td @click="showModel(item)" style="cursor:pointer;">
+            <p
+              v-show="item.intervalTimeAmStart && item.intervalTimeAmEnd"
+            >上午:{{ item.intervalTimeAmStart + '-' +item.intervalTimeAmEnd }}</p>
+            <p
+              v-show="item.intervalTimePmStart && item.intervalTimeAmEnd"
+            >下午:{{ item.intervalTimePmStart + '-' +item.intervalTimeAmEnd }}</p>
           </td>
-          <td>7</td>
-          <td>启用</td>
-          <!-- <td style = 'color:red;'>停用</td> -->
-          <td style="cursor:pointer;" @click="edit()">编辑</td>
+          <td>{{ item.cycleDay }}</td>
+          <td v-show="item.iremote==1">启用</td>
+          <td style="color:red;" v-show="item.iremote==0">停用</td>
+          <td style="cursor:pointer;" @click="edit(item)">编辑</td>
         </tr>
       </table>
-      <div class="nodata"  v-show = '!list.length'>暂无更多数据</div>
+      <div class="nodata" v-show="!list.length">暂无更多数据</div>
     </div>
     <Modal v-model="modal1" title="远程门诊时间">
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
+      <p
+        v-show="currentData.oneAm && currentData.onePm"
+      >周一：{{ currentData.oneAm +'-'+ currentData.onePm}}</p>
+      <p
+        v-show="currentData.twoAm && currentData.twoPm"
+      >周二：{{ currentData.twoAm +'-'+ currentData.twoPm}}</p>
+      <p
+        v-show="currentData.threeAm && currentData.threePm"
+      >周三：{{ currentData.threeAm +'-'+ currentData.threePm}}</p>
+      <p
+        v-show="currentData.fourAm && currentData.fourPm"
+      >周四：{{ currentData.fourAm +'-'+ currentData.fourPm}}</p>
+      <p
+        v-show="currentData.fiveAm && currentData.fivePm"
+      >周五：{{ currentData.fiveAm +'-'+ currentData.fivePm}}</p>
+      <p
+        v-show="currentData.sixAm && currentData.sixPm"
+      >周六：{{ currentData.sixAm +'-'+ currentData.sixPm}}</p>
+      <p
+        v-show="currentData.sevenAm && currentData.sevenPm"
+      >周天：{{ currentData.sevenAm +'-'+ currentData.sevenPm}}</p>
     </Modal>
     <div class="total">
       <Page :total="remoteClinicLength" :current="pageNo" @on-change="change"/>
@@ -95,25 +116,28 @@ export default {
       titleList: "",
       modal1: false,
       modelList: [],
-      list: [
-        {
-          sum: "01",
-          name:"赵虎"
-        }
-      ]
+      currentData: [],
+      list: []
     };
   },
   mounted() {
     this.getInfoData();
+    this.getDoctorList(1);
   },
   methods: {
     // 显示model
-    showModel() {
+    showModel(item) {
       this.modal1 = true;
+      this.currentData = item;
     },
     // 页码改变
     change(index) {
       this.pageNo = index;
+      if (this.searchKey != "") {
+        this.getDoctorList(1, this.city, this.searchKey);
+      } else {
+        this.getDoctorList(index);
+      }
     },
     changeSearchType(val) {
       if (val == 1) {
@@ -150,23 +174,41 @@ export default {
       //   })
     },
     // 修改
-    edit() {
+    edit(item) {
       this.$router.push({
-        name: "DoctorRemoteclinicEdit"
+        name: "DoctorRemoteclinicEdit",
+        params: {
+          id: item.id
+        }
       });
     },
     search() {
       let params = {
-        // 医院/医生名称
-        searchType: this.searchType,
-        // 区域
         city: this.city,
         // 医院/医生名称
-        searchKey: this.searchKey,
-        // 职称
-        dictType: this.dictType
+        searchKey: this.searchKey
       };
-      console.log(params);
+      this.getDoctorList(1, this.city, this.searchKey);
+    },
+    getDoctorList(pageNo, provinceId, searchKey) {
+      let params = {
+        pageNo,
+        pageSize: 10
+      };
+      if (provinceId != "") {
+        params.provinceId = provinceId;
+      }
+      if (searchKey != "") {
+        params.searchKey = searchKey;
+      }
+      this.$axios.post(api.doctorRomteclinicList, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.remoteClinicLength = ret.count;
+          this.list = ret.list;
+          console.log(res);
+        }
+      });
     }
   }
 };

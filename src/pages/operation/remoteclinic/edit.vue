@@ -7,14 +7,14 @@
       <!-- 添加接诊医生  -->
       <!-- <Button type="primary" class="primary" @click="modal1=true">
         <Icon type="ios-search" size="14"/>添加接诊医生
-      </Button> -->
+      </Button>-->
       <div class="doctor">
         <!-- 医院 -->
-        <span>{{ selectExpert.hospital }}</span>
+        <span>{{ selectExpert.hospitalName }}</span>
         <!-- 科室 -->
-        <span>{{ selectExpert.deparment }}</span>
+        <span>{{ selectExpert.deptName }}</span>
         <!-- 医生姓名 -->
-        <span>{{ selectExpert.name }}</span>
+        <span>{{ selectExpert.doctorName }}</span>
       </div>
       <!-- 选择专家 -->
       <!-- <Modal v-model="modal1" title="选择专家">
@@ -30,7 +30,7 @@
             <Page :total="expertSize" :current="expertNo"/>
           </div>
         </div>
-      </Modal> -->
+      </Modal>-->
       <!-- 远程门诊类型 -->
       <div class="item">
         <div class="item-text">
@@ -106,25 +106,25 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.one_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.oneAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.two_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.twoAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.three_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.threeAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.four_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fourAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.five_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fiveAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.six_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sixAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.seven_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sevenAm"></InputNumber>
             </td>
           </tr>
           <tr>
@@ -141,25 +141,25 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.one_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.onePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.two_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.twoPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.three_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.threePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.four_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fourPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.five_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fivePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.six_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sixPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.seven_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sevenPm"></InputNumber>
             </td>
           </tr>
         </table>
@@ -237,42 +237,36 @@ export default {
       // 一周号源
       params: {
         // 周一
-        one_am: null,
-        one_pm: null,
+        oneAm: null,
+        onePm: null,
         // 周二
-        two_am: null,
-        two_pm: null,
+        twoAm: null,
+        twoPm: null,
         // 周三
-        three_am: null,
-        three_pm: null,
+        threeAm: null,
+        threePm: null,
         // 周四
-        four_am: null,
-        four_pm: null,
+        fourAm: null,
+        fourPm: null,
         // 周五
-        five_am: null,
-        five_pm: null,
+        fiveAm: null,
+        fivePm: null,
         // 周六
-        six_am: null,
-        six_pm: null,
+        sixAm: null,
+        sixPm: null,
         // 周天
-        seven_am: null,
-        seven_pm: null
+        sevenAm: null,
+        sevenPm: null
       },
       // 医院ID
       id: 82,
       selectExpert: {},
-      expertList: [
-        {
-          hospital: "蚌埠中医院",
-          deparment: "内科",
-          name: "李正兰",
-          host: "主任医师"
-        }
-      ]
+      expertList: []
     };
   },
   mounted() {
     this.getRemoteClinic();
+    this.getDetail(this.$route.params.id);
   },
   methods: {
     //  取消,后退 上一次
@@ -304,9 +298,10 @@ export default {
       params.intervalTimePmStart = this.value3[0];
       params.intervalTimePmEnd = this.value3[1];
       // 医生id
-      params.doctorId = 92;
+      params.doctorId = this.selectExpert.doctorId;
       // 医院ID
-      params.hospitalId = 88;
+      params.hospitalId = this.selectExpert.hospitalId;
+      params.id = this.selectExpert.id;
       if (this.searchType == -1) {
         this.$Message.info("请选择远程门诊类型");
       } else if (this.time < 0) {
@@ -318,7 +313,12 @@ export default {
         this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
           console.log(res);
           if (res.data.code) {
-            this.$Message.info("修改成功");
+            this.$Message.info(res.data.message);
+            setTimeout(() => {
+              this.$router.push({
+                name: "DoctorRemoteclinicList"
+              });
+            }, 800);
           }
         });
       }
@@ -348,6 +348,64 @@ export default {
             this.searchTypeList = ret;
           }
         });
+    },
+    getDetail(id) {
+      this.$axios.post(api.doctorRomteclinicDetail, { id }).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          console.log(ret);
+          // 远程门诊类型
+          this.searchType = ret.outpatintTypeId;
+          // 门诊时长
+          this.time = ret.outpatientTime;
+          // 门诊周期
+          this.cycle = ret.cycleDay;
+          // 备注
+          this.text_info = ret.remarks;
+          // 上午间隔时间
+          this.value2.push(ret.intervalTimeAmStart);
+          this.value2.push(ret.intervalTimeAmEnd);
+          // 下午间隔时间
+          this.value3.push(ret.intervalTimePmStart);
+          this.value3.push(ret.intervalTimePmEnd);
+          // 科室
+          this.selectExpert.doctorName = ret.doctorName;
+          // 医院名字
+          this.selectExpert.hospitalName = ret.hospitalName;
+          // 医生姓名
+          this.selectExpert.deptName = ret.deptName;
+
+          // 医院id
+          this.selectExpert.hospitalId = ret.hospitalId;
+          // 医生id
+          this.selectExpert.id = ret.id;
+
+          this.selectExpert.doctorId = ret.doctorId;
+
+          // 号源
+          // 周一
+          this.params.oneAm = ret.oneAm;
+          this.params.onePm = ret.onePm;
+          // 周二
+          this.params.twoAm = ret.twoAm;
+          this.params.twoPm = ret.twoPm;
+
+          this.params.threeAm = ret.threeAm;
+          this.params.threePm = ret.threePm;
+          // 周三
+          this.params.fourAm = ret.fourAm;
+          this.params.fourPm = ret.fourPm;
+          // 周四
+          this.params.fiveAm = ret.fiveAm;
+          this.params.fivePm = ret.fivePm;
+          //  周五
+          this.params.sixAm = ret.sixAm;
+          this.params.sixPm = ret.sixPm;
+          // 周六
+          this.params.sevenAm = ret.sevenAm;
+          this.params.sevenPm = ret.sevenPm;
+        }
+      });
     }
   }
 };
