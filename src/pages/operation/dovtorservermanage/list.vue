@@ -1,111 +1,164 @@
 <template>
-  <div class="doctorreviewlist">
-    <Row>
-      <Col :xs="24">
-        <Input class="w-input" v-model="searchKey" placeholder="输入医生科室或职称关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
-        <Button type="primary" @click="loadPage(1)">
-          <Icon type="ios-search" size="14"/>查询
-        </Button>
-      </Col>
-    </Row>
-    <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
-    <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
-  </div>
+    <div class="doctorreviewlist">
+        <Row>
+            <Col :xs="24">
+                <Input class="w-input" v-model="searchKey" placeholder="输入医生科室或职称关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                <Button type="primary" @click="loadPage(1)">
+                    <Icon type="ios-search" size="14"/>查询
+                </Button>
+            </Col>
+        </Row>
+        <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
+        <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
+    </div>
 </template>
 <script>
-import { Select, Option } from "iview";
+import { Select, Option, Switch } from "iview";
 import api from "@/api/commonApi";
 export default {
-  data() {
-    return {
-      searchKey:"",
-      columns: [
-        { title: "序号", key: "iNum", align: "center" },
-        { title: "医生姓名", key: "doctorName", align: "center" },
-        { title: "科室", key: "deptType", align: "center" },
-        { title: "职称", key: "title", align: "center" },
-        { title: "联系电话", key: "phone", align: "center" },
-        {
-          title: "操作",
-          key: "operate",
-          align: "center",
-          render: (h, params) => {
-            let id = params.row.doctorId;
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: "javascript:void(0);"
+    data() {
+        return {
+            searchKey: "",
+            columns: [
+                { title: "序号", key: "iNum", align: "center" },
+                { title: "医生姓名", key: "doctorName", align: "center" },
+                { title: "所在医院", key: "hospitalName", align: "center" },
+                { title: "科室", key: "deptType", align: "center" },
+                { title: "职称", key: "title", align: "center" },
+                { title: "联系电话", key: "phone", align: "center" },
+                {
+                    title: "远程门诊",
+                    key: "remoteClinic",
+                    align: "center",
+                    render: (h, params) => {
+                        let iremote = params.row.iremote,btnText='已关闭',_index = params.row._index,id=params.row.doctorId;
+                        if(iremote == 1){
+                            btnText = '已开启';
+                        }
+                        return h(
+                            "Button",
+                            {
+                                attrs: {
+                                    type: "primary"
+                                },
+                                on: {
+                                    click: () => {
+                                      this.changeRemoteClinic(id,iremote,_index);
+                                    }
+                                }
+                            },
+                            btnText
+                        );
+                    }
                 },
-                on: {
-                  click: () => {
-                    this.$router.push({
-                      path: "/index/operation/doctormanage/edit",
-                      query: { id,pageNo:this.pageNo }
-                    });
-                  }
+                {
+                    title: "操作",
+                    key: "operate",
+                    align: "center",
+                    render: (h, params) => {
+                        let id = params.row.doctorId;
+                        return h(
+                            "a",
+                            {
+                                attrs: {
+                                    href: "javascript:void(0);"
+                                },
+                                on: {
+                                    click: () => {
+                                        this.$router.push({
+                                            path:
+                                                "/index/operation/doctormanage/edit",
+                                            query: { id, pageNo: this.pageNo }
+                                        });
+                                    }
+                                }
+                            },
+                            "管理服务"
+                        );
+                    }
                 }
-              },
-              "管理服务"
-            );
-          }
+            ],
+            doctorList: [],
+            count: 0,
+            pageSize: 10,
+            pageNo: 1
+        };
+    },
+    components: {
+        Select,
+        Option,
+        "i-switch": Switch
+    },
+    mounted() {
+        let pageNo = this.$route.query.pageNo;
+        pageNo = pageNo ? pageNo : 1;
+        //上来就加载第一页数据
+        this.loadPage(pageNo);
+    },
+    methods: {
+        //加载列表数据
+        loadPage(pageNo) {
+            this.pageNo = pageNo;
+            var params = {};
+            params.searchKey = this.searchKey;
+            params.pageNo = pageNo;
+            params.pageSize = this.pageSize;
+            this.$axios
+                .post(api.doctorList, params)
+                .then(resp => {
+                    this.count = resp.data.object.count;
+                    this.doctorList = resp.data.object.list;
+                    for (let i = 0; i < this.doctorList.length; i++) {
+                        this.doctorList[i].iNum = i + 1;
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        changeRemoteClinic(id,iremote,_index){
+            let status,text;
+            if(iremote == 1){
+                status = 0;
+                text = "关闭";
+            }else{
+                status = 1;
+                text = "开启";
+            }
+            let params = {};
+            params.doctorId = parseInt(id);
+            params.iremote = parseInt(status);
+            this.$axios
+                .post(api.remotedoctorupdateremotestatus, params)
+                .then(resp => {
+                    if(resp.data.success){
+                        this.$Message.success(text+"成功")
+                        this.doctorList[_index].iremote = status;
+                    }else
+                      this.$Message.info(text+"失败，请重试")
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
-      ],
-      doctorList: [],
-      count: 0,
-      pageSize: 10,
-      pageNo: 1
-    };
-  },
-  components: {
-    Select,
-    Option
-  },
-  mounted() {
-    let pageNo = this.$route.query.pageNo
-    pageNo = pageNo?pageNo:1;
-    //上来就加载第一页数据
-    this.loadPage(pageNo);
-  },
-  methods: {
-    //加载列表数据
-    loadPage(pageNo) {
-      this.pageNo = pageNo;
-      var params = {};
-      params.searchKey = this.searchKey;
-      params.pageNo = pageNo;
-      params.pageSize = this.pageSize;
-      this.$axios
-        .post(api.doctorList, params)
-        .then(resp => {
-          this.count = resp.data.object.count;
-          this.doctorList = resp.data.object.list;
-          for(let i=0;i<this.doctorList.length;i++){
-            this.doctorList[i].iNum = i+1;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
-  }
 };
 </script>
 <style lang="less" scoped>
 .doctorreviewlist {
-  margin-left: 1%;
-  padding: 10px;
-  width: 98%;
-  background: #ffffff;
-  box-sizing: border-box;
-  .w-select {
-    width: 100px;
-  }
-  .w-input {
-    width: 200px;
-  }
-  .m-table {
-    margin: 10px 0;
-  }
+    margin-left: 1%;
+    padding: 10px;
+    width: 98%;
+    background: #ffffff;
+    box-sizing: border-box;
+    .w-select {
+        width: 100px;
+    }
+    .w-input {
+        width: 200px;
+    }
+    .m-table {
+        margin: 10px 0;
+    }
 }
 </style>

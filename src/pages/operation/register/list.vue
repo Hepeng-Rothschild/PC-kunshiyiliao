@@ -23,7 +23,7 @@
         <Button type="primary" @click="loadPage(1)">
           <Icon type="ios-search" size="14"/>查询
         </Button>
-        <Button type="primary" @click="addDoc">添加医生挂号信息</Button>
+        <Button type="primary" @click="addDoc">添加排班信息</Button>
       </Col>
     </Row>
     <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
