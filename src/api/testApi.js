@@ -22,6 +22,10 @@ const changeRegisterStatus = "/operateapi/registerupdatestatus"; //改变预约�
 const registerDoctorList = "/operateapi/registerselectdoctornotscheduling"; //预约挂号专家列表
 const registerDoctorUpdate = "/operateapi/registerupdate"; //预约挂号修改
 const registerDoctorInsert = "/operateapi/registerinsertdoctorappointment"; //预约挂号添加
+// 医生端远程门诊
+const doctorRomteclinicAdd = '/operateapi/remotedoctorinsert'  //新增远程门诊医生排班
+const doctorRomteclinicEdit = '/operateapi/remotedoctorupdate' //编辑远程门诊医生排班详情
+const doctorRomteclinicSearchExpert = '/operateapi/remotedoctorselectremotedoctorlist'  //专家查找
 
 // 机构管理
 const management = '/operateapi/hospitalqueryhospitaloperatelist'  //机构管理医院列表
@@ -29,21 +33,15 @@ const managementInfo = '/operateapi/hospitalqueryhospitaloperatedtobyid'   //医
 const managementAll = '/operateapi/hospitalqueryhospitallevellist' //医院等级列表
 const managementGzh = '/operateapi/hospitalquerywxappnamelist'   //查询医院公众号
 const managementYlt = '/operateapi/hospitalqueryhospitalnamelist' //查询医院医联体
-
 const managementEdit = '/operateapi/hospitalupdatehospitaloperatedtobyid' //保存医院详情
-
-
 
 //动态新闻
 const getNews = '/operateapi/organizationselectnew' //获取动态新闻详情信息
 const setNews = '/operateapi/organizationinsertnew'  //设置动态新闻列表
 
-
 //新闻列表
 const addNews = '/operateapi/organizationupdatenew'; //修改新闻详情
-                //  /operateapi/organizationupdatenew
 const newsA = '/operateapi/organizationinsertnew'; // 新增新闻
-
 
 //内容管理
 const contentWrap = '/operateapi/articlepagebyarticle'  // 内容管理列表
@@ -73,13 +71,9 @@ const getIdBanner = '/operateapi/bannerqueryhospitalbannerbyid' //banner查找
 // 院内科室
 const medicine = '/operateapi/organizationpagehosdept'  // 院内科室查询
 const medicinesearch = '/operateapi/organizationselecthosdept'  //院内科室列表查询
-                        // /operateapi/organizationselecthosdept
 const medicinelistsearch = '/operateapi/organizationquerydepbyid' //院内科室详情查询
-// const medicineadd = ''//院内科室添加
 const medicineedit = '/operateapi/organizationupdateappointmentdept'//院内科室编辑
-
 const medicineSearchList = '/operateapi/operate/diction/department'  //查询所有科室信息
-
 const medicineSelectedList = '/operateapi/hospitaldetail'  // 选中科室的列表
 const medicineExpertList = '/operateapi/organizationquerydeptindoctor'  //院内科室专家列表
 const medicineSave = '/operateapi/organizationupdatesavehospitaldept' // 院内科室保存
@@ -102,30 +96,29 @@ const searchRoomSelectAdd = '/operateapi/applyremotinsert'   // 关联远程门�
 const searchCurrentRoom = '/operateapi/applyremotqueryremotelist'  //查询当前医院下关联的远程门诊医院
 
 // 远程门诊类型维护 
-
 const DoctorRemoteClinicTypeList = '/operateapi/outpatientquerylist'    //查询当前医院下远程门诊类型
 const DoctorRemoteClinicTypeAdd  = '/operateapi/outpatientinsert'   //新增远程门诊类型
 const DoctorRemoteClinicTypeSearch = '/operateapi/outpatientquerybyid'  //查找远程门诊详情
 const DoctorRemoteClinicTypeEdit ='/operateapi/outpatientupdate'   //修改远程门诊类型
+const remotedoctorupdateremotestatus ='/operateapi/remotedoctorupdateremotestatus'   //修改医生是否开启远程门诊
+
+const DoctorListEdit ='/operateapi/remotedoctorupdateremotestatus' // 医生排班列表修改 
 
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
-
 const uploadXls = '/operateapi/organizationinsertbatchdoctor' //批量上传医生信息
-
 const getDoctorInfo = '/operateapi/residentpagedoctor'  //获取医生注册信息
-
 const getCity = '/operateapi/sysprovinceprovincecitylist' //获取省级区域列表
-
 const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县列表
+
 // 机械注册信息
 const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注册信息列表查询
 const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
 const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
 const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
 const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
-
 const mechanismregUpLoad = '/operateapi/organizationinsertbatchhospital' //批量上传机构信息
+
 /* ********************************************* */
 const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
 const doctorServerManage = '/operateapi/organizationquerymenulist' //医生所有服务管理列表
@@ -170,11 +163,18 @@ const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传�
 //订单管理
 const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
 
-//服务项管理
-const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项列表
-const fdspackageiteminsert ='/operateapi/fdspackageitempage';  //新增服务项
-const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项详情
-const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项
+//服务项目管理
+const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项目列表
+const fdspackageiteminsert ='/operateapi/fdspackageiteminsert';  //新增服务项目
+const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项目详情
+const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项目
+const fdspackageiteminsertbatch ='/operateapi/fdspackageiteminsertbatch';  //服务项目导入
+//服务包管理
+const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增/修改服务包
+const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
+const servicepackageselectbyid ='/operateapi/servicepackageselectbyid';  //服务包详情
+//通过省份ID查询医院列表
+const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
 
 export default {
     login,
@@ -208,6 +208,10 @@ export default {
     registerDoctorList,
     registerDoctorUpdate,
     registerDoctorInsert,
+    // 远程门诊医生排班
+    doctorRomteclinicAdd,
+    doctorRomteclinicEdit,
+    doctorRomteclinicSearchExpert,
 
     /* ********************************************** */
     
@@ -262,11 +266,14 @@ export default {
     searchRoomList,
     searchRoomSelectAdd,
     searchCurrentRoom,
+    remotedoctorupdateremotestatus,
     // 远程门诊类型
     DoctorRemoteClinicTypeList,
     DoctorRemoteClinicTypeAdd,
     DoctorRemoteClinicTypeSearch,
     DoctorRemoteClinicTypeEdit,
+    // 医生排班列表修改
+    DoctorListEdit,
 
     /* ********************************************** */
 
@@ -325,5 +332,18 @@ export default {
     downloadTxt,
 
     //订单管理
-    orderManageAppointRegistList
+    orderManageAppointRegistList,
+    
+    //服务项目管理
+    fdspackageitempage,
+    fdspackageiteminsert,
+    fdspackageitemselectbyid,
+    fdspackageitemupdate,
+    fdspackageiteminsertbatch,
+    //服务包管理
+    servicepackageinsert,
+    servicepackagepage,
+    servicepackageselectbyid,
+    //通过省份ID查询医院列表
+    hospitalselectbyprovincecode,
 }

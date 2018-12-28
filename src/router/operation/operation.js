@@ -535,7 +535,7 @@ const DoctorRemoteclinicEdit = {
 	path: 'operation/remoteclinic/edit',
 	name: 'DoctorRemoteclinicEdit',
 	meta: {
-		index: 2,
+		index: 3,
 		title: '远程门诊-编辑'
 	},
 	component: () =>
@@ -546,7 +546,7 @@ const DoctorRemoteclinicAdd = {
 	path: 'operation/remoteclinic/add',
 	name: 'DoctorRemoteclinicAdd',
 	meta: {
-		index: 2,
+		index: 3,
 		title: '远程门诊-新增'
 	},
 	component: () =>
