@@ -163,12 +163,7 @@ export default {
             this.info.content = ret.content;
             this.isource = ret.source;
             this.isort = ret.priority;
-            if (ret.enable == 1) {
-              this.switch1 = true;
-            } else {
-              this.switch1 = false;
-            }
-
+            this.switch1 = Boolean(ret.enable)
             if (ret.newsHeadlines) {
               this.uploadList.push({
                 name: "a42bdcc1178e62b4694c830f028db5c0",
@@ -228,10 +223,6 @@ export default {
     },
     save() {
       let params = {};
-      let num = 1;
-      if (!this.switch1) {
-        num = 0;
-      }
       let images = "";
       if (this.images != "" && this.uploadList.length) {
         images = this.images;
@@ -242,7 +233,7 @@ export default {
       }
       params = {
         content: this.info.content,
-        enable: num,
+        enable: Number(this.switch1),
         hospitalId: this.id,
         priority: this.isort,
         source: this.isource,
@@ -250,7 +241,6 @@ export default {
         id: this.$route.params.id
       };
       params.newsHeadlines = images;
-      // console.log(params);
       if (this.title == "") {
         this.$Message.info("新闻标题不能为空");
       } else if (this.info.content == "") {

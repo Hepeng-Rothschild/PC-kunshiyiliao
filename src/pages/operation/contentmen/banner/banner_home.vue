@@ -34,7 +34,7 @@
                 :src="item.imageUrl == ''? '' :fileBaseUrl + item.imageUrl"
                 alt
                 style="margin:10px 0;width:80px;height:80px;"
-              > -->
+              >-->
               <img
                 :src="analysisImages(item.imageUrl)"
                 alt
@@ -51,7 +51,7 @@
       </div>
       <!-- 分页-->
       <div style="text-align:center;margin:10px 0;">
-        <Page :total="bannerSize" @on-change="pageChange" :current='pageNo'/>
+        <Page :total="bannerSize" @on-change="pageChange" :current="pageNo"/>
       </div>
     </div>
   </div>
@@ -75,24 +75,23 @@ export default {
       len: 10,
       id: sessionStorage.getItem("hospitalId"),
       bannerSize: 10,
-      pageNo:1
+      pageNo: 1
     };
   },
   methods: {
     pageChange(index) {
-      this.pageNo = index
+      this.pageNo = index;
       if (this.search) {
-          this.getData(1,this.search);
+        this.getData(1, this.search);
       } else {
-         this.getData(index);
+        this.getData(index);
       }
-     
     },
     navto() {
       this.$router.push({
         name: "bannerAdd",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
       });
     },
@@ -101,7 +100,7 @@ export default {
         name: "addBanner",
         params: {
           id: item.id,
-          pageNo:this.pageNo
+          pageNo: this.pageNo
         }
       });
     },
@@ -114,30 +113,28 @@ export default {
     },
     getData(pageNo, val) {
       let params = {
-          bannerName: "",
-          hospitalId: this.id,
-          pageNo,
-          pageSize: 10
-        } 
-        if (val != '') {
-          params.bannerName= val
+        bannerName: "",
+        hospitalId: this.id,
+        pageNo,
+        pageSize: 10
+      };
+      if (val != "") {
+        params.bannerName = val;
+      }
+      this.$axios.post(api.bannerHome, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.tbleList = ret.list;
+          this.bannerSize = ret.count;
         }
-      this.$axios
-        .post(api.bannerHome, params)
-        .then(res => {
-          if (res.data.code) {
-            let ret = res.data.object;
-            this.tbleList = ret.list;
-            this.bannerSize = ret.count;
-          }
-        });
+      });
     },
-    analysisImages (json) {
+    analysisImages(json) {
       try {
         json = JSON.parse(json);
-        return this.fileBaseUrl + json.fileName
+        return this.fileBaseUrl + json.fileName;
       } catch (error) {
-        return ''
+        return "";
       }
     }
   },
@@ -145,7 +142,7 @@ export default {
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo
+      this.pageNo = pageNo;
     }
     this.getData(this.pageNo);
   },
@@ -154,7 +151,7 @@ export default {
     search: {
       deep: true,
       handler(oldval) {
-        this.getData(1,oldval)
+        this.getData(1, oldval);
       }
     }
   }
@@ -163,13 +160,17 @@ export default {
 
 <style lang="less" scoped >
 .iBanner {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .ibanner_main {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
     .ibanner_header {
       width: 80%;
-      margin: 0 auto;
+      margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -198,7 +199,7 @@ export default {
       }
       button {
         padding: 6px 8px;
-        background:skyblue;
+        background: skyblue;
         color: #fff;
         border: none;
         outline: none;
@@ -236,8 +237,8 @@ export default {
         text-align: center;
         border: 1px solid #ddd;
         border-top: none;
-        height:40px;
-        line-height:40px;
+        height: 40px;
+        line-height: 40px;
       }
     }
   }

@@ -233,12 +233,7 @@ export default {
       });
     },
     save() {
-      let display = 0;
-      if (this.switch1) {
-        display = 1;
-      }
       let images = "";
-
       let params = {
         // 头像
         // "departmenticon":this.images,
@@ -246,7 +241,7 @@ export default {
         departmentdes: this.info.content,
         //  位置
         deptPosition: this.keshiname,
-        display,
+        display:Number(this.switch1),
         priority: this.isort,
         id: this.currentId
       };
@@ -290,10 +285,6 @@ export default {
         .then(res => {
           if (res.data) {
             let ret = res.data.object;
-            let switch2 = true;
-            if (ret.display != 1) {
-              switch2 = false;
-            }
             //图片
             this.uploadList = [];
             if (ret.departmenticon) {
@@ -313,7 +304,7 @@ export default {
             // 位置
             this.keshiname = ret.deptPosition;
             // 开关
-            this.switch1 = switch2;
+            this.switch1 = Boolean(ret.display);
             // 排序
             this.isort = ret.priority || 0;
           }

@@ -9,19 +9,19 @@
         <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
       </Select>
       <!-- 医院名称 -->
-      <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
+      <!-- <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
         <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
-      </Select>
+      </Select> -->
       <!-- 检索的医院名称 -->
-      <Input class="w-input" v-model="searchKey" :placeholder="'请输入医院名称'"/>
+      <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
       <!-- 职称 -->
-      <Select class="w-select" v-model="dictType" placeholder="职称级别">
+      <!-- <Select class="w-select" v-model="dictType" placeholder="职称级别">
         <Option
           v-for="item in titleList"
           :value="item.dictType"
           :key="item.dictType"
         >{{item.dictName}}</Option>
-      </Select>
+      </Select> -->
       <!-- 查询 -->
       <Button type="primary" class="primary" @click="search">
         <Icon type="ios-search" size="14"/>查询
@@ -41,9 +41,10 @@
           <td>启用标示</td>
           <td>操作</td>
         </tr>
-        <tr>
-          <td>序号</td>
-          <td>姓名</td>
+
+        <tr v-for = 'item,index in list' v-show = 'list.length'>
+          <td>{{ item.sum }}</td>
+          <td>{{ item.name }}</td>
           <td>科室</td>
           <td @click="showModel" style="cursor:pointer;">
             <p>上午:门诊时间</p>
@@ -55,7 +56,7 @@
           <td style="cursor:pointer;" @click="edit()">编辑</td>
         </tr>
       </table>
-      <!-- <div class="nodata">暂无更多数据</div> -->
+      <div class="nodata"  v-show = '!list.length'>暂无更多数据</div>
     </div>
     <Modal v-model="modal1" title="远程门诊时间">
       <p>Content of dialog</p>
@@ -86,13 +87,21 @@ export default {
         { id: 2, name: "医生姓名" }
       ],
       searchType: 1,
+      keyPlaceHolder: "医院名称",
       cityList: [],
       city: "0",
       searchKey: "",
       dictType: "",
       titleList: "",
       modal1: false,
-      modelList: []
+      modelList: [],
+      list: [
+        {
+          sum: "01",
+          name:"赵虎",
+
+        }
+      ]
     };
   },
   mounted() {
@@ -208,6 +217,7 @@ export default {
         border-top: 1px solid #ddd;
         height: 40px;
         td {
+          padding: 10px 0;
           text-align: center;
         }
         td.none {
@@ -217,7 +227,7 @@ export default {
     }
     .nodata {
       width: calc(100% - 1px);
-      line-height: 40px;
+      line-height: 50px;
       background: #fff;
       border: 1px solid #ddd;
       border-top: none;

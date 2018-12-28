@@ -96,6 +96,8 @@ export default new Router({
 				operation.doctorremoteClinicTypeList,
 				operation.doctorremoteClinicTypeAdd,
 				operation.doctorremoteClinicTypeEdit,
+				// 医生远程门诊列表
+				operation.doctorList,
 
 				//运维端路由
 				maintain.residentRegisterList,

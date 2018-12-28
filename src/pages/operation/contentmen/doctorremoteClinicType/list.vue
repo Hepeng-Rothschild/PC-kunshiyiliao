@@ -21,39 +21,32 @@
         <div class="footer" v-show="!list.length">暂无更多数据</div>
       </div>
       <!-- 新增model -->
-      <div class="wrapper" v-show="model.one">
+      <Modal v-model="model.one" title="新增远程门诊类型" @on-ok="oneSave" @on-cancel="oneCancel">
         <div class="model">
           <div class="user">
-            <span>门诊名称</span>
+            <span>门诊名称：</span>
             <input type="text" placeholder="请输入远程门诊类型名称" v-model.trim="one.name">
           </div>
           <div class="user">
-            <span>门诊价格</span>
+            <span>门诊价格：</span>
             <input type="text" placeholder="请输入价格" v-model.trim="one.cost">
           </div>
-          <div class="save">
-            <div @click="oneSave">保存</div>
-            <div @click="oneCancel">取消</div>
-          </div>
         </div>
-      </div>
+      </Modal>
+
       <!-- 编辑model -->
-      <div class="wrapper" v-show="model.two">
+      <Modal v-model="model.two" title="编辑远程门诊类型" @on-ok="twoSave" @on-cancel="twoCancel">
         <div class="model">
           <div class="user">
-            <span>门诊名称</span>
+            <span>门诊名称：</span>
             <input type="text" placeholder="请输入远程门诊类型名称" v-model.trim="two.name">
           </div>
           <div class="user">
-            <span>门诊价格</span>
+            <span>门诊价格：</span>
             <input type="text" placeholder="请输入价格" v-model.trim="two.cost">
           </div>
-          <div class="save">
-            <div @click="twoSave">保存</div>
-            <div @click="twoCancel">取消</div>
-          </div>
         </div>
-      </div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -86,15 +79,13 @@ export default {
   mounted() {
     let doctor = sessionStorage.getItem("doctor");
     if (!doctor) {
-      console.log(111111);
       this.$Message.info("您还没有开通远程门诊,去开通");
       setTimeout(() => {
         this.$router.push({
           name: "homeInfo"
         });
-      },800);
+      }, 800);
     }
-    console.log(doctor);
     this.getDataDoctorList();
   },
   methods: {
@@ -119,6 +110,7 @@ export default {
           this.getDataDoctorList();
         }
       });
+      console.log(params);
     },
     //  编辑
     edit(item) {
@@ -232,7 +224,7 @@ export default {
       float: right;
     }
     .tabList {
-      width: 80%;
+      width: 100%;
       margin: 20px auto;
       table {
         width: 100%;
@@ -266,6 +258,48 @@ export default {
         line-height: 40px;
         background: #fff;
       }
+    }
+  }
+}
+.model {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  .user {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px 0;
+    span {
+      width: 100px;
+    }
+    input {
+      text-indent: 10px;
+      flex: 1;
+      border-radius: 4px;
+      line-height: 30px;
+      border: none;
+      border: 1px solid #ddd;
+      outline: none;
+    }
+  }
+  .save {
+    width: 200px;
+    margin: 15px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    div {
+      cursor: pointer;
+      width: 80px;
+      line-height: 30px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 40px;
     }
   }
 }

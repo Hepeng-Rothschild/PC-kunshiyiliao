@@ -162,26 +162,18 @@ export default {
       });
     },
     save() {
-      let switch1 = 0;
-      if (this.switch1) {
-        switch1 = 1;
-      }
-      let switch2 = 0;
-      if (this.switch2) {
-        switch2 = 1;
-      }
       let hospitalId = sessionStorage.getItem("hospitalId");
       let doctorId = this.$route.params.item.doctorId;
       let params = {
         // 显示
-        display: switch1,
+        display: Number(this.switch1),
         //排序
         priority: this.isort,
         // 职务
         post: this.post,
         doctorId,
         hospitalId,
-        iexpert: switch2
+        iexpert: Number(this.switch2)
       };
       if (params.name == "") {
         this.$Message.info("专家姓名不能为空");

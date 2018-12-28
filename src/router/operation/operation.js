@@ -497,6 +497,17 @@ const doctorremoteClinicTypeEdit = {
 	component: () =>
 		import("@/pages/operation/contentmen/doctorremoteClinicType/edit")
 }
+// 医生远程门诊列表
+const doctorList = {
+	path: 'operation/doctorList',
+	name: 'doctorList',
+	meta: {
+		index: 4,
+		title: '医生远程门诊列表'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/doctorList/list")
+}
 // 医生列表
 const doctorServerManageList = {
 	path: 'operation/doctormanage/list',
@@ -670,6 +681,8 @@ export default {
 	doctorremoteClinicTypeList,
 	doctorremoteClinicTypeAdd,
 	doctorremoteClinicTypeEdit,
+	// 医生远程门诊列表
+	doctorList,
 
 	// 医生端内容管理
 	doctorContentCheckList,

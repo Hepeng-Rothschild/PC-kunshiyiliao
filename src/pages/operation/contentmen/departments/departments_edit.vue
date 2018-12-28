@@ -145,10 +145,6 @@ export default {
       });
     },
     save() {
-      let switch1 = 0;
-      if (this.switch1) {
-        switch1 = 1;
-      }
       let params = {
         //   别名
         deptNickname: this.keshiname,
@@ -157,7 +153,7 @@ export default {
         //排序
         priority: this.isort,
         //显示
-        display: switch1,
+        display: Number(this.switch1),
         // ID
         id: this.currentId
       };

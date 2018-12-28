@@ -262,7 +262,10 @@ export default {
   margin: 0 2px;
 }
 .i_addBanner {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .i_addBanner_main {
     width: 80%;
     margin: 0 auto;

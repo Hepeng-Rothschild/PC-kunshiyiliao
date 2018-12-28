@@ -137,6 +137,11 @@
         <span class="main_yy_name">是否加入远程门诊</span>
         <iSwitch v-model="switch4"/>
       </div>
+      <!-- 是否开通预约门诊 -->
+      <div class="main_yy">
+        <span class="main_yy_name">是否开通预约门诊</span>
+        <iSwitch v-model="switch5"/>
+      </div>
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
@@ -179,10 +184,11 @@ export default {
       title: "",
       visible: false,
       uploadList: [],
-      switch1: true,
-      switch2: true,
-      switch3: true,
+      switch1: false,
+      switch2: false,
+      switch3: false,
       switch4: false,
+      switch5: false,
       y_name: "",
       y_type: 6001,
       y_module: "2",
@@ -236,22 +242,6 @@ export default {
       } else {
         images = "";
       }
-      let switch1 = 0;
-      if (this.switch1) {
-        switch1 = 1;
-      }
-      let switch2 = 0;
-      if (this.switch2) {
-        switch2 = 1;
-      }
-      let switch3 = 0;
-      if (this.switch3) {
-        switch3 = 1;
-      }
-      let switch4 = 0;
-      if (this.switch4) {
-        switch4 = 1;
-      }
       let params = {
         hospitalId: this.id,
         //上级编码
@@ -275,18 +265,20 @@ export default {
         //处方平台UID
         prescriptionId: this.y_uid,
         //互联网医院
-        internetHospital: switch1,
+        internetHospital: Number(this.switch1),
         //医院联盟
-        unionHospital: switch2,
+        unionHospital: Number(this.switch2),
         //处方流转
-        ipres: switch3,
+        ipres: Number(this.switch3),
         // 医院排序
         internetHospitalSort: this.hospitalSort,
         // 开启远程门诊
-        iremote: switch4
+        iremote: Number(this.switch4),
+        // 开启预约门诊
+        registeredReservation: Number(this.switch5)
       };
       // hospitalSort
-      if (!switch1) {
+      if (!this.switch1) {
         params.appid = null;
       }
 
@@ -440,6 +432,8 @@ export default {
           } else {
             this.hospitalFlag = true;
           }
+          // 开通预约门诊
+          this.switch5 = Boolean(ret.registeredReservation);
 
           // 开启远程门诊
           this.switch4 = Boolean(ret.iremote);
@@ -497,7 +491,10 @@ export default {
   margin: 0 2px;
 }
 .Institutional_information {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .main {
     width: 80%;
     display: flex;

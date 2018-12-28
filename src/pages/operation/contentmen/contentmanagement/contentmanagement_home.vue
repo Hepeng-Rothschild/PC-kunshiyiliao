@@ -379,7 +379,6 @@ export default {
     padding: 0 30px;
     margin: 0 auto;
     border: 1px solid #dddee1;
-
     tr:nth-child(odd) {
       background: #f8f8f9;
     }
@@ -387,13 +386,14 @@ export default {
       background: #fff;
     }
     tr:not(:first-child):hover {
-      background: #9dcae4;
+      background: #adc9da;
     }
     tr {
       border-top: 1px solid #dddee1;
       th {
         text-align: center;
         height: 40px;
+        padding:6px 0;
         .modi {
           a {
             color: black;

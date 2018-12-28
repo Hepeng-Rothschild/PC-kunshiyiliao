@@ -32,6 +32,9 @@
       <li>
         <router-link to="/index/operation/doctorremoteClinic_list">远程门诊类型</router-link>
       </li>
+      <li>
+        <router-link to="/index/operation/doctorList">远程门诊医生列表</router-link>
+      </li>
     </ul>
   </header>
 </template>
@@ -48,7 +51,7 @@ export default {
 header {
   width: 100%;
   // height: 40px;
-  margin: 30px auto;
+  padding: 30px auto;
   .hospitalName {
     width: 100%;
     text-align: center;
@@ -73,10 +76,14 @@ header {
         cursor: pointer;
         user-select: none;
         border-bottom: 2px solid transparent;
+        transition:all .5s;
+      }
+       a:hover {
+        color: #57a3f3;
       }
       .router-link-exact-active {
-        color: skyblue;
-        border-bottom: 2px solid skyblue;
+        color: #2d8cf0;
+        border-bottom: 2px solid #2d8cf0;
       }
     }
     li:last-child {

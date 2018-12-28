@@ -193,7 +193,7 @@ export default {
           if (res.data.code) {
             let ret = res.data.object;
             let detail = ret.operateArticle;
-            let flag = false;
+            
             if (detail.cover) {
               this.uploadList = [];
               this.source = detail.cover;
@@ -204,18 +204,13 @@ export default {
                 uid: 1544263544970,
                 url: this.analysisImages(detail.cover)
               });
-              // console.log(this.analysisImages(detail.cover));
-            }
-            // console.log(ret);
-            if (detail.enable) {
-              flag = true;
             }
             //标题
             this.title = detail.title;
             this.titles = detail.synopsis || "";
             this.isource = detail.source;
             this.num = detail.priority;
-            this.switch1 = flag;
+            this.switch1 = Boolean(detail.enable);
             this.isort = detail.priority;
             this.info.content = detail.content;
           }
@@ -261,10 +256,6 @@ export default {
       });
     },
     save() {
-      let release = 0;
-      if (this.switch1) {
-        release = 1;
-      }
       let images = "";
       if (this.images && this.uploadList.length) {
         images = this.images;
@@ -291,7 +282,7 @@ export default {
           //够源
           source: this.isource,
           //显示
-          enable: release,
+          enable: Number(this.switch1),
           //新闻资讯ID
           id: this.$route.params.id
         }

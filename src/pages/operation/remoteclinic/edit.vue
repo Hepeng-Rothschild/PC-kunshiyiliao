@@ -5,31 +5,32 @@
     <!-- 主体 -->
     <div class="main">
       <!-- 添加接诊医生  -->
-      <Button type="primary" class="primary" @click="modal1=true">
+      <!-- <Button type="primary" class="primary" @click="modal1=true">
         <Icon type="ios-search" size="14"/>添加接诊医生
-      </Button>
+      </Button> -->
       <div class="doctor">
         <!-- 医院 -->
-        <span>蚌埠中医院</span>
+        <span>{{ selectExpert.hospital }}</span>
         <!-- 科室 -->
-        <span>心血管内科</span>
+        <span>{{ selectExpert.deparment }}</span>
         <!-- 医生姓名 -->
-        <span>李正兰</span>
+        <span>{{ selectExpert.name }}</span>
       </div>
-      <Modal v-model="modal1" title="选择专家">
+      <!-- 选择专家 -->
+      <!-- <Modal v-model="modal1" title="选择专家">
         <div class="modelExpert">
           <input type="text" placeholder="输入医生姓名、医院、科室">
-          <div class="modelExpert_list" @click="expert">
-            <span>蚌埠中医院</span>
-            <span>心血管内科</span>
-            <span>李正兰</span>
-            <span>主任医师</span>
+          <div class="modelExpert_list" @click="expert(item)" v-for="item,index in expertList">
+            <span>{{ item.hospital }}</span>
+            <span>{{ item.deparment }}</span>
+            <span>{{ item.name }}</span>
+            <span>{{ item.host }}</span>
           </div>
           <div class="total">
             <Page :total="expertSize" :current="expertNo"/>
           </div>
         </div>
-      </Modal>
+      </Modal> -->
       <!-- 远程门诊类型 -->
       <div class="item">
         <div class="item-text">
@@ -37,7 +38,7 @@
           <p>远程门诊类型</p>
         </div>
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-          <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
+          <Option v-for="item,index in searchTypeList" :value="index" :key="item.id">{{item.name}}</Option>
         </Select>
       </div>
       <!-- 医事服务费 -->
@@ -69,13 +70,13 @@
         </Select>
       </div>
       <!-- 是否启用 -->
-      <div class="item">
+      <!-- <div class="item">
         <div class="item-text">
           <span style="color:red;">*</span>
           <p>是否启用</p>
         </div>
         <iSwitch v-model="switch1"/>
-      </div>
+      </div>-->
       <!-- 列表 -->
       <div class="table">
         <p>远程门诊接诊数量</p>
@@ -105,25 +106,60 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="1"></InputNumber>
+              <InputNumber :max="8" :min="1" v-model="params.one_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1"></InputNumber>
+              <InputNumber :max="8" :min="1" v-model="params.two_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1"></InputNumber>
+              <InputNumber :max="8" :min="1" v-model="params.three_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1"></InputNumber>
+              <InputNumber :max="8" :min="1" v-model="params.four_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1"></InputNumber>
+              <InputNumber :max="8" :min="1" v-model="params.five_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1"></InputNumber>
+              <InputNumber :max="8" :min="1" v-model="params.six_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1"></InputNumber>
+              <InputNumber :max="8" :min="1" v-model="params.seven_am"></InputNumber>
+            </td>
+          </tr>
+          <tr>
+            <td>下午</td>
+            <td>
+              <TimePicker
+                :value="value3"
+                format="HH:mm"
+                type="timerange"
+                placement="bottom-end"
+                placeholder="时间段"
+                style="width: 120px"
+                @on-change="changeTime1"
+              ></TimePicker>
+            </td>
+            <td>
+              <InputNumber :max="8" :min="1" v-model="params.one_pm"></InputNumber>
+            </td>
+            <td>
+              <InputNumber :max="8" :min="1" v-model="params.two_pm"></InputNumber>
+            </td>
+            <td>
+              <InputNumber :max="8" :min="1" v-model="params.three_pm"></InputNumber>
+            </td>
+            <td>
+              <InputNumber :max="8" :min="1" v-model="params.four_pm"></InputNumber>
+            </td>
+            <td>
+              <InputNumber :max="8" :min="1" v-model="params.five_pm"></InputNumber>
+            </td>
+            <td>
+              <InputNumber :max="8" :min="1" v-model="params.six_pm"></InputNumber>
+            </td>
+            <td>
+              <InputNumber :max="8" :min="1" v-model="params.seven_pm"></InputNumber>
             </td>
           </tr>
         </table>
@@ -146,6 +182,7 @@
 <script>
 import tempHeader from "@/components/tmpHeader";
 import { Select, Option, Switch, TimePicker } from "iview";
+import api from "@/api/commonApi";
 export default {
   components: {
     tempHeader,
@@ -157,12 +194,8 @@ export default {
   data() {
     return {
       // 门诊类型
-      searchType: 1,
-      searchTypeList: [
-        { id: 1, name: "普通远程门诊" },
-        { id: 2, name: "特需远程门诊" },
-        { id: 3, name: "国际远程门诊" }
-      ],
+      searchType: -1,
+      searchTypeList: [],
       money: 60,
       //   接诊时长
       time: 30,
@@ -188,18 +221,58 @@ export default {
         { id: 11, name: "十一天" },
         { id: 12, name: "十二天" },
         { id: 13, name: "十三天" },
-        { id: 14, name: "十四天" }
+        { id: 14, name: "十四天" },
+        { id: 15, name: "十五天" }
       ],
       switch1: true,
       text_info: "",
       // 添加专家model
       modal1: false,
-      // 专家页数
       expertNo: 1,
-      // 专家条数
       expertSize: 10,
-      value2: ""
+      // 上午时间
+      value2: [],
+      // 下午时间
+      value3: [],
+      // 一周号源
+      params: {
+        // 周一
+        one_am: 1,
+        one_pm: 1,
+        // 周二
+        two_am: 1,
+        two_pm: 1,
+        // 周三
+        three_am: 1,
+        three_pm: 1,
+        // 周四
+        four_am: 1,
+        four_pm: 1,
+        // 周五
+        five_am: 1,
+        five_pm: 1,
+        // 周六
+        six_am: 1,
+        six_pm: 1,
+        // 周天
+        seven_am: 1,
+        seven_pm: 1
+      },
+      // 医院ID
+      id: 82,
+      selectExpert: {},
+      expertList: [
+        {
+          hospital: "蚌埠中医院",
+          deparment: "内科",
+          name: "李正兰",
+          host: "主任医师"
+        }
+      ]
     };
+  },
+  mounted() {
+    this.getRemoteClinic();
   },
   methods: {
     //  取消,后退 上一次
@@ -208,36 +281,73 @@ export default {
         name: "DoctorRemoteclinicList"
       });
     },
+    // 根据远程门诊类型变更金额
     changeSearchType(val) {
-      console.log(val);
+      this.money = this.searchTypeList[val].cost;
     },
     // 保存
     save() {
-      let params = {
-        // 远程门诊类型
-        searchType: this.searchType,
-        // 门诊时长
-        time: this.time,
-        // 门诊周期
-        cycle: this.cycle,
-        // 是否启用
-        switch1: Number(this.switch1),
-        // 预约备注
-        text_info: this.text_info,
-        // 价格
-        money: this.money,
-        // 时间段
-        time:this.value2
+      // 号源
+      let params = this.params;
+      // 远程门诊类型
+      params.outpatintTypeId = this.searchType;
+      // 门诊时长
+      params.outpatientTime = this.time;
+      // 门诊周期
+      params.cycleDay = this.cycle;
+      // 备注
+      params.remarks = this.text_info;
+      // 上午间隔时间
+      params.intervalTimeAmStart = this.value2[0];
+      params.intervalTimeAmEnd = this.value2[1];
+      // 下午间隔时间
+      params.intervalTimePmStart = this.value3[0];
+      params.intervalTimePmEnd = this.value3[1];
+      // 医生id
+      params.doctorId = 92;
+      // 医院ID
+      params.hospitalId = 88;
+      if (this.searchType == -1) {
+        this.$Message.info("请选择远程门诊类型");
+      } else if (this.time < 0) {
+        this.$Message.info("请选择远程门诊时长");
+      } else if (this.cycle < 0) {
+        this.$Message.info("请选择远程门诊周期");
+      } else {
+        console.log(params);
+        this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
+          console.log(res);
+          if (res.data.code) {
+            this.$Message.info("修改成功");
+          }
+        });
       }
-      console.log(params);
     },
     // 选择专家
-    expert() {
-      console.log(111);
+    expert(item) {
+      this.modal1 = false;
+      this.selectExpert = item;
     },
-    // 选择时间
+    // 选择上午时间
     changeTime(val) {
       this.value2 = val;
+    },
+    // 选择下午时间
+    changeTime1(val) {
+      this.value3 = val;
+    },
+    // 远程门诊类型
+    getRemoteClinic() {
+      this.$axios
+        .post(api.DoctorRemoteClinicTypeList, {
+          hospitalId: this.id
+        })
+        .then(res => {
+          if (res.data.code) {
+            let ret = res.data.object;
+            this.searchTypeList = ret;
+          }
+        });
     }
   }
 };
@@ -256,6 +366,7 @@ export default {
     .doctor {
       width: 100%;
       display: flex;
+      height: 40px;
       flex-direction: row;
       align-items: center;
       margin: 10px 0;
@@ -365,7 +476,6 @@ export default {
     justify-content: space-around;
     cursor: pointer;
     span {
-      font-size: 20px;
       user-select: none;
     }
   }

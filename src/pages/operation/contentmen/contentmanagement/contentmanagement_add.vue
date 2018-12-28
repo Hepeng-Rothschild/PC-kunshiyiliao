@@ -247,10 +247,6 @@ export default {
       } else if (!this.type) {
         this.$Message.info("请选择类型");
       } else {
-        let release = 0;
-        if (this.switch1) {
-          release = 1;
-        }
         //把页面上的参数获取到
         let params = {
           ids: [this.select],
@@ -260,7 +256,7 @@ export default {
             priority: this.num,
             content: this.editorText,
             source: this.source,
-            enable: release,
+            enable: Number(this.switch1),
             type: this.type
           }
         };

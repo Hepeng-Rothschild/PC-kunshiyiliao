@@ -206,18 +206,9 @@ export default {
       });
     },
     save() {
-      let switch1 = 0;
-      if (this.switch1) {
-        switch1 = 1;
-      }
-      let switch2 = 0;
-      if (this.switch2) {
-        switch2 = 1;
-      }
-
       let params = {
         // 显示
-        display: switch1,
+        display: Number(this.switch1),
         // 排序
         priority: this.isort,
         // 职务
@@ -225,7 +216,7 @@ export default {
         //id
         doctorId: this.currentId,
         // 专家
-        iexpert: switch2
+        iexpert:  Number(this.switch2)
       };
 
       this.$axios

@@ -39,7 +39,12 @@
       <div class="inputContent">
         <div class="search">
           <img src="../../../../assets/images/search.png">
-          <input type="text" placeholder="请输入关键字检索" v-model.trim="model.orgName" @keyup="searchContent">
+          <input
+            type="text"
+            placeholder="请输入关键字检索"
+            v-model.trim="model.orgName"
+            @keyup="searchContent"
+          >
         </div>
         <p>已选择远程远程门诊合作机构</p>
       </div>
@@ -111,6 +116,16 @@ export default {
     };
   },
   mounted() {
+    let doctor = sessionStorage.getItem("doctor");
+    if (!doctor) {
+      this.$Message.info("您还没有开通远程门诊,去开通");
+      setTimeout(() => {
+        this.$router.push({
+          name: "homeInfo"
+        });
+      }, 800);
+      return ""
+    }
     this.getHospialRoom();
   },
   methods: {
@@ -126,38 +141,42 @@ export default {
       this.$axios.post(api.searchRoomList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          let arr = []
+          let arr = [];
           ret.forEach(item => {
             arr.push({
               hospitalName: item.orgName,
               remote_hospital_id: item.id
-            })
-          })
-          this.hospialList = arr
+            });
+          });
+          this.hospialList = arr;
         }
       });
     },
     // 保存
     edit() {
       let id = sessionStorage.getItem("hospitalId");
-      let arr = []
+      let arr = [];
       this.selectHospial.forEach(item => {
-          arr.push(item.remote_hospital_id);
-      })
+        arr.push(item.remote_hospital_id);
+      });
       let params = {
         applyHospitalId: id,
         remoteHospitalIds: arr
       };
-      this.$axios
-        .post(api.searchRoomSelectAdd, params)
-        .then(res => {
-          if (res.data.code) {
-            this.$Message.info("保存成功");
-          }
-        })
-        .catch(err => {
-          this.$Message.info("保存失败,请稍候重试");
-        });
+      if (arr.length == 0) {
+        this.$Message.info("请至少选择一个关联医院");
+      } else {
+        this.$axios
+          .post(api.searchRoomSelectAdd, params)
+          .then(res => {
+            if (res.data.code) {
+              this.$Message.info("保存成功");
+            }
+          })
+          .catch(err => {
+            this.$Message.info("保存失败,请稍候重试");
+          });
+      }
     },
     // 通过省级获取市级
     provinceChange() {

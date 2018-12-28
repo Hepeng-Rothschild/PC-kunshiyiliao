@@ -1,5 +1,6 @@
 <template>
   <div class="registeradd">
+    <tempHeader/>
     <Row>
       <Col class="padding-t padding-b" :xs="24">
         <b>{{littleTitle}}</b>
@@ -161,6 +162,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
+import tempHeader from "@/components/tmpHeader";
 import { Avatar, Select, Option } from "iview";
 export default {
   data() {
@@ -271,7 +273,7 @@ export default {
         });
     }
   },
-  components: { Avatar, Select, Option },
+  components: { Avatar, Select, Option, tempHeader },
   methods: {
     submit(name) {
       let tmpRegistertimes = [];

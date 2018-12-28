@@ -121,9 +121,10 @@ export default {
 
 <style scoped lang = "less">
 .management1 {
-  width: calc(100% - 60px);
-  padding: 0 30px;
-  margin:0 auto;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   header {
     width: 100%;
     display: flex;

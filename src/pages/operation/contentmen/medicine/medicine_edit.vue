@@ -223,19 +223,6 @@ export default {
     },
     //保存
     save() {
-      let switch1 = 0;
-      if (this.switch1) {
-        switch1 = 1;
-      }
-      let switch2 = 0;
-      if (this.switch2) {
-        switch2 = 1;
-      }
-      let switch3 = 0;
-      if (this.switch3) {
-        switch3 = 1;
-      }
-
       let images = "";
       let params = {
         //科室别名
@@ -245,12 +232,12 @@ export default {
         //特色
         deptDetails: this.info.content,
         //预约科室
-        registeredReservation: switch1,
+        registeredReservation: Number(this.switch1),
         //特色科室
-        specialDept: switch2,
+        specialDept: Number(this.switch2),
         id: this.currentId,
         // 科室开通远程门诊
-        iremote: switch3
+        iremote: Number(this.switch3)
       };
       //图片
       if (this.images != "" && this.uploadList.length) {
@@ -260,7 +247,6 @@ export default {
       } else {
         params.departmenticon = "";
       }
-      console.log(params);
 
       this.$axios
         .post(api.medicineedit, params)

@@ -190,24 +190,19 @@ export default {
     },
     save() {
       let params = {};
-      let num = 1;
-      if (!this.switch1) {
-        num = 0;
-      }
       let images = "";
       if (this.uploadList.length) {
         images = this.images;
       }
       params = {
         content: this.info.content,
-        enable: num,
+        enable: Number(this.switch1),
         hospitalId: this.id,
         priority: this.isort,
         source: this.isource,
         title: this.title
       };
       params.newsHeadlines = images;
-      // console.log(params);
       if (this.title == "") {
         this.$Message.info("新闻标题不能为空");
       } else if (this.info.content == "") {
@@ -316,12 +311,13 @@ export default {
         width: 400px;
         border: 1px solid #ddd;
         border-radius: 4px;
+        background:#fff;
         input {
           display: inline-block;
           width: 88%;
           border: none;
           background: none;
-          text-indent: 4px;
+          text-indent: 8px;
           outline: none;
         }
         span {
