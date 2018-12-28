@@ -100,7 +100,7 @@ const DoctorRemoteClinicTypeList = '/operateapi/outpatientquerylist'    //查询
 const DoctorRemoteClinicTypeAdd  = '/operateapi/outpatientinsert'   //新增远程门诊类型
 const DoctorRemoteClinicTypeSearch = '/operateapi/outpatientquerybyid'  //查找远程门诊详情
 const DoctorRemoteClinicTypeEdit ='/operateapi/outpatientupdate'   //修改远程门诊类型
-
+const remotedoctorupdateremotestatus ='/operateapi/remotedoctorupdateremotestatus'   //修改医生是否开启远程门诊
 
 const DoctorListEdit ='/operateapi/remotedoctorupdateremotestatus' // 医生排班列表修改 
 
@@ -266,6 +266,7 @@ export default {
     searchRoomList,
     searchRoomSelectAdd,
     searchCurrentRoom,
+    remotedoctorupdateremotestatus,
     // 远程门诊类型
     DoctorRemoteClinicTypeList,
     DoctorRemoteClinicTypeAdd,
