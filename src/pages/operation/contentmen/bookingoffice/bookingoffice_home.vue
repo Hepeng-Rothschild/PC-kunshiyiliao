@@ -122,11 +122,13 @@ export default {
 
 <style scoped lang="less">
 .k_department {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
   background: #fff;
   .k_department-main {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
     header {
       width: 100%;
       display: flex;

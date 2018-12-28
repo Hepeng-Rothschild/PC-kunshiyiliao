@@ -477,26 +477,6 @@ const doctorremoteClinicTypeList = {
 	component: () =>
 		import("@/pages/operation/contentmen/doctorremoteClinicType/list")
 }
-const doctorremoteClinicTypeAdd = {
-	path: 'operation/doctorremoteClinic_Add',
-	name: 'doctorremoteClinicTypeAdd',
-	meta: {
-		index: 4,
-		title: '远程门诊类型-添加'
-	},
-	component: () =>
-		import("@/pages/operation/contentmen/doctorremoteClinicType/add")
-}
-const doctorremoteClinicTypeEdit = {
-	path: 'operation/doctorremoteClinic_Edit',
-	name: 'doctorremoteClinicTypeEdit',
-	meta: {
-		index: 4,
-		title: '远程门诊类型-编辑'
-	},
-	component: () =>
-		import("@/pages/operation/contentmen/doctorremoteClinicType/edit")
-}
 // 医生远程门诊列表
 const doctorList = {
 	path: 'operation/doctorList',
@@ -540,7 +520,7 @@ const reservationOrders = {
 	component: () =>
 		import("@/pages/operation/reservationOrders/list")
 }
-// 医生远程门诊
+// 医生远程门诊列表
 const DoctorRemoteclinicList = {
 	path: 'operation/remoteclinic/list',
 	name: 'DoctorRemoteclinicList',
@@ -709,8 +689,6 @@ export default {
 	remoteClinicRoom,
 	// 远程门诊类型维护
 	doctorremoteClinicTypeList,
-	doctorremoteClinicTypeAdd,
-	doctorremoteClinicTypeEdit,
 	// 医生远程门诊列表
 	doctorList,
 

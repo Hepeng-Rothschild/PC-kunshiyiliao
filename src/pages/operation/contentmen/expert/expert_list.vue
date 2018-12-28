@@ -3,7 +3,7 @@
     <!--列表-->
     <tmpHeader/>
     <!--添加专家/搜索-->
-    <div class="iheader" v-show = '!flag'>
+    <div class="iheader" v-show="!flag">
       <button @click="navto">添加专家</button>
       <div class="box">
         <div class="boxs">
@@ -14,7 +14,7 @@
       </div>
     </div>
     <!--表格列表-->
-    <div class="main" v-show = '!flag'>
+    <div class="main" v-show="!flag">
       <table border="0" cellspacing="0" cellpadding="0">
         <tr>
           <th>编号</th>
@@ -40,7 +40,7 @@
       <div class="footer" v-show="!tablesList.length">暂无更多数据</div>
     </div>
     <div style="text-align:center;margin:10px 0;">
-      <Page :total="expertSize" @on-change="pageChange" :current ='pageNo' v-show = '!flag'/>
+      <Page :total="expertSize" @on-change="pageChange" :current="pageNo" v-show="!flag"/>
     </div>
   </div>
 </template>
@@ -61,29 +61,29 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
       expertSize: 10,
       val: "",
-      pageNo:1,
-      flag:''
+      pageNo: 1,
+      flag: ""
     };
   },
   created() {
-    let pageNo = this.$route.params.pageNo
-    if(pageNo) {
+    let pageNo = this.$route.params.pageNo;
+    if (pageNo) {
       this.pageNo = pageNo;
     }
     this.getExpertData(pageNo);
   },
-  mounted () {
+  mounted() {
     this.status();
   },
   methods: {
     //分页器改变
     pageChange(index) {
-      this.pageNo = index
-     if (this.val != ''){
+      this.pageNo = index;
+      if (this.val != "") {
         this.getExpertData(index, this.val);
-     } else {
+      } else {
         this.getExpertData(index);
-     }
+      }
     },
     status() {
       let flag = localStorage.getItem("status");
@@ -94,7 +94,7 @@ export default {
           this.$router.push({
             name: "homeInfo"
           });
-        }, 600)
+        }, 600);
       }
     },
     // 模糊查询
@@ -104,8 +104,8 @@ export default {
     navto() {
       this.$router.push({
         name: "expertAdd",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
       });
     },
@@ -115,7 +115,7 @@ export default {
         name: "expert_edits",
         params: {
           item,
-          pageNo:this.pageNo
+          pageNo: this.pageNo
         }
       });
     },
@@ -154,8 +154,10 @@ export default {
 
 <style scoped lang="less">
 .expert {
-  width: 100%;
-  background:#fff;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .iheader {
     width: 80%;
     margin: 20px auto;
@@ -221,8 +223,8 @@ export default {
       border: 1px solid #ddd;
       border-top: none;
       text-align: center;
-      height:40px;
-      line-height:40px;
+      height: 40px;
+      line-height: 40px;
     }
     table {
       width: 100%;

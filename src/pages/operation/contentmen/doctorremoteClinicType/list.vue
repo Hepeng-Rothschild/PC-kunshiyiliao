@@ -155,7 +155,10 @@ export default {
 </script>
 <style lang="less" scoped>
 .list {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   display: flex;
   flex-direction: column;
   position: relative;

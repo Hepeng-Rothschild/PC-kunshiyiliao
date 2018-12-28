@@ -313,7 +313,7 @@ export default {
   background: #fff;
   .i_addBanner_main {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: column;
     h3 {

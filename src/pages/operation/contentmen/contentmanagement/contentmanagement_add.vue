@@ -347,9 +347,10 @@ export default {
 }
 
 .home_article {
-  width: 100%;
-  height: 100%;
-  background: #f2f2f2;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .article_title {
     padding: 0 30px;
     margin: 5px 0;

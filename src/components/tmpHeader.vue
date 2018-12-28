@@ -2,10 +2,10 @@
   <div class="temHeader">
     <ul>
       <li>
-        <router-link to="/index/operation/register/list">医生排班列表</router-link>
+        <router-link to="/index/operation/register/list">医生服务</router-link>
       </li>
       <li>
-        <router-link to="/index/operation/remoteclinic/list">远程门诊排班</router-link>
+        <router-link to="/index/operation/remoteclinic/list">门诊列表</router-link>
       </li>
     </ul>
   </div>

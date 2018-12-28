@@ -124,7 +124,7 @@ export default {
           name: "homeInfo"
         });
       }, 800);
-      return ""
+      return "";
     }
     this.getHospialRoom();
   },
@@ -250,11 +250,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .remoteClinicList {
-  width: 100%;
-  background: #f2f2f2;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .main {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
     .order {
       display: flex;
       flex-direction: row;

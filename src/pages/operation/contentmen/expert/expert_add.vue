@@ -251,13 +251,15 @@ export default {
 
 <style scoped lang="less">
 .addExpert {
-  width: 100%;
-
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .main_expert {
     width: 80%;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    margin: 10px auto;
     .main_expert_item {
       display: flex;
       flex-direction: row;

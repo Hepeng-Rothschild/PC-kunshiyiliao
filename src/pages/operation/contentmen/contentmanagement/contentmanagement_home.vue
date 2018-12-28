@@ -276,11 +276,11 @@ export default {
 
 <style scoped lang = "less">
 .contentHome {
-  width: 100%;
-  height: auto;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
   margin: 0 auto;
-  position: relative;
   background: #fff;
+  position: relative;
   height: 100vh;
   /*提示*/
   .info {

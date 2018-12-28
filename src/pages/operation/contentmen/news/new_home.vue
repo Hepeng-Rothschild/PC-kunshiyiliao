@@ -187,11 +187,14 @@ export default {
 
 <style scoped lang="less">
 .news {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .headeri {
     width: 80%;
     display: flex;
-    margin: 0 auto;
+    margin: 10px auto;
     flex-direction: row;
     justify-content: space-between;
     span {

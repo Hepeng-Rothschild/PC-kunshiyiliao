@@ -86,11 +86,13 @@ export default {
 
 <style scoped lang="less">
 .expert {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
   background: #fff;
   .iheader {
     width: 80%;
-    margin: 20px auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

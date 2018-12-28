@@ -331,13 +331,15 @@ export default {
   margin: 0 2px;
 }
 .addNews {
-  width: 100%;
+   width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .main {
     width: 80%;
-    border: 1px solid #f2f2f2;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    margin: 10px auto;
     padding: 30px 0;
     .main_title {
       width: 100%;

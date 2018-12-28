@@ -32,9 +32,9 @@
       <li>
         <router-link to="/index/operation/doctorremoteClinic_list">远程门诊类型</router-link>
       </li>
-      <li>
+      <!-- <li>
         <router-link to="/index/operation/doctorList">远程门诊医生列表</router-link>
-      </li>
+      </li> -->
     </ul>
   </header>
 </template>

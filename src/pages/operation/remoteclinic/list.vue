@@ -13,7 +13,7 @@
         <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
       </Select> -->
       <!-- 检索的医院名称 -->
-      <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
+      <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'"/>
       <!-- 职称 -->
       <!-- <Select class="w-select" v-model="dictType" placeholder="职称级别">
         <Option
@@ -98,8 +98,7 @@ export default {
       list: [
         {
           sum: "01",
-          name:"赵虎",
-
+          name:"赵虎"
         }
       ]
     };
@@ -141,14 +140,14 @@ export default {
           console.log(err);
         });
       //获取职称列表
-      this.$axios
-        .post(api.getTitle)
-        .then(resp => {
-          this.titleList = resp.data.object;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // this.$axios
+      //   .post(api.getTitle)
+      //   .then(resp => {
+      //     this.titleList = resp.data.object;
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   })
     },
     // 修改
     edit() {

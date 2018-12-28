@@ -106,25 +106,25 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.one_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.one_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.two_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.two_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.three_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.three_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.four_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.four_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.five_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.five_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.six_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.six_am"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.seven_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.seven_am"></InputNumber>
             </td>
           </tr>
           <tr>
@@ -141,25 +141,25 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.one_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.one_pm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.two_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.two_pm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.three_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.three_pm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.four_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.four_pm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.five_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.five_pm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.six_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.six_pm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="1" v-model="params.seven_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.seven_pm"></InputNumber>
             </td>
           </tr>
         </table>
@@ -237,26 +237,26 @@ export default {
       // 一周号源
       params: {
         // 周一
-        one_am: 1,
-        one_pm: 1,
+        one_am: null,
+        one_pm: null,
         // 周二
-        two_am: 1,
-        two_pm: 1,
+        two_am: null,
+        two_pm: null,
         // 周三
-        three_am: 1,
-        three_pm: 1,
+        three_am: null,
+        three_pm: null,
         // 周四
-        four_am: 1,
-        four_pm: 1,
+        four_am: null,
+        four_pm: null,
         // 周五
-        five_am: 1,
-        five_pm: 1,
+        five_am: null,
+        five_pm: null,
         // 周六
-        six_am: 1,
-        six_pm: 1,
+        six_am: null,
+        six_pm: null,
         // 周天
-        seven_am: 1,
-        seven_pm: 1
+        seven_am: null,
+        seven_pm: null
       },
       // 医院ID
       id: 82,

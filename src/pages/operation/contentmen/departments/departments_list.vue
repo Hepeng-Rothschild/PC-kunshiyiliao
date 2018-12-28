@@ -146,7 +146,9 @@ export default {
 
 <style scoped lang="less">
 .i_keshi {
-  width: 100%;
+   width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
   background: #fff;
   .i-keshi_main {
     width: 80%;

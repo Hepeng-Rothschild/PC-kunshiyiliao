@@ -142,10 +142,13 @@ export default {
 
 <style scoped lang="less">
 .i_keshi {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 10px 30px;
+  margin: 0 auto;
+  background: #fff;
   .i-keshi_main {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
     .ibanner_header {
       width: 100%;
       margin: 0 auto;
