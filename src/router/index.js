@@ -88,6 +88,9 @@ export default new Router({
 				operation.servicePackageItemList,
 				operation.servicePackageItemAdd,
 				operation.servicePackageItemEdit,
+				operation.servicePackageItemImportOne,
+				operation.servicePackageItemImportTwo,
+				operation.servicePackageItemImportThree,
 				// 远程门诊
 				operation.DoctorRemoteclinicList,
 				operation.DoctorRemoteclinicEdit,

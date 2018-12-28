@@ -25,7 +25,7 @@
                     <i class="req-icon"></i>服务项目归属：
                 </Col>
                 <Col :xs="21">
-                    <FormItem prop="paytype">
+                    <FormItem prop="attribution">
                         <Select
                             class="w-select"
                             @on-change="changeProvince"
@@ -85,7 +85,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>服务项目名称：
+                    <i class="req-icon">*</i>服务项目名称：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="serviceName">
@@ -121,7 +121,11 @@
                 <Col :xs="21">
                     <FormItem prop="numberYear">
                         <Select class="w-select" v-model="info.numberYear">
-                            <Option v-for="(item,index) of numberYear" :value="item" :key="index">{{item}}/次</Option>
+                            <Option
+                                v-for="(item,index) of numberYear"
+                                :value="item"
+                                :key="index"
+                            >{{item}}/次</Option>
                         </Select>
                     </FormItem>
                 </Col>
@@ -144,7 +148,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>收费标准：
+                    <i class="req-icon">*</i>收费标准：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amt">
@@ -154,7 +158,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>实收金额：
+                    <i class="req-icon">*</i>实收金额：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amountReceived">
@@ -164,7 +168,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>自付金额：
+                    <i class="req-icon">*</i>自付金额：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="residentowncost">
@@ -174,7 +178,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>政府补贴：
+                    <i class="req-icon">*</i>政府补贴：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="governmentsubsidycost">
@@ -242,13 +246,13 @@ export default {
                 ascription: 1,
                 hospitalId: null,
                 serviceDes: null,
-                provinceId: null,
+                provinceId: "1",
                 cityId: null,
                 areaId: null,
                 remarks: null,
-                numberYear: null,
-                executingAgency: null,
-                nature: null,
+                numberYear: 1,
+                executingAgency: 1,
+                nature: 1,
                 amountReceived: null
             },
             pageNo: null,
@@ -269,14 +273,52 @@ export default {
             searchKey: "",
             hospitalId: "",
 
-            infoRules: {},
+            infoRules: {
+                serviceName: [
+                    {
+                        required: true,
+                        message: "服务项目名称不能为空",
+                        trigger: "blur"
+                    }
+                ],
+                amt: [
+                    {
+                        required: true,
+                        message: "收费标准不能为空",
+                        trigger: "blur"
+                    }
+                ],
+                amountReceived: [
+                    {
+                        required: true,
+                        message: "实收金额不能为空",
+                        trigger: "blur"
+                    }
+                ],
+                residentowncost: [
+                    {
+                        required: true,
+                        message: "自付金额不能为空",
+                        trigger: "blur"
+                    }
+                ],
+                governmentsubsidycost: [
+                    {
+                        required: true,
+                        message: "政府补贴不能为空",
+                        trigger: "blur"
+                    }
+                ]
+            },
             switch1: false
         };
     },
     created() {
         this.provinceList = this.$store.getters.getProvinceList;
         let id = parseInt(this.$route.query.id);
-        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         if (isNaN(id)) {
             this.editTt = `添加服务包`;
         } else {
@@ -288,11 +330,15 @@ export default {
                     if (resp.data.success) {
                         this.info = resp.data.object;
                         this.info.provinceId = String(this.info.provinceId);
-                        if(this.info.cityId){
-                            this.cityList = this.$store.getters.getCityList(this.info.provinceId);
+                        if (this.info.cityId) {
+                            this.cityList = this.$store.getters.getCityList(
+                                this.info.provinceId
+                            );
                         }
-                        if(this.info.areaId){
-                            this.areaList = this.$store.getters.getAreaList(this.info.cityId);
+                        if (this.info.areaId) {
+                            this.areaList = this.$store.getters.getAreaList(
+                                this.info.cityId
+                            );
                         }
                         if (this.info.hospitalId) {
                             var params = {};
@@ -329,13 +375,14 @@ export default {
             this.info.cityId = "0";
             this.info.areaId = "0";
             this.info.hospitalId = "0";
-            this.cityList = this.$store.getters.getCityList(this.info.provinceId);
+            this.cityList = this.$store.getters.getCityList(
+                this.info.provinceId
+            );
         },
         changeCity() {
             this.info.areaId = "0";
             this.info.hospitalId = "0";
             this.areaList = this.$store.getters.getAreaList(this.info.cityId);
-
         },
         changeArea() {
             this.hospitalId = "0";
@@ -367,14 +414,30 @@ export default {
                     params.amt = this.info.amt;
                     params.packagestatus = parseInt(this.info.packagestatus);
                     params.ascription = parseInt(this.info.ascription);
-                    params.hospitalId = this.info.hospitalId == 0 || this.info.hospitalId == undefined ?"":parseInt(this.info.hospitalId);
+                    params.hospitalId =
+                        this.info.hospitalId == 0 ||
+                        this.info.hospitalId == undefined
+                            ? ""
+                            : parseInt(this.info.hospitalId);
                     params.serviceDes = this.info.serviceDes;
-                    params.provinceId = this.info.provinceId == 0 || this.info.provinceId == undefined ? "":parseInt(this.info.provinceId);
-                    params.cityId = this.info.cityId == 0 || this.info.cityId == undefined ? "" : parseInt(this.info.cityId);
-                    params.areaId = this.info.areaId == 0 || this.info.areaId == undefined ? "" : parseInt(this.info.areaId);
+                    params.provinceId =
+                        this.info.provinceId == 0 ||
+                        this.info.provinceId == undefined
+                            ? ""
+                            : parseInt(this.info.provinceId);
+                    params.cityId =
+                        this.info.cityId == 0 || this.info.cityId == undefined
+                            ? ""
+                            : parseInt(this.info.cityId);
+                    params.areaId =
+                        this.info.areaId == 0 || this.info.areaId == undefined
+                            ? ""
+                            : parseInt(this.info.areaId);
                     params.remarks = this.info.remarks;
                     params.numberYear = parseInt(this.info.numberYear);
-                    params.executingAgency = parseInt(this.info.executingAgency);
+                    params.executingAgency = parseInt(
+                        this.info.executingAgency
+                    );
                     params.nature = parseInt(this.info.nature);
                     params.amountReceived = this.info.amountReceived;
                     this.$axios
@@ -479,7 +542,7 @@ export default {
         width: 400px;
     }
     .w-number {
-        width: 80px;
+        width: 100px;
     }
     .req-icon {
         font-size: 18px;

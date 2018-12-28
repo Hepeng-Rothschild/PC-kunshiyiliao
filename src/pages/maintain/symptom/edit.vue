@@ -8,13 +8,13 @@
                 <Col class="borderRight" :xs="24" :md="12">
                     <Row>
                         <Col :xs="24">
-                            <i class="req-icon">*</i>疾病名称：
+                            <i class="req-icon">*</i>症状名称：
                             <FormItem prop="symptom">
                                 <Input
                                     class="w-input"
                                     v-model="info.symptom"
                                     :maxlength="20"
-                                    placeholder="请输入疾病名称"
+                                    placeholder="请输入症状名称"
                                 />
                             </FormItem>
                         </Col>
@@ -53,7 +53,7 @@ export default {
                 symptom: [
                     {
                         required: true,
-                        message: "疾病名称不能为空",
+                        message: "症状名称不能为空",
                         trigger: "blur"
                     }
                 ]

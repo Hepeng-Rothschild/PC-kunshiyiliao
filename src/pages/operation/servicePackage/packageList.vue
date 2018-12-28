@@ -38,7 +38,7 @@
                     <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
                 </Button>
                 <Button type="warning" @click="goAdd">添加服务包</Button>
-                <Button type="default" @click="goImport">批量导入</Button>
+                <!-- <Button type="default" @click="goImport">批量导入</Button> -->
             </Col>
         </Row>
         <Table class="m-table" :columns="columns" :data="dataList"></Table>
@@ -239,12 +239,12 @@ export default {
                 });
         },
         goAdd() {
-            this.$router.push({ path: "/index/operation/servicePackage/pAdd" });
+            this.$router.push({ path: "/index/operation/servicePackage/pAdd",query:{pageNo:this.pageNo} });
         },
         goEdit(id) {
             this.$router.push({
                 path: "/index/operation/servicePackage/pEdit",
-                query: { id }
+                query: { id,pageNo:this.pageNo }
             });
         },
         goImport() {},
@@ -269,8 +269,16 @@ export default {
                     this.count = resp.data.object.count;
                     this.dataList = [];
                     resp.data.object.list.map((el,i)=>{
+                        /* 这儿注释代码不许删除掉 */
+                        // let promise = new Promise((resolve, reject) =>{
+                        //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                        // });
+                        // promise.then(val=>{
+                        //     el.attribution = val;
+                        //     this.dataList.push(el)
+                        // })
                         let promise = new Promise((resolve, reject) =>{
-                            this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                            this.attribution(resolve,el);
                         });
                         promise.then(val=>{
                             el.attribution = val;
@@ -282,7 +290,26 @@ export default {
                     console.log(err);
                 });
         },
-        
+        attribution(resolve,opt){
+            let attribution = "";
+            if (opt.hospitalId) {
+                attribution += opt.hospitalName;
+            } else {
+                if (opt.provinceId) {
+                    attribution += opt.province;
+                    if (opt.cityId) {
+                        let pat = new RegExp(opt.province);
+                        !pat.test(opt.city) && (attribution += "&nbsp;&nbsp;" + opt.city);
+                        if (opt.areaId) {
+                            attribution += "&nbsp;&nbsp;" + opt.area;
+                        }
+                    }
+                }
+            }
+            console.log(attribution);
+            resolve(attribution);
+        },
+        /* getAttribution 函数不许删除 */
         getAttribution(resolve,provinceId, cityId, areaId, hospitalId) {
             let attribution = "";
             if (hospitalId) {
