@@ -155,6 +155,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items:center;
       .box {
         display: flex;
         flex-direction: row;
@@ -170,7 +171,6 @@ export default {
           span {
             display: inline-block;
             width: 20px;
-            margin-top: 5px;
             margin-left: 5px;
             height: 20px;
             background: url("../../../../assets/images/search.png") no-repeat;

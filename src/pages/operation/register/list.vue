@@ -164,6 +164,7 @@ export default {
     tempHeader
   },
   mounted() {
+    
     let pageNo = this.$route.query.pageNo
     pageNo = pageNo?pageNo:1;
     //获取省级列表
@@ -254,6 +255,9 @@ export default {
     addDoc(){
       this.$router.push({path:"/index/operation/register/edit",query:{pageNo:this.pageNo}});
     }
+  },
+  created () {
+    sessionStorage.setItem("index", 0);
   }
 };
 </script>

@@ -120,6 +120,7 @@ export default {
     if (!doctor) {
       this.$Message.info("您还没有开通远程门诊,去开通");
       setTimeout(() => {
+        sessionStorage.setItem("homeIndex", 0);
         this.$router.push({
           name: "homeInfo"
         });

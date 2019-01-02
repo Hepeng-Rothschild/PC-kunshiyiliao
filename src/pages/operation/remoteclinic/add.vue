@@ -41,7 +41,7 @@
           <p>远程门诊类型</p>
         </div>
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-          <Option v-for="item,index in searchTypeList" :value="index" :key="item.id">{{item.name}}</Option>
+          <Option v-for="item,index in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
       </div>
       <!-- 医事服务费 -->
@@ -109,25 +109,25 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.one_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.oneAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.two_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.twoAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.three_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.threeAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.four_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fourAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.five_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fiveAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.six_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sixAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.seven_am"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sevenAm"></InputNumber>
             </td>
           </tr>
           <tr>
@@ -144,25 +144,25 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.one_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.onePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.two_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.twoPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.three_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.threePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.four_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fourPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.five_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.fivePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.six_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sixPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.seven_pm"></InputNumber>
+              <InputNumber :max="8" :min="0" v-model="params.sevenPm"></InputNumber>
             </td>
           </tr>
         </table>
@@ -240,26 +240,26 @@ export default {
       // 一周号源
       params: {
         // 周一
-        one_am: null,
-        one_pm: null,
+        oneAm: null,
+        onePm: null,
         // 周二
-        two_am: null,
-        two_pm: null,
+        twoAm: null,
+        twoPm: null,
         // 周三
-        three_am: null,
-        three_pm: null,
+        threeAm: null,
+        threePm: null,
         // 周四
-        four_am: null,
-        four_pm: null,
+        fourAm: null,
+        fourPm: null,
         // 周五
-        five_am: null,
-        five_pm: null,
+        fiveAm: null,
+        fivePm: null,
         // 周六
-        six_am: null,
-        six_pm: null,
+        sixAm: null,
+        sixPm: null,
         // 周天
-        seven_am: null,
-        seven_pm: null
+        sevenAm: null,
+        sevenPm: null
       },
       // 医院ID
       id: 82,
@@ -285,7 +285,6 @@ export default {
     },
     changeSearchType(val) {
       this.money = this.searchTypeList[val].cost;
-      console.log(val);
     },
     // 保存
     save() {
@@ -318,6 +317,7 @@ export default {
       } else if (params.doctorId == "") {
         this.$Message.info("请选择专家");
       } else {
+        // console.log(params);
         this.$axios.post(api.doctorRomteclinicAdd, params).then(res => {
           console.log(res);
           if (res.data.code) {
@@ -328,7 +328,7 @@ export default {
               });
             }, 800);
           }
-        });
+        })
       }
     },
     expert(item) {

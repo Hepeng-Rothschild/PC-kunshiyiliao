@@ -350,6 +350,7 @@ export default {
     }
   },
   created() {
+    sessionStorage.setItem("homeIndex", 0);
     // 医院等级
     this.$axios.post(api.managementAll, {}).then(res => {
       if (res.data.code) {

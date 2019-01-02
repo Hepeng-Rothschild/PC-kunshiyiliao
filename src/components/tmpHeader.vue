@@ -1,11 +1,8 @@
 <template>
   <div class="temHeader">
     <ul>
-      <li>
-        <router-link to="/index/operation/register/list">预约挂号</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/remoteclinic/list">远程门诊</router-link>
+      <li v-for="item,index in dataList" @click="changeIndex(index)">
+        <router-link :to="item.name"  :class = '{active:current==index}'>{{ item.title }}</router-link>
       </li>
     </ul>
   </div>
@@ -13,7 +10,27 @@
 <script>
 import { TabPane } from "iview";
 export default {
-  components: { TabPane }
+  components: { TabPane },
+  data() {
+    return {
+      current: sessionStorage.getItem("index") || -1,
+      dataList: [
+        {
+          title: "预约挂号",
+          name: "/index/operation/register/list"
+        },
+        {
+          title: "远程门诊",
+          name: "/index/operation/remoteclinic/list"
+        }
+      ]
+    };
+  },
+  methods: {
+    changeIndex(index) {
+      sessionStorage.setItem('index',index);
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -31,10 +48,14 @@ export default {
         color: black;
         padding: 8px 10px;
         border-bottom: 2px solid transparent;
-        transition:all .5s;
+        transition: all 0.5s;
       }
       a:hover {
         color: #57a3f3;
+      }
+      .active {
+        color: #2d8cf0;
+        border-bottom: 2px solid #2d8cf0;
       }
       .router-link-exact-active {
         color: #2d8cf0;

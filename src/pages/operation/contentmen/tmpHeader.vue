@@ -2,10 +2,10 @@
   <header>
     <h1 class="hospitalName">{{ hospitalName }}</h1>
     <ul>
-      <li>
-        <router-link to="/index/operation/home_info">医院信息</router-link>
+      <li v-for="item,index in dataList" @click ='changeIndex(index)'>
+        <router-link :to="item.name" :class="{active:current==index}">{{ item.title }}</router-link>
       </li>
-      <li>
+      <!-- <li>
         <router-link to="/index/operation/i_banner">Banner</router-link>
       </li>
       <li>
@@ -31,10 +31,7 @@
       </li>
       <li>
         <router-link to="/index/operation/doctorremoteClinic_list">远程门诊类型</router-link>
-      </li>
-      <!-- <li>
-        <router-link to="/index/operation/doctorList">远程门诊医生列表</router-link>
-      </li> -->
+      </li>-->
     </ul>
   </header>
 </template>
@@ -42,8 +39,57 @@
 export default {
   data() {
     return {
-      hospitalName: sessionStorage.getItem("hospitalName")
+      hospitalName: sessionStorage.getItem("hospitalName"),
+      current: sessionStorage.getItem("homeIndex") || -1,
+      dataList: [
+        {
+          name: "/index/operation/home_info",
+          title: "医院信息"
+        },
+        {
+          name: "/index/operation/i_banner",
+          title: "Banner"
+        },
+        {
+          name: "/index/operation/i_keshi",
+          title: "院内科室"
+        },
+        {
+          name: "/index/operation/news",
+          title: "动态新闻"
+        },
+        {
+          name: "/index/operation/t_keshi",
+          title: "特色科室"
+        },
+        {
+          name: "/index/operation/expert",
+          title: "专家介绍"
+        },
+        {
+          name: "/index/operation/service_management",
+          title: "服务管理"
+        },
+        {
+          name: "/index/operation/k_department",
+          title: "预约科室"
+        },
+        {
+          name: "/index/operation/remoteClinic_list",
+          title: "远程门诊"
+        },
+        {
+          name: "/index/operation/doctorremoteClinic_list",
+          title: "远程门诊类型"
+        }
+      ]
     };
+  },
+  methods: {
+    changeIndex(index) {
+      sessionStorage.setItem("homeIndex", index);
+
+    }
   }
 };
 </script>
@@ -60,7 +106,7 @@ header {
   }
   ul {
     // width: 80%;
-    min-width:900px;
+    min-width: 900px;
     margin: 0 10%;
     height: 40px;
     display: flex;
@@ -76,10 +122,14 @@ header {
         cursor: pointer;
         user-select: none;
         border-bottom: 2px solid transparent;
-        transition:all .5s;
+        transition: all 0.5s;
       }
-       a:hover {
+      a:hover {
         color: #57a3f3;
+      }
+      .active {
+        color: #2d8cf0;
+        border-bottom: 2px solid #2d8cf0;
       }
       .router-link-exact-active {
         color: #2d8cf0;

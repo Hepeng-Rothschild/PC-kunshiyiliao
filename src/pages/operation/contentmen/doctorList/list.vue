@@ -78,6 +78,7 @@ export default {
     let doctor = sessionStorage.getItem("doctor");
     if (!doctor) {
       this.$Message.info("您还没有开通远程门诊,去开通");
+      sessionStorage.setItem("homeIndex", 0);
       setTimeout(() => {
         this.$router.push({
           name: "homeInfo"
