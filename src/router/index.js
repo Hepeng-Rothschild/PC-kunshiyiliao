@@ -82,6 +82,8 @@ export default new Router({
 				//订单管理
 				operation.reservationOrders,
 				operation.contractManagement,
+				operation.remoteClinicOrders,
+				operation.remoteClinicOrdersDetail,
 				//服务包管理
 				operation.servicePackagePList,
 				operation.servicePackagePAdd,

@@ -204,10 +204,10 @@ export default {
             tabList: [{ id: 0, name: "全部" }],
             healthEducationSontab: [
                 // { id: 1, name: "常用" },
-                { id: 2, name: "最新" },
-                { id: 3, name: "医生忠告" },
-                { id: 4, name: "用药" },
-                { id: 5, name: "日常" }
+                { id: 1, name: "最新" },
+                { id: 2, name: "医生忠告" },
+                { id: 3, name: "用药" },
+                { id: 4, name: "日常" }
             ],
             eduInfoRules: {
                 title: [

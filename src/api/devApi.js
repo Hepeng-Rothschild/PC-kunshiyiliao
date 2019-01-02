@@ -178,6 +178,7 @@ const fdspackageiteminsertbatch ='/operateapi/fdspackageiteminsertbatch';  //服
 const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增/修改服务包
 const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
 const servicepackageselectbyid ='/operateapi/servicepackageselectbyid';  //服务包详情
+const organizationdownloadtemplate ='/operateapi/organizationdownloadtemplate';  //服务包详情
 //通过省份ID查询医院列表
 const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
 
@@ -353,6 +354,7 @@ export default {
     servicepackageinsert,
     servicepackagepage,
     servicepackageselectbyid,
+    organizationdownloadtemplate,
     //通过省份ID查询医院列表
     hospitalselectbyprovincecode,
 }

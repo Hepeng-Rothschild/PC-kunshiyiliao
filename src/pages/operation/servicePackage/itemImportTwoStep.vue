@@ -58,7 +58,8 @@ export default {
         };
     },
     mounted() {
-        let fail = this.$route.params.fail;
+        let fail = this.$route.query.fail;
+        console.log('fail: ', fail);
         if (fail) {
             // console.log(fail);
             this.all = fail;
@@ -68,13 +69,12 @@ export default {
     methods: {
         //   下一步
         next() {
-            let fail = this.$route.params.fail;
+            let fail = this.$route.query.fail;
             let success = fail.success;
             let error = fail.fail.length;
-            //  console.log(success,error);
             this.$router.push({
                 path: "/index/operation/servicePackage/itemImportThree",
-                params: {
+                query: {
                     success,
                     error
                 }

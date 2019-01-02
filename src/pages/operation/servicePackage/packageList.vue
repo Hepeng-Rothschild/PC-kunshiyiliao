@@ -266,25 +266,27 @@ export default {
             this.$axios
                 .post(api.servicepackagepage, params)
                 .then(resp => {
-                    this.count = resp.data.object.count;
-                    this.dataList = [];
-                    resp.data.object.list.map((el,i)=>{
-                        /* 这儿注释代码不许删除掉 */
-                        // let promise = new Promise((resolve, reject) =>{
-                        //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
-                        // });
-                        // promise.then(val=>{
-                        //     el.attribution = val;
-                        //     this.dataList.push(el)
-                        // })
-                        let promise = new Promise((resolve, reject) =>{
-                            this.attribution(resolve,el);
-                        });
-                        promise.then(val=>{
-                            el.attribution = val;
-                            this.dataList.push(el)
+                    if(resp.data.code==1&&resp.data.object.list.length>0){
+                        this.count = resp.data.object.count;
+                        this.dataList = [];
+                        resp.data.object.list.map((el,i)=>{
+                            /* 这儿注释代码不许删除掉 */
+                            // let promise = new Promise((resolve, reject) =>{
+                            //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                            // });
+                            // promise.then(val=>{
+                            //     el.attribution = val;
+                            //     this.dataList.push(el)
+                            // })
+                            let promise = new Promise((resolve, reject) =>{
+                                this.attribution(resolve,el);
+                            });
+                            promise.then(val=>{
+                                el.attribution = val;
+                                this.dataList.push(el)
+                            })
                         })
-                    })
+                    }
                 })
                 .catch(err => {
                     console.log(err);

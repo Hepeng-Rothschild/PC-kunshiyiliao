@@ -16,11 +16,11 @@ export default {
       current: sessionStorage.getItem("index") || -1,
       dataList: [
         {
-          title: "医生服务",
+          title: "预约挂号",
           name: "/index/operation/register/list"
         },
         {
-          title: "门诊列表",
+          title: "远程门诊",
           name: "/index/operation/remoteclinic/list"
         }
       ]

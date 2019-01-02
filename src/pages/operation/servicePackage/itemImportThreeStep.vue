@@ -33,7 +33,7 @@ export default {
         };
     },
     mounted() {
-        let fail = this.$route.params;
+        let fail = this.$route.query;
         // console.log(fail);
         if (fail) {
             this.success = fail.success;
@@ -43,7 +43,7 @@ export default {
     methods: {
         btn() {
             this.$router.push({
-                name: "mechanismreglist"
+                path: "/index/operation/servicePackage/itemList"
             });
         }
     }
