@@ -64,7 +64,7 @@ export default new Router({
 				operation.createNews,
 				operation.d_createdNews,
 				operation.expert_edit,
-				// 远程 门诊
+				// 远程门诊
 				operation.remoteClinic,
 				operation.remoteClinicEdit,
 				operation.remoteClinicRoom,
@@ -81,6 +81,7 @@ export default new Router({
 				operation.doctorContentCheckListHotEdit,
 				//订单管理
 				operation.reservationOrders,
+				operation.contractManagement,
 				//服务包管理
 				operation.servicePackagePList,
 				operation.servicePackagePAdd,

@@ -29,6 +29,9 @@ const doctorRomteclinicSearchExpert = '/operateapi/remotedoctorselectremotedocto
 const doctorRomteclinicList ='/operateapi/remotedoctorpageremotedoctor' //远程门诊医生列表
 const doctorRomteclinicDetail='/operateapi/remotedoctorselectoutpatientdoctorscheduling' //查询远程门诊医生详情
 
+// 家医签约管理
+const  contractManagementList ='/operateapi/ordermanagementsigningmanagepage'   //家医签约管理列表
+
 // 机构管理
 const management = '/operateapi/hospitalqueryhospitaloperatelist'  //机构管理医院列表
 const managementInfo = '/operateapi/hospitalqueryhospitaloperatedtobyid'   //医院详细信息
@@ -216,6 +219,8 @@ export default {
     doctorRomteclinicSearchExpert,
     doctorRomteclinicList,
     doctorRomteclinicDetail,
+    // 家医签约管理
+    contractManagementList,
 
     /* ********************************************** */
     

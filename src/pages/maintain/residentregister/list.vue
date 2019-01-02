@@ -4,7 +4,7 @@
       <!-- 头部信息 -->
       <header>
         <div class="search">
-          <input type="text" placeholder="医生姓名/联系方式/医院名称" v-model.trim="Name">
+          <Input v-model.trim="Name" placeholder="医生姓名/联系方式/医院名称" style="width: 200px" />
         </div>
         <button @click="nameChange">查询</button>
       </header>
@@ -123,29 +123,29 @@ export default {
       flex-direction: row;
       align-items: center;
       .search {
-        background-color: rgb(255, 255, 255);
-        height: 32px;
-        width: 276px;
-        border-radius: 16px;
-        border-width: 1px;
-        border-color: rgb(102, 102, 102);
-        border-style: solid;
-        text-align: right;
-        input {
-          text-align: left;
-          font-size: 14px;
-          font-weight: 400;
-          font-style: normal;
-          text-decoration: none;
-          border: none;
-          outline: none;
-          font-family: 微软雅黑;
-          color: rgb(102, 102, 102);
-          padding-left: 28px;
-          width: 100%;
-          line-height: 32px;
-          background: none;
-        }
+        // background-color: rgb(255, 255, 255);
+        // height: 32px;
+        // width: 276px;
+        // border-radius: 16px;
+        // border-width: 1px;
+        // border-color: rgb(102, 102, 102);
+        // border-style: solid;
+        // text-align: right;
+        // input {
+        //   text-align: left;
+        //   font-size: 14px;
+        //   font-weight: 400;
+        //   font-style: normal;
+        //   text-decoration: none;
+        //   border: none;
+        //   outline: none;
+        //   font-family: 微软雅黑;
+        //   color: rgb(102, 102, 102);
+        //   padding-left: 28px;
+        //   width: 100%;
+        //   line-height: 32px;
+        //   background: none;
+        // }
       }
       button {
         width: 100px;

@@ -169,11 +169,12 @@
       <!-- 预约备注 -->
       <div class="text">
         <span>预约备注：</span>
-        <textarea cols="30" rows="10" v-model="text_info"></textarea>
+        <!-- <textarea cols="30" rows="10" v-model="text_info"></textarea> -->
+        <Input v-model.trim="text_info" type="textarea" :rows="4" placeholder="请输入备注"/>
       </div>
       <!-- 保存 -->
       <div class="save">
-        <div style="background:skyblue;color:#fff;" @click="save">保存</div>
+        <div style="background:#57a3f3;color:#fff;" @click="save">保存</div>
         <div @click="back">取消</div>
       </div>
     </div>
@@ -493,10 +494,10 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: row;
-      textarea {
-        height: 100px;
-        outline: none;
-        flex: 1;
+      span {
+        display: inline-block;
+        width: 100px;
+        
       }
     }
     .save {

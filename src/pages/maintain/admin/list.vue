@@ -6,9 +6,7 @@
         <div class="btn">
           <button style="background:skyblue;" @click = 'add'>添加账号</button>
         </div>
-        <div class="search">
-          <input type="text" placeholder="登录账号/用户姓名">
-        </div>
+          <Input  placeholder="登录账号/用户姓名" style="width: 260px" />
       </header>
       <div class="list">
         <table border="0" cellspacing="0" cellpadding="0">

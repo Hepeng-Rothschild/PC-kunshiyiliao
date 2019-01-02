@@ -2,7 +2,7 @@
   <div class="management1">
     <header>
       <span>机构名称</span>
-      <input type="text" placeholder="请输入医疗机构名称" v-model="val">
+      <Input v-model.trim="val" placeholder="请输入医疗机构名称" style="width: 200px" />
       <button @click="search">查询</button>
     </header>
     <table border="0" cellspacing="0" cellpadding="0">
@@ -133,17 +133,10 @@ export default {
     span {
       color: black;
       line-height: 30px;
-    }
-    input {
-      height: 30px;
-      outline: none;
-      border: none;
-      border-radius: 0;
-      border: 1px solid black;
-      margin: 0 10px;
-      text-indent: 5px;
+      margin-right:10px;
     }
     button {
+      margin-left:10px;
       width: 50px;
       height: 30px;
       background: #3399ff;

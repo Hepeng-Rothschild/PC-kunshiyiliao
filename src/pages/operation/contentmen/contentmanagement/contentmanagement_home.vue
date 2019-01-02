@@ -6,34 +6,29 @@
       <!--类型选择-->
       <div class="selectType">
         <span>类型</span>
-        <select name="type" v-model="type1">
-          <option value="" selected>全部</option>
-          <option value="1">文章</option>
-          <option value="">视频</option>
-        </select>
+        <iSelect v-model="type1" style="width:100px">
+          <iOption v-for="item in cityList" :value="item.id" :key="item.id">{{ item.label }}</iOption>
+        </iSelect>
       </div>
       <!--发布选择-->
       <div class="selectType">
         <span>状态</span>
-        <select name="type" v-model="type2">
-          <option value="" selected>全部</option>
-          <option value="0">未发布</option>
-          <option value="1">已发布</option>
-        </select>
+        <iSelect v-model="type2" style="width:100px">
+          <iOption v-for="item in cityLists" :value="item.id" :key="item.id">{{ item.label }}</iOption>
+        </iSelect>
       </div>
       <!--搜索输入-->
       <div class="search">
-        <input type="text" placeholder="文章名称" v-model.trim="val">
+        <Input v-model.trim="val" placeholder="文章名称" style="width: 200px"/>
       </div>
       <!--搜索按钮-->
-      <button class="submit" @click="btn">搜索</button>
-      <button class="submit" @click="add">新增</button>
+      <Button type="primary" icon="ios-search" @click="btn">搜索</Button>
+      <Button type="primary" @click="add">新增</Button>
     </div>
     <!--表格-->
     <table border="0" cellspacing="0" cellpadding="0">
       <tr>
         <th>序号</th>
-        
         <th>标题</th>
         <th>类型</th>
         <th>栏目</th>
@@ -46,7 +41,7 @@
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
         <th>{{ addZero(index) }}</th>
-      
+
         <!-- 标题 -->
         <th>{{ item.title }}</th>
         <!-- 类型 -->
@@ -61,7 +56,7 @@
         <th>{{ item.readAmount }}</th>
         <!-- 收藏量 -->
         <th>{{ item.countFollow}}</th>
-          <!-- 排序 -->
+        <!-- 排序 -->
         <th>{{ item.priority }}</th>
         <th>{{ item.updateTime }}</th>
         <th class="modi">
@@ -83,7 +78,7 @@
     <div class="footer" v-show="!tableList.length">暂无更多数据</div>
     <!--分页器-->
     <div class="paging">
-      <Page :total="contentSize" @on-change="pageChange" :current = 'pageNo'/>
+      <Page :total="contentSize" @on-change="pageChange" :current="pageNo"/>
     </div>
     <!--info-->
     <div class="info" v-show="flag">
@@ -101,11 +96,13 @@
 </template>
 
 <script>
-import { Page } from "iview";
+import { Page, Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
-    Page
+    Page,
+    iSelect: Select,
+    iOption: Option
   },
   data() {
     return {
@@ -114,20 +111,49 @@ export default {
       type1: "",
       type2: "",
       allSelect: "null",
-      val: '',
+      val: "",
       flag: false,
       content: "",
       tableList: [],
       arr1: [],
       len: 10,
       contentSize: 10,
-      pageNo:1
+      pageNo: 1,
+      cityList: [
+        {
+          value: "全部",
+          label: "全部",
+          id: ""
+        },
+        {
+          value: "文章",
+          label: "文章",
+          id: 1
+        }
+      ],
+      cityLists: [
+        {
+          value: "全部",
+          label: "全部",
+          id: ""
+        },
+        {
+          value:"未发布",
+          label: "未发布",
+          id: 0
+        },
+        {
+          value:"已发布",
+          label: "已发布",
+          id: 1
+        }
+      ]
     };
   },
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo
+      this.pageNo = pageNo;
     }
     this.getContentData(this.pageNo);
   },
@@ -135,12 +161,12 @@ export default {
     add() {
       this.$router.push({
         name: "contentmanagementAdd",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
-      })
+      });
     },
-    getContentData(pageNo, val,type,enable) {
+    getContentData(pageNo, val, type, enable) {
       let params = {
         pageNo,
         pageSize: 10
@@ -151,9 +177,7 @@ export default {
       if (Boolean(type)) {
         params.type = Number(type);
       }
-      if (Boolean(enable)) {
-        params.enable = Number(enable);
-      }
+      params.enable = enable
       this.$axios.post(api.contentWrap, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
@@ -165,26 +189,27 @@ export default {
     homeBtn() {
       this.$router.push({
         name: "contentmanagementAdd",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
       });
     },
     pageChange(index) {
-      this.pageNo = index
-      this.getContentData(index, this.val,this.type1,this.type2);
+      this.pageNo = index;
+      this.getContentData(index, this.val, this.type1, this.type2);
     },
     //关键字查询列表
     btn() {
       let type1 = this.type1;
       let type2 = this.type2;
       if (type1 == null) {
-          type1 = ''
+        type1 = "";
       }
       if (type2 == null) {
-        type2 =''
+        type2 = "";
       }
-      this.getContentData(1, this.val,type1,type2);
+      console.log(type1,type2);
+      this.getContentData(1, this.val, type1, type2);
     },
     // 下架
     bottomShelf(item, index) {
@@ -235,12 +260,11 @@ export default {
     //根据ID修改对应的新闻资讯
     changeItem(item) {
       let id = item.articleId;
-      // console.log(item);
       this.$router.push({
         name: "createNews",
         params: {
           id,
-          pageNo:this.pageNo
+          pageNo: this.pageNo
         }
       });
     },
@@ -277,7 +301,7 @@ export default {
 <style scoped lang = "less">
 .contentHome {
   width: calc(100% - 20px);
-  padding: 10px 30px;
+  padding: 10px 0;
   margin: 0 auto;
   background: #fff;
   position: relative;
@@ -355,15 +379,6 @@ export default {
     }
     .search {
       width: 200px;
-      border-radius: 10px;
-      border: 1px solid black;
-      background: #fff;
-      input {
-        border: none;
-        outline: none;
-        text-indent: 1em;
-        background: none;
-      }
     }
     .submit {
       background: dodgerblue;
@@ -393,7 +408,7 @@ export default {
       th {
         text-align: center;
         height: 40px;
-        padding:6px 0;
+        padding: 6px 0;
         .modi {
           a {
             color: black;

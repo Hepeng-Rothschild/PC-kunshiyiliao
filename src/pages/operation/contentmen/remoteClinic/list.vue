@@ -138,7 +138,9 @@ export default {
     },
     // 输入值检索搜索内容
     searchContent() {
+      let id = sessionStorage.getItem("hospitalId");
       let params = this.model;
+      params.id = id;
       this.$axios.post(api.searchRoomList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
@@ -376,7 +378,7 @@ export default {
       height: 30px;
       background: skyblue;
       color: #fff;
-      border-radius: 6px;
+      border-radius: 30px;
       margin: 10px auto;
       text-align: center;
       line-height: 30px;

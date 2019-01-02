@@ -42,7 +42,7 @@
           <td>操作</td>
         </tr>
         <tr v-for="item,index in list" v-show="list.length">
-          <td>{{ index+1 }}</td>
+          <td>{{ addZero(index) }}</td>
           <td>{{ item.doctorName }}</td>
           <td>{{ item.deptName }}</td>
           <td @click="showModel(item)" style="cursor:pointer;">
@@ -61,28 +61,70 @@
       </table>
       <div class="nodata" v-show="!list.length">暂无更多数据</div>
     </div>
-    <Modal v-model="modal1" title="远程门诊时间">
-      <p
-        v-show="currentData.oneAm && currentData.onePm"
-      >周一：{{ currentData.oneAm +'-'+ currentData.onePm}}</p>
-      <p
-        v-show="currentData.twoAm && currentData.twoPm"
-      >周二：{{ currentData.twoAm +'-'+ currentData.twoPm}}</p>
-      <p
-        v-show="currentData.threeAm && currentData.threePm"
-      >周三：{{ currentData.threeAm +'-'+ currentData.threePm}}</p>
-      <p
-        v-show="currentData.fourAm && currentData.fourPm"
-      >周四：{{ currentData.fourAm +'-'+ currentData.fourPm}}</p>
-      <p
-        v-show="currentData.fiveAm && currentData.fivePm"
-      >周五：{{ currentData.fiveAm +'-'+ currentData.fivePm}}</p>
-      <p
-        v-show="currentData.sixAm && currentData.sixPm"
-      >周六：{{ currentData.sixAm +'-'+ currentData.sixPm}}</p>
-      <p
-        v-show="currentData.sevenAm && currentData.sevenPm"
-      >周天：{{ currentData.sevenAm +'-'+ currentData.sevenPm}}</p>
+    <Modal v-model="modal1" title="远程门诊时间" footer-hide>
+      <p style="text-align:center;" v-show="currentData.oneAm && currentData.onePm">
+        周一：
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >上午{{ currentData.oneAm || "无"}}</span>
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >下午{{ currentData.onePm || "无"}}</span>
+      </p>
+      <p style="text-align:center;" v-show="currentData.twoAm && currentData.twoPm">
+        周二：
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >上午{{ currentData.twoAm || "无"}}</span>
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >下午{{ currentData.twoPm || "无"}}</span>
+      </p>
+      <p style="text-align:center;" v-show="currentData.threeAm && currentData.threePm">
+        周三：
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >上午{{ currentData.threeAm || "无"}}</span>
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >下午{{ currentData.threePm || "无"}}</span>
+      </p>
+      <p style="text-align:center;" v-show="currentData.fourAm && currentData.fourPm">
+        周四：
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >上午{{ currentData.fourAm || "无"}}</span>
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >下午{{ currentData.fourPm || "无" }}</span>
+      </p>
+      <p style="text-align:center;" v-show="currentData.fiveAm && currentData.fivePm">
+        周五：
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >上午{{ currentData.fiveAm || "无"}}</span>
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >下午{{ currentData.fivePm || "无" }}</span>
+      </p>
+      <p style="text-align:center;" v-show="currentData.sixAm && currentData.sixPm">
+        周六：
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >上午{{ currentData.sixAm || "无" }}</span>
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >下午{{ currentData.sixPm || "无"}}</span>
+      </p>
+      <p style="text-align:center;" v-show="currentData.sevenAm && currentData.sevenPm">
+        周日：
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >上午{{ currentData.sevenAm || "无" }}</span>
+        <span
+          style="margin:0 20px;display:inline-block;min-width:100px;"
+        >下午{{ currentData.sevenPm || "无" }}</span>
+      </p>
     </Modal>
     <div class="total">
       <Page :total="remoteClinicLength" :current="pageNo" @on-change="change"/>
@@ -127,8 +169,39 @@ export default {
   methods: {
     // 显示model
     showModel(item) {
-      this.modal1 = true;
-      this.currentData = item;
+      let params = {};
+      params.oneAm = item.oneAm;
+      params.onePm = item.onePm;
+
+      params.twoAm = item.twoAm;
+      params.twoPm = item.twoPm;
+
+      params.threeAm = item.threeAm;
+      params.threePm = item.threePm;
+
+      params.fourAm = item.fourAm;
+      params.fourPm = item.fourPm;
+
+      params.fiveAm = item.fiveAm;
+      params.fivePm = item.fivePm;
+
+      params.sixAm = item.sixAm;
+      params.sixPm = item.sixPm;
+
+      params.sevenAm = item.sevenAm;
+      params.sevenPm = item.sevenPm;
+
+      this.currentData = params;
+      let flag = false;
+      for (let i in params) {
+        if (params[i]) {
+          flag = true;
+        }
+      }
+      this.modal1 = flag;
+      if (!flag) {
+        this.$Message.info("远程门诊时间为空");
+      }
     },
     // 页码改变
     change(index) {
@@ -209,6 +282,13 @@ export default {
           console.log(res);
         }
       });
+    },
+    addZero(num) {
+      num = num + 1;
+      if (num < 10) {
+        return "0" + num;
+      }
+      return num;
     }
   }
 };

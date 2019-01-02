@@ -9,7 +9,7 @@
           <span>新闻标题</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="请输入新闻标题" maxlength="30" v-model.trim="title">
+          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 400px" :maxlength="30"/>
           <span>{{ title.length }}/30</span>
         </div>
       </div>
@@ -19,7 +19,7 @@
           <span>副标题</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="请输入新闻副标题" maxlength="30" v-model.trim="titles">
+          <Input v-model.trim="titles" placeholder="请输入新闻副标题" style="width: 400px" :maxlength="30"/>
           <span>{{ titles.length }}/30</span>
         </div>
       </div>
@@ -96,10 +96,10 @@
         </div>
         <div class="shuru">
           <vueEditor
-              id="contentEdit"
-              :textHtml="info.content"
-              :urlCode="urlCode"
-              @valueHandle="afterChange"
+            id="contentEdit"
+            :textHtml="info.content"
+            :urlCode="urlCode"
+            @valueHandle="afterChange"
           ></vueEditor>
         </div>
       </div>
@@ -109,7 +109,11 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>新闻来源</span>
         </div>
-        <input type="text" placeholder="请输入新闻的来源" v-model.trim="isource">
+        <Input
+          v-model.trim="isource"
+          placeholder="请输入新闻的来源,未填写显示未知"
+          style="width: 400px"
+        />
       </div>
       <!--排序-->
       <div class="main_sort">
@@ -117,7 +121,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" v-model.trim="isort">
+        <Input
+          v-model.trim="isort"
+          style="width: 100px"
+        />
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--是否显示-->
@@ -161,8 +168,8 @@ export default {
       defaultList: [],
       imgName: "",
       id: sessionStorage.getItem("hospitalId"),
-      info:{
-        content:""
+      info: {
+        content: ""
       },
       select: 1,
 
@@ -170,11 +177,11 @@ export default {
       uploadList: [],
       switch1: true,
 
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.patientNews +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.patientNews + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
 
-      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
 
       images: "",
       source: "",
@@ -193,7 +200,7 @@ export default {
           if (res.data.code) {
             let ret = res.data.object;
             let detail = ret.operateArticle;
-            
+
             if (detail.cover) {
               this.uploadList = [];
               this.source = detail.cover;
@@ -307,8 +314,8 @@ export default {
                 });
               }, 500);
             } else {
-				this.$Message.info("修改失败请重试");
-			}
+              this.$Message.info("修改失败请重试");
+            }
           })
           .catch(err => {
             console.log(err);

@@ -30,7 +30,7 @@
             <span>{{ item.title }}</span>
           </div>
           <div class="total">
-            <Page :total="expertSize" :current="expertNo"/>
+            <Page :total="expertSize" :current="expertNo" @on-change="change1"/>
           </div>
         </div>
       </Modal>
@@ -43,6 +43,7 @@
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
           <Option v-for="item,index in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
+        <p style="margin-left:20px;color:gray;">！请先选择专家后，再选择远程门诊类型。</p>
       </div>
       <!-- 医事服务费 -->
       <div class="item">
@@ -172,11 +173,11 @@
       <!-- 预约备注 -->
       <div class="text">
         <span>预约备注：</span>
-        <textarea cols="30" rows="10" v-model="text_info"></textarea>
+        <Input v-model.trim="text_info" type="textarea" :rows="4" placeholder="请输入备注"/>
       </div>
       <!-- 保存 -->
       <div class="save">
-        <div style="background:skyblue;color:#fff;" @click="save">保存</div>
+        <div style="background:#57a3f3;color:#fff;" @click="save">保存</div>
         <div @click="back">取消</div>
       </div>
     </div>
@@ -275,7 +276,6 @@ export default {
       searchName: ""
     };
   },
-  mounted() {},
   methods: {
     //  取消,后退 上一次
     back() {
@@ -283,10 +283,16 @@ export default {
         name: "DoctorRemoteclinicList"
       });
     },
+    // 根据选择不同的门诊类型改变不同的价格
     changeSearchType(val) {
       this.money = this.searchTypeList[val].cost;
     },
-    // 保存
+    // 模态框的分页器改变
+    change1(index) {
+      this.expertNo = index;
+      this.searchExpert();
+    },
+    // 保存/新增专家
     save() {
       // 号源
       let params = this.params;
@@ -328,18 +334,21 @@ export default {
               });
             }, 800);
           }
-        })
+        });
       }
     },
+    // 选择专家
     expert(item) {
       this.modal1 = false;
       console.log(item);
       this.selectExpert = item;
+      this.getRemoteClinic(item.hospitalId);
     },
-    // 选择时间
+    // 选择时间/上午
     changeTime(val) {
       this.value2 = val;
     },
+    // 选择时间/下午
     changeTime1(val) {
       this.value3 = val;
     },
@@ -360,21 +369,20 @@ export default {
     searchExpert() {
       this.$axios
         .post(api.doctorRomteclinicSearchExpert, {
-          pageNo: 1,
+          pageNo: this.expertNo,
           pageSize: 10,
           searchKey: this.searchName,
           iremote: 1
         })
         .then(res => {
-          console.log(res);
           if (res.data.code) {
             this.expertList = res.data.object.list;
-            this.getRemoteClinic(82);
+            this.expertSize = res.data.object.count;
           }
         });
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .edit {
@@ -458,10 +466,9 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: row;
-      textarea {
-        height: 100px;
-        outline: none;
-        flex: 1;
+      span {
+        display: inline-block;
+        width: 100px;
       }
     }
     .save {

@@ -8,7 +8,7 @@
           <button @click = 'add'>新增机构</button>
         </div>
         <div class="search">
-          <input type="text" placeholder="机构名称" v-model.trim="Name" @keyup='nameChange' >
+          <Input v-model.trim="Name" placeholder="机构名称" style="width: 300px" @on-keyup='nameChange'/>
         </div>
       </header>
       <!-- 列表 -->
@@ -187,30 +187,6 @@ export default {
           width: 128px;
           height: 39px;
           border-radius: 2px;
-        }
-      }
-      .search {
-        background-color: rgb(255, 255, 255);
-        width: 276px;
-        height: 32px;
-        border-radius: 16px;
-        border-width: 1px;
-        border-color: rgb(102, 102, 102);
-        border-style: solid;
-        input {
-          text-align: left;
-          font-size: 14px;
-          font-weight: 400;
-          font-style: normal;
-          text-decoration: none;
-          border: none;
-          outline: none;
-          font-family: 微软雅黑;
-          color: rgb(102, 102, 102);
-          padding-left: 28px;
-          width: 100%;
-          line-height: 32px;
-          background: none;
         }
       }
     }

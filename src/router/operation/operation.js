@@ -520,6 +520,17 @@ const reservationOrders = {
 	component: () =>
 		import("@/pages/operation/reservationOrders/list")
 }
+// 家医签约管理
+const contractManagement = {
+	path: 'operation/contractManagement/list',
+	name: 'contractManagement',
+	meta: {
+		index: 2,
+		title: '预约挂号订单管理'
+	},
+	component: () =>
+		import("@/pages/operation/contractManagement/list")
+}
 // 医生远程门诊列表
 const DoctorRemoteclinicList = {
 	path: 'operation/remoteclinic/list',
@@ -702,6 +713,9 @@ export default {
 	doctorContentCheckListHotEdit,
 	//订单管理
 	reservationOrders,
+
+		// 家医签约管理
+	contractManagement,
 	//服务包管理f
 	servicePackagePList,
 	servicePackagePAdd,

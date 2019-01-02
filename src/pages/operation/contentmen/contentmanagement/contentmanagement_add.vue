@@ -13,7 +13,7 @@
           <span>新闻标题</span>
         </div>
         <div class="edit_input_right">
-          <input type="text" placeholder="请输入新闻标题" v-model.trim="title" maxlength="30">
+          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 400px" :maxlength="30"/>
           <span>{{title.length}}/30</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
           <span>副标题</span>
         </div>
         <div class="edit_input_right">
-          <input type="text" placeholder="请输入新闻标题" v-model.trim="ftitle" maxlength="30">
+          <Input v-model.trim="ftitle" placeholder="请输入新闻副标题" style="width: 400px" :maxlength="30"/>
           <span>{{ftitle.length}}/30</span>
         </div>
       </div>
@@ -104,7 +104,7 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" v-model.trim="num">
+        <Input v-model.trim="num" style="width: 100px"/>
         <p>备注：只能填写数字，1代表置顶以此类推</p>
       </div>
       <!--新闻内容-->
@@ -115,10 +115,10 @@
         </div>
         <div class="articletext">
           <vueEditor
-              id="analysis"
-              :textHtml="editorText"
-              :urlCode="urlCode"
-              @valueHandle="afterChange"
+            id="analysis"
+            :textHtml="editorText"
+            :urlCode="urlCode"
+            @valueHandle="afterChange"
           ></vueEditor>
         </div>
       </div>
@@ -129,7 +129,12 @@
           <span>新闻来源</span>
         </div>
         <div class="edit_input_right">
-          <input type="text" placeholder="请输入新闻的来源,未填写显示未知" v-model="source" maxlength="30">
+          <Input
+            v-model.trim="source"
+            placeholder="请输入新闻的来源,未填写显示未知"
+            style="width: 400px"
+            :maxlength="30"
+          />
           <span>{{source.length}}/30</span>
         </div>
       </div>
@@ -152,7 +157,7 @@
 
 <script>
 import vueEditor from "@/components/vueEditor";
-import { Switch, Upload, Icon } from "iview";
+import { Switch, Upload, Icon, Select } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
@@ -160,7 +165,9 @@ export default {
     vueEditor,
     iSwitch: Switch,
     Upload,
-    Icon
+    Icon,
+    iSelect: Select,
+    iOption: Option
   },
   data() {
     return {
@@ -186,9 +193,9 @@ export default {
 
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.patientNews +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.patientNews + '"}' },
       images: "",
-      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
     };
   },
   mounted() {
@@ -383,7 +390,7 @@ export default {
         width: 400px;
         position: relative;
         height: 30px;
-        border: 1px solid gray;
+        // border: 1px solid gray;
         input {
           border: none;
           outline: none;
