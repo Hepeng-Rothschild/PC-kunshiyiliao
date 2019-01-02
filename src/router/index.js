@@ -81,6 +81,8 @@ export default new Router({
 				operation.doctorContentCheckListHotEdit,
 				//订单管理
 				operation.reservationOrders,
+				operation.remoteClinicOrders,
+				operation.remoteClinicOrdersDetail,
 				//服务包管理
 				operation.servicePackagePList,
 				operation.servicePackagePAdd,

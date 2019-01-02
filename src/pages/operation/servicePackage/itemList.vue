@@ -38,7 +38,7 @@
                     <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
                 </Button>
                 <Button type="warning" @click="goAdd">添加服务项</Button>
-                <!-- <Button type="default" @click="goImport">批量导入</Button> -->
+                <Button type="default" @click="goImport">批量导入</Button>
             </Col>
         </Row>
         <Table class="m-table" :columns="columns" :data="dataList"></Table>
@@ -107,7 +107,14 @@ export default {
                     title: "服务项目归属",
                     key: "attribution",
                     align: "center",
-                    width: 160
+                    width: 160,
+                    render:(h,params)=>{
+                        return h("span",{
+                            domProps:{
+                                innerHTML:params.row.attribution
+                            }
+                        })
+                    }
                 },
                 {
                     title: "创建时间",
@@ -275,25 +282,27 @@ export default {
             this.$axios
                 .post(api.fdspackageitempage, params)
                 .then(resp => {
-                    this.count = resp.data.object.count;
-                    this.dataList = [];
-                    resp.data.object.list.map((el, i) => {
-                        /* 这儿注释代码不许删除掉 */
-                        // let promise = new Promise((resolve, reject) =>{
-                        //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
-                        // });
-                        // promise.then(val=>{
-                        //     el.attribution = val;
-                        //     this.dataList.push(el)
-                        // })
-                        let promise = new Promise((resolve, reject) => {
-                            this.attribution(resolve, el);
+                    if(resp.data.code==1&&resp.data.object.list.length>0){
+                        this.count = resp.data.object.count;
+                        this.dataList = [];
+                        resp.data.object.list.map((el, i) => {
+                            /* 这儿注释代码不许删除掉 */
+                            // let promise = new Promise((resolve, reject) =>{
+                            //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                            // });
+                            // promise.then(val=>{
+                            //     el.attribution = val;
+                            //     this.dataList.push(el)
+                            // })
+                            let promise = new Promise((resolve, reject) => {
+                                this.attribution(resolve, el);
+                            });
+                            promise.then(val => {
+                                el.attribution = val;
+                                this.dataList.push(el);
+                            });
                         });
-                        promise.then(val => {
-                            el.attribution = val;
-                            this.dataList.push(el);
-                        });
-                    });
+                    }
                 })
                 .catch(err => {
                     console.log(err);

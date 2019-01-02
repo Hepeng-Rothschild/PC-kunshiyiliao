@@ -148,7 +148,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>收费标准：
+                    <i class="req-icon"></i>收费标准：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amt">
@@ -158,7 +158,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>实收金额：
+                    <i class="req-icon"></i>实收金额：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amountReceived">
@@ -168,7 +168,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>自付金额：
+                    <i class="req-icon"></i>自付金额：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="residentowncost">
@@ -178,7 +178,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>政府补贴：
+                    <i class="req-icon"></i>政府补贴：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="governmentsubsidycost">
@@ -224,9 +224,16 @@
                     </FormItem>
                 </Col>
             </Row>
+            <Row>
+                <Col :xs="3" class="text-r">
+                    &nbsp;
+                </Col>
+                <Col :xs="21">
+                    <Button type="primary" @click="submit('formInline')">提交</Button>
+                    <Button type="primary" @click="reback">返回</Button>
+                </Col>
+            </Row>
         </Form>
-        <Button type="primary" @click="submit('formInline')">提交</Button>
-        <Button type="primary" @click="reback">返回</Button>
     </div>
 </template>
 <script>
@@ -281,34 +288,34 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                amt: [
-                    {
-                        required: true,
-                        message: "收费标准不能为空",
-                        trigger: "blur"
-                    }
-                ],
-                amountReceived: [
-                    {
-                        required: true,
-                        message: "实收金额不能为空",
-                        trigger: "blur"
-                    }
-                ],
-                residentowncost: [
-                    {
-                        required: true,
-                        message: "自付金额不能为空",
-                        trigger: "blur"
-                    }
-                ],
-                governmentsubsidycost: [
-                    {
-                        required: true,
-                        message: "政府补贴不能为空",
-                        trigger: "blur"
-                    }
-                ]
+                // amt: [
+                //     {
+                //         required: true,
+                //         message: "收费标准不能为空",
+                //         trigger: "blur"
+                //     }
+                // ],
+                // amountReceived: [
+                //     {
+                //         required: true,
+                //         message: "实收金额不能为空",
+                //         trigger: "blur"
+                //     }
+                // ],
+                // residentowncost: [
+                //     {
+                //         required: true,
+                //         message: "自付金额不能为空",
+                //         trigger: "blur"
+                //     }
+                // ],
+                // governmentsubsidycost: [
+                //     {
+                //         required: true,
+                //         message: "政府补贴不能为空",
+                //         trigger: "blur"
+                //     }
+                // ]
             },
             switch1: false
         };
@@ -321,6 +328,11 @@ export default {
             : 1;
         if (isNaN(id)) {
             this.editTt = `添加服务包`;
+            if (this.info.provinceId) {
+                this.cityList = this.$store.getters.getCityList(
+                    parseInt(this.info.provinceId)
+                );
+            }
         } else {
             this.editTt = `修改服务包`;
             this.id = id;

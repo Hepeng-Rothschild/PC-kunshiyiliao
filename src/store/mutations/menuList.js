@@ -7,16 +7,17 @@ const topMenu = [
 
 const operationLeftMenu = [
     {id:1,level:1,name:"订单管理",childLists:[
-        {id:36,level:2,name:"预约挂号订单",path:"/index/operation/reservationOrders/list"},
+        {id:36,level:2,name:"预约挂号订单",path:"/index/operation/orders/reservation/list"},
+        {id:42,level:2,name:"远程门诊订单",path:"/index/operation/orders/remoteClinic/list"},
     ]},
     {id:1,level:1,name:"医生端运营",childLists:[
         {id:17,level:2,name:"医生认证",path:"/index/operation/doctorreview/list"},
-        {id:29,level:2,name:"预约列表",path:"/index/operation/register/list"},
+        {id:29,level:2,name:"预约服务",path:"/index/operation/register/list"},
         {id:33,level:2,name:"内容管理",path:"/index/operation/doctorContentCheck/list"},
         // {id:34,level:2,name:"内容分类",path:"/index/operation/register/list"},
         // {id:18,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor"},
         // {id:26,level:2,name:"fileuploadFile",path:"/index/operation/upload/index"},
-        {id:35,level:2,name:"医生列表",path:"/index/operation/doctormanage/list"},
+        {id:35,level:2,name:"医生管理",path:"/index/operation/doctormanage/list"},
     ]},
     {id:1,level:1,name:"患者端运营",childLists:[
         {id:30,level:2,name:"内容管理",path:"/index/operation/contentmanagement_home"},

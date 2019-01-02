@@ -509,16 +509,36 @@ const doctorServerManageEdit = {
 	component: () =>
 		import("@/pages/operation/dovtorservermanage/edit")
 }
-// 预约挂号
-const reservationOrders = {
-	path: 'operation/reservationOrders/list',
+// 订单管理
+const reservationOrders = { //预约挂号订单
+	path: 'operation/orders/reservation/list',
 	name: 'reservationOrders',
 	meta: {
 		index: 2,
 		title: '预约挂号订单管理'
 	},
 	component: () =>
-		import("@/pages/operation/reservationOrders/list")
+		import("@/pages/operation/orders/reservation/list")
+}
+const remoteClinicOrders = { //远程门诊订单
+	path: 'operation/orders/remoteClinic/list',
+	name: 'remoteClinicOrders',
+	meta: {
+		index: 2,
+		title: '远程门诊订单管理'
+	},
+	component: () =>
+		import("@/pages/operation/orders/remoteClinic/list")
+}
+const remoteClinicOrdersDetail = { //远程门诊订单详情
+	path: 'operation/orders/remoteClinic/detail',
+	name: 'remoteClinicOrdersDetail',
+	meta: {
+		index: 3,
+		title: '远程门诊订单详情'
+	},
+	component: () =>
+		import("@/pages/operation/orders/remoteClinic/detail")
 }
 // 医生远程门诊列表
 const DoctorRemoteclinicList = {
@@ -702,6 +722,8 @@ export default {
 	doctorContentCheckListHotEdit,
 	//订单管理
 	reservationOrders,
+	remoteClinicOrders,
+	remoteClinicOrdersDetail,
 	//服务包管理f
 	servicePackagePList,
 	servicePackagePAdd,

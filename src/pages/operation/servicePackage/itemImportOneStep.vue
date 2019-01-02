@@ -47,8 +47,8 @@ export default {
     methods: {
         download() {
             this.$axios
-                .post(api.downloadTxt, {
-                    type: 2
+                .post(api.organizationdownloadtemplate, {
+                    type: 3
                 })
                 .then(res => {
                     if (res.data.code) {
@@ -71,7 +71,7 @@ export default {
             if (!this.disabled) {
                 this.$router.push({
                     path: "/index/operation/servicePackage/itemImportTwo",
-                    params: {
+                    query: {
                         fail: this.errorData
                     }
                 });
@@ -117,7 +117,6 @@ export default {
             color: #fff;
             background: skyblue;
         }
-        
     }
 }
 </style>
