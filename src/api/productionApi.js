@@ -26,6 +26,11 @@ const registerDoctorInsert = "/operateapi/registerinsertdoctorappointment"; //�
 const doctorRomteclinicAdd = '/operateapi/remotedoctorinsert'  //新增远程门诊医生排班
 const doctorRomteclinicEdit = '/operateapi/remotedoctorupdate' //编辑远程门诊医生排班详情
 const doctorRomteclinicSearchExpert = '/operateapi/remotedoctorselectremotedoctorlist'  //专家查找
+const doctorRomteclinicList ='/operateapi/remotedoctorpageremotedoctor' //远程门诊医生列表
+const doctorRomteclinicDetail='/operateapi/remotedoctorselectoutpatientdoctorscheduling' //查询远程门诊医生详情
+
+// 家医签约管理
+const  contractManagementList ='/operateapi/ordermanagementsigningmanagepage'   //家医签约管理列表
 
 // 机构管理
 const management = '/operateapi/hospitalqueryhospitaloperatelist'  //机构管理医院列表
@@ -162,6 +167,8 @@ const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传�
 
 //订单管理
 const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
+const ordermanagementlistbyremoteorder ='/operateapi/ordermanagementlistbyremoteorder';  //远程问诊订单管理
+const ordermanagementselectbyremoteclinicid ='/operateapi/ordermanagementselectbyremoteclinicid';  //远程问诊订单详情
 
 //服务项目管理
 const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项目列表
@@ -213,6 +220,10 @@ export default {
     doctorRomteclinicAdd,
     doctorRomteclinicEdit,
     doctorRomteclinicSearchExpert,
+    doctorRomteclinicList,
+    doctorRomteclinicDetail,
+    // 家医签约管理
+    contractManagementList,
 
     /* ********************************************** */
     
@@ -334,6 +345,8 @@ export default {
 
     //订单管理
     orderManageAppointRegistList,
+    ordermanagementlistbyremoteorder,
+    ordermanagementselectbyremoteclinicid,
     
     //服务项目管理
     fdspackageitempage,

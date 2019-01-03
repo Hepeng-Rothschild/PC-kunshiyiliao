@@ -8,7 +8,7 @@
                         <Option value="999">全部</Option>
                         <Option
                             v-for="(item,index) in statusList"
-                            :value="index+1"
+                            :value="index"
                             :key="index"
                         >{{item}}</Option>
                     </Select>
@@ -58,45 +58,88 @@ export default {
             startDate: "",
             endDate: "",
             status: "999",
+            /* 0:待付款,1:待确认,2:待接诊,3:已结束4:已退款(医生拒绝)5:已取消(没有付款),6.患者爽约,7:申请医生爽约,8:远程医生爽约 */
             statusList: [
                 "待支付",
                 "待确认",
                 "待接诊",
                 "已结束",
-                "已取消",
                 "已退费",
+                "已取消",
                 "患者爽约",
                 "申请医生爽约",
                 "远程医生爽约"
             ],
             columns: [
-                { title: "编号", key: "iNum", align: "center" },
-                { title: "订单号", key: "orderNum", align: "center" },
-                { title: "远程医院", key: "hospitalName", align: "center" },
-                { title: "远程科室", key: "dept", align: "center" },
-                { title: "远程医生", key: "doctorName", align: "center" },
-                { title: "申请医生", key: "memberName", align: "center" },
-                { title: "就诊人", key: "memberName", align: "center" },
-                { title: "预约电话", key: "telephone", align: "center" },
-                { title: "远程门诊费用", key: "cost", align: "center" },
+                { title: "编号", key: "iNum", align: "center", width: 60 },
+                {
+                    title: "订单号",
+                    key: "orderNumber",
+                    align: "center",
+                    width: 130
+                },
+                {
+                    title: "远程医院",
+                    key: "remoteHospitalName",
+                    align: "center"
+                },
+                {
+                    title: "远程科室",
+                    key: "remoteDepartmentName",
+                    align: "center"
+                },
+                { title: "远程医生", key: "remoteDoctorName", align: "center" },
+                {
+                    title: "申请医生",
+                    key: "applyDoctorName",
+                    align: "center"
+                },
+                {
+                    title: "就诊人",
+                    key: "memberName",
+                    align: "center"
+                },
+                {
+                    title: "预约电话",
+                    key: "telephone",
+                    align: "center",
+                    width: 120
+                },
+                {
+                    title: "远程门诊费用",
+                    key: "cost",
+                    align: "center",
+                    width: 80
+                },
                 {
                     title: "状态",
-                    key: "status",
+                    key: "remoteType",
                     align: "center",
+                    width: 80,
                     render: (h, params) => {
-                        let status = params.row.status;
+                        let status = params.row.remoteType;
                         return h("span", {}, this.statusList[status]);
                     }
                 },
-                { title: "预约时间", key: "appointmentTime", align: "center" },
-                { title: "结束时间", key: "createTime", align: "center" },
+                {
+                    title: "预约时间",
+                    key: "remoteDate",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    title: "结束时间",
+                    key: "suggestionTime",
+                    align: "center",
+                    width: 100
+                },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 130,
+                    width: 60,
                     render: (h, params) => {
-                        let id = params.row.id;
+                        let id = params.row.remoteClinicId;
                         return h(
                             "a",
                             {
@@ -121,9 +164,7 @@ export default {
                     }
                 }
             ],
-            orderList: [
-                {'iNum':1}
-            ],
+            orderList: [{ iNum: 1 }],
             count: 0,
             pageSize: 10,
             pageNo: 1
@@ -135,14 +176,14 @@ export default {
         DatePicker
     },
     created() {
-        this.startDate = this.GetDate(-1);
+        this.startDate = this.GetDate(-30);
         this.endDate = this.GetDate(0);
     },
     mounted() {
         let pageNo = this.$route.query.pageNo;
         pageNo = pageNo ? pageNo : 1;
         //上来就加载第一页数据
-        // this.loadPage(pageNo);
+        this.loadPage(pageNo);
     },
     methods: {
         changeStart(val) {
@@ -155,28 +196,21 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.status = this.status == 9 ? "" : this.status;
-            params.hospitalId = this.hospitalId == 0 ? null : this.hospitalId;
-
+            params.remoteType = this.status == 999 ? null : this.status;
             let startDate = new Date(this.startDate);
             let endDate = new Date(this.endDate);
             startDate = startDate.toLocaleDateString().replace(/\//g, "-");
             endDate = endDate.toLocaleDateString().replace(/\//g, "-");
-            params.startTime = startDate;
-            // params.startTime = "2018-11-01";
-            params.endTime = endDate;
+            params.remoteDateStrar = startDate;
+            params.remoteDateEnd = endDate;
             params.searchKey = this.searchKey ? this.searchKey : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios
-                .post(api.orderManageAppointRegistList, params)
+                .post(api.ordermanagementlistbyremoteorder, params)
                 .then(resp => {
                     if (resp.data.success) {
-                        let tmpObj = resp.data.object.page;
-                        let lvyue = resp.data.object.lvyue;
-                        let shuangyue = resp.data.object.shuangyue;
-                        this.lvyue = lvyue * 100 + "%";
-                        this.shuangyue = shuangyue * 100 + "%";
+                        let tmpObj = resp.data.object;
                         this.count = tmpObj.count;
                         this.orderList = tmpObj.list;
                         for (let i = 0; i < this.orderList.length; i++) {

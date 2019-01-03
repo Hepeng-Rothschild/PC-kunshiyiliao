@@ -158,26 +158,6 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>实收金额：
-                </Col>
-                <Col :xs="21">
-                    <FormItem prop="amountReceived">
-                        <Input class="w-number" v-model="info.amountReceived" :maxlength="20"/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>自付金额：
-                </Col>
-                <Col :xs="21">
-                    <FormItem prop="residentowncost">
-                        <Input class="w-number" v-model="info.residentowncost" :maxlength="20"/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col :xs="3" class="text-r">
                     <i class="req-icon"></i>政府补贴：
                 </Col>
                 <Col :xs="21">
@@ -190,6 +170,28 @@
                     </FormItem>
                 </Col>
             </Row>
+            <!-- <Row>
+                <Col :xs="3" class="text-r">
+                    <i class="req-icon"></i>实收金额：
+                </Col>
+                <Col :xs="21">
+                    <FormItem prop="amountReceived">
+                        <Input class="w-number" @on-focus="blurInput" v-model="info.amountReceived" :maxlength="20"/>
+                        <label class="c-notice">提示：根据收费标准和政府补贴自动计算</label>
+                    </FormItem>
+                </Col>
+            </Row>
+            <Row>
+                <Col :xs="3" class="text-r">
+                    <i class="req-icon"></i>自付金额：
+                </Col>
+                <Col :xs="21">
+                    <FormItem prop="residentowncost">
+                        <Input class="w-number" v-model="info.residentowncost" :maxlength="20"/>
+                        <label class="c-notice">提示：根据收费标准和政府补贴自动计算</label>
+                    </FormItem>
+                </Col>
+            </Row> -->
             <Row>
                 <Col :xs="3" class="text-r">
                     <i class="req-icon"></i>是否启用：
@@ -246,7 +248,7 @@ export default {
             id: null,
             info: {
                 serviceName: null,
-                residentowncost: null,
+                // residentowncost: null,
                 governmentsubsidycost: null,
                 amt: null,
                 packagestatus: 1,
@@ -260,7 +262,7 @@ export default {
                 numberYear: 1,
                 executingAgency: 1,
                 nature: 1,
-                amountReceived: null
+                // amountReceived: null
             },
             pageNo: null,
             numberYear: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -342,17 +344,17 @@ export default {
                     if (resp.data.success) {
                         this.info = resp.data.object;
                         this.info.provinceId = String(this.info.provinceId);
-                        if (this.info.cityId) {
+                        if (this.info.provinceId) {
                             this.cityList = this.$store.getters.getCityList(
                                 this.info.provinceId
                             );
                         }
-                        if (this.info.areaId) {
+                        if (this.info.cityId) {
                             this.areaList = this.$store.getters.getAreaList(
                                 this.info.cityId
                             );
                         }
-                        if (this.info.hospitalId) {
+                        if (this.info.areaId) {
                             var params = {};
                             params.province = parseInt(
                                 this.info.provinceId == 0
@@ -421,7 +423,7 @@ export default {
                     let params = {};
                     params.id = this.id ? this.id : null;
                     params.serviceName = this.info.serviceName;
-                    params.residentowncost = this.info.residentowncost;
+                    // params.residentowncost = this.info.residentowncost;
                     params.governmentsubsidycost = this.info.governmentsubsidycost;
                     params.amt = this.info.amt;
                     params.packagestatus = parseInt(this.info.packagestatus);
@@ -451,7 +453,7 @@ export default {
                         this.info.executingAgency
                     );
                     params.nature = parseInt(this.info.nature);
-                    params.amountReceived = this.info.amountReceived;
+                    // params.amountReceived = this.info.amountReceived;
                     this.$axios
                         .post(subApi, params)
                         .then(resp => {
@@ -568,6 +570,9 @@ export default {
     }
     .text-r {
         text-align: right;
+    }
+    .c-notice{
+        color:#999999;
     }
 }
 </style>

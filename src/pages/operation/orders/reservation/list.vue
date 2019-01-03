@@ -137,8 +137,9 @@ export default {
         DatePicker
     },
     created() {
-        this.startDate = this.GetDate(-1);
+        this.startDate = this.GetDate(-30);
         this.endDate = this.GetDate(0);
+        
     },
     mounted() {
         let pageNo = this.$route.query.pageNo;
