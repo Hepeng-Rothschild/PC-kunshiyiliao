@@ -167,6 +167,8 @@ const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传�
 
 //订单管理
 const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
+const ordermanagementlistbyremoteorder ='/operateapi/ordermanagementlistbyremoteorder';  //远程问诊订单管理
+const ordermanagementselectbyremoteclinicid ='/operateapi/ordermanagementselectbyremoteclinicid';  //远程问诊订单详情
 
 //服务项目管理
 const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项目列表
@@ -343,6 +345,8 @@ export default {
 
     //订单管理
     orderManageAppointRegistList,
+    ordermanagementlistbyremoteorder,
+    ordermanagementselectbyremoteclinicid,
     
     //服务项目管理
     fdspackageitempage,
