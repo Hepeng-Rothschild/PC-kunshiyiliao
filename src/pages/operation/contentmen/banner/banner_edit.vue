@@ -11,7 +11,7 @@
           <span>banner名称</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="医院大图" v-model.trim="title">
+          <Input v-model.trim="title" placeholder="Banner图名称" style="width: 360px"/>
         </div>
       </div>
       <!--banner图片-->
@@ -60,7 +60,6 @@
           </Modal>
         </div>
       </div>
-
       <!--banner链接-->
       <div class="main_title">
         <div class="main_title_info">
@@ -68,7 +67,7 @@
           <span>banner链接</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="无" v-model.trim="lianjie">
+          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px"/>
         </div>
       </div>
       <!--排序-->
@@ -78,7 +77,7 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <input type="text" v-model.trim="isort" style="width:100px;">
+          <Input v-model.trim="isort" placeholder="无" style="width: 100px"/>
         </div>
       </div>
       <!--是否显示-->
@@ -123,7 +122,7 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
 
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
@@ -134,23 +133,23 @@ export default {
     change(status) {
       // this.$Message.info("开关状态：" + status);
     },
-    back () {
+    back() {
       let pageNo = this.$route.params.pageNo;
       this.$router.push({
         name: "iBanner",
         params: {
           pageNo
         }
-      })
+      });
     },
     save() {
-	  let images = "";
-		// 上传
+      let images = "";
+      // 上传
       if (this.images != "") {
-		images = this.images;
+        images = this.images;
       } else if (this.sourceImages != "" && this.uploadList.length) {
-		images = this.sourceImages;
-		// 默认
+        images = this.sourceImages;
+        // 默认
       } else {
         images = "";
       }
@@ -168,24 +167,27 @@ export default {
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
-         this.$axios.post(api.bannerChange, params ).then(res => {
-        	if (res.data.code) {
-            this.$Message.info('修改成功');
-             let pageNo = this.$route.params.pageNo;
-        		setTimeout(()=>{
-        			this.$router.push({
-                    name:"iBanner",
-                    params:{
-                      pageNo
-                    }
-                	})
-        		},500)
-        	} else {
-            this.$Message.info('修改失败请重试');
-          }
-        }).catch(err => {
-        	console.log(err)
-        })
+        this.$axios
+          .post(api.bannerChange, params)
+          .then(res => {
+            if (res.data.code) {
+              this.$Message.info("修改成功");
+              let pageNo = this.$route.params.pageNo;
+              setTimeout(() => {
+                this.$router.push({
+                  name: "iBanner",
+                  params: {
+                    pageNo
+                  }
+                });
+              }, 500);
+            } else {
+              this.$Message.info("修改失败请重试");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     handleView(name) {

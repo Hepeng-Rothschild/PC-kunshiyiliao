@@ -7,7 +7,8 @@
       <div>
         <!--  @click = 'press' -->
         <span></span>
-        <input type="text" placeholder="新闻标题" v-model="search" @keyup="press">
+        <Input v-model.trim="search" placeholder="新闻标题" style="width: 200px" @on-keyup='press' />
+        <!-- <input type="text" placeholder="新闻标题" v-model="search" @keyup="press"> -->
       </div>
       <button @click="add">创建新闻</button>
     </div>
@@ -198,15 +199,7 @@ export default {
     margin: 10px auto;
     flex-direction: row;
     justify-content: space-between;
-    span {
-      display: inline-block;
-      width: 20px;
-      margin-left: 8px;
-      margin-top: 5px;
-      height: 20px;
-      background: url("../../../../assets/images/search.png") no-repeat;
-      background-size: 100% 100%;
-    }
+
     button {
       width: 80px;
       height: 30px;
@@ -218,23 +211,6 @@ export default {
       background: #00bfff;
       color: #fff;
       border-radius: 6px;
-    }
-    div {
-      display: flex;
-      flex-direction: row;
-      border-radius: 15px;
-      border: 1px solid black;
-      width: 200px;
-      height: 30px;
-      input {
-        border: none;
-        outline: none;
-        background: none;
-        width: 100%;
-        height: 30px;
-        line-height: 30px;
-        text-indent: 5px;
-      }
     }
   }
   .main {

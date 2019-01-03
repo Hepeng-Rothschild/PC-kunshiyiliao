@@ -79,7 +79,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>新闻来源</span>
         </div>
-        <input type="text" placeholder="请输入新闻的来源" v-model="isource">
+        <Input v-model.trim="isource"  style="width: 300px" placeholder="请输入新闻的来源"/>
       </div>
       <!--排序-->
       <div class="main_sort">
@@ -87,7 +87,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" v-model="isort">
+        <Input v-model.trim="isort"  style="width: 100px" />
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--是否显示-->

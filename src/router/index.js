@@ -102,6 +102,16 @@ export default new Router({
 				operation.doctorremoteClinicTypeList,
 				// 医生远程门诊列表
 				operation.doctorList,
+				operation.versionManagementList,
+				operation.versionManagementAdd,
+				// 公众号管理
+				operation.publicAddressList,
+				operation.wxBannerList,
+				operation.wxBannerAdd,
+				operation.wxBannerEdit,
+				// 微信公众号模板
+				operation.templateHome,
+
 				//运维端路由
 				maintain.residentRegisterList,
 				maintain.doctorRegisterList,
@@ -120,11 +130,15 @@ export default new Router({
 				maintain.adminAdd,
 				maintain.adminReset,
 				maintain.adminEdit,
+				// 权限管理
+				maintain.jurisdictionList,
+				maintain.jurisdictionAdd,
 				//疾病/症状管理
 				maintain.diseaseList,
 				maintain.diseaseEdit,
 				maintain.symptomList,
 				maintain.symptomEdit,
+				
 
 				//字典管理
 				maintain.dictionary,

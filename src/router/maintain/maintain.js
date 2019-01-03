@@ -102,41 +102,63 @@ const mechanismregBatchThree = {
 }
 //系统管理
 const adminList = {
-    path:'maintain/admin/list',
+    path:'maintain/admin/user/list',
     name:'adminlist',
     meta:{
         index:2,
         title:'系统管理'
     },
-    component:()=>import("@/pages/maintain/admin/list")
+    component:()=>import("@/pages/maintain/admin/user/list")
 }
 const adminAdd = {
-    path:'maintain/admin/add',
+    path:'maintain/admin/user/add',
     name:'adminadd',
     meta:{
         index:3,
         title:'添加账号'
     },
-    component:()=>import("@/pages/maintain/admin/add")
+    component:()=>import("@/pages/maintain/admin/user/add")
 }
 const adminEdit = {
-    path:'maintain/admin/edit',
+    path:'maintain/admin/user/edit',
     name:'adminedit',
     meta:{
         index:3,
         title:'编辑账号'
     },
-    component:()=>import("@/pages/maintain/admin/edit")
+    component:()=>import("@/pages/maintain/admin/user/edit")
 }
 const adminReset = {
-    path:'maintain/admin/reset',
+    path:'maintain/admin/user/reset',
     name:'adminreset',
     meta:{
         index:3,
         title:'重置密码'
     },
-    component:()=>import("@/pages/maintain/admin/reset")
+    component:()=>import("@/pages/maintain/admin/user/reset")
 }
+// 权限管理
+const jurisdictionList = {
+    path:'maintain/admin/jurisdiction/list',
+    name:'jurisdictionList',
+    meta:{
+        index:2,
+        title:'权限管理'
+    },
+    component:()=>import("@/pages/maintain/admin/jurisdiction/list")
+}
+const jurisdictionAdd = {
+    // 权限管理-添加角色
+    path:'maintain/admin/jurisdiction/add',
+    name:'jurisdictionAdd',
+    meta:{
+        index:3,
+        title:'权限管理-添加角色'
+    },
+    component:()=>import("@/pages/maintain/admin/jurisdiction/add")
+}
+
+
 const dictionary = {
     path:'maintain/dictionary/tree',
     name:'dictionary',
@@ -203,6 +225,9 @@ export default {
     adminAdd,
     adminReset,
     adminEdit,
+    // 权限管理
+    jurisdictionList,
+    jurisdictionAdd,
     //字典管理
     dictionary,
     //疾病/症状管理

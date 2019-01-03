@@ -11,5 +11,6 @@ export default {
         classicCaseCarousel:9991,//经典案例轮播图
         richText:9990,//富文本编辑器上传图片
         reviewAvatar:102,//医生审核认证头像
+        wxBanner:9989,//微信首页banner图
     }
 }

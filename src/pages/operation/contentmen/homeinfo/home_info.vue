@@ -5,7 +5,7 @@
       <!--机构名称 -->
       <div class="main_info">
         <span>机构名称</span>
-        <input type="text" :value="title" disabled>
+        <Input :value='title' style="width: 300px" disabled />
       </div>
       <!--机构首图-->
       <div class="main_imgs">
@@ -85,17 +85,17 @@
       <!--机构路线-->
       <div class="main_info">
         <span>机构路线</span>
-        <input type="text" placeholder="请输入机构乘车路线" v-model.trim="y_luxin">
+        <Input v-model="y_luxin" placeholder="请输入机构乘车路线" style="width: 370px" />
       </div>
       <!--机构电话-->
       <div class="main_info">
         <span>机构电话</span>
-        <input type="text" placeholder="请输入机构电话" v-model.trim="y_phone" maxlength="12">
+        <Input v-model="y_phone" placeholder="请输入机构电话" style="width: 370px"  :maxlength="12"/>
       </div>
       <!--机构地址-->
       <div class="main_info">
         <span>机构地址</span>
-        <input type="text" placeholder="请输入机构地址" v-model.trim="y_dizhi">
+        <Input v-model="y_dizhi" placeholder="请输入机构地址" style="width: 370px"  />
       </div>
       <!--是否开通互联网医院-->
       <div class="main_yy">
@@ -145,7 +145,7 @@
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
-        <input type="text" placeholder="请输入Id" v-model="y_uid">
+        <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px" />
       </div>
       <!--保存-->
       <div class="main_save">

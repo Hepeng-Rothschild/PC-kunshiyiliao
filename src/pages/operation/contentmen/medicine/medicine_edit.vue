@@ -27,7 +27,7 @@
             <span style="color:red;">*&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
-          <input type="text" disabled v-model="title">
+          <Input v-model="title"  disabled style="width: 300px" />
         </div>
         <!--院内名称-->
         <div class="keshi_name">
@@ -35,7 +35,7 @@
             <span style="color:red;">*&nbsp;&nbsp;</span>
             <span>院内名称</span>
           </div>
-          <input type="text" placeholder="空" v-model="keshiname">
+           <Input v-model.trim="keshiname"  disabled style="width: 300px" placeholder="空" />
           <p style="color:rgb(102, 102, 102);">注：只在医院自身互联网平台显示</p>
         </div>
         <!--科室图标-->

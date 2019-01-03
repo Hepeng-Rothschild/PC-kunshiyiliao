@@ -9,6 +9,7 @@ const operationLeftMenu = [
     {id:1,level:1,name:"订单管理",childLists:[
         {id:36,level:2,name:"预约挂号订单",path:"/index/operation/orders/reservation/list"},
         {id:42,level:2,name:"远程门诊订单",path:"/index/operation/orders/remoteClinic/list"},
+        {id:43,level:2,name:"家医签约管理",path:"/index/operation/contractManagement/list"},
     ]},
     {id:1,level:1,name:"医生端运营",childLists:[
         {id:17,level:2,name:"医生认证",path:"/index/operation/doctorreview/list"},
@@ -17,9 +18,9 @@ const operationLeftMenu = [
         // {id:34,level:2,name:"内容分类",path:"/index/operation/register/list"},
         // {id:18,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor"},
         // {id:26,level:2,name:"fileuploadFile",path:"/index/operation/upload/index"},
-        {id:35,level:2,name:"医生列表",path:"/index/operation/doctormanage/list"},
-        {id:42,level:2,name:"签约管理",path:"/index/operation/contractManagement/list"},
+       
         {id:35,level:2,name:"医生管理",path:"/index/operation/doctormanage/list"},
+        {id:46,level:2,name:"版本管理",path:"/index/operation/versionManagement/home"},
     ]},
     {id:1,level:1,name:"患者端运营",childLists:[
         {id:30,level:2,name:"内容管理",path:"/index/operation/contentmanagement_home"},
@@ -32,6 +33,9 @@ const operationLeftMenu = [
     {id:1,level:1,name:"服务包管理",childLists:[
         {id:40,level:2,name:"服务包管理",path:"/index/operation/servicePackage/pList"},
         {id:41,level:2,name:"服务项目管理",path:"/index/operation/servicePackage/itemList"}
+    ]},
+    {id:1,level:1,name:"公众号托管",childLists:[
+        {id:45,level:2,name:"公众号管理",path:"/index/operation/publicAddress/list"}
     ]},
 ];
 const maintainLeftMenu = [
@@ -48,7 +52,8 @@ const maintainLeftMenu = [
         {id:39,level:2,name:"症状管理",path:"/index/maintain/symptom/list"}
     ]}
     // {id:2,level:1,name:"系统管理",childLists:[
-    //     {id:31,level:2,name:"账号管理",path:"/index/maintain/admin/list"},
+    //     {id:31,level:2,name:"账号管理",path:"/index/maintain/admin/user/list"},
+    //     {id:44,level:2,name:"权限管理",path:"/index/maintain/admin/jurisdiction/list"},
     // ]}
 ];
 const statisticsLeftMenu = [

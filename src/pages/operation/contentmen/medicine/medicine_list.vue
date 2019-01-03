@@ -7,7 +7,7 @@
         <div class="box">
           <div class="header_input">
             <span></span>
-            <input type="text" placeholder="一级科室/二级科室" v-model="val">
+              <Input v-model.trim="val" placeholder="一级科室/二级科室" style="width: 200px" />
           </div>
           <button @click="change" class="btn">查询</button>
         </div>
@@ -159,32 +159,32 @@ export default {
       .box {
         display: flex;
         flex-direction: row;
-        .header_input {
-          width: 200px;
-          border-radius: 15px;
-          border: 1px solid black;
-          height: 30px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          span {
-            display: inline-block;
-            width: 20px;
-            margin-left: 5px;
-            height: 20px;
-            background: url("../../../../assets/images/search.png") no-repeat;
-            background-size: 100% 100%;
-          }
-          input {
-            display: block;
-            width: calc(100% - 20px);
-            border: none;
-            outline: none;
-            background: none;
-            text-indent: 5px;
-          }
-        }
+        // .header_input {
+        //   width: 200px;
+        //   border-radius: 15px;
+        //   border: 1px solid black;
+        //   height: 30px;
+        //   display: flex;
+        //   flex-direction: row;
+        //   align-items: center;
+        //   justify-content: space-between;
+        //   span {
+        //     display: inline-block;
+        //     width: 20px;
+        //     margin-left: 5px;
+        //     height: 20px;
+        //     background: url("../../../../assets/images/search.png") no-repeat;
+        //     background-size: 100% 100%;
+        //   }
+        //   input {
+        //     display: block;
+        //     width: calc(100% - 20px);
+        //     border: none;
+        //     outline: none;
+        //     background: none;
+        //     text-indent: 5px;
+        //   }
+        // }
         .btn {
           width: 100px;
           height: 30px;

@@ -1,7 +1,6 @@
 <template>
   <!--Banner-->
   <div class="i_addBanner">
-    <tmpHeader/>
     <div class="i_addBanner_main">
       <h3>banner信息</h3>
       <!--banner名称-->
@@ -99,13 +98,11 @@
 </template>
 
 <script>
-import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Switch, Upload, Icon } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
-    tmpHeader,
     iSwitch: Switch,
     Upload,
     Icon
@@ -123,7 +120,7 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
 
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"'+ code.urlCode.wxBanner +'"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: ""
@@ -158,27 +155,27 @@ export default {
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
-        this.$axios
-          .post(api.bannerAdd, params)
-          .then(res => {
-            if (res.data.message === "success") {
-              this.$Message.info("添加成功");
-                let pageNo = this.$route.params.pageNo;
-              setTimeout(() => {
-                this.$router.push({
-                  name: "iBanner",
-                  params:{
-                    pageNo
-                  }
-                });
-              }, 300);
-            } else {
-               this.$Message.info('修改失败请重试');
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        // this.$axios
+        //   .post(api.bannerAdd, params)
+        //   .then(res => {
+        //     if (res.data.message === "success") {
+        //       this.$Message.info("添加成功");
+        //         let pageNo = this.$route.params.pageNo;
+        //       setTimeout(() => {
+        //         this.$router.push({
+        //           name: "iBanner",
+        //           params:{
+        //             pageNo
+        //           }
+        //         });
+        //       }, 300);
+        //     } else {
+        //        this.$Message.info('修改失败请重试');
+        //     }
+        //   })
+        //   .catch(err => {
+        //     console.log(err);
+        //   })
       }
     },
     handleView(name) {

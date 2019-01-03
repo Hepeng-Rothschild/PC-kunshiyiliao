@@ -6,7 +6,7 @@
       <div class="ibanner_header">
         <div class="header_input">
           <span></span>
-          <input type="text" placeholder="一级科室/二级科室" v-model.trim = 'search'  @keyup = 'searchs'>
+          <Input v-model.trim="search" placeholder="一级科室/二级科室" style="width: 200px" @on-keyup='searchs'/>
         </div>
       </div>
       <!--列表-->
@@ -160,29 +160,29 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      .header_input {
-        width: 200px;
-        border-radius: 15px;
-        border: 1px solid black;
-        height: 30px;
-        display: flex;
-        flex-direction: row;
-        span {
-          display: inline-block;
-          width: 20px;
-          margin-top: 5px;
-          margin-left: 5px;
-          height: 20px;
-          background: url("../../../../assets/images/search.png") no-repeat;
-          background-size: 100% 100%;
-        }
-        input {
-          border: none;
-          outline: none;
-          background: none;
-          text-indent: 5px;
-        }
-      }
+      // .header_input {
+      //   width: 200px;
+      //   border-radius: 15px;
+      //   border: 1px solid black;
+      //   height: 30px;
+      //   display: flex;
+      //   flex-direction: row;
+      //   span {
+      //     display: inline-block;
+      //     width: 20px;
+      //     margin-top: 5px;
+      //     margin-left: 5px;
+      //     height: 20px;
+      //     background: url("../../../../assets/images/search.png") no-repeat;
+      //     background-size: 100% 100%;
+      //   }
+      //   input {
+      //     border: none;
+      //     outline: none;
+      //     background: none;
+      //     text-indent: 5px;
+      //   }
+      // }
       button {
         padding: 6px 8px;
         background: #716bb2;

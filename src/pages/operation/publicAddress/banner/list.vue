@@ -30,11 +30,6 @@
             <td>{{ addZero(index) }}</td>
             <td>{{ item.bannerName }}</td>
             <td>
-              <!-- <img
-                :src="item.imageUrl == ''? '' :fileBaseUrl + item.imageUrl"
-                alt
-                style="margin:10px 0;width:80px;height:80px;"
-              >-->
               <img
                 :src="analysisImages(item.imageUrl)"
                 alt
@@ -58,7 +53,7 @@
 </template>
 
 <script>
-import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
+import tmpHeader from "../tmpHeader";
 import api from "@/api/commonApi";
 import { Icon, Page } from "iview";
 export default {
@@ -89,7 +84,7 @@ export default {
     },
     navto() {
       this.$router.push({
-        name: "bannerAdd",
+        name: "wxbannerAdd",
         params: {
           pageNo: this.pageNo
         }
@@ -97,7 +92,7 @@ export default {
     },
     change(item) {
       this.$router.push({
-        name: "addBanner",
+        name: "wxbannerEdit",
         params: {
           id: item.id,
           pageNo: this.pageNo
@@ -167,36 +162,12 @@ export default {
   .ibanner_main {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
     .ibanner_header {
-      width: 80%;
+      width: 100%;
       margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      // .header_input {
-      //   width: 200px;
-      //   // border-radius: 15px;
-      //   // border: 1px solid black;
-      //   height: 30px;
-      //   display: flex;
-      //   flex-direction: row;
-      //   span {
-      //     display: inline-block;
-      //     width: 20px;
-      //     margin-top: 4px;
-      //     margin-left: 5px;
-      //     height: 20px;
-      //     background: url("../../../../assets/images/search.png") no-repeat;
-      //     background-size: 100% 100%;
-      //   }
-      //   input {
-      //     border: none;
-      //     outline: none;
-      //     background: none;
-      //     text-indent: 5px;
-      //   }
-      // }
       button {
         padding: 6px 8px;
         background: skyblue;
@@ -207,7 +178,7 @@ export default {
       }
     }
     .tabList {
-      width: 80%;
+      width: 100%;
       margin: 20px auto;
       table {
         width: 100%;

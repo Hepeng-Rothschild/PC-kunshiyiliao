@@ -1,7 +1,6 @@
 <template>
   <!--Banner-->
   <div class="i_addBanner">
-    <tmpHeader/>
     <div class="i_addBanner_main">
       <h3>banner信息</h3>
       <!--banner名称-->
@@ -11,7 +10,7 @@
           <span>banner名称</span>
         </div>
         <div class="input">
-          <Input v-model.trim="title" placeholder="医院大图" style="width: 360px" />
+          <Input v-model.trim="title" placeholder="Banner图名称" style="width: 360px"/>
         </div>
       </div>
       <!--banner图片-->
@@ -60,7 +59,6 @@
           </Modal>
         </div>
       </div>
-
       <!--banner链接-->
       <div class="main_title">
         <div class="main_title_info">
@@ -68,7 +66,7 @@
           <span>banner链接</span>
         </div>
         <div class="input">
-          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px" />
+          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px"/>
         </div>
       </div>
       <!--排序-->
@@ -78,7 +76,7 @@
           <span>排序</span>
         </div>
         <div class="input">
-           <Input v-model.trim="isort" placeholder="" style="width: 100px" />
+          <Input v-model.trim="isort" placeholder="无" style="width: 100px"/>
         </div>
       </div>
       <!--是否显示-->
@@ -99,13 +97,11 @@
 </template>
 
 <script>
-import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Switch, Upload, Icon } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
-    tmpHeader,
     iSwitch: Switch,
     Upload,
     Icon
@@ -123,15 +119,16 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
 
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
-      images: ""
+      images: "",
+      sourceImages: ""
     };
   },
   methods: {
     change(status) {
-      //              this.$Message.info('开关状态：' + status);
+      // this.$Message.info("开关状态：" + status);
     },
     back() {
       let pageNo = this.$route.params.pageNo;
@@ -144,41 +141,47 @@ export default {
     },
     save() {
       let images = "";
-      if (this.images !== "") {
+      // 上传
+      if (this.images != "") {
         images = this.images;
+      } else if (this.sourceImages != "" && this.uploadList.length) {
+        images = this.sourceImages;
+        // 默认
+      } else {
+        images = "";
       }
+
       let params = {
         hospitalId: this.id,
         bannerName: this.title,
         bannerUrl: this.lianjie,
         priority: this.isort,
+        id: this.$route.params.id,
         enable: Number(this.switch1),
         imageUrl: images
       };
+      // console.log(params);
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
-        this.$axios
-          .post(api.bannerAdd, params)
-          .then(res => {
-            if (res.data.message === "success") {
-              this.$Message.info("添加成功");
-                let pageNo = this.$route.params.pageNo;
-              setTimeout(() => {
-                this.$router.push({
-                  name: "iBanner",
-                  params:{
-                    pageNo
-                  }
-                });
-              }, 300);
-            } else {
-               this.$Message.info('修改失败请重试');
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        // this.$axios
+        //   .post(api.bannerChange, params)
+        //   .then(res => {
+        //     if (res.data.code) {
+        //       this.$Message.info("修改成功");
+        //       let pageNo = this.$route.params.pageNo;
+        //       setTimeout(() => {
+        //         this.$router.push({
+        //           name: "iBanner",
+        //           params: {
+        //             pageNo
+        //           }
+        //         });
+        //       }, 500);
+        //     } else {
+        //       this.$Message.info("修改失败请重试");
+        //     }
+        //   })
       }
     },
     handleView(name) {
@@ -209,16 +212,54 @@ export default {
         desc: "File  " + file.name + " is too large, no more than 2M."
       });
     },
-    handleBeforeUpload(file) {
+    handleBeforeUpload() {
       const check = this.uploadList.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
       }
       return check;
+    },
+    analysisImages(json) {
+      try {
+        json = JSON.parse(json);
+        return json.fileName;
+      } catch (error) {
+        return "";
+      }
     }
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
+    let route = this.$route.params.id;
+    if (route) {
+      this.$axios
+        .post(api.getIdBanner, {
+          id: route
+        })
+        .then(res => {
+          let ret = res.data.object;
+          if (ret) {
+            this.title = ret.bannerName;
+            this.lianjie = ret.bannerUrl;
+            this.isort = ret.priority;
+            this.switch1 = Boolean(ret.enable);
+            //图片
+            if (ret.imageUrl) {
+              this.sourceImages = ret.imageUrl;
+              this.uploadList.push({
+                name: "a42bdcc1178e62b4694c830f028db5c0",
+                percentage: 100,
+                status: "finished",
+                uid: 1544263544971,
+                url: this.fileBaseUrl + this.analysisImages(ret.imageUrl)
+              });
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>
@@ -273,7 +314,7 @@ export default {
     flex-direction: column;
     h3 {
       padding-left: 6px;
-      border-left: 2px solid skyblue;
+      border-left: 2px solid blue;
     }
     .main_title {
       width: 80%;

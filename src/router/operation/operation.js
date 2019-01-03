@@ -546,11 +546,12 @@ const contractManagement = {
 	name: 'contractManagement',
 	meta: {
 		index: 2,
-		title: '预约挂号订单管理'
+		title: '家医签约管理'
 	},
 	component: () =>
 		import("@/pages/operation/contractManagement/list")
 }
+
 // 医生远程门诊列表
 const DoctorRemoteclinicList = {
 	path: 'operation/remoteclinic/list',
@@ -674,6 +675,85 @@ const servicePackageItemImportThree = {
 	component: () =>
 		import("@/pages/operation/servicePackage/itemImportThreeStep")
 }
+// 公众号管理
+const publicAddressList = {
+	path: 'operation/publicAddress/list',
+	name: 'publicAddressList',
+	meta: {
+		index: 2,
+		title: '公众号管理'
+	},
+	component: () =>
+		import("@/pages/operation/publicAddress/home")
+}
+// 微信首页banner图
+const wxBannerList = {
+	path: 'operation/banner/list',
+	name: 'wxbannerList',
+	meta: {
+		index: 2,
+		title: 'banner图'
+	},
+	component: () =>
+		import("@/pages/operation/publicAddress/banner/list")
+}
+const wxBannerAdd = {
+	// 添加微信首页banner图
+	path: 'operation/banner/add',
+	name: 'wxbannerAdd',
+	meta: {
+		index: 3,
+		title: 'banner图-添加'
+	},
+	component: () =>
+		import("@/pages/operation/publicAddress/banner/add")
+}
+const wxBannerEdit = {
+	// 添加微信首页banner图
+	path: 'operation/banner/edit',
+	name: 'wxbannerEdit',
+	meta: {
+		index: 3,
+		title: 'banner图-编辑'
+	},
+	component: () =>
+		import("@/pages/operation/publicAddress/banner/edit")
+}
+const templateHome = {
+	// 微信公众号模板
+	path: 'operation/template/home',
+	name: 'templateHome',
+	meta: {
+		index: 2,
+		title: '模板管理'
+	},
+	component: () =>
+		import("@/pages/operation/publicAddress/template/home")
+}
+
+const versionManagementList = {
+	// 医生端安卓/ios版本管理
+	path: 'operation/versionManagement/home',
+	name: 'versionManagementHome',
+	meta: {
+		index: 2,
+		title: '版本管理'
+	},
+	component: () =>
+		import("@/pages/operation/versionManagement/list")
+}
+const versionManagementAdd = {
+	// 医生端安卓/ios版本管理
+	path: 'operation/versionManagement/add',
+	name: 'versionManagementAdd',
+	meta: {
+		index: 3,
+		title: '版本管理'
+	},
+	component: () =>
+		import("@/pages/operation/versionManagement/add")
+}
+
 export default {
 	reviewList,
 	reviewEdit,
@@ -734,10 +814,13 @@ export default {
 	//订单管理
 	reservationOrders,
 
-		// 家医签约管理
+	// 家医签约管理
 	contractManagement,
 	remoteClinicOrders,
 	remoteClinicOrdersDetail,
+	// 版本管理
+	versionManagementList,
+	versionManagementAdd,
 	//服务包管理f
 	servicePackagePList,
 	servicePackagePAdd,
@@ -753,6 +836,14 @@ export default {
 	DoctorRemoteclinicList,
 	DoctorRemoteclinicEdit,
 	DoctorRemoteclinicAdd,
+	// 公众号管理
+	publicAddressList,
+	// 微信首页banner图
+	wxBannerList,
+	wxBannerAdd,
+	wxBannerEdit,
+	// 微信公众号模板
+	templateHome,
 
 
 }

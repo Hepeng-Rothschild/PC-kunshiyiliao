@@ -4,7 +4,7 @@
     <div class="container">
       <header>
         <div class="btn">
-          <button style="background:skyblue;" @click = 'add'>添加账号</button>
+          <Button type="primary" @click = 'add'>添加账号</Button>
         </div>
           <Input  placeholder="登录账号/用户姓名" style="width: 260px" />
       </header>
