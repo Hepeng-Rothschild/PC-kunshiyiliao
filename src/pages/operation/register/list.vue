@@ -4,8 +4,7 @@
     <Row>
       <Col :xs="24">
         <br>
-        <Select class="w-select" v-model="city">
-          <Option value="0">全国</Option>
+        <Select class="w-select" clearable v-model="city">
           <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
@@ -13,7 +12,7 @@
         </Select>
         <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
         <Input class="w-input" v-model="deptKey" placeholder="请输入科室关键字"/>
-        <Select class="w-select" v-model="dictType" placeholder="职称级别">
+        <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
           <Option
             v-for="item in titleList"
             :value="item.dictType"
@@ -46,7 +45,7 @@ export default {
   data() {
     return {
       cityList: [],
-      city: "0",
+      city: null,
       searchTypeList: [
         { id: 1, name: "医院名称" },
         { id: 2, name: "医生姓名" }
@@ -200,7 +199,7 @@ export default {
     loadPage(pageNo) {
       this.pageNo = pageNo;
       var params = {};
-      params.province = parseInt(this.city == 0 ? null : this.city);
+      params.province = this.city? parseInt(this.city) : null;
       params.dept = this.deptKey;
       params.title = this.dictType;
       if (this.searchType == 1) {

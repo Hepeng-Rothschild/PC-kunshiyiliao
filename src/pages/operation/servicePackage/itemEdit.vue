@@ -324,26 +324,29 @@ export default {
     },
     created() {
         this.provinceList = this.$store.getters.getProvinceList;
+        this.provinceList.forEach((el,i)=>{
+            this.provinceList[i].value = parseInt(el.value);
+        })
         let id = parseInt(this.$route.query.id);
         this.pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
             : 1;
         if (isNaN(id)) {
-            this.editTt = `添加服务包`;
+            this.editTt = `添加服务项目`;
             if (this.info.provinceId) {
                 this.cityList = this.$store.getters.getCityList(
                     parseInt(this.info.provinceId)
                 );
             }
         } else {
-            this.editTt = `修改服务包`;
+            this.editTt = `修改服务项目`;
             this.id = id;
             this.$axios
                 .post(api.fdspackageitemselectbyid, { id: this.id })
                 .then(resp => {
                     if (resp.data.success) {
                         this.info = resp.data.object;
-                        this.info.provinceId = String(this.info.provinceId);
+                        this.info.provinceId = this.info.provinceId;
                         if (this.info.provinceId) {
                             this.cityList = this.$store.getters.getCityList(
                                 this.info.provinceId

@@ -752,7 +752,7 @@ const versionManagementAdd = {
 	},
 	component: () =>
 		import("@/pages/operation/versionManagement/add")
-}
+	}
 const versionManagementEdit = {
 	// 医生端安卓/ios版本管理
 	path: 'operation/versionManagement/edit',
@@ -763,6 +763,17 @@ const versionManagementEdit = {
 	},
 	component: () =>
 		import("@/pages/operation/versionManagement/edit")
+}
+//档案管理
+const fileManagementList = {
+	path: 'operation/fileManagement/list',
+	name: 'fileManagementList',
+	meta: {
+		index: 2,
+		title: '档案管理'
+	},
+	component: () =>
+		import("@/pages/operation/fileManagement/list")
 }
 
 export default {
@@ -856,6 +867,6 @@ export default {
 	wxBannerEdit,
 	// 微信公众号模板
 	templateHome,
-
-
+	//档案管理
+	fileManagementList,
 }

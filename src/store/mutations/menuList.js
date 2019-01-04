@@ -16,6 +16,7 @@ const operationLeftMenu = [
         {id:29,level:2,name:"预约服务",path:"/index/operation/register/list"},
         {id:33,level:2,name:"内容管理",path:"/index/operation/doctorContentCheck/list"},
         // {id:34,level:2,name:"内容分类",path:"/index/operation/register/list"},
+        // {id:34,level:2,name:"档案管理",path:"/index/operation/fileManagement/list"},
         // {id:18,level:2,name:"KindEditor-Demo",path:"/index/operation/kindeditor"},
         // {id:26,level:2,name:"fileuploadFile",path:"/index/operation/upload/index"},
        
@@ -44,10 +45,8 @@ const maintainLeftMenu = [
         {id:32,level:2,name:"医生注册信息",path:"/index/maintain/doctorregister/list"},
         {id:33,level:2,name:"机构注册信息",path:"/index/maintain/mechanismreg/list"}
     ]},
-    {id:2,level:1,name:"字典管理",childLists:[
-        {id:37,level:2,name:"字典管理",path:"/index/maintain/dictionary/tree"}
-    ]},
-    {id:2,level:1,name:"疾病/症状管理",childLists:[
+    {id:2,level:1,name:"配置仓",childLists:[
+        {id:37,level:2,name:"基础字典",path:"/index/maintain/dictionary/tree"},
         {id:38,level:2,name:"疾病管理",path:"/index/maintain/disease/list"},
         {id:39,level:2,name:"症状管理",path:"/index/maintain/symptom/list"}
     ]}

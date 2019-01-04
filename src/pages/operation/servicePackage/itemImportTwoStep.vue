@@ -26,16 +26,12 @@
                 <table border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <th>编号</th>
-                        <th>医生姓名</th>
-                        <th>医院名称</th>
-                        <th>医生手机号码</th>
+                        <th>服务包名称</th>
                         <th>错误提示</th>
                     </tr>
                     <tr v-for="item in list">
-                        <th>编号</th>
-                        <th>{{ item.doctorName }}</th>
-                        <th>{{ item.hospitalName }}</th>
-                        <th>{{ item.phone }}</th>
+                        <th>{{ item.num }}</th>
+                        <th>{{ item.serviceName }}</th>
                         <th>{{ item.errorPrompt }}</th>
                     </tr>
                 </table>

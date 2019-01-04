@@ -2,19 +2,17 @@
   <div class="doctorreviewlist">
     <Row>
       <Col :xs="24">
-        <Select class="w-select" v-model="city">
-          <Option value="0">全国</Option>
+        <Select class="w-select" clearable v-model="city">
           <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
           <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
         <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
-        <Select class="w-select" v-model="dictType" placeholder="职称级别">
+        <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
           <Option v-for="item in titleList" :value="item.dictType" :key="item.dictType">{{item.dictName}}</Option>
         </Select>
-        <Select class="w-select" v-model="authStatus">
-          <Option value="9">全部认证</Option>
+        <Select class="w-select" clearable v-model="authStatus">
           <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
         </Select>
         <Button type="primary" @click="loadPage(1)">
@@ -36,7 +34,7 @@ export default {
   data() {
     return {
       cityList: [],
-      city: "0",
+      city: null,
       searchTypeList: [
         { id: 1, name: "医院名称" },
         { id: 2, name: "医生姓名" }
@@ -48,7 +46,7 @@ export default {
       dictType: "",
       statusList: ["未认证", "审核中", "审核通过", "审核未通过"],
       openList: ["未开通","未开通","已开通","未开通"],
-      authStatus: "9",
+      authStatus: null,
       columns:[
         {title:"序号",key:"iNum",align:"center",width:"60px"},
         {title:"头像",key:"avatar",align:"center",width:"80px",
@@ -162,9 +160,9 @@ export default {
     loadPage(pageNo){
       this.pageNo = pageNo;
       var params = {};
-      params.province = parseInt(this.city==0?null:this.city);
+      params.province = parseInt(this.city?this.city:null);
       params.title = this.dictType;
-      params.authStatus = this.authStatus==9?"":this.authStatus;
+      params.authStatus = this.authStatus?this.authStatus:"";
       if(this.searchType == 1){
           params.hospitalName = this.searchKey;
           params.name = "";

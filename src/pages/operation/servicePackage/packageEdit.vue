@@ -250,7 +250,7 @@ export default {
                 hospitalId: null,
                 id: null,
                 packageItemsIds: null,
-                provinceId: "1",
+                provinceId: null,
                 packagestatus: 1,
                 ascription: 1
             },
@@ -392,6 +392,9 @@ export default {
     },
     created() {
         this.provinceList = this.$store.getters.getProvinceList;
+        this.provinceList.forEach((el,i)=>{
+            this.provinceList[i].value = parseInt(el.value);
+        })
         let id = parseInt(this.$route.query.id);
         this.tabId = parseInt(this.$route.query.tabId);
         this.pageNo = parseInt(
@@ -413,10 +416,11 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.info = resp.data.object;
+                        console.log(this.info);
                         for(let item of this.info.packageItems){
                             this.selData.push({id:item.id,serviceName:item.serviceName})
                         }
-                        this.info.provinceId = String(this.info.provinceId);
+                        this.info.provinceId = this.info.provinceId;
                         if (this.info.provinceId) {
                             this.cityList = this.$store.getters.getCityList(
                                 this.info.provinceId
@@ -443,6 +447,7 @@ export default {
                                     console.log(err);
                                 });
                         }
+                        this.loadPage(1);
                     } else {
                         console.log("查询失败");
                     }
@@ -451,7 +456,8 @@ export default {
                     console.log(err);
                 });
         }
-        this.loadPage(1);
+        
+        if (isNaN(id)) this.loadPage(1);
     },
     components: { Avatar, Select, Option, "i-switch": Switch },
     methods: {
@@ -543,17 +549,30 @@ export default {
             params.province = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );
-            params.city = parseInt(
-                this.info.cityId == 0 ? null : this.info.cityId
-            );
-            params.area = parseInt(
-                this.info.areaId == 0 ? null : this.info.areaId
-            );
-            params.hospitalId = parseInt(
-                this.info.hospitalId == 0 || this.info.hospitalId == ""
-                    ? null
-                    : this.info.hospitalId
-            );
+            if(params.province){
+                console.log(this.info.cityId);
+                params.city = parseInt(
+                    this.info.cityId == 0 ? null : this.info.cityId
+                );
+            }else{
+                params.city = null;
+            }
+            if(params.city){
+                params.area = parseInt(
+                    this.info.areaId == 0 ? null : this.info.areaId
+                );
+            }else{
+                params.area = null;
+            }
+            if(params.area){
+                params.hospitalId = parseInt(
+                    this.info.hospitalId == 0 || this.info.hospitalId == ""
+                        ? null
+                        : this.info.hospitalId
+                );
+            }else{
+                params.hospitalId = null;
+            }
             params.searchKey = this.searchKey == "" ? null : this.searchKey;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
