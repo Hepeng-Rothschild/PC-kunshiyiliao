@@ -60,6 +60,7 @@ export default {
         handleSuccess(res, file) {
             if (res.code) {
                 let ret = res.object[0];
+                console.log(ret);
                 this.disabled = false;
                 this.errorData = ret;
                 this.$Message.info("上传成功");

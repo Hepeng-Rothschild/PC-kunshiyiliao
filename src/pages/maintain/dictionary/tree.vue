@@ -50,7 +50,7 @@ export default {
                     title: "字典",
                     expand: true,
                     loading: false,
-                    top:true,
+                    top: true,
                     render: (h, { root, node, data }) => {
                         return h(
                             "span",
@@ -86,7 +86,6 @@ export default {
                                         //     {
                                         //         props: Object.assign(
                                         //             {
-                                                        
                                         //             },
                                         //             this.buttonProps,
                                         //             {
@@ -96,7 +95,6 @@ export default {
                                         //         ),
                                         //         style: {
                                         //             width: "48px",
-
                                         //         },
                                         //         on: {
                                         //             click: () => {
@@ -122,6 +120,30 @@ export default {
     },
     methods: {
         renderContent(h, { root, node, data }) {
+            let addBtn = h(
+                "Button",
+                {
+                    props: Object.assign({}, this.buttonProps, {
+                        type: "default"
+                    }),
+                    style: {
+                        marginRight: "8px"
+                    },
+                    on: {
+                        click: () => {
+                            this.append(data);
+                        }
+                    }
+                },
+                "新增"
+            );
+            if (
+                (data.parentType == "ZDGK_HOSPITAL_LEVEL" && data.dictLevel == 1) ||
+                (data.parentType == "ZDGK_DICT_TITLE" && data.dictLevel == 1) ||
+                data.dictLevel == 2
+            ) {
+                addBtn = null;
+            }
             return h(
                 "span",
                 {
@@ -147,27 +169,11 @@ export default {
                         {
                             style: {
                                 display: "inline-block",
-                                marginLeft: "32px"
+                                marginLeft: "16px"
                             }
                         },
                         [
-                            h(
-                                "Button",
-                                {
-                                    props: Object.assign({}, this.buttonProps, {
-                                        type: "default"
-                                    }),
-                                    style: {
-                                        marginRight: "8px"
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.append(data);
-                                        }
-                                    }
-                                },
-                                "新增"
-                            ),
+                            addBtn,
                             // h("Button", {
                             //     props: Object.assign({}, this.buttonProps, {
                             //                         type: "default"
@@ -216,7 +222,7 @@ export default {
             this.renameFlag = true;
         },
         renameSure() {
-            if(this.renameVal == ""){
+            if (this.renameVal == "") {
                 this.$Message.error("输入不能为空");
                 this.loading = false;
                 setTimeout(() => {
@@ -224,7 +230,7 @@ export default {
                         this.loading = true;
                     });
                 }, 1000);
-                return ;
+                return;
             }
             let param = {};
             param.dictLevel = this.tmpData.dictLevel;
@@ -234,34 +240,36 @@ export default {
             param.id = this.tmpData.id;
             param.parentType = this.tmpData.parentType;
             this.$axios
-            .post(api.dictionaryUpdate, param)
-            .then(resp => {
-                if(resp.data.success){
-                    const parentKey = this.tmpRoot.find(el => el === this.tmpNode)
-                        .parent;
-                    const parent = this.tmpRoot.find(el => el.nodeKey === parentKey)
-                        .node;
-                    const index = parent.children.indexOf(this.tmpData);
-                    parent.children[index].title = this.renameVal;
-                    this.loading = false;
-                    this.renameFlag = false;
-                }else{
-                    this.$Message.info("修改失败，请重试");
-                    this.loading = false;
-                    setTimeout(() => {
-                        this.$nextTick(() => {
-                            this.loading = true;
-                        });
-                    }, 1000);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+                .post(api.dictionaryUpdate, param)
+                .then(resp => {
+                    if (resp.data.success) {
+                        const parentKey = this.tmpRoot.find(
+                            el => el === this.tmpNode
+                        ).parent;
+                        const parent = this.tmpRoot.find(
+                            el => el.nodeKey === parentKey
+                        ).node;
+                        const index = parent.children.indexOf(this.tmpData);
+                        parent.children[index].title = this.renameVal;
+                        this.loading = false;
+                        this.renameFlag = false;
+                    } else {
+                        this.$Message.info("修改失败，请重试");
+                        this.loading = false;
+                        setTimeout(() => {
+                            this.$nextTick(() => {
+                                this.loading = true;
+                            });
+                        }, 1000);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         renameNotSure() {},
         sure() {
-            if(this.newVal == ""){
+            if (this.newVal == "") {
                 this.$Message.error("输入不能为空");
                 this.loading = false;
                 setTimeout(() => {
@@ -269,41 +277,48 @@ export default {
                         this.loading = true;
                     });
                 }, 1000);
-                return ;
+                return;
             }
             let top = this.tmpData.top;
             let param = {};
-            param.dictLevel = this.tmpData.dictLevel+1;
+            param.dictLevel = this.tmpData.dictLevel + 1;
             param.dictName = this.newVal;
             param.dictSource = this.tmpData.dictSource;
             param.dictType = "";
             param.id = null;
             param.parentType = this.tmpData.dictType;
             this.$axios
-            .post(api.dictionaryInsert, param)
-            .then(resp => {
-                if(resp.data.success){
-                    const children = this.tmpData.children || [];
-                    children.push({
-                        title: this.newVal,
-                        expand: true
-                    });
-                    this.$set(this.tmpData, "children", children);
-                    this.loading = false;
-                    this.newFlag = false;
-                }else{
-                    this.$Message.info("添加失败，请重试");
-                    this.loading = false;
-                    setTimeout(() => {
-                        this.$nextTick(() => {
-                            this.loading = true;
+                .post(api.dictionaryInsert, param)
+                .then(resp => {
+                    if (resp.data.success) {
+                        let tmpObj = resp.data.object;
+                        const children = this.tmpData.children || [];
+                        children.push({
+                            dictLevel: tmpObj.dictLevel,
+                            dictName: tmpObj.dictName,
+                            dictSource: tmpObj.dictSource,
+                            dictType: tmpObj.dictType,
+                            id: tmpObj.id,
+                            parentType: tmpObj.parentType,
+                            title: this.newVal,
+                            expand: true
                         });
-                    }, 1000);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+                        this.$set(this.tmpData, "children", children);
+                        this.loading = false;
+                        this.newFlag = false;
+                    } else {
+                        this.$Message.info("添加失败，请重试");
+                        this.loading = false;
+                        setTimeout(() => {
+                            this.$nextTick(() => {
+                                this.loading = true;
+                            });
+                        }, 1000);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         notSure() {},
         loadData(item, callback) {
@@ -322,7 +337,7 @@ export default {
                             tmpObj.dictLevel = el.dictLevel;
                             tmpObj.dictSource = el.dictSource;
                             tmpObj.parentType = el.parentType;
-                            if(el.num == 1){
+                            if (el.num == 1) {
                                 tmpObj.children = [];
                                 tmpObj.loading = false;
                                 tmpObj.expand = false;
@@ -356,7 +371,7 @@ export default {
                     tmpObj.dictLevel = el.dictLevel;
                     tmpObj.dictSource = el.dictSource;
                     tmpObj.parentType = el.parentType;
-                    if(el.num == 1){
+                    if (el.num == 1) {
                         tmpObj.children = [];
                         tmpObj.loading = false;
                         tmpObj.expand = false;

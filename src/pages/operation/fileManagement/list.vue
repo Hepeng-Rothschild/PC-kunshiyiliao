@@ -1,107 +1,125 @@
 <template>
-  <div class="fileManagement">
-    <!-- 头部搜索 -->
-    <header>
-      <span>机构名称</span>
-      <Input v-model.trim="params.mechanism" placeholder="请输入机构名称" style="width: 200px"/>
-      <span>患者姓名</span>
-      <Input v-model.trim="params.userName" placeholder="请输入患者姓名" style="width: 200px"/>
-      <span>身份证号</span>
-      <Input v-model.trim="params.uId" placeholder="请输入患者身份证号码" style="width: 200px"/>
-      <Button type="primary" icon="ios-search">查询</Button>
-    </header>
-    <!-- 列表 -->
-    <div class="table">
-      <Table size="small" :columns="columns1" :data="data1"></Table>
-      <Page
-        :total="count"
-        :current="pageNo"
-        :page-size="pageSize"
-        @on-change="loadPage"
-        class="pages"
-      />
+    <div class="doctorreviewlist">
+        <Row>
+            <Col :xs="24">
+                <span>机构名称：</span>
+                <Input class="w-input" v-model="params.mechanism" placeholder="请输入机构名称"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span>患者名称：</span>
+                <Input class="w-input" v-model="params.memberName" placeholder="请输入患者名称"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span>身份证号：</span>
+                <Input class="w-input" v-model="params.idCard" placeholder="请输入患者身份证号"/>
+                <Button type="primary" @click="loadPage(1)">
+                    <Icon type="ios-search" size="14"/>查询
+                </Button>
+            </Col>
+        </Row>
+        <br>
+        <Table class="m-table" stripe :columns="columns" :data="dataList"></Table>
+        <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
     </div>
-  </div>
 </template>
 <script>
+import { Select, Option, DatePicker } from "iview";
 import api from "@/api/commonApi";
 export default {
-  data() {
-    return {
-      params: {
-        mechanism: "",
-        userName: "",
-        uId: ""
-      },
-      pageNo: 1,
-      pageSize: 10,
-      count: 10,
-      columns1: [
-        { title: "编号", key: "iNum", align: "center" },
-        { title: "患者姓名", key: "iName", align: "center" },
-        { title: "性别", key: "iSex", align: "center" },
-        { title: "身份证号", key: "iId", align: "center" },
-        { title: "电话", key: "iphone", align: "center" },
-        { title: "签约医生", key: "iDoctor", align: "center" },
-        { title: "签约日期", key: "iDate", align: "center" },
-        { title: "签约机构", key: "iMenagement", align: "center" },
-      ],
-      data1: [
-        {
-          iName: "John Brown",
-          iNum: 18,
-          iMenagement: "New York No. 1 Lake Park",
-          iDate: "2016-10-03",
-          iOperate: "编辑",
-          id: 1
-        }
-      ]
-    };
-  },
-  mounted () {
-
-  },
-  methods: {
-    loadPage(index) {
-      console.log(index);
+    data() {
+        return {
+            params: {
+                mechanism: "",
+                userName: "",
+                idCard: ""
+            },
+            columns: [
+                { title: "编号", key: "iNum", align: "center" },
+                { title: "患者姓名", key: "memberName", align: "center" },
+                { title: "性别", key: "gender", align: "center" },
+                { title: "身份证号", key: "idCard", align: "center" },
+                { title: "电话", key: "telephone", align: "center" },
+                { title: "签约医生", key: "SigningDoctor", align: "center" },
+                { title: "签约日期", key: "SigningDate", align: "center" },
+                { title: "签约机构", key: "SigningMechanism", align: "center" }
+            ],
+            dataList: [],
+            count: 0,
+            pageSize: 10,
+            pageNo: 1
+        };
     },
-    loadingData (pageNo,pageSize,val) {
-        let params = {
-            pageNo,
-            pageSize
+    components: {
+        Select,
+        Option
+    },
+    created() {},
+    mounted() {
+        let pageNo = this.$route.query.pageNo;
+        pageNo = pageNo ? parseInt(pageNo) : 1;
+        //上来就加载第一页数据
+        this.loadPage(pageNo);
+    },
+    methods: {
+        //加载列表数据
+        loadPage(pageNo) {
+            this.pageNo = pageNo;
+            let params = this.params;
+            params.pageNo = pageNo;
+            params.pageSize = this.pageSize;
+            this.$axios
+                .post(api.ordermanagementlistbyremoteorder, params)
+                .then(resp => {
+                    console.log(resp);
+                    if (resp.data.success) {
+                        let tmpObj = resp.data.object;
+                        this.count = tmpObj.count;
+                        this.dataList = tmpObj.list;
+                        for (let i = 0; i < this.dataList.length; i++) {
+                            this.dataList[i].iNum = i + 1;
+                        }
+                    } else {
+                        this.$Message.info("网络错误，请刷新重试");
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
-        if(val !='') {
-            params.val = val;
-        }
-    //    this.$axios.post(url,params).then(res => {
-    //     if (res.data.code) {
-    //       let ret = res.data
-    //       console.log(ret)
-    //     }
-    //   }).catch(err => {
-    //     this.$Message.info("请求失败,请稍候重试");
-    //   })
     }
-  }
 };
 </script>
 <style lang="less" scoped>
-.fileManagement {
-  width: 98%;
-  padding: 10px;
-  margin-left: 1%;
-  margin: 0 auto;
-  background: #fff;
-  header {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
-  .pages {
-    margin-top: 20px;
-  }
+.doctorreviewlist {
+    margin-left: 1%;
+    padding: 10px;
+    width: 98%;
+    background: #ffffff;
+    box-sizing: border-box;
+    .w-select {
+        width: 100px;
+    }
+    .w-input {
+        width: 220px;
+    }
+    .w-num-input {
+        width: 100px;
+    }
+    .m-table {
+        margin: 10px 0;
+    }
+    .first {
+        display: inline-block;
+        min-width: 320px;
+        text-align: right;
+    }
+    .second {
+        display: inline-block;
+        min-width: 150px;
+        text-align: left;
+    }
+    .third {
+        display: inline-block;
+        min-width: 460px;
+        text-align: center;
+    }
 }
 </style>

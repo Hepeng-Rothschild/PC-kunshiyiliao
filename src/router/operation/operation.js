@@ -753,6 +753,17 @@ const versionManagementAdd = {
 	component: () =>
 		import("@/pages/operation/versionManagement/add")
 }
+//档案管理
+const fileManagementList = {
+	path: 'operation/fileManagement/list',
+	name: 'fileManagementList',
+	meta: {
+		index: 2,
+		title: '版本管理'
+	},
+	component: () =>
+		import("@/pages/operation/fileManagement/list")
+}
 
 export default {
 	reviewList,
@@ -844,6 +855,6 @@ export default {
 	wxBannerEdit,
 	// 微信公众号模板
 	templateHome,
-
-
+	//档案管理
+	fileManagementList,
 }
