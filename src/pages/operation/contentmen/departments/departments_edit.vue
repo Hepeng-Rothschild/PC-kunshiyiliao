@@ -20,7 +20,7 @@
         <!--科室名称-->
         <div class="keshi_name">
           <div class="left">
-            <span style="color:red;">*&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
           <input type="text" disabled v-model.trim="title">

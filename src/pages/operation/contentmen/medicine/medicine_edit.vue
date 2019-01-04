@@ -24,7 +24,7 @@
         <!--科室名称-->
         <div class="keshi_name">
           <div class="left">
-            <span style="color:red;">*&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
           <Input v-model="title"  disabled style="width: 300px" />
@@ -32,7 +32,7 @@
         <!--院内名称-->
         <div class="keshi_name">
           <div class="left">
-            <span style="color:red;">*&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>院内名称</span>
           </div>
            <Input v-model.trim="keshiname"  disabled style="width: 300px" placeholder="空" />
@@ -41,7 +41,7 @@
         <!--科室图标-->
         <div class="keshi_name_fileImgs">
           <div class="left">
-            <span style="color:red;">*&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室图标</span>
           </div>
           <div class="input">
