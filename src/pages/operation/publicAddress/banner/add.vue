@@ -10,7 +10,7 @@
           <span>banner名称</span>
         </div>
         <div class="input">
-          <Input v-model.trim="title" placeholder="医院大图" style="width: 360px" />
+          <Input v-model.trim="title" placeholder="医院大图" style="width: 360px"/>
         </div>
       </div>
       <!--banner图片-->
@@ -67,7 +67,7 @@
           <span>banner链接</span>
         </div>
         <div class="input">
-          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px" />
+          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px"/>
         </div>
       </div>
       <!--排序-->
@@ -77,16 +77,24 @@
           <span>排序</span>
         </div>
         <div class="input">
-           <Input v-model.trim="isort" placeholder="" style="width: 100px" />
+          <Input v-model.trim="isort" placeholder style="width: 100px" @on-keyup ='proxy'/>
         </div>
       </div>
       <!--是否显示-->
       <div class="main_title">
         <div class="main_title_info">
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-          <span>排序</span>
+          <span>显示</span>
         </div>
-        <iSwitch v-model.trim="switch1" @on-change="change"/>
+        <iSwitch v-model.trim="switch1"/>
+      </div>
+      <!--是否显示-->
+      <div class="main_title">
+        <div class="main_title_info">
+          <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+          <span>是否可点击</span>
+        </div>
+        <iSwitch v-model.trim="switch2"/>
       </div>
       <!--保存-->
       <div class="save">
@@ -113,27 +121,30 @@ export default {
       lianjie: "",
       isort: "",
       switch1: true,
+      switch2:true,
       defaultList: [],
       imgName: "",
       visible: false,
       uploadList: [],
-      id: sessionStorage.getItem("hospitalId"),
-
+      id: sessionStorage.getItem("appid"),
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.wxBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: ""
     };
   },
   methods: {
-    change(status) {
-      //              this.$Message.info('开关状态：' + status);
+    proxy () {
+      if(this.isort <=0) {
+        this.isort =''
+      }
     },
+    // 后退
     back() {
       let pageNo = this.$route.params.pageNo;
       this.$router.push({
-        name: "iBanner",
+        name: "wxbannerList",
         params: {
           pageNo
         }
@@ -145,37 +156,38 @@ export default {
         images = this.images;
       }
       let params = {
-        hospitalId: this.id,
+        appid: this.id,
         bannerName: this.title,
         bannerUrl: this.lianjie,
         priority: this.isort,
         enable: Number(this.switch1),
-        imageUrl: images
+        imageUrl: images,
+        iclick:Number(this.switch2)
       };
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
-        // this.$axios
-        //   .post(api.bannerAdd, params)
-        //   .then(res => {
-        //     if (res.data.message === "success") {
-        //       this.$Message.info("添加成功");
-        //         let pageNo = this.$route.params.pageNo;
-        //       setTimeout(() => {
-        //         this.$router.push({
-        //           name: "iBanner",
-        //           params:{
-        //             pageNo
-        //           }
-        //         });
-        //       }, 300);
-        //     } else {
-        //        this.$Message.info('修改失败请重试');
-        //     }
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   })
+        this.$axios
+          .post(api.wxBannerAdd, params)
+          .then(res => {
+            if (res.data.message === "success") {
+              this.$Message.info("添加成功");
+              let pageNo = this.$route.params.pageNo;
+              setTimeout(() => {
+                this.$router.push({
+                  name: "wxbannerList",
+                  params: {
+                    pageNo
+                  }
+                });
+              }, 300);
+            } else {
+              this.$Message.info("添加失败请重试");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     handleView(name) {

@@ -46,7 +46,7 @@ const maintainLeftMenu = [
         {id:33,level:2,name:"机构注册信息",path:"/index/maintain/mechanismreg/list"}
     ]},
     {id:2,level:1,name:"配置仓",childLists:[
-        {id:37,level:2,name:"字典管理",path:"/index/maintain/dictionary/tree"},
+        {id:37,level:2,name:"基础字典",path:"/index/maintain/dictionary/tree"},
         {id:38,level:2,name:"疾病管理",path:"/index/maintain/disease/list"},
         {id:39,level:2,name:"症状管理",path:"/index/maintain/symptom/list"}
     ]}

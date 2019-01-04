@@ -5,8 +5,7 @@
                 <Row class="tt-row">
                     <Col :xs="24">
                         栏目：
-                        <Select class="w-select" v-model="sonTab">
-                            <Option value="0">全部</Option>
+                        <Select class="w-select" clearable v-model="sonTab">
                             <Option
                                 v-for="item in sonTabList"
                                 :value="item.id"
@@ -14,8 +13,7 @@
                             >{{item.name}}</Option>
                         </Select>&nbsp;&nbsp;&nbsp;&nbsp;
                         状态：
-                        <Select class="w-select" v-model="publicationStatus">
-                            <Option value="9">全部</Option>
+                        <Select class="w-select" clearable v-model="publicationStatus">
                             <Option
                                 v-for="item in publicationStatusList"
                                 :value="item.id"
@@ -57,12 +55,12 @@ export default {
             ],
             tabId: 0,
             sonTabList: [],
-            sonTab: "0",
+            sonTab: null,
             publicationStatusList: [
                 { id: 0, name: "禁用" },
                 { id: 1, name: "启用" }
             ],
-            publicationStatus: "9",
+            publicationStatus: null,
             articleText: "",
             columns: [],
             datas: [],
@@ -463,10 +461,8 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.type = parseInt(this.sonTab == 0 ? null : this.sonTab);
-            params.enable = parseInt(
-                this.publicationStatus == 9 ? null : this.publicationStatus
-            );
+            params.type = this.sonTab ? parseInt(this.sonTab) : null ;
+            params.enable =  this.publicationStatus ? parseInt(this.publicationStatus ) : null;
             params.searchKey = this.articleText;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;

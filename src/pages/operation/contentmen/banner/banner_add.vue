@@ -85,7 +85,7 @@
       <div class="main_title">
         <div class="main_title_info">
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-          <span>排序</span>
+          <span>显示</span>
         </div>
         <iSwitch v-model.trim="switch1" @on-change="change"/>
       </div>

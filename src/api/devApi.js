@@ -29,6 +29,10 @@ const doctorRomteclinicSearchExpert = '/operateapi/remotedoctorselectremotedocto
 const doctorRomteclinicList ='/operateapi/remotedoctorpageremotedoctor' //远程门诊医生列表
 const doctorRomteclinicDetail='/operateapi/remotedoctorselectoutpatientdoctorscheduling' //查询远程门诊医生详情
 
+const versioninsert = '/operateapi/versioninsert'   //医生端版本管理添加
+const versionlist = '/operateapi/versionlist' //医生端版本管理列表
+const versiondetail= '/operateapi/versionqueryversion' //医生端版本管理详情
+const versionupdate='/operateapi/versionupdate' //医生端版本管理修改
 // 家医签约管理
 const  contractManagementList ='/operateapi/ordermanagementsigningmanagepage'   //家医签约管理列表
 
@@ -184,6 +188,16 @@ const organizationdownloadtemplate ='/operateapi/organizationdownloadtemplate'; 
 //通过省份ID查询医院列表
 const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
 
+//
+const wxList = '/operateapi/wxappbannerwxapplist'  //公众号列表
+const wxBannerList = '/operateapi/wxappbannerlist'  //公众号banner图列表
+const wxBannerAdd = '/operateapi/wxappbannerinsert'  //公众号Banner图添加
+const wxBannerDetail = '/operateapi/wxappbannerselectbyid' //公众号Banner图详情
+const wxBannerEdit = '/operateapi/wxappbannerupdate' //公众号Banner图修改
+const wxTemplateList ='/operateapi/wxapptemplatelisttemplate'// 公众号模板管理列表 
+const wxTemplateSave = '/operateapi/wxapptemplateupdatetemplate' //公众号模板管理保存
+
+
 export default {
     login,
     //字典
@@ -222,6 +236,11 @@ export default {
     doctorRomteclinicSearchExpert,
     doctorRomteclinicList,
     doctorRomteclinicDetail,
+    // 版本管理
+    versioninsert,
+    versionlist,
+    versiondetail,
+    versionupdate,
     // 家医签约管理
     contractManagementList,
 
@@ -286,6 +305,14 @@ export default {
     DoctorRemoteClinicTypeEdit,
     // 医生排班列表修改
     DoctorListEdit,
+    // 公众号
+    wxList,
+    wxBannerList,
+    wxBannerAdd,
+    wxBannerDetail,
+    wxBannerEdit,
+    wxTemplateList,
+    wxTemplateSave,
 
     /* ********************************************** */
 

@@ -5,14 +5,14 @@
       <span>公众号</span>
       <Input
         v-model.trim="params.uId"
-        placeholder="请输入患者身份证号码"
+        placeholder="请输入检索内容"
         style="width: 200px;margin:0 20px;"
       />
-      <Button type="primary" icon="ios-search">查询</Button>
+      <Button type="primary" icon="ios-search" @click="search">查询</Button>
     </header>
     <!-- 列表 -->
     <div class="table">
-      <Table size="small" :columns="columns1" :data="data1"></Table>
+      <Table size="small" :columns="columns1" :data="data1" stripe></Table>
       <Page
         :total="count"
         :current="pageNo"
@@ -35,20 +35,15 @@ export default {
       pageSize: 10,
       count: 10,
       columns1: [
-        { title: "编号", key: "iNum", align: "center" },
-        { title: "公众号", key: "iName", align: "center" },
-        { title: "性别", key: "iSex", align: "center" },
-        { title: "身份证号", key: "iId", align: "center" },
-        { title: "电话", key: "iphone", align: "center" },
-        { title: "签约医生", key: "iDoctor", align: "center" },
-        { title: "签约日期", key: "iDate", align: "center" },
-        { title: "签约机构", key: "iMenagement", align: "center" },
+        { title: "编号", key: "sum", align: "center" },
+        { title: "公众号", key: "nick", align: "center" },
+        { title: "Appid", key: "appid", align: "center" },
         {
           title: "操作",
           key: "iOperate",
           align: "center",
           render: (h, params) => {
-            let id = params.row.fdsOrderId;
+            let id = params.row.appid;
             return [
               h(
                 "a",
@@ -58,10 +53,10 @@ export default {
                   },
                   on: {
                     click: () => {
-                        this.$router.push({
-                            name:"wxbannerList"
-                        })
-                      console.log(1, id);
+                      this.$router.push({
+                        name: "wxbannerList"
+                      });
+                      sessionStorage.setItem("appid",id)
                     }
                   }
                 },
@@ -71,39 +66,41 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          iName: "John Brown",
-          iNum: 18,
-          iMenagement: "New York No. 1 Lake Park",
-          iDate: "2016-10-03",
-          iOperate: "编辑",
-          id: 1
-        }
-      ]
+      data1: []
     };
   },
-  mounted() {},
+  mounted() {
+    this.loadingData(1);
+  },
   methods: {
     loadPage(index) {
-      console.log(index);
+      this.pageNo = index;
+      this.loadingData(index);
     },
-    loadingData(pageNo, pageSize, val) {
+    search() {
+      this.loadingData(1, this.params.uId);
+    },
+    loadingData(pageNo, val) {
       let params = {
         pageNo,
-        pageSize
+        pageSize: 10
       };
       if (val != "") {
-        params.val = val;
+        params.searchKey = val;
       }
-      //    this.$axios.post(url,params).then(res => {
-      //     if (res.data.code) {
-      //       let ret = res.data
-      //       console.log(ret)
-      //     }
-      //   }).catch(err => {
-      //     this.$Message.info("请求失败,请稍候重试");
-      //   })
+      this.$axios.post(api.wxList, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object.list;
+          console.log(ret);
+          ret.forEach((item, index) => {
+            item.sum = index + 1;
+          });
+          this.count = ret.count;
+          this.data1 = ret;
+        } else {
+          this.$Message.info("请求失败,请稍候重试");
+        }
+      });
     }
   }
 };

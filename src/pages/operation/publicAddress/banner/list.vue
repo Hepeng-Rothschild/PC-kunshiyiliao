@@ -10,7 +10,7 @@
           <span>
             <Icon type=" i-icon i-icon-shop_fill" size="24"/>
           </span>
-          <Input v-model.trim="search" placeholder="名称" style="width: 200px" />
+          <Input v-model.trim="search" placeholder="请输入banner图名称" style="width: 200px" />
         </div>
         <button @click="navto">添加Banner</button>
       </div>
@@ -68,7 +68,7 @@ export default {
       search: "",
       arr: [],
       len: 10,
-      id: sessionStorage.getItem("hospitalId"),
+      id: sessionStorage.getItem("appid"),
       bannerSize: 10,
       pageNo: 1
     };
@@ -91,13 +91,14 @@ export default {
       });
     },
     change(item) {
+      console.log(item);
       this.$router.push({
         name: "wxbannerEdit",
         params: {
           id: item.id,
           pageNo: this.pageNo
         }
-      });
+      })
     },
     addZero(num) {
       num = num + 1;
@@ -108,17 +109,17 @@ export default {
     },
     getData(pageNo, val) {
       let params = {
-        bannerName: "",
-        hospitalId: this.id,
         pageNo,
         pageSize: 10
-      };
-      if (val != "") {
-        params.bannerName = val;
       }
-      this.$axios.post(api.bannerHome, params).then(res => {
+      if (val != "") {
+        params.searchKey = val;
+      }
+      this.$axios.post(api.wxBannerList, params).then(res => {
         if (res.data.code) {
+          
           let ret = res.data.object;
+          console.log(ret)
           this.tbleList = ret.list;
           this.bannerSize = ret.count;
         }

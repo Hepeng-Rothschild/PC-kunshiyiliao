@@ -4,8 +4,8 @@
     <header>
       <span>版本号</span>
       <Input v-model.trim="params.uId" placeholder="请输入检索版本号" style="width: 200px;margin:0 20px;"/>
-      <Button type="primary" icon="ios-search">查询</Button>
-      <Button type="primary"  @click="add" style ='margin-left:20px;'>添加新版本</Button>
+      <Button type="primary" icon="ios-search" @click="search">查询</Button>
+      <Button type="primary" @click="add" style="margin-left:20px;">添加新版本</Button>
     </header>
     <!-- 列表 -->
     <div class="table">
@@ -32,18 +32,20 @@ export default {
       pageSize: 10,
       count: 10,
       columns1: [
-        { title: "编号", key: "iNum", align: "center" },
-        { title: "版本", key: "iName", align: "center" },
-        { title: "版本名", key: "iSex", align: "center" },
-        { title: "类型", key: "iId", align: "center" },
-        { title: "下载路径", key: "iphone", align: "center" },
-        { title: "版本内容", key: "iDoctor", align: "center" },
+        { title: "编号", key: "sum", align: "center" },
+        { title: "版本ID", key: "id", align: "center" },
+        { title: "版本名", key: "versionName", align: "center" },
+        { title: "版本号", key: "versionNumber", align: "center" },
+        { title: "版本唯一标识", key: "versionId", align: "center" },
+        { title: "类型", key: "type1", align: "center" },
+        { title: "下载路径", key: "downloadPath", align: "center" },
+        { title: "版本内容", key: "content", align: "center" },
         {
           title: "操作",
           key: "iOperate",
           align: "center",
           render: (h, params) => {
-            let id = params.row.fdsOrderId;
+            let id = params.row.id;
             return [
               h(
                 "a",
@@ -53,9 +55,12 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // this.$router.push({
-                      //     name:"wxbannerList"
-                      // })
+                      this.$router.push({
+                        name: "versionManagementEdit",
+                        params: {
+                          id
+                        }
+                      })
                       console.log(1, id);
                     }
                   }
@@ -66,39 +71,49 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          iName: "John Brown",
-          iNum: 18,
-          iMenagement: "New York No. 1 Lake Park",
-          iDate: "2016-10-03",
-          iOperate: "编辑",
-          id: 1
-        }
-      ]
+      data1: []
     };
   },
-  mounted() {},
+  mounted() {
+    this.loadingData(this.pageNo);
+  },
   methods: {
     loadPage(index) {
-      console.log(index);
+      this.pageNo = index;
+      if (this.params.uId) {
+        this.loadingData(this.pageNo, this.params.uId);
+      } else {
+        this.loadingData(this.pageNo);
+      }
     },
-    loadingData(pageNo, pageSize, val) {
+    search() {
+      this.loadingData(this.ageNo, this.params.uId);
+    },
+    loadingData(pageNo, val) {
       let params = {
         pageNo,
-        pageSize
+        pageSize: 10
       };
       if (val != "") {
-        params.val = val;
+        params.searchKey = val;
       }
-      //    this.$axios.post(url,params).then(res => {
-      //     if (res.data.code) {
-      //       let ret = res.data
-      //       console.log(ret)
-      //     }
-      //   }).catch(err => {
-      //     this.$Message.info("请求失败,请稍候重试");
-      //   })
+      this.$axios.post(api.versionlist, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.count = ret.count;
+          ret.list.forEach((item, index) => {
+            item.sum = index+1;
+            if (item.type == 1) {
+              item.type1 = "安卓";
+            } else {
+              item.type1 = "IOS";
+            }
+          });
+          this.data1 = ret.list;
+        } else {
+          this.$Message.info("请求失败,请稍候重试");
+        }
+      });
     },
     add() {
       this.$router.push({
