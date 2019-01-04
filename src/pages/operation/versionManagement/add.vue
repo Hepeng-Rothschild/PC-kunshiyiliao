@@ -1,8 +1,131 @@
 <template>
-  <div class="add">add</div>
+  <div class="add">
+    <div class="main">
+      <div class="edition">
+        <!-- 版本Id -->
+        <div class="item">
+          <span style="color:red;">*</span>
+          <span class="info">版本id</span>
+          <InputNumber :min="1"  v-model="params.versionId"></InputNumber>
+        </div>
+        <!-- 版本名 -->
+        <div class="item">
+          <span style="color:red;">*</span>
+          <span class="info">版本名</span>
+          <Input placeholder="请输入版本名" style="width: 300px" v-model="params.versionName"/>
+        </div>
+        <!-- 版本号 -->
+        <div class="item">
+          <span style="color:red;">*</span>
+          <span class="info">版本号</span>
+          <Input placeholder="请输入版本号" style="width: 300px" v-model="params.versionNumber"/>
+        </div>
+        <!-- 版本唯一标识 -->
+        <div class="item">
+          <span style="color:red;">*</span>
+          <span class="info">唯一标识</span>
+          <Input placeholder="请输入版本唯一标识" style="width: 300px" v-model="params.id"/>
+        </div>
+        <!-- 版本类型 -->
+        <div class="item">
+          <span style="color:red;">*</span>
+          <span class="info">版本类型</span>
+          <Select v-model="params.type" style="width:100px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </div>
+        <!-- 下载路径 -->
+        <div class="item">
+          <span style="color:red;">*</span>
+          <span class="info">下载路径</span>
+          <Input placeholder="请输入版本下载路径" style="width: 300px" v-model="params.downloadPath"/>
+        </div>
+        <!-- 版本说明 -->
+        <div class="item">
+          <span style="color:red;">*</span>
+          <span class="info">版本说明</span>
+          <Input type="textarea" placeholder="请输入版本版本说明" v-model="params.content"/>
+        </div>
+      </div>
+      <div class="save">
+        <Button type="primary" @click="add">添加</Button>
+        <Button @click="back">取消</Button>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-export default {};
+import api from "@/api/commonApi";
+import { Select, Option } from "iview";
+export default {
+  components: {
+    Select,
+    Option
+  },
+  data() {
+    return {
+      params: {
+        id: null,
+        content: "",
+        type: "",
+        versionId: null,
+        versionName: "",
+        versionNumber: "",
+        downloadPath: ""
+      },
+      cityList: [
+        {
+          value: 1,
+          label: "IOS"
+        },
+        {
+          value: 2,
+          label: "安卓"
+        }
+      ]
+    };
+  },
+  methods: {
+    add() {
+      let flag = true;
+      for (let i in this.params) {
+        if (!this.params[i]) {
+          flag = false;
+        }
+      }
+      console.log(this.params);
+      //      "content": "string",
+      // "downloadPath": "string",
+      // "id": 0,
+      // "type": 0,
+      // "versionId": 0,
+      // "versionName": "string",
+      // "versionNumber": "string"
+
+      if (!flag) {
+        this.$Message.info("添加失败,请检查填写信息");
+      } else {
+        this.$axios.post(api.versioninsert, this.params).then(res => {
+          if (res.data.code) {
+            this.$Message.info("添加成功");
+            setTimeout(() => {
+              this.$router.push({
+                name: "versionManagementHome"
+              });
+            }, 800);
+          } else {
+            this.$Message.info("添加失败,请稍候重试");
+          }
+        });
+      }
+    },
+    back() {
+      this.$router.push({
+        name: "versionManagementHome"
+      });
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .add {
@@ -11,5 +134,27 @@ export default {};
   margin-left: 1%;
   margin: 0 auto;
   background: #fff;
+  .main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 20px;
+      .info {
+        min-width: 100px;
+      }
+    }
+    .save {
+      width: 200px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      margin: 0 auto;
+    }
+  }
 }
 </style>

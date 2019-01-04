@@ -703,7 +703,7 @@ const wxBannerAdd = {
 	name: 'wxbannerAdd',
 	meta: {
 		index: 3,
-		title: 'banner图-添加'
+		title: 'banner图添加'
 	},
 	component: () =>
 		import("@/pages/operation/publicAddress/banner/add")
@@ -714,7 +714,7 @@ const wxBannerEdit = {
 	name: 'wxbannerEdit',
 	meta: {
 		index: 3,
-		title: 'banner图-编辑'
+		title: 'banner图编辑'
 	},
 	component: () =>
 		import("@/pages/operation/publicAddress/banner/edit")
@@ -748,10 +748,21 @@ const versionManagementAdd = {
 	name: 'versionManagementAdd',
 	meta: {
 		index: 3,
-		title: '版本管理'
+		title: '版本管理添加'
 	},
 	component: () =>
 		import("@/pages/operation/versionManagement/add")
+}
+const versionManagementEdit = {
+	// 医生端安卓/ios版本管理
+	path: 'operation/versionManagement/edit',
+	name: 'versionManagementEdit',
+	meta: {
+		index: 3,
+		title: '版本管理修改'
+	},
+	component: () =>
+		import("@/pages/operation/versionManagement/edit")
 }
 
 export default {
@@ -821,6 +832,7 @@ export default {
 	// 版本管理
 	versionManagementList,
 	versionManagementAdd,
+	versionManagementEdit,
 	//服务包管理f
 	servicePackagePList,
 	servicePackagePAdd,

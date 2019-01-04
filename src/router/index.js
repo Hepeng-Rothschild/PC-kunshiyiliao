@@ -104,6 +104,7 @@ export default new Router({
 				operation.doctorList,
 				operation.versionManagementList,
 				operation.versionManagementAdd,
+				operation.versionManagementEdit,
 				// 公众号管理
 				operation.publicAddressList,
 				operation.wxBannerList,

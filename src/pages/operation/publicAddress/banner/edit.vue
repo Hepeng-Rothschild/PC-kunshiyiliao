@@ -83,9 +83,16 @@
       <div class="main_title">
         <div class="main_title_info">
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-          <span>排序</span>
+          <span>显示</span>
         </div>
-        <iSwitch v-model.trim="switch1" @on-change="change"/>
+        <iSwitch v-model.trim="switch1" />
+      </div>
+      <div class="main_title">
+        <div class="main_title_info">
+          <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+          <span>是否可点击</span>
+        </div>
+        <iSwitch v-model.trim="switch2" />
       </div>
       <!--保存-->
       <div class="save">
@@ -112,11 +119,12 @@ export default {
       lianjie: "",
       isort: "",
       switch1: true,
+      switch2:true,
       defaultList: [],
       imgName: "",
       visible: false,
       uploadList: [],
-      id: sessionStorage.getItem("hospitalId"),
+      id: sessionStorage.getItem("appid"),
 
       uploadModal: true,
       uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
@@ -127,13 +135,11 @@ export default {
     };
   },
   methods: {
-    change(status) {
-      // this.$Message.info("开关状态：" + status);
-    },
+    // 后退
     back() {
       let pageNo = this.$route.params.pageNo;
       this.$router.push({
-        name: "iBanner",
+        name: "wxbannerList",
         params: {
           pageNo
         }
@@ -152,36 +158,37 @@ export default {
       }
 
       let params = {
-        hospitalId: this.id,
+        appid: this.id,
         bannerName: this.title,
         bannerUrl: this.lianjie,
         priority: this.isort,
         id: this.$route.params.id,
         enable: Number(this.switch1),
-        imageUrl: images
+        imageUrl: images,
+        iclick:Number(this.switch2)
       };
       // console.log(params);
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
-        // this.$axios
-        //   .post(api.bannerChange, params)
-        //   .then(res => {
-        //     if (res.data.code) {
-        //       this.$Message.info("修改成功");
-        //       let pageNo = this.$route.params.pageNo;
-        //       setTimeout(() => {
-        //         this.$router.push({
-        //           name: "iBanner",
-        //           params: {
-        //             pageNo
-        //           }
-        //         });
-        //       }, 500);
-        //     } else {
-        //       this.$Message.info("修改失败请重试");
-        //     }
-        //   })
+        this.$axios
+          .post(api.wxBannerEdit, params)
+          .then(res => {
+            if (res.data.code) {
+              this.$Message.info("修改成功");
+              let pageNo = this.$route.params.pageNo;
+              setTimeout(() => {
+                this.$router.push({
+                  name: "wxbannerList",
+                  params: {
+                    pageNo
+                  }
+                });
+              }, 500);
+            } else {
+              this.$Message.info("修改失败请重试");
+            }
+          })
       }
     },
     handleView(name) {
@@ -233,7 +240,7 @@ export default {
     let route = this.$route.params.id;
     if (route) {
       this.$axios
-        .post(api.getIdBanner, {
+        .post(api.wxBannerDetail, {
           id: route
         })
         .then(res => {
@@ -243,6 +250,7 @@ export default {
             this.lianjie = ret.bannerUrl;
             this.isort = ret.priority;
             this.switch1 = Boolean(ret.enable);
+            this.switch2 = Boolean(ret.iclick);
             //图片
             if (ret.imageUrl) {
               this.sourceImages = ret.imageUrl;
