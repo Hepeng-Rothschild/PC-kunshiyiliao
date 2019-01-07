@@ -14,20 +14,20 @@
                     <!--第一行-->
                     <div class="select_wufu" ref="all">
                         <template v-if="editFlag">
-                            <div v-for="(items,index) in item.child">
+                            <div v-for="(items,index) in item.result">
                                 <input
                                     type="checkbox"
-                                    :value="items.id"
+                                    :value="items.packageId"
                                     :checked="items.selected == 1"
-                                    :data-id="items.id"
-                                    :id="'a' + items.id"
+                                    :data-id="items.packageId"
+                                    :id="'a' + items.packageId"
                                 >
-                                <label :for="'a' + items.id">{{ items.menuName }}</label>
+                                <label :for="'a' + items.packageId">{{ items.packageName }}</label>
                             </div>
                         </template>
                         <template v-else-if="!editFlag">
-                            <div v-if="items.selected == 1" v-for="(items,index) in item.child">
-                                <label :for="'a' + items.id">{{ items.menuName }}</label>
+                            <div v-if="items.selected == 1" v-for="(items,index) in item.result">
+                                <label :for="'a' + items.packageId">{{ items.packageName }}</label>
                             </div>
                         </template>
                     </div>
@@ -35,7 +35,7 @@
             </div>
             <!--保存-->
             <div class="expert_save">
-                <Button type="primary" @click="navto">保存</Button>
+                <Button type="primary" v-if="editFlag" @click="save">保存</Button>
                 <Button type="primary" @click="reback">返回</Button>
             </div>
         </div>
@@ -49,260 +49,8 @@ export default {
     data() {
         return {
             arr: [],
-            allServiceList: [
-                {
-                    name: "基础服务",
-                    child: [
-                        {
-                            id: 4,
-                            menuName: "咨询服务",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/zixunfuwu.png",
-                            level: 1,
-                            priority: 999,
-                            shortcut: 0
-                        },
-                        {
-                            id: 5,
-                            menuName: "问诊服务",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/wenzhenfuwu.png",
-                            level: 1,
-                            priority: 998,
-                            shortcut: 0
-                        },
-                        {
-                            id: 6,
-                            menuName: "复诊服务",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/fuzhenfuwu.png",
-                            level: 1,
-                            priority: 996,
-                            shortcut: 0
-                        },
-                        {
-                            id: 7,
-                            menuName: "续方服务",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/xufangfuwu.png",
-                            level: 1,
-                            priority: 995,
-                            shortcut: 0
-                        },
-                        {
-                            id: 8,
-                            menuName: "医生小组",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/yishengxiaozu.png",
-                            level: 1,
-                            priority: 994,
-                            shortcut: 0
-                        },
-                        {
-                            id: 9,
-                            menuName: "处方审核",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/chufangshenhe.png",
-                            level: 1,
-                            priority: 993,
-                            shortcut: 0
-                        },
-                        {
-                            id: 10,
-                            menuName: "用药咨询",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/yongyaozixun.png",
-                            level: 1,
-                            priority: 992,
-                            shortcut: 0
-                        },
-                        {
-                            id: 11,
-                            menuName: "预约管理",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/yuyueguanli.png",
-                            level: 1,
-                            priority: 991,
-                            shortcut: 0
-                        },
-                        {
-                            id: 12,
-                            menuName: "我的直播",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: "doctormenu/wodezhibo.png",
-                            level: 1,
-                            priority: 990,
-                            shortcut: 0
-                        },
-                        {
-                            id: 23,
-                            menuName: "远程门诊",
-                            remark: null,
-                            prentId: 1,
-                            function: "0",
-                            menuicon: null,
-                            level: 1,
-                            priority: 956,
-                            shortcut: 0
-                        }
-                    ]
-                },
-                {
-                    name: "健康服务",
-                    child: [
-                        {
-                            id: 13,
-                            menuName: "签约服务",
-                            remark: null,
-                            prentId: 2,
-                            function: null,
-                            menuicon: "doctormenu/qianyuefuwu.png",
-                            level: 1,
-                            priority: 999,
-                            shortcut: 0
-                        },
-                        {
-                            id: 14,
-                            menuName: "健康档案",
-                            remark: null,
-                            prentId: 2,
-                            function: null,
-                            menuicon: "doctormenu/jiankangdangan.png",
-                            level: 1,
-                            priority: 998,
-                            shortcut: 0
-                        },
-                        {
-                            id: 15,
-                            menuName: "公卫服务",
-                            remark: null,
-                            prentId: 2,
-                            function: null,
-                            menuicon: "doctormenu/gongweifuwu.png",
-                            level: 1,
-                            priority: 997,
-                            shortcut: 0
-                        },
-                        {
-                            id: 16,
-                            menuName: "健康宣教",
-                            remark: null,
-                            prentId: 2,
-                            function: null,
-                            menuicon: "doctormenu/jiankangxuanjiao.png",
-                            level: 1,
-                            priority: 996,
-                            shortcut: 0
-                        },
-                        {
-                            id: 17,
-                            menuName: "履约计划",
-                            remark: null,
-                            prentId: 2,
-                            function: null,
-                            menuicon: "doctormenu/lvyuejihua.png",
-                            level: 1,
-                            priority: 995,
-                            shortcut: 0
-                        },
-                        {
-                            id: 18,
-                            menuName: "履约执行",
-                            remark: null,
-                            prentId: 2,
-                            function: null,
-                            menuicon: "doctormenu/lvyuezhixing.png",
-                            level: 1,
-                            priority: 994,
-                            shortcut: 0
-                        },
-                        {
-                            id: 19,
-                            menuName: "医患互动",
-                            remark: null,
-                            prentId: 2,
-                            function: null,
-                            menuicon: "doctormenu/yihuanhudong.png",
-                            level: 1,
-                            priority: 993,
-                            shortcut: 0
-                        }
-                    ]
-                },
-                {
-                    name: "日常工具",
-                    child: [
-                        {
-                            id: 20,
-                            menuName: "医学计算器",
-                            remark: null,
-                            prentId: 3,
-                            function: null,
-                            menuicon: "doctormenu/yixuejisuanqi.png",
-                            level: 1,
-                            priority: 999,
-                            shortcut: 0
-                        },
-                        {
-                            id: 21,
-                            menuName: "用药指南",
-                            remark: null,
-                            prentId: 3,
-                            function: null,
-                            menuicon: "doctormenu/yongyaozhinan.png",
-                            level: 1,
-                            priority: 998,
-                            shortcut: 0
-                        },
-                        {
-                            id: 22,
-                            menuName: "发布消息",
-                            remark: null,
-                            prentId: 3,
-                            function: null,
-                            menuicon: "doctormenu/fabuxiaoxi.png",
-                            level: 1,
-                            priority: 997,
-                            shortcut: 0
-                        }
-                    ]
-                }
-            ],
-            docServiceList: [
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                13,
-                14,
-                16,
-                17,
-                18,
-                19,
-                23
-            ],
+            allServiceList: [],
+            docServiceList: [],
             id: sessionStorage.getItem("hospitalId"),
             editFlag: false
         };
@@ -318,21 +66,21 @@ export default {
             this.editFlag = false;
         },
         btn() {},
-        navto() {
+        save() {
             let wrap = document.getElementsByClassName("addManag")[0];
             let el = wrap.getElementsByTagName("input");
             let len = el.length;
             let arr = [];
             for (let i = 0; i < len; i++) {
                 if (el[i].checked) {
-                    arr.push(el[i].getAttribute("data-id"));
+                    arr.push(parseInt(el[i].getAttribute("data-id")));
                 }
             }
 
             this.$axios
-                .post(api.setserver, {
-                    hospitalId: this.id,
-                    ids: arr
+                .post(api.servicepackageupdatepageagehospital, {
+                    hospitalId: parseInt(this.id),
+                    packageIds: arr
                 })
                 .then(res => {
                     if (res.data.code) {
@@ -352,24 +100,101 @@ export default {
         }
     },
     mounted() {
-        this.id = this.$route.query.id;
         this.$axios
-            .post(api.doctorServerManage)
-            .then(resp => {
-                if (resp.data.success) {
-                    let tmpData = resp.data.object;
-                    // this.allServiceList = tmpData;
+            .post(api.servicepackagelistallpackage, {
+                hospitalId: parseInt(this.id)
+            })
+            .then(res => {
+                if (res.data.success) {
+                    let ret = res.data.object[0];
+                    let proList = {
+                        name: "省",
+                        result: []
+                    };
+                    if (ret.listPro) {
+                        ret.listPro.map((el, i) => {
+                            proList.result.push(el);
+                        });
+                    }
+                    let cityList = {
+                        name: "市",
+                        result: []
+                    };
+                    if (ret.listCity) {
+                        ret.listCity.map((el, i) => {
+                            cityList.result.push(el);
+                        });
+                    }
+                    let areaList = {
+                        name: "区",
+                        result: []
+                    };
+                    if (ret.listArea) {
+                        ret.listArea.map((el, i) => {
+                            areaList.result.push(el);
+                        });
+                    }
+                    let orgList = {
+                        name: "上级",
+                        result: []
+                    };
+                    if (ret.listOrg) {
+                        ret.listOrg.map((el, i) => {
+                            orgList.result.push(el);
+                        });
+                    }
+                    let hosList = {
+                        name: "当前",
+                        result: []
+                    };
+                    if (ret.listHos) {
+                        ret.listHos.map((el, i) => {
+                            hosList.result.push(el);
+                        });
+                    }
+                    this.allServiceList.push(proList);
+                    this.allServiceList.push(cityList);
+                    this.allServiceList.push(areaList);
+                    this.allServiceList.push(orgList);
+                    this.allServiceList.push(hosList);
+                } else {
+                    this.$Message.info("查询失败,请重试");
                 }
             })
             .catch(err => {
                 console.log(err);
             });
-        let param = {};
-        param.doctorId = this.id;
         this.$axios
-            .post(api.doctorServerManageById, param)
-            .then(resp => {
-                // this.docServiceList = resp.data.object;
+            .post(api.servicepackagelistpackagebyhospital, {
+                hospitalId: parseInt(this.id)
+            })
+            .then(res => {
+                let ret = res.data.object[0];
+                if (ret.listPro) {
+                    ret.listPro.map(el => {
+                        this.docServiceList.push(el.packageId);
+                    });
+                }
+                if (ret.listCity) {
+                    ret.listCity.map((el, i) => {
+                        this.docServiceList.push(el.packageId);
+                    });
+                }
+                if (ret.listArea) {
+                    ret.listArea.map((el, i) => {
+                        this.docServiceList.push(el.packageId);
+                    });
+                }
+                if (ret.listOrg) {
+                    ret.listOrg.map((el, i) => {
+                        this.docServiceList.push(el.packageId);
+                    });
+                }
+                if (ret.listHos) {
+                    ret.listHos.map((el, i) => {
+                        this.docServiceList.push(el.packageId);
+                    });
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -390,16 +215,16 @@ export default {
     computed: {
         allServerList() {
             for (let i = 0; i < this.allServiceList.length; i++) {
-                //循环获取child
-                for (let j = 0; j < this.allServiceList[i].child.length; j++) {
-                    //循环child对比id
+                //循环获取result
+                for (let j = 0; j < this.allServiceList[i].result.length; j++) {
+                    //循环result对比packageId
                     let index = this.docServiceList.indexOf(
-                        this.allServiceList[i].child[j].id
+                        this.allServiceList[i].result[j].packageId
                     );
                     if (index != -1) {
-                        this.allServiceList[i].child[j].selected = 1;
+                        this.allServiceList[i].result[j].selected = 1;
                     } else {
-                        this.allServiceList[i].child[j].selected = 0;
+                        this.allServiceList[i].result[j].selected = 0;
                     }
                 }
             }
@@ -421,7 +246,7 @@ export default {
         padding: 20px;
         h4 {
             padding-left: 4px;
-            border-left: 2px solid blue;
+            border-left: 2px solid #2d8cf0;
         }
         .fuwu {
             width: calc(100% - 100px);
