@@ -191,7 +191,7 @@
                         <label class="c-notice">提示：根据收费标准和政府补贴自动计算</label>
                     </FormItem>
                 </Col>
-            </Row> -->
+            </Row>-->
             <Row>
                 <Col :xs="3" class="text-r">
                     <i class="req-icon"></i>是否启用：
@@ -227,9 +227,7 @@
                 </Col>
             </Row>
             <Row>
-                <Col :xs="3" class="text-r">
-                    &nbsp;
-                </Col>
+                <Col :xs="3" class="text-r">&nbsp;</Col>
                 <Col :xs="21">
                     <Button type="primary" @click="submit('formInline')">提交</Button>
                     <Button type="primary" @click="reback">返回</Button>
@@ -261,7 +259,7 @@ export default {
                 remarks: null,
                 numberYear: 1,
                 executingAgency: 1,
-                nature: 1,
+                nature: 1
                 // amountReceived: null
             },
             pageNo: null,
@@ -289,7 +287,7 @@ export default {
                         message: "服务项目名称不能为空",
                         trigger: "blur"
                     }
-                ],
+                ]
                 // amt: [
                 //     {
                 //         required: true,
@@ -324,9 +322,9 @@ export default {
     },
     created() {
         this.provinceList = this.$store.getters.getProvinceList;
-        this.provinceList.forEach((el,i)=>{
+        this.provinceList.forEach((el, i) => {
             this.provinceList[i].value = parseInt(el.value);
-        })
+        });
         let id = parseInt(this.$route.query.id);
         this.pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
@@ -574,8 +572,8 @@ export default {
     .text-r {
         text-align: right;
     }
-    .c-notice{
-        color:#999999;
+    .c-notice {
+        color: #999999;
     }
 }
 </style>
