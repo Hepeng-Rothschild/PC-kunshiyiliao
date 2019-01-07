@@ -1,6 +1,5 @@
 <template>
   <div class="registerdetail" v-if="info">
-       <tempHeader/>
     <Row>
       <Col class="padding-t padding-b" :xs="24">
         <b>{{littleTitle}}</b>

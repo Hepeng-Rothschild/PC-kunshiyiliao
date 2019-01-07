@@ -83,8 +83,8 @@ export default {
     loadingData(pageNo, val) {
       let params = {
         pageNo,
-        pageSize: 10
-      };
+        pageSize: this.pageSize
+      }
       if (val != "") {
         params.searchKey = val;
       }
@@ -95,7 +95,7 @@ export default {
           ret.forEach((item, index) => {
             item.sum = index + 1;
           });
-          this.count = ret.count;
+          this.count =  res.data.object.count;
           this.data1 = ret;
         } else {
           this.$Message.info("请求失败,请稍候重试");

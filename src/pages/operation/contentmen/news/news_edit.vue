@@ -38,7 +38,7 @@
           :default-file-list="defaultList"
           :on-success="handleSuccess"
           :format="['jpg','jpeg','png']"
-          :max-size="2048"
+          :max-size="2000"
           :on-format-error="handleFormatError"
           :on-exceeded-size="handleMaxSize"
           :before-upload="handleBeforeUpload"
@@ -66,10 +66,10 @@
         </div>
         <div class="shuru">
           <vueEditor
-              id="editor_id"
-              :textHtml="info.content"
-              :urlCode="urlCode"
-              @valueHandle="afterChange"
+            id="editor_id"
+            :textHtml="info.content"
+            :urlCode="urlCode"
+            @valueHandle="afterChange"
           ></vueEditor>
         </div>
       </div>
@@ -79,7 +79,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>新闻来源</span>
         </div>
-        <Input v-model.trim="isource" placeholder="请输入新闻的来源" style="width: 300px" />
+        <Input v-model.trim="isource" placeholder="请输入新闻的来源" style="width: 300px"/>
         <!-- <input type="text" placeholder="请输入新闻的来源" v-model="isource"> -->
       </div>
       <!--排序-->
@@ -88,7 +88,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <Input v-model.trim="isort" style="width: 100px" />
+        <Input v-model.trim="isort" style="width: 100px"/>
         <!-- <input type="text" v-model="isort"> -->
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
@@ -136,17 +136,19 @@ export default {
       visible: false,
       uploadList: [],
       switch1: true,
-      info:{
-        content:""
+      info: {
+        content: ""
       },
       uploadModal: true,
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalDynamicNews +'"}' },
+      uploadData: {
+        json: '{"urlCode":"' + code.urlCode.hospitalDynamicNews + '"}'
+      },
       images: "",
       id: sessionStorage.getItem("hospitalId"),
       source: "",
-      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
     };
   },
   mounted() {
@@ -165,7 +167,7 @@ export default {
             this.info.content = ret.content;
             this.isource = ret.source;
             this.isort = ret.priority;
-            this.switch1 = Boolean(ret.enable)
+            this.switch1 = Boolean(ret.enable);
             if (ret.newsHeadlines) {
               this.uploadList.push({
                 name: "a42bdcc1178e62b4694c830f028db5c0",
@@ -208,10 +210,16 @@ export default {
       file.name = res.object[0].fileName;
     },
     handleFormatError(file) {
-      this.$Message.info("文件" + file.name + "上传失败");
+      this.$Notice.warning({
+        title: "格式错误",
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleMaxSize(file) {
-      this.$Message.info("文件" + file.name + "过大");
+      this.$Notice.warning({
+        title: "文件过大",
+        desc: `文件${file.name}过大，文件最大限制为2000KB`
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;
@@ -333,7 +341,7 @@ export default {
   margin: 0 2px;
 }
 .addNews {
-   width: calc(100% - 20px);
+  width: calc(100% - 20px);
   padding: 10px 30px;
   margin: 0 auto;
   background: #fff;

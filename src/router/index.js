@@ -112,8 +112,10 @@ export default new Router({
 				operation.wxBannerEdit,
 				// 微信公众号模板
 				operation.templateHome,
+				operation.typeManagement,
 				//档案管理
 				operation.fileManagementList,
+
 
 				//运维端路由
 				maintain.residentRegisterList,

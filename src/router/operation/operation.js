@@ -730,6 +730,17 @@ const templateHome = {
 	component: () =>
 		import("@/pages/operation/publicAddress/template/home")
 }
+const typeManagement = {
+	// 微信公众号分类管理
+	path: 'operation/typeManagement/list',
+	name: 'typeManagementList',
+	meta: {
+		index: 2,
+		title: '分类管理'
+	},
+	component: () =>
+		import("@/pages/operation/publicAddress/typeManagement/list")
+}
 
 const versionManagementList = {
 	// 医生端安卓/ios版本管理
@@ -752,7 +763,7 @@ const versionManagementAdd = {
 	},
 	component: () =>
 		import("@/pages/operation/versionManagement/add")
-	}
+}
 const versionManagementEdit = {
 	// 医生端安卓/ios版本管理
 	path: 'operation/versionManagement/edit',
@@ -867,6 +878,8 @@ export default {
 	wxBannerEdit,
 	// 微信公众号模板
 	templateHome,
+	// 分类 管理
+	typeManagement,
 	//档案管理
 	fileManagementList,
 }

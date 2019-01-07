@@ -21,6 +21,10 @@ export default {
         {
           title: "模板管理",
           name: "/index/operation/template/home"
+        },
+        {
+          title: "菜单管理",
+          name: "/index/operation/typeManagement/list"
         }
       ]
     };

@@ -127,7 +127,6 @@ export default {
       });
     }
   },
-  mounted() {},
   created() {
     this.$axios
       .post(api.medicineSelectedList, {

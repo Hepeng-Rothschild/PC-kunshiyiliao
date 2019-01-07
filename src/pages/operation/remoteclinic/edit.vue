@@ -1,7 +1,6 @@
 <template>
   <div class="edit">
-    <tempHeader/>
-    <header></header>
+    <!-- <tempHeader/> -->
     <!-- 主体 -->
     <div class="main">
       <!-- 添加接诊医生  -->

@@ -52,9 +52,10 @@
           :default-file-list="defaultList"
           :on-success="handleSuccess"
           :format="['jpg','jpeg','png']"
-          :max-size="2048"
+          :max-size="2000"
           :on-format-error="handleFormatError"
           :before-upload="handleBeforeUpload"
+          :on-exceeded-size="handleMaxSize"
           multiple
           type="drag"
           :action="uploadUrl"
@@ -195,7 +196,7 @@ export default {
       uploadUrl: api.fileAll,
       uploadData: { json: '{"urlCode":"' + code.urlCode.patientNews + '"}' },
       images: "",
-      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
     };
   },
   mounted() {
@@ -222,7 +223,10 @@ export default {
       file.name = res.object[0].fileName;
     },
     handleFormatError(file) {
-      this.$Message.info("上传失败");
+      this.$Notice.warning({
+        title: "格式错误",
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleBeforeUpload(file) {
       const check = this.uploadList.length < 1;
@@ -230,6 +234,12 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
+    },
+    handleMaxSize(file) {
+      this.$Notice.warning({
+        title: "文件过大",
+        desc: `文件${file.name}过大，文件最大限制为2000KB`
+      });
     },
     back() {
       let pageNo = this.$route.params.pageNo;

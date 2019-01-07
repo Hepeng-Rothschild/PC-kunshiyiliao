@@ -1,8 +1,8 @@
 <template>
   <div class="temHeader">
     <ul>
-      <li v-for="item,index in dataList" @click="changeIndex(index)">
-        <router-link :to="item.name"  :class = '{active:current==index}'>{{ item.title }}</router-link>
+      <li v-for="item,index in dataList" >
+        <router-link :to="item.name"  >{{ item.title }}</router-link>
       </li>
     </ul>
   </div>
@@ -13,7 +13,6 @@ export default {
   components: { TabPane },
   data() {
     return {
-      current: sessionStorage.getItem("index") || -1,
       dataList: [
         {
           title: "预约挂号",
@@ -25,11 +24,6 @@ export default {
         }
       ]
     };
-  },
-  methods: {
-    changeIndex(index) {
-      sessionStorage.setItem('index',index);
-    }
   }
 };
 </script>

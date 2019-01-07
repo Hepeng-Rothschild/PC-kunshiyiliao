@@ -39,7 +39,7 @@
             :default-file-list="defaultList"
             :on-success="handleSuccess"
             :format="['jpg','jpeg','png']"
-            :max-size="2048"
+            :max-size="2000"
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
@@ -215,9 +215,9 @@ export default {
     },
     handleMaxSize(file) {
       this.$Notice.warning({
-        title: "Exceeding file size limit",
-        desc: "File  " + file.name + " is too large, no more than 2M."
-      });
+        title: "文件过大",
+        desc: `文件${file.name}过大，文件最大限制为2000KB`
+      })
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;

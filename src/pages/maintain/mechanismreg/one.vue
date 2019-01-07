@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       uploadUrl: api.mechanismregUpLoad,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       disabled: true,
       errorData: {}
     };
@@ -58,6 +58,16 @@ export default {
         this.disabled = false;
         this.errorData = ret;
         this.$Message.info("上传成功");
+        /* 移除上传文件列表的删除图标 start */
+        let uploadListObj = window.document.getElementsByClassName(
+          "ivu-upload-list"
+        )[0];
+        for (let i = 0; i < uploadListObj.children.length; i++) {
+          let liList = uploadListObj.children[i];
+          let removeIcon = liList.children[1];
+          if (removeIcon) removeIcon.parentNode.removeChild(removeIcon);
+        }
+        /* 移除上传文件列表的删除图标 end */
       } else {
         this.$Message.info("上传失败,请重试");
       }

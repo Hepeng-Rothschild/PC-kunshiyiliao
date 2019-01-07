@@ -59,7 +59,7 @@
               :default-file-list="defaultList"
               :on-success="handleSuccess"
               :format="['jpg','jpeg','png']"
-              :max-size="2048"
+              :max-size="2000"
               :on-format-error="handleFormatError"
               :on-exceeded-size="handleMaxSize"
               :before-upload="handleBeforeUpload"
@@ -336,18 +336,21 @@ export default {
     },
     handleFormatError(file) {
       this.$Notice.warning({
-        title: "The file format is incorrect",
+        title: "格式错误",
         desc:
-          "File format of " +
+          "文件 " +
           file.name +
-          " is incorrect, please select jpg or png."
-      });
+          " 上传失败,请重试"
+      })
     },
     handleMaxSize(file) {
       this.$Notice.warning({
-        title: "Exceeding file size limit",
-        desc: "File  " + file.name + " is too large, no more than 2M."
-      });
+        title: "格式错误",
+        desc:
+          "文件 " +
+          file.name +
+          " 上传失败,请重试"
+      })
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;

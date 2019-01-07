@@ -1,6 +1,5 @@
 <template>
   <div class="registeradd">
-    <tempHeader/>
     <Row>
       <Col class="padding-t padding-b" :xs="24">
         <b>{{littleTitle}}</b>

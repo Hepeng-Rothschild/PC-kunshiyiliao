@@ -46,7 +46,7 @@
       </div>
       <!-- 分页-->
       <div style="text-align:center;margin:10px 0;">
-        <Page :total="bannerSize" @on-change="pageChange" :current="pageNo"/>
+        <Page :total="bannerSize" @on-change="pageChange" :current="pageNo" :page-size = 'pageSize' />
       </div>
     </div>
   </div>
@@ -70,7 +70,8 @@ export default {
       len: 10,
       id: sessionStorage.getItem("appid"),
       bannerSize: 10,
-      pageNo: 1
+      pageNo: 1,
+      pageSize:10
     };
   },
   methods: {
@@ -110,16 +111,14 @@ export default {
     getData(pageNo, val) {
       let params = {
         pageNo,
-        pageSize: 10
+        pageSize: this.pageSize
       }
       if (val != "") {
         params.searchKey = val;
       }
       this.$axios.post(api.wxBannerList, params).then(res => {
         if (res.data.code) {
-          
           let ret = res.data.object;
-          console.log(ret)
           this.tbleList = ret.list;
           this.bannerSize = ret.count;
         }
