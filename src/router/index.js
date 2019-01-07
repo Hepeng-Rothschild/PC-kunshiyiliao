@@ -27,6 +27,7 @@ export default new Router({
 			component: () => import('@/pages/index'),
 			children: [
 				//运营端路由
+				operation.doctorManagement,
 				operation.reviewList,
 				operation.reviewEdit,
 				operation.reviewreview,
@@ -80,6 +81,7 @@ export default new Router({
 				operation.doctorContentCheckListHotAdd,
 				operation.doctorContentCheckListHotEdit,
 				//订单管理
+				operation.ordersManagement,
 				operation.reservationOrders,
 				operation.contractManagement,
 				operation.remoteClinicOrders,

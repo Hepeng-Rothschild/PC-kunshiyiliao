@@ -96,6 +96,12 @@ export default {
   },
   mounted() {
     this.loadingData(this.pageNo, this.pageSize, 1);
+    let breadList = [
+        {path:"/index",title:"首页"},
+        {path:"/index/operation/doctorManagement/index",title:"医生端运营"},
+        {path:"/index/operation/contractManagement/list",title:"家医签约管理"}
+    ]
+    this.$emit("changeBreadList",breadList);
   },
   methods: {
     loadPage(index) {

@@ -16,6 +16,16 @@ const reviewEdit = {
 	},
 	component: () => import("@/pages/operation/doctorReview/edit")
 }
+//医生端运营
+const doctorManagement = {
+	path: 'operation/doctorManagement/index',
+	name: 'doctorManagement',
+	meta: {
+		index: 1,
+		title: '医生端运营'
+	},
+	redirect:'/index/operation/doctorreview/list'
+}
 const reviewreview = {
 	path: 'operation/doctorreview/review',
 	name: 'reviewreview',
@@ -532,6 +542,15 @@ const doctorServerManageEdit = {
 		import("@/pages/operation/dovtorservermanage/edit")
 }
 // 订单管理
+const ordersManagement = { //订单管理
+	path: 'operation/ordersmanagement/index',
+	name: 'ordersManagement',
+	meta: {
+		index: 1,
+		title: '订单管理'
+	},
+	redirect: '/index/operation/orders/reservation/list'
+}
 const reservationOrders = { //预约挂号订单
 	path: 'operation/orders/reservation/list',
 	name: 'reservationOrders',
@@ -810,6 +829,8 @@ const fileManagementList = {
 }
 
 export default {
+	//医生端运营
+	doctorManagement,
 	reviewList,
 	reviewEdit,
 	reviewreview,
@@ -870,6 +891,7 @@ export default {
 	doctorContentCheckListHotAdd,
 	doctorContentCheckListHotEdit,
 	//订单管理
+	ordersManagement,
 	reservationOrders,
 
 	// 家医签约管理

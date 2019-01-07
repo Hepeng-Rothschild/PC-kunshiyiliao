@@ -18,7 +18,7 @@
 				<div class="welcome" v-if="showWelcome">
 					欢迎来到互联网医院管理系统
 				</div>
-        		<router-view></router-view>
+        		<router-view @changeBreadList="changeBreadList"></router-view>
 			</Col>
 		</Row>
 	</div>
@@ -75,9 +75,9 @@ export default {
 				}
 			}
 		}
-		let bread = {path:fullPath,title:this.$route.meta.title};
-		this.breadList.push(bread)
-		this.breadTitle = this.$route.meta.title;
+		// let bread = {path:fullPath,title:this.$route.meta.title};
+		// this.breadList.push(bread)
+		// this.breadTitle = this.$route.meta.title;
 		if(fullPath != '/index')
 			this.showWelcome = false;
 	},
@@ -86,18 +86,26 @@ export default {
 		this.showWelcome = false;
 		else
 		this.showWelcome = true;
-
-		if(to.meta.index<3){
-			if(this.breadList[to.meta.index-1]){
-				this.breadList = this.breadList.slice(0,to.meta.index-1);
-				this.breadTitle = to.meta.title;
-				let bread = {path:to.fullPath,title:to.meta.title};
-				this.breadList.push(bread)
-			}else{
-				let bread = {path:to.fullPath,title:to.meta.title};
-				this.breadList.push(bread)
+		for(let keys in this.$store.state.leftMenuList){
+			for(let key in this.$store.state.leftMenuList[keys].childLists){
+				if(this.$store.state.leftMenuList[keys].childLists[key].path == to.fullPath){
+					this.leftActiveName = `${this.$store.state.leftMenuList[keys].id}-${this.$store.state.leftMenuList[keys].childLists[key].id}`;
+					this.openList[0]=parseInt(keys)
+					break;
+				}
 			}
 		}
+		// if(to.meta.index<3){
+		// 	if(this.breadList[to.meta.index-1]){
+		// 		this.breadList = this.breadList.slice(0,to.meta.index-1);
+		// 		this.breadTitle = to.meta.title;
+		// 		let bread = {path:to.fullPath,title:to.meta.title};
+		// 		this.breadList.push(bread)
+		// 	}else{
+		// 		let bread = {path:to.fullPath,title:to.meta.title};
+		// 		this.breadList.push(bread)
+		// 	}
+		// }
 		next();
 	},
 	computed:{
@@ -105,6 +113,11 @@ export default {
 			return this.$store.state.leftMenuList;
 		}
 	},
+	methods:{
+		changeBreadList(breadList){
+			this.breadList = breadList;
+		}
+	}
 };
 </script>
 <style lang="less" scoped>

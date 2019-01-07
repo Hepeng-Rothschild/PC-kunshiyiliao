@@ -178,6 +178,12 @@ export default {
     created() {
         this.startDate = this.GetDate(-30);
         this.endDate = this.GetDate(0);
+        let breadList = [
+            {path:"/index",title:"首页"},
+            {path:"/index/operation/ordersmanagement/index",title:"订单管理"},
+            {path:"/index/operation/orders/remoteClinic/list",title:"远程门诊订单"}
+        ]
+        this.$emit("changeBreadList",breadList);
     },
     mounted() {
         let pageNo = this.$route.query.pageNo;
