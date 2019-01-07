@@ -210,7 +210,7 @@ export default {
     },
     mounted() {
         this.provinceList = this.$store.getters.getProvinceList;
-        let pageNo = this.$route.query.pageNo?this.$route.query.pageNo:1;
+        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },

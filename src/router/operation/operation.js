@@ -488,6 +488,28 @@ const doctorList = {
 	component: () =>
 		import("@/pages/operation/contentmen/doctorList/list")
 }
+// 服务包管理
+const servicePackageList = {
+	path: 'operation/servicePackage/list',
+	name: 'servicePackageList',
+	meta: {
+		index: 3,
+		title: '服务包管理'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/packageManage/list")
+}
+// 服务包编辑
+const servicePackageEdit = {
+	path: 'operation/servicePackage/edit',
+	name: 'servicePackageEdit',
+	meta: {
+		index: 4,
+		title: '查看服务包'
+	},
+	component: () =>
+		import("@/pages/operation/contentmen/packageManage/edit")
+}
 // 医生列表
 const doctorServerManageList = {
 	path: 'operation/doctormanage/list',
@@ -824,6 +846,9 @@ export default {
 	doctorremoteClinicTypeList,
 	// 医生远程门诊列表
 	doctorList,
+	//服务包管理
+	servicePackageList,
+	servicePackageEdit,
 
 	// 医生端内容管理
 	doctorContentCheckList,

@@ -165,7 +165,7 @@ export default {
         line-height: 30px;
         border: none;
         outline: none;
-        background: skyblue;
+        background: #2d8cf0;
         color: #fff;
         border-radius: 4px;
         margin-left: 10px;

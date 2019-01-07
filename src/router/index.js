@@ -102,6 +102,10 @@ export default new Router({
 				operation.doctorremoteClinicTypeList,
 				// 医生远程门诊列表
 				operation.doctorList,
+				// 服务包管理
+				operation.servicePackageList,
+				operation.servicePackageEdit,
+
 				operation.versionManagementList,
 				operation.versionManagementAdd,
 				operation.versionManagementEdit,

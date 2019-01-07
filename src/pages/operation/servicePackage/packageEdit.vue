@@ -268,7 +268,7 @@ export default {
             city: "0",
             area: "0",
             hospitalId: "",
-
+            type:null,
             infoRules: {
                 itemName: [
                     {
@@ -284,6 +284,7 @@ export default {
             count: 0,
             pageSize: 10,
             pageNo: 1,
+            listPageNo: null,
 
             modalStatus: false,
 
@@ -392,8 +393,9 @@ export default {
             this.provinceList[i].value = parseInt(el.value);
         });
         let id = parseInt(this.$route.query.id);
+        this.type = this.$route.query.type?parseInt(this.$route.query.type):null;
         this.tabId = parseInt(this.$route.query.tabId);
-        this.pageNo = parseInt(
+        this.listPageNo = parseInt(
             this.$route.query.pageNo ? this.$route.query.pageNo : 1
         );
         this.tabList = this.healthEducationSontab;
@@ -656,13 +658,19 @@ export default {
                         .then(resp => {
                             if (resp.data.success) {
                                 this.$Message.success(msg + "成功");
-                                this.$router.push({
-                                    path:
-                                        "/index/operation/servicePackage/pList",
-                                    query: {
-                                        pageNo: this.pageNo
-                                    }
-                                });
+                                if(this.type){
+                                    this.$router.push({
+                                        path: "/index/operation/servicePackage/list"
+                                    });
+                                }else{
+                                    this.$router.push({
+                                        path:
+                                            "/index/operation/servicePackage/pList",
+                                        query: {
+                                            pageNo: this.listPageNo
+                                        }
+                                    });
+                                }
                             } else {
                                 this.$Message.fail(msg + "失败，请重试");
                             }
@@ -676,10 +684,16 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/pList",
-                query: { pageNo: this.pageNo }
-            });
+            if(this.type){
+                this.$router.push({
+                    path: "/index/operation/servicePackage/list"
+                });
+            }else{
+                this.$router.push({
+                    path: "/index/operation/servicePackage/pList",
+                    query: { pageNo: this.listPageNo }
+                });
+            }
         },
         alertMsg(msg) {
             this.$Message.error({

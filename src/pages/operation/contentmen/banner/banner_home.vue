@@ -199,7 +199,7 @@ export default {
       // }
       button {
         padding: 6px 8px;
-        background: skyblue;
+        background: #2d8cf0;
         color: #fff;
         border: none;
         outline: none;

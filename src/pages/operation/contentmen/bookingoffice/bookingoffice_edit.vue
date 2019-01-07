@@ -59,7 +59,7 @@
               :default-file-list="defaultList"
               :on-success="handleSuccess"
               :format="['jpg','jpeg','png']"
-              :max-size="2048"
+              :max-size="2000"
               :on-format-error="handleFormatError"
               :on-exceeded-size="handleMaxSize"
               :before-upload="handleBeforeUpload"
@@ -463,7 +463,7 @@ export default {
         margin-left: 10px;
         font-size: 20px;
         padding-left: 15px;
-        border-left: 3px solid blue;
+        border-left: 3px solid #2d8cf0;
       }
 
       .keshi_name {
@@ -514,7 +514,7 @@ export default {
         justify-content: space-around;
         margin: 0 auto;
         div:first-child {
-          background: #359aff;
+          background: #2d8cf0;
         }
         div {
           width: 80px;

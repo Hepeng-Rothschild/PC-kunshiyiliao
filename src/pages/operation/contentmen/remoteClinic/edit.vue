@@ -276,7 +276,7 @@ export default {
           height: 30px;
         }
         button {
-          background: skyblue;
+          background: #2d8cf0;
           color: #fff;
           border-radius: 10px;
           border: none;
@@ -305,7 +305,7 @@ export default {
         display: block;
         width: 90px;
         height: 30px;
-        background: skyblue;
+        background: #2d8cf0;
         color: #fff;
         border-radius: 6px;
         margin: 10px auto;

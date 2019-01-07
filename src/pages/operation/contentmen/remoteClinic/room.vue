@@ -233,7 +233,7 @@ export default {
         }
       }
       button {
-        background: skyblue;
+        background: #2d8cf0;
         color: #fff;
         height: 30px;
         padding: 0 8px;
