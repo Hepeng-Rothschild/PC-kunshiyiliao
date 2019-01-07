@@ -273,7 +273,7 @@ export default {
     flex-direction: column;
     h3 {
       padding-left: 6px;
-      border-left: 2px solid skyblue;
+      border-left: 2px solid #2d8cf0;
     }
     .main_title {
       width: 80%;
@@ -319,7 +319,7 @@ export default {
       justify-content: space-around;
       margin: 0 auto;
       div:first-child {
-        background: #359aff;
+        background: #2d8cf0;
       }
       div {
         width: 80px;

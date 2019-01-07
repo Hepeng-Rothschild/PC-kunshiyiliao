@@ -234,7 +234,7 @@ export default {
         margin-left: 20px;
         border: none;
         outline: none;
-        background: rgb(51, 204, 255);
+        background: #2d8cf0;
         color: #fff;
       }
     }
@@ -285,7 +285,7 @@ export default {
         border-radius: 4px;
         text-align: center;
         line-height: 30px;
-        background: #00bfff;
+        background: #2d8cf0;
         cursor: pointer;
       }
     }

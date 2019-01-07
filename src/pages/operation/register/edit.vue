@@ -216,7 +216,7 @@ export default {
       doctorList: [{ hospitalName: "", dept: "", doctorName: "", title: "" }],
       doctorKey: "",
       pageNo: 0,
-      pageSize: 2,
+      pageSize: 10,
       count: 0,
 
       expertMsgStatus: false

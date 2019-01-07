@@ -183,7 +183,7 @@ export default {
     padding: 20px;
     h4 {
       padding-left: 4px;
-      border-left: 2px solid blue;
+      border-left: 2px solid #2d8cf0;
     }
     .fuwu {
       width: calc(100% - 100px);
@@ -233,7 +233,7 @@ export default {
         border-radius: 4px;
         text-align: center;
         line-height: 30px;
-        background: #00bfff;
+        background: #2d8cf0;
         cursor: pointer;
       }
     }

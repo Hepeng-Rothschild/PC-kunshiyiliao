@@ -451,7 +451,7 @@ export default {
       justify-content: space-around;
       margin: 0 auto;
       div:first-child {
-        background: #359aff;
+        background: #2d8cf0;
       }
       div {
         width: 80px;

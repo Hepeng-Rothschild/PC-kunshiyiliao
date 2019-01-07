@@ -71,6 +71,10 @@ export default {
           title: "服务管理"
         },
         {
+          name: "/index/operation/servicePackage/list",
+          title: "服务包管理"
+        },
+        {
           name: "/index/operation/k_department",
           title: "预约科室"
         },
@@ -81,7 +85,7 @@ export default {
         {
           name: "/index/operation/doctorremoteClinic_list",
           title: "远程门诊类型"
-        }
+        },
       ]
     };
   },

@@ -99,7 +99,7 @@ export default {
     button {
       border: none;
       outline: none;
-      background: #00bfff;
+      background: #2d8cf0;
       color: #fff;
       border-radius: 6px;
       padding: 5px 16px;

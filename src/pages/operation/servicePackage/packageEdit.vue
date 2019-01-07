@@ -25,11 +25,7 @@
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="name">
-                        <i-switch
-                            v-model="info.packagestatus"
-                            :true-value="1"
-                            :false-value="0"
-                        >
+                        <i-switch v-model="info.packagestatus" :true-value="1" :false-value="0">
                             <span slot="open">是</span>
                             <span slot="close">否</span>
                         </i-switch>
@@ -272,9 +268,9 @@ export default {
             city: "0",
             area: "0",
             hospitalId: "",
-
+            type:null,
             infoRules: {
-                itemName:[
+                itemName: [
                     {
                         required: true,
                         message: "服务包名称不能为空",
@@ -288,6 +284,7 @@ export default {
             count: 0,
             pageSize: 10,
             pageNo: 1,
+            listPageNo: null,
 
             modalStatus: false,
 
@@ -392,12 +389,13 @@ export default {
     },
     created() {
         this.provinceList = this.$store.getters.getProvinceList;
-        this.provinceList.forEach((el,i)=>{
+        this.provinceList.forEach((el, i) => {
             this.provinceList[i].value = parseInt(el.value);
-        })
+        });
         let id = parseInt(this.$route.query.id);
+        this.type = this.$route.query.type?parseInt(this.$route.query.type):null;
         this.tabId = parseInt(this.$route.query.tabId);
-        this.pageNo = parseInt(
+        this.listPageNo = parseInt(
             this.$route.query.pageNo ? this.$route.query.pageNo : 1
         );
         this.tabList = this.healthEducationSontab;
@@ -417,8 +415,11 @@ export default {
                     if (resp.data.success) {
                         this.info = resp.data.object;
                         console.log(this.info);
-                        for(let item of this.info.packageItems){
-                            this.selData.push({id:item.id,serviceName:item.serviceName})
+                        for (let item of this.info.packageItems) {
+                            this.selData.push({
+                                id: item.id,
+                                serviceName: item.serviceName
+                            });
                         }
                         this.info.provinceId = this.info.provinceId;
                         if (this.info.provinceId) {
@@ -456,7 +457,7 @@ export default {
                     console.log(err);
                 });
         }
-        
+
         if (isNaN(id)) this.loadPage(1);
     },
     components: { Avatar, Select, Option, "i-switch": Switch },
@@ -549,28 +550,28 @@ export default {
             params.province = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );
-            if(params.province){
+            if (params.province) {
                 console.log(this.info.cityId);
                 params.city = parseInt(
                     this.info.cityId == 0 ? null : this.info.cityId
                 );
-            }else{
+            } else {
                 params.city = null;
             }
-            if(params.city){
+            if (params.city) {
                 params.area = parseInt(
                     this.info.areaId == 0 ? null : this.info.areaId
                 );
-            }else{
+            } else {
                 params.area = null;
             }
-            if(params.area){
+            if (params.area) {
                 params.hospitalId = parseInt(
                     this.info.hospitalId == 0 || this.info.hospitalId == ""
                         ? null
                         : this.info.hospitalId
                 );
-            }else{
+            } else {
                 params.hospitalId = null;
             }
             params.searchKey = this.searchKey == "" ? null : this.searchKey;
@@ -620,8 +621,8 @@ export default {
         submit(name) {
             this.$refs[name].validate(valid => {
                 if (valid) {
-                    if(this.selData.length<=0){
-                        this.$Message.error("已选服务项目不能为空")
+                    if (this.selData.length <= 0) {
+                        this.$Message.error("已选服务项目不能为空");
                     }
                     let msg = this.id ? "修改" : "添加";
                     let params = {};
@@ -629,10 +630,25 @@ export default {
                     params.itemName = this.info.itemName;
                     params.packagestatus = parseInt(this.info.packagestatus);
                     params.ascription = parseInt(this.info.ascription);
-                    params.hospitalId = this.info.hospitalId == 0 || this.info.hospitalId == undefined || this.info.hospitalId == null ?"":parseInt(this.info.hospitalId);
-                    params.provinceId = this.info.provinceId == 0 || this.info.provinceId == undefined ? "" : parseInt(this.info.provinceId);
-                    params.cityId = this.info.cityId == 0 || this.info.cityId == undefined ? "" : parseInt(this.info.cityId);
-                    params.areaId = this.info.areaId == 0 || this.info.areaId == undefined ? "" : parseInt(this.info.areaId);
+                    params.hospitalId =
+                        this.info.hospitalId == 0 ||
+                        this.info.hospitalId == undefined ||
+                        this.info.hospitalId == null
+                            ? ""
+                            : parseInt(this.info.hospitalId);
+                    params.provinceId =
+                        this.info.provinceId == 0 ||
+                        this.info.provinceId == undefined
+                            ? ""
+                            : parseInt(this.info.provinceId);
+                    params.cityId =
+                        this.info.cityId == 0 || this.info.cityId == undefined
+                            ? ""
+                            : parseInt(this.info.cityId);
+                    params.areaId =
+                        this.info.areaId == 0 || this.info.areaId == undefined
+                            ? ""
+                            : parseInt(this.info.areaId);
                     params.packageItemsIds = [];
                     for (let item of this.selData) {
                         params.packageItemsIds.push(item.id);
@@ -642,13 +658,19 @@ export default {
                         .then(resp => {
                             if (resp.data.success) {
                                 this.$Message.success(msg + "成功");
-                                this.$router.push({
-                                    path:
-                                        "/index/operation/servicePackage/pList",
-                                    query: {
-                                        pageNo: this.pageNo
-                                    }
-                                });
+                                if(this.type){
+                                    this.$router.push({
+                                        path: "/index/operation/servicePackage/list"
+                                    });
+                                }else{
+                                    this.$router.push({
+                                        path:
+                                            "/index/operation/servicePackage/pList",
+                                        query: {
+                                            pageNo: this.listPageNo
+                                        }
+                                    });
+                                }
                             } else {
                                 this.$Message.fail(msg + "失败，请重试");
                             }
@@ -662,10 +684,16 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/pList",
-                query: { pageNo: this.pageNo }
-            });
+            if(this.type){
+                this.$router.push({
+                    path: "/index/operation/servicePackage/list"
+                });
+            }else{
+                this.$router.push({
+                    path: "/index/operation/servicePackage/pList",
+                    query: { pageNo: this.listPageNo }
+                });
+            }
         },
         alertMsg(msg) {
             this.$Message.error({

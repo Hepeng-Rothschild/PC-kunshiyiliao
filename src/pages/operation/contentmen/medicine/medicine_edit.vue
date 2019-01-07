@@ -482,7 +482,7 @@ export default {
           cursor: pointer;
         }
         li.active {
-          background: #41c7db;
+          background: #2d8cf0;
         }
       }
       .oneList {
@@ -491,7 +491,7 @@ export default {
           padding-left: 40px;
         }
         li.active {
-          background: #41c7db;
+          background: #2d8cf0;
         }
       }
       .twoList {
@@ -500,7 +500,7 @@ export default {
           padding-left: 60px;
         }
         li.active {
-          background: #41c7db;
+          background: #2d8cf0;
         }
       }
     }
@@ -515,7 +515,7 @@ export default {
         margin-left: 10px;
         font-size: 20px;
         padding-left: 15px;
-        border-left: 3px solid blue;
+        border-left: 3px solid #2d8cf0;
       }
 
       .keshi_name {
@@ -563,7 +563,7 @@ export default {
         justify-content: space-around;
         margin: 0 auto;
         div:first-child {
-          background: #359aff;
+          background: #2d8cf0;
         }
         div {
           width: 80px;
