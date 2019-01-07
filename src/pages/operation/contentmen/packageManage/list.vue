@@ -20,7 +20,7 @@
                     <th>{{ addZero(index) }}</th>
                     <th>{{ item.menuName }}</th>
                     <th>
-                        <span v-for="items in item.result">{{ items }}、</span>
+                        <span v-for="items,index in item.result">{{index == 0?'':' | '}}{{ items.packageName }}</span>
                     </th>
                     <th @click="navto(item)" style="cursor:pointer;">编辑</th>
                 </tr>
@@ -79,10 +79,61 @@ export default {
                     hospitalId: parseInt(this.hospitalId)
                 })
                 .then(res => {
-                    console.log('res',res);
-                    if (res.data) {
-                        let ret = res.data.object;
-                        // this.tablesList = ret;
+                    if (res.data.success) {
+                        let ret = res.data.object[0];
+                        let list = [];
+                        let proList = {
+                            menuName:'省',
+                            result:[],
+                        }
+                        if(ret.listPro){
+                            ret.listPro.map((el,i)=>{
+                                proList.result.push(el);
+                            })
+                        }
+                        let cityList = {
+                            menuName:'市',
+                            result:[],
+                        }
+                        if(ret.listCity){
+                            ret.listCity.map((el,i)=>{
+                                cityList.result.push(el);
+                            })
+                        }
+                        let areaList = {
+                            menuName:'区',
+                            result:[],
+                        }
+                        if(ret.listArea){
+                            ret.listArea.map((el,i)=>{
+                                areaList.result.push(el);
+                            })
+                        }
+                        let orgList = {
+                            menuName:'上级',
+                            result:[],
+                        }
+                        if(ret.listOrg){
+                            ret.listOrg.map((el,i)=>{
+                                orgList.result.push(el);
+                            })
+                        }
+                        let hosList = {
+                            menuName:'当前',
+                            result:[],
+                        }
+                        if(ret.listHos){
+                            ret.listHos.map((el,i)=>{
+                                hosList.result.push(el);
+                            })
+                        }
+                        this.tablesList.push(proList);
+                        this.tablesList.push(cityList);
+                        this.tablesList.push(areaList);
+                        this.tablesList.push(orgList);
+                        this.tablesList.push(hosList);
+                    }else{
+                        this.$Message.info("查询失败,请重试");
                     }
                 });
         }

@@ -185,7 +185,8 @@ const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增/修改
 const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
 const servicepackageselectbyid ='/operateapi/servicepackageselectbyid';  //服务包详情
 const organizationdownloadtemplate ='/operateapi/organizationdownloadtemplate';  //服务包详情
-const servicepackagelistallpackage ='/operateapi/servicepackagelistallpackage';  //查询当前医院的所有服务包
+
+const servicepackagelistallpackage ='/operateapi/servicepackagelistallpackage';  //查询当前医院所在省份的所有服务包
 const servicepackagelistpackagebyhospital ='/operateapi/servicepackagelistpackagebyhospital';  //查询医院的所有服务包
 const servicepackageupdatepageagehospital ='/operateapi/servicepackageupdatepageagehospital';  //修改医院服务包
 
