@@ -23,7 +23,8 @@
             <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
-          <input type="text" disabled v-model="title">
+          <Input v-model.trim="title" style="width: 300px" disabled/>
+          <!-- <input type="text" disabled v-model="title"> -->
         </div>
         <!--科室就诊位置-->
         <div class="keshi_name">
@@ -31,7 +32,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室就诊位置</span>
           </div>
-          <input type="text" placeholder="门诊楼2楼1-7诊室" v-model.trim="keshiname">
+          <Input v-model.trim="keshiname" style="width: 300px" placeholder="门诊楼2楼1-7诊室"/>
         </div>
         <!--科室图标-->
         <div class="keshi_name_fileImgs">
@@ -107,12 +108,12 @@
 			            @on-content-change="onContentChanges"> 
         </div>-->
         <!--排序-->
-        <div class="keshi_name_text">
+        <div class="keshi_name_text" style='align-items:center;'>
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>排序</span>
           </div>
-          <input type="text" v-model.trim="isort" style="width:80px;outline:none;">
+          <Input v-model.trim="isort" style="width: 80px" />
           <p style="margin-left:5px;">备注：只能填写数字，1代表置顶以此类推</p>
         </div>
         <!--是否显示-->

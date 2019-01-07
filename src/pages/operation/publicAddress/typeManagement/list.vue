@@ -2,9 +2,9 @@
   <div class="list">
     <tmpHeader/>
     <div class="main">
-        
+
       <div class="select">
-        <h3>北京市</h3>
+        <!-- <h3>北京市</h3> -->
         <div class="all">
           <div class="item">
             <Checkbox v-model="single">分类管理</Checkbox>

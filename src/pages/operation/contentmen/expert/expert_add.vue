@@ -9,8 +9,9 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>专家姓名</span>
         </div>
-        <input type="text" placeholder="请输入专家姓名" v-model="name">
-        <button @click="search">检索</button>
+        <Input v-model="name" placeholder="请输入专家姓名" style="width: 360px" />
+        <Button type="primary" @click="search">检索</Button>
+        <!-- <button @click="search">检索</button> -->
       </div>
       <div class="main_expert_item">
         <div class="main_expert_title">
@@ -27,7 +28,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>机构名称</span>
         </div>
-        <input type="text" value="蚌埠中医院" v-model="yname" disabled>
+        <Input v-model="yname" placeholder="蚌埠中医院" style="width: 360px" disabled/>
       </div>
       <!--专家科室-->
       <div class="main_expert_experts">
@@ -47,7 +48,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>职务</span>
         </div>
-        <input type="text" placeholder="请输入专家职务" style="width:200px;" v-model="post">
+          <Input v-model="post" placeholder="请输入专家职务" style="width: 200px" />
       </div>
       <!--专业特长-->
       <div class="main_expert_inputi">
@@ -75,7 +76,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" style="width:100px;" v-model="isort" @keyup="isorts">
+         <Input v-model="isort" style="width: 100px" @keyup="isorts"/>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--显示-->
@@ -274,16 +275,10 @@ export default {
         height: 30px;
         outline: none;
         text-indent: 5px;
+        
       }
       button {
-        width: 60px;
-        height: 30px;
-        border-radius: 10px;
         margin-left: 20px;
-        border: none;
-        outline: none;
-        background: #2d8cf0;
-        color: #fff;
       }
     }
     .main_expert_experts {
