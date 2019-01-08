@@ -39,8 +39,11 @@ const operationLeftMenu = [
         {id:45,level:2,name:"公众号管理",path:"/index/operation/publicAddress/list"}
     ]},
     {id:1,level:1,name:"系统管理",childLists:[
-        {id:46,level:2,name:"菜单管理",path:"/index/operation/wxTypeManagement/list"}
+        {id:47,level:2,name:"菜单管理",path:"/index/operation/wxTypeManagement/list"}
     ]},
+    // {id:1,level:1,name:"TEST",childLists:[
+    //     {id:48,level:2,name:"RSA加解密",path:"/index/test_rsa"}
+    // ]},
 ];
 const maintainLeftMenu = [
     {id:2,level:1,name:"索引管理",childLists:[

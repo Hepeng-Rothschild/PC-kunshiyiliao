@@ -4,7 +4,7 @@
         <tmpHeader/>
         <!--添加专家/搜索-->
         <div class="iheader">
-            <button @click="navto">查看</button>
+            <!-- <button @click="navto">查看</button> -->
             <button @click="navtoAdd">添加服务包</button>
         </div>
         <!--表格列表-->
@@ -75,7 +75,7 @@ export default {
         },
         getManagementData() {
             this.$axios
-                .post(api.servicepackagelistallpackage, {
+                .post(api.servicepackagelistpackagebyhospital, {
                     hospitalId: parseInt(this.hospitalId)
                 })
                 .then(res => {
@@ -152,7 +152,7 @@ export default {
         margin: 10px auto;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-end;
         button {
             border: none;
             outline: none;

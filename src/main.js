@@ -17,6 +17,8 @@ import 'iview/dist/styles/fonts/ionicons.ttf';
 import 'iview/dist/styles/fonts/ionicons.woff';
 import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload } from 'iview';
 import './assets/css/base.css';
+import JsEncrypt from 'jsencrypt/bin/jsencrypt'
+Vue.prototype.$jsEncrypt = JsEncrypt;
 
 //注册全局过滤器
 import * as filters from "@/plugins/filter.js";

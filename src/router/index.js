@@ -26,6 +26,15 @@ export default new Router({
 			},
 			component: () => import('@/pages/index'),
 			children: [
+				{
+					path:'/index/test_rsa',
+					name:'test_rsa',
+					meta: {
+						index: 1,
+						title: 'RSA加解密TEST'
+					},
+					component: () => import('@/pages/testRsa')
+				},
 				//运营端路由
 				operation.reviewList,
 				operation.reviewEdit,

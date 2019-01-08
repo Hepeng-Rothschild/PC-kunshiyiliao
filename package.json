@@ -15,6 +15,7 @@
     "@tinymce/tinymce-vue": "^1.0.8",
     "axios": "^0.18.0",
     "iview": "^2.14.3",
+    "jsencrypt": "^3.0.0-rc.1",
     "tinymce": "^4.8.1",
     "vue": "^2.5.2",
     "vue-i18n": "^8.0.0",
