@@ -49,7 +49,7 @@ const maintainLeftMenu = [
         {id:37,level:2,name:"基础字典",path:"/index/maintain/dictionary/tree"},
         {id:38,level:2,name:"疾病管理",path:"/index/maintain/disease/list"},
         {id:39,level:2,name:"症状管理",path:"/index/maintain/symptom/list"}
-    ]}
+    ]},
     // {id:2,level:1,name:"系统管理",childLists:[
     //     {id:31,level:2,name:"账号管理",path:"/index/maintain/admin/user/list"},
     //     {id:44,level:2,name:"权限管理",path:"/index/maintain/admin/jurisdiction/list"},
