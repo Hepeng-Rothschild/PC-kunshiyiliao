@@ -91,7 +91,6 @@ export default {
       this.$axios.post(api.wxList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object.list;
-          console.log(ret);
           ret.forEach((item, index) => {
             item.sum = index + 1;
           });

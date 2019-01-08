@@ -2,20 +2,18 @@
   <div class="list">
     <tmpHeader/>
     <div class="main">
-
-      <div class="select">
-        <!-- <h3>北京市</h3> -->
+      <div class="select" v-for="item,index in list">
+        <h3>{{ item.name }}</h3>
         <div class="all">
-          <div class="item">
-            <Checkbox v-model="single">分类管理</Checkbox>
-            <div>
-              <span>是否默认显示</span>
-              <iSwitch v-model="switch1"/>
+          <div class="item" v-for="items,index in item.child">
+            <Checkbox v-model="items.flag">{{ items.menuName }}</Checkbox>
+            <div class="sort">
+              <span>排序</span>
+              <InputNumber :min="1" v-model="items.priority" style="width:100px;"></InputNumber>
             </div>
           </div>
         </div>
       </div>
-
       <Button type="primary" @click="save">保存</Button>
     </div>
   </div>
@@ -33,31 +31,60 @@ export default {
   data() {
     return {
       appid: sessionStorage.getItem("appid"),
-      single: true,
       switch1: true,
-      list:[]
+      list: []
     };
   },
   mounted() {
-    // this.$axios.post(url, params).then(res => {
-    //   if (res.data.code) {
-    //     let ret = res.data;
-    //   } else {
-    //     this.$Message.info("保存失败,请稍候重试");
-    //   }
-    // })
+    this.$axios.post(api.wxMenuList,{
+        appid:this.appid
+    }).then(res => {
+      if (res.data.code) {
+        let ret = res.data;
+        this.list = ret.object;
+        this.list.forEach(item => {
+          item.child.forEach(item => {
+            item.flag = Boolean(item.shortcut);
+          });
+        });
+      } else {
+        this.$Message.info("查询失败,请稍候重试");
+      }
+    });
   },
   methods: {
     // 保存
     save() {
-      this.$Message.info("保存成功");
-    //   this.$axios.post(url, params).then(res => {
-    //     if (res.data.code) {
-    //       let ret = res.data;
-    //     } else {
-    //       this.$Message.info("保存失败,请稍候重试");
-    //     }
-    //   })
+      let changeList = [];
+      this.list.forEach(item => {
+        item.child.forEach(items => {
+          if (items.flag) {
+            items.open = "1";
+            changeList.push({
+              menuid: items.id,
+              open: "1",
+              priority: items.priority,
+              shortcut: "1"
+            });
+          }
+        });
+      });
+
+      let params = {
+        appid: this.appid,
+        list: changeList
+      };
+      this.$axios.post(api.wxMenuListChange, params).then(res => {
+        if (res.data.code) {
+          this.$Message.info("保存成功");
+        } else {
+          this.$Message.info("保存失败,请稍候重试");
+        }
+        console.log(res.data);
+      });
+    },
+    switchBoolean(num) {
+      return Boolean(num);
     }
   }
 };
@@ -83,25 +110,28 @@ export default {
         .item {
           width: 25%;
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           align-items: center;
-          line-height: 30px;
+          line-height: 40px;
+          justify-content: space-around;
           input {
             margin-right: 6px;
           }
           label {
             user-select: none;
           }
-          div {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-around;
-            span {
-              font-size: 12px;
-            }
+          .sort {
           }
+          //   div {
+          //     width: 100%;
+          //     display: flex;
+          //     flex-direction: row;
+          //     align-items: center;
+          //     justify-content: space-around;
+          //     span {
+          //       font-size: 12px;
+          //     }
+          //   }
         }
       }
     }

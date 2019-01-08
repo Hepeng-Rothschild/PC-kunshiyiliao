@@ -119,7 +119,11 @@ export default new Router({
 				operation.typeManagement,
 				//档案管理
 				operation.fileManagementList,
-
+				// 系统管理/菜单管理
+				operation.wxSystemManagement,
+				operation.wxSystemManagementAdd,
+				operation.wxSystemManagementEdit,
+				operation.wxSystemManagementAddFn,
 
 				//运维端路由
 				maintain.residentRegisterList,
@@ -147,7 +151,7 @@ export default new Router({
 				maintain.diseaseEdit,
 				maintain.symptomList,
 				maintain.symptomEdit,
-				
+
 
 				//字典管理
 				maintain.dictionary,
