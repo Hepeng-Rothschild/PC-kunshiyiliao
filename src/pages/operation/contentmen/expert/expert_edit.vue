@@ -9,7 +9,7 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>专家姓名</span>
         </div>
-        <input type="text" placeholder="请输入专家姓名" v-model="name" disabled>
+        <Input v-model="name" placeholder="请输入专家姓名" style="width: 360px" disabled/>
       </div>
       <!--机构名称-->
       <div class="main_expert_item">
@@ -17,7 +17,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>机构名称</span>
         </div>
-        <input type="text" value="蚌埠中医院" disabled v-model="yname">
+        <Input v-model="yname" placeholder="蚌埠中医院" style="width: 360px" disabled/>
       </div>
       <!--专家科室-->
       <div class="main_expert_experts">
@@ -44,7 +44,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>职务</span>
         </div>
-        <input type="text" placeholder="请输入专家职务" style="width:200px;" v-model="post">
+         <Input v-model="post" placeholder="请输入专家职务" style="width: 200px" disabled/>
       </div>
       <!--专业特长-->
       <div class="main_expert_inputi">
@@ -72,7 +72,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <input type="text" style="width:100px;" v-model="isort" @keyup="isorts">
+        <Input v-model="isort" placeholder="请输入专家职务" style="width: 100px" @keyup="isorts"/>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--显示-->
@@ -265,6 +265,7 @@ export default {
       }
       .shuru {
         textarea {
+          text-indent:1em;
           width: 400px;
           height: 150px;
         }

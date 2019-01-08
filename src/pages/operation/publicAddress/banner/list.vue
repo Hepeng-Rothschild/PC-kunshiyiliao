@@ -68,7 +68,7 @@ export default {
       search: "",
       arr: [],
       len: 10,
-      id: sessionStorage.getItem("appid"),
+      appid: sessionStorage.getItem("appid"),
       bannerSize: 10,
       pageNo: 1,
       pageSize:10
@@ -111,7 +111,8 @@ export default {
     getData(pageNo, val) {
       let params = {
         pageNo,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        appid:this.appid
       }
       if (val != "") {
         params.searchKey = val;
@@ -170,7 +171,7 @@ export default {
       justify-content: space-between;
       button {
         padding: 6px 8px;
-        background: skyblue;
+        background: #2d8cf0;
         color: #fff;
         border: none;
         outline: none;
