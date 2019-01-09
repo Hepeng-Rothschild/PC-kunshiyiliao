@@ -36,7 +36,6 @@
       </div>
     </div>
     <div class="main" v-show="!list.length">暂无数据</div>
-
   </div>
 </template>
 <script>
@@ -88,11 +87,13 @@ export default {
     },
     instance(item) {
       const title = "预览路径";
-      const content = "<p>" + item.path + "</p>";
-      this.$Modal.success({
-        title: title,
-        content: content
-      });
+      if (Boolean(item.path)) {
+        const content = "<p>" + item.path + "</p>";
+        this.$Modal.success({
+          title: title,
+          content: content
+        });
+      }
     }
   }
 };
