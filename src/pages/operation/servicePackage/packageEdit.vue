@@ -75,7 +75,7 @@
                             >{{item.name}}</Option>
                         </Select>
                         <Select
-                            class="w-select"
+                            class="w-select-hos"
                             @on-change="changeHospital"
                             placeholder="医院"
                             v-model="info.hospitalId"
@@ -420,7 +420,6 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.info = resp.data.object;
-                        console.log(this.info);
                         for (let item of this.info.packageItems) {
                             this.selData.push({
                                 id: item.id,
@@ -545,7 +544,6 @@ export default {
                 });
         },
         selThis(obj) {
-            console.log(this.info.provinceId);
             if(this.info.provinceId){
                 this.selData.push(obj);
             }else{
@@ -556,7 +554,6 @@ export default {
             this.selData.splice(_index, 1);
         },
         loadPage(pageNo) {
-            console.log("loadPage");
             this.pageNo = pageNo;
             var params = {};
             params.province = parseInt(
@@ -644,7 +641,6 @@ export default {
             this.loadPage(1);
         },
         changeHospital() {
-            console.log("changeHospital");
             this.allData = [];
             this.selData = [];
             this.loadPage(1);
@@ -779,6 +775,9 @@ export default {
     }
     .w-select {
         width: 100px;
+    }
+    .w-select-hos {
+        width: 200px;
     }
     .w-input {
         width: 400px;

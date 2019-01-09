@@ -176,7 +176,7 @@ export default {
         DatePicker
     },
     created() {
-        this.startDate = this.GetDate(-30);
+        this.startDate = this.GetDate(-2);
         this.endDate = this.GetDate(0);
     },
     mounted() {
