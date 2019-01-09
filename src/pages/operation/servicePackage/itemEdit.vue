@@ -63,7 +63,7 @@
                                 :key="item.id"
                             >{{item.name}}</Option>
                         </Select>
-                        <Select class="w-select" placeholder="医院" v-model="info.hospitalId">
+                        <Select class="w-select-hos" placeholder="医院" v-model="info.hospitalId">
                             <Option
                                 v-for="item in hospitalList"
                                 :value="item.id"
@@ -202,7 +202,6 @@
                             v-model="info.packagestatus"
                             :true-value="1"
                             :false-value="0"
-                            @on-change="change"
                         >
                             <span slot="open">是</span>
                             <span slot="close">否</span>
@@ -382,10 +381,6 @@ export default {
     },
     components: { Avatar, Select, Option, "i-switch": Switch },
     methods: {
-        change(status) {
-            console.log(this.info.packagestatus);
-            console.log(this.info.ascription);
-        },
         changeProvince() {
             this.info.cityId = "0";
             this.info.areaId = "0";
@@ -552,6 +547,9 @@ export default {
     }
     .w-select {
         width: 150px;
+    }
+    .w-select-hos {
+        width: 200px;
     }
     .w-input {
         width: 400px;

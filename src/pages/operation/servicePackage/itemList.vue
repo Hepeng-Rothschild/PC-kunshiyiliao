@@ -25,7 +25,7 @@
                 <Select class="w-select" @on-change="changeArea" placeholder="区/县" v-model="area">
                     <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
                 </Select>
-                <Select class="w-select" placeholder="医院" v-model="hospitalId">
+                <Select class="w-select-hos" placeholder="医院" v-model="hospitalId">
                     <Option
                         v-for="item in hospitalList"
                         :value="item.id"
@@ -389,6 +389,9 @@ export default {
     box-sizing: border-box;
     .w-select {
         width: 100px;
+    }
+    .w-select-hos {
+        width: 200px;
     }
     .w-input {
         width: 200px;
