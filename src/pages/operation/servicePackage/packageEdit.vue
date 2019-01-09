@@ -74,7 +74,12 @@
                                 :key="item.id"
                             >{{item.name}}</Option>
                         </Select>
-                        <Select class="w-select" placeholder="医院" v-model="info.hospitalId">
+                        <Select
+                            class="w-select"
+                            @on-change="changeHospital"
+                            placeholder="医院"
+                            v-model="info.hospitalId"
+                        >
                             <Option
                                 v-for="item in hospitalList"
                                 :value="item.id"
@@ -87,7 +92,6 @@
                             :true-value="0"
                             :false-value="1"
                             size="large"
-                            @on-change="change"
                         >
                             <span slot="open">公有</span>
                             <span slot="close">私有</span>
@@ -268,7 +272,7 @@ export default {
             city: "0",
             area: "0",
             hospitalId: "",
-            type:null,
+            type: null,
             infoRules: {
                 itemName: [
                     {
@@ -393,7 +397,9 @@ export default {
             this.provinceList[i].value = parseInt(el.value);
         });
         let id = parseInt(this.$route.query.id);
-        this.type = this.$route.query.type?parseInt(this.$route.query.type):null;
+        this.type = this.$route.query.type
+            ? parseInt(this.$route.query.type)
+            : null;
         this.tabId = parseInt(this.$route.query.tabId);
         this.listPageNo = parseInt(
             this.$route.query.pageNo ? this.$route.query.pageNo : 1
@@ -539,22 +545,29 @@ export default {
                 });
         },
         selThis(obj) {
-            this.selData.push(obj);
+            console.log(this.info.provinceId);
+            if(this.info.provinceId){
+                this.selData.push(obj);
+            }else{
+                this.$Message.info("请选择服务包所属区域");
+            }
         },
         selRemove(_index) {
             this.selData.splice(_index, 1);
         },
         loadPage(pageNo) {
+            console.log("loadPage");
             this.pageNo = pageNo;
             var params = {};
             params.province = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );
             if (params.province) {
-                console.log(this.info.cityId);
                 params.city = parseInt(
                     this.info.cityId == 0 ? null : this.info.cityId
                 );
+                params.area = null;
+                params.hospitalId = null;
             } else {
                 params.city = null;
             }
@@ -562,6 +575,7 @@ export default {
                 params.area = parseInt(
                     this.info.areaId == 0 ? null : this.info.areaId
                 );
+                params.hospitalId = null;
             } else {
                 params.area = null;
             }
@@ -596,12 +610,18 @@ export default {
             this.cityList = this.$store.getters.getCityList(
                 this.info.provinceId
             );
+            this.allData = [];
+            this.selData = [];
+            this.loadPage(1);
         },
         changeCity() {
             this.info.areaId = "0";
             this.info.hospitalId = "0";
             this.hospitalList = [];
             this.areaList = this.$store.getters.getAreaList(this.info.cityId);
+            this.allData = [];
+            this.selData = [];
+            this.loadPage(1);
         },
         changeArea() {
             this.info.hospitalId = "0";
@@ -609,14 +629,25 @@ export default {
             params.province = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );
-            this.$axios
-                .post(api.hospitalselectbyprovincecode, params)
-                .then(resp => {
-                    this.hospitalList = resp.data.object;
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            if (this.info.areaId) {
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        this.hospitalList = resp.data.object;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+            this.allData = [];
+            this.selData = [];
+            this.loadPage(1);
+        },
+        changeHospital() {
+            console.log("changeHospital");
+            this.allData = [];
+            this.selData = [];
+            this.loadPage(1);
         },
         submit(name) {
             this.$refs[name].validate(valid => {
@@ -658,11 +689,12 @@ export default {
                         .then(resp => {
                             if (resp.data.success) {
                                 this.$Message.success(msg + "成功");
-                                if(this.type){
+                                if (this.type) {
                                     this.$router.push({
-                                        path: "/index/operation/servicePackage/list"
+                                        path:
+                                            "/index/operation/servicePackage/list"
                                     });
-                                }else{
+                                } else {
                                     this.$router.push({
                                         path:
                                             "/index/operation/servicePackage/pList",
@@ -684,11 +716,11 @@ export default {
             });
         },
         reback() {
-            if(this.type){
+            if (this.type) {
                 this.$router.push({
                     path: "/index/operation/servicePackage/list"
                 });
-            }else{
+            } else {
                 this.$router.push({
                     path: "/index/operation/servicePackage/pList",
                     query: { pageNo: this.listPageNo }
@@ -707,21 +739,6 @@ export default {
                 },
                 duration: 3
             });
-        },
-        changeHospital(val) {
-            let param = {};
-            param.hospitalId = val;
-            this.$axios
-                .post(api.getDeptListByHospitalId, param)
-                .then(resp => {
-                    this.info.deptTypeId = "";
-                    if (resp.data.success) {
-                        this.deptList = resp.data.object;
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                });
         },
         blurInput(e) {
             e.target.blur();
