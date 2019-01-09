@@ -161,10 +161,10 @@
                             <i class="req-icon">*</i>擅长：
                         </Col>
                         <Col :xs="20">
-                            <FormItem prop="doctorGood">
+                            <FormItem class="text-area" prop="doctorGood">
                                 <Input
                                     class
-                                    :autosize="{ minRows: 3, maxRows: 3 }"
+                                    :autosize="{ minRows: 6, maxRows: 6 }"
                                     type="textarea"
                                     v-model="info.doctorGood"
                                     placeholder="请输入医生擅长"
@@ -177,13 +177,15 @@
                             <i class="req-icon"></i>个人介绍：
                         </Col>
                         <Col :xs="20">
-                            <Input
-                                class
-                                :autosize="{ minRows: 3, maxRows: 3 }"
-                                type="textarea"
-                                v-model="info.personalIntroduction"
-                                placeholder="请输入个人简介"
-                            />
+                            <FormItem class="text-area" prop="personalIntroduction">
+                                <Input
+                                    class
+                                    :autosize="{ minRows: 7, maxRows: 7 }"
+                                    type="textarea"
+                                    v-model="info.personalIntroduction"
+                                    placeholder="请输入个人简介"
+                                />
+                            </FormItem>
                         </Col>
                     </Row>
                 </Col>
@@ -502,6 +504,9 @@ export default {
         text-align: center;
         line-height: 18px;
         vertical-align: middle;
+    }
+    .text-area{
+        display:block;
     }
 }
 </style>
