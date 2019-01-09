@@ -3,36 +3,45 @@
     <div class="main">
       <!-- 服务名称 -->
       <div class="item">
-        <span class="title"><span style="color:red;">*</span>服务名称</span>
+        <span class="title">
+          <span style="color:red;">*</span>服务名称
+        </span>
         <Input v-model="params.menuName" placeholder="请输入服务名称" style="width: 300px"/>
+      </div>
+      <!-- 类型 -->
+      <div class="item">
+        <span class="title">
+          <span style="color:red;">*</span>类型
+        </span>
+        <Select v-model="params.function" style="width:200px">
+          <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </div>
+      <!-- 排序 -->
+      <div class="item">
+        <span class="title">
+          <span style="color:red;">*</span>排序
+        </span>
+        <InputNumber :max="999" :min="1" v-model="params.priority"></InputNumber>
       </div>
       <!-- 跳转路径 -->
       <div class="item">
         <span class="title">跳转路径</span>
         <Input v-model="params.path" placeholder="请输入服务路径" style="width: 300px"/>
+        <span class="title">跳转路径长度不得超过500个字符</span>
       </div>
       <!-- 备注 -->
       <div class="item">
         <span class="title">备注</span>
         <Input v-model="params.remark" type="textarea" placeholder="请输入服务备注"/>
       </div>
-      <!-- 类型 -->
-      <div class="item">
-        <span class="title"><span style="color:red;">*</span>类型</span>
-        <Select v-model="params.function" style="width:200px">
-          <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-      </div>
+
       <!-- 服务图标 -->
       <div class="item">
         <span class="title">服务图标</span>
         <Input v-model="params.menuicon" placeholder="请输入服务图标路径" style="width: 300px"/>
       </div>
-      <!-- 排序 -->
-      <div class="item">
-        <span class="title"><span style="color:red;">*</span>排序</span>
-        <InputNumber :max="999" :min="1" v-model="params.priority"></InputNumber>
-      </div>
+
       <!-- 是否开启 -->
       <div class="item">
         <span class="title">快捷菜单</span>
@@ -121,6 +130,7 @@ export default {
     .item {
       display: flex;
       flex-direction: row;
+      align-items:center;
       .title {
         display: inline-block;
         min-width: 150px;

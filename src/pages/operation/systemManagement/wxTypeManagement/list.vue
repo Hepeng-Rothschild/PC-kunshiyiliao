@@ -10,7 +10,7 @@
       <Button type="primary">查询</Button>-->
       <Button type="primary" @click="add">添加新服务</Button>
     </header>
-    <div class="main" v-for="item,index in list" v-show='list.length'>
+    <div class="main" v-for="item,index in list" v-show="list.length">
       <h3>{{ item.name.menuName }}</h3>
       <div class="tabList">
         <table border="0" cellspacing="0" cellpadding="0">
@@ -25,17 +25,17 @@
           <tr v-for="items,index in item.child" v-show="item.child.length">
             <td>{{ index + 1 }}</td>
             <td>{{ items.menuName }}</td>
-            <td>{{ items.path }}</td>
+            <td @click="instance(items)" style="cursor:pointer;" class="flowr">{{ items.path }}</td>
             <td>{{ items.priority }}</td>
-            <td>{{ item.shortcut ? "是" : '否'}}</td>
-            <td @click="edit(items)" style='cursor:pointer;'>编辑</td>
+            <td>{{ items.shortcut===1? '是':"否" }}</td>
+            <td @click="edit(items)" style="cursor:pointer;">编辑</td>
           </tr>
         </table>
         <div class="footer" v-show="!item.child.length">暂无更多数据</div>
-        <Button type="primary" @click="fn(item.name.id)" style='margin-top:20px;'>添加新功能</Button>
+        <Button type="primary" @click="fn(item.name.id)" style="margin-top:20px;">添加新功能</Button>
       </div>
     </div>
-    <div class="main" v-show='!list.length'>暂无数据</div>
+    <div class="main" v-show="!list.length">暂无数据</div>
   </div>
 </template>
 <script>
@@ -54,7 +54,6 @@ export default {
         if (res.data.code) {
           let ret = res.data.object;
           this.list = ret;
-          console.log(this.list);
         } else {
           this.$Message.info("请求失败,请稍候重试");
         }
@@ -72,19 +71,29 @@ export default {
     edit(item) {
       this.$router.push({
         name: "wxSystemManagementEdit",
-        params:{
-            item
+        params: {
+          item
         }
-      })
+      });
     },
-    fn(index){
-        console.log(index)
-        this.$router.push({
+    fn(index) {
+      console.log(index);
+      this.$router.push({
         name: "wxSystemManagementfn",
-        params:{
-            id:index
+        params: {
+          id: index
         }
-      })
+      });
+    },
+    instance(item) {
+      const title = "预览路径";
+      if (Boolean(item.path)) {
+        const content = "<p>" + item.path + "</p>";
+        this.$Modal.success({
+          title: title,
+          content: content
+        });
+      }
     }
   }
 };
@@ -118,6 +127,13 @@ export default {
           height: 40px;
           td {
             text-align: center;
+            min-width: 150px;
+          }
+          td.flowr {
+            max-width: 150px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           td.none {
             display: none;
