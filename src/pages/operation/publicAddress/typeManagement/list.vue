@@ -43,8 +43,8 @@ export default {
         let ret = res.data;
         this.list = ret.object;
         this.list.forEach(item => {
-          item.child.forEach(item => {
-            item.flag = Boolean(item.shortcut);
+          item.child.forEach(items => {
+            items.flag = Boolean(Number(items.open));
           });
         });
       } else {
@@ -63,8 +63,7 @@ export default {
             changeList.push({
               menuid: items.id,
               open: "1",
-              priority: items.priority,
-              shortcut: "1"
+              priority: items.priority
             });
           }
         });

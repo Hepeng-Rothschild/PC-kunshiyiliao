@@ -21,11 +21,11 @@
           <Input placeholder="请输入版本号" style="width: 300px" disabled v-model="params.versionNumber"/>
         </div>
         <!-- 版本唯一标识 -->
-        <div class="item">
+        <!-- <div class="item">
           <span style="color:red;">&nbsp;</span>
           <span class="info">唯一标识</span>
           <Input placeholder="请输入版本唯一标识" style="width: 300px" disabled v-model="params.id"/>
-        </div>
+        </div> -->
         <!-- 版本类型 -->
         <div class="item">
           <span style="color:red;">&nbsp;</span>
@@ -65,7 +65,6 @@ export default {
   data() {
     return {
       params: {
-        id: null,
         content: "",
         type: "",
         versionId: null,
