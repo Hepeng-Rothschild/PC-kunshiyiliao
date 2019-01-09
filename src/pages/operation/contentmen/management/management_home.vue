@@ -4,10 +4,6 @@
     <tmpHeader/>
     <!--添加专家/搜索-->
     <div class="iheader">
-      <div>
-        <span></span>
-        <input type="text" placeholder="已开通服务">
-      </div>
       <button @click="navto">添加服务</button>
     </div>
     <!--表格列表-->

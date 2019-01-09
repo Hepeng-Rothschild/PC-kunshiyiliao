@@ -3,7 +3,7 @@
     <!-- 头部搜索 -->
     <header>
       <span>版本号</span>
-      <Input v-model.trim="params.uId" placeholder="请输入检索版本号" style="width: 200px;margin:0 20px;"/>
+      <Input v-model.trim="params.uId" placeholder="请输入版本号进行查询" style="width: 200px;margin:0 20px;"/>
       <Button type="primary" icon="ios-search" @click="search">查询</Button>
       <Button type="primary" @click="add" style="margin-left:20px;">添加新版本</Button>
     </header>

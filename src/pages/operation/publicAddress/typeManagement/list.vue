@@ -9,7 +9,7 @@
             <Checkbox v-model="items.flag">{{ items.menuName }}</Checkbox>
             <div class="sort">
               <span>排序</span>
-              <InputNumber :min="1" v-model="items.priority" style="width:100px;"></InputNumber>
+              <InputNumber :min="1" :max='999' v-model="items.priority" style="width:100px;"></InputNumber>
             </div>
           </div>
         </div>
@@ -59,15 +59,16 @@ export default {
       this.list.forEach(item => {
         item.child.forEach(items => {
           if (items.flag) {
-            items.open = "1";
             changeList.push({
               menuid: items.id,
               open: "1",
-              priority: items.priority
+              priority: items.priority,
+              prentId:items.prentId
             });
           }
         });
-      });
+      })
+      console.log(changeList);
 
       let params = {
         appid: this.appid,

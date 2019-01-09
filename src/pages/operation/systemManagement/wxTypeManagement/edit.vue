@@ -99,11 +99,13 @@ export default {
     this.shortcut = Boolean(params.shortcut);
     this.params.remark = params.remark;
     this.params.menuicon = params.menuicon;
+    
     this.params.level = params.level;
     this.params.parentId = params.parentId;
     this.params.id = params.id;
   },
   methods: {
+    // 编辑
     add() {
       let params = this.params;
       params.shortcut = Number(this.shortcut);

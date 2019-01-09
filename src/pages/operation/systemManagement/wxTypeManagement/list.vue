@@ -1,14 +1,10 @@
 <template>
   <div class="list">
     <header>
-      <!-- <Input
-        v-model.trim="search"
-        placeholder="请输入服务名称"
-        clearable
-        style="width: 200px;margin-right:20px;"
-      />
-      <Button type="primary">查询</Button>-->
       <Button type="primary" @click="add">添加新服务</Button>
+      <!-- <Rate show-text allow-half v-model="valueCustomText" @on-change ='change'>
+        <span style="color: #f5a623">{{ valueCustomText }}</span>
+      </Rate>-->
     </header>
     <div class="main" v-for="item,index in list" v-show="list.length">
       <h3>{{ item.name.menuName }}</h3>
@@ -23,7 +19,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="items,index in item.child" v-show="item.child.length">
-            <td>{{ index + 1 }}</td>
+            <td>{{ addZero(index) }}</td>
             <td>{{ items.menuName }}</td>
             <td @click="instance(items)" style="cursor:pointer;" class="flowr">{{ items.path }}</td>
             <td>{{ items.priority }}</td>
@@ -36,15 +32,23 @@
       </div>
     </div>
     <div class="main" v-show="!list.length">暂无数据</div>
+    <Modal v-model="modal1" title="预览跳转路径">
+      <p class="modal_p">{{ path }}</p>
+    </Modal>
   </div>
 </template>
 <script>
 import api from "@/api/commonApi";
+import { Rate } from "iview";
 export default {
+  components: { Rate },
   data() {
     return {
       search: "",
-      list: []
+      list: [],
+      modal1: false,
+      path: "",
+      valueCustomText: 3
     };
   },
   mounted() {
@@ -63,11 +67,13 @@ export default {
       });
   },
   methods: {
+    // 添加新服务
     add() {
       this.$router.push({
         name: "wxSystemManagementAdd"
       });
     },
+    // 编辑功能
     edit(item) {
       this.$router.push({
         name: "wxSystemManagementEdit",
@@ -76,6 +82,7 @@ export default {
         }
       });
     },
+    // 添加新功能
     fn(index) {
       console.log(index);
       this.$router.push({
@@ -85,20 +92,32 @@ export default {
         }
       });
     },
+    // 弹出modal层
     instance(item) {
-      const title = "预览路径";
       if (Boolean(item.path)) {
-        const content = "<p>" + item.path + "</p>";
-        this.$Modal.success({
-          title: title,
-          content: content
-        });
+        this.modal1 = true;
+        this.path = item.path;
+      } else {
+        this.$Message.info("暂无跳转路径");
       }
+    },
+    addZero(num) {
+      num = num + 1;
+      if (num < 10) {
+        return "0" + num;
+      }
+      return num;
+    },
+    change() {
+      console.log(this.valueCustomText);
     }
   }
 };
 </script>
 <style lang="less" scoped>
+.modal_p {
+  word-wrap: break-word;
+}
 .list {
   width: calc(100% - 20px);
   padding: 10px 30px;
