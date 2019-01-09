@@ -90,6 +90,7 @@ export default {
     };
   },
   methods: {
+    // 添加新服务
     add() {
       let params = this.params;
       params.shortcut = Number(this.shortcut);

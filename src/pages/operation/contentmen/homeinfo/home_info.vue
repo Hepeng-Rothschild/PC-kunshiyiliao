@@ -118,13 +118,17 @@
       <!--医院联盟排序-->
       <div class="main_info">
         <span>医院联盟排序</span>
-        <input
+        <!-- <input
           type="text"
           placeholder="医院联盟排序"
           style="width:120px;"
           v-model.trim="hospitalSort"
           :disabled="hospitalFlag"
-        >
+        > -->
+        <Input  placeholder="医院联盟排序"
+          style="width:120px;"
+          v-model.trim="hospitalSort"
+          :disabled="hospitalFlag" />
         <p>备注:只能填写数字,1代表置顶以些类推</p>
       </div>
       <!--是否开通处方流转-->
@@ -138,10 +142,10 @@
         <iSwitch v-model="switch4"/>
       </div>
       <!-- 是否开通预约门诊 -->
-      <div class="main_yy">
+      <!-- <div class="main_yy">
         <span class="main_yy_name">是否开通预约门诊</span>
         <iSwitch v-model="switch5"/>
-      </div>
+      </div> -->
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
@@ -224,6 +228,7 @@ export default {
         this.status = true;
         this.y_gzh = null;
         this.switch2 = false;
+        this.hospitalFlag = true;
       }
     },
     change2(status) {
@@ -275,7 +280,7 @@ export default {
         // 开启远程门诊
         iremote: Number(this.switch4),
         // 开启预约门诊
-        registeredReservation: Number(this.switch5)
+        // registeredReservation: Number(this.switch5)
       };
       // hospitalSort
       if (!this.switch1) {
@@ -434,7 +439,7 @@ export default {
             this.hospitalFlag = true;
           }
           // 开通预约门诊
-          this.switch5 = Boolean(ret.registeredReservation);
+          // this.switch5 = Boolean(ret.registeredReservation);
 
           // 开启远程门诊
           this.switch4 = Boolean(ret.iremote);

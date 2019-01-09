@@ -5,7 +5,7 @@
       <header>
         <Button @click="branch">批量导入</Button>
         <div class="search">
-          <Input v-model.trim="Name" placeholder="医生姓名/联系方式/医院名称" style="width: 260px" @on-keyup='nameChange'/>
+          <Input v-model.trim="Name" placeholder="输入医生姓名/联系方式/医院名称进行查询" style="width: 260px" @on-keyup='nameChange'/>
         </div>
       </header>
       <!-- 列表 -->

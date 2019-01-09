@@ -5,8 +5,7 @@
       <!--搜索框-->
       <header>
         <div>
-          <span></span>
-          <input type="text" placeholder="一级科室二级科室" v-model.trim="val">
+          <Input placeholder="一级科室二级科室" v-model.trim="val" style="width: 200px" />
         </div>
         <button @click="valChange" class="btn">查询</button>
       </header>
@@ -134,30 +133,6 @@ export default {
       display: flex;
       flex-direction: row;
       margin: 20px 0;
-      div {
-        border-radius: 20px;
-        border: 1px solid black;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        span {
-          display: inline-block;
-          width: 20px;
-          margin-left: 5px;
-          height: 20px;
-          background: url("../../../../assets/images/search.png") no-repeat;
-          background-size: 100% 100%;
-        }
-        input {
-          text-indent: 5px;
-          height: 30px;
-          outline: none;
-          background: none;
-          border: none;
-          border-radius: 0;
-          margin: 0 10px;
-        }
-      }
       .btn {
         width: 100px;
         height: 30px;

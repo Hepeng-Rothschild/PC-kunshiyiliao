@@ -94,6 +94,7 @@ export default {
     this.params.prentId = this.$route.params.id;
   },
   methods: {
+    // 添加新功能
     add() {
       let params = this.params;
       if (
@@ -119,6 +120,7 @@ export default {
         });
       }
     },
+    // 回到列表 
     back() {
       this.$router.push({
         name: "wxTypeManagementList"
