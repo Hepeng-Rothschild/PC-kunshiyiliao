@@ -19,6 +19,8 @@ import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, For
 import './assets/css/base.css';
 import JsEncrypt from 'jsencrypt/bin/jsencrypt'
 Vue.prototype.$jsEncrypt = JsEncrypt;
+require('@/plugins/py.js');
+
 
 //注册全局过滤器
 import * as filters from "@/plugins/filter.js";
@@ -36,6 +38,7 @@ import '@/../static/kindeditor/themes/default/default.css'
 import '@/../static/kindeditor/kindeditor-all.js'
 import '@/../static/kindeditor/lang/zh-CN.js'
 Vue.use(VueKindEditor)
+
 //设置title
 router.beforeEach((to, from, next) => {
 	if(store.state.env == "production" || store.state.env == "test"){

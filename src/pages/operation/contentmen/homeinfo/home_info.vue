@@ -145,7 +145,7 @@
       </div>
       <!-- 是否开通预约门诊 -->
       <!-- <div class="main_yy">
-        <span class="main_yy_name">是否开通预约门诊</span>
+        <span class="main_yy_name">是否开通预约挂号</span>
         <iSwitch v-model="switch5"/>
       </div>-->
       <!--处方流转平台接口ID-->

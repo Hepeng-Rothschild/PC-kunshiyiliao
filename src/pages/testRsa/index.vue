@@ -8,15 +8,11 @@ export default {
         return {
             normalStr:'Hello world',
             after:'',
-            publicKey:`-----BEGIN PUBLIC KEY-----
-            MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDe9wW1r64CS/uiRVUTyWNPBICv
+            publicKey:`MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDe9wW1r64CS/uiRVUTyWNPBICv
             Omk890SOSVZBYB1SbWa1oRX69UfhzzMVZaFugqwGOS61sTfmVEZpn4YVgq1UZkIN
             WOY0Te82CfAGkg4XEfbLYaJwCYbDT5sAA6MgupjrRkyGxAk/J0fD6zUMv5ryD2PX
-            ZRbzIBrfExvdCbHX1wIDAQAB
-            -----END PUBLIC KEY-----
-            `,
-            privateKey:`-----BEGIN PRIVATE KEY-----
-            MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAN73BbWvrgJL+6JF
+            ZRbzIBrfExvdCbHX1wIDAQAB`,
+            privateKey:`MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAN73BbWvrgJL+6JF
             VRPJY08EgK86aTz3RI5JVkFgHVJtZrWhFfr1R+HPMxVloW6CrAY5LrWxN+ZURmmf
             hhWCrVRmQg1Y5jRN7zYJ8AaSDhcR9sthonAJhsNPmwADoyC6mOtGTIbECT8nR8Pr
             NQy/mvIPY9dlFvMgGt8TG90JsdfXAgMBAAECgYEAldpydPU5P4PwANUWZDETVNVS
@@ -29,9 +25,7 @@ export default {
             GdJAn7umdxH5UBC59ugFOUeag9t0e8kCQGIyIkfsrzhvbIJfYdyxZ/kzU/S3W2q0
             MSGT20o6r3SEuJVGZSOqXflJfszHfRcZSY5t+tuIU+H2ElqvKKzWGlECQQDmNc1n
             TD/MibDKpC+EnfQXzwdX4dfs8EsPyCyrSECNFZ3ou1RmkQJKkesHs4yJNmJm8Axq
-            7bMSug98gG5VlDa+
-            -----END PRIVATE KEY-----
-            `,
+            7bMSug98gG5VlDa+`,
         };
     },
     created(){
@@ -43,9 +37,18 @@ export default {
         let encrypted = jse.encrypt('Hello, world')
         console.log(encrypted);
         jse.setPrivateKey(this.privateKey);
-        // 解密加密过的字符串
+        // // 解密加密过的字符串
         let decrypted = jse.decrypt(encrypted)
         console.log(decrypted);
+        // let str = 'Wo Shi Shei Wo Shi Cheng Long';
+        // let regexp = new RegExp('[A-Z]','g');
+        // let res = str.match(regexp);
+        // console.log(res);
+        // let py = this.$py({value:'我是中国人',type:'firstUp'});
+        // let regexp = new RegExp('[A-Z]','g');
+        // let res = py.match(regexp);
+        // console.log('找出来的大写字母数组',res);
+        // console.log('找出来的大写字母数组转换成都好分割字符串',res.join());
     }
 };
 </script>
