@@ -127,7 +127,7 @@
       </p>
     </Modal>
     <div class="total">
-      <Page :total="remoteClinicLength" :current="pageNo" @on-change="change"/>
+      <Page :total="remoteClinicLength" :current="pageNo" @on-change="change" :page-size='pageSize' />
     </div>
   </div>
 </template>
@@ -143,8 +143,9 @@ export default {
   },
   data() {
     return {
-      remoteClinicLength: 10,
+      remoteClinicLength: 0,
       pageNo: 1,
+      pageSize:10,
       searchTypeList: [
         { id: 1, name: "医院名称" },
         { id: 2, name: "医生姓名" }
@@ -164,7 +165,11 @@ export default {
   },
   mounted() {
     this.getInfoData();
-    this.getDoctorList(1);
+     let pageNo = this.$route.params.pageNo
+     if (Boolean(pageNo)) {
+       this.pageNo = pageNo
+     }
+    this.getDoctorList(this.pageNo);
   },
   methods: {
     // 显示model
@@ -222,7 +227,10 @@ export default {
     // 新增
     add() {
       this.$router.push({
-        name: "DoctorRemoteclinicAdd"
+        name: "DoctorRemoteclinicAdd",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     },
     // 页面加载时获取省级,职称列表
@@ -236,22 +244,14 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      //获取职称列表
-      // this.$axios
-      //   .post(api.getTitle)
-      //   .then(resp => {
-      //     this.titleList = resp.data.object;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   })
     },
     // 修改
     edit(item) {
       this.$router.push({
         name: "DoctorRemoteclinicEdit",
         params: {
-          id: item.id
+          id: item.id,
+          pageNo:this.pageNo
         }
       });
     },
@@ -266,7 +266,7 @@ export default {
     getDoctorList(pageNo, provinceId, searchKey) {
       let params = {
         pageNo,
-        pageSize: 10
+        pageSize: this.pageSize
       };
       if (provinceId != "") {
         params.provinceId = provinceId;
@@ -279,7 +279,6 @@ export default {
           let ret = res.data.object;
           this.remoteClinicLength = ret.count;
           this.list = ret.list;
-          console.log(res);
         }
       });
     },

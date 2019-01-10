@@ -110,17 +110,25 @@ export default {
       this.$axios.post(api.versionupdate, this.params).then(res => {
         if (res.data.code) {
           this.$Message.info("修改成功");
+          let pageNo = this.$route.params.pageNo
           setTimeout(() => {
             this.$router.push({
-              name: "versionManagementHome"
+              name: "versionManagementHome",
+              params:{
+                pageNo
+              }
             })
           }, 800)
         }
       });
     },
     back() {
+        let pageNo = this.$route.params.pageNo
       this.$router.push({
-        name: "versionManagementHome"
+        name: "versionManagementHome",
+        params:{
+          pageNo
+        }
       });
     }
   }

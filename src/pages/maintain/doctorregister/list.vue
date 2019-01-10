@@ -5,7 +5,12 @@
       <header>
         <Button @click="branch">批量导入</Button>
         <div class="search">
-          <Input v-model.trim="Name" placeholder="输入医生姓名/联系方式/医院名称进行查询" style="width: 260px" @on-keyup='nameChange'/>
+          <Input
+            v-model.trim="Name"
+            placeholder="输入医生姓名/联系方式/医院名称进行查询"
+            style="width: 260px"
+            @on-keyup="nameChange"
+          />
         </div>
       </header>
       <!-- 列表 -->
@@ -49,7 +54,7 @@
     </div>
     <!--分页器-->
     <div class="paging">
-      <Page :total="doctorregisterSize" @on-change="pageChange"/>
+      <Page :total="doctorregisterSize" @on-change="pageChange" :current="pageNo"/>
     </div>
   </div>
 </template>
@@ -62,48 +67,53 @@ export default {
     return {
       doctorregisterSize: 10,
       list: [],
-      Name: ""
+      Name: "",
+      pageNo: 1
     };
   },
   mounted() {
-    this.getDoctorData(1);
+    let pageNo = this.$route.params.pageNo;
+    if (pageNo) {
+      this.pageNo = pageNo;
+    }
+    this.getDoctorData(this.pageNo);
   },
   methods: {
     branch() {
-      this.$router.push({ 
-        name: "doctorregisterbatchone"
+      this.$router.push({
+        name: "doctorregisterbatchone",
+        params: {
+          pageNo: this.pageNo
+        }
       });
     },
     pageChange(index) {
-      this.getDoctorData(index);
+      this.pageNo = index;
+      // this.getDoctorData(index);
       if (this.Name) {
-         this.getDoctorData(1, this.Name);
+        this.getDoctorData(1, this.Name);
       } else {
-         this.getDoctorData(index);
+        this.getDoctorData(index);
       }
     },
     nameChange() {
-      // console.log(this.Name);
       this.getDoctorData(1, this.Name);
     },
     getDoctorData(pageNo, val) {
       let params = {
-          pageNo,
-          pageSize: 10
+        pageNo,
+        pageSize: 10
+      };
+      if (val != "") {
+        params.searchKey = val;
+      }
+      this.$axios.post(api.getDoctorInfo, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.doctorregisterSize = ret.count;
+          this.list = ret.list;
         }
-        
-        if (val != '') {
-          params.searchKey = val;
-        }
-      this.$axios
-        .post(api.getDoctorInfo, params)
-        .then(res => {
-          if (res.data.code) {
-            let ret = res.data.object;
-            this.doctorregisterSize = ret.count;
-            this.list = ret.list;
-          }
-        });
+      });
     },
     addZero(num) {
       num = num + 1;
@@ -206,7 +216,7 @@ export default {
         text-align: center;
         border: 1px solid #ddd;
         border-top: none;
-        line-height:40px;
+        line-height: 40px;
       }
     }
   }

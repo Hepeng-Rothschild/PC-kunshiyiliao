@@ -9,7 +9,7 @@
           <span>新闻标题</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="请输入新闻标题" maxlength="30" v-model="title">
+          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 350px" :maxlength="30" />
           <span>{{ title.length }}/30</span>
         </div>
       </div>
@@ -320,17 +320,6 @@ export default {
       .input {
         position: relative;
         width: 400px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background:#fff;
-        input {
-          display: inline-block;
-          width: 88%;
-          border: none;
-          background: none;
-          text-indent: 8px;
-          outline: none;
-        }
         span {
           position: absolute;
           right: 10px;

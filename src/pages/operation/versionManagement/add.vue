@@ -6,7 +6,7 @@
         <div class="item">
           <span style="color:red;">*</span>
           <span class="info">版本id</span>
-          <InputNumber :min="1"  v-model="params.versionId"></InputNumber>
+          <InputNumber :min="1" v-model="params.versionId"></InputNumber>
         </div>
         <!-- 版本名 -->
         <div class="item">
@@ -21,11 +21,11 @@
           <Input placeholder="请输入版本号" style="width: 300px" v-model="params.versionNumber"/>
         </div>
         <!-- 版本唯一标识 -->
-       <!--  <div class="item">
+        <!--  <div class="item">
           <span style="color:red;">*</span>
           <span class="info">唯一标识</span>
           <Input placeholder="请输入版本唯一标识" style="width: 300px" v-model="params.id"/>
-        </div> -->
+        </div>-->
         <!-- 版本类型 -->
         <div class="item">
           <span style="color:red;">*</span>
@@ -92,14 +92,6 @@ export default {
           flag = false;
         }
       }
-      console.log(this.params);
-      //      "content": "string",
-      // "downloadPath": "string",
-      // "id": 0,
-      // "type": 0,
-      // "versionId": 0,
-      // "versionName": "string",
-      // "versionNumber": "string"
 
       if (!flag) {
         this.$Message.info("添加失败,请检查填写信息");
@@ -107,9 +99,13 @@ export default {
         this.$axios.post(api.versioninsert, this.params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");
+            let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
               this.$router.push({
-                name: "versionManagementHome"
+                name: "versionManagementHome",
+                params: {
+                  pageNo
+                }
               });
             }, 800);
           } else {
@@ -119,8 +115,12 @@ export default {
       }
     },
     back() {
+      let pageNo = this.$route.params.pageNo;
       this.$router.push({
-        name: "versionManagementHome"
+        name: "versionManagementHome",
+        params: {
+          pageNo
+        }
       });
     }
   }

@@ -160,6 +160,7 @@ export default new Router({
 				maintain.diseaseEdit,
 				maintain.symptomList,
 				maintain.symptomEdit,
+				maintain.starClass,
 
 
 				//字典管理

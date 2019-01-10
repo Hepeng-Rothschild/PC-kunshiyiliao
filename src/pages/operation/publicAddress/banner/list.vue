@@ -10,7 +10,7 @@
           <span>
             <Icon type=" i-icon i-icon-shop_fill" size="24"/>
           </span>
-          <Input v-model.trim="search" placeholder="请输入banner图名称查询" style="width: 200px" />
+          <Input v-model.trim="search" placeholder="请输入banner图名称查询" style="width: 200px"/>
         </div>
         <button @click="navto">添加Banner</button>
       </div>
@@ -46,7 +46,7 @@
       </div>
       <!-- 分页-->
       <div style="text-align:center;margin:10px 0;">
-        <Page :total="bannerSize" @on-change="pageChange" :current="pageNo" :page-size = 'pageSize' />
+        <Page :total="bannerSize" @on-change="pageChange" :current="pageNo" :page-size="pageSize"/>
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@ export default {
       appid: sessionStorage.getItem("appid"),
       bannerSize: 10,
       pageNo: 1,
-      pageSize:10
+      pageSize: 10
     };
   },
   methods: {
@@ -99,7 +99,7 @@ export default {
           id: item.id,
           pageNo: this.pageNo
         }
-      })
+      });
     },
     addZero(num) {
       num = num + 1;
@@ -112,8 +112,8 @@ export default {
       let params = {
         pageNo,
         pageSize: this.pageSize,
-        appid:this.appid
-      }
+        appid: this.appid
+      };
       if (val != "") {
         params.searchKey = val;
       }
@@ -198,6 +198,11 @@ export default {
           height: 40px;
           td {
             text-align: center;
+            min-width: 100px;
+            max-width: 200px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           td.none {
             display: none;

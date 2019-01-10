@@ -5,7 +5,7 @@
       <!--机构名称 -->
       <div class="main_info">
         <span>机构名称</span>
-        <Input :value='title' style="width: 300px" disabled />
+        <Input :value="title" style="width: 300px" disabled/>
       </div>
       <!--机构首图-->
       <div class="main_imgs">
@@ -51,24 +51,29 @@
       <!--机构等级-->
       <div class="main_type">
         <span>机构等级</span>
-        <select v-model="y_type">
+        <!-- <select v-model="y_type">
           <option :value="item.dictType" v-for="item,index in types">{{ item.dictName }}</option>
-        </select>
+        </select> -->
+        <Select v-model="y_type" style="width:100px">
+          <Option v-for="item in types" :value="item.dictType" :key="item.dictType">{{ item.dictName }}</Option>
+        </Select>
       </div>
       <!--医联体上级医院-->
       <div class="main_info">
         <span>医联体上级医院</span>
-        <select v-model="y_search1">
-          <option :value="item.orgCode" v-for="item,index in ylt">{{ item.orgName }}</option>
-        </select>
+        <Select v-model="y_search1" style="width:200px;">
+          <Option value="0">请选择</Option>
+          <Option :value="item.orgCode" v-for="item,index in ylt" :key="item.orgCode">{{ item.orgName }}</Option>
+        </Select>
       </div>
       <!--背景模板-->
       <div class="main_moban">
         <span>背景模板</span>
-        <select v-model="y_module">
-          <option value="2">默认模板</option>
-          <option value="1">中医院模板</option>
-        </select>
+
+         <Select v-model="y_module" style="width:100px;">
+          <Option :value="2">默认模板</Option>
+           <Option :value="1">中医院模板</Option>
+        </Select>
       </div>
       <!--机构简介-->
       <div class="main_jianjie">
@@ -85,17 +90,17 @@
       <!--机构路线-->
       <div class="main_info">
         <span>机构路线</span>
-        <Input v-model="y_luxin" placeholder="请输入机构乘车路线" style="width: 370px" />
+        <Input v-model="y_luxin" placeholder="请输入机构乘车路线" style="width: 370px"/>
       </div>
       <!--机构电话-->
       <div class="main_info">
         <span>机构电话</span>
-        <Input v-model="y_phone" placeholder="请输入机构电话" style="width: 370px"  :maxlength="12"/>
+        <Input v-model="y_phone" placeholder="请输入机构电话" style="width: 370px" :maxlength="12"/>
       </div>
       <!--机构地址-->
       <div class="main_info">
         <span>机构地址</span>
-        <Input v-model="y_dizhi" placeholder="请输入机构地址" style="width: 370px"  />
+        <Input v-model="y_dizhi" placeholder="请输入机构地址" style="width: 370px"/>
       </div>
       <!--是否开通互联网医院-->
       <div class="main_yy">
@@ -105,10 +110,10 @@
       <!--互联网医院公众号-->
       <div class="main_moban">
         <span>互联网医院公众号</span>
-        <select v-model="y_gzh" :disabled="status">
-          <option value="null">请选择</option>
-          <option :value="item.appid" v-for="item,index in gzh">{{ item.nick }}</option>
-        </select>
+        <Select v-model="y_gzh" style="width:150px;" :disabled="status">
+          <Option :value="0">请选择</Option>
+          <Option v-for="item,index in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
+        </Select>
       </div>
       <!--是否加入医院联盟-->
       <div class="main_yy">
@@ -124,11 +129,13 @@
           style="width:120px;"
           v-model.trim="hospitalSort"
           :disabled="hospitalFlag"
-        > -->
-        <Input  placeholder="医院联盟排序"
+        >-->
+        <Input
+          placeholder="医院联盟排序"
           style="width:120px;"
           v-model.trim="hospitalSort"
-          :disabled="hospitalFlag" />
+          :disabled="hospitalFlag"
+        />
         <p>备注:只能填写数字,1代表置顶以些类推</p>
       </div>
       <!--是否开通处方流转-->
@@ -145,11 +152,11 @@
       <!-- <div class="main_yy">
         <span class="main_yy_name">是否开通预约挂号</span>
         <iSwitch v-model="switch5"/>
-      </div> -->
+      </div>-->
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
-        <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px" />
+        <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px"/>
       </div>
       <!--保存-->
       <div class="main_save">
@@ -163,7 +170,7 @@
 <script>
 import vueEditor from "@/components/vueEditor";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon } from "iview";
+import { Switch, Upload, Icon, Select, Option } from "iview";
 import code from "@/config/base.js";
 import cookie from "@/utils/cookie.js";
 import api from "@/api/commonApi";
@@ -173,7 +180,9 @@ export default {
     iSwitch: Switch,
     Upload,
     Icon,
-    vueEditor
+    vueEditor,
+    Select,
+    Option
   },
   data() {
     return {
@@ -202,7 +211,7 @@ export default {
       y_dizhi: "",
       y_gzh: null,
       y_uid: "",
-      y_search1: "",
+      y_search1: "0",
       gzh: [],
       ylt: [],
       uploadModal: true,
@@ -278,11 +287,10 @@ export default {
         // 医院排序
         internetHospitalSort: this.hospitalSort,
         // 开启远程门诊
-        iremote: Number(this.switch4),
+        iremote: Number(this.switch4)
         // 开启预约门诊
         // registeredReservation: Number(this.switch5)
       };
-      // hospitalSort
       if (!this.switch1) {
         params.appid = null;
       }
@@ -336,7 +344,7 @@ export default {
       this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;
@@ -352,31 +360,34 @@ export default {
       } catch (error) {
         return "";
       }
+    },
+    addData() {
+      // 医院等级
+      this.$axios.post(api.managementAll, {}).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.types = ret;
+        }
+      });
+      // 医联体
+      this.$axios.post(api.managementYlt).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.ylt = ret;
+        }
+      });
+      // 公众号
+      this.$axios.post(api.managementGzh).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.gzh = ret;
+        }
+      });
     }
   },
   created() {
     sessionStorage.setItem("homeIndex", 0);
-    // 医院等级
-    this.$axios.post(api.managementAll, {}).then(res => {
-      if (res.data.code) {
-        let ret = res.data.object;
-        this.types = ret;
-      }
-    });
-    // 医联体
-    this.$axios.post(api.managementYlt).then(res => {
-      if (res.data) {
-        let ret = res.data.object;
-        this.ylt = ret;
-      }
-    });
-    // 公众号
-    this.$axios.post(api.managementGzh).then(res => {
-      if (res.data.code) {
-        let ret = res.data.object;
-        this.gzh = ret;
-      }
-    });
+    this.addData();
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
@@ -387,6 +398,7 @@ export default {
       })
       .then(res => {
         if (res.data.object) {
+          
           let ret = res.data.object;
           // 名字
           this.y_name = ret.orgName;

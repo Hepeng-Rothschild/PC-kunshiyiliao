@@ -17,7 +17,10 @@
           </div>
         </Upload>
       </div>
-      <button class="next" @click="next">下一步</button>
+      <div class="save">
+        <Button type="primary" @click="next">下一步</Button>
+        <Button @click="back">上一步</Button>
+      </div>
     </div>
   </div>
 </template>
@@ -83,6 +86,15 @@ export default {
       } else {
         this.$Message.info("请选择批量上传的文件");
       }
+    },
+    back() {
+      let pageNo = this.$route.params.pageNo;
+      this.$router.push({
+        name: "mechanismreglist",
+        params: {
+          pageNo
+        }
+      });
     }
   }
 };
@@ -108,14 +120,12 @@ export default {
       text-align: center;
       cursor: pointer;
     }
-    .next {
-      width: 100px;
-      line-height: 30px;
-      border: none;
-      outline: none;
-      border-radius: 4px;
-      color: #fff;
-      background: skyblue;
+    .save {
+      width: 200px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
     }
   }
 }

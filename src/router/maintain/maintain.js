@@ -204,6 +204,15 @@ const symptomEdit = {
     },
     component:()=>import("@/pages/maintain/symptom/edit")
 }
+const starClass = {
+    path:'maintain/starClass/list',
+    name:'starClassList',
+    meta:{
+        index:3,
+        title:'评价管理'
+    },
+    component:()=>import("@/pages/maintain/starClass/list")
+}
 
 
 export default {
@@ -234,5 +243,6 @@ export default {
     diseaseList,
     diseaseEdit,
     symptomList,
-    symptomEdit
+    symptomEdit,
+    starClass
 }

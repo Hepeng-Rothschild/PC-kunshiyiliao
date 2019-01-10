@@ -41,7 +41,6 @@
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
         <th>{{ addZero(index) }}</th>
-
         <!-- 标题 -->
         <th>{{ item.title }}</th>
         <!-- 类型 -->
@@ -62,15 +61,15 @@
         <th class="modi">
           <span style="color: black;cursor:pointer" @click="changeItem(item)">修改</span>
           <span
-            v-show="item.enable == 0"
-            style="color: red;cursor:pointer"
-            @click="bottomShelf(item,index)"
-          >上架</span>
-          <span
-            v-show="item.enable == 1"
+            v-show="item.idelete == 0"
             style="color: black;cursor:pointer"
-            @click="topShelf(item,index)"
+            @click="bottomShelf(item,index)"
           >下架</span>
+          <span
+            v-show="item.idelete == 1"
+            style="color: red;cursor:pointer"
+            @click="topShelf(item,index)"
+          >上架</span>
           <span style="color: black;cursor:pointer" @click="roof(item,index,$event)">置顶</span>
         </th>
       </tr>
@@ -138,12 +137,12 @@ export default {
           id: ""
         },
         {
-          value:"未发布",
+          value: "未发布",
           label: "未发布",
           id: 0
         },
         {
-          value:"已发布",
+          value: "已发布",
           label: "已发布",
           id: 1
         }
@@ -177,7 +176,7 @@ export default {
       if (Boolean(type)) {
         params.type = Number(type);
       }
-      params.enable = enable
+      params.enable = enable;
       this.$axios.post(api.contentWrap, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
@@ -208,20 +207,22 @@ export default {
       if (type2 == null) {
         type2 = "";
       }
-      console.log(type1,type2);
+      console.log(type1, type2);
       this.getContentData(1, this.val, type1, type2);
     },
     // 下架
     bottomShelf(item, index) {
       this.$axios
         .post(api.upWrap, {
-          ids: [item.articleId],
-          idelete: 0
+          id: item.articleId,
+          idelete: 1
         })
         .then(res => {
           if (res.data.code) {
-            item.idelete = 0;
+            this.getContentData(this.pageNo);
             this.$Message.info("操作成功");
+          } else {
+            this.$Message.info("操作失败,请重试");
           }
         });
     },
@@ -229,33 +230,38 @@ export default {
     topShelf(item, index) {
       this.$axios
         .post(api.upWrap, {
-          ids: [item.articleId],
-          idelete: 1
+          id: item.articleId,
+          idelete: 0
         })
         .then(res => {
           if (res.data.code) {
-            item.idelete = 1;
+            this.getContentData(this.pageNo);
             this.$Message.info("操作成功");
+          } else {
+            this.$Message.info("操作失败,请重试");
           }
         });
     },
     //置顶
     roof(item, index, event) {
-      this.$axios
-        .post(api.root, {
-          priority: 1,
-          id: item.articleId
-        })
-        .then(res => {
-          if (res.data.code) {
-            this.tableList.splice(index, 1);
-            this.tableList.unshift(item);
-            this.$Message.info("置顶成功");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      if (!Boolean(item.idelete)) {
+        this.$axios
+          .post(api.root, {
+            priority: 1,
+            id: item.articleId
+          })
+          .then(res => {
+            if (res.data.code) {
+              this.tableList.splice(index, 1);
+              this.tableList.unshift(item);
+              this.$Message.info("置顶成功");
+            } else {
+              this.$Message.info("置顶失败,请重试");
+            }
+          });
+      } else {
+        this.$Message.info("置顶失败,当前文章下架状态");
+      }
     },
     //根据ID修改对应的新闻资讯
     changeItem(item) {

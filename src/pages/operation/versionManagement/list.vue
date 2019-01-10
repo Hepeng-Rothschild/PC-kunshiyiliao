@@ -55,13 +55,14 @@ export default {
                   },
                   on: {
                     click: () => {
+                      
                       this.$router.push({
                         name: "versionManagementEdit",
                         params: {
-                          id
+                          id,
+                          pageNo:this.pageNo
                         }
                       })
-                      console.log(1, id);
                     }
                   }
                 },
@@ -75,6 +76,10 @@ export default {
     };
   },
   mounted() {
+    let pageNo = this.$route.params.pageNo
+    if(Boolean(pageNo)) {
+      this.pageNo = pageNo
+    }
     this.loadingData(this.pageNo);
   },
   methods: {
@@ -92,7 +97,7 @@ export default {
     loadingData(pageNo, val) {
       let params = {
         pageNo,
-        pageSize: 10
+        pageSize: this.pageSize
       };
       if (val != "") {
         params.searchKey = val;
@@ -117,7 +122,10 @@ export default {
     },
     add() {
       this.$router.push({
-        name: "versionManagementAdd"
+        name: "versionManagementAdd",
+        params:{
+          pageNo:this.pageNo
+        }
       });
     }
   }

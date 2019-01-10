@@ -1,7 +1,6 @@
 <template>
   <div class="remoteClinicList">
     <tmpHeader/>
-
     <div class="main">
       <!-- 预约天数 -->
       <!-- <div class="order">
@@ -38,13 +37,12 @@
       <!-- 检索 -->
       <div class="inputContent">
         <div class="search">
-          <img src="../../../../assets/images/search.png">
-          <input
-            type="text"
+          <Input
             placeholder="请输入关键字检索"
             v-model.trim="model.orgName"
-            @keyup="searchContent"
-          >
+            style="width: 300px;margin-right:20px;"
+          />
+          <Button type="primary" @click="searchContent">查询</Button>
         </div>
         <p>已选择远程远程门诊合作机构</p>
       </div>
@@ -293,6 +291,7 @@ export default {
           outline: none;
           width: 100px;
           text-align: center;
+          
         }
       }
     }
@@ -302,39 +301,14 @@ export default {
       align-items: center;
       width: 90%;
       margin: 0 auto;
-      padding: 0 5%;
       justify-content: space-between;
       .search {
         width: 300px;
-        border: 1px solid #ddd;
-        border-radius: 40px;
         background: #fff;
         display: flex;
         flex-direction: row;
         align-items: center;
         padding: 0 10px;
-        img {
-          display: block;
-          width: 25px;
-          height: 25px;
-          transform: rotate(270deg);
-        }
-        input {
-          flex: 1;
-          background: none;
-          border: none;
-          text-indent: 1em;
-          outline: none;
-          height: 30px;
-        }
-        button {
-          background: #2d8cf0;
-          color: #fff;
-          border-radius: 10px;
-          border: none;
-          outline: none;
-          padding: 6px 10px;
-        }
       }
     }
     .total {

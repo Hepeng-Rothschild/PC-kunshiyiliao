@@ -32,7 +32,7 @@
           <!-- <select v-model="regionCounty">
             <option value="-1">--请选择--</option>
             <option :value="item.id" v-for="item in countyList">{{ item.area }}</option>
-          </select> -->
+          </select>-->
         </div>
         <!-- 机构名称 -->
         <div class="address">
@@ -64,9 +64,9 @@
             <span>机构类型</span>
           </div>
           <!-- 医院 -->
-          <select v-model="mechanismType1">
-            <option value="1">医院</option>
-          </select>
+          <Select v-model="mechanismType1" style="width:100px">
+            <Option :value="1">医院</Option>
+          </Select>
         </div>
         <!-- 机构等级 -->
         <div class="region">
@@ -75,9 +75,9 @@
             <span>机构等级</span>
           </div>
           <!-- 医院等级 -->
-          <select v-model="mechanismGrade">
-            <option :value="item.dictType" v-for="item in grade">{{ item.dictName }}</option>
-          </select>
+          <Select v-model="mechanismGrade" style="width:200px">
+            <Option :value="item.dictType" v-for="item in grade">{{ item.dictName }}</Option>
+          </Select>
         </div>
         <!-- 机构联系人 -->
         <div class="address">
@@ -106,7 +106,12 @@
 </template>
 <script>
 import api from "@/api/commonApi";
+import { Select, Option } from "iview";
 export default {
+  components: {
+    Select,
+    Option
+  },
   data() {
     return {
       // 序号
@@ -135,8 +140,8 @@ export default {
       countyList: [],
       //医院等级 列表
       grade: [],
-      hosAddr:"",
-      hospitalId:""
+      hosAddr: "",
+      hospitalId: ""
     };
   },
   created() {
@@ -173,7 +178,7 @@ export default {
             // //联系人电话
             this.phone = ret.linkmanTelephone;
             // 地址
-            this.hosAddr = ret.hosAddr
+            this.hosAddr = ret.hosAddr;
             // 医院ID
             this.hospitalId = ret.hospitalId;
             // console.log(ret);
@@ -207,48 +212,45 @@ export default {
         // 地址
         hosAddr: this.hosAddr,
         // 医院Id
-        id:this.hospitalId
+        id: this.hospitalId
       };
-      if (
-        this.regionProv == "-1" ||
-        this.regionCity == "-1"
-      ) {
+      if (this.regionProv == "-1" || this.regionCity == "-1") {
         this.$Message.info("区域不能为空");
       } else if (this.mechanismName == "") {
         this.$Message.info("机构名称不能为空");
-      } else if (this.mechanismCode =='') {
-  this.$Message.info("组织机构代码不能为空");
-      } else if (this.mechanismType1 =='-1') {
+      } else if (this.mechanismCode == "") {
+        this.$Message.info("组织机构代码不能为空");
+      } else if (this.mechanismType1 == "-1") {
         this.$Message.info("机构类型不能为空");
       } else {
-        this.$axios.post(api.mechanismregEdit,params).then(res => {
+        this.$axios.post(api.mechanismregEdit, params).then(res => {
           if (res.data.code) {
             let ret = res.data;
             this.$Message.info("修改成功");
-            let pageNo = this.$route.params.pageNo
+            let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
               this.$router.push({
-                name:"mechanismreglist",
-                params:{
+                name: "mechanismreglist",
+                params: {
                   pageNo
                 }
-              })
-            },500)
+              });
+            }, 500);
           } else {
             this.$Message.info("修改失败请重试");
           }
-        })
+        });
       }
       // console.log(params);
     },
-    back () {
-      let pageNo = this.$route.params.pageNo
+    back() {
+      let pageNo = this.$route.params.pageNo;
       this.$router.push({
-        name:"mechanismreglist",
-        params:{
+        name: "mechanismreglist",
+        params: {
           pageNo
         }
-      })
+      });
     },
     //获取医院等级
     getGrent() {

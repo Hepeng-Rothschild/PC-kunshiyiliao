@@ -17,7 +17,10 @@
           </div>
         </Upload>
       </div>
-      <button class="next" :class="{'disabled':disabled}" @click="next">下一步</button>
+      <div>
+        <button class="next" :class="{'disabled':disabled}" @click="next">下一步</button>
+        <span @click="back" style= 'user-select:none;cursor:pointer;'>上一步</span>
+      </div>
     </div>
   </div>
 </template>
@@ -86,6 +89,15 @@ export default {
       } else {
         this.$Message.info("请选择批量上传的文件");
       }
+    },
+    back() {
+      let pageNo = this.$route.params.pageNo;
+      this.$router.push({
+        name: "doctorregisterlist",
+        params: {
+          pageNo
+        }
+      });
     }
   }
 };

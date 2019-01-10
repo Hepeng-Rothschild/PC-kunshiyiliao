@@ -212,6 +212,11 @@ const systemManagementAdd = '/operateapi/wxappmenuinsert' //添加系统管理�
 const systemManagementEdit = '/operateapi/wxappmenuupdate' //修改系统管理菜单
 
 
+const starClassList = '/operateapi/evaluationpage' //获取星级列表
+const starClassAdd = '/operateapi/evaluationinsert' //添加星级列表
+const starClassSearch = '/operateapi/evaluationselectbyid' //查询星级列表详情
+const starClassChange = '/operateapi/evaluationupdate' //修改医生详情
+
 
 export default {
     login,
@@ -337,6 +342,11 @@ export default {
     systemManagement,
     systemManagementAdd,
     systemManagementEdit,
+    // 星级列表
+    starClassList,
+    starClassAdd,
+    starClassSearch,
+    starClassChange,
 
     /* ********************************************** */
 

@@ -275,11 +275,19 @@ export default {
       searchName: ""
     };
   },
+  mounted () {
+    
+    
+  },
   methods: {
     //  取消,后退 上一次
     back() {
+       let pageNo = this.$route.params.pageNo
       this.$router.push({
-        name: "DoctorRemoteclinicList"
+        name: "DoctorRemoteclinicList",
+        params:{
+          pageNo
+        }
       });
     },
     // 根据选择不同的门诊类型改变不同的价格
@@ -327,9 +335,13 @@ export default {
           console.log(res);
           if (res.data.code) {
             this.$Message.info("添加成功");
+            let pageNo = this.$route.params.pageNo
             setTimeout(() => {
               this.$router.push({
-                name: "DoctorRemoteclinicList"
+                name: "DoctorRemoteclinicList",
+                params:{
+                  pageNo
+                }
               });
             }, 800);
           }
