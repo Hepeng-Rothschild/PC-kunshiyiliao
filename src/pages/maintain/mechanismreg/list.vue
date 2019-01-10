@@ -95,7 +95,10 @@ export default {
     },
     batch () {
       this.$router.push({
-        name:"mechanismregeditbatchone"
+        name:"mechanismregeditbatchone",
+        params:{
+          pageNo:this.pageNo
+        }
       })
     },
     nameChange() {

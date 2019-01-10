@@ -313,7 +313,7 @@ export default {
           .post(url, params)
           .then(resp => {
             if (resp.data.success) {
-              this.$Message.info("添加成功");
+              this.$Message.info("修改成功");
               this.$router.push({
                 path: "/index/operation/register/list",
                 query: { pageNo: this.pageNo }

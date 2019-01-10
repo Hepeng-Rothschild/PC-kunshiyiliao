@@ -9,7 +9,7 @@
           <span>新闻标题</span>
         </div>
         <div class="input">
-          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 400px" :maxlength="30"/>
+          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 350px" :maxlength="30"/>
           <span>{{ title.length }}/30</span>
         </div>
       </div>
@@ -19,7 +19,7 @@
           <span>副标题</span>
         </div>
         <div class="input">
-          <Input v-model.trim="titles" placeholder="请输入新闻副标题" style="width: 400px" :maxlength="30"/>
+          <Input v-model.trim="titles" placeholder="请输入新闻副标题" style="width: 350px" :maxlength="30"/>
           <span>{{ titles.length }}/30</span>
         </div>
       </div>
@@ -109,11 +109,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>新闻来源</span>
         </div>
-        <Input
-          v-model.trim="isource"
-          placeholder="请输入新闻的来源,未填写显示未知"
-          style="width: 400px"
-        />
+        <Input v-model.trim="isource" placeholder="请输入新闻的来源,未填写显示未知" style="width: 400px"/>
       </div>
       <!--排序-->
       <div class="main_sort">
@@ -121,19 +117,19 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <Input
-          v-model.trim="isort"
-          style="width: 100px"
-        />
+        <Input v-model.trim="isort" style="width: 100px"/>
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--是否显示-->
       <div class="main_ishow">
         <div class="main_title_info">
           <span style="color:red;">&nbsp;&nbsp;</span>
-          <span>是否显示</span>
+          <span>是否发布</span>
         </div>
-        <iSwitch v-model.trim="switch1"/>
+        <iSwitch v-model="switch1" size="large">
+          <span slot="open">开启</span>
+          <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!--保存-->
       <div class="save">
@@ -175,7 +171,7 @@ export default {
 
       visible: false,
       uploadList: [],
-      switch1: true,
+      switch1: false,
 
       uploadData: { json: '{"urlCode":"' + code.urlCode.patientNews + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",

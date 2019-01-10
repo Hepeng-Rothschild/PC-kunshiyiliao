@@ -266,13 +266,18 @@ export default {
   },
   mounted() {
     this.getRemoteClinic();
+
     this.getDetail(this.$route.params.id);
   },
   methods: {
     //  取消,后退 上一次
     back() {
+      let pageNo = this.$route.params.pageNo
       this.$router.push({
-        name: "DoctorRemoteclinicList"
+        name: "DoctorRemoteclinicList",
+        params:{
+          pageNo
+        }
       });
     },
     // 根据远程门诊类型变更金额
@@ -309,14 +314,16 @@ export default {
       } else if (this.cycle < 0) {
         this.$Message.info("请选择远程门诊周期");
       } else {
-        console.log(params);
         this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
-          console.log(res);
+          let pageNo = this.$route.params.pageNo
           if (res.data.code) {
-            this.$Message.info(res.data.message);
+            this.$Message.info("修改成功");
             setTimeout(() => {
               this.$router.push({
-                name: "DoctorRemoteclinicList"
+                name: "DoctorRemoteclinicList",
+                params:{
+                  pageNo
+                }
               });
             }, 800);
           }
@@ -353,7 +360,6 @@ export default {
       this.$axios.post(api.doctorRomteclinicDetail, { id }).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          console.log(ret);
           // 远程门诊类型
           this.searchType = ret.outpatintTypeId;
           // 门诊时长

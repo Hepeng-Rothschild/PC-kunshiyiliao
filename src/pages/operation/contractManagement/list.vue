@@ -43,53 +43,6 @@ export default {
         { title: "签约医生", key: "doctorName", align: "center" },
         { title: "签约日期", key: "contractStartTime", align: "center" },
         { title: "签约机构", key: "hospitalName", align: "center" },
-        // {
-        //   title: "操作",
-        //   key: "iOperate",
-        //   align: "center",
-        //   render: (h, params) => {
-        //     let id = params.row.fdsOrderId;
-        //     return [
-        //       h(
-        //         "a",
-        //         {
-        //           attrs: {
-        //             href: "javascript:void(0);"
-        //           },
-        //           on: {
-        //             click: () => {
-        //               // 生成下载链接
-        //               // window.open(ret.message)
-        //               console.log(1, id);
-        //             }
-        //           }
-        //         },
-        //         "导出协议"
-        //       ),
-        //       " | ",
-        //       h(
-        //         "a",
-        //         {
-        //           attrs: {
-        //             href: "javascript:void(0);"
-        //           },
-        //           on: {
-        //             click: () => {
-        //               console.log(2);
-        //               // 生成下载链接
-        //               //   window.open(ret.message)
-        //               //   this.$router.push({
-        //               //     path: "/index/operation/register/edit",
-        //               //     query: { id,pageNo:this.pageNo }
-        //               //   })
-        //             }
-        //           }
-        //         },
-        //         "导出申请"
-        //       )
-        //     ];
-        //   }
-        // }
       ],
       data1: []
     }
@@ -112,7 +65,7 @@ export default {
           this.params.hospitalName,
           this.params.memberName,
           this.params.fdsOrderId
-        );
+        )
       } else {
         this.loadingData(this.pageNo, this.pageSize, 1);
       }

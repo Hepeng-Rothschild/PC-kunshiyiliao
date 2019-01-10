@@ -13,7 +13,7 @@
           <span>新闻标题</span>
         </div>
         <div class="edit_input_right">
-          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 400px" :maxlength="30"/>
+          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 350px" :maxlength="30"/>
           <span>{{title.length}}/30</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
           <span>副标题</span>
         </div>
         <div class="edit_input_right">
-          <Input v-model.trim="ftitle" placeholder="请输入新闻副标题" style="width: 400px" :maxlength="30"/>
+          <Input v-model.trim="ftitle" placeholder="请输入新闻副标题" style="width: 350px" :maxlength="30"/>
           <span>{{ftitle.length}}/30</span>
         </div>
       </div>
@@ -535,15 +535,6 @@ export default {
     }
     button:first-child {
       background: #359aff;
-    }
-    button:last-child {
-      background: #cacaca;
-    }
-    button:first-child:hover {
-      background: #716bb2;
-    }
-    button:last-child:hover {
-      background: #d98c8c;
     }
   }
 }

@@ -5,7 +5,7 @@
       <!--机构名称 -->
       <div class="main_info">
         <span>机构名称</span>
-        <Input :value='title' style="width: 300px" disabled />
+        <Input :value="title" style="width: 300px" disabled/>
       </div>
       <!--机构首图-->
       <div class="main_imgs">
@@ -85,17 +85,17 @@
       <!--机构路线-->
       <div class="main_info">
         <span>机构路线</span>
-        <Input v-model="y_luxin" placeholder="请输入机构乘车路线" style="width: 370px" />
+        <Input v-model="y_luxin" placeholder="请输入机构乘车路线" style="width: 370px"/>
       </div>
       <!--机构电话-->
       <div class="main_info">
         <span>机构电话</span>
-        <Input v-model="y_phone" placeholder="请输入机构电话" style="width: 370px"  :maxlength="12"/>
+        <Input v-model="y_phone" placeholder="请输入机构电话" style="width: 370px" :maxlength="12"/>
       </div>
       <!--机构地址-->
       <div class="main_info">
         <span>机构地址</span>
-        <Input v-model="y_dizhi" placeholder="请输入机构地址" style="width: 370px"  />
+        <Input v-model="y_dizhi" placeholder="请输入机构地址" style="width: 370px"/>
       </div>
       <!--是否开通互联网医院-->
       <div class="main_yy">
@@ -124,11 +124,13 @@
           style="width:120px;"
           v-model.trim="hospitalSort"
           :disabled="hospitalFlag"
-        > -->
-        <Input  placeholder="医院联盟排序"
+        >-->
+        <Input
+          placeholder="医院联盟排序"
           style="width:120px;"
           v-model.trim="hospitalSort"
-          :disabled="hospitalFlag" />
+          :disabled="hospitalFlag"
+        />
         <p>备注:只能填写数字,1代表置顶以些类推</p>
       </div>
       <!--是否开通处方流转-->
@@ -145,11 +147,11 @@
       <!-- <div class="main_yy">
         <span class="main_yy_name">是否开通预约门诊</span>
         <iSwitch v-model="switch5"/>
-      </div> -->
+      </div>-->
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
-        <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px" />
+        <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px"/>
       </div>
       <!--保存-->
       <div class="main_save">
@@ -278,7 +280,7 @@ export default {
         // 医院排序
         internetHospitalSort: this.hospitalSort,
         // 开启远程门诊
-        iremote: Number(this.switch4),
+        iremote: Number(this.switch4)
         // 开启预约门诊
         // registeredReservation: Number(this.switch5)
       };
@@ -336,7 +338,7 @@ export default {
       this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;
@@ -352,31 +354,33 @@ export default {
       } catch (error) {
         return "";
       }
+    },
+    addData() {
+      // 医院等级
+      this.$axios.post(api.managementAll, {}).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.types = ret;
+        }
+      });
+      // 医联体
+      this.$axios.post(api.managementYlt).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.ylt = ret;
+        }
+      });
+      // 公众号
+      this.$axios.post(api.managementGzh).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.gzh = ret;
+        }
+      });
     }
   },
   created() {
     sessionStorage.setItem("homeIndex", 0);
-    // 医院等级
-    this.$axios.post(api.managementAll, {}).then(res => {
-      if (res.data.code) {
-        let ret = res.data.object;
-        this.types = ret;
-      }
-    });
-    // 医联体
-    this.$axios.post(api.managementYlt).then(res => {
-      if (res.data) {
-        let ret = res.data.object;
-        this.ylt = ret;
-      }
-    });
-    // 公众号
-    this.$axios.post(api.managementGzh).then(res => {
-      if (res.data.code) {
-        let ret = res.data.object;
-        this.gzh = ret;
-      }
-    });
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
@@ -387,6 +391,7 @@ export default {
       })
       .then(res => {
         if (res.data.object) {
+          this.addData();
           let ret = res.data.object;
           // 名字
           this.y_name = ret.orgName;

@@ -465,7 +465,7 @@ export default {
   .i-keshi_main {
     width: 80%;
     height: auto;
-    margin: 0 auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: row;
     .i-keshi_main-left {

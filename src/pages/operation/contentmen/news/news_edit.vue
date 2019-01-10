@@ -9,7 +9,7 @@
           <span>新闻标题</span>
         </div>
         <div class="input">
-          <input type="text" placeholder="请输入新闻标题" maxlength="30" v-model="title">
+          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 350px" :maxlength="30" />
           <span>{{ title.length }}/30</span>
         </div>
       </div>
@@ -80,7 +80,6 @@
           <span>新闻来源</span>
         </div>
         <Input v-model.trim="isource" placeholder="请输入新闻的来源" style="width: 300px"/>
-        <!-- <input type="text" placeholder="请输入新闻的来源" v-model="isource"> -->
       </div>
       <!--排序-->
       <div class="main_sort">
@@ -89,7 +88,6 @@
           <span>排序</span>
         </div>
         <Input v-model.trim="isort" style="width: 100px"/>
-        <!-- <input type="text" v-model="isort"> -->
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--是否显示-->
