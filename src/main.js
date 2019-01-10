@@ -6,7 +6,6 @@ import App from './App';
 import router from './router';
 import store from './store';
 import VueI18n from 'vue-i18n';
-import axios from './plugins/http';
 import cookie from './utils/cookie';
 import commonApi from './api/commonApi';
 // 全局公共样式
@@ -20,6 +19,8 @@ import './assets/css/base.css';
 import JsEncrypt from 'jsencrypt/bin/jsencrypt'
 Vue.prototype.$jsEncrypt = JsEncrypt;
 require('@/plugins/py.js');
+require('@/plugins/security.js');
+import axios from './plugins/http';
 
 
 //注册全局过滤器

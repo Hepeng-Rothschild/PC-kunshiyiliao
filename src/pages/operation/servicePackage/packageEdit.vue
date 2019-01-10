@@ -194,11 +194,11 @@
                 <Col :xs="6" class="text-r">
                     <i class="req-icon"></i>执行机构/医生：
                 </Col>
-                <Col :xs="18">{{detail.executingAgency}}</Col>
+                <Col :xs="18">{{executingAgencyList[detail.executingAgency]}}</Col>
             </Row>
             <Row>
                 <Col :xs="6" class="text-r">
-                    <i class="req-icon"></i>收费标准：
+                    <i class="req-icon"></i>服务价格：
                 </Col>
                 <Col :xs="18">￥{{detail.amt}}</Col>
             </Row>
@@ -474,6 +474,7 @@ export default {
                     if (resp.data.success) {
                         let Flag = true;
                         this.detail = resp.data.object;
+                        
                         this.detail.nature = this.natureList[
                             this.detail.nature
                         ];
@@ -556,27 +557,27 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.province = parseInt(
+            params.provinceId = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );
-            if (params.province) {
-                params.city = parseInt(
+            if (params.provinceId) {
+                params.cityId = parseInt(
                     this.info.cityId == 0 ? null : this.info.cityId
                 );
-                params.area = null;
+                params.areaId = null;
                 params.hospitalId = null;
             } else {
-                params.city = null;
+                params.cityId = null;
             }
-            if (params.city) {
-                params.area = parseInt(
+            if (params.cityId) {
+                params.areaId = parseInt(
                     this.info.areaId == 0 ? null : this.info.areaId
                 );
                 params.hospitalId = null;
             } else {
-                params.area = null;
+                params.areaId = null;
             }
-            if (params.area) {
+            if (params.areaId) {
                 params.hospitalId = parseInt(
                     this.info.hospitalId == 0 || this.info.hospitalId == ""
                         ? null

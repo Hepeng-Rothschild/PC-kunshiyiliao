@@ -47,7 +47,7 @@
         <Row>
             <Col :xs="24">
                 <span>医院</span>
-                <Select class="w-select" @on-change="changeHospital" v-model="hospitalId">
+                <Select class="w-select-hos" @on-change="changeHospital" v-model="hospitalId">
                     <Option value="0">全部</Option>
                     <Option
                         v-for="(item,index) in hospitalList"
@@ -191,8 +191,8 @@ export default {
                         let tmpObj = resp.data.object.page;
                         let lvyue = resp.data.object.lvyue;
                         let shuangyue = resp.data.object.shuangyue;
-                        this.lvyue = (lvyue*100)+'%';
-                        this.shuangyue = (shuangyue*100)+'%';
+                        this.lvyue = parseInt((lvyue*100))+'%';
+                        this.shuangyue = parseInt((shuangyue*100))+'%';
                         this.count = tmpObj.count;
                         this.orderList = tmpObj.list;
                         for (let i = 0; i < this.orderList.length; i++) {
@@ -227,6 +227,9 @@ export default {
     box-sizing: border-box;
     .w-select {
         width: 100px;
+    }
+    .w-select-hos {
+        width: 200px;
     }
     .w-input {
         width: 220px;

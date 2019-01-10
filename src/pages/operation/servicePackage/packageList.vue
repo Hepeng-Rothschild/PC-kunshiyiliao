@@ -107,7 +107,7 @@ export default {
                     width: 120
                 },
                 {
-                    title: "收费标准(元/次)",
+                    title: "服务价格(元/次)",
                     key: "amt",
                     align: "center",
                     width: 120
@@ -252,11 +252,11 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.province = parseInt(
+            params.provinceId = parseInt(
                 this.province == 0 ? null : this.province
             );
-            params.city = parseInt(this.city == 0 ? null : this.city);
-            params.area = parseInt(this.area == 0 ? null : this.area);
+            params.cityId = parseInt(this.city == 0 ? null : this.city);
+            params.areaId = parseInt(this.area == 0 ? null : this.area);
             params.hospitalId = parseInt(
                 this.hospitalId == 0 ? null : this.hospitalId
             );

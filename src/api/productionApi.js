@@ -180,6 +180,7 @@ const fdspackageiteminsert ='/operateapi/fdspackageiteminsert';  //新增服务�
 const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项目详情
 const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项目
 const fdspackageiteminsertbatch ='/operateapi/fdspackageiteminsertbatch';  //服务项目导入
+
 //服务包管理
 const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增/修改服务包
 const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
@@ -201,6 +202,15 @@ const wxBannerDetail = '/operateapi/wxappbannerselectbyid' //公众号Banner图�
 const wxBannerEdit = '/operateapi/wxappbannerupdate' //公众号Banner图修改
 const wxTemplateList ='/operateapi/wxapptemplatelisttemplate'// 公众号模板管理列表 
 const wxTemplateSave = '/operateapi/wxapptemplateupdatetemplate' //公众号模板管理保存
+
+const wxMenuList = '/operateapi/wxappmenuquerymenulist' // 公众号菜单管理列表
+const wxMenuListChange = '/operateapi/wxappmenuupdatebatchorinsertbatch' //公众号菜单管理列表修改
+
+// 系统管理//公众号菜单管理
+const systemManagement = '/operateapi/wxappmenuselectmenulist' //系统管理菜单列表
+const systemManagementAdd = '/operateapi/wxappmenuinsert' //添加系统管理菜单
+const systemManagementEdit = '/operateapi/wxappmenuupdate' //修改系统管理菜单
+
 
 
 export default {
@@ -321,6 +331,12 @@ export default {
     wxBannerEdit,
     wxTemplateList,
     wxTemplateSave,
+    // 公众号菜单管理
+    wxMenuList,
+    wxMenuListChange,
+    systemManagement,
+    systemManagementAdd,
+    systemManagementEdit,
 
     /* ********************************************** */
 
