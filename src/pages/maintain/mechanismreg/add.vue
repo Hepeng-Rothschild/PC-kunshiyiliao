@@ -4,14 +4,6 @@
       <!-- title -->
       <header>医院基本信息</header>
       <div class="container-main">
-        <!-- 序号 -->
-        <!-- <div class="number">
-          <div class="left">
-            <span>&nbsp;</span>
-            <span>序号</span>
-          </div>
-          <p>{{ number }}</p>
-        </div>-->
         <!-- 区域 -->
         <div class="region">
           <div class="left">
@@ -42,13 +34,13 @@
           </div>
           <input type="text" placeholder="机构全称" v-model.trim="mechanismName">
         </div>
-         <!-- 详细地址 -->
+        <!-- 详细地址 -->
         <div class="address">
           <div class="left">
             <span style="color:red;">&nbsp;</span>
             <span>详细地址:</span>
           </div>
-          <input type="text" placeholder='请填写详细的地址:省,市,区' v-model.trim="address">
+          <input type="text" placeholder="请填写详细的地址:省,市,区" v-model.trim="address">
         </div>
         <!-- 机构组织编码 -->
         <div class="address">
@@ -65,14 +57,14 @@
             <span>机构类型</span>
           </div>
           <!-- 医院 -->
-          <select v-model="mechanismType1">
-            <option value="1">医院</option>
-          </select>
+          <Select v-model="mechanismType1" style="width:100px">
+            <Option :value="1">医院</Option>
+          </Select>
           <!-- 公立 -->
-          <select v-model="mechanismType2">
-            <option value="1">公立</option>
-            <option value="2">私立</option>
-          </select>
+          <Select v-model="mechanismType2" style="width:100px">
+            <Option :value="1">公立</Option>
+            <Option :value="2">私立</Option>
+          </Select>
         </div>
         <!-- 机构等级 -->
         <div class="region">
@@ -81,9 +73,9 @@
             <span>机构等级</span>
           </div>
           <!-- 医院等级 -->
-          <select v-model="mechanismGrade">
-            <option :value="item.dictType" v-for="item in grade">{{ item.dictName }}</option>
-          </select>
+          <Select v-model="mechanismGrade" style="width:150px">
+            <Option :value="item.dictType" v-for="item in grade">{{ item.dictName }}</Option>
+          </Select>
         </div>
         <!-- 机构电话 -->
         <div class="address">
@@ -91,7 +83,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>机构电话:</span>
           </div>
-          <input type="text" placeholder='机构电话' v-model="mechanismPhone" maxlength="12">
+          <input type="text" placeholder="机构电话" v-model="mechanismPhone" maxlength="12">
         </div>
         <!-- 机构联系人 -->
         <div class="address">
@@ -120,7 +112,12 @@
 </template>
 <script>
 import api from "@/api/commonApi";
+import { Select, Option } from "iview";
 export default {
+  components: {
+    Select,
+    Option
+  },
   data() {
     return {
       // 序号
@@ -212,12 +209,12 @@ export default {
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
               this.$router.push({
-                  name: "mechanismreglist",
-                  params: {
-                    pageNo
-                  }
-                })
-            },500);
+                name: "mechanismreglist",
+                params: {
+                  pageNo
+                }
+              });
+            }, 500);
           }
         });
       }
@@ -274,7 +271,7 @@ export default {
               let ret = res.data.object;
               this.countyList = ret;
             }
-          })
+          });
       }
     }
   }

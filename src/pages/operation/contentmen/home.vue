@@ -85,6 +85,8 @@ export default {
             let ret = res.data.object.list;
             this.homeSize = res.data.object.count;
             this.tableList = ret;
+          } else {
+             this.$Message.error('医院列表获取失败,请稍候重试');
           }
         })
         .catch(err => {

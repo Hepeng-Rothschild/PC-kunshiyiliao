@@ -157,7 +157,7 @@ export default {
       count: 0,
       pageSize: 10,
       pageNo: 1
-    }
+    };
   },
   mounted() {
     this.loadingPage(this.pageNo);
@@ -178,38 +178,46 @@ export default {
     addTagOk() {
       let params = this.addTag;
       params.enable = Number(this.switch1);
-      this.$axios.post(api.starClassAdd, params).then(res => {
-        if (res.data.code) {
-          this.$Message.info("添加成功");
-          this.loadingPage(this.pageNo);
-        } else {
-          this.$Message.info("添加失败,请稍候重试");
-        }
-      });
+      if (params.starLevel && params.evaLabel) {
+        this.$axios.post(api.starClassAdd, params).then(res => {
+          if (res.data.code) {
+            this.$Message.info("添加成功");
+            this.loadingPage(this.pageNo);
+          } else {
+            this.$Message.info("添加失败,请稍候重试");
+          }
+        });
+      } else {
+        this.$Message.info("星级或标签未填写完整");
+      }
     },
     // 新标签取消
     addTagCancel() {
-        this.addTag.starLevel = 0;
-        this.addTag.evaLabel = ''
-        this.switch1 = false
+      this.addTag.starLevel = 0;
+      this.addTag.evaLabel = "";
+      this.switch1 = false;
     },
     // 修改标签
     editTagOk() {
       let params = this.editTag;
       params.enable = Number(this.switch2);
-      this.$axios.post(api.starClassChange, params).then(res => {
-        if (res.data.code) {
-          this.$Message.info("修改成功");
-          this.loadingPage(this.pageNo);
-        } else {
-          this.$Message.info("修改失败,请稍候重试");
-        }
-      });
+      if (params.starLevel && params.evaLabel) {
+        this.$axios.post(api.starClassChange, params).then(res => {
+          if (res.data.code) {
+            this.$Message.info("修改成功");
+            this.loadingPage(this.pageNo);
+          } else {
+            this.$Message.info("修改失败,请稍候重试");
+          }
+        })
+      } else {
+        this.$Message.info("星级或标签未填写完整");
+      }
     },
     // 取消修改标签
     editTagCancel() {
-      this.editTag = {}
-      this.switch2 = false
+      this.editTag = {};
+      this.switch2 = false;
     },
     // 加载数据
     loadingPage(pageNo, val) {

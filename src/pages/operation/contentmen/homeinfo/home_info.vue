@@ -51,24 +51,29 @@
       <!--机构等级-->
       <div class="main_type">
         <span>机构等级</span>
-        <select v-model="y_type">
+        <!-- <select v-model="y_type">
           <option :value="item.dictType" v-for="item,index in types">{{ item.dictName }}</option>
-        </select>
+        </select> -->
+        <Select v-model="y_type" style="width:100px">
+          <Option v-for="item in types" :value="item.dictType" :key="item.dictType">{{ item.dictName }}</Option>
+        </Select>
       </div>
       <!--医联体上级医院-->
       <div class="main_info">
         <span>医联体上级医院</span>
-        <select v-model="y_search1">
-          <option :value="item.orgCode" v-for="item,index in ylt">{{ item.orgName }}</option>
-        </select>
+        <Select v-model="y_search1" style="width:200px;">
+          <Option value="0">请选择</Option>
+          <Option :value="item.orgCode" v-for="item,index in ylt" :key="item.orgCode">{{ item.orgName }}</Option>
+        </Select>
       </div>
       <!--背景模板-->
       <div class="main_moban">
         <span>背景模板</span>
-        <select v-model="y_module">
-          <option value="2">默认模板</option>
-          <option value="1">中医院模板</option>
-        </select>
+
+         <Select v-model="y_module" style="width:100px;">
+          <Option :value="2">默认模板</Option>
+           <Option :value="1">中医院模板</Option>
+        </Select>
       </div>
       <!--机构简介-->
       <div class="main_jianjie">
@@ -105,10 +110,10 @@
       <!--互联网医院公众号-->
       <div class="main_moban">
         <span>互联网医院公众号</span>
-        <select v-model="y_gzh" :disabled="status">
-          <option value="null">请选择</option>
-          <option :value="item.appid" v-for="item,index in gzh">{{ item.nick }}</option>
-        </select>
+        <Select v-model="y_gzh" style="width:150px;" :disabled="status">
+          <Option :value="0">请选择</Option>
+          <Option v-for="item,index in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
+        </Select>
       </div>
       <!--是否加入医院联盟-->
       <div class="main_yy">
@@ -165,7 +170,7 @@
 <script>
 import vueEditor from "@/components/vueEditor";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon } from "iview";
+import { Switch, Upload, Icon, Select, Option } from "iview";
 import code from "@/config/base.js";
 import cookie from "@/utils/cookie.js";
 import api from "@/api/commonApi";
@@ -175,7 +180,9 @@ export default {
     iSwitch: Switch,
     Upload,
     Icon,
-    vueEditor
+    vueEditor,
+    Select,
+    Option
   },
   data() {
     return {
@@ -204,7 +211,7 @@ export default {
       y_dizhi: "",
       y_gzh: null,
       y_uid: "",
-      y_search1: "",
+      y_search1: "0",
       gzh: [],
       ylt: [],
       uploadModal: true,
@@ -284,7 +291,6 @@ export default {
         // 开启预约门诊
         // registeredReservation: Number(this.switch5)
       };
-      // hospitalSort
       if (!this.switch1) {
         params.appid = null;
       }
@@ -381,6 +387,7 @@ export default {
   },
   created() {
     sessionStorage.setItem("homeIndex", 0);
+    this.addData();
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
@@ -391,7 +398,7 @@ export default {
       })
       .then(res => {
         if (res.data.object) {
-          this.addData();
+          
           let ret = res.data.object;
           // 名字
           this.y_name = ret.orgName;
