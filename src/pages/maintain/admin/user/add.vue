@@ -11,7 +11,7 @@
             <span style="color:red;">*</span>
             <span>登录账号</span>
           </div>
-          <input type="text" v-model="text">
+          <Input v-model.trim="text" placeholder="请设置登录账号" style="width: 300px" :readonly="true"/>
         </div>
         <!-- 登录密码 -->
         <div class="pass">
@@ -19,7 +19,13 @@
             <span style="color:red;">*</span>
             <span>登录密码</span>
           </div>
-          <input type="password" v-model="pass">
+          <Input
+            v-model.trim="pass"
+            placeholder="请设置登录密码"
+            style="width: 300px"
+            type="password"
+            :readonly="true"
+          />
         </div>
         <!-- 用户姓名 -->
         <div class="pass">
@@ -27,14 +33,14 @@
             <span style="color:red;">*</span>
             <span>用户姓名</span>
           </div>
-          <input type="text" placeholder="请填写身份证上的名字" v-model="name">
+          <Input v-model.trim="name" placeholder="请填写身份证上的名字" style="width: 300px"/>
           <div class="sex">
             <span style="color:red;">*</span>
             <span style="margin-right:20px;">性别</span>
-            <input type="radio" name="sex" id="boy" v-model="sex" value="0">
-            <label for="boy">男</label>
-            <input type="radio" name="sex" id="griy" v-model="sex" value="1">
-            <label for="griy">女</label>
+            <RadioGroup v-model="sex">
+              <Radio label="boy">男</Radio>
+              <Radio label="griy">女</Radio>
+            </RadioGroup>
           </div>
         </div>
         <!-- 联系电话 -->
@@ -43,7 +49,7 @@
             <span style="color:red;">*</span>
             <span>联系电话</span>
           </div>
-          <input type="text" placeholder="请填写常用手机号码" v-model="phone">
+          <Input v-model.trim="phone" placeholder="请填写常用手机号码" style="width: 300px" :maxlength="11"/>
         </div>
         <!-- 机构名称 -->
         <div class="pass">
@@ -51,9 +57,9 @@
             <span style="color:red;">*</span>
             <span>机构名称</span>
           </div>
-          <select name id v-model="Organizationname">
-            <option value="1">中医院</option>
-          </select>
+          <Select v-model="Organizationname" style="width:150px">
+            <Option v-for="item in hosipal" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </div>
         <!-- 用户角色 -->
         <div class="pass">
@@ -61,9 +67,9 @@
             <span style="color:red;">*</span>
             <span>用户角色</span>
           </div>
-          <select name id v-model="role">
-            <option value="1">用户角色</option>
-          </select>
+          <Select v-model="role" style="width:150px">
+            <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </div>
         <!-- 备注 -->
         <div class="remarks">
@@ -71,12 +77,12 @@
             <span style="color:red;">&nbsp;</span>
             <span>备注</span>
           </div>
-          <textarea name id cols="30" rows="10" v-model="remarks"></textarea>
+          <Input v-model="remarks" type="textarea" :rows="4"/>
         </div>
         <!-- 保存 -->
         <div class="save">
-          <div @click="$router.back()">取消</div>
-          <div @click="save">保存</div>
+          <Button @click="back">取消</Button>
+          <Button type="primary" @click="save">添加</Button>
         </div>
       </div>
     </div>
@@ -84,7 +90,14 @@
 </template>
 <script>
 import api from "@/api/commonApi";
+import { Select, Option, RadioGroup, Radio } from "iview";
 export default {
+  components: {
+    Select,
+    Option,
+    RadioGroup,
+    Radio
+  },
   data() {
     return {
       text: "",
@@ -97,7 +110,21 @@ export default {
       //用户角色
       role: "",
       // 备注
-      remarks: ""
+      remarks: "",
+      // 机构名称
+      hosipal: [
+        {
+          value: "New York",
+          label: "New York"
+        }
+      ],
+      // 用户角色
+      roleList: [
+        {
+          value: "New York",
+          label: "New York"
+        }
+      ]
     };
   },
   methods: {
@@ -119,7 +146,8 @@ export default {
         remarks: this.remarks,
         //性别
         sex: this.sex
-      }
+      };
+      console.log(this.sex);
       if (this.text == "") {
         this.$Message.info("账号不能为空");
       } else if (this.pass == "") {
@@ -134,9 +162,12 @@ export default {
         this.$Message.info("请选择性别");
       } else {
         this.$Message.info("添加成功");
-        // console.log(params);
-        
       }
+    },
+    back() {
+      this.$router.push({
+        name: "adminlist"
+      });
     }
   }
 };
@@ -153,8 +184,6 @@ export default {
     margin: 0 auto;
     header {
       div {
-        border-left: 2px solid blue;
-        padding-left: 10px;
         font-size: 18px;
       }
     }
@@ -182,7 +211,7 @@ export default {
           display: inline-block;
           line-height: 30px;
           width: 400px;
-          
+
           outline: none;
           background: #fff;
           border: 1px solid #ddd;

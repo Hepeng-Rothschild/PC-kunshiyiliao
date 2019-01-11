@@ -3,65 +3,128 @@
     <!-- 头部信息 -->
     <div class="container">
       <header>
-        <div class="btn">
-          <Button type="primary" @click = 'add'>添加账号</Button>
-        </div>
-          <Input  placeholder="登录账号/用户姓名" style="width: 260px" />
+        <Input placeholder="使用登录账号/用户姓名进行查询" style="width: 260px" v-model.trim="searchKey"/>
+        <Button type="primary" @click="add">添加账号</Button>
       </header>
       <div class="list">
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <th>编号</th>
-            <th>登录账号</th>
-            <th>用户姓名</th>
-            <th>机构名称</th>
-            <th>添加人</th>
-            <th>联系方式（手机）</th>
-            <th>角色</th>
-            <th>操作</th>
-          </tr>
-           <tr>
-            <th>编号</th>
-            <th>登录账号</th>
-            <th>用户姓名</th>
-            <th>机构名称</th>
-            <th>添加人</th>
-            <th>联系方式（手机）</th>
-            <th>角色</th>
-            <th>
-                <span @click = 'edit' style = 'cursor:pointer;'>编辑</span>
-                <span @click = 'reset' style = 'cursor:pointer;'>重置密码</span>
-                <span style = 'cursor:pointer;'>删除</span>
-            </th>
-          </tr>
-        </table>
-        <div class="notData" v-show="!list.length">暂无更多数据</div>
+        <Table size="small" :columns="list" :data="data1"></Table>
       </div>
+      <Page
+        :total="count"
+        :current="pageNo"
+        :page-size="pageSize"
+        @on-change="loadPage"
+        style="margin-top:20px;"
+      />
     </div>
   </div>
 </template>
 <script>
+import api from "@/api/commonApi";
 export default {
   data() {
     return {
-      list: []
+      count: 0,
+      pageNo: 1,
+      pageSize: 10,
+      searchKey: "",
+      list: [
+        {
+          title: "编号",
+          iNum: "num"
+        },
+        {
+          title: "登录账号",
+          key: "name"
+        },
+        {
+          title: "用户姓名",
+          key: "age"
+        },
+        {
+          title: "机构名称",
+          key: "address"
+        },
+        {
+          title: "添加人",
+          key: "age"
+        },
+        {
+          title: "联系方式（手机）",
+          key: "address"
+        },
+        {
+          title: "角色",
+          key: "user"
+        },
+        {
+          title: "操作",
+          key: "operate",
+          align: "center",
+          render: (h, params) => {
+            // let id = params.row.id;
+            return [
+              h(
+                "a",
+                {
+                  attrs: {
+                    href: "javascript:void(0);"
+                  },
+                  on: {
+                    click: () => {
+                      console.log("编辑");
+                      this.$router.push({
+                        name: "adminedit"
+                      });
+                    }
+                  }
+                },
+                "编辑 |"
+              ),
+              h(
+                "a",
+                {
+                  attrs: {
+                    href: "javascript:void(0);"
+                  },
+                  on: {
+                    click: () => {
+                      console.log("重置密码");
+                      this.$router.push({
+                        name: "adminreset"
+                      });
+                    }
+                  }
+                },
+                "重置密码"
+              )
+            ];
+          }
+        }
+      ],
+      data1: [
+        {
+          name: "John Brown",
+          age: 18,
+          address: "New York No. 1 Lake Park",
+          date: "2016-10-03"
+        }
+      ]
     };
   },
+  mounted () {
+    
+  },
   methods: {
-    add () {
-        this.$router.push({
-            name:"adminadd"
-        })
+    // 添加角色
+    add() {
+      this.$router.push({
+        name: "adminadd"
+      });
     },
-    edit () {
-        this.$router.push({
-            name:'adminedit'
-        })
-    },
-    reset () {
-        this.$router.push({
-            name:'adminreset'
-        })
+    // 分页器改变
+    loadPage(pageNo) {
+      this.pageNo = pageNo;
     }
   }
 };
@@ -123,19 +186,19 @@ export default {
       margin: 10px 0;
       table {
         width: 100%;
-        border:1px solid #ddd;
+        border: 1px solid #ddd;
         tr:nth-child(odd) {
-      background: #f8f8f9;
-    }
-    tr:nth-child(even) {
-      background: #fff;
-    }
-tr:not(:first-child):hover {
-      background: #9dcae4;
-    }
+          background: #f8f8f9;
+        }
+        tr:nth-child(even) {
+          background: #fff;
+        }
+        tr:not(:first-child):hover {
+          background: #9dcae4;
+        }
         tr {
-          border-top:1px solid #ddd;
-height:40px;
+          border-top: 1px solid #ddd;
+          height: 40px;
           th {
             text-align: center;
           }
@@ -146,7 +209,7 @@ height:40px;
         text-align: center;
         border: 1px solid #ddd;
         border-top: none;
-        line-height:40px;
+        line-height: 40px;
       }
     }
   }
