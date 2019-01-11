@@ -4,6 +4,7 @@
 </template>
 <script>
 import {ext} from '@/plugins/encrypt.js';
+// import CryptoJS from 'crypto-js';
 export default {
     data() {
         return {
@@ -36,10 +37,53 @@ export default {
         };
     },
     created(){
-        let a = ext.en(this.normalStr)
-        let b = ext.de(a)
-        console.log(a,'加密后的结果')
-        console.log(b,'解密后的结果')
+        // var word = 'hello,您好';
+        // var key = CryptoJS.enc.Utf8.parse("中电国康医到服务"); 
+        // // function Encrypt(word){
+        // var srcs = CryptoJS.enc.Utf8.parse(word);
+        // var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+        // var word = encrypted.toString();
+        // console.log('加密后 ',word);
+        // var word = '5CngaJ+XcuQZC0yySiOeeg==';
+        // // }
+ 
+        // // function Decrypt(word){
+        // var encryptedHexStr = CryptoJS.enc.Hex.parse(word);
+        // var srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
+        // var decrypt = CryptoJS.AES.decrypt(word, key, { mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+        // var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8).toString();
+        // console.log('解密前 ',word);
+        // console.log('解密后 ',decryptedStr);
+        // // }
+ 
+        // var source = "ABC";
+        // var target = Encrypt(source);
+        // console.log(target);
+        // console.log(Decrypt(target));
+
+        // var data = "Test String";
+        // var key  = CryptoJS.enc.Latin1.parse('中电国康医到服务');
+        // var iv   = CryptoJS.enc.Latin1.parse('中电国康医到服务');
+
+        // //加密
+        // var encrypted = CryptoJS.AES.encrypt(data,key,{iv:iv,mode:CryptoJS.mode.CBC,padding:CryptoJS.pad.ZeroPadding});
+        // console.log('encrypted',encrypted);
+        // console.log('ciphertext',encrypted.ciphertext);
+
+
+        // //解密
+        // var decrypted = CryptoJS.AES.decrypt(encrypted,key,{iv:iv,padding:CryptoJS.pad.ZeroPadding});
+        // console.log('decrypted',decrypted.toString(CryptoJS.enc.Utf8));
+        var word = this.aesUtils.encrypt('hello,您好','中电国康医到服务');
+        // console.log('后台加密','5CngaJ+XcuQZC0yySiOeeg==');
+        console.log('前台加密',word);
+        var after = this.aesUtils.decrypt(word,'中电国康医到服务');
+        // var after = this.aesUtils.aesDecrypt(word,'中电国康医到服务');
+        console.log('解密后',after);
+        // let a = ext.en(this.normalStr)
+        // let b = ext.de(a)
+        // console.log(a,'加密后的结果')
+        // console.log(b,'解密后的结果')
         // console.log(this.RSAUtils);
         // let that = this;
         // // 实例化一个JSEncrypt对象

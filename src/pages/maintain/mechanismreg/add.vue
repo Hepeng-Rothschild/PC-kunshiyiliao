@@ -13,17 +13,17 @@
           <!-- 省 -->
           <select v-model="regionProv" @change="provChange">
             <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="item in provList">{{ item.name }}</option>
+            <option :value="item.id" v-for="(item,index) in provList" :key="index">{{ item.name }}</option>
           </select>
           <!-- 市 -->
           <select v-model="regionCity" @change="cityChange">
             <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="item in cityList">{{ item.city }}</option>
+            <option :value="item.id" v-for="(item,index) in cityList" :key="index">{{ item.city }}</option>
           </select>
           <!-- 县 -->
           <select v-model="regionCounty">
             <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="item in countyList">{{ item.area }}</option>
+            <option :value="item.id" v-for="(item,index) in countyList" :key="index">{{ item.area }}</option>
           </select>
         </div>
         <!-- 机构名称 -->
@@ -74,7 +74,7 @@
           </div>
           <!-- 医院等级 -->
           <Select v-model="mechanismGrade" style="width:150px">
-            <Option :value="item.dictType" v-for="item in grade">{{ item.dictName }}</Option>
+            <Option :value="item.dictType" v-for="(item,index) in grade" :key="index">{{ item.dictName }}</Option>
           </Select>
         </div>
         <!-- 机构电话 -->

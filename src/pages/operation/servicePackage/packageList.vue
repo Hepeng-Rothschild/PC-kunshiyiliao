@@ -226,17 +226,19 @@ export default {
         changeArea() {
             this.hospitalId = "0";
             var params = {};
-            params.province = parseInt(
+            params.provinceCode = parseInt(
                 this.province == 0 ? null : this.province
             );
-            this.$axios
-                .post(api.hospitalselectbyprovincecode, params)
-                .then(resp => {
-                    this.hospitalList = resp.data.object;
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            if (this.area) {
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        this.hospitalList = resp.data.object;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
         },
         goAdd() {
             this.$router.push({ path: "/index/operation/servicePackage/pAdd",query:{pageNo:this.pageNo} });
@@ -315,7 +317,7 @@ export default {
             let attribution = "";
             if (hospitalId) {
                 var params = {};
-                params.province = parseInt(
+                params.provinceCode = parseInt(
                     provinceId == 0
                         ? null
                         : provinceId

@@ -21,8 +21,8 @@ Vue.prototype.$jsEncrypt = JsEncrypt;
 require('@/plugins/py.js');
 require('@/plugins/security.js');
 import axios from './plugins/http';
-
-
+import aes from '@/plugins/aes-utils.js';
+Vue.prototype.aesUtils = aes;
 //注册全局过滤器
 import * as filters from "@/plugins/filter.js";
 Object.keys(filters).forEach(key => {

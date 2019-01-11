@@ -356,7 +356,7 @@ export default {
                         }
                         if (this.info.areaId) {
                             var params = {};
-                            params.province = parseInt(
+                            params.provinceCode = parseInt(
                                 this.info.provinceId == 0
                                     ? null
                                     : this.info.provinceId
@@ -397,7 +397,7 @@ export default {
         changeArea() {
             this.hospitalId = "0";
             var params = {};
-            params.province = parseInt(
+            params.provinceCode = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );
             this.$axios

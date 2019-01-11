@@ -439,7 +439,7 @@ export default {
                         }
                         if (this.info.areaId) {
                             var params = {};
-                            params.province = parseInt(
+                            params.provinceCode = parseInt(
                                 this.info.provinceId == 0
                                     ? null
                                     : this.info.provinceId
@@ -513,7 +513,7 @@ export default {
                         if (this.detail.hospitalId) {
                             Flag = false;
                             var params = {};
-                            params.province = parseInt(
+                            params.provinceCode = parseInt(
                                 this.detail.provinceId == 0
                                     ? null
                                     : this.detail.provinceId
@@ -624,7 +624,7 @@ export default {
         changeArea() {
             this.info.hospitalId = "0";
             var params = {};
-            params.province = parseInt(
+            params.provinceCode = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );
             if (this.info.areaId) {

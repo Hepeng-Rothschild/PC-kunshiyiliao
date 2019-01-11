@@ -232,17 +232,19 @@ export default {
         changeArea() {
             this.hospitalId = "0";
             var params = {};
-            params.province = parseInt(
+            params.provinceCode = parseInt(
                 this.province == 0 ? null : this.province
             );
-            this.$axios
-                .post(api.hospitalselectbyprovincecode, params)
-                .then(resp => {
-                    this.hospitalList = resp.data.object;
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            if (this.area) {
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        this.hospitalList = resp.data.object;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
         },
         goAdd() {
             this.$router.push({
@@ -332,7 +334,7 @@ export default {
             let attribution = "";
             if (hospitalId) {
                 var params = {};
-                params.province = parseInt(provinceId == 0 ? null : provinceId);
+                params.provinceCode = parseInt(provinceId == 0 ? null : provinceId);
                 this.$axios
                     .post(api.hospitalselectbyprovincecode, params)
                     .then(resp => {
