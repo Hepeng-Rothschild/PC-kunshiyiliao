@@ -25,7 +25,6 @@
             <span>科室名称</span>
           </div>
           <Input v-model.trim="title" style="width: 300px" disabled/>
-          <!-- <input type="text" disabled v-model="title"> -->
         </div>
         <!--科室就诊位置-->
         <div class="keshi_name">
@@ -88,11 +87,13 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
+
           <vueEditor
             id="editor_id"
             :textHtml="info.content"
             :urlCode="urlCode"
             @valueHandle="afterChange"
+            style='margin:0;'
           ></vueEditor>
         </div>
         <!--科室特色-->
