@@ -4,7 +4,7 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <ul class="allList" @click.stop="tab" v-for="item,index in list">
+        <!-- <ul class="allList" @click.stop="tab" v-for="item,index in list">
           <li>
             <span>+</span>
             {{ item.parent.name }}
@@ -16,7 +16,8 @@
               :data-id="items.id"
             >{{ items.childDept }}</li>
           </ul>
-        </ul>
+        </ul>-->
+        <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
       <div class="i-keshi_main-right">
@@ -27,7 +28,7 @@
             <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
-          <Input v-model="title"  disabled style="width: 300px" />
+          <Input v-model="title" disabled style="width: 300px"/>
         </div>
         <!--院内名称-->
         <div class="keshi_name">
@@ -35,7 +36,7 @@
             <span style="color:red;">&nbsp;&nbsp;</span>
             <span>院内名称</span>
           </div>
-           <Input v-model.trim="keshiname"  disabled style="width: 300px" placeholder="空" />
+          <Input v-model.trim="keshiname" style="width: 300px" placeholder="空"/>
           <p style="color:rgb(102, 102, 102);">注：只在医院自身互联网平台显示</p>
         </div>
         <!--科室图标-->
@@ -103,7 +104,7 @@
             :textHtml="info.content"
             :urlCode="urlCode"
             @valueHandle="afterChange"
-            style='margin:0;'
+            style="margin:0;"
           ></vueEditor>
         </div>
         <!--预约科室-->
@@ -142,7 +143,7 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon } from "iview";
+import { Switch, Upload, Icon, Tree } from "iview";
 import vueEditor from "@/components/vueEditor";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
@@ -152,7 +153,8 @@ export default {
     iSwitch: Switch,
     Upload,
     Icon,
-    vueEditor
+    vueEditor,
+    Tree
   },
   data() {
     return {
@@ -179,7 +181,8 @@ export default {
       images: "",
       currentId: -1,
       source: "",
-      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
+      data1: []
     };
   },
   methods: {
@@ -296,17 +299,14 @@ export default {
     handleFormatError(file) {
       this.$Notice.warning({
         title: "格式错误",
-        desc:
-          "文件 " +
-          file.name +
-          " 上传失败,请重试"
-      })
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleMaxSize(file) {
-     this.$Notice.warning({
+      this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;
@@ -390,6 +390,15 @@ export default {
       let parent = el.parentNode;
       el.classList.add("active");
       parent.style.display = "block";
+    },
+    threeChild(index) {
+      if(index.length == 0) {
+        return ""
+      }
+      if (Boolean(index[0].id) && index[0].id != this.currentId) {
+        this.currentId = index[0].id;
+        this.getRightData(index[0].id);
+      }
     }
   },
   created() {
@@ -409,14 +418,29 @@ export default {
       .then(res => {
         if (res.data) {
           let ret = res.data.object;
+          let data1 = [];
+          let id = this.$route.params.id;
+
+          ret.forEach((item, index) => {
+            let a = {};
+            a.title = item.parent.name;
+            let children = [];
+            item.sub.forEach((i, s) => {
+              i.title = i.childDept;
+              if (id == i.id) {
+                i.selected = true;
+                a.expand=true
+              }
+              children.push(i);
+            });
+            a.children = children;
+            data1.push(a);
+          });
+          // console.log(data1);
+          this.data1 = data1;
           this.list = ret;
         }
       });
-  },
-  updated() {
-    // this.$nextTick(() => {
-    //   this.byIdGetDom(424)
-    // })
   }
 };
 </script>
@@ -471,8 +495,9 @@ export default {
     .i-keshi_main-left {
       min-width: 200px;
       height: 500px;
-      border: 1px solid black;
+      border: 1px solid #ccc;
       margin-right: 20px;
+      border-radius: 10px;
       ul {
         width: 100%;
         li {
@@ -504,20 +529,11 @@ export default {
         }
       }
     }
-
     .i-keshi_main-right {
       flex: 1;
-      /*border:1px solid red;*/
       display: flex;
       flex-direction: column;
       padding: 30px 0;
-      h2 {
-        margin-left: 10px;
-        font-size: 20px;
-        padding-left: 15px;
-        border-left: 3px solid #2d8cf0;
-      }
-
       .keshi_name {
         display: flex;
         flex-direction: row;

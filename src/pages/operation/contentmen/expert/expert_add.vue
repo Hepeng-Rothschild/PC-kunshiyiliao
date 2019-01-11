@@ -9,18 +9,16 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>专家姓名</span>
         </div>
-        <Input v-model="name" placeholder="请输入专家姓名" style="width: 360px" />
-        <Button type="primary" @click="search">检索</Button>
-        <!-- <button @click="search">检索</button> -->
+        <Input v-model="name" placeholder="请输入专家姓名" style="width: 360px" @on-keyup="search"/>
       </div>
       <div class="main_expert_item">
         <div class="main_expert_title">
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>选择专家</span>
         </div>
-        <select v-model="keshi" @change="changes">
-          <option :value="index" name="index" v-for="item,index in list">{{ item.doctorName }}</option>
-        </select>
+        <Select v-model="keshi" style="width:100px" @on-change='changes'>
+          <Option v-for="item,index in list" :value="index" :key="index">{{ item.doctorName }}</Option>
+        </Select>
       </div>
       <!--机构名称-->
       <div class="main_expert_item">
@@ -48,7 +46,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>职务</span>
         </div>
-          <Input v-model="post" placeholder="请输入专家职务" style="width: 200px" />
+        <Input v-model="post" placeholder="请输入专家职务" style="width: 200px"/>
       </div>
       <!--专业特长-->
       <div class="main_expert_inputi">
@@ -76,7 +74,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-         <Input v-model="isort" style="width: 100px" @keyup="isorts"/>
+        <Input v-model="isort" style="width: 100px" @keyup="isorts"/>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--显示-->
@@ -105,12 +103,14 @@
 </template>
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch } from "iview";
+import { Switch, Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
-    iSwitch: Switch
+    iSwitch: Switch,
+    Select,
+    Option
   },
   data() {
     return {
@@ -217,7 +217,7 @@ export default {
         //id
         doctorId: this.currentId,
         // 专家
-        iexpert:  Number(this.switch2)
+        iexpert: Number(this.switch2)
       };
 
       this.$axios
@@ -275,7 +275,6 @@ export default {
         height: 30px;
         outline: none;
         text-indent: 5px;
-        
       }
       button {
         margin-left: 20px;

@@ -3,7 +3,7 @@
   <div class="addManagement">
     <tmpHeader/>
     <div class="addManag">
-      <h4>选择院内开通科室</h4>
+      <h3>选择院内开通科室</h3>
       <div class="fuwu">
         <!--线上服务-->
         <div class="xsfw" v-for="item,index in allMenuList" v-if="item.dept.list.length != 0">
@@ -180,11 +180,7 @@ export default {
   .addManag {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    h4 {
-      padding-left: 4px;
-      border-left: 2px solid #2d8cf0;
-    }
+    padding: 20px;  
     .fuwu {
       width: calc(100% - 100px);
       margin: 0 auto;

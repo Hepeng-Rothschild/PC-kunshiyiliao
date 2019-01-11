@@ -17,20 +17,20 @@
       <div class="headers">
         <div class="city">
           <!-- 省 -->
-          <select @change="provinceChange" v-model="model.provinceCode">
-            <option value>--请选择--</option>
-            <option :value="item.id" v-for="item in provinceList">{{ item.name }}</option>
-          </select>
+          <Select v-model="model.provinceCode" style="width:100px" @on-change='provinceChange'>
+            <Option value>请选择</Option>
+            <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+          </Select>
           <!-- 市 -->
-          <select v-model="model.cityCode" @change="cityChange">
-            <option value>--请选择--</option>
-            <option :value="item.id" v-for="item in cityList">{{ item.city }}</option>
-          </select>
+          <Select v-model="model.cityCode" style="width:150px;margin:0 10px;" @on-change='cityChange'>
+            <Option value >请选择</Option>
+            <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
+          </Select>
           <!-- 区 -->
-          <select v-model="model.districtCode">
-            <option value>--请选择--</option>
-            <option :value="item.id" v-for="item in countyList">{{ item.area }}</option>
-          </select>
+           <Select v-model="model.districtCode" style="width:200px">
+             <Option value>请选择</Option>
+            <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
+          </Select>
         </div>
       </div>
 
@@ -65,16 +65,6 @@
           </p>
         </div>
       </div>
-
-      <!-- 备注 -->
-      <!-- <div class="info">
-        <span>备注：</span>
-        <div>
-          <p>更合作机构，将在当前预约天数之后生效。</p>
-          <p>在左侧选择机构，选择添加到右侧合作机构。</p>
-          <p>在右侧选择机构，选择删除合作机构。</p>
-        </div>
-      </div>-->
       <!-- 保存 -->
       <div class="save" @click="edit">保存</div>
     </div>
@@ -291,7 +281,6 @@ export default {
           outline: none;
           width: 100px;
           text-align: center;
-          
         }
       }
     }

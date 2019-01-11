@@ -4,7 +4,7 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <ul class="allList" @click="tab" v-for="item in tablsList">
+        <!-- <ul class="allList" @click="tab" v-for="item in tablsList">
           <li>
             <span>+</span>
             {{ item.name }}
@@ -12,7 +12,8 @@
           <ul class="oneList">
             <li v-for="items in item.child" @click="changes(items)">{{ items.childDept }}</li>
           </ul>
-        </ul>
+        </ul>-->
+        <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
       <div class="i-keshi_main-right">
@@ -88,10 +89,10 @@
             <span>科室简介</span>
           </div>
           <vueEditor
-              id="editor_id"
-              :textHtml="info.content"
-              :urlCode="urlCode"
-              @valueHandle="afterChange"
+            id="editor_id"
+            :textHtml="info.content"
+            :urlCode="urlCode"
+            @valueHandle="afterChange"
           ></vueEditor>
         </div>
         <!--科室特色-->
@@ -108,12 +109,12 @@
 			            @on-content-change="onContentChanges"> 
         </div>-->
         <!--排序-->
-        <div class="keshi_name_text" style='align-items:center;'>
+        <div class="keshi_name_text" style="align-items:center;">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>排序</span>
           </div>
-          <Input v-model.trim="isort" style="width: 80px" />
+          <Input v-model.trim="isort" style="width: 80px"/>
           <p style="margin-left:5px;">备注：只能填写数字，1代表置顶以此类推</p>
         </div>
         <!--是否显示-->
@@ -136,7 +137,7 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon } from "iview";
+import { Switch, Upload, Icon, Tree } from "iview";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
 import api from "@/api/commonApi";
@@ -146,7 +147,8 @@ export default {
     iSwitch: Switch,
     Upload,
     Icon,
-    vueEditor
+    vueEditor,
+    Tree
   },
   data() {
     return {
@@ -165,35 +167,52 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
       editorText: "请输入要编辑的内容...",
       editorTexts: "请输入要编辑的内容...",
-
-      info:{
-        content:""
+      info: {
+        content: ""
       },
-
       uploadList: [],
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: "",
       source: "",
-      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
+      data1: []
     };
   },
   mounted() {
     let id = this.$route.params;
+    console.log(id);
     if (id) {
       this.changes(id);
     }
     this.uploadList = this.$refs.upload.fileList;
     this.$axios
       .post(api.getDepartment, {
-        hospitalId: this.id,
-        id: 336
+        hospitalId: this.id
       })
       .then(res => {
         if (res.data) {
           let ret = res.data.object;
+          let data1 = [];
+          let id = this.$route.params.id;
+          ret.forEach((item, index) => {
+            let a = {};
+            a.title = item.name;
+            let children = [];
+            item.child.forEach((i, s) => {
+              i.title = i.childDept;
+              if (id == i.id) {
+                i.selected = true;
+                a.expand = true;
+              }
+              children.push(i);
+            });
+            a.children = children;
+            data1.push(a);
+          });
+          this.data1 = data1;
           this.tablsList = ret;
         }
       });
@@ -242,7 +261,7 @@ export default {
         departmentdes: this.info.content,
         //  位置
         deptPosition: this.keshiname,
-        display:Number(this.switch1),
+        display: Number(this.switch1),
         priority: this.isort,
         id: this.currentId
       };
@@ -277,39 +296,7 @@ export default {
     },
     changes(item) {
       let id = item.id;
-      this.currentId = id;
-      this.$axios
-        .post(api.departmentDetail, {
-          hospitalId: this.id,
-          id
-        })
-        .then(res => {
-          if (res.data) {
-            let ret = res.data.object;
-            //图片
-            this.uploadList = [];
-            if (ret.departmenticon) {
-              this.source = ret.departmenticon;
-              this.uploadList.push({
-                name: "a42bdcc1178e62b4694c830f028db5c0",
-                percentage: 100,
-                status: "finished",
-                uid: 1544263544970,
-                url: this.analysisImages(this.source)
-              });
-            }
-            // 标题
-            this.title = ret.dictType;
-            // 详情
-            this.info.content = ret.departmentdes;
-            // 位置
-            this.keshiname = ret.deptPosition;
-            // 开关
-            this.switch1 = Boolean(ret.display);
-            // 排序
-            this.isort = ret.priority || 0;
-          }
-        });
+      this.addBookingofficeData(id)
     },
     handleView(name) {
       this.imgName = name;
@@ -338,20 +325,14 @@ export default {
     handleFormatError(file) {
       this.$Notice.warning({
         title: "格式错误",
-        desc:
-          "文件 " +
-          file.name +
-          " 上传失败,请重试"
-      })
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
         title: "格式错误",
-        desc:
-          "文件 " +
-          file.name +
-          " 上传失败,请重试"
-      })
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;
@@ -367,9 +348,53 @@ export default {
       } catch (error) {
         return "";
       }
+    },
+    threeChild(index) {
+      if (index.length == 0) {
+        return "";
+      }
+      if (Boolean(index[0].id) && index[0].id != this.currentId) {
+        this.currentId = index[0].id;
+        this.addBookingofficeData(index[0].id);
+      }
+    },
+    addBookingofficeData(id) {
+      this.currentId = id;
+      this.$axios
+        .post(api.departmentDetail, {
+          hospitalId: this.id,
+          id
+        })
+        .then(res => {
+          if (res.data) {
+            let ret = res.data.object;
+            //图片
+            this.uploadList = [];
+            if (Boolean(ret.departmenticon)) {
+              this.source = ret.departmenticon;
+              this.uploadList.push({
+                name: "a42bdcc1178e62b4694c830f028db5c0",
+                percentage: 100,
+                status: "finished",
+                uid: 1544263544970,
+                url: this.analysisImages(this.source)
+              });
+            }
+            // 标题
+            this.title = ret.dictType;
+            // 详情
+            this.info.content = ret.departmentdes;
+            // 位置
+            this.keshiname = ret.deptPosition;
+            // 开关
+            this.switch1 = Boolean(ret.display);
+            // 排序
+            this.isort = ret.priority || 0;
+          }
+        });
     }
   }
-};
+}
 </script>
 
 <style scoped lang="less">
@@ -423,7 +448,8 @@ export default {
     .i-keshi_main-left {
       min-width: 200px;
       height: 500px;
-      border: 1px solid black;
+      border: 1px solid #ccc;
+      border-radius: 10px;
       margin-right: 20px;
       ul {
         width: 100%;
@@ -459,16 +485,9 @@ export default {
 
     .i-keshi_main-right {
       flex: 1;
-      /*border:1px solid red;*/
       display: flex;
       flex-direction: column;
       padding: 30px 0;
-      h2 {
-        margin-left: 10px;
-        font-size: 20px;
-        padding-left: 15px;
-        border-left: 3px solid #2d8cf0;
-      }
 
       .keshi_name {
         display: flex;
