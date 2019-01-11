@@ -2,7 +2,7 @@
   <div class="edit">
     <div class="container">
       <header>
-        <div>添加账号</div>
+        <div>编辑账号</div>
       </header>
       <div class="main">
         <!-- 登录账号 -->
@@ -11,7 +11,7 @@
             <span style="color:red;">*</span>
             <span>登录账号</span>
           </div>
-          <input type="text" v-model="text">
+          <Input v-model.trim="text" placeholder="请输入登录账号" style="width: 300px"  :readonly='true'/>
         </div>
         <!-- 登录密码 -->
         <div class="item">
@@ -19,7 +19,7 @@
             <span style="color:red;">*</span>
             <span>登录密码</span>
           </div>
-          <input type="password" v-model="pass">
+          <Input v-model.trim="pass" placeholder="请输入登录密码" style="width: 300px" type="password"  :readonly='true'/>
         </div>
         <!-- 用户姓名 -->
         <div class="item">
@@ -27,7 +27,7 @@
             <span style="color:red;">*</span>
             <span>用户姓名</span>
           </div>
-          <input type="text" v-model="name">
+          <Input v-model.trim="name" placeholder="请填写身份证上的名字" style="width: 300px"/>
         </div>
         <p class="info">请填写身份证上的名字</p>
         <!-- 联系电话 -->
@@ -36,7 +36,12 @@
             <span style="color:red;">*</span>
             <span>联系电话</span>
           </div>
-          <input type="text" v-model="phone">
+          <Input
+            v-model.trim="phone"
+            placeholder="请填写身份证上的名字"
+            style="width: 300px"
+            :maxlength="11"
+          />
         </div>
         <p class="info">请填写常用手机号码</p>
         <!-- 机构名称 -->
@@ -45,9 +50,9 @@
             <span style="color:red;">*</span>
             <span>机构名称</span>
           </div>
-          <select name id v-model="Organizationname">
-            <option value="1">蚌埠中医院</option>
-          </select>
+          <Select v-model="Organizationname" style="width:150px">
+            <Option v-for="item in hospial" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </div>
         <p class="info">请填写系统使用机构名称</p>
         <!-- 用户角色 -->
@@ -56,9 +61,9 @@
             <span style="color:red;">*</span>
             <span>用户角色</span>
           </div>
-          <select name id v-model="role">
-            <option value="1">运营人员</option>
-          </select>
+          <Select v-model="role" style="width:150px">
+            <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </div>
         <!-- 备注 -->
         <div class="item">
@@ -66,19 +71,25 @@
             <span style="color:red;">&nbsp;&nbsp;</span>
             <span>备注</span>
           </div>
-          <textarea name id cols="30" rows="10">{{ remarks }}</textarea>
+          <Input v-model="remarks" type="textarea" :rows="4"/>
         </div>
         <!-- 保存 -->
         <div class="save">
-          <div @click="$router.back()">取消</div>
-          <div @click="save">保存</div>
+          <Button @click="back">取消</Button>
+          <Button type="primary"  @click="save">保存</Button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import api from "@/api/commonApi";
+import { Select, Option } from "iview";
 export default {
+  components: {
+    Select,
+    Option
+  },
   data() {
     return {
       text: "",
@@ -90,7 +101,19 @@ export default {
       //用户角色
       role: "",
       // 备注
-      remarks: ""
+      remarks: "",
+      hospial: [
+        {
+          value: "New York",
+          label: "New York"
+        }
+      ],
+      roleList: [
+        {
+          value: "New York",
+          label: "New York"
+        }
+      ]
     };
   },
   methods: {
@@ -127,6 +150,11 @@ export default {
         this.$Message.info("添加成功");
         // console.log(params);
       }
+    },
+    back() {
+      this.$router.push({
+        name: "adminlist"
+      });
     }
   }
 };
@@ -143,8 +171,6 @@ export default {
     margin: 0 auto;
     header {
       div {
-        border-left: 2px solid blue;
-        padding-left: 10px;
         font-size: 18px;
       }
     }

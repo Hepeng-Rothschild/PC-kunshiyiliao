@@ -44,7 +44,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>职务</span>
         </div>
-         <Input v-model="post" placeholder="请输入专家职务" style="width: 200px" disabled/>
+        <Input v-model="post" placeholder="请输入专家职务" style="width: 200px" disabled/>
       </div>
       <!--专业特长-->
       <div class="main_expert_inputi">
@@ -101,12 +101,14 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch } from "iview";
+import { Switch, Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
-    iSwitch: Switch
+    iSwitch: Switch,
+    Select,
+    Option
   },
   data() {
     return {
@@ -265,7 +267,7 @@ export default {
       }
       .shuru {
         textarea {
-          text-indent:1em;
+          text-indent: 1em;
           width: 400px;
           height: 150px;
         }

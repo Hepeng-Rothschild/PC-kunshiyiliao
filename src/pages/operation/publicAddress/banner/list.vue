@@ -20,7 +20,7 @@
           <tr>
             <td>序号</td>
             <td>名称</td>
-            <td>轮播图</td>
+            <td>图片</td>
             <td>链接</td>
             <td>显示</td>
             <td>排序</td>

@@ -76,7 +76,7 @@
           </div>
           <!-- 医院等级 -->
           <Select v-model="mechanismGrade" style="width:200px">
-            <Option :value="item.dictType" v-for="(item,index) in grade" :key="index">{{ item.dictName }}</Option>
+            <Option :value="item.dictType" v-for="item in grade" :key='item.dictType'>{{ item.dictName }}</Option>
           </Select>
         </div>
         <!-- 机构联系人 -->
