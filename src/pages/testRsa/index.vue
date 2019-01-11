@@ -1,23 +1,24 @@
 <template>
-    <div>list4</div>
-
+    <div>
+        <div class="fcup"></div>  
+    </div>
 </template>
 <script>
-import {ext} from '@/plugins/encrypt.js';
+import { ext } from "@/plugins/encrypt.js";
 // import CryptoJS from 'crypto-js';
 export default {
     data() {
         return {
-            normalStr:'Hello world',
-            after:'',
-            publicKey:`-----BEGIN PUBLIC KEY-----
+            normalStr: "Hello world",
+            after: "",
+            publicKey: `-----BEGIN PUBLIC KEY-----
             MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/GTvHeZv0+WAQR5dwt02TWbON
             gZqflwkcHT3xnY9cFYi0KiOsc5elZ2Ie6SM60RNBrDid19chCap682kxRy94vQzK
             yfwhKLJz5gF3vpJS3q+QcvbSapRy/1ln54kqaw3KZNC05kDwO+dfAmHTeQ95rIZV
             a0bDnxmYnVlvb0zOgwIDAQAB
             -----END PUBLIC KEY-----
             `,
-            privateKey:`-----BEGIN PRIVATE KEY-----
+            privateKey: `-----BEGIN PRIVATE KEY-----
             MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAL8ZO8d5m/T5YBBH
             l3C3TZNZs42Bmp+XCRwdPfGdj1wViLQqI6xzl6VnYh7pIzrRE0GsOJ3X1yEJqnrz
             aTFHL3i9DMrJ/CEosnPmAXe+klLer5By9tJqlHL/WWfniSprDcpk0LTmQPA7518C
@@ -33,12 +34,45 @@ export default {
             FBvjUEVpQ2Q9Gm0pGJlacEWXoxDtYSqMbgUdWQHTFvqUAI+owCxgyPk7C2hKttzS
             W6KhxNieBuwHWA==
             -----END PRIVATE KEY-----
-            `,
+            `
         };
     },
-    created(){
+    mounted() {
+        // $.fcup({
+        //     updom: ".fcup", //上传控件的位置dom
+        //     //upid: 'upid',//上传的文件表单id，有默认
+        //     shardsize: "2", //切片大小,(单次上传最大值)单位M，默认2M
+        //     upmaxsize: "1024", //上传文件大小,单位M，不设置不限制
+        //     upstr: "上传文件", //按钮文字
+        //     uploading: "上传中...", //上传中的提示文字
+        //     upfinished: "上传完成", //上传完成后的提示文字
+        //     upurl: "./php/file.php", //文件上传接口 node接口:http://127.0.0.1:8888/upload
+        //     //uptype: 'mp4',//上传类型检测,用,号分割
+        //     errmaxup: "上传文件过大", //检测文件是否超出设置上传大小
+        //     errtype: "请上传mp4文件", //不支持类型的提示文字
+        //     //接口返回结果回调
+        //     upcallback: function(result) {
+        //         console.log(result);
+        //         /*
+		//  if (result !== 'success') {
+		// 	$.fcupStop('出现错误');//终止运行,并且在按钮上显示内容
+		//  }	
+        //  */
+        //     }
+        // })
+        /* base64 编码解码 */
+        // var str = 'Hello World';
+        // var encoded = window.Base64.encode(str);
+        // console.log('encoded',encoded);
+        // var decoded = Base64.decode(encoded);
+        // console.log(decoded);
+        // var base64 = new this.base64();
+        // var word = window.btoa(window.encodeURIComponent(str));
+        // console.log('加密后',word);
+        // var word = window.decodeURI(atob(word));
+        // console.log('解密后',word);
         // var word = 'hello,您好';
-        // var key = CryptoJS.enc.Utf8.parse("中电国康医到服务"); 
+        // var key = CryptoJS.enc.Utf8.parse("中电国康医到服务");
         // // function Encrypt(word){
         // var srcs = CryptoJS.enc.Utf8.parse(word);
         // var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
@@ -46,7 +80,7 @@ export default {
         // console.log('加密后 ',word);
         // var word = '5CngaJ+XcuQZC0yySiOeeg==';
         // // }
- 
+
         // // function Decrypt(word){
         // var encryptedHexStr = CryptoJS.enc.Hex.parse(word);
         // var srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
@@ -55,7 +89,7 @@ export default {
         // console.log('解密前 ',word);
         // console.log('解密后 ',decryptedStr);
         // // }
- 
+
         // var source = "ABC";
         // var target = Encrypt(source);
         // console.log(target);
@@ -70,16 +104,15 @@ export default {
         // console.log('encrypted',encrypted);
         // console.log('ciphertext',encrypted.ciphertext);
 
-
         // //解密
         // var decrypted = CryptoJS.AES.decrypt(encrypted,key,{iv:iv,padding:CryptoJS.pad.ZeroPadding});
         // console.log('decrypted',decrypted.toString(CryptoJS.enc.Utf8));
-        var word = this.aesUtils.encrypt('hello,您好','中电国康医到服务');
+        // var word = this.aesUtils.encrypt('hello,您好','中电国康医到服务');
         // console.log('后台加密','5CngaJ+XcuQZC0yySiOeeg==');
-        console.log('前台加密',word);
-        var after = this.aesUtils.decrypt(word,'中电国康医到服务');
+        // console.log('前台加密',word);
+        // var after = this.aesUtils.decrypt(word,'中电国康医到服务');
         // var after = this.aesUtils.aesDecrypt(word,'中电国康医到服务');
-        console.log('解密后',after);
+        // console.log('解密后',after);
         // let a = ext.en(this.normalStr)
         // let b = ext.de(a)
         // console.log(a,'加密后的结果')
@@ -106,7 +139,6 @@ export default {
         // console.log('找出来的大写字母数组',res);
         // console.log('找出来的大写字母数组转换成都好分割字符串',res.join());
     }
-
 };
 </script>
 <style lang="less">
