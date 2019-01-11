@@ -16,13 +16,21 @@ import 'iview/dist/styles/fonts/ionicons.ttf';
 import 'iview/dist/styles/fonts/ionicons.woff';
 import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload } from 'iview';
 import './assets/css/base.css';
+/* 分片上传大文件JQ插件，暂时没用 */
+// require('@/plugins/jquery.fcup.js');
+/* rsa非对称加密 vue依赖版 */
 import JsEncrypt from 'jsencrypt/bin/jsencrypt'
 Vue.prototype.$jsEncrypt = JsEncrypt;
+/* 汉字转拼音 */
 require('@/plugins/py.js');
+/* RSA非对称加密 -- 强哥版 */
 require('@/plugins/security.js');
 import axios from './plugins/http';
+/* aes 对称加密 */
 import aes from '@/plugins/aes-utils.js';
 Vue.prototype.aesUtils = aes;
+/* base64字符串编码解码 */
+require('@/plugins/base64.js');
 //注册全局过滤器
 import * as filters from "@/plugins/filter.js";
 Object.keys(filters).forEach(key => {
