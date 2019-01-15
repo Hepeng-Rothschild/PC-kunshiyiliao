@@ -184,6 +184,20 @@ export default {
       titles: ""
     };
   },
+  created(){
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/patient/index",
+                title: "患者端运营"
+            },
+            {
+                path: "/index/operation/contentmanagement_home",
+                title: "内容管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
     let id = this.$route.params.id;

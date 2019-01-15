@@ -197,7 +197,7 @@ export default {
           this.niceName = ret.nickName;
 
           if (Boolean(ret.userIcon)) {
-            console.log(this.analysisImages(ret.userIcon))
+            console.log(this.analysisImages(ret.userIcon));
             this.uploadList.push({
               name: "a42bdcc1178e62b4694c830f028db5c0",
               percentage: 100,
@@ -215,6 +215,20 @@ export default {
       this.text = "";
       this.pass = "";
     });
+  },
+  created() {
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/systemManagement/index",
+        title: "系统管理"
+      },
+      {
+        path: "/index/maintain/admin/user/list",
+        title: "账号管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     save() {

@@ -69,6 +69,20 @@ export default {
       data1: []
     };
   },
+    created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/publicHosting/index",
+                title: "公众号托管"
+            },
+            {
+                path: "/index/operation/publicAddress/list",
+                title: "公众号管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
   mounted() {
     this.loadingData(1);
   },

@@ -207,8 +207,8 @@ export default {
         { id: 15, name: "15分钟" },
         { id: 10, name: "10分钟" }
       ],
-      topLength:8,
-      botLength:8,
+      topLength: 8,
+      botLength: 8,
       //   预约周期
       cycle: 7,
       cycleList: [
@@ -277,6 +277,20 @@ export default {
     };
   },
   mounted() {},
+  created() {
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/doctorManagement/index",
+        title: "医生端运营"
+      },
+      {
+        path: "/index/operation/remoteclinic/list",
+        title: "远程门诊"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
+  },
   methods: {
     //  取消,后退 上一次
     back() {
@@ -294,8 +308,7 @@ export default {
         if (item.id == val) {
           this.money = item.cost;
         }
-      })
-      
+      });
     },
     // 模态框的分页器改变
     change1(index) {
@@ -348,7 +361,7 @@ export default {
               });
             }, 800);
           }
-        })
+        });
       }
     },
     // 选择专家
@@ -361,7 +374,7 @@ export default {
     changeTime(val) {
       this.value2 = val;
       console.log(val);
-      console.log(this.time)
+      console.log(this.time);
     },
     // 选择时间/下午
     changeTime1(val) {

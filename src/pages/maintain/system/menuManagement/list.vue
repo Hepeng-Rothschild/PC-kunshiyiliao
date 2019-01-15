@@ -122,6 +122,20 @@ export default {
             pageNo: 1
         };
     },
+    created(){
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/systemManagement/index",
+                title: "系统管理"
+            },
+            {
+                path: "/index/maintain/system/m_manage/lt",
+                title: "菜单管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
     mounted() {
         let pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)

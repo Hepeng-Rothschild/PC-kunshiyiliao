@@ -65,6 +65,20 @@ export default {
             pageNo: 1
         };
     },
+    created(){
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/systemManagement/index",
+                title: "系统管理"
+            },
+            {
+                path: "/index/maintain/system/iface_permise/lt",
+                title: "权限管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
     mounted() {
         let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
         //上来就加载第一页数据

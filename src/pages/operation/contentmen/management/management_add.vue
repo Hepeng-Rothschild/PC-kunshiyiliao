@@ -59,6 +59,20 @@ export default {
   components: {
     tmpHeader
   },
+  created(){
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/mechanism/index",
+                title: "机构运营"
+            },
+            {
+                path: "/index/operation/home",
+                title: "机构管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+  },
   methods: {
     navto() {
       let wrap = document.getElementsByClassName("addManag")[0];

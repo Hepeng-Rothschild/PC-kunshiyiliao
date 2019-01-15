@@ -86,12 +86,12 @@ export default {
                     key: "attribution",
                     align: "center",
                     width: 200,
-                    render:(h,params)=>{
-                        return h("span",{
-                            domProps:{
-                                innerHTML:params.row.attribution
+                    render: (h, params) => {
+                        return h("span", {
+                            domProps: {
+                                innerHTML: params.row.attribution
                             }
-                        })
+                        });
                     }
                 },
                 {
@@ -208,9 +208,25 @@ export default {
         Select,
         Option
     },
+    created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/servicePackage/pindex",
+                title: "服务包管理"
+            },
+            {
+                path: "/index/operation/servicePackage/pList",
+                title: "服务包管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
     mounted() {
         this.provinceList = this.$store.getters.getProvinceList;
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -241,12 +257,15 @@ export default {
             }
         },
         goAdd() {
-            this.$router.push({ path: "/index/operation/servicePackage/pAdd",query:{pageNo:this.pageNo} });
+            this.$router.push({
+                path: "/index/operation/servicePackage/pAdd",
+                query: { pageNo: this.pageNo }
+            });
         },
         goEdit(id) {
             this.$router.push({
                 path: "/index/operation/servicePackage/pEdit",
-                query: { id,pageNo:this.pageNo }
+                query: { id, pageNo: this.pageNo }
             });
         },
         goImport() {},
@@ -268,10 +287,13 @@ export default {
             this.$axios
                 .post(api.servicepackagepage, params)
                 .then(resp => {
-                    if(resp.data.code==1&&resp.data.object.list.length>0){
+                    if (
+                        resp.data.code == 1 &&
+                        resp.data.object.list.length > 0
+                    ) {
                         this.count = resp.data.object.count;
                         this.dataList = [];
-                        resp.data.object.list.map((el,i)=>{
+                        resp.data.object.list.map((el, i) => {
                             /* 这儿注释代码不许删除掉 */
                             // let promise = new Promise((resolve, reject) =>{
                             //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
@@ -280,21 +302,21 @@ export default {
                             //     el.attribution = val;
                             //     this.dataList.push(el)
                             // })
-                            let promise = new Promise((resolve, reject) =>{
-                                this.attribution(resolve,el);
+                            let promise = new Promise((resolve, reject) => {
+                                this.attribution(resolve, el);
                             });
-                            promise.then(val=>{
+                            promise.then(val => {
                                 el.attribution = val;
-                                this.dataList.push(el)
-                            })
-                        })
+                                this.dataList.push(el);
+                            });
+                        });
                     }
                 })
                 .catch(err => {
                     console.log(err);
                 });
         },
-        attribution(resolve,opt){
+        attribution(resolve, opt) {
             let attribution = "";
             if (opt.hospitalId) {
                 attribution += opt.hospitalName;
@@ -303,7 +325,8 @@ export default {
                     attribution += opt.province;
                     if (opt.cityId) {
                         let pat = new RegExp(opt.province);
-                        !pat.test(opt.city) && (attribution += "&nbsp;&nbsp;" + opt.city);
+                        !pat.test(opt.city) &&
+                            (attribution += "&nbsp;&nbsp;" + opt.city);
                         if (opt.areaId) {
                             attribution += "&nbsp;&nbsp;" + opt.area;
                         }
@@ -313,7 +336,7 @@ export default {
             resolve(attribution);
         },
         /* getAttribution 函数不许删除 */
-        getAttribution(resolve,provinceId, cityId, areaId, hospitalId) {
+        getAttribution(resolve, provinceId, cityId, areaId, hospitalId) {
             let attribution = "";
             if (hospitalId) {
                 var params = {};
@@ -356,9 +379,7 @@ export default {
                     }
                 }
                 if (areaId) {
-                    let tmpAreaList = this.$store.getters.getAreaList(
-                        cityId
-                    );
+                    let tmpAreaList = this.$store.getters.getAreaList(cityId);
                     for (let item of tmpAreaList) {
                         if (item.id == areaId) {
                             attribution += "&nbsp;&nbsp;" + item.name;

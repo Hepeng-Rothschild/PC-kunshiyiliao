@@ -108,6 +108,20 @@ export default {
             pageNo: 1
         };
     },
+    created(){
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/configurationWarehouse/index",
+                title: "配置仓"
+            },
+            {
+                path: "/index/maintain/disease/list",
+                title: "疾病管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
     mounted() {
         let pageNo = this.$route.query.pageNo;
         pageNo = pageNo ? pageNo : 1;

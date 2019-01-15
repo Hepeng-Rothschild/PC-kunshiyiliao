@@ -395,6 +395,19 @@ export default {
         console.log(this.tabId);
         console.log(this.columns);
         this.loadPage(pageNo);
+
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/doctorManagement/index",
+                title: "医生端运营"
+            },
+            {
+                path: "/index/operation/doctorContentCheck/list",
+                title: "健康宣教"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     },
     methods: {
         toAdd() {

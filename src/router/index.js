@@ -36,6 +36,7 @@ export default new Router({
 					component: () => import('@/pages/testRsa')
 				},
 				//运营端路由
+				operation.doctorManagement,
 				operation.reviewList,
 				operation.reviewEdit,
 				operation.reviewreview,
@@ -89,6 +90,7 @@ export default new Router({
 				operation.doctorContentCheckListHotAdd,
 				operation.doctorContentCheckListHotEdit,
 				//订单管理
+				operation.ordersManagement,
 				operation.reservationOrders,
 				operation.contractManagement,
 				operation.remoteClinicOrders,
@@ -112,6 +114,7 @@ export default new Router({
 				// 医生远程门诊列表
 				operation.doctorList,
 				// 服务包管理
+				operation.servicePackagePindex,
 				operation.servicePackageList,
 				operation.servicePackageEdit,
 
@@ -119,6 +122,7 @@ export default new Router({
 				operation.versionManagementAdd,
 				operation.versionManagementEdit,
 				// 公众号管理
+				operation.publicHostingIndex,
 				operation.publicAddressList,
 				operation.wxBannerList,
 				operation.wxBannerAdd,
@@ -134,6 +138,13 @@ export default new Router({
 				operation.wxSystemManagementEdit,
 				operation.wxSystemManagementAddFn,
 
+				//患者端运营
+				operation.patientOperation,
+				//机构运营
+				operation.mechanismOperation,
+
+				//索引管理
+				maintain.indexManagementIndex,
 				//运维端路由
 				maintain.residentRegisterList,
 				maintain.doctorRegisterList,
@@ -148,6 +159,7 @@ export default new Router({
 				maintain.mechanismregBatchTwo,
 				maintain.mechanismregBatchThree,
 				//系统管理
+				maintain.systemManagementIndex,
 				maintain.adminList,
 				maintain.adminAdd,
 				maintain.adminReset,
@@ -170,6 +182,8 @@ export default new Router({
 				maintain.starClass,
 
 
+				//配置仓
+				maintain.configurationWarehouseIndex,
 				//字典管理
 				maintain.dictionary,
 				//统计端路由

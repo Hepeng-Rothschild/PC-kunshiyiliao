@@ -31,9 +31,12 @@ export default {
                     key: "remoteClinic",
                     align: "center",
                     render: (h, params) => {
-                        let iremote = params.row.iremote,btnText='已关闭',_index = params.row._index,id=params.row.doctorId;
-                        if(iremote == 1){
-                            btnText = '已开启';
+                        let iremote = params.row.iremote,
+                            btnText = "已关闭",
+                            _index = params.row._index,
+                            id = params.row.doctorId;
+                        if (iremote == 1) {
+                            btnText = "已开启";
                         }
                         return h(
                             "Button",
@@ -43,7 +46,11 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                      this.changeRemoteClinic(id,iremote,_index);
+                                        this.changeRemoteClinic(
+                                            id,
+                                            iremote,
+                                            _index
+                                        );
                                     }
                                 }
                             },
@@ -89,6 +96,20 @@ export default {
         Option,
         "i-switch": Switch
     },
+    created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/doctorManagement/index",
+                title: "医生端运营"
+            },
+            {
+                path: "/index/operation/doctormanage/list",
+                title: "医生管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
     mounted() {
         let pageNo = this.$route.query.pageNo;
         pageNo = pageNo ? pageNo : 1;
@@ -116,12 +137,12 @@ export default {
                     console.log(err);
                 });
         },
-        changeRemoteClinic(id,iremote,_index){
-            let status,text;
-            if(iremote == 1){
+        changeRemoteClinic(id, iremote, _index) {
+            let status, text;
+            if (iremote == 1) {
                 status = 0;
                 text = "关闭";
-            }else{
+            } else {
                 status = 1;
                 text = "开启";
             }
@@ -131,11 +152,10 @@ export default {
             this.$axios
                 .post(api.remotedoctorupdateremotestatus, params)
                 .then(resp => {
-                    if(resp.data.success){
-                        this.$Message.success(text+"成功")
+                    if (resp.data.success) {
+                        this.$Message.success(text + "成功");
                         this.doctorList[_index].iremote = status;
-                    }else
-                      this.$Message.info(text+"失败，请重试")
+                    } else this.$Message.info(text + "失败，请重试");
                 })
                 .catch(err => {
                     console.log(err);

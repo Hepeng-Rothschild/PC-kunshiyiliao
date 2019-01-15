@@ -154,6 +154,20 @@ export default {
       grade: []
     };
   },
+  created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/indexManagement/index",
+                title: "索引管理"
+            },
+            {
+                path: "/index/maintain/mechanismreg/list",
+                title: "机构注册信息"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
   mounted() {
     //获取省级信息
     this.getCity();

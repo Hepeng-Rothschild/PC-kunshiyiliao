@@ -1,9 +1,19 @@
+//医生端运营
+const doctorManagement = {
+	path: 'operation/doctorManagement/index',
+	name: 'doctorManagement',
+	meta: {
+		index: 1,
+		title: '医生端运营'
+	},
+	redirect:'/index/operation/doctorreview/list'
+}
 const reviewList = {
 	path: 'operation/doctorreview/list',
 	name: 'reviewlist',
 	meta: {
 		index: 2,
-		title: '医生列表'
+		title: '医生认证'
 	},
 	component: () => import("@/pages/operation/doctorReview/list")
 }
@@ -145,7 +155,15 @@ const doctorContentCheckListHotEdit = {
 }
 
 //医生端内容分类
-
+const patientOperation = {
+	path: 'operation/patient/index',
+	name: 'patientOperation',
+	meta: {
+		index: 1,
+		title: '患者端运营'
+	},
+	redirect:'/index/operation/contentmanagement_home'
+}
 //患者端内容管理和分类
 const contentmanagementHome = {
 	path: 'operation/contentmanagement_home',
@@ -231,6 +249,16 @@ const patientManagement = {
 		import("@/pages/operation/patientmanagement/patientmanagement_home")
 }
 //机构运营
+
+const mechanismOperation = {
+	path: 'operation/mechanism/index',
+	name: 'mechanismOperation',
+	meta: {
+		index: 1,
+		title: '机构运营'
+	},
+	redirect:'/index/operation/home'
+}
 const operationHome = {
 	path: 'operation/home',
 	name: 'operationHome',
@@ -532,6 +560,15 @@ const doctorServerManageEdit = {
 		import("@/pages/operation/dovtorservermanage/edit")
 }
 // 订单管理
+const ordersManagement = { //订单管理
+	path: 'operation/ordersmanagement/index',
+	name: 'ordersManagement',
+	meta: {
+		index: 1,
+		title: '订单管理'
+	},
+	redirect: '/index/operation/orders/reservation/list'
+}
 const reservationOrders = { //预约挂号订单
 	path: 'operation/orders/reservation/list',
 	name: 'reservationOrders',
@@ -606,7 +643,16 @@ const DoctorRemoteclinicAdd = {
 	component: () =>
 		import("@/pages/operation/remoteclinic/add")
 }
-
+//服务包管理菜单
+const servicePackagePindex = {
+	path: 'operation/servicePackage/pindex',
+	name: 'servicePackagePindex',
+	meta: {
+		index: 1,
+		title: '服务包管理'
+	},
+	redirect: '/index/operation/servicePackage/pList'
+}
 const servicePackagePList = {
 	path: 'operation/servicePackage/pList',
 	name: 'servicePackagePList',
@@ -698,6 +744,15 @@ const servicePackageItemImportThree = {
 		import("@/pages/operation/servicePackage/itemImportThreeStep")
 }
 // 公众号管理
+const publicHostingIndex = {
+	path: 'operation/publicHosting/index',
+	name: 'publicHostingIndex',
+	meta: {
+		index: 1,
+		title: '公众号托管'
+	},
+	redirect: '/index/operation/publicAddress/list'
+}
 const publicAddressList = {
 	path: 'operation/publicAddress/list',
 	name: 'publicAddressList',
@@ -854,6 +909,8 @@ const wxSystemManagementAddFn = {
 }
 
 export default {
+	//医生端运营
+	doctorManagement,
 	reviewList,
 	reviewEdit,
 	reviewreview,
@@ -902,6 +959,7 @@ export default {
 	// 医生远程门诊列表
 	doctorList,
 	//服务包管理
+	servicePackagePindex,
 	servicePackageList,
 	servicePackageEdit,
 
@@ -914,6 +972,7 @@ export default {
 	doctorContentCheckListHotAdd,
 	doctorContentCheckListHotEdit,
 	//订单管理
+	ordersManagement,
 	reservationOrders,
 
 	// 家医签约管理
@@ -940,6 +999,7 @@ export default {
 	DoctorRemoteclinicEdit,
 	DoctorRemoteclinicAdd,
 	// 公众号管理
+	publicHostingIndex,
 	publicAddressList,
 	// 微信首页banner图
 	wxBannerList,
@@ -956,4 +1016,8 @@ export default {
 	wxSystemManagementAdd,
 	wxSystemManagementEdit,
 	wxSystemManagementAddFn,
+	//患者端运营
+	patientOperation,
+	//机构运营
+	mechanismOperation,
 }
