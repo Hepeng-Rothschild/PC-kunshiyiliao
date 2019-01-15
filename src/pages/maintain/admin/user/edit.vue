@@ -13,11 +13,11 @@
           </div>
           <Input v-model.trim="text" placeholder="请输入登录账号" style="width: 300px"/>
         </div>
-        <!-- 登录密码 -->
+        <!-- 更改密码 -->
         <div class="item">
           <div class="item-left">
-            <span style="color:red;">*</span>
-            <span>登录密码</span>
+            <span style="color:red;">&nbsp;</span>
+            <span>更改密码</span>
           </div>
           <Input
             v-model.trim="pass"
@@ -27,10 +27,11 @@
             :maxlength="16"
           />
         </div>
+        <p class="info">未填写更改密码时,不修改密码</p>
         <!-- 用户昵称 -->
         <div class="item">
           <div class="item-left">
-            <span style="color:red;">*</span>
+            <span style="color:red;">&nbsp;</span>
             <span>用户昵称</span>
           </div>
           <Input v-model.trim="niceName" placeholder="请填写用户昵称" style="width: 300px"/>
@@ -80,42 +81,34 @@
             </Modal>
           </div>
         </div>
-        <!-- 用户姓名 -->
+        <!-- 是否开启 -->
         <div class="item">
           <div class="item-left">
             <span style="color:red;">*</span>
-            <span>用户姓名</span>
+            <span>是否开启</span>
           </div>
-          <Input v-model.trim="name" placeholder="请填写身份证上的名字" style="width: 300px"/>
+          <iSwitch v-model="switch1" size="large">
+            <span slot="open">启用</span>
+            <span slot="close">禁用</span>
+          </iSwitch>
         </div>
-        <p class="info">请填写身份证上的名字</p>
         <!-- 联系电话 -->
-        <div class="item">
+        <!-- <div class="item">
           <div class="item-left">
             <span style="color:red;">*</span>
             <span>联系电话</span>
           </div>
           <Input v-model.trim="phone" placeholder="请填写常用电话号码" style="width: 300px" :maxlength="11"/>
         </div>
-        <p class="info">请填写常用手机号码</p>
-        <!-- 用户角色 -->
-        <div class="item">
-          <div class="item-left">
-            <span style="color:red;">*</span>
-            <span>用户角色</span>
-          </div>
-          <Select v-model="role" style="width:150px">
-            <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-        </div>
+        <p class="info">请填写常用手机号码</p>-->
         <!-- 备注 -->
-        <div class="item">
+        <!-- <div class="item">
           <div class="item-left">
             <span style="color:red;">&nbsp;&nbsp;</span>
             <span>备注</span>
           </div>
           <Input v-model="remarks" type="textarea" :rows="4"/>
-        </div>
+        </div>-->
         <!-- 保存 -->
         <div class="save">
           <Button type="primary" @click="save">保存</Button>
@@ -128,16 +121,18 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-import { Select, Option, Upload, Icon } from "iview";
+import { Select, Option, Upload, Icon, Switch } from "iview";
 export default {
   components: {
     Select,
     Option,
     Upload,
-    Icon
+    Icon,
+    iSwitch: Switch
   },
   data() {
     return {
+      switch1: true,
       // 账号
       text: "",
       // 密码
@@ -177,7 +172,7 @@ export default {
       uploadList: [],
       id: sessionStorage.getItem("appid"),
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.userImage + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: ""
@@ -185,6 +180,36 @@ export default {
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
+    // 获取路由传递过来的ID
+    let id = this.$route.params.id;
+    // 用户详情加载数据
+    this.$axios
+      .post(api.adminEdit, {
+        id
+      })
+      .then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          console.log(ret);
+          this.switch1 = Boolean(ret.status);
+          this.text = ret.userName;
+          this.pass = ret.passWord;
+          this.niceName = ret.nickName;
+
+          if (Boolean(ret.userIcon)) {
+            console.log(this.analysisImages(ret.userIcon))
+            this.uploadList.push({
+              name: "a42bdcc1178e62b4694c830f028db5c0",
+              percentage: 100,
+              status: "finished",
+              uid: 1544263544971,
+              url: this.fileBaseUrl + this.analysisImages(ret.userIcon)
+            });
+          }
+        } else {
+          this.$Message.info("信息查询失败,请稍候重试");
+        }
+      });
     // 关闭input框的自动填充
     setTimeout(() => {
       this.text = "";
@@ -193,53 +218,55 @@ export default {
   },
   methods: {
     save() {
+      let images = "";
+      // 上传
+      if (this.images != "") {
+        images = this.images;
+      } else if (this.sourceImages != "" && this.uploadList.length) {
+        images = this.sourceImages;
+        // 默认
+      } else {
+        images = "";
+      }
+      let id = this.$route.params.id;
       let params = {
+        id,
         // 账号
-        text: this.text,
+        userName: this.text,
         //密码
-        pass: this.pass,
-        //姓名
-        name: this.name,
-        //手机
-        phone: this.phone,
-        //机构名称
-        // Organizationname: this.Organizationname,
-        //用户角色
-        role: this.role,
-        //备注
-        remarks: this.remarks,
+        passWord: this.pass,
         // 用户昵称
-        niceName: this.niceName,
+        nickName: this.niceName,
+        // 状态
+        status: Number(this.switch1),
         // 用户头像
-        images: this.images
+        userIcon: images
       };
       if (this.text == "") {
         this.$Message.info("账号不能为空");
       } else if (this.pass == "") {
         this.$Message.info("密码不能为空");
-      } else if (this.name == "") {
-        this.$Message.info("姓名不能为空");
-      } else if (this.phone == "") {
-        this.$Message.info("手机号不能为空");
-      } else if (this.role == "") {
-        this.$Message.info("用户角色不能为空");
       } else {
-        this.$Message.info("修改成功");
-        console.log(params);
-        // let pageNo = this.$route.params.pageNo;
-        // setTimeout(() => {
-        //   this.$router.push({
-        //     name: "adminlist",
-        //     params: {
-        //       pageNo
-        //     }
-        //   });
-        // }, 800);
+        this.$axios.post(api.adminDetail, params).then(res => {
+          if (res.data.code) {
+            let pageNo = this.$route.params.pageNo;
+            this.$Message.info("修改成功");
+            setTimeout(() => {
+              this.$router.push({
+                name: "adminlist",
+                params: {
+                  pageNo
+                }
+              });
+            }, 800);
+          } else {
+            this.$Message.info("修改失败,请稍候重试");
+          }
+        });
       }
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      console.log(pageNo);
       this.$router.push({
         name: "adminlist",
         params: {
@@ -282,6 +309,14 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
+    },
+    analysisImages(json) {
+      try {
+        json = JSON.parse(json);
+        return json.fileName;
+      } catch (error) {
+        return "";
+      }
     }
   }
 };

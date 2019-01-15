@@ -147,7 +147,7 @@ export default {
     padding: 20px;
     .tt {
       padding-left: 4px;
-      border-left: 2px solid blue;
+      border-left: 2px solid #2d8cf0;
       position: relative;
       line-height: 32px;
       .edit-btn {

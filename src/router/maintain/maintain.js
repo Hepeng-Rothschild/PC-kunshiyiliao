@@ -167,7 +167,44 @@ const jurisdictionAdd = {
     },
     component:()=>import("@/pages/maintain/admin/jurisdiction/add")
 }
-
+//接口权限管理
+const interfacePermiseList = {
+    path:'maintain/system/iface_permise/lt',
+    name:'interfacePermise',
+    meta:{
+        index:2,
+        title:'权限管理'
+    },
+    component:()=>import("@/pages/maintain/system/interfacePermise/list")
+}
+const interfacePermiseEdit = {
+    path:'maintain/system/iface_permise/ed',
+    name:'interfacePermise',
+    meta:{
+        index:3,
+        title:'权限管理-编辑'
+    },
+    component:()=>import("@/pages/maintain/system/interfacePermise/edit")
+}
+//菜单管理
+const menuManagementList = {
+    path:'maintain/system/m_manage/lt',
+    name:'menuManagementList',
+    meta:{
+        index:2,
+        title:'菜单管理'
+    },
+    component:()=>import("@/pages/maintain/system/menuManagement/list")
+}
+const menuManagementEdit = {
+    path:'maintain/system/m_manage/ed',
+    name:'menuManagementEdit',
+    meta:{
+        index:3,
+        title:'菜单管理-编辑'
+    },
+    component:()=>import("@/pages/maintain/system/menuManagement/edit")
+}
 
 const dictionary = {
     path:'maintain/dictionary/tree',
@@ -224,6 +261,7 @@ const starClass = {
     component:()=>import("@/pages/maintain/starClass/list")
 }
 
+//系统管理
 
 export default {
     residentRegisterList,
@@ -248,6 +286,12 @@ export default {
     // 权限管理
     jurisdictionList,
     jurisdictionAdd,
+    //接口权限管理
+    interfacePermiseList,
+    interfacePermiseEdit,
+    //菜单管理
+    menuManagementList,
+    menuManagementEdit,
     //字典管理
     dictionary,
     //疾病/症状管理

@@ -81,7 +81,7 @@
           </div>
         </div>
         <!-- 用户姓名 -->
-        <div class="pass">
+        <!-- <div class="pass">
           <div class="left">
             <span style="color:red;">*</span>
             <span>用户姓名</span>
@@ -95,14 +95,17 @@
               <Radio label="griy">女</Radio>
             </RadioGroup>
           </div>
-        </div>
+        </div>-->
         <!-- 联系电话 -->
         <div class="pass">
           <div class="left">
             <span style="color:red;">*</span>
             <span>联系电话</span>
           </div>
-          <Input v-model.trim="phone" placeholder="请填写常用手机号码" style="width: 300px" :maxlength="11"/>
+          <iSwitch v-model="switch1" size="large">
+            <span slot="open">启用</span>
+            <span slot="close">禁用</span>
+          </iSwitch>
         </div>
         <!-- 机构名称 -->
         <!-- <div class="pass">
@@ -115,7 +118,7 @@
           </Select>
         </div>-->
         <!-- 用户角色 -->
-        <div class="pass">
+        <!-- <div class="pass">
           <div class="left">
             <span style="color:red;">*</span>
             <span>用户角色</span>
@@ -123,15 +126,15 @@
           <Select v-model="role" style="width:150px">
             <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-        </div>
+        </div>-->
         <!-- 备注 -->
-        <div class="remarks">
+        <!-- <div class="remarks">
           <div class="left">
             <span style="color:red;">&nbsp;</span>
             <span>备注</span>
           </div>
           <Input v-model="remarks" type="textarea" :rows="4"/>
-        </div>
+        </div>-->
         <!-- 保存 -->
         <div class="save">
           <Button type="primary" @click="save">添加</Button>
@@ -144,7 +147,7 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-import { Select, Option, RadioGroup, Radio, Upload, Icon } from "iview";
+import { Select, Option, RadioGroup, Radio, Upload, Icon, Switch } from "iview";
 export default {
   components: {
     Select,
@@ -152,10 +155,12 @@ export default {
     RadioGroup,
     Radio,
     Upload,
-    Icon
+    Icon,
+    iSwitch: Switch
   },
   data() {
     return {
+      switch1:true,
       // 账号
       text: "",
       // 密码
@@ -194,7 +199,7 @@ export default {
       uploadList: [],
       id: sessionStorage.getItem("appid"),
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.userImage + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: ""
@@ -206,59 +211,63 @@ export default {
     setTimeout(() => {
       this.text = "";
       this.pass = "";
-    });
+    })
   },
   methods: {
     save() {
+      let images = "";
+      // 上传
+      if (this.images != "") {
+        images = this.images;
+      } else if (this.sourceImages != "" && this.uploadList.length) {
+        images = this.sourceImages;
+        // 默认
+      } else {
+        images = "";
+      }
       let params = {
         // 账号
-        text: this.text,
+        userName: this.text,
         //密码
-        pass: this.pass,
-        //姓名
-        name: this.name,
-        //手机
-        phone: this.phone,
-        //用户角色
-        role: this.role,
-        //备注
-        remarks: this.remarks,
-        //性别
-        sex: this.sex,
+        passWord: this.pass,
         // 用户昵称
-        niceName: this.niceName,
+        nickName: this.niceName,
+        status: Number(this.switch1),
         // 用户头像
-        images: this.images
+        userIcon: images
       };
-      console.log(params);
       if (this.text == "") {
         this.$Message.info("账号不能为空");
       } else if (this.pass == "") {
         this.$Message.info("密码不能为空");
       } else if (params.niceName == "") {
         this.$Message.info("昵称不能为空");
-      } else if (this.name == "") {
-        this.$Message.info("姓名不能为空");
-      } else if (this.phone == "") {
-        this.$Message.info("手机号码不能为空");
-      } else if (this.sex == "") {
-        this.$Message.info("请选择性别");
       } else {
-        this.$Message.info("添加成功");
-        let pageNo = this.$route.params.pageNo;
-        setTimeout(() => {
-          this.$router.push({
-            name: "adminlist",
-            params: {
-              pageNo
-            }
-          });
-        }, 800);
+        this.$axios.post(api.adminAdd, params).then(res => {
+          if (res.data.code) {
+            this.$Message.info("添加成功");
+            let pageNo = this.$route.params.pageNo;
+            setTimeout(() => {
+              this.$router.push({
+                name: "adminlist",
+                params: {
+                  pageNo
+                }
+              });
+            }, 800);
+          } else {
+            this.$Message.info("添加失败,请稍候重试");
+          }
+        });
       }
     },
     back() {
+      let pageNo = this.$route.params.pageNo;
       this.$router.push({
-        name: "adminlist"
+        name: "adminlist",
+        params: {
+          pageNo
+        }
       });
     },
     handleView(name) {
@@ -296,6 +305,14 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
+    },
+    analysisImages(json) {
+      try {
+        json = JSON.parse(json);
+        return json.fileName;
+      } catch (error) {
+        return "";
+      }
     }
   }
 };

@@ -3,19 +3,19 @@
     <!-- 模糊查询 -->
     <div class="container">
       <header>
-       
         <div>
-           <!-- 添加账号 -->
+          <!-- 添加账号 -->
           <Button type="primary" @click="add">添加账号</Button>
-          <!-- 权限管理 -->
-          <Button type="primary" @click='Jurisdiction'>用户权限管理</Button>
         </div>
-        <Input
-          placeholder="输入登录账号/用户姓名进行查询"
-          style="width: 300px"
-          v-model.trim="searchKey"
-          @on-keyup="vagueSearch"
-        />
+        <div>
+          <Input
+            placeholder="输入登录账号/用户昵称进行查询"
+            style="width: 300px"
+            v-model.trim="searchKey"
+            @on-keyup.enter="vagueSearch"
+          />
+          <Button type="primary" @click="vagueSearch">查询</Button>
+        </div>
       </header>
       <!-- 列表 -->
       <div class="list">
@@ -44,17 +44,17 @@ export default {
       list: [
         {
           title: "编号",
-          iNum: "num",
+          key: "num",
           align: "center"
         },
         {
           title: "登录账号",
-          key: "name",
+          key: "userName",
           align: "center"
         },
         {
           title: "用户昵称",
-          key: "address",
+          key: "nickName",
           align: "center"
         },
         {
@@ -62,32 +62,43 @@ export default {
           key: "avatar",
           align: "center",
           render: (h, params) => {
-            let avatar = params.row.avatar;
-            let defaultSrc = require("@/assets/images/heicon.jpg");
+            let avatar = this.analysisImages(params.row.userIcon);
+            if (Boolean(avatar)) {
+              avatar = this.fileBaseUrl + avatar;
+            }
             return h("img", {
               attrs: {
-                src: avatar || defaultSrc,
+                src: avatar || "",
                 style: "width:40px;height:40px;border-radius:50%;"
               }
             });
           }
         },
         {
-          title: "用户姓名",
-          key: "age",
-          align: "center"
-        },
-        {
-          title: "电话号码",
-          key: "address",
-          align: "center"
+          title: "状态",
+          key: "status",
+          align: "center",
+          render: (h, params) => {
+            let status = params.row.status,
+              btnText = "";
+            if (status == 1) {
+              btnText = "启用";
+            } else {
+              btnText = "禁用";
+            }
+            return h("span", {
+              domProps: {
+                innerHTML: btnText
+              }
+            });
+          }
         },
         {
           title: "操作",
           key: "operate",
           align: "center",
           render: (h, params) => {
-            // let id = params.row.id;
+            let id = params.row.id;
             return [
               h(
                 "a",
@@ -101,7 +112,8 @@ export default {
                       this.$router.push({
                         name: "adminedit",
                         params: {
-                          pageNo: this.pageNo
+                          pageNo: this.pageNo,
+                          id
                         }
                       });
                     }
@@ -117,30 +129,23 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log("重置密码");
                       this.$router.push({
-                        name: "adminreset",
+                        name: "adminJurisdiction",
                         params: {
-                          pageNo: this.pageNo
+                          pageNo: this.pageNo,
+                          id
                         }
                       });
                     }
                   }
                 },
-                "重置密码"
+                "用户权限管理"
               )
             ];
           }
         }
       ],
-      data1: [
-        {
-          name: "John Brown",
-          age: 18,
-          address: "17610653656",
-          date: "2016-10-03"
-        }
-      ]
+      data1: []
     };
   },
   mounted() {
@@ -149,30 +154,31 @@ export default {
       this.pageNo = pageNo;
     }
     // 预加载数据
-    // this.loadUserData()
+    this.loadUserData();
   },
   methods: {
     // 添加角色
     add() {
       this.$router.push({
-        name: "adminadd"
+        name: "adminadd",
+        params: {
+          pageNo: this.pageNo
+        }
       });
-    },
-    // 用户权限管理
-    Jurisdiction () {
-      this.$router.push({
-        name:"adminJurisdiction"
-      })
     },
     // 分页器改变
     loadPage(pageNo) {
       this.pageNo = pageNo;
       if (this.searchKey != "") {
+        this.loadUserData(this.searchKey);
+      } else {
+        this.loadUserData();
       }
     },
     // 模糊查询
     vagueSearch() {
       console.log(this.searchKey);
+      this.loadUserData(this.searchKey);
     },
     // 请求数据
     loadUserData(val) {
@@ -181,16 +187,30 @@ export default {
         pageSize: this.pageSize
       };
       if (val != "") {
-        params.searchKey = searchKey;
+        params.searchKey = val;
       }
-      this.$axios.post(url, params).then(res => {
+      this.$axios.post(api.adminList, params).then(res => {
         if (res.data.code) {
-          let ret = res.data;
+          let ret = res.data.object;
+          this.count = ret.count;
+          ret.list.forEach((item, index) => {
+            item.num = index + 1;
+          });
+          this.data1 = ret.list;
+
           console.log(ret);
         } else {
           this.$Message.info("数据请求失败,请稍候重试");
         }
       });
+    },
+    analysisImages(json) {
+      try {
+        json = JSON.parse(json);
+        return json.fileName;
+      } catch (error) {
+        return "";
+      }
     }
   }
 };

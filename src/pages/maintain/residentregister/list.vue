@@ -122,31 +122,6 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
-      .search {
-        // background-color: rgb(255, 255, 255);
-        // height: 32px;
-        // width: 276px;
-        // border-radius: 16px;
-        // border-width: 1px;
-        // border-color: rgb(102, 102, 102);
-        // border-style: solid;
-        // text-align: right;
-        // input {
-        //   text-align: left;
-        //   font-size: 14px;
-        //   font-weight: 400;
-        //   font-style: normal;
-        //   text-decoration: none;
-        //   border: none;
-        //   outline: none;
-        //   font-family: 微软雅黑;
-        //   color: rgb(102, 102, 102);
-        //   padding-left: 28px;
-        //   width: 100%;
-        //   line-height: 32px;
-        //   background: none;
-        // }
-      }
       button {
         width: 100px;
         text-align: center;
