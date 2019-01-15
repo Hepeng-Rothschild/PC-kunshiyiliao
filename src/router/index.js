@@ -155,6 +155,12 @@ export default new Router({
 				// 权限管理
 				maintain.jurisdictionList,
 				maintain.jurisdictionAdd,
+				//接口权限管理
+				maintain.interfacePermiseList,
+				maintain.interfacePermiseEdit,
+				// 菜单管理
+				maintain.menuManagementList,
+				maintain.menuManagementEdit,
 				//疾病/症状管理
 				maintain.diseaseList,
 				maintain.diseaseEdit,

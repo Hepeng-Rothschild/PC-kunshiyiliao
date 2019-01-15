@@ -217,6 +217,17 @@ const starClassAdd = '/operateapi/evaluationinsert' //添加星级列表
 const starClassSearch = '/operateapi/evaluationselectbyid' //查询星级列表详情
 const starClassChange = '/operateapi/evaluationupdate' //修改医生详情
 
+//运维-系统管理
+const operateauthlist = '/operateapi/operateauthlist' //权限路径列表
+const operateauthinsert = '/operateapi/operateauthinsert' //权限路径新增
+const operateauthupdate = '/operateapi/operateauthupdate' //权限路径编辑
+const operateauthquerybyid = '/operateapi/operateauthquerybyid' //权限路径根据iD查询详情
+
+const operatemenuinsert = '/operateapi/operatemenuinsert' //菜单管理新增
+const operatemenupage = '/operateapi/operatemenupage' //菜单管理列表
+const operatemenuquerybymenuid = '/operateapi/operatemenuquerybymenuid' //菜单详情
+const operatemenuupdate = '/operateapi/operatemenuupdate' //菜单修改
+const operatemenuprentlist = '/operateapi/operatemenuprentlist' //上级菜单列表
 
 export default {
     login,
@@ -422,4 +433,15 @@ export default {
     organizationdownloadtemplate,
     //通过省份ID查询医院列表
     hospitalselectbyprovincecode,
+
+    //运维端-系统管理
+    operateauthlist,
+    operateauthinsert,
+    operateauthupdate,
+    operateauthquerybyid,
+    operatemenuinsert,
+    operatemenupage,
+    operatemenuquerybymenuid,
+    operatemenuupdate,
+    operatemenuprentlist,
 }

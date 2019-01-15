@@ -20,7 +20,7 @@
       </Col>
       <Col class="content" :xs="24" :md="20">
         <bread :breadTitle="breadTitle" :breadList="breadList"></bread>
-        <div class="welcome" v-if="showWelcome">欢迎来到互联网医院管理系统</div>
+        <div class="welcome" @click="openNew" v-if="showWelcome">欢迎来到互联网医院管理系统</div>
         <router-view></router-view>
       </Col>
     </Row>
@@ -105,6 +105,11 @@ export default {
   computed: {
     leftMenuLists() {
       return this.$store.state.leftMenuList;
+    }
+  },
+  methods:{
+    openNew(){
+      // window.open("http://www.baidu.com")
     }
   }
 };

@@ -14,7 +14,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		env:"production", // dev/test/production
+		env:"dev", // dev/test/production
 		version:"1.0",
 		// 国际化默认中文 （cookie里面取，然后存到store里面）
 		locale: 'zh-CN',
@@ -23,6 +23,7 @@ export default new Vuex.Store({
 		leftMenuList:new Array(),
 		//所有省市区
 		address:addressConfig.address,
+		
 		Rsa:{ //公钥
 			my_key:`-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/GTvHeZv0+WAQR5dwt02TWbONgZqflwkcHT3xnY9cFYi0KiOsc5elZ2Ie6SM60RNBrDid19chCap682kxRy94vQzKyfwhKLJz5gF3vpJS3q+QcvbSapRy/1ln54kqaw3KZNC05kDwO+dfAmHTeQ95rIZVa0bDnxmYnVlvb0zOgwIDAQAB-----END PUBLIC KEY-----`
 		},
