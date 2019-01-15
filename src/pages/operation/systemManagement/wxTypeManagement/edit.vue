@@ -35,7 +35,7 @@
       <div class="item">
         <span class="title">跳转路径</span>
         <Input v-model="params.path" placeholder="请输入服务路径" style="width: 300px"/>
-        <span class="title">跳转路径长度不得超过500个字符</span>
+        <span class="title" style='margin-left:10px;'>跳转路径长度不得超过500个字符</span>
       </div>
       <!-- 备注 -->
       <div class="item">

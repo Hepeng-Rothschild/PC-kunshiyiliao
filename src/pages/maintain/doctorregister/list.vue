@@ -42,8 +42,8 @@
 
             <!-- <th style = 'max-width:200px;'>{{ item.personalIntroduction }}</th>
             <th style = 'max-width:200px;'>{{ item.doctorGood }}</th>-->
-            <th class="one">{{ item.personalIntroduction }}</th>
-            <th class="one">{{ item.doctorGood }}</th>
+            <th class="one" @click="simple(item)">{{ item.personalIntroduction }}</th>
+            <th class="one" @click="simples(item)">{{ item.doctorGood }}</th>
 
             <th>{{ item.createTime }}</th>
             <th>{{ item.ibatch == '0'? '个人注册' :'批量导入'}}</th>
@@ -56,6 +56,9 @@
     <div class="paging">
       <Page :total="doctorregisterSize" @on-change="pageChange" :current="pageNo"/>
     </div>
+    <Modal v-model="modal1" title="预览信息" footer-hide>
+      <p class="modal_p">{{ path }}</p>
+    </Modal>
   </div>
 </template>
 <script>
@@ -68,7 +71,9 @@ export default {
       doctorregisterSize: 10,
       list: [],
       Name: "",
-      pageNo: 1
+      pageNo: 1,
+      modal1: false,
+      path: ""
     };
   },
   mounted() {
@@ -79,6 +84,7 @@ export default {
     this.getDoctorData(this.pageNo);
   },
   methods: {
+    // 批量导入
     branch() {
       this.$router.push({
         name: "doctorregisterbatchone",
@@ -87,18 +93,30 @@ export default {
         }
       });
     },
+    // 分页
     pageChange(index) {
       this.pageNo = index;
-      // this.getDoctorData(index);
       if (this.Name) {
         this.getDoctorData(1, this.Name);
       } else {
         this.getDoctorData(index);
       }
     },
+    // 显示简介
+    simple(item) {
+      this.modal1 = true;
+      this.path = item.personalIntroduction
+    },
+    // 显示特长
+    simples (item) {
+      this.modal1 = true;
+      this.path = item.doctorGood
+    },
+    // 模糊查询
     nameChange() {
       this.getDoctorData(1, this.Name);
     },
+    // 获取页面数据
     getDoctorData(pageNo, val) {
       let params = {
         pageNo,
@@ -155,30 +173,6 @@ export default {
         height: 39px;
         border-radius: 2px;
       }
-      .search {
-        // background-color: rgb(255, 255, 255);
-        // width: 276px;
-        // height: 32px;
-        // border-radius: 16px;
-        // border-width: 1px;
-        // border-color: rgb(102, 102, 102);
-        // border-style: solid;
-        // input {
-        //   text-align: left;
-        //   font-size: 14px;
-        //   font-weight: 400;
-        //   font-style: normal;
-        //   text-decoration: none;
-        //   border: none;
-        //   outline: none;
-        //   font-family: 微软雅黑;
-        //   color: rgb(102, 102, 102);
-        //   padding-left: 28px;
-        //   width: 100%;
-        //   line-height: 32px;
-        //   background: none;
-        // }
-      }
     }
     .list {
       width: 100%;
@@ -208,6 +202,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            cursor: pointer;
           }
         }
       }

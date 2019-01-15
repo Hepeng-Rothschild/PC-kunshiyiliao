@@ -14,13 +14,27 @@
           <Input placeholder="请输入登录账号" style="width: 300px" v-model.trim="params.user"/>
         </div>
         <p class="info">登录账号不建议与用户姓名相同</p>
+        <!-- 账号昵称 -->
+        <!-- <div class="item">
+          <div class="item-left">
+            <span style="color:red;">*</span>
+            <span>账号昵称</span>
+          </div>
+          <Input placeholder="账号昵称" style="width: 300px" v-model.trim="params.niceName"/>
+        </div>-->
         <!-- 旧的密码 -->
         <div class="item">
           <div class="item-left">
             <span style="color:red;">*</span>
             <span>旧的密码</span>
           </div>
-          <Input placeholder="请输入历史密码信息" style="width: 300px" v-model.trim="params.pass"/>
+          <Input
+            type="password"
+            placeholder="请输入历史密码信息"
+            style="width: 300px"
+            v-model.trim="params.pass"
+            :maxlength="16"
+          />
         </div>
         <!-- 重置密码 -->
         <div class="item">
@@ -28,7 +42,13 @@
             <span style="color:red;">*</span>
             <span>新密码</span>
           </div>
-          <Input placeholder="请输入新密码" style="width: 300px" v-model.trim="params.newPass"/>
+          <Input
+            type="password"
+            placeholder="请输入新密码"
+            style="width: 300px"
+            v-model.trim="params.newPass"
+            :maxlength="16"
+          />
         </div>
         <p class="info">密码必须包含数字,大小写字母长度不低于6位</p>
         <!-- 确认密码 -->
@@ -37,13 +57,19 @@
             <span style="color:red;">*</span>
             <span>确认密码</span>
           </div>
-          <Input placeholder="请确认密码" style="width: 300px" v-model.trim="params.inewPass"/>
+          <Input
+            type="password"
+            placeholder="请确认密码"
+            style="width: 300px"
+            v-model.trim="params.inewPass"
+            :maxlength="16"
+          />
         </div>
         <p class="info">密码必须包含数字,大小写字母长度不低于6位</p>
         <!-- 保存 -->
         <div class="save">
-          <Button @click="back">取消</Button>
           <Button type="primary" @click="save">保存</Button>
+          <Button @click="back">取消</Button>
         </div>
       </div>
     </div>
@@ -58,15 +84,41 @@ export default {
         user: "",
         pass: "",
         newPass: "",
-        inewPass: ""
+        inewPass: "",
+        niceName: ""
       }
     };
   },
   methods: {
-    save() {},
+    save() {
+      if (this.params.user == "") {
+        this.$Message.info("用户名不能为空");
+      } else if (this.params.pass == "") {
+        this.$Message.info("旧密码不能为空");
+      } else if (this.params.newPass != this.params.inewPass) {
+        this.$Message.info("两次密码不一致");
+      } else if (this.params.newPass == "") {
+        this.$Message.info("新密码不能为空");
+      } else {
+        this.$Message.info("重置成功");
+        let pageNo = this.$route.params.pageNo;
+        setTimeout(() => {
+          this.$router.push({
+            name: "adminlist",
+            params: {
+              pageNo
+            }
+          });
+        }, 800);
+      }
+    },
     back() {
+      let pageNo = this.$route.params.pageNo;
       this.$router.push({
-        name: "adminlist"
+        name: "adminlist",
+        params: {
+          pageNo
+        }
       });
     }
   }
@@ -100,7 +152,7 @@ export default {
         align-items: center;
         margin: 10px auto;
         .item-left {
-          width: 150px;
+          width: 100px;
           span {
             width: 30px;
           }
@@ -117,7 +169,8 @@ export default {
         }
       }
       .info {
-        text-align: center;
+        width: 300px;
+        margin: 0 auto;
         color: #999;
       }
       .save {

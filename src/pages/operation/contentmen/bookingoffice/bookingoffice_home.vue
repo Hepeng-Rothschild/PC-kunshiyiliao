@@ -132,7 +132,6 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: row;
-      margin: 20px 0;
       .btn {
         width: 100px;
         height: 30px;

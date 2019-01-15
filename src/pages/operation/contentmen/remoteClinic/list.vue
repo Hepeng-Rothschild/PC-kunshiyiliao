@@ -17,18 +17,22 @@
       <div class="headers">
         <div class="city">
           <!-- 省 -->
-          <Select v-model="model.provinceCode" style="width:100px" @on-change='provinceChange'>
+          <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange">
             <Option value>请选择</Option>
             <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
           </Select>
           <!-- 市 -->
-          <Select v-model="model.cityCode" style="width:150px;margin:0 10px;" @on-change='cityChange'>
-            <Option value >请选择</Option>
+          <Select
+            v-model="model.cityCode"
+            style="width:150px;margin:0 10px;"
+            @on-change="cityChange"
+          >
+            <Option value>请选择</Option>
             <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
           </Select>
           <!-- 区 -->
-           <Select v-model="model.districtCode" style="width:200px">
-             <Option value>请选择</Option>
+          <Select v-model="model.districtCode" style="width:200px">
+            <Option value>请选择</Option>
             <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
           </Select>
         </div>
@@ -48,7 +52,7 @@
       </div>
 
       <div class="transfer">
-        <div class="left">
+        <div class="left" ref="scrollBoxL">
           <p @dblclick="leftHospial(item,index,$event)" v-for="item,index in hospialList">
             {{ item.hospitalName }}
             <img
@@ -58,7 +62,7 @@
             >
           </p>
         </div>
-        <div class="right">
+        <div class="right" ref="scrollBoxR">
           <p @dblclick="rightHospial(item,index,$event)" v-for="item,index in selectHospial">
             <img src="../../../../assets/images/back/fanhui.png" alt v-show="item.hospitalName">
             {{ item.hospitalName }}
@@ -240,6 +244,24 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+/*滚动条样式*/
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
 .remoteClinicList {
   width: calc(100% - 20px);
   padding: 10px 30px;
@@ -314,11 +336,13 @@ export default {
       align-items: center;
       justify-content: space-around;
       margin: 20px 0;
+      overflow: hidden;
       div {
         width: 400px;
         height: 500px;
         border: 1px solid #ddd;
         overflow: auto;
+
         p {
           padding: 0 10px;
           user-select: none;

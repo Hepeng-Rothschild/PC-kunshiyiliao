@@ -137,6 +137,16 @@ const adminReset = {
     },
     component:()=>import("@/pages/maintain/admin/user/reset")
 }
+const adminJurisdiction = {
+    path:'maintain/admin/user/Jurisdiction',
+    name:'adminJurisdiction',
+    meta:{
+        index:3,
+        title:'用户权限管理'
+    },
+    component:()=>import("@/pages/maintain/admin/user/Jurisdiction")
+}
+
 // 权限管理
 const jurisdictionList = {
     path:'maintain/admin/jurisdiction/list',
@@ -234,6 +244,7 @@ export default {
     adminAdd,
     adminReset,
     adminEdit,
+    adminJurisdiction,
     // 权限管理
     jurisdictionList,
     jurisdictionAdd,

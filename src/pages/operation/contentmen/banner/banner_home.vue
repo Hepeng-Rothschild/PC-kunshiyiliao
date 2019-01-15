@@ -167,36 +167,13 @@ export default {
   .ibanner_main {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    // margin-top: 10px;
     .ibanner_header {
       width: 80%;
       margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      // .header_input {
-      //   width: 200px;
-      //   // border-radius: 15px;
-      //   // border: 1px solid black;
-      //   height: 30px;
-      //   display: flex;
-      //   flex-direction: row;
-      //   span {
-      //     display: inline-block;
-      //     width: 20px;
-      //     margin-top: 4px;
-      //     margin-left: 5px;
-      //     height: 20px;
-      //     background: url("../../../../assets/images/search.png") no-repeat;
-      //     background-size: 100% 100%;
-      //   }
-      //   input {
-      //     border: none;
-      //     outline: none;
-      //     background: none;
-      //     text-indent: 5px;
-      //   }
-      // }
       button {
         padding: 6px 8px;
         background: #2d8cf0;

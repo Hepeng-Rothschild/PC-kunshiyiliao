@@ -36,7 +36,6 @@ export default {
         { title: "版本ID", key: "id", align: "center" },
         { title: "版本名", key: "versionName", align: "center" },
         { title: "版本号", key: "versionNumber", align: "center" },
-        { title: "版本唯一标识", key: "versionId", align: "center" },
         { title: "类型", key: "type1", align: "center" },
         { title: "下载路径", key: "downloadPath", align: "center" },
         { title: "版本内容", key: "content", align: "center" },

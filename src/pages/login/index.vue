@@ -8,11 +8,11 @@
                 <input type="text" class="username" @change="checkInput" v-model="username" placeholder="用户账号">
             </div>
             <div class="pwd-box">
-                <input type="password" class="password" @change="checkInput" v-model="password" placeholder="登陆密码">
+                <input type="password" class="password" @change="checkInput" v-model="password" placeholder="登陆密码" >
             </div>
             <div class="verify-box">
                 <div class="verify-in-box">
-                    <input type="text" class="verify" v-model="verify" placeholder="验证码">
+                    <input type="text" class="verify" v-model="verify" placeholder="验证码" @keyup.enter='checkLogin'> 
                     <div id="verify">
                         <canvas id="verifyCanvas" style="cursor: pointer;"></canvas>
                     </div>

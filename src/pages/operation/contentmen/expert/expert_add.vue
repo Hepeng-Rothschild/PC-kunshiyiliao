@@ -9,14 +9,15 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>专家姓名</span>
         </div>
-        <Input v-model="name" placeholder="请输入专家姓名" style="width: 360px" @on-keyup="search"/>
+        <Input v-model="name" placeholder="请输入专家姓名" style="width: 360px" @on-keyup.enter="search"/>
+        <Button type="primary" @click='search'>查询</Button>
       </div>
       <div class="main_expert_item">
         <div class="main_expert_title">
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>选择专家</span>
         </div>
-        <Select v-model="keshi" style="width:100px" @on-change='changes'>
+        <Select v-model="keshi" style="width:100px" @on-change="changes">
           <Option v-for="item,index in list" :value="index" :key="index">{{ item.doctorName }}</Option>
         </Select>
       </div>
@@ -55,7 +56,14 @@
           <span>专业特长</span>
         </div>
         <div class="shuru">
-          <textarea name rows cols v-model="expert1" disabled></textarea>
+          <Input
+            v-model="expert1"
+            type="textarea"
+            disabled
+            :rows="6"
+            placeholder="专家专业特长"
+            style="width:400px;"
+          />
         </div>
       </div>
       <!--个人简介-->
@@ -65,7 +73,14 @@
           <span>个人简介</span>
         </div>
         <div class="shuru">
-          <textarea name rows cols v-model="expert2" disabled></textarea>
+          <Input
+            v-model="expert2"
+            type="textarea"
+            disabled
+            :rows="6"
+            placeholder="专家个人简介"
+            style="width:400px;"
+          />
         </div>
       </div>
       <!--排序-->
@@ -185,6 +200,8 @@ export default {
           if (res.data.code) {
             if (res.data.object.list.length == 0) {
               this.$Message.info("该分类下没有专家");
+            } else {
+              this.$Message.info("查询成功,请选择专家");
             }
             this.list = res.data.object.list;
           }

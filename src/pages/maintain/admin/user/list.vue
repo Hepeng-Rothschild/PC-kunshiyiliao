@@ -1,14 +1,27 @@
 <template>
   <div class="adminList">
-    <!-- 头部信息 -->
+    <!-- 模糊查询 -->
     <div class="container">
       <header>
-        <Input placeholder="使用登录账号/用户姓名进行查询" style="width: 260px" v-model.trim="searchKey"/>
-        <Button type="primary" @click="add">添加账号</Button>
+       
+        <div>
+           <!-- 添加账号 -->
+          <Button type="primary" @click="add">添加账号</Button>
+          <!-- 权限管理 -->
+          <Button type="primary" @click='Jurisdiction'>用户权限管理</Button>
+        </div>
+        <Input
+          placeholder="输入登录账号/用户姓名进行查询"
+          style="width: 300px"
+          v-model.trim="searchKey"
+          @on-keyup="vagueSearch"
+        />
       </header>
+      <!-- 列表 -->
       <div class="list">
         <Table size="small" :columns="list" :data="data1"></Table>
       </div>
+      <!-- 分页 -->
       <Page
         :total="count"
         :current="pageNo"
@@ -31,31 +44,43 @@ export default {
       list: [
         {
           title: "编号",
-          iNum: "num"
+          iNum: "num",
+          align: "center"
         },
         {
           title: "登录账号",
-          key: "name"
+          key: "name",
+          align: "center"
+        },
+        {
+          title: "用户昵称",
+          key: "address",
+          align: "center"
+        },
+        {
+          title: "用户头像",
+          key: "avatar",
+          align: "center",
+          render: (h, params) => {
+            let avatar = params.row.avatar;
+            let defaultSrc = require("@/assets/images/heicon.jpg");
+            return h("img", {
+              attrs: {
+                src: avatar || defaultSrc,
+                style: "width:40px;height:40px;border-radius:50%;"
+              }
+            });
+          }
         },
         {
           title: "用户姓名",
-          key: "age"
+          key: "age",
+          align: "center"
         },
         {
-          title: "机构名称",
-          key: "address"
-        },
-        {
-          title: "添加人",
-          key: "age"
-        },
-        {
-          title: "联系方式（手机）",
-          key: "address"
-        },
-        {
-          title: "角色",
-          key: "user"
+          title: "电话号码",
+          key: "address",
+          align: "center"
         },
         {
           title: "操作",
@@ -74,7 +99,10 @@ export default {
                     click: () => {
                       console.log("编辑");
                       this.$router.push({
-                        name: "adminedit"
+                        name: "adminedit",
+                        params: {
+                          pageNo: this.pageNo
+                        }
                       });
                     }
                   }
@@ -91,7 +119,10 @@ export default {
                     click: () => {
                       console.log("重置密码");
                       this.$router.push({
-                        name: "adminreset"
+                        name: "adminreset",
+                        params: {
+                          pageNo: this.pageNo
+                        }
                       });
                     }
                   }
@@ -106,14 +137,19 @@ export default {
         {
           name: "John Brown",
           age: 18,
-          address: "New York No. 1 Lake Park",
+          address: "17610653656",
           date: "2016-10-03"
         }
       ]
     };
   },
-  mounted () {
-    
+  mounted() {
+    let pageNo = this.$route.params.pageNo;
+    if (Boolean(pageNo)) {
+      this.pageNo = pageNo;
+    }
+    // 预加载数据
+    // this.loadUserData()
   },
   methods: {
     // 添加角色
@@ -122,9 +158,39 @@ export default {
         name: "adminadd"
       });
     },
+    // 用户权限管理
+    Jurisdiction () {
+      this.$router.push({
+        name:"adminJurisdiction"
+      })
+    },
     // 分页器改变
     loadPage(pageNo) {
       this.pageNo = pageNo;
+      if (this.searchKey != "") {
+      }
+    },
+    // 模糊查询
+    vagueSearch() {
+      console.log(this.searchKey);
+    },
+    // 请求数据
+    loadUserData(val) {
+      let params = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+      if (val != "") {
+        params.searchKey = searchKey;
+      }
+      this.$axios.post(url, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data;
+          console.log(ret);
+        } else {
+          this.$Message.info("数据请求失败,请稍候重试");
+        }
+      });
     }
   }
 };
@@ -137,7 +203,7 @@ export default {
   background: #ffffff;
   box-sizing: border-box;
   .container {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     header {
       width: 100%;

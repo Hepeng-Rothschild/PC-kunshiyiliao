@@ -152,6 +152,7 @@ export default new Router({
 				maintain.adminAdd,
 				maintain.adminReset,
 				maintain.adminEdit,
+				maintain.adminJurisdiction,
 				// 权限管理
 				maintain.jurisdictionList,
 				maintain.jurisdictionAdd,
