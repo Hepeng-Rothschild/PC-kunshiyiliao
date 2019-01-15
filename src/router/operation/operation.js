@@ -813,7 +813,7 @@ const typeManagement = {
 	name: 'typeManagementList',
 	meta: {
 		index: 2,
-		title: '分类管理'
+		title: '菜单管理'
 	},
 	component: () =>
 		import("@/pages/operation/publicAddress/typeManagement/list")

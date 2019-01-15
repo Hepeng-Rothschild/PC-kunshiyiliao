@@ -4,7 +4,7 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <ul class="allList" @click="tab" v-for="item,index in departmentsList">
+        <!-- <ul class="allList" @click="tab" v-for="item,index in departmentsList">
           <li>
             <span>+</span>
             {{ item.name}}
@@ -12,7 +12,8 @@
           <ul class="oneList">
             <li v-for="items,indexs in item.child" :data-id="items.id">{{ items.childDept }}</li>
           </ul>
-        </ul>
+        </ul> -->
+        <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
       <div class="i-keshi_main-right">
@@ -23,8 +24,7 @@
             <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
-          <Input disabled v-model.trim="title" style="width: 300px"  />
-          <!-- <input type="text" disabled v-model.trim="title"> -->
+          <Input disabled v-model.trim="title" style="width: 300px"/>
         </div>
         <!--科室就诊位置-->
         <div class="keshi_name">
@@ -32,8 +32,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>院内名称</span>
           </div>
-          <Input  placeholder="内一科" v-model.trim="keshiname" style="width: 300px"  />
-          <!-- <input type="text" placeholder="内一科" v-model.trim="keshiname"> -->
+          <Input placeholder="内一科" v-model.trim="keshiname" style="width: 300px"/>
         </div>
         <!--科室简介-->
         <div class="keshi_name_text">
@@ -44,13 +43,12 @@
           <textarea name rows cols v-model="test1"></textarea>
         </div>
         <!--排序-->
-        <div class="keshi_name_text" style='align-items:center;'>
+        <div class="keshi_name_text" style="align-items:center;">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>排序</span>
           </div>
-          <Input   v-model.trim="isort" style="width: 80px"  />
-          <!-- <input type="text" v-model.trim="isort" style="width:80px;outline:none;"> -->
+          <Input v-model.trim="isort" style="width: 80px"/>
           <p style="margin-left:5px;">备注：只能填写数字，1代表置顶以此类推</p>
         </div>
         <!--是否显示-->
@@ -73,14 +71,15 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon } from "iview";
+import { Switch, Upload, Icon, Tree } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
     iSwitch: Switch,
     Upload,
-    Icon
+    Icon,
+    Tree
   },
   data() {
     return {
@@ -96,7 +95,8 @@ export default {
       uploadList: [],
       id: sessionStorage.getItem("hospitalId"),
       departmentsList: [],
-      currentId: -1
+      currentId: -1,
+      data1: []
     };
   },
   created(){
@@ -123,7 +123,26 @@ export default {
       .then(res => {
         if (res.data) {
           let ret = res.data.object;
+          let data1 = [];
+           let id = this.$route.params.id;
+          ret.forEach((item, index) => {
+            let a = {};
+            a.title = item.name;
+            let children = [];
+            item.child.forEach((i, s) => {
+              i.title = i.childDept;
+              if (id == i.id) {
+                i.selected = true;
+                a.expand=true
+              }
+              children.push(i);
+            });
+            a.children = children;
+            data1.push(a);
+          });
+          this.data1 = data1;
           this.departmentsList = ret;
+          
         }
       });
   },
@@ -221,6 +240,15 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    threeChild(index) {
+      if(index.length == 0) {
+        return ""
+      }
+      if (Boolean(index[0].id) && index[0].id != this.currentId) {
+        this.currentId = index[0].id;
+        this.getDepartmentsData(index[0].id);
+      }
     }
   }
 };
@@ -277,7 +305,8 @@ export default {
     .i-keshi_main-left {
       min-width: 200px;
       height: 500px;
-      border: 1px solid black;
+      border: 1px solid #ccc;
+      border-radius:10px;
       margin-right: 20px;
       ul {
         width: 100%;
@@ -313,16 +342,9 @@ export default {
 
     .i-keshi_main-right {
       flex: 1;
-      /*border:1px solid red;*/
       display: flex;
       flex-direction: column;
       padding: 30px 0;
-      h2 {
-        margin-left: 10px;
-        font-size: 20px;
-        padding-left: 15px;
-        border-left: 3px solid #2d8cf0;
-      }
 
       .keshi_name {
         display: flex;

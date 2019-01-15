@@ -26,16 +26,20 @@
           <span>专家科室</span>
         </div>
         <div class="iselected">
-          <select v-model="keshi" disabled>
+          <!-- <select v-model="keshi" disabled>
             <option :value="keshi">{{ keshi }}</option>
-          </select>
+          </select>-->
+          <Select v-model="keshi" style="width:200px" disabled>
+            <Option :value="keshi" :key="keshi">{{ keshi }}</Option>
+          </Select>
           <span>职称</span>
-          <select v-model="zhiwu" disabled>
-            <option value="主任医师">主任医师</option>
-            <option value="副主任医师">副主任医师</option>
-            <option value="住院医师">住院医师</option>
-            <option value="主治医师">主治医师</option>
-          </select>
+          <Select v-model="zhiwu" style="width:200px" disabled>
+            <Option
+              v-for="item,index in doctorList"
+              :value="item.value"
+              :key="item.value"
+            >{{ item.value }}</Option>
+          </Select>
         </div>
       </div>
       <!--职务-->
@@ -125,7 +129,21 @@ export default {
       personalIntroduction: "",
       doctorGood: "",
       post: "",
-      switch2: true
+      switch2: true,
+      doctorList: [
+        {
+          value: "主任医师"
+        },
+        {
+          value: "副主任医师"
+        },
+        {
+          value: "住院医师"
+        },
+        {
+          value: "主治医师"
+        }
+      ]
     };
   },
   created(){
@@ -211,7 +229,6 @@ export default {
           }
         });
       }
-      // console.log(params);
     }
   }
 };

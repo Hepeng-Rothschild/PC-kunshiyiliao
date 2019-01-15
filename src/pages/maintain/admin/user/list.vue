@@ -1,14 +1,27 @@
 <template>
   <div class="adminList">
-    <!-- 头部信息 -->
+    <!-- 模糊查询 -->
     <div class="container">
       <header>
-        <Input placeholder="使用登录账号/用户姓名进行查询" style="width: 260px" v-model.trim="searchKey"/>
-        <Button type="primary" @click="add">添加账号</Button>
+        <div>
+          <!-- 添加账号 -->
+          <Button type="primary" @click="add">添加账号</Button>
+        </div>
+        <div>
+          <Input
+            placeholder="输入登录账号/用户昵称进行查询"
+            style="width: 300px"
+            v-model.trim="searchKey"
+            @on-keyup.enter="vagueSearch"
+          />
+          <Button type="primary" @click="vagueSearch">查询</Button>
+        </div>
       </header>
+      <!-- 列表 -->
       <div class="list">
         <Table size="small" :columns="list" :data="data1"></Table>
       </div>
+      <!-- 分页 -->
       <Page
         :total="count"
         :current="pageNo"
@@ -31,38 +44,61 @@ export default {
       list: [
         {
           title: "编号",
-          iNum: "num"
+          key: "num",
+          align: "center"
         },
         {
           title: "登录账号",
-          key: "name"
+          key: "userName",
+          align: "center"
         },
         {
-          title: "用户姓名",
-          key: "age"
+          title: "用户昵称",
+          key: "nickName",
+          align: "center"
         },
         {
-          title: "机构名称",
-          key: "address"
+          title: "用户头像",
+          key: "avatar",
+          align: "center",
+          render: (h, params) => {
+            let avatar = this.analysisImages(params.row.userIcon);
+            if (Boolean(avatar)) {
+              avatar = this.fileBaseUrl + avatar;
+            }
+            return h("img", {
+              attrs: {
+                src: avatar || "",
+                style: "width:40px;height:40px;border-radius:50%;"
+              }
+            });
+          }
         },
         {
-          title: "添加人",
-          key: "age"
-        },
-        {
-          title: "联系方式（手机）",
-          key: "address"
-        },
-        {
-          title: "角色",
-          key: "user"
+          title: "状态",
+          key: "status",
+          align: "center",
+          render: (h, params) => {
+            let status = params.row.status,
+              btnText = "";
+            if (status == 1) {
+              btnText = "启用";
+            } else {
+              btnText = "禁用";
+            }
+            return h("span", {
+              domProps: {
+                innerHTML: btnText
+              }
+            });
+          }
         },
         {
           title: "操作",
           key: "operate",
           align: "center",
           render: (h, params) => {
-            // let id = params.row.id;
+            let id = params.row.id;
             return [
               h(
                 "a",
@@ -74,7 +110,11 @@ export default {
                     click: () => {
                       console.log("编辑");
                       this.$router.push({
-                        name: "adminedit"
+                        name: "adminedit",
+                        params: {
+                          pageNo: this.pageNo,
+                          id
+                        }
                       });
                     }
                   }
@@ -89,56 +129,102 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log("重置密码");
                       this.$router.push({
-                        name: "adminreset"
+                        name: "adminJurisdiction",
+                        params: {
+                          pageNo: this.pageNo,
+                          id
+                        }
                       });
                     }
                   }
                 },
-                "重置密码"
+                "用户权限管理"
               )
             ];
           }
         }
       ],
-      data1: [
-        {
-          name: "John Brown",
-          age: 18,
-          address: "New York No. 1 Lake Park",
-          date: "2016-10-03"
-        }
-      ]
+      data1: []
     };
   },
-  created(){
-    let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/systemManagement/index",
-                title: "系统管理"
-            },
-            {
-                path: "/index/maintain/admin/user/list",
-                title: "账号管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+  mounted() {
+    let pageNo = this.$route.params.pageNo;
+    if (Boolean(pageNo)) {
+      this.pageNo = pageNo;
+    }
+    // 预加载数据
+    this.loadUserData();
   },
-  mounted () {
-    
+  created() {
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/systemManagement/index",
+        title: "系统管理"
+      },
+      {
+        path: "/index/maintain/admin/user/list",
+        title: "账号管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     // 添加角色
     add() {
       this.$router.push({
-        name: "adminadd"
+        name: "adminadd",
+        params: {
+          pageNo: this.pageNo
+        }
       });
     },
     // 分页器改变
     loadPage(pageNo) {
       this.pageNo = pageNo;
+      if (this.searchKey != "") {
+        this.loadUserData(this.searchKey);
+      } else {
+        this.loadUserData();
+      }
+    },
+    // 模糊查询
+    vagueSearch() {
+      console.log(this.searchKey);
+      this.loadUserData(this.searchKey);
+    },
+    // 请求数据
+    loadUserData(val) {
+      let params = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+      if (val != "") {
+        params.searchKey = val;
+      }
+      this.$axios.post(api.adminList, params).then(res => {
+        if (res.data.code) {
+          let ret = res.data.object;
+          this.count = ret.count;
+          ret.list.forEach((item, index) => {
+            item.num = index + 1;
+          });
+          this.data1 = ret.list;
+
+          console.log(ret);
+        } else {
+          this.$Message.info("数据请求失败,请稍候重试");
+        }
+      });
+    },
+    analysisImages(json) {
+      try {
+        json = JSON.parse(json);
+        return json.fileName;
+      } catch (error) {
+        return "";
+      }
     }
   }
 };
@@ -151,7 +237,7 @@ export default {
   background: #ffffff;
   box-sizing: border-box;
   .container {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     header {
       width: 100%;

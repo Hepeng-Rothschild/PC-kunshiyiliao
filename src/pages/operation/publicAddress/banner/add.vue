@@ -219,11 +219,9 @@ export default {
     },
     handleFormatError(file) {
       this.$Notice.warning({
-        title: "The file format is incorrect",
+        title: "上传失败",
         desc:
-          "File format of " +
-          file.name +
-          " is incorrect, please select jpg or png."
+          "文件格式错误"
       });
     },
     handleMaxSize(file) {

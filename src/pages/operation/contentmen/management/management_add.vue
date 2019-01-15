@@ -3,7 +3,7 @@
   <div class="addManagement">
     <tmpHeader/>
     <div class="addManag">
-      <h4 @click="btn">添加服务</h4>
+      <h3>添加服务</h3>
       <div class="fuwu">
         <!--线上服务-->
         <div class="xsfw" v-for="item,index in allMenuList">
@@ -74,7 +74,6 @@ export default {
         this.$emit("changeBreadList", breadList);
   },
   methods: {
-    btn() {},
     navto() {
       let wrap = document.getElementsByClassName("addManag")[0];
       let el = wrap.getElementsByTagName("input");
@@ -143,10 +142,6 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    h4 {
-      padding-left: 4px;
-      border-left: 2px solid #2d8cf0;
-    }
     .fuwu {
       width: calc(100% - 100px);
       margin: 0 auto;

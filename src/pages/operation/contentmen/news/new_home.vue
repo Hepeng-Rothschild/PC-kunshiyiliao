@@ -1,20 +1,19 @@
 <template>
-  <div class="news" >
+  <div class="news">
     <!--头部选择-->
     <tmpHeader/>
     <!--搜索/创建-->
-    <div class="headeri"  v-show = '!flag'>
+    <div class="headeri" v-show="!flag">
       <div>
         <!--  @click = 'press' -->
         <span></span>
-        <Input v-model.trim="search" placeholder="新闻标题" style="width: 200px" @on-keyup='press' />
-        <!-- <input type="text" placeholder="新闻标题" v-model="search" @keyup="press"> -->
+        <Input v-model.trim="search" placeholder="新闻标题" style="width: 200px" @on-keyup="press"/>
       </div>
       <button @click="add">创建新闻</button>
     </div>
     <!--表格列表-->
-    <div class="main" v-show="tablesList.length"  >
-      <table border='0' cellspacing='0' cellpadding='0' v-show = '!flag'>
+    <div class="main" v-show="tablesList.length">
+      <table border="0" cellspacing="0" cellpadding="0" v-show="!flag">
         <tr>
           <th>编号</th>
           <th>新闻标题</th>
@@ -66,7 +65,7 @@
       </table>
       <div class="fooDiv">没有更多数据</div>
     </footer>
-    <div style="text-align:center;margin:10px 0;" v-show = '!flag'> 
+    <div style="text-align:center;margin:10px 0;" v-show="!flag">
       <Page :total="newsSize" @on-change="pageChange" :current="pageNo"/>
     </div>
   </div>
@@ -136,7 +135,7 @@ export default {
           this.$router.push({
             name: "homeInfo"
           });
-        }, 600)
+        }, 600);
       }
     },
     navto(item) {
@@ -224,7 +223,7 @@ export default {
       outline: none;
       background: #2d8cf0;
       color: #fff;
-      border-radius: 6px;
+      border-radius: 4px;
     }
   }
   .main {

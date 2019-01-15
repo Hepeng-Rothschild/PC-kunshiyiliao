@@ -237,8 +237,7 @@ export default {
     }
 
     .primary {
-      margin: 10px 10%;
-      width: 150px;
+      margin: 10px 10px;
       float: right;
     }
     .tabList {

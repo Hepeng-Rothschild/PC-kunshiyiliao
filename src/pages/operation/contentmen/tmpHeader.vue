@@ -2,36 +2,9 @@
   <header>
     <h1 class="hospitalName">{{ hospitalName }}</h1>
     <ul>
-      <li v-for="item,index in dataList" @click ='changeIndex(index)'>
+      <li v-for="item,index in dataList" @click="changeIndex(index)">
         <router-link :to="item.name" :class="{active:current==index}">{{ item.title }}</router-link>
       </li>
-      <!-- <li>
-        <router-link to="/index/operation/i_banner">Banner</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/i_keshi">院内科室</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/news">动态新闻</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/t_keshi">特色科室</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/expert">专家介绍</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/service_management">服务管理</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/k_department">预约科室</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/remoteClinic_list">远程门诊</router-link>
-      </li>
-      <li>
-        <router-link to="/index/operation/doctorremoteClinic_list">远程门诊类型</router-link>
-      </li>-->
     </ul>
   </header>
 </template>
@@ -55,12 +28,16 @@ export default {
           title: "院内科室"
         },
         {
-          name: "/index/operation/news",
-          title: "动态新闻"
-        },
-        {
           name: "/index/operation/t_keshi",
           title: "特色科室"
+        },
+        {
+          name: "/index/operation/k_department",
+          title: "预约科室"
+        },
+        {
+          name: "/index/operation/news",
+          title: "动态新闻"
         },
         {
           name: "/index/operation/expert",
@@ -74,10 +51,7 @@ export default {
           name: "/index/operation/servicePackage/list",
           title: "服务包管理"
         },
-        {
-          name: "/index/operation/k_department",
-          title: "预约科室"
-        },
+
         {
           name: "/index/operation/remoteClinic_list",
           title: "远程门诊"
@@ -85,14 +59,13 @@ export default {
         {
           name: "/index/operation/doctorremoteClinic_list",
           title: "远程门诊类型"
-        },
+        }
       ]
     };
   },
   methods: {
     changeIndex(index) {
       sessionStorage.setItem("homeIndex", index);
-
     }
   }
 };

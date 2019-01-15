@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="main" v-show="!list.length">暂无数据</div>
-    <Modal v-model="modal1" title="预览跳转路径">
+    <Modal v-model="modal1" title="预览跳转路径" footer-hide>
       <p class="modal_p">{{ path }}</p>
     </Modal>
   </div>

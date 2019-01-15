@@ -2,8 +2,8 @@
   <div class="list">
     <header>
       <Input v-model.trim="val" placeholder="请输入标签内容查询" clearable style="width: 200px"/>
-      <Button type="primary" @click="search">查询</Button>
-      <Button type="primary" @click="modal1=true">添加新标签</Button>
+      <Button icon="ios-search" type="primary" @click="search">查询</Button>
+      <Button @click="modal1=true">添加</Button>
     </header>
     <Table class="m-table" stripe :columns="columns" :data="diseaseList"></Table>
     <Page
@@ -174,6 +174,7 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
   mounted() {
+  console.log('我是同步执行的方法')
     this.loadingPage(this.pageNo);
   },
   methods: {
@@ -223,7 +224,7 @@ export default {
           } else {
             this.$Message.info("修改失败,请稍候重试");
           }
-        })
+        });
       } else {
         this.$Message.info("星级或标签未填写完整");
       }
@@ -234,7 +235,7 @@ export default {
       this.switch2 = false;
     },
     // 加载数据
-    loadingPage(pageNo, val) {
+    async loadingPage(pageNo, val) {
       let params = {
         pageNo: this.pageNo,
         pageSize: this.pageSize
@@ -242,7 +243,7 @@ export default {
       if (Boolean(val)) {
         params.searchKey = val;
       }
-      this.$axios.post(api.starClassList, params).then(res => {
+     await this.$axios.post(api.starClassList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
           this.count = ret.count;

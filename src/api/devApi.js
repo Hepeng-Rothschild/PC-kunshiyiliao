@@ -229,6 +229,12 @@ const operatemenuquerybymenuid = '/operateapi/operatemenuquerybymenuid' //菜单
 const operatemenuupdate = '/operateapi/operatemenuupdate' //菜单修改
 const operatemenuprentlist = '/operateapi/operatemenuprentlist' //上级菜单列表
 
+const adminList = '/operateapi/operateuserfindoperteuserbypage'  //账号管理分页列表
+const adminAdd = '/operateapi/operateuserinsert' //账号管理新增用户
+const adminEdit = '/operateapi/operateuserfindbyid' //账号管理编辑用户
+const adminDetail = '/operateapi/operateuserupdate' //账号管理修改用户
+const adminManage ='/operateapi/operateuserinsertusermenu' //账号管理用户权限
+
 export default {
     login,
     //字典
@@ -444,4 +450,11 @@ export default {
     operatemenuquerybymenuid,
     operatemenuupdate,
     operatemenuprentlist,
+
+    // 运维端-账号管理
+    adminList,
+    adminAdd,
+    adminEdit,
+    adminDetail,
+    adminManage,
 }

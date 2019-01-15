@@ -20,7 +20,7 @@
         <div class="modelExpert">
           <div class="searchExpertList">
             <input type="text" placeholder="输入医生姓名、医院、科室" v-model.trim="searchName">
-            <Button type="primary" icon="ios-search" @click="searchExpert">Search</Button>
+            <Button type="primary" icon="ios-search" @click="searchExpert">查询</Button>
           </div>
           <div class="modelExpert_list" @click="expert(item)" v-for="item,index in expertList">
             <span>{{ item.hospitalName }}</span>
@@ -109,25 +109,25 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.oneAm"></InputNumber>
+              <InputNumber :max="topLength" :min="0" v-model="params.oneAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.twoAm"></InputNumber>
+              <InputNumber :max="topLength" :min="0" v-model="params.twoAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.threeAm"></InputNumber>
+              <InputNumber :max="topLength" :min="0" v-model="params.threeAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.fourAm"></InputNumber>
+              <InputNumber :max="topLength" :min="0" v-model="params.fourAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.fiveAm"></InputNumber>
+              <InputNumber :max="topLength" :min="0" v-model="params.fiveAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.sixAm"></InputNumber>
+              <InputNumber :max="topLength" :min="0" v-model="params.sixAm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.sevenAm"></InputNumber>
+              <InputNumber :max="topLength" :min="0" v-model="params.sevenAm"></InputNumber>
             </td>
           </tr>
           <tr>
@@ -144,30 +144,29 @@
               ></TimePicker>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.onePm"></InputNumber>
+              <InputNumber :max="botLength" :min="0" v-model="params.onePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.twoPm"></InputNumber>
+              <InputNumber :max="botLength" :min="0" v-model="params.twoPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.threePm"></InputNumber>
+              <InputNumber :max="botLength" :min="0" v-model="params.threePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.fourPm"></InputNumber>
+              <InputNumber :max="botLength" :min="0" v-model="params.fourPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.fivePm"></InputNumber>
+              <InputNumber :max="botLength" :min="0" v-model="params.fivePm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.sixPm"></InputNumber>
+              <InputNumber :max="botLength" :min="0" v-model="params.sixPm"></InputNumber>
             </td>
             <td>
-              <InputNumber :max="8" :min="0" v-model="params.sevenPm"></InputNumber>
+              <InputNumber :max="botLength" :min="0" v-model="params.sevenPm"></InputNumber>
             </td>
           </tr>
         </table>
         <p>注：数量不能超过时间段/远程门诊时长数量（如上午8:00至12:00，时长30分钟，最多可设置8次）</p>
-        <!-- <div class="nodata">暂无更多数据</div> -->
       </div>
       <!-- 预约备注 -->
       <div class="text">
@@ -208,6 +207,8 @@ export default {
         { id: 15, name: "15分钟" },
         { id: 10, name: "10分钟" }
       ],
+      topLength: 8,
+      botLength: 8,
       //   预约周期
       cycle: 7,
       cycleList: [
@@ -275,34 +276,39 @@ export default {
       searchName: ""
     };
   },
-  created(){
+  mounted() {},
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
-            },
-            {
-                path: "/index/operation/remoteclinic/list",
-                title: "远程门诊"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/doctorManagement/index",
+        title: "医生端运营"
+      },
+      {
+        path: "/index/operation/remoteclinic/list",
+        title: "远程门诊"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     //  取消,后退 上一次
     back() {
-       let pageNo = this.$route.params.pageNo
+      let pageNo = this.$route.params.pageNo;
       this.$router.push({
         name: "DoctorRemoteclinicList",
-        params:{
+        params: {
           pageNo
         }
       });
     },
     // 根据选择不同的门诊类型改变不同的价格
     changeSearchType(val) {
-      this.money = this.searchTypeList[val].cost;
+      this.searchTypeList.forEach(item => {
+        if (item.id == val) {
+          this.money = item.cost;
+        }
+      });
     },
     // 模态框的分页器改变
     change1(index) {
@@ -322,11 +328,11 @@ export default {
       // 备注
       params.remarks = this.text_info;
       // 上午间隔时间
-      params.intervalTimeAmStart = this.value2[0];
-      params.intervalTimeAmEnd = this.value2[1];
+      params.intervalTimeAmStart = this.value2[0] || null;
+      params.intervalTimeAmEnd = this.value2[1] || null;
       // 下午间隔时间
-      params.intervalTimePmStart = this.value3[0];
-      params.intervalTimePmEnd = this.value3[1];
+      params.intervalTimePmStart = this.value3[0] || null;
+      params.intervalTimePmEnd = this.value3[1] || null;
       // 医生id
       params.doctorId = this.selectExpert.doctorId;
       // 医院ID
@@ -340,16 +346,16 @@ export default {
       } else if (params.doctorId == "") {
         this.$Message.info("请选择专家");
       } else {
-        // console.log(params);
+        console.log(params);
         this.$axios.post(api.doctorRomteclinicAdd, params).then(res => {
           console.log(res);
           if (res.data.code) {
             this.$Message.info("添加成功");
-            let pageNo = this.$route.params.pageNo
+            let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
               this.$router.push({
                 name: "DoctorRemoteclinicList",
-                params:{
+                params: {
                   pageNo
                 }
               });
@@ -361,17 +367,19 @@ export default {
     // 选择专家
     expert(item) {
       this.modal1 = false;
-      console.log(item);
       this.selectExpert = item;
       this.getRemoteClinic(item.hospitalId);
     },
     // 选择时间/上午
     changeTime(val) {
       this.value2 = val;
+      console.log(val);
+      console.log(this.time);
     },
     // 选择时间/下午
     changeTime1(val) {
       this.value3 = val;
+      console.log(val);
     },
     // 远程门诊类型
     getRemoteClinic(id) {
@@ -403,7 +411,7 @@ export default {
         });
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
 .edit {

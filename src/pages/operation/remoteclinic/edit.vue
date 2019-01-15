@@ -1,12 +1,7 @@
 <template>
   <div class="edit">
-    <!-- <tempHeader/> -->
     <!-- 主体 -->
     <div class="main">
-      <!-- 添加接诊医生  -->
-      <!-- <Button type="primary" class="primary" @click="modal1=true">
-        <Icon type="ios-search" size="14"/>添加接诊医生
-      </Button>-->
       <div class="doctor">
         <!-- 医院 -->
         <span>{{ selectExpert.hospitalName }}</span>
@@ -15,21 +10,6 @@
         <!-- 医生姓名 -->
         <span>{{ selectExpert.doctorName }}</span>
       </div>
-      <!-- 选择专家 -->
-      <!-- <Modal v-model="modal1" title="选择专家">
-        <div class="modelExpert">
-          <input type="text" placeholder="输入医生姓名、医院、科室">
-          <div class="modelExpert_list" @click="expert(item)" v-for="item,index in expertList">
-            <span>{{ item.hospital }}</span>
-            <span>{{ item.deparment }}</span>
-            <span>{{ item.name }}</span>
-            <span>{{ item.host }}</span>
-          </div>
-          <div class="total">
-            <Page :total="expertSize" :current="expertNo"/>
-          </div>
-        </div>
-      </Modal>-->
       <!-- 远程门诊类型 -->
       <div class="item">
         <div class="item-text">
@@ -68,14 +48,6 @@
           <Option v-for="item in cycleList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
       </div>
-      <!-- 是否启用 -->
-      <!-- <div class="item">
-        <div class="item-text">
-          <span style="color:red;">*</span>
-          <p>是否启用</p>
-        </div>
-        <iSwitch v-model="switch1"/>
-      </div>-->
       <!-- 列表 -->
       <div class="table">
         <p>远程门诊接诊数量</p>
@@ -286,10 +258,10 @@ export default {
   methods: {
     //  取消,后退 上一次
     back() {
-      let pageNo = this.$route.params.pageNo
+      let pageNo = this.$route.params.pageNo;
       this.$router.push({
         name: "DoctorRemoteclinicList",
-        params:{
+        params: {
           pageNo
         }
       });
@@ -297,29 +269,40 @@ export default {
     // 根据远程门诊类型变更金额
     changeSearchType(val) {
       this.money = this.searchTypeList[val].cost;
+      console.log(this.searchType);
     },
     // 保存
     save() {
       // 号源
       let params = this.params;
-      // 远程门诊类型
-      params.outpatintTypeId = this.searchType;
-      // 门诊时长
-      params.outpatientTime = this.time;
-      // 门诊周期
-      params.cycleDay = this.cycle;
-      // 备注
-      params.remarks = this.text_info;
       // 上午间隔时间
       params.intervalTimeAmStart = this.value2[0];
       params.intervalTimeAmEnd = this.value2[1];
       // 下午间隔时间
       params.intervalTimePmStart = this.value3[0];
       params.intervalTimePmEnd = this.value3[1];
+
+      // 远程门诊类型
+      params.outpatintTypeId = this.searchType;
+      // 远程门诊文字
+      // 门诊时长
+      params.outpatientTime = this.time;
+      // 门诊周期
+      params.cycleDay = this.cycle;
+      // 备注
+      params.remarks = this.text_info;
       // 医生id
       params.doctorId = this.selectExpert.doctorId;
+
+      // 医生姓名
+      params.doctorName = this.selectExpert.deptName
+      // 医生科室
+      params.deptName = this.selectExpert.deptName
       // 医院ID
       params.hospitalId = this.selectExpert.hospitalId;
+      // 医院名称
+      params.hospitalName = this.selectExpert.hospitalName
+
       params.id = this.selectExpert.id;
       if (this.searchType == -1) {
         this.$Message.info("请选择远程门诊类型");
@@ -328,6 +311,7 @@ export default {
       } else if (this.cycle < 0) {
         this.$Message.info("请选择远程门诊周期");
       } else {
+        console.log(params);
         this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
           let pageNo = this.$route.params.pageNo
           if (res.data.code) {
@@ -341,7 +325,7 @@ export default {
               });
             }, 800);
           }
-        });
+        })
       }
     },
     // 选择专家
@@ -394,14 +378,14 @@ export default {
           this.selectExpert.hospitalName = ret.hospitalName;
           // 医生姓名
           this.selectExpert.deptName = ret.deptName;
-
+          // 医院id
+          this.id = ret.hospitalId;
           // 医院id
           this.selectExpert.hospitalId = ret.hospitalId;
           // 医生id
           this.selectExpert.id = ret.id;
 
           this.selectExpert.doctorId = ret.doctorId;
-
           // 号源
           // 周一
           this.params.oneAm = ret.oneAm;
@@ -516,7 +500,6 @@ export default {
       span {
         display: inline-block;
         width: 100px;
-        
       }
     }
     .save {
