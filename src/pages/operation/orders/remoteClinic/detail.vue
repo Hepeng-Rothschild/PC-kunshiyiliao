@@ -271,6 +271,13 @@ export default {
     created() {
         this.id = parseInt(this.$route.query.id);
         this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        let breadList = [
+            {path:"/index",title:"首页"},
+            {path:"/index/operation/ordersmanagement/index",title:"订单管理"},
+            {path:"/index/operation/orders/remoteClinic/list",title:"远程门诊订单"}
+        ]
+        this.$emit("changeBreadList",breadList);
+        
         this.$axios
             .post(api.ordermanagementselectbyremoteclinicid, { remoteClinicId: this.id })
             .then(resp => {

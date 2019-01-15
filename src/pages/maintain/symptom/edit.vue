@@ -74,6 +74,19 @@ export default {
                     // this.$Message.info("服务器超时，请重新访问")
                 });
         }
+
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/configurationWarehouse/index",
+                title: "配置仓"
+            },
+            {
+                path: "/index/maintain/symptom/list",
+                title: "症状管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     },
     components: { Select, Option },
     methods: {

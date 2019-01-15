@@ -275,9 +275,19 @@ export default {
       searchName: ""
     };
   },
-  mounted () {
-    
-    
+  created(){
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/doctorManagement/index",
+                title: "医生端运营"
+            },
+            {
+                path: "/index/operation/remoteclinic/list",
+                title: "远程门诊"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
   },
   methods: {
     //  取消,后退 上一次

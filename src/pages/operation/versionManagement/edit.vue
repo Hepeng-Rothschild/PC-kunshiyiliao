@@ -84,6 +84,20 @@ export default {
       ]
     };
   },
+  created(){
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/doctorManagement/index",
+                title: "医生端运营"
+            },
+            {
+                path: "/index/operation/versionManagement/home",
+                title: "版本管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     let id = this.$route.params.id;
     this.$axios

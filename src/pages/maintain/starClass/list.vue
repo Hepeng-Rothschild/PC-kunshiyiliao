@@ -159,6 +159,20 @@ export default {
       pageNo: 1
     };
   },
+    created(){
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/configurationWarehouse/index",
+                title: "配置仓"
+            },
+            {
+                path: "/index/maintain/starClass/list",
+                title: "评价管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
   mounted() {
     this.loadingPage(this.pageNo);
   },

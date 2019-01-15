@@ -155,6 +155,19 @@ export default {
       .catch(err => {
         console.log(err);
       });
+
+      let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/mechanism/index",
+                title: "机构运营"
+            },
+            {
+                path: "/index/operation/home",
+                title: "机构管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
   },
   // 数据更新后的DOM结构
   updated() {

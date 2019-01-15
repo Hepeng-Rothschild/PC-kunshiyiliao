@@ -98,6 +98,20 @@ export default {
       targetKeys4: this.getTargetKeys()
     };
   },
+  created(){
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/mechanism/index",
+                title: "机构运营"
+            },
+            {
+                path: "/index/operation/home",
+                title: "机构管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     this.$axios.post(api.getCity).then(res => {
       if (res.data.code) {

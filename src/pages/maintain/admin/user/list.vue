@@ -112,6 +112,20 @@ export default {
       ]
     };
   },
+  created(){
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/systemManagement/index",
+                title: "系统管理"
+            },
+            {
+                path: "/index/maintain/admin/user/list",
+                title: "账号管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+  },
   mounted () {
     
   },

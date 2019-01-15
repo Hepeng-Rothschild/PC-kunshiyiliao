@@ -32,6 +32,20 @@ export default {
             error: 0
         };
     },
+    created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/servicePackage/pindex",
+                title: "服务包管理"
+            },
+            {
+                path: "/index/operation/servicePackage/itemList",
+                title: "服务项目管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
     mounted() {
         let fail = this.$route.query;
         // console.log(fail);

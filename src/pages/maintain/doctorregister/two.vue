@@ -54,6 +54,20 @@ export default {
       disabled:true
     };
   },
+  created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/indexManagement/index",
+                title: "索引管理"
+            },
+            {
+                path: "/index/maintain/doctorregister/list",
+                title: "医生注册信息"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
   mounted() {
     let fail = this.$route.params.fail;
     if (fail) {
