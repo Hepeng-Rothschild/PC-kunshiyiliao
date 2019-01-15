@@ -1,3 +1,13 @@
+//索引管理
+const indexManagementIndex = {
+    path:'maintain/indexManagement/index',
+    name:'indexManagementIndex',
+    meta:{
+        index:1,
+        title:'索引管理'
+    },
+    redirect: '/index/maintain/residentregister/list'
+}
 const residentRegisterList = {
     path:'maintain/residentregister/list',
     name:'reviewlist3',
@@ -158,7 +168,16 @@ const jurisdictionAdd = {
     component:()=>import("@/pages/maintain/admin/jurisdiction/add")
 }
 
-
+//配置仓
+const configurationWarehouseIndex = {
+    path:'maintain/configurationWarehouse/index',
+    name:'configurationWarehouseIndex',
+    meta:{
+        index:1,
+        title:'配置仓'
+    },
+    redirect: '/index/maintain/dictionary/tree'
+}
 const dictionary = {
     path:'maintain/dictionary/tree',
     name:'dictionary',
@@ -207,6 +226,8 @@ const symptomEdit = {
 
 
 export default {
+    //索引管理
+    indexManagementIndex,
     residentRegisterList,
     //医生 注册信息
     doctorRegisterList,
@@ -228,6 +249,8 @@ export default {
     // 权限管理
     jurisdictionList,
     jurisdictionAdd,
+    //配置仓
+    configurationWarehouseIndex,
     //字典管理
     dictionary,
     //疾病/症状管理

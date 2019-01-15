@@ -74,6 +74,20 @@ export default {
       pageSize:10
     };
   },
+    created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/publicHosting/index",
+                title: "公众号托管"
+            },
+            {
+                path: "/index/operation/publicAddress/list",
+                title: "公众号管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
   methods: {
     pageChange(index) {
       this.pageNo = index;

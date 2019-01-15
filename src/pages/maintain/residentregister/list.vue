@@ -55,6 +55,20 @@ export default {
       Name: ""
     };
   },
+  created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/indexManagement/index",
+                title: "索引管理"
+            },
+            {
+                path: "/index/maintain/residentregister/list",
+                title: "居民注册信息"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
   mounted() {
     this.getData(1);
   },

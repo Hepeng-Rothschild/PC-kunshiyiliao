@@ -379,6 +379,19 @@ export default {
                     console.log(err);
                 });
         }
+
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/servicePackage/pindex",
+                title: "服务包管理"
+            },
+            {
+                path: "/index/operation/servicePackage/itemList",
+                title: "服务项目管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     },
     components: { Avatar, Select, Option, "i-switch": Switch },
     methods: {

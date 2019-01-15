@@ -397,6 +397,18 @@ export default {
     if (id) {
       this.getRightData(id);
     }
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/mechanism/index",
+                title: "机构运营"
+            },
+            {
+                path: "/index/operation/home",
+                title: "机构管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;

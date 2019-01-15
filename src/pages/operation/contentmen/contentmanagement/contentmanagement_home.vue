@@ -150,6 +150,20 @@ export default {
       ]
     };
   },
+  created(){
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/patient/index",
+                title: "患者端运营"
+            },
+            {
+                path: "/index/operation/contentmanagement_home",
+                title: "内容管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {

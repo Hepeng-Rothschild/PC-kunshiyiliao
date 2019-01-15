@@ -142,6 +142,19 @@ export default {
   created() {
     this.getCity();
     this.getGrent();
+
+    let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/indexManagement/index",
+                title: "索引管理"
+            },
+            {
+                path: "/index/maintain/mechanismreg/list",
+                title: "机构注册信息"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
   },
   mounted() {
     let id = this.$route.params.id;

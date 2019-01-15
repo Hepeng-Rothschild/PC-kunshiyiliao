@@ -337,6 +337,19 @@ export default {
             .catch(err => {
                 console.log(err);
             });
+
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/doctorManagement/index",
+                title: "医生端运营"
+            },
+            {
+                path: "/index/operation/doctorreview/list",
+                title: "医生认证"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     },
     components: { Avatar, Select, Option },
     methods: {

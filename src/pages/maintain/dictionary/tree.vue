@@ -382,6 +382,19 @@ export default {
             .catch(error => {
                 console.log(error);
             });
+
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/configurationWarehouse/index",
+                title: "配置仓"
+            },
+            {
+                path: "/index/maintain/dictionary/tree",
+                title: "基础字典"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     }
 };
 </script>
