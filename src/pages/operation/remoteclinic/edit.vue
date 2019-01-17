@@ -17,7 +17,7 @@
           <p>远程门诊类型</p>
         </div>
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-          <Option v-for="item,index in searchTypeList" :value="index" :key="item.id">{{item.name}}</Option>
+          <Option v-for="item,index in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
       </div>
       <!-- 医事服务费 -->
@@ -254,9 +254,7 @@ export default {
     this.$emit("changeBreadList", breadList);
     this.getDetail(this.$route.params.id);
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     //  取消,后退 上一次
     back() {
@@ -446,7 +444,7 @@ export default {
       }
     },
     // 远程门诊类型
-    getRemoteClinic(hospitalId) {
+    getRemoteClinic(hospitalId, id) {
       this.$axios
         .post(api.DoctorRemoteClinicTypeList, {
           hospitalId
@@ -455,6 +453,11 @@ export default {
           if (res.data.code) {
             let ret = res.data.object;
             this.searchTypeList = ret;
+            this.searchTypeList.forEach(item => {
+              if (item.id == id) {
+                this.money = item.cost;
+              }
+            });
           }
         });
     },
@@ -485,7 +488,7 @@ export default {
           // 医院id
           this.id = ret.hospitalId;
           // 获取远程门诊类型
-          this.getRemoteClinic(ret.hospitalId);
+          this.getRemoteClinic(ret.hospitalId, ret.outpatintTypeId);
           // 医院id
           this.selectExpert.hospitalId = ret.hospitalId;
           // 医生id
