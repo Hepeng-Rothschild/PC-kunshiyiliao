@@ -277,31 +277,35 @@ export default {
             this.$axios
                 .post(api.getReviewDoctorList, params)
                 .then(resp => {
-                    this.count = resp.data.object.count;
-                    this.doctorList = resp.data.object.list;
-                    for (let i = 0; i < this.doctorList.length; i++) {
-                        let item = this.doctorList[i];
-                        this.doctorList[i].iNum = i + 1;
-                        this.tryCatch(item.docIcon) &&
-                            (this.doctorList[i].avatar =
-                                this.fileBaseUrl +
-                                this.tryCatch(item.docIcon).fileName);
-                        this.doctorList[i].imginquiry = this.openList[
-                            this.doctorList[i].authStatus
-                        ];
-                        this.doctorList[i].phoneinquiry = this.openList[
-                            this.doctorList[i].authStatus
-                        ];
-                        this.doctorList[i].videoinquiry = this.openList[
-                            this.doctorList[i].authStatus
-                        ];
-                        this.doctorList[i].homedoctor = this.openList[
-                            this.doctorList[i].authStatus
-                        ];
-                        this.doctorList[i].authStatus = this.statusList[
-                            this.doctorList[i].authStatus
-                        ];
-                        this.doctorList[i].operate = this.doctorList[i].id;
+                    if(resp.data.success){
+                        this.count = resp.data.object.count;
+                        this.doctorList = resp.data.object.list;
+                        for (let i = 0; i < this.doctorList.length; i++) {
+                            let item = this.doctorList[i];
+                            this.doctorList[i].iNum = i + 1;
+                            this.tryCatch(item.docIcon) &&
+                                (this.doctorList[i].avatar =
+                                    this.fileBaseUrl +
+                                    this.tryCatch(item.docIcon).fileName);
+                            this.doctorList[i].imginquiry = this.openList[
+                                this.doctorList[i].authStatus
+                            ];
+                            this.doctorList[i].phoneinquiry = this.openList[
+                                this.doctorList[i].authStatus
+                            ];
+                            this.doctorList[i].videoinquiry = this.openList[
+                                this.doctorList[i].authStatus
+                            ];
+                            this.doctorList[i].homedoctor = this.openList[
+                                this.doctorList[i].authStatus
+                            ];
+                            this.doctorList[i].authStatus = this.statusList[
+                                this.doctorList[i].authStatus
+                            ];
+                            this.doctorList[i].operate = this.doctorList[i].id;
+                        }
+                    }else{
+                        this.$Message.info("不允许访问")
                     }
                 })
                 .catch(err => {

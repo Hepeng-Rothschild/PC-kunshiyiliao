@@ -326,6 +326,7 @@ export default {
             this.$axios
                 .post(api.dictionaryList, param)
                 .then(resp => {
+                    if(resp.data.success){
                     let tmpData = resp.data.object;
                     let tmpArr = [];
                     if (tmpData.length > 0) {
@@ -350,6 +351,9 @@ export default {
                         item.loading = "";
                         callback(tmpArr);
                     }
+                    }else{
+                        this.$Message.info("不允许访问")
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -362,6 +366,7 @@ export default {
         this.$axios
             .post(api.dictionaryList, param)
             .then(resp => {
+                if(resp.data.success){
                 let tmpData = resp.data.object;
                 tmpData.forEach((el, i) => {
                     let tmpObj = {};
@@ -378,6 +383,9 @@ export default {
                     }
                     this.dictionaryList[0].children.push(tmpObj);
                 });
+                }else{
+                    this.$Message.info("不允许访问")
+                }
             })
             .catch(error => {
                 console.log(error);

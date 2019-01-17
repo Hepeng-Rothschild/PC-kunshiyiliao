@@ -95,11 +95,15 @@ export default {
             this.$axios
                 .post(api.operateauthlist, params)
                 .then(resp => {
+                    if(resp.data.success){
                     this.count = resp.data.object.count;
                     this.dataList = resp.data.object.list;
                     for (let i = 0; i < this.dataList.length; i++) {
                         let item = this.dataList[i];
                         this.dataList[i].iNum = i + 1;
+                    }
+                    }else{
+                        this.$Message.info("不允许访问");
                     }
                 })
                 .catch(err => {

@@ -318,6 +318,8 @@ export default {
                                 this.dataList.push(el);
                             });
                         });
+                    }else{
+                        this.$Message.info("不允许访问")
                     }
                 })
                 .catch(err => {

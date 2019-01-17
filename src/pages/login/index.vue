@@ -93,10 +93,13 @@ export default {
                         let times = 10*60*60;
                         cookie.setCookie("access_token", resp.data.object.access_token,times);
                         let tmpIcon = resp.data.object.userIcon;
-                        let tmpObj = JSON.parse(tmpIcon);
-                        let userIcon = this.fileBaseUrl+tmpObj.fileName
-                        cookie.setCookie("username", resp.data.object.nickname, times);
-                        cookie.setCookie("userIcon", userIcon, times);
+                        let username = resp.data.object.nickname;
+                        if(tmpIcon){
+                            let tmpObj = JSON.parse(tmpIcon);
+                            let userIcon = this.fileBaseUrl+tmpObj.fileName;
+                            cookie.setCookie("userIcon", userIcon, times);
+                            cookie.setCookie("username", username, times);
+                        }
                         this.$router.push("/index");
                     }else{
                         this.loginFlag = true;
