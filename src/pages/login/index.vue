@@ -100,6 +100,8 @@ export default {
                             cookie.setCookie("userIcon", userIcon, times);
                             cookie.setCookie("username", username, times);
                         }
+                        let key = resp.data.object.randmId;
+                        cookie.setCookie("randmId", key,times);
                         this.$router.push("/index");
                     }else{
                         this.loginFlag = true;

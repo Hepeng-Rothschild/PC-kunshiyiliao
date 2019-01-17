@@ -251,7 +251,6 @@ export default {
             item.iNum = this.addZero(index);
           });
           this.diseaseList = ret.list;
-          console.log(ret);
         } else {
           this.$Message.info("不允许访问")
         }

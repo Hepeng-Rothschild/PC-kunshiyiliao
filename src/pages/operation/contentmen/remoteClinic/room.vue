@@ -213,7 +213,7 @@ export default {
       //   console.log(time);
     },
     save() {
-      console.log(this.time);
+      // console.log(this.time);
     }
   }
 };

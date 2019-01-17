@@ -146,7 +146,6 @@ export default {
                         this.tablesList.push(areaList);
                         this.tablesList.push(orgList);
                         this.tablesList.push(hosList);
-                        console.log(this.tablesList)
                     }else{
                         this.$Message.info("查询失败,请重试");
                     }
