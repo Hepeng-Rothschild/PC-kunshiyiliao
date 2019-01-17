@@ -63,6 +63,7 @@ export default {
       cookie.delCookie("access_token");
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
+      cookie.delCookie("randmId");
       this.$router.push("/login")
     }
   }
