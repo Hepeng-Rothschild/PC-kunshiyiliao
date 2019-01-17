@@ -139,11 +139,15 @@ export default {
             this.$axios
                 .post(api.getSymptomList, params)
                 .then(resp => {
+                    if(resp.data.success){
                     this.count = resp.data.object.count;
                     this.symptomList = resp.data.object.list;
                     for (let i = 0; i < this.symptomList.length; i++) {
                         let item = this.symptomList[i];
                         this.symptomList[i].iNum = i + 1;
+                    }
+                    }else{
+                        this.$Message.info("不允许访问")
                     }
                 })
                 .catch(err => {

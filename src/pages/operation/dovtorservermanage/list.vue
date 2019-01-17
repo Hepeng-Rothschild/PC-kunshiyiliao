@@ -127,10 +127,14 @@ export default {
             this.$axios
                 .post(api.doctorList, params)
                 .then(resp => {
+                    if(resp.data.success){
                     this.count = resp.data.object.count;
                     this.doctorList = resp.data.object.list;
                     for (let i = 0; i < this.doctorList.length; i++) {
                         this.doctorList[i].iNum = i + 1;
+                    }
+                    }else{
+                        this.$Message.info("不允许访问");
                     }
                 })
                 .catch(err => {

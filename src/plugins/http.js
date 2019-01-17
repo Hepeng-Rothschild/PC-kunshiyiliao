@@ -32,7 +32,7 @@ axios.interceptors.request.use(
 		// config.data = aesUtils.encrypt("54bef10750df41d5ac9f2d0a4fe100bf","7c70035d4e7f4a1ba5a0eb737c7cf2d9","中电国康医到服务",jsonStr);
 		// config.data = aesUtils.encrypt("54bef10750df41d5ac9f2d0a4fe100bf","7c70035d4e7f4a1ba5a0eb737c7cf2d9","中电国康医到服务",jsonStr);
 		// console.log("解密之后",aesUtils.decrypt("7c70035d4e7f4a1ba5a0eb737c7cf2d9","54bef10750df41d5ac9f2d0a4fe100bf","31bc44de89e434e0e10abe0f3中电国康医到服",'NJ7NYIIBLFLgQMI5sjni1g=='));
-		// console.log("config",config);
+		console.log("config",config);
 		// console.log("noEncrypt",noEncrypt);
 		// let url = config.url.slice(config.url.lastIndexOf('/')+1);
 		// if(noEncrypt.indexOf(url) > -1){ //是否加密自定义请求头
@@ -40,6 +40,7 @@ axios.interceptors.request.use(
 		// }else{
 		// 	config.headers.cusEncrypt = "yes";
 		// }
+
 		if (store.state.env == "production" || store.state.env == "test") {
 			let access_token = cookie.getCookie('access_token');
 			if (access_token != undefined)
