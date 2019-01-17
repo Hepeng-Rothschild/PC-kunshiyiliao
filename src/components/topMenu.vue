@@ -22,10 +22,10 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img :src="userIcon">
+        <img :src="userIcon || '/static/img/heicon.jpg'">
       </div>
       <div class="info">
-        <span>{{username}}</span><br/>
+        <span>{{username || "喜大普奔"}}</span><br/>
         <a href="javascript:void(0);" @click="logout">退出</a>
       </div>
     </div>
