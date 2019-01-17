@@ -234,6 +234,8 @@ const adminAdd = '/operateapi/operateuserinsert' //账号管理新增用户
 const adminEdit = '/operateapi/operateuserfindbyid' //账号管理编辑用户
 const adminDetail = '/operateapi/operateuserupdate' //账号管理修改用户
 const adminManage ='/operateapi/operateuserinsertusermenu' //账号管理用户权限
+const adminSearch = '/operateapi/operateuserfindmenubyuserid'//查询用户权限管理详情
+const adminManageChange='/operateapi/operateuserupdateusermenu' //修改用户权限管理
 
 export default {
     login,
@@ -457,4 +459,6 @@ export default {
     adminEdit,
     adminDetail,
     adminManage,
+    adminSearch,
+    adminManageChange,
 }

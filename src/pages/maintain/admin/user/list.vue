@@ -108,7 +108,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log("编辑");
+                      // console.log("编辑");
                       this.$router.push({
                         name: "adminedit",
                         params: {
@@ -211,8 +211,6 @@ export default {
             item.num = index + 1;
           });
           this.data1 = ret.list;
-
-          console.log(ret);
         } else {
           this.$Message.info("数据请求失败,请稍候重试");
         }

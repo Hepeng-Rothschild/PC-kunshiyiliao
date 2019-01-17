@@ -8,20 +8,8 @@
         <Option value="0">全国</Option>
         <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
       </Select>
-      <!-- 医院名称 -->
-      <!-- <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-        <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
-      </Select>-->
       <!-- 检索的医院名称 -->
       <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'"/>
-      <!-- 职称 -->
-      <!-- <Select class="w-select" v-model="dictType" placeholder="职称级别">
-        <Option
-          v-for="item in titleList"
-          :value="item.dictType"
-          :key="item.dictType"
-        >{{item.dictName}}</Option>
-      </Select>-->
       <!-- 查询 -->
       <Button type="primary" class="primary" @click="search">
         <Icon type="ios-search" size="14"/>查询
@@ -62,72 +50,77 @@
       <div class="nodata" v-show="!list.length">暂无更多数据</div>
     </div>
     <Modal v-model="modal1" title="远程门诊时间" footer-hide>
-      <p style="text-align:center;" v-show="currentData.oneAm && currentData.onePm">
+      <p style="text-align:center;">
         周一：
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >上午{{ currentData.oneAm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >上午：&nbsp;{{ currentData.oneAm || "无"}}</span>
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >下午{{ currentData.onePm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >下午：&nbsp;{{ currentData.onePm || "无"}}</span>
       </p>
-      <p style="text-align:center;" v-show="currentData.twoAm && currentData.twoPm">
+      <p style="text-align:center;">
         周二：
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >上午{{ currentData.twoAm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >上午：&nbsp;{{ currentData.twoAm || "无"}}</span>
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >下午{{ currentData.twoPm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >下午：&nbsp;{{ currentData.twoPm || "无"}}</span>
       </p>
-      <p style="text-align:center;" v-show="currentData.threeAm && currentData.threePm">
+      <p style="text-align:center;">
         周三：
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >上午{{ currentData.threeAm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >上午：&nbsp;{{ currentData.threeAm || "无"}}</span>
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >下午{{ currentData.threePm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >下午：&nbsp;{{ currentData.threePm || "无"}}</span>
       </p>
-      <p style="text-align:center;" v-show="currentData.fourAm && currentData.fourPm">
+      <p style="text-align:center;">
         周四：
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >上午{{ currentData.fourAm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >上午：&nbsp;{{ currentData.fourAm || "无"}}</span>
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >下午{{ currentData.fourPm || "无" }}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >下午：&nbsp;{{ currentData.fourPm || "无" }}</span>
       </p>
-      <p style="text-align:center;" v-show="currentData.fiveAm && currentData.fivePm">
+      <p style="text-align:center;">
         周五：
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >上午{{ currentData.fiveAm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >上午：&nbsp;{{ currentData.fiveAm || "无"}}</span>
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >下午{{ currentData.fivePm || "无" }}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >下午：&nbsp;{{ currentData.fivePm || "无" }}</span>
       </p>
-      <p style="text-align:center;" v-show="currentData.sixAm && currentData.sixPm">
+      <p style="text-align:center;">
         周六：
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >上午{{ currentData.sixAm || "无" }}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >上午：&nbsp;{{ currentData.sixAm || "无" }}</span>
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >下午{{ currentData.sixPm || "无"}}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >下午：&nbsp;{{ currentData.sixPm || "无"}}</span>
       </p>
-      <p style="text-align:center;" v-show="currentData.sevenAm && currentData.sevenPm">
+      <p style="text-align:center;">
         周日：
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >上午{{ currentData.sevenAm || "无" }}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >上午：&nbsp;{{ currentData.sevenAm || "无" }}</span>
         <span
-          style="margin:0 20px;display:inline-block;min-width:100px;"
-        >下午{{ currentData.sevenPm || "无" }}</span>
+          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+        >下午：&nbsp;{{ currentData.sevenPm || "无" }}</span>
       </p>
     </Modal>
     <div class="total">
-      <Page :total="remoteClinicLength" :current="pageNo" @on-change="change" :page-size='pageSize' />
+      <Page
+        :total="remoteClinicLength"
+        :current="pageNo"
+        @on-change="change"
+        :page-size="pageSize"
+      />
     </div>
   </div>
 </template>
@@ -145,7 +138,7 @@ export default {
     return {
       remoteClinicLength: 0,
       pageNo: 1,
-      pageSize:10,
+      pageSize: 10,
       searchTypeList: [
         { id: 1, name: "医院名称" },
         { id: 2, name: "医生姓名" }
@@ -163,26 +156,26 @@ export default {
       list: []
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
-            },
-            {
-                path: "/index/operation/remoteclinic/list",
-                title: "远程门诊"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/doctorManagement/index",
+        title: "医生端运营"
+      },
+      {
+        path: "/index/operation/remoteclinic/list",
+        title: "远程门诊"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.getInfoData();
-     let pageNo = this.$route.params.pageNo
-     if (Boolean(pageNo)) {
-       this.pageNo = pageNo
-     }
+    let pageNo = this.$route.params.pageNo;
+    if (Boolean(pageNo)) {
+      this.pageNo = pageNo;
+    }
     this.getDoctorList(this.pageNo);
   },
   methods: {
@@ -242,8 +235,8 @@ export default {
     add() {
       this.$router.push({
         name: "DoctorRemoteclinicAdd",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
       });
     },
@@ -265,7 +258,7 @@ export default {
         name: "DoctorRemoteclinicEdit",
         params: {
           id: item.id,
-          pageNo:this.pageNo
+          pageNo: this.pageNo
         }
       });
     },

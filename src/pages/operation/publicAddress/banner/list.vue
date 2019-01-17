@@ -32,8 +32,7 @@
             <td>
               <img
                 :src="analysisImages(item.imageUrl)"
-                alt
-                style="margin:10px 0;width:80px;height:80px;"
+                style="display:inline-block;margin:10px 0;width:80px;height:80px;"
               >
             </td>
             <td>{{ item.bannerUrl }}</td>
