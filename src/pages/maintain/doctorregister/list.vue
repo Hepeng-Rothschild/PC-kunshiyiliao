@@ -144,6 +144,8 @@ export default {
           let ret = res.data.object;
           this.doctorregisterSize = ret.count;
           this.list = ret.list;
+        } else {
+          this.$Message.info("不允许访问")
         }
       });
     },

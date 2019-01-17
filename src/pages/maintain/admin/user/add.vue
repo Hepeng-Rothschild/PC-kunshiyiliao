@@ -251,11 +251,11 @@ export default {
         userIcon: images
       };
       if (this.text == "") {
-        this.$Message.info("账号不能为空");
+        this.$Message.info("账号不能为空")
       } else if (this.pass == "") {
-        this.$Message.info("密码不能为空");
+        this.$Message.info("密码不能为空")
       } else if (params.niceName == "") {
-        this.$Message.info("昵称不能为空");
+        this.$Message.info("昵称不能为空")
       } else {
         this.$axios.post(api.adminAdd, params).then(res => {
           if (res.data.code) {
@@ -270,7 +270,7 @@ export default {
               });
             }, 800);
           } else {
-            this.$Message.info("添加失败,请稍候重试");
+            this.$Message.info("不允许访问")
           }
         });
       }

@@ -106,7 +106,7 @@ export default {
           });
           this.data1 = ret.list;
         } else {
-          this.$Message.info("请求失败,请稍候重试");
+           this.$Message.info("没有访问权限");
         }
       });
     },

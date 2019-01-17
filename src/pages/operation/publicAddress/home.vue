@@ -111,7 +111,7 @@ export default {
           this.count =  res.data.object.count;
           this.data1 = ret;
         } else {
-          this.$Message.info("请求失败,请稍候重试");
+           this.$Message.info("没有访问权限");
         }
       });
     }

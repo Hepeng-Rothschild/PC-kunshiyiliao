@@ -149,19 +149,19 @@ export default {
       ]
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/patient/index",
-                title: "患者端运营"
-            },
-            {
-                path: "/index/operation/contentmanagement_home",
-                title: "内容管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/patient/index",
+        title: "患者端运营"
+      },
+      {
+        path: "/index/operation/contentmanagement_home",
+        title: "内容管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     let pageNo = this.$route.params.pageNo;
@@ -196,6 +196,8 @@ export default {
           let ret = res.data.object;
           this.contentSize = ret.count;
           this.tableList = ret.list;
+        } else {
+          this.$Message.info("不允许访问");
         }
       });
     },

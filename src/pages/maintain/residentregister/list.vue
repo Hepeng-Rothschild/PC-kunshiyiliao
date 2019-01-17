@@ -103,7 +103,7 @@ export default {
             this.$Message.info("查询结果为空");
           }
         } else {
-          this.$Message.info("查询失败");
+          this.$Message.info("不允许访问");
         }
       });
     },

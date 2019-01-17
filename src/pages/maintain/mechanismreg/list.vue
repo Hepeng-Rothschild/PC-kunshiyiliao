@@ -104,7 +104,7 @@ export default {
           let ret = res.data.object;
           item.enable = enable;
           this.$Message.info('修改成功');
-        }
+        } 
       })
     },
     batch () {
@@ -157,6 +157,8 @@ export default {
           let ret = res.data.object
           this.doctorregisterSize = ret.count
           this.list = ret.list;
+        } else {
+          this.$Message.info("不允许访问")
         }
       })
     },

@@ -62,7 +62,7 @@ export default {
           let ret = res.data.object;
           this.list = ret;
         } else {
-          this.$Message.info("请求失败,请稍候重试");
+            this.$Message.info("没有访问权限");
         }
       })
       .catch(err => {

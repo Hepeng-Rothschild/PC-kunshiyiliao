@@ -286,6 +286,8 @@ export default {
           let ret = res.data.object;
           this.remoteClinicLength = ret.count;
           this.list = ret.list;
+        } else {
+          this.$Message.info("没有访问权限");
         }
       });
     },

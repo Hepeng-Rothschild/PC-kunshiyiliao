@@ -100,7 +100,7 @@ export default {
             this.homeSize = res.data.object.count;
             this.tableList = ret;
           } else {
-             this.$Message.error('医院列表获取失败,请稍候重试');
+             this.$Message.error('没有访问权限');
           }
         })
         .catch(err => {

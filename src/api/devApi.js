@@ -120,7 +120,7 @@ const getDoctorInfo = '/operateapi/residentpagedoctor'  //获取医生注册信�
 const getCity = '/operateapi/sysprovinceprovincecitylist' //获取省级区域列表
 const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县列表
 
-// 机械注册信息
+// 机构注册信息
 const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注册信息列表查询
 const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
 const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
@@ -194,7 +194,6 @@ const servicepackageupdatepageagehospital ='/operateapi/servicepackageupdatepage
 //通过省份ID查询医院列表
 const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
 
-//
 const wxList = '/operateapi/wxappbannerwxapplist'  //公众号列表
 const wxBannerList = '/operateapi/wxappbannerlist'  //公众号banner图列表
 const wxBannerAdd = '/operateapi/wxappbannerinsert'  //公众号Banner图添加
