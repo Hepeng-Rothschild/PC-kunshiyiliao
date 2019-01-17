@@ -22,10 +22,10 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img src="./../assets/images/heicon.jpg">
+        <img :src="userIcon">
       </div>
       <div class="info">
-        <span>喜大普奔<sup>666</sup></span><br/>
+        <span>{{username}}</span><br/>
         <a href="javascript:void(0);" @click="logout">退出</a>
       </div>
     </div>
@@ -37,8 +37,9 @@ import cookie from "./../utils/cookie.js";
 export default {
   data() {
     return {
-      theme1: "light"
-      //   lists: []
+      theme1: "light",
+      username:'',
+      userIcon:'',
     };
   },
   props: ["topActiveName", "topMenuLists"],
@@ -47,6 +48,8 @@ export default {
     MenuItem
   },
   created() {
+    this.username = cookie.getCookie('username');
+    this.userIcon = cookie.getCookie('userIcon');
     // this.$store.commit("setTopMenuList");
     // this.lists = this.$store.state.topMenuList;
     // this.$store.commit("setLeftMenuList",this.topActiveName);
@@ -58,6 +61,8 @@ export default {
     },
     logout(){
       cookie.delCookie("access_token");
+      cookie.delCookie("username");
+      cookie.delCookie("userIcon");
       this.$router.push("/login")
     }
   }

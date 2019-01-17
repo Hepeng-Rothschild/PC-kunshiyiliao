@@ -1,66 +1,44 @@
 import CryptoJS from 'crypto-js'
 
+let keySizes, iterationCounts;
+let AesUtil = function (keySize, iterationCount) {
+    keySizes = keySize / 32;
+    iterationCounts = iterationCount;
+};
+const that = new AesUtil(128, 147);
+AesUtil.prototype.generateKey = function (salt, passPhrase) {
+    let key = CryptoJS.PBKDF2(
+        passPhrase,
+        CryptoJS.enc.Hex.parse(salt),
+        { keySize: keySizes, iterations: iterationCounts });
+    return key;
+}
+
+AesUtil.prototype.encrypt = function (salt, iv, passPhrase, plainText) {
+    let key = that.generateKey(salt, passPhrase);
+    let encrypted = CryptoJS.AES.encrypt(
+        plainText,
+        key,
+        { iv: CryptoJS.enc.Hex.parse(iv) });
+    return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+}
+
+AesUtil.prototype.decrypt = function (salt, iv, passPhrase, cipherText) {
+    let key = that.generateKey(salt, passPhrase);
+    let cipherParams = CryptoJS.lib.CipherParams.create({
+        ciphertext: CryptoJS.enc.Base64.parse(cipherText)
+    });
+    let decrypted = CryptoJS.AES.decrypt(
+        cipherParams,
+        key,
+        { iv: CryptoJS.enc.Hex.parse(iv) });
+    return decrypted.toString(CryptoJS.enc.Utf8);
+}
+// let aes = new AesUtil(128,147);
+// let decrypted = aes.decrypt("54bef10750df41d5ac9f2d0a4fe100bf","7c70035d4e7f4a1ba5a0eb737c7cf2d9","中电国康医到服务","PCMiCT6WxjhN/7YZ8sFE9IVpnmsRXikiCMJW7qUzw8I=");
+// let eccrypted = aes.encrypt("54bef10750df41d5ac9f2d0a4fe100bf","7c70035d4e7f4a1ba5a0eb737c7cf2d9","中电国康医到服务","你是哪位？");
+// console.log(eccrypted);
 export default {
-    KEY:CryptoJS.enc.Utf8.parse("中电国康医到服务"),
-    IV:CryptoJS.enc.Utf8.parse("中电国康医到服务"),
-    /**
-    
-    * @param {*需要加密的字符串 注：对象转化为json字符串再加密} word
-    
-    * @param {*aes加密需要的key值，这个key值后端同学会告诉你} keyStr
-    
-    */
-    // encrypt(word, keyStr) { // 加密
-
-    //     var key = CryptoJS.enc.Utf8.parse(keyStr)
-    //     console.log('key= ',key);
-    //     var srcs = CryptoJS.enc.Utf8.parse(word)
-    //     var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 }) // 加密模式为ECB，补码方式为PKCS5Padding（也就是PKCS7）
-    //     // var encrypted = CryptoJS.AES.encrypt('5CngaJ+XcuQZC0yySiOeeg==', '中电国康医到服务', { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs5 }) // 加密模式为ECB，补码方式为PKCS5Padding（也就是PKCS7）
-
-    //     return encrypted.toString()
-
-    // },
-    encrypt(word, keyStr, ivStr) {
-        let key = this.KEY
-        let iv = this.IV
-
-        if (keyStr) {
-            key = CryptoJS.enc.Utf8.parse(keyStr);
-            iv = CryptoJS.enc.Utf8.parse(ivStr);
-        }
-
-        let srcs = CryptoJS.enc.Utf8.parse(word);
-        var encrypted = CryptoJS.AES.encrypt(srcs, key, {
-            iv: iv,
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.ZeroPadding
-        });
-        // console.log("-=-=-=-", encrypted.ciphertext)
-        return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
-
-    },
-
-    decrypt(word, keyStr, ivStr) {
-        let key = this.KEY
-        let iv = this.IV
-
-        if (keyStr) {
-            key = CryptoJS.enc.Utf8.parse(keyStr);
-            iv = CryptoJS.enc.Utf8.parse(ivStr);
-        }
-
-        let base64 = CryptoJS.enc.Base64.parse(word);
-        let src = CryptoJS.enc.Base64.stringify(base64);
-
-        var decrypt = CryptoJS.AES.decrypt(src, key, {
-            iv: iv,
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.ZeroPadding
-        });
-
-        var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
-        return decryptedStr.toString();
-    }
-
+    encrypt: that.encrypt,
+    decrypt: that.decrypt,
 }

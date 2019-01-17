@@ -1,6 +1,7 @@
 /**
  * @file mutations
  */
+import Vue from 'vue';
 import * as Types from './mutation-types';
 import menuList from './mutations/menuList';
 
@@ -11,11 +12,11 @@ export default {
 	[Types.CHANGELOCALE] (state, locale) {
 		state.locale = locale;
 	},
-	// 设置顶级菜单
+	// 设置显示的顶级菜单
 	setTopMenuList(state){
 		state.topMenuList = menuList.topMenu
 	},
-	// 设置左侧菜单
+	// 设置显示的左侧菜单
 	setLeftMenuList(state,name){
 		switch(name){
 			case 1:
@@ -33,5 +34,25 @@ export default {
 			default:
 			state.leftMenuList = menuList.operationLeftMenu
 		}
-	}
+	},
+	//设置加密的IV
+	setIv(state,iv){
+		state.iv = iv;
+	},
+	//设置用户所包含的权限菜单
+	setTopMenu(state,topMenu){
+		state.topMenu = topMenu;
+	},
+	setOperationLeftMenu(state,operationLeftMenu){
+		state.operationLeftMenu = operationLeftMenu;
+	},
+	setMaintainLeftMenu(state,maintainLeftMenu){
+		state.maintainLeftMenu = maintainLeftMenu;
+	},
+	setStatisticsLeftMenu(state,statisticsLeftMenu){
+		state.statisticsLeftMenu = statisticsLeftMenu;
+	},
+	setSupervisionLeftMenu(state,supervisionLeftMenu){
+		state.supervisionLeftMenu = supervisionLeftMenu;
+	},
 };

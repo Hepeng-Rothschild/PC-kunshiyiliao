@@ -27,8 +27,8 @@ require('@/plugins/py.js');
 require('@/plugins/security.js');
 import axios from './plugins/http';
 /* aes 对称加密 */
-import aes from '@/plugins/aes-utils.js';
-Vue.prototype.aesUtils = aes;
+import aesUtils from '@/plugins/aes-utils.js';
+Vue.prototype.aesUtils = aesUtils;
 /* base64字符串编码解码 */
 require('@/plugins/base64.js');
 //注册全局过滤器

@@ -1,8 +1,8 @@
 <template>
   <div class="bread">
     <Breadcrumb class="w-bread" separator=">" v-if="breadList.length>0">
-      <BreadcrumbItem v-for="(item,index) of breadList" :to="item.path" :key="index">{{item.title}}</BreadcrumbItem>
-      <!-- <BreadcrumbItem v-for="(item,index) of breadList" to="/" :keys="index">{{item.title}}</BreadcrumbItem> -->
+      <!-- <BreadcrumbItem v-for="(item,index) of breadList" :to="item.path" :key="index">{{item.title}}</BreadcrumbItem> -->
+      <BreadcrumbItem v-for="(item,index) of breadList" :key="index">{{item.title}}</BreadcrumbItem>
     </Breadcrumb>
     <!-- <span>{{breadTitle}}</span> -->
   </div>

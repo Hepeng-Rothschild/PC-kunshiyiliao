@@ -228,8 +228,7 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo;
-        pageNo = pageNo ? pageNo : 1;
+        let pageNo = this.$route.query.pageNo ? parseInt(this.$route.query.pageNo) : 1;
         //获取省级列表
         this.$axios
             .post(api.getProvince)

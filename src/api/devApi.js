@@ -7,7 +7,7 @@ const dictionaryInsert = "/operateapi/operate/diction/insert";//添加字典
 const dictionaryUpdate = "/operateapi/operate/diction/update";//修改字典
 
 const news = '/operateapi/organizationpagenews'; //动态新闻列表分页
-const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口
+const fileAll = "/operateapi/hospitaloperateuploadfiles"; //上传接口 不加密
 const getProvince = "/operateapi/authenticationqueryprovince"; //获取省级列表
 const getTitle = "/operateapi/authenticationquerytitle"; //获取职称列表
 const getReviewDoctorList = "/operateapi/authenticationdoctorpage"; //获取审核医生列表
@@ -115,7 +115,7 @@ const DoctorListEdit ='/operateapi/remotedoctorupdateremotestatus' // 医生排�
 
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
-const uploadXls = '/operateapi/organizationinsertbatchdoctor' //批量上传医生信息
+const uploadXls = '/operateapi/organizationinsertbatchdoctor' //批量上传医生信息  不加密
 const getDoctorInfo = '/operateapi/residentpagedoctor'  //获取医生注册信息
 const getCity = '/operateapi/sysprovinceprovincecitylist' //获取省级区域列表
 const getCounty = '/operateapi/sysprovincequeryAreaList' //根据市级查询县列表
@@ -126,7 +126,7 @@ const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册
 const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
 const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
 const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
-const mechanismregUpLoad = '/operateapi/organizationinsertbatchhospital' //批量上传机构信息
+const mechanismregUpLoad = '/operateapi/organizationinsertbatchhospital' //批量上传机构信息  不加密
 
 /* ********************************************* */
 const doctorList = '/operateapi/doctorselectdoctorlist' //医生列表
@@ -167,7 +167,7 @@ const updateSymptomInfo = '/operateapi/symptomupdate';//更改症状信息
 const insertSymptom = '/operateapi/symptominsert';//添加症状信息
 const selectSymptomInfo = '/operateapi/symptomselect';//查询症状信息
 
-const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传信息模板下载
+const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传信息模板下载  不加密
 
 //订单管理
 const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
