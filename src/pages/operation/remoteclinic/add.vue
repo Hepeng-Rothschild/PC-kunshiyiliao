@@ -58,7 +58,7 @@
           <span style="color:red;">*</span>
           <p>远程门诊时长</p>
         </div>
-        <Select class="w-select" v-model="time">
+        <Select class="w-select" v-model="time" @on-change="remoteData">
           <Option v-for="item in timeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
       </div>
@@ -106,6 +106,8 @@
                 placeholder="时间段"
                 style="width: 120px"
                 @on-change="changeTime"
+                :disabled-hours="[0,1,2,3,4,13,14,15,16,17,18,19,20,21,22,23]"
+                hide-disabled-options
               ></TimePicker>
             </td>
             <td>
@@ -141,6 +143,8 @@
                 placeholder="时间段"
                 style="width: 120px"
                 @on-change="changeTime1"
+                :disabled-hours="[0,1,2,3,4,5,6,7,8,9,10,11,12]"
+                hide-disabled-options
               ></TimePicker>
             </td>
             <td>
@@ -166,7 +170,7 @@
             </td>
           </tr>
         </table>
-        <p>注：数量不能超过时间段/远程门诊时长数量（如上午8:00至12:00，时长30分钟，最多可设置8次）</p>
+        <!-- <p>注：数量不能超过时间段/远程门诊时长数量（如上午8:00至12:00，时长30分钟，最多可设置8次）</p> -->
       </div>
       <!-- 预约备注 -->
       <div class="text">
@@ -276,7 +280,6 @@ export default {
       searchName: ""
     };
   },
-  mounted() {},
   created() {
     let breadList = [
       { path: "/index", title: "首页" },
@@ -308,7 +311,7 @@ export default {
         if (item.id == val) {
           this.money = item.cost;
         }
-      });
+      })
     },
     // 模态框的分页器改变
     change1(index) {
@@ -337,18 +340,19 @@ export default {
       params.doctorId = this.selectExpert.doctorId;
       // 医院ID
       params.hospitalId = this.selectExpert.hospitalId;
+      // console.log(params);
       if (this.searchType == -1) {
         this.$Message.info("请选择远程门诊类型");
       } else if (this.time < 0) {
         this.$Message.info("请选择远程门诊时长");
       } else if (this.cycle < 0) {
         this.$Message.info("请选择远程门诊周期");
+      } else if (!params.intervalTimeAmEnd || !params.intervalTimePmEnd) {
+        this.$Message.info("请查看预约时间段是否未填写完整");
       } else if (params.doctorId == "") {
         this.$Message.info("请选择专家");
       } else {
-        console.log(params);
         this.$axios.post(api.doctorRomteclinicAdd, params).then(res => {
-          console.log(res);
           if (res.data.code) {
             this.$Message.info("添加成功");
             let pageNo = this.$route.params.pageNo;
@@ -361,7 +365,7 @@ export default {
               });
             }, 800);
           }
-        });
+        })
       }
     },
     // 选择专家
@@ -370,16 +374,112 @@ export default {
       this.selectExpert = item;
       this.getRemoteClinic(item.hospitalId);
     },
+    // 远程门诊时间改变
+    remoteData() {
+      // 设置上午时间
+      if (Boolean(this.value2)) {
+        let m1 = Number(this.value2[0].split(":")[1]);
+        let s1 = this.value2[0].split(":")[0] * 60 + m1;
+        let m2 = Number(this.value2[1].split(":")[1]);
+        let s2 = this.value2[1].split(":")[0] * 60 + m2;
+        let count = s2 - s1;
+        if (count < this.time) {
+          this.$Message.info("开始时间与结束时间不能相同");
+          return "";
+        }
+        if (Boolean(count)) {
+          this.topLength = parseInt(count / this.time);
+        } else {
+          this.topLength = null;
+        }
+        this.params.oneAm = this.topLength;
+        this.params.twoAm = this.topLength;
+        this.params.threeAm = this.topLength;
+        this.params.fourAm = this.topLength;
+        this.params.fiveAm = this.topLength;
+        this.params.sixAm = this.topLength;
+        this.params.sevenAm = this.topLength;
+      }
+      // 设置下午时间
+      if (Boolean(this.value3)) {
+        let m1 = Number(this.value3[0].split(":")[1]);
+        let s1 = this.value3[0].split(":")[0] * 60 + m1;
+        let m2 = Number(this.value3[1].split(":")[1]);
+        let s2 = this.value3[1].split(":")[0] * 60 + m2;
+        let count = s2 - s1;
+        if (count < this.time) {
+          this.$Message.info("开始时间与结束时间不能相同");
+          return "";
+        }
+        if (Boolean(count)) {
+          this.topLength = parseInt(count / this.time);
+        } else {
+          this.topLength = null;
+        }
+        this.params.onePm = this.topLength;
+        this.params.twoPm = this.topLength;
+        this.params.threePm = this.topLength;
+        this.params.fourPm = this.topLength;
+        this.params.fivePm = this.topLength;
+        this.params.sixPm = this.topLength;
+        this.params.sevenPm = this.topLength;
+      }
+    },
     // 选择时间/上午
     changeTime(val) {
       this.value2 = val;
-      console.log(val);
-      console.log(this.time);
+      if (Boolean(val)) {
+        let m1 = Number(val[0].split(":")[1]);
+        let s1 = val[0].split(":")[0] * 60 + m1;
+        let m2 = Number(val[1].split(":")[1]);
+        let s2 = val[1].split(":")[0] * 60 + m2;
+        let count = s2 - s1;
+        if (count < this.time) {
+          this.$Message.info("开始时间与结束时间不能相同");
+          return "";
+        }
+        if (Boolean(count)) {
+          this.topLength = parseInt(count / this.time);
+        } else {
+          this.topLength = null;
+        }
+        console.log(val);
+
+        this.params.oneAm = this.topLength;
+        this.params.twoAm = this.topLength;
+        this.params.threeAm = this.topLength;
+        this.params.fourAm = this.topLength;
+        this.params.fiveAm = this.topLength;
+        this.params.sixAm = this.topLength;
+        this.params.sevenAm = this.topLength;
+      }
     },
     // 选择时间/下午
     changeTime1(val) {
       this.value3 = val;
-      console.log(val);
+      if (Boolean(val)) {
+        let m1 = Number(val[0].split(":")[1]);
+        let s1 = val[0].split(":")[0] * 60 + m1;
+        let m2 = Number(val[1].split(":")[1]);
+        let s2 = val[1].split(":")[0] * 60 + m2;
+        let count = s2 - s1;
+        if (count < this.time) {
+          this.$Message.info("开始时间与结束时间不能相同");
+          return "";
+        }
+        if (Boolean(count)) {
+          this.topLength = parseInt(count / this.time);
+        } else {
+          this.topLength = null;
+        }
+        this.params.onePm = this.topLength;
+        this.params.twoPm = this.topLength;
+        this.params.threePm = this.topLength;
+        this.params.fourPm = this.topLength;
+        this.params.fivePm = this.topLength;
+        this.params.sixPm = this.topLength;
+        this.params.sevenPm = this.topLength;
+      }
     },
     // 远程门诊类型
     getRemoteClinic(id) {

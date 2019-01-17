@@ -6,6 +6,7 @@
         <span style="color: #f5a623">{{ valueCustomText }}</span>
       </Rate>-->
     </header>
+    
     <div class="main" v-for="item,index in list" v-show="list.length">
       <h3>{{ item.name.menuName }}</h3>
       <div class="tabList">
@@ -30,7 +31,9 @@
         <div class="footer" v-show="!item.child.length">暂无更多数据</div>
         <Button type="primary" @click="fn(item.name.id)" style="margin-top:20px;">添加新功能</Button>
       </div>
+      <hr/>
     </div>
+
     <div class="main" v-show="!list.length">暂无数据</div>
     <Modal v-model="modal1" title="预览跳转路径" footer-hide>
       <p class="modal_p">{{ path }}</p>

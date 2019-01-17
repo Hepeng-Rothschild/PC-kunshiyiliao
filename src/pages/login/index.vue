@@ -90,9 +90,11 @@ export default {
                 axios.post(api.login,params)
                 .then(resp=>{
                     if(resp.data.success){
+                        console.log("登陆中")
                         let times = 10*60*60;
                         cookie.setCookie("access_token", resp.data.object.access_token,times)
                         this.$router.push("/index");
+                        console.log("登陆成功")
                     }else{
                         this.loginFlag = true;
                         this.noticeClassColor = "alert-color";
