@@ -36,8 +36,8 @@ export default {
 		}
 	},
 	//设置加密的IV
-	setIv(state,iv){
-		state.iv = iv;
+	setKey(state,key){
+		state.key = key;
 	},
 	//设置用户所包含的权限菜单
 	setTopMenu(state,topMenu){

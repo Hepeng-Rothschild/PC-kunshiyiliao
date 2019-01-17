@@ -129,7 +129,7 @@ export default {
     },
     // 输入值时搜索内容
     searchContent() {
-      console.log(this.model);
+      // console.log(this.model);
     },
     //  分页器改变
     pageChange(index) {
@@ -173,7 +173,7 @@ export default {
         this.$Message.info("您还没有输入内容");
         return;
       }
-      console.log(this.model.hospital);
+      // console.log(this.model.hospital);
     },
     getMockData() {
       let mockData = [];
@@ -191,7 +191,7 @@ export default {
       return this.getMockData()
         .filter(() => Math.random() * 2 > 1)
         .map(item => {
-          console.log(item);
+          // console.log(item);
           return item.key;
         });
     },
@@ -199,7 +199,7 @@ export default {
       // newTargetKeys    下标
       // direction    左移/右移
       // moveKeys  下标
-      console.log(newTargetKeys, direction, moveKeys);
+      // console.log(newTargetKeys, direction, moveKeys);
       this.targetKeys4 = newTargetKeys;
       for (let i = 0; i < newTargetKeys.length; i++) {
         console.log(this.data4[newTargetKeys[i]].label);
@@ -213,7 +213,7 @@ export default {
     // 保存
     save() {
       let params = {};
-      console.log(this.model);
+      // console.log(this.model);
     }
   }
 };

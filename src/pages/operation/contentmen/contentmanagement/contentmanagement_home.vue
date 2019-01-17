@@ -221,7 +221,6 @@ export default {
       if (type2 == null) {
         type2 = "";
       }
-      console.log(type1, type2);
       this.getContentData(1, this.val, type1, type2);
     },
     // 下架

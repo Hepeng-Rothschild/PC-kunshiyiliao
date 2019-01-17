@@ -251,7 +251,6 @@ export default {
             item.iNum = this.addZero(index);
           });
           this.diseaseList = ret.list;
-          console.log(ret);
         } else {
           this.$Message.info("请求失败,请稍候重试");
         }
