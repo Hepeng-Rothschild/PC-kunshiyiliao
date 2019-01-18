@@ -3,7 +3,11 @@
     <!-- 头部搜索 -->
     <header>
       <span>版本号</span>
-      <Input v-model.trim="params.uId" placeholder="请输入版本号进行查询" style="width: 200px;margin:0 20px;"/>
+      <Input
+        v-model.trim="params.uId"
+        placeholder="请输入版本号进行查询"
+        style="width: 200px;margin:0 20px;"
+      />
       <Button type="primary" icon="ios-search" @click="search">查询</Button>
       <Button type="primary" @click="add" style="margin-left:20px;">添加新版本</Button>
     </header>
@@ -54,14 +58,13 @@ export default {
                   },
                   on: {
                     click: () => {
-                      
                       this.$router.push({
                         name: "versionManagementEdit",
                         params: {
                           id,
-                          pageNo:this.pageNo
+                          pageNo: this.pageNo
                         }
-                      })
+                      });
                     }
                   }
                 },
@@ -74,24 +77,24 @@ export default {
       data1: []
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
-            },
-            {
-                path: "/index/operation/versionManagement/home",
-                title: "版本管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/doctorManagement/index",
+        title: "医生端运营"
+      },
+      {
+        path: "/index/operation/versionManagement/home",
+        title: "版本管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let pageNo = this.$route.params.pageNo
-    if(Boolean(pageNo)) {
-      this.pageNo = pageNo
+    let pageNo = this.$route.params.pageNo;
+    if (Boolean(pageNo)) {
+      this.pageNo = pageNo;
     }
     this.loadingData(this.pageNo);
   },
@@ -120,24 +123,24 @@ export default {
           let ret = res.data.object;
           this.count = ret.count;
           ret.list.forEach((item, index) => {
-            item.sum = index+1;
+            item.sum = index + 1;
             if (item.type == 1) {
-              item.type1 = "安卓";
-            } else {
               item.type1 = "IOS";
+            } else {
+              item.type1 = "安卓";
             }
           });
           this.data1 = ret.list;
         } else {
-            this.$Message.info("没有访问权限");
+          this.$Message.info("没有访问权限");
         }
       });
     },
     add() {
       this.$router.push({
         name: "versionManagementAdd",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
       });
     }

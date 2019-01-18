@@ -82,7 +82,7 @@
           </div>
         </div>
         <!-- 是否开启 -->
-        <div class="item">x
+        <div class="item">
           <div class="item-left">
             <span style="color:red;">*</span>
             <span>是否开启</span>
