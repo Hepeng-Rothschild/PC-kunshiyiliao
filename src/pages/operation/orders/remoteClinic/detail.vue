@@ -283,7 +283,7 @@ export default {
             .then(resp => {
                 this.info = resp.data.object;
                 
-                this.info.caseImages = this.tryCatch(this.info.caseImages);
+                this.info.caseImages = this.tryCatch(this.info.caseImages) ? this.tryCatch(this.info.caseImages) : [];
             })
             .catch(err => {
                 // this.$Message.info("服务器超时，请重新访问")
