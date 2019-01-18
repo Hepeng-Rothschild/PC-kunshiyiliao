@@ -61,7 +61,7 @@ axios.interceptors.response.use(
 		let key = cookie.getCookie("randmId");
 		let url = response.config.url;
 		let RegObj = new RegExp('operate/login','ig');
-		if(!RegObj.test(url)){
+		if(!RegObj.test(url) && response.data.encryption){
 			let tmpData = response.data.object;
 			if(tmpData){
 				response.data.object = JSON.parse(aesUtils.decrypt(salt,iv,key,tmpData));

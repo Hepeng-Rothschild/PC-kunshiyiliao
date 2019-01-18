@@ -634,6 +634,7 @@ export default {
         },
         headUrlHandleSuccess(res, file) {
             if (res.success) {
+                res = this.uploadFileDecrypt(res);
                 console.log("上传成功");
                 this.headUrlSubmitList.push(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;
@@ -671,6 +672,7 @@ export default {
         },
         pictureHandleSuccess(res, file) {
             if (res.success) {
+                res = this.uploadFileDecrypt(res);
                 console.log("上传成功");
                 this.pictureSubmitList.push(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;
@@ -711,6 +713,7 @@ export default {
         },
         bannerImageHandleSuccess(res, file) {
             if (res.success) {
+                res = this.uploadFileDecrypt(res);
                 console.log("上传成功");
                 this.bannerImageSubmitList.push(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;

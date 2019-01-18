@@ -82,7 +82,7 @@
           </div>
         </div>
         <!-- 是否开启 -->
-        <div class="item">
+        <div class="item">x
           <div class="item-left">
             <span style="color:red;">*</span>
             <span>是否开启</span>
@@ -121,10 +121,6 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-
-import aesUtils from "@/plugins/aes-utils.js";
-import store from '@/store'
-import cookie from '@/utils/cookie.js';
 
 import { Select, Option, Upload, Icon, Switch } from "iview";
 export default {
@@ -302,15 +298,9 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
+      
       if (res.success) {
-        // let iv = store.state.iv;
-        // let salt = store.state.salt;
-        // let key = cookie.getCookie("randmId");
-        // let ret = aesUtils.decrypt(salt,iv,key,res.object)
-        // ret = ret.slice(1,ret.length-1)
-        // res.object = []
-        // res.object.push(JSON.parse(ret))
-        // console.log(res)
+        res = this.uploadFileDecrypt(res);
         
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);

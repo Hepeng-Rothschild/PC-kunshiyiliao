@@ -21,15 +21,11 @@ export default new Vuex.Store({
 
 		topMenuList:new Array(),
 		leftMenuList:new Array(),
-		topMenu:new Array(),
-		operationLeftMenu:new Array(),
-		maintainLeftMenu:new Array(),
-		statisticsLeftMenu:new Array(),
-		supervisionLeftMenu:new Array(),
 		//所有省市区
 		address:addressConfig.address,
 		iv:'54bef10750df41d5ac9f2d0a4fe100bf',
 		salt:'7c70035d4e7f4a1ba5a0eb737c7cf2d9',
+		accessToken:null,
 		Rsa:{ //公钥
 			my_key:`-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/GTvHeZv0+WAQR5dwt02TWbONgZqflwkcHT3xnY9cFYi0KiOsc5elZ2Ie6SM60RNBrDid19chCap682kxRy94vQzKyfwhKLJz5gF3vpJS3q+QcvbSapRy/1ln54kqaw3KZNC05kDwO+dfAmHTeQ95rIZVa0bDnxmYnVlvb0zOgwIDAQAB-----END PUBLIC KEY-----`
 		},

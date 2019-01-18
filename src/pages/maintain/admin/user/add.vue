@@ -293,6 +293,7 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
+      res = this.uploadFileDecrypt(res);
       if (res.code) {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);

@@ -245,6 +245,7 @@ export default {
       this.uploadList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
+      res = this.uploadFileDecrypt(res);
       file.url = res.object[0].fileName;
       this.images = JSON.stringify(res.object[0]);
       file.name = res.object[0].fileName;

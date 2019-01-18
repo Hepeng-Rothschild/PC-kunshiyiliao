@@ -331,6 +331,7 @@ export default {
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
         },
         handleSuccess(res, file) {
+            res = this.uploadFileDecrypt(res);
             if (res.success) {
                 console.log("上传成功");
                 this.eduInfo.cover = JSON.stringify(res.object[0]);
