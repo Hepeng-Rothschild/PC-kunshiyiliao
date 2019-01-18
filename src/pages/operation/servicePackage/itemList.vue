@@ -298,7 +298,7 @@ export default {
             this.$axios
                 .post(api.fdspackageitempage, params)
                 .then(resp => {
-                    if(resp.data.code==1&&resp.data.object.list.length>0){
+                    if(resp.data.success){
                         this.count = resp.data.object.count;
                         this.dataList = [];
                         resp.data.object.list.map((el, i) => {
