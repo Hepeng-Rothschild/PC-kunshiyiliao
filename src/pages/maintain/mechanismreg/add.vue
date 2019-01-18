@@ -104,7 +104,7 @@
         <!-- 保存 -->
         <div class="save">
           <div style="background:#fff;" @click="back">取消</div>
-          <div style="background:#4dd3d2;color:#fff;" @click="save">提交</div>
+          <div style="background:#2d8cf0;color:#fff;" @click="save">提交</div>
         </div>
       </div>
     </div>

@@ -144,7 +144,7 @@ export default {
       outline: none;
       border-radius: 4px;
       color: #fff;
-      background: skyblue;
+      background: #2d8cf0;
       transition: all 0.5s;
     }
     .disabled {
