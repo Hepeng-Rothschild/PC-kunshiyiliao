@@ -44,7 +44,6 @@ export default {
 		}
 	},
 	setAccessToken(state,val){
-		console.log("修改accesstoken");
 		state.accessToken = val;
 	}
 };
