@@ -27,6 +27,12 @@ export default {
 				};
 			}
 		}
+	},
+	mounted () {
+		// let top = window.localStorage.getItem("top")
+		// if (!top) {
+		// 	this.$router.push("/login")
+		// }
 	}
 };
 </script>

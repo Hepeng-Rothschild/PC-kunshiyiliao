@@ -42,7 +42,7 @@
       <tr v-for="item,index in tableList" v-show="tableList.length">
         <th>{{ addZero(index) }}</th>
         <!-- 标题 -->
-        <th>{{ item.title }}</th>
+        <th class="one">{{ item.title }}</th>
         <!-- 类型 -->
         <th v-show="item.type == 1">文章</th>
         <th v-show="item.type != 1">视频</th>
@@ -439,6 +439,13 @@ export default {
           }
         }
       }
+      th.one {
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
       .red {
         color: red;
       }
