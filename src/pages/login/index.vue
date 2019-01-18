@@ -50,9 +50,9 @@ export default {
         };
     },
     beforeCreate(){
-        let assets_token = cookie.getCookie("access_token");
+        let assets_token = window.localStorage.getItem("access_token");
         if(assets_token){
-            cookie.delCookie("access_token");
+            window.localStorage.removeItem("access_token");
         }
     },
     mounted(){
@@ -91,7 +91,7 @@ export default {
                 .then(resp=>{
                     if(resp.data.success){
                         let times = 10*60*60;
-                        cookie.setCookie("access_token", resp.data.object.access_token,times);
+                        window.localStorage.setItem("access_token", resp.data.object.access_token);
                         let tmpIcon = resp.data.object.userIcon;
                         let username = resp.data.object.nickname;
                         if(tmpIcon){

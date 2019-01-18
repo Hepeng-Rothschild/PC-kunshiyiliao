@@ -41,7 +41,7 @@ axios.interceptors.request.use(
 		// 	config.headers.cusEncrypt = "yes";
 		// }
 		if (store.state.env == "production" || store.state.env == "test") {
-			let access_token = cookie.getCookie('access_token');
+			let access_token = window.localStorage.getItem('access_token');
 			if (access_token != undefined)
 				config.headers.Authorization = "Bearer " + access_token;
 		}
