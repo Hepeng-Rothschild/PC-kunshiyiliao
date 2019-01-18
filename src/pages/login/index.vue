@@ -92,6 +92,7 @@ export default {
                     if(resp.data.success){
                         let times = 10*60*60;
                         cookie.setCookie("access_token", resp.data.object.access_token,times);
+                        console.log(resp.data.object.access_token.length)
                         let tmpIcon = resp.data.object.userIcon;
                         let username = resp.data.object.nickname;
                         if(tmpIcon){
@@ -102,6 +103,7 @@ export default {
                         }
                         let key = resp.data.object.randmId;
                         cookie.setCookie("randmId", key,times);
+                        
                         this.$router.push("/index");
                     }else{
                         this.loginFlag = true;

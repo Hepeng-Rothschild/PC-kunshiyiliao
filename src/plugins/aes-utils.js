@@ -24,23 +24,19 @@ AesUtil.prototype.encrypt = function (salt, iv, passPhrase, plainText) {
 }
 
 AesUtil.prototype.decrypt = function (salt, iv, passPhrase, cipherText) {
-    console.log("解码")
+    // console.log("解码")
 
     let key = that.generateKey(salt, passPhrase);
     let cipherParams = CryptoJS.lib.CipherParams.create({
         ciphertext: CryptoJS.enc.Base64.parse(cipherText)
-    });
-
-    console.log("解码中")
+    })
 
     let decrypted = CryptoJS.AES.decrypt(
         cipherParams,
         key,
-        { iv: CryptoJS.enc.Hex.parse(iv) });
+        { iv: CryptoJS.enc.Hex.parse(iv) })
 
-    console.log("解码完成")
-    console.log(decrypted.toString(CryptoJS.enc.Utf8))
-    
+
     return decrypted.toString(CryptoJS.enc.Utf8);
 }
 // let aes = new AesUtil(128,147);

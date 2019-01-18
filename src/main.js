@@ -53,6 +53,7 @@ router.beforeEach((to, from, next) => {
 	if(store.state.env == "production" || store.state.env == "test"){
 		if(to.path != "/login"){
 			let access_token = cookie.getCookie("access_token");
+			console.log(to)
 			if(access_token != undefined){
 				let title = to.meta.title?to.meta.title:"互联网医院管理系统";
 				document.title = title;
