@@ -28,6 +28,8 @@
 import topMenu from "@/components/topMenu";
 import leftMenu from "@/components/leftMenu";
 import Bread from "@/components/bread";
+import aesUtils from "@/plugins/aes-utils.js";
+import cookie from "@/utils/cookie.js";
 export default {
 	name: 'App',
 	data(){

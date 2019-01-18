@@ -1,3 +1,6 @@
+import store from '@/store';
+import cookie from '@/utils/cookie.js';
+import aesUtils from '@/plugins/aes-utils.js';
 export function GetDate(AddDayCount=0) {
     var dd = new Date();
     dd.setDate(dd.getDate() + AddDayCount);//获取AddDayCount天后的日期
@@ -11,4 +14,13 @@ export function GetDate(AddDayCount=0) {
         d = "0" + d;
     }
     return y + "-" + m + "-" + d;
+}
+export function uploadFileDecrypt(res){
+    let salt = store.state.salt;
+    let iv = store.state.iv;
+    let key = cookie.getCookie("randmId");
+    if(res.code == 1 && res.encryption){
+        res.object = JSON.parse(aesUtils.decrypt(salt,iv,key,res.object));
+    }
+    return res;
 }
