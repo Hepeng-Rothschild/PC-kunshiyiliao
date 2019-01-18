@@ -52,8 +52,7 @@ Vue.use(VueKindEditor)
 router.beforeEach((to, from, next) => {
 	if(store.state.env == "production" || store.state.env == "test"){
 		if(to.path != "/login"){
-			let access_token = cookie.getCookie("access_token");
-			console.log(to)
+			let access_token = window.localStorage.getItem("access_token");
 			if(access_token != undefined){
 				let title = to.meta.title?to.meta.title:"互联网医院管理系统";
 				document.title = title;
@@ -120,7 +119,7 @@ if(store.state.env == "production"){
 	Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
-		'Authorization':"Bearer "+ cookie.getCookie('access_token')
+		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
 	};
 }else if(store.state.env == "dev"){
 	Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
@@ -131,7 +130,7 @@ if(store.state.env == "production"){
 	Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
-		'Authorization':"Bearer "+ cookie.getCookie('access_token')
+		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
 	};
 }
 

@@ -121,6 +121,11 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
+
+import aesUtils from "@/plugins/aes-utils.js";
+import store from '@/store'
+import cookie from '@/utils/cookie.js';
+
 import { Select, Option, Upload, Icon, Switch } from "iview";
 export default {
   components: {
@@ -297,7 +302,16 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
-      if (res.code) {
+      if (res.success) {
+        // let iv = store.state.iv;
+        // let salt = store.state.salt;
+        // let key = cookie.getCookie("randmId");
+        // let ret = aesUtils.decrypt(salt,iv,key,res.object)
+        // ret = ret.slice(1,ret.length-1)
+        // res.object = []
+        // res.object.push(JSON.parse(ret))
+        // console.log(res)
+        
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;

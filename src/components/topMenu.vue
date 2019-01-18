@@ -60,7 +60,7 @@ export default {
       this.$router.push("/index");
     },
     logout(){
-      cookie.delCookie("access_token");
+      window.localStorage.removeItem("access_token");
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
       cookie.delCookie("randmId");
