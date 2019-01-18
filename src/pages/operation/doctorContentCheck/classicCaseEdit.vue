@@ -633,8 +633,8 @@ export default {
             this.$refs.headUrlUpload.fileList.splice(fileList.indexOf(file), 1);
         },
         headUrlHandleSuccess(res, file) {
+            res = this.uploadFileDecrypt(res);
             if (res.success) {
-                res = this.uploadFileDecrypt(res);
                 console.log("上传成功");
                 this.headUrlSubmitList.push(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;
@@ -671,8 +671,8 @@ export default {
             this.$refs.pictureUpload.fileList.splice(fileList.indexOf(file), 1);
         },
         pictureHandleSuccess(res, file) {
+            res = this.uploadFileDecrypt(res);
             if (res.success) {
-                res = this.uploadFileDecrypt(res);
                 console.log("上传成功");
                 this.pictureSubmitList.push(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;
@@ -712,8 +712,8 @@ export default {
             );
         },
         bannerImageHandleSuccess(res, file) {
+            res = this.uploadFileDecrypt(res);
             if (res.success) {
-                res = this.uploadFileDecrypt(res);
                 console.log("上传成功");
                 this.bannerImageSubmitList.push(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;

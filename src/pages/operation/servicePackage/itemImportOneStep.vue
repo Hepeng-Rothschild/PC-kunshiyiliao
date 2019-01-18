@@ -76,8 +76,8 @@ export default {
                 });
         },
         handleSuccess(res, file) {
+            res = this.uploadFileDecrypt(res);
             if (res.code) {
-                res = this.uploadFileDecrypt(res);
                 let ret = res.object[0];
                 this.disabled = false;
                 this.errorData.success += ret.success;

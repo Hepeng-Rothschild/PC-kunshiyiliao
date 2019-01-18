@@ -315,9 +315,8 @@ export default {
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
         },
         handleSuccess(res, file) {
-
+            res = this.uploadFileDecrypt(res);
             if (res.success) {
-                res = this.uploadFileDecrypt(res);
                 console.log("上传成功");
                 this.info.cover = JSON.stringify(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;
