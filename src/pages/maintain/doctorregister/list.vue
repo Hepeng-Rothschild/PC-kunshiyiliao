@@ -179,7 +179,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       button {
-        background: skyblue;
+        background: #2d8cf0;
         border: none;
         outline: none;
         color: #fff;

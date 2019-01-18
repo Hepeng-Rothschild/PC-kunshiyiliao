@@ -82,7 +82,7 @@ export default {
     .btn{
         border:none;
         outline:none;
-        background:skyblue;
+        background:#2d8cf0;
         width:150px;
         line-height:30px;
         color:#fff;

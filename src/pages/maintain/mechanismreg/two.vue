@@ -120,7 +120,7 @@ export default {
         height: 30px;
         border: none;
         outline: none;
-        background: skyblue;
+        background: #2d8cf0;
         border-radius: 4px;
         color: #fff;
       }

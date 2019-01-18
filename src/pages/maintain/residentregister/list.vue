@@ -142,7 +142,7 @@ export default {
         line-height: 32px;
         border: none;
         outline: none;
-        background: skyblue;
+        background: #2d8cf0;
         text-align: center;
         border-radius: 4px;
         color: #fff;

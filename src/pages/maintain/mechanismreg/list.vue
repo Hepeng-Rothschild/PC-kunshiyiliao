@@ -200,7 +200,7 @@ export default {
           border: none;
           outline: none;
           color: #FFF;
-          background: skyblue;
+          background: #2d8cf0;
           width: 128px;
           height: 39px;
           border-radius: 2px;
