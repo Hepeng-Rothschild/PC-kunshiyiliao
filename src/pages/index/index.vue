@@ -52,7 +52,12 @@ export default {
 	},
 	created(){
 		this.$store.commit("setTopMenuList");
-		this.topMenuLists = this.$store.state.topMenuList;
+		let topMenuList = this.$store.state.topMenuList;
+		if(topMenuList.length>0){
+			this.topMenuLists = topMenuList;
+		}else{
+			this.$router.push("/login");
+		}
 		// this.leftMenuLists = this.$store.state.leftMenuList;
 	},
 	mounted(){

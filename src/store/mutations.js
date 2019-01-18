@@ -17,30 +17,44 @@ export default {
 	// 设置显示的顶级菜单
 	setTopMenuList(state){
 		// state.topMenuList = menuList.topMenu;
-		state.topMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),window.localStorage.getItem("top")));
+		let top = window.localStorage.getItem("top");
+		if(top){
+			state.topMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),top));
+		}
 	},
 	// 设置显示的左侧菜单
 	setLeftMenuList(state,name){
+		let operation,maintain,statistics,supervision;
 		switch(name){
 			case 1:
 			// state.leftMenuList = menuList.operationLeftMenu
-			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),window.localStorage.getItem("operation")))
+			operation = window.localStorage.getItem("operation");
+			if(operation)
+			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),operation))
 			break;
 			case 2:
 			// state.leftMenuList = menuList.maintainLeftMenu
-			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),window.localStorage.getItem("maintain")))
+			maintain = window.localStorage.getItem("maintain");
+			if(maintain)
+			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),maintain))
 			break;
 			case 3:
 			// state.leftMenuList = menuList.statisticsLeftMenu
-			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),window.localStorage.getItem("statistics")))
+			statistics = window.localStorage.getItem("statistics");
+			if(statistics)
+			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),statistics))
 			break;
 			case 4:
 			// state.leftMenuList = menuList.supervisionLeftMenu
-			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),window.localStorage.getItem("supervision")))
+			supervision = window.localStorage.getItem("supervision");
+			if(supervision)
+			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),supervision))
 			break;
 			default:
 			// state.leftMenuList = menuList.operationLeftMenu
-			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),window.localStorage.getItem("operation")))
+			operation = window.localStorage.getItem("operation");
+			if(operation)
+			state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),operation))
 		}
 	},
 	setAccessToken(state,val){
