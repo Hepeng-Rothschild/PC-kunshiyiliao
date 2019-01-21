@@ -91,7 +91,7 @@ export default {
     };
   },
   mounted() {
-    this.params.prentId = this.$route.params.id;
+    this.params.prentId = this.$route.query.id;
   },
   methods: {
     // 添加新功能
@@ -111,7 +111,7 @@ export default {
             this.$Message.info("添加成功");
             setTimeout(() => {
               this.$router.push({
-                name: "wxTypeManagementList"
+                path: "/index/operation/wxTypeManagement/list"
               });
             }, 800);
           } else {
@@ -123,7 +123,7 @@ export default {
     // 回到列表 
     back() {
       this.$router.push({
-        name: "wxTypeManagementList"
+        path: "/index/operation/wxTypeManagement/list"
       });
     }
   }

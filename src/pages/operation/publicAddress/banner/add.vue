@@ -76,7 +76,7 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <Input v-model.trim="isort" placeholder style="width: 100px" @on-keyup ='proxy'/>
+          <Input v-model.trim="isort" placeholder style="width: 100px" @on-keyup="proxy"/>
         </div>
       </div>
       <!--是否显示-->
@@ -120,7 +120,7 @@ export default {
       lianjie: "",
       isort: "",
       switch1: true,
-      switch2:true,
+      switch2: true,
       defaultList: [],
       imgName: "",
       visible: false,
@@ -133,32 +133,32 @@ export default {
       images: ""
     };
   },
-    created() {
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/publicHosting/index",
-                title: "公众号托管"
-            },
-            {
-                path: "/index/operation/publicAddress/list",
-                title: "公众号管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+  created() {
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/publicHosting/index",
+        title: "公众号托管"
+      },
+      {
+        path: "/index/operation/publicAddress/list",
+        title: "公众号管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
+  },
   methods: {
-    proxy () {
-      if(this.isort <=0) {
-        this.isort =''
+    proxy() {
+      if (this.isort <= 0) {
+        this.isort = "";
       }
     },
     // 后退
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "wxbannerList",
-        params: {
+        path: "/index/operation/banner/list",
+        query: {
           pageNo
         }
       });
@@ -175,7 +175,7 @@ export default {
         priority: this.isort,
         enable: Number(this.switch1),
         imageUrl: images,
-        iclick:Number(this.switch2)
+        iclick: Number(this.switch2)
       };
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
@@ -221,15 +221,14 @@ export default {
     handleFormatError(file) {
       this.$Notice.warning({
         title: "上传失败",
-        desc:
-          "文件格式错误"
+        desc: "文件格式错误"
       });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload(file) {
       const check = this.uploadList.length < 1;

@@ -297,10 +297,10 @@ export default {
   methods: {
     //  取消,后退 上一次
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "DoctorRemoteclinicList",
-        params: {
+        path: "/index/operation/remoteclinic/list",
+        query: {
           pageNo
         }
       });
@@ -311,7 +311,7 @@ export default {
         if (item.id == val) {
           this.money = item.cost;
         }
-      })
+      });
     },
     // 模态框的分页器改变
     change1(index) {
@@ -355,17 +355,17 @@ export default {
         this.$axios.post(api.doctorRomteclinicAdd, params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");
-            let pageNo = this.$route.params.pageNo;
+            let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
               this.$router.push({
-                name: "DoctorRemoteclinicList",
-                params: {
+                path: "/index/operation/remoteclinic/list",
+                query: {
                   pageNo
                 }
               });
             }, 800);
           }
-        })
+        });
       }
     },
     // 选择专家

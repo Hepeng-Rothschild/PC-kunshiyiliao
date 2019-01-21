@@ -164,7 +164,7 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let pageNo = this.$route.params.pageNo;
+    let pageNo = this.$route.query.pageNo;
     if (pageNo) {
       this.pageNo = pageNo;
     }
@@ -173,8 +173,8 @@ export default {
   methods: {
     add() {
       this.$router.push({
-        name: "contentmanagementAdd",
-        params: {
+        path: "/index/operation/contentmanagement_add",
+        query: {
           pageNo: this.pageNo
         }
       });
@@ -203,8 +203,8 @@ export default {
     },
     homeBtn() {
       this.$router.push({
-        name: "contentmanagementAdd",
-        params: {
+        path: "/index/operation/contentmanagement_edit",
+        query: {
           pageNo: this.pageNo
         }
       });
@@ -282,8 +282,8 @@ export default {
     changeItem(item) {
       let id = item.articleId;
       this.$router.push({
-        name: "createNews",
-        params: {
+      path: "/index/operation/contentmanagement_edit",
+        query: {
           id,
           pageNo: this.pageNo
         }

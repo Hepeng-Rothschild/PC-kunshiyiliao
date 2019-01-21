@@ -172,7 +172,7 @@ export default {
   },
   mounted() {
     this.getInfoData();
-    let pageNo = this.$route.params.pageNo;
+    let pageNo = this.$route.query.pageNo;
     if (Boolean(pageNo)) {
       this.pageNo = pageNo;
     }
@@ -234,8 +234,8 @@ export default {
     // 新增
     add() {
       this.$router.push({
-        name: "DoctorRemoteclinicAdd",
-        params: {
+        path: "/index/operation/remoteclinic/add",
+        query: {
           pageNo: this.pageNo
         }
       });
@@ -255,8 +255,8 @@ export default {
     // 修改
     edit(item) {
       this.$router.push({
-        name: "DoctorRemoteclinicEdit",
-        params: {
+        path: "/index/operation/remoteclinic/edit",
+        query: {
           id: item.id,
           pageNo: this.pageNo
         }

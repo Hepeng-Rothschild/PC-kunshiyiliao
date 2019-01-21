@@ -85,14 +85,14 @@
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
           <span>显示</span>
         </div>
-        <iSwitch v-model.trim="switch1" />
+        <iSwitch v-model.trim="switch1"/>
       </div>
       <div class="main_title">
         <div class="main_title_info">
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
           <span>是否可点击</span>
         </div>
-        <iSwitch v-model.trim="switch2" />
+        <iSwitch v-model.trim="switch2"/>
       </div>
       <!--保存-->
       <div class="save">
@@ -119,7 +119,7 @@ export default {
       lianjie: "",
       isort: "",
       switch1: true,
-      switch2:true,
+      switch2: true,
       defaultList: [],
       imgName: "",
       visible: false,
@@ -134,20 +134,20 @@ export default {
       sourceImages: ""
     };
   },
-    created() {
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/publicHosting/index",
-                title: "公众号托管"
-            },
-            {
-                path: "/index/operation/publicAddress/list",
-                title: "公众号管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+  created() {
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/publicHosting/index",
+        title: "公众号托管"
+      },
+      {
+        path: "/index/operation/publicAddress/list",
+        title: "公众号管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
+  },
   methods: {
     // 后退
     back() {
@@ -179,30 +179,28 @@ export default {
         id: this.$route.params.id,
         enable: Number(this.switch1),
         imageUrl: images,
-        iclick:Number(this.switch2)
+        iclick: Number(this.switch2)
       };
       // console.log(params);
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
-        this.$axios
-          .post(api.wxBannerEdit, params)
-          .then(res => {
-            if (res.data.code) {
-              this.$Message.info("修改成功");
-              let pageNo = this.$route.params.pageNo;
-              setTimeout(() => {
-                this.$router.push({
-                  name: "wxbannerList",
-                  params: {
-                    pageNo
-                  }
-                });
-              }, 500);
-            } else {
-              this.$Message.info("修改失败请重试");
-            }
-          })
+        this.$axios.post(api.wxBannerEdit, params).then(res => {
+          if (res.data.code) {
+            this.$Message.info("修改成功");
+            let pageNo = this.$route.params.pageNo;
+            setTimeout(() => {
+              this.$router.push({
+                name: "wxbannerList",
+                params: {
+                  pageNo
+                }
+              });
+            }, 500);
+          } else {
+            this.$Message.info("修改失败请重试");
+          }
+        });
       }
     },
     handleView(name) {
@@ -232,7 +230,7 @@ export default {
       this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;

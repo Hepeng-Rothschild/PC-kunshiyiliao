@@ -252,16 +252,16 @@ export default {
       }
     ];
     this.$emit("changeBreadList", breadList);
-    this.getDetail(this.$route.params.id);
+    this.getDetail(this.$route.query.id);
   },
   mounted() {},
   methods: {
     //  取消,后退 上一次
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "DoctorRemoteclinicList",
-        params: {
+        path: "/index/operation/remoteclinic/list",
+        query: {
           pageNo
         }
       });
@@ -318,13 +318,13 @@ export default {
       } else {
         // console.log(params);
         this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
-          let pageNo = this.$route.params.pageNo;
+          let pageNo = this.$route.query.pageNo;
           if (res.data.code) {
             this.$Message.info(res.data.object.file);
             setTimeout(() => {
               this.$router.push({
-                name: "DoctorRemoteclinicList",
-                params: {
+                path: "/index/operation/remoteclinic/list",
+                query: {
                   pageNo
                 }
               });

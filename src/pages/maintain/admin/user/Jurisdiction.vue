@@ -24,7 +24,7 @@ export default {
     };
   },
   mounted() {
-    let userId = this.$route.params.id;
+    let userId = this.$route.query.id;
     // console.log(userId);
     this.$axios
       .post(api.adminSearch, {
@@ -42,7 +42,7 @@ export default {
               if (item.second.length == 0) {
                 item.top.checked = true;
               }
-            //   console.log(item.top.id + item.top.menuName);
+              //   console.log(item.top.id + item.top.menuName);
             }
             let a = item.top;
             let children = [];
@@ -64,7 +64,7 @@ export default {
                 s.checked = Boolean(s.iopen);
                 child.push(s);
                 if (Boolean(s.iopen)) {
-                //   console.log(s.id + s.menuName);
+                  //   console.log(s.id + s.menuName);
                 }
               });
               i.second.children = child;
@@ -84,7 +84,7 @@ export default {
       this.selectData = item;
     },
     save() {
-      let userId = this.$route.params.id;
+      let userId = this.$route.query.id;
       let menuIds = [];
       this.selectData.forEach(item => {
         menuIds.push(item.id);
@@ -119,10 +119,10 @@ export default {
       console.log(a);
       if (a.size === 0) {
         this.$Message.info("修改成功");
-        let pageNo = this.$route.params.pageNo;
+        let pageNo = this.$route.query.pageNo;
         this.$router.push({
-          name: "adminlist",
-          params: {
+          path: "/index/maintain/admin/user/list",
+          query: {
             pageNo
           }
         });
@@ -135,24 +135,24 @@ export default {
           .then(res => {
             if (res.data.code) {
               this.$Message.info("修改成功");
-              let pageNo = this.$route.params.pageNo;
-                this.$router.push({
-                  name: "adminlist",
-                  params: {
-                    pageNo
-                  }
-                })
+              let pageNo = this.$route.query.pageNo;
+              this.$router.push({
+                path: "/index/maintain/admin/user/list",
+                query: {
+                  pageNo
+                }
+              });
             } else {
               this.$Message.info(res.data.message);
             }
-          })
+          });
       }
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "adminlist",
-        params: {
+        path: "/index/maintain/admin/user/list",
+        query: {
           pageNo
         }
       });

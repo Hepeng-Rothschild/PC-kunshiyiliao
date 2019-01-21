@@ -84,19 +84,19 @@ export default {
       ]
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
-            },
-            {
-                path: "/index/operation/versionManagement/home",
-                title: "版本管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/doctorManagement/index",
+        title: "医生端运营"
+      },
+      {
+        path: "/index/operation/versionManagement/home",
+        title: "版本管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     add() {
@@ -113,11 +113,11 @@ export default {
         this.$axios.post(api.versioninsert, this.params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");
-            let pageNo = this.$route.params.pageNo;
+            let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
               this.$router.push({
-                name: "versionManagementHome",
-                params: {
+                path: "/index/operation/versionManagement/home",
+                query: {
                   pageNo
                 }
               });
@@ -129,10 +129,10 @@ export default {
       }
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "versionManagementHome",
-        params: {
+        path: "/index/operation/versionManagement/home",
+        query: {
           pageNo
         }
       });

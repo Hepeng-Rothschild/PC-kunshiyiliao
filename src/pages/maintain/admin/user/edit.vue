@@ -182,7 +182,7 @@ export default {
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
     // 获取路由传递过来的ID
-    let id = this.$route.params.id;
+    let id = this.$route.query.id;
     // 用户详情加载数据
     this.$axios
       .post(api.adminEdit, {
@@ -191,14 +191,16 @@ export default {
       .then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          console.log(ret);
-          this.switch1 = Boolean(ret.status);
+          let a = false;
+          if(ret.status == 1) {
+            a = true
+          }
+          this.switch1 = a;
           this.text = ret.userName;
           this.pass = ret.passWord;
           this.niceName = ret.nickName;
 
           if (Boolean(ret.userIcon)) {
-            // console.log(this.analysisImages(ret.userIcon));
             this.uploadList.push({
               name: "a42bdcc1178e62b4694c830f028db5c0",
               percentage: 100,
@@ -243,7 +245,7 @@ export default {
       } else {
         images = "";
       }
-      let id = this.$route.params.id;
+      let id = this.$route.query.id;
       let params = {
         id,
         // 账号
@@ -264,16 +266,18 @@ export default {
       } else {
         this.$axios.post(api.adminDetail, params).then(res => {
           if (res.data.code) {
-            let pageNo = this.$route.params.pageNo;
+            let pageNo = this.$route.query.pageNo;
             this.$Message.info("修改成功");
-            setTimeout(() => {
-              this.$router.push({
-                name: "adminlist",
-                params: {
-                  pageNo
-                }
-              });
-            }, 800);
+            if (pageNo) {
+              setTimeout(() => {
+                this.$router.push({
+                  path: "/index/maintain/admin/user/list",
+                  query: {
+                    pageNo
+                  }
+                });
+              }, 800);
+            }
           } else {
             this.$Message.info("修改失败,请稍候重试");
           }
@@ -281,13 +285,17 @@ export default {
       }
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "adminlist",
-        params: {
-          pageNo
-        }
-      });
+      let pageNo = this.$route.query.pageNo;
+      if (pageNo) {
+        this.$router.push({
+          path: "/index/maintain/admin/user/list",
+          query: {
+            pageNo
+          }
+        });
+      } else {
+        this.$router.back();
+      }
     },
     handleView(name) {
       this.imgName = name;
@@ -300,7 +308,6 @@ export default {
     handleSuccess(res, file) {
       res = this.uploadFileDecrypt(res);
       if (res.success) {
-        
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;

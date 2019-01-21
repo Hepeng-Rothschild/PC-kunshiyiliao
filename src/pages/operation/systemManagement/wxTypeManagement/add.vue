@@ -102,7 +102,7 @@ export default {
             this.$Message.info("添加成功");
             setTimeout(() => {
               this.$router.push({
-                name: "wxTypeManagementList"
+                path: "/index/operation/wxTypeManagement/list"
               });
             }, 800);
           } else {
@@ -113,7 +113,7 @@ export default {
     },
     back() {
       this.$router.push({
-        name: "wxTypeManagementList"
+         path: "/index/operation/wxTypeManagement/list"
       });
     }
   }

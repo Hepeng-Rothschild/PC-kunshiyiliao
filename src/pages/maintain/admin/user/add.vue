@@ -100,7 +100,7 @@
         <div class="pass">
           <div class="left">
             <span style="color:red;">*</span>
-            <span>联系电话</span>
+            <span>是否开启</span>
           </div>
           <iSwitch v-model="switch1" size="large">
             <span slot="open">启用</span>
@@ -160,7 +160,7 @@ export default {
   },
   data() {
     return {
-      switch1:true,
+      switch1: true,
       // 账号
       text: "",
       // 密码
@@ -211,21 +211,21 @@ export default {
     setTimeout(() => {
       this.text = "";
       this.pass = "";
-    })
+    });
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/systemManagement/index",
-                title: "系统管理"
-            },
-            {
-                path: "/index/maintain/admin/user/list",
-                title: "账号管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/systemManagement/index",
+        title: "系统管理"
+      },
+      {
+        path: "/index/maintain/admin/user/list",
+        title: "账号管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     save() {
@@ -251,35 +251,39 @@ export default {
         userIcon: images
       };
       if (this.text == "") {
-        this.$Message.info("账号不能为空")
+        this.$Message.info("账号不能为空");
       } else if (this.pass == "") {
-        this.$Message.info("密码不能为空")
+        this.$Message.info("密码不能为空");
       } else if (params.niceName == "") {
-        this.$Message.info("昵称不能为空")
+        this.$Message.info("昵称不能为空");
       } else {
         this.$axios.post(api.adminAdd, params).then(res => {
           if (res.data.code) {
-            this.$Message.info("添加成功");
-            let pageNo = this.$route.params.pageNo;
-            setTimeout(() => {
-              this.$router.push({
-                name: "adminlist",
-                params: {
-                  pageNo
-                }
-              });
-            }, 800);
+            console.log(res)
+            let a = res.data.object.fail;
+            this.$Message.info(a);
+            let pageNo = this.$route.query.pageNo;
+            if (!res.data.object.fail) {
+              setTimeout(() => {
+                this.$router.push({
+                  path: "/index/maintain/admin/user/list",
+                  query: {
+                    pageNo
+                  }
+                });
+              }, 800);
+            }
           } else {
-            this.$Message.info("不允许访问")
+            this.$Message.info("不允许访问");
           }
         });
       }
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "adminlist",
-        params: {
+        path: "/index/maintain/admin/user/list",
+        query: {
           pageNo
         }
       });

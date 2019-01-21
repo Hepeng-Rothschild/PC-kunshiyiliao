@@ -184,23 +184,23 @@ export default {
       titles: ""
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/patient/index",
-                title: "患者端运营"
-            },
-            {
-                path: "/index/operation/contentmanagement_home",
-                title: "内容管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/patient/index",
+        title: "患者端运营"
+      },
+      {
+        path: "/index/operation/contentmanagement_home",
+        title: "内容管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
-    let id = this.$route.params.id;
+    let id = this.$route.query.id;
     if (id) {
       this.$axios
         .post(api.getWrap, {
@@ -265,10 +265,10 @@ export default {
       return check;
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "contentmanagementHome",
-        params: {
+        path: "/index/operation/contentmanagement_home",
+        query: {
           pageNo
         }
       });
@@ -302,7 +302,7 @@ export default {
           //显示
           enable: Number(this.switch1),
           //新闻资讯ID
-          id: this.$route.params.id
+          id: this.$route.query.id
         }
       };
       if (this.title == "") {
@@ -315,15 +315,15 @@ export default {
           .then(res => {
             if (res.data.code) {
               this.$Message.info("修改成功");
-              let pageNo = this.$route.params.pageNo;
+              let pageNo = this.$route.query.pageNo;
               setTimeout(() => {
                 this.$router.push({
-                  name: "contentmanagementHome",
-                  params: {
+                  path: "/index/operation/contentmanagement_home",
+                  query: {
                     pageNo
                   }
                 });
-              }, 500);
+              }, 800);
             } else {
               this.$Message.info("修改失败请重试");
             }

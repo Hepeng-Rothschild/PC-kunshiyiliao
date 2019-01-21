@@ -22,7 +22,7 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img :src="userIcon || '/static/img/heicon.jpg'" @click="edit" style = 'cursor:pointer;'>
+        <img :src="userIcon || '/static/img/heicon.jpg'" @click="edit" style="cursor:pointer;">
       </div>
       <div class="info">
         <span>{{username || "喜大普奔"}}</span>
@@ -73,11 +73,11 @@ export default {
     },
     edit() {
       this.$router.push({
-        name: "adminedit",
-        params: {
+        path: "/index/maintain/admin/user/edit",
+        query: {
           id:this.operateUserId
         }
-      })
+      });
     }
   }
 };

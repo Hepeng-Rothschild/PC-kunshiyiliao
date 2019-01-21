@@ -110,7 +110,6 @@ export default {
                 axios
                     .post(api.login, params)
                     .then(resp => {
-                        console.log(resp)
                         if (resp.data.success) {
                             let times = 10 * 60 * 60;
                             window.localStorage.setItem(

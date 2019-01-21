@@ -25,7 +25,7 @@
           <span style="color:red;">&nbsp;</span>
           <span class="info">唯一标识</span>
           <Input placeholder="请输入版本唯一标识" style="width: 300px" disabled v-model="params.id"/>
-        </div> -->
+        </div>-->
         <!-- 版本类型 -->
         <div class="item">
           <span style="color:red;">&nbsp;</span>
@@ -84,22 +84,22 @@ export default {
       ]
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
-            },
-            {
-                path: "/index/operation/versionManagement/home",
-                title: "版本管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/doctorManagement/index",
+        title: "医生端运营"
+      },
+      {
+        path: "/index/operation/versionManagement/home",
+        title: "版本管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let id = this.$route.params.id;
+    let id = this.$route.query.id;
     this.$axios
       .post(api.versiondetail, {
         id
@@ -124,23 +124,23 @@ export default {
       this.$axios.post(api.versionupdate, this.params).then(res => {
         if (res.data.code) {
           this.$Message.info("修改成功");
-          let pageNo = this.$route.params.pageNo
+          let pageNo = this.$route.query.pageNo;
           setTimeout(() => {
             this.$router.push({
-              name: "versionManagementHome",
-              params:{
+              path: "/index/operation/versionManagement/home",
+              query: {
                 pageNo
               }
-            })
-          }, 800)
+            });
+          }, 800);
         }
       });
     },
     back() {
-        let pageNo = this.$route.params.pageNo
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "versionManagementHome",
-        params:{
+        path: "/index/operation/versionManagement/home",
+        query: {
           pageNo
         }
       });

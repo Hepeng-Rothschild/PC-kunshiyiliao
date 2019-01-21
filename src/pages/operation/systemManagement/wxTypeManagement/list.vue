@@ -73,13 +73,13 @@ export default {
     // 添加新服务
     add() {
       this.$router.push({
-        name: "wxSystemManagementAdd"
+        path: "/index/operation/wxTypeManagement/add"
       });
     },
     // 编辑功能
     edit(item) {
       this.$router.push({
-        name: "wxSystemManagementEdit",
+       name: "wxSystemManagementEdit",
         params: {
           item
         }
@@ -89,8 +89,8 @@ export default {
     fn(index) {
       console.log(index);
       this.$router.push({
-        name: "wxSystemManagementfn",
-        params: {
+        path: "/index/operation/wxTypeManagement/fn",
+        query: {
           id: index
         }
       });

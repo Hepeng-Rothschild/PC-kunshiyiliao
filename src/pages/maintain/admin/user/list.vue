@@ -110,8 +110,8 @@ export default {
                     click: () => {
                       // console.log("编辑");
                       this.$router.push({
-                        name: "adminedit",
-                        params: {
+                        path: "/index/maintain/admin/user/edit",
+                        query: {
                           pageNo: this.pageNo,
                           id
                         }
@@ -130,8 +130,8 @@ export default {
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: "adminJurisdiction",
-                        params: {
+                        path: "/index/maintain/admin/user/Jurisdiction",
+                        query: {
                           pageNo: this.pageNo,
                           id
                         }
@@ -149,9 +149,9 @@ export default {
     };
   },
   mounted() {
-    let pageNo = this.$route.params.pageNo;
+    let pageNo = this.$route.query.pageNo;
     if (Boolean(pageNo)) {
-      this.pageNo = pageNo;
+      this.pageNo = Number(pageNo);
     }
     // 预加载数据
     this.loadUserData();
@@ -174,8 +174,8 @@ export default {
     // 添加角色
     add() {
       this.$router.push({
-        name: "adminadd",
-        params: {
+        path: "/index/maintain/admin/user/add",
+        query: {
           pageNo: this.pageNo
         }
       });

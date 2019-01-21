@@ -59,8 +59,8 @@ export default {
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: "versionManagementEdit",
-                        params: {
+                        path: "/index/operation/versionManagement/edit",
+                        query: {
                           id,
                           pageNo: this.pageNo
                         }
@@ -92,7 +92,7 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let pageNo = this.$route.params.pageNo;
+    let pageNo = this.$route.query.pageNo;
     if (Boolean(pageNo)) {
       this.pageNo = pageNo;
     }
@@ -138,8 +138,8 @@ export default {
     },
     add() {
       this.$router.push({
-        name: "versionManagementAdd",
-        params: {
+        path: "/index/operation/versionManagement/add",
+        query: {
           pageNo: this.pageNo
         }
       });

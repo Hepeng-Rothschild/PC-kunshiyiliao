@@ -257,10 +257,10 @@ export default {
       });
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       this.$router.push({
-        name: "contentmanagementHome",
-        params: {
+        path: "/index/operation/contentmanagement_home",
+        query: {
           pageNo
         }
       });
