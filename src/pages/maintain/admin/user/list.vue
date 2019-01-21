@@ -135,7 +135,7 @@ export default {
                           pageNo: this.pageNo,
                           id
                         }
-                      });
+                      })
                     }
                   }
                 },

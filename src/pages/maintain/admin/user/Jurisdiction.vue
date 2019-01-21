@@ -25,6 +25,7 @@ export default {
   },
   mounted() {
     let userId = this.$route.params.id;
+    // console.log(userId);
     this.$axios
       .post(api.adminSearch, {
         userId
@@ -73,7 +74,6 @@ export default {
             data.push(a);
           });
           this.data2 = data;
-        //   console.log(data);
         } else {
           this.$Message.info("查询用户权限失败");
         }
@@ -116,8 +116,8 @@ export default {
         });
       });
       let a = new Set([...menuIds]);
-      // console.log(a);
-      if (menuIds.size === 0) {
+      console.log(a);
+      if (a.size === 0) {
         this.$Message.info("修改成功");
         let pageNo = this.$route.params.pageNo;
         this.$router.push({
@@ -145,7 +145,7 @@ export default {
             } else {
               this.$Message.info(res.data.message);
             }
-          });
+          })
       }
     },
     back() {

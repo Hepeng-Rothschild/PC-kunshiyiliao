@@ -110,6 +110,7 @@ export default {
                 axios
                     .post(api.login, params)
                     .then(resp => {
+                        console.log(resp)
                         if (resp.data.success) {
                             let times = 10 * 60 * 60;
                             window.localStorage.setItem(
@@ -118,12 +119,15 @@ export default {
                             );
                             let tmpIcon = resp.data.object.userIcon;
                             let username = resp.data.object.nickname;
+                            let operateUserId = resp.data.object.operateUserId;
                             if (tmpIcon) {
                                 let tmpObj = JSON.parse(tmpIcon);
                                 let userIcon =
                                     this.fileBaseUrl + tmpObj.fileName;
                                 cookie.setCookie("userIcon", userIcon, times);
                                 cookie.setCookie("username", username, times);
+                                cookie.setCookie("operateUserId", operateUserId, times);
+
                             }
                             let key = resp.data.object.randmId;
                             let iv = this.$store.state.iv;

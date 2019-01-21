@@ -42,7 +42,7 @@ export default {
 			topActiveName:null,
 			leftActiveName:null,
 			openList:[],
-			topMenuLists:[],
+			topMenuLists:[]
 		};
 	},
 	components:{
@@ -90,6 +90,7 @@ export default {
 			this.showWelcome = false;
 	},
 	beforeRouteUpdate (to, from, next) {
+		
 		if(to.fullPath != '/index')
 		this.showWelcome = false;
 		else

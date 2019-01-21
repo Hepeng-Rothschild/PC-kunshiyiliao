@@ -22,10 +22,11 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img :src="userIcon || '/static/img/heicon.jpg'">
+        <img :src="userIcon || '/static/img/heicon.jpg'" @click="edit">
       </div>
       <div class="info">
-        <span>{{username || "喜大普奔"}}</span><br/>
+        <span>{{username || "喜大普奔"}}</span>
+        <br>
         <a href="javascript:void(0);" @click="logout">退出</a>
       </div>
     </div>
@@ -38,8 +39,9 @@ export default {
   data() {
     return {
       theme1: "light",
-      username:'',
-      userIcon:'',
+      username: "",
+      userIcon: "",
+      operateUserId: ""
     };
   },
   props: ["topActiveName", "topMenuLists"],
@@ -48,8 +50,9 @@ export default {
     MenuItem
   },
   created() {
-    this.username = cookie.getCookie('username');
-    this.userIcon = cookie.getCookie('userIcon');
+    this.username = cookie.getCookie("username");
+    this.userIcon = cookie.getCookie("userIcon");
+    this.operateUserId = cookie.getCookie("operateUserId");
     // this.$store.commit("setTopMenuList");
     // this.lists = this.$store.state.topMenuList;
     // this.$store.commit("setLeftMenuList",this.topActiveName);
@@ -57,14 +60,24 @@ export default {
   methods: {
     changeTop(name) {
       this.$store.commit("setLeftMenuList", name);
+      console.log(this.$store.state.leftMenuList);
       this.$router.push("/index");
     },
-    logout(){
+    logout() {
       window.localStorage.removeItem("access_token");
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
       cookie.delCookie("randmId");
-      this.$router.push("/login")
+      cookie.delCookie("operateUserId");
+      this.$router.push("/login");
+    },
+    edit() {
+      this.$router.push({
+        name: "adminedit",
+        params: {
+          id:this.operateUserId
+        }
+      })
     }
   }
 };
@@ -72,26 +85,26 @@ export default {
 <style lang="less" scoped>
 .topMenu {
   margin-top: 10px !important;
-  position:relative;
-  .logout{
-    display:inline-flex;
+  position: relative;
+  .logout {
+    display: inline-flex;
     justify-content: start;
-    position:absolute;
-    right:30px;
-    width:150px;
-    height:50px;
-    .avatar{
-      img{
-        width:50px;
-        height:50px;
+    position: absolute;
+    right: 30px;
+    width: 150px;
+    height: 50px;
+    .avatar {
+      img {
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
       }
     }
-    .info{
-      line-height:22px;
-      position:relative;
-      top:10px;
-      left:10px;
+    .info {
+      line-height: 22px;
+      position: relative;
+      top: 10px;
+      left: 10px;
     }
   }
 }

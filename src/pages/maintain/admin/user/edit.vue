@@ -191,7 +191,7 @@ export default {
       .then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          // console.log(ret);
+          console.log(ret);
           this.switch1 = Boolean(ret.status);
           this.text = ret.userName;
           this.pass = ret.passWord;
