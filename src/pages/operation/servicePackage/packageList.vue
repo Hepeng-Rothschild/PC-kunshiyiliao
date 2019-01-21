@@ -287,7 +287,7 @@ export default {
             this.$axios
                 .post(api.servicepackagepage, params)
                 .then(resp => {
-                    if (res.data.success) {
+                    if (resp.data.success) {
                         this.count = resp.data.object.count;
                         this.dataList = [];
                         resp.data.object.list.map((el, i) => {

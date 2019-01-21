@@ -164,7 +164,7 @@ export default {
                     }
                 }
             ],
-            orderList: [{ iNum: 1 }],
+            orderList: [],
             count: 0,
             pageSize: 10,
             pageNo: 1

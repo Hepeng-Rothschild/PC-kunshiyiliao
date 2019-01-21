@@ -105,7 +105,12 @@ export default {
                         let key = resp.data.object.randmId;
                         let iv = this.$store.state.iv;
                         let salt = this.$store.state.salt;
+                        let menus = resp.data.object.menus;
                         cookie.setCookie("randmId", key,times);
+                        console.log('menus',menus);
+                        menus.map((el,i)=>{
+                            console.log('el',el);
+                        })
                         let topMenu = [
                             {id:1,name:'运营平台',type:"operation"},
                             {id:2,name:'运维平台',type:"maintain"},
