@@ -65,7 +65,6 @@ axios.interceptors.response.use(
 			let tmpData = response.data.object;
 			if(tmpData){
 				response.data.object = JSON.parse(aesUtils.decrypt(salt,iv,key,tmpData));
-				// console.log('response.data ',response.data);
 			}
 		}
 		
