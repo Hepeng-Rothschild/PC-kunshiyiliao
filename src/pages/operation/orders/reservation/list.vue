@@ -10,8 +10,8 @@
                 </div>
                 <div class="second">
                     <span>状态:</span>
-                    <Select class="w-select" v-model="status">
-                        <Option value="9">全部</Option>
+                    <Select class="w-select" clearable v-model="status">
+                        <!-- <Option value="9">全部</Option> -->
                         <Option
                             v-for="(item,index) in statusList"
                             :value="index+1"
@@ -47,8 +47,8 @@
         <Row>
             <Col :xs="24">
                 <span>医院</span>
-                <Select class="w-select-hos" @on-change="changeHospital" v-model="hospitalId">
-                    <Option value="0">全部</Option>
+                <Select class="w-select-hos" clearable @on-change="changeHospital" v-model="hospitalId">
+                    <!-- <Option value="0">全部</Option> -->
                     <Option
                         v-for="(item,index) in hospitalList"
                         :value="item.id"
@@ -74,12 +74,12 @@ export default {
             shuangyue: "", //爽约率
             lvyue: "", //履约率
             searchKey: "",
-            status: "9",
+            status: "",
             startDate: "",
             endDate: "",
             statusList: ["退诊", "取消", "履约", "爽约"],
             hospitalList: [],
-            hospitalId: "0",
+            hospitalId: null,
             columns: [
                 { title: "编号", key: "iNum", align: "center" },
                 { title: "订单号", key: "orderNum", align: "center" },
@@ -176,8 +176,10 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.status = this.status == 9 ? "" : this.status;
-            params.hospitalId = this.hospitalId == 0 ? null : this.hospitalId;
+            // params.status = this.status == 9 ? "" : this.status;
+            params.status = this.status?this.status:"";
+            params.hospitalId = this.hospitalId?this.hospitalId:null;
+            // params.hospitalId = this.hospitalId == 0 ? null : this.hospitalId;
 
             let startDate = new Date(this.startDate)
             let endDate = new Date(this.endDate)

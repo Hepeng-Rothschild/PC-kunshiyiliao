@@ -4,8 +4,8 @@
             <Col :xs="24">
                 <div class="second">
                     <span>状态:</span>
-                    <Select class="w-select" v-model="status">
-                        <Option value="999">全部</Option>
+                    <Select class="w-select" clearable v-model="status">
+                        <!-- <Option value="999">全部</Option> -->
                         <Option
                             v-for="(item,index) in statusList"
                             :value="index"
@@ -57,7 +57,7 @@ export default {
             searchKey: "",
             startDate: "",
             endDate: "",
-            status: "999",
+            status: null,
             /* 0:待付款,1:待确认,2:待接诊,3:已结束4:已退款(医生拒绝)5:已取消(没有付款),6.患者爽约,7:申请医生爽约,8:远程医生爽约 */
             statusList: [
                 "待支付",
@@ -201,7 +201,7 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.remoteType = this.status == 999 ? null : this.status;
+            params.remoteType = this.status>=0 ? this.status : null;
             let startDate = new Date(this.startDate);
             let endDate = new Date(this.endDate);
             startDate = startDate.toLocaleDateString().replace(/\//g, "-");
