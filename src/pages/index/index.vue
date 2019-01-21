@@ -15,7 +15,7 @@
 			</Col>
 			<Col class="content" :xs="24" :md="20">
 				<bread :breadTitle="breadTitle" :breadList="breadList"></bread>
-				<div class="welcome" v-if="showWelcome">
+				<div class="welcome" v-if="showWelcome" style='user-select:none;'>
 					欢迎来到互联网医院管理系统
 				</div>
         		<router-view @changeBreadList="changeBreadList"></router-view>
@@ -53,6 +53,7 @@ export default {
 	created(){
 		this.$store.commit("setTopMenuList");
 		let topMenuList = this.$store.state.topMenuList;
+		let leftMenuList = this.$store.state.leftMenuList;
 		if(topMenuList.length>0){
 			this.topMenuLists = topMenuList;
 		}else{
