@@ -350,7 +350,6 @@ export default {
               this.uploadList = [];
 
               this.switch3 = Boolean(ret.iremote);
-              // console.log(ret);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;
                 this.uploadList.push({
@@ -449,7 +448,6 @@ export default {
             a.children = children;
             data1.push(a);
           });
-          // console.log(data1);
           this.data1 = data1;
           this.list = ret;
         }

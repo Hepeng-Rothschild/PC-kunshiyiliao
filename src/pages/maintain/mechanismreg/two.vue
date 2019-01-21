@@ -70,7 +70,6 @@ export default {
   mounted() {
     let fail = this.$route.params.fail;
     if (fail) {
-      // console.log(fail);
       this.all = fail;
       this.list = fail.fail;
     }
@@ -81,7 +80,6 @@ export default {
      let fail = this.$route.params.fail;
      let success = fail.success;
      let error = fail.fail.length;
-    //  console.log(success,error);
       this.$router.push({
         name: "mechanismregeditbatchthree",
         params:{

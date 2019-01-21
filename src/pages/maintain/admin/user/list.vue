@@ -108,7 +108,6 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // console.log("编辑");
                       this.$router.push({
                         name: "adminedit",
                         params: {
@@ -191,7 +190,6 @@ export default {
     },
     // 模糊查询
     vagueSearch() {
-      console.log(this.searchKey);
       this.loadUserData(this.searchKey);
     },
     // 请求数据

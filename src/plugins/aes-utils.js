@@ -24,7 +24,6 @@ AesUtil.prototype.encrypt = function (salt, iv, passPhrase, plainText) {
 }
 
 AesUtil.prototype.decrypt = function (salt, iv, passPhrase, cipherText) {
-    // console.log("解码")
 
     let key = that.generateKey(salt, passPhrase);
     let cipherParams = CryptoJS.lib.CipherParams.create({

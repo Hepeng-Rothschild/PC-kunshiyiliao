@@ -31,7 +31,6 @@ export default {
   mounted() {},
   computed: {
     lists() {
-//    console.log(this.$store.state.leftMenuList);
       return this.$store.state.leftMenuList;
     }
   },

@@ -177,7 +177,6 @@ export default {
         enable: Number(this.switch1),
         imageUrl: images
       };
-      // console.log(params);
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {

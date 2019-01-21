@@ -121,7 +121,6 @@ export default {
                         "wd" + tmpregistertimes.week + tmpregistertimes.day
                     ] = tmpregistertimes.num;
                 }
-                // console.log(this.info);
                 this.registerFlag = this.info.iclose;
                 if (this.info.iclose == 1) {
                     this.icloseText = "开启";

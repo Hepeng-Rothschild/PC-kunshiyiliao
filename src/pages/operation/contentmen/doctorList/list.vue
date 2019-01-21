@@ -124,7 +124,6 @@ export default {
           pageSize: 10
         })
         .then(res => {
-          console.log(res);
           if (res.data.code) {
             let ret = res.data.object;
             this.expertList = ret.list;

@@ -45,8 +45,6 @@ export default {
                   on: {
                     click: () => {
                       // 生成下载链接
-                      // window.open(ret.message)
-                      console.log(1, id);
                     }
                   }
                 },
@@ -61,7 +59,6 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(2);
                       // 生成下载链接
                       //   window.open(ret.message)
                       //   this.$router.push({

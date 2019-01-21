@@ -180,7 +180,6 @@ export default {
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
-        console.log(params);
         this.$axios
           .post(api.wxBannerAdd, params)
           .then(res => {

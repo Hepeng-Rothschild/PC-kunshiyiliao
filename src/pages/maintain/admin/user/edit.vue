@@ -191,14 +191,12 @@ export default {
       .then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          console.log(ret);
           this.switch1 = Boolean(ret.status);
           this.text = ret.userName;
           this.pass = ret.passWord;
           this.niceName = ret.nickName;
 
           if (Boolean(ret.userIcon)) {
-            // console.log(this.analysisImages(ret.userIcon));
             this.uploadList.push({
               name: "a42bdcc1178e62b4694c830f028db5c0",
               percentage: 100,

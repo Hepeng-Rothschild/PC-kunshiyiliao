@@ -392,8 +392,6 @@ export default {
             ((this.columns = this.hotRecommend),
             (this.sonTabList = this.hotRecommendSontab),
             (this.listApi = this.hotRecommendApi));
-        console.log(this.tabId);
-        console.log(this.columns);
         this.loadPage(pageNo);
 
         let breadList = [
@@ -488,7 +486,6 @@ export default {
                         for (let key in dataList) {
                             dataList[key].iNum = parseInt(key) + 1;
                         }
-                        console.log(dataList);
                         this.datas = dataList;
                     } else {
                         console.log("网络连接失败");

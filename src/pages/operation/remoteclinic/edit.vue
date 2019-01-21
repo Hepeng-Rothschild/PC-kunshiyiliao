@@ -269,7 +269,6 @@ export default {
     // 根据远程门诊类型变更金额
     changeSearchType(val) {
       // this.money = this.searchTypeList[val].cost;
-      // console.log(this.searchType);
       this.searchTypeList.forEach(item => {
         if (item.id == val) {
           this.money = item.cost;
@@ -316,7 +315,6 @@ export default {
       } else if (!params.intervalTimeAmEnd || !params.intervalTimePmEnd) {
         this.$Message.info("请查看预约时间段是否未填写完整");
       } else {
-        // console.log(params);
         this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
           let pageNo = this.$route.params.pageNo;
           if (res.data.code) {

@@ -125,7 +125,6 @@ export default {
           this.getDataDoctorList();
         }
       });
-      console.log(params);
     },
     //  编辑
     edit(item) {

@@ -69,9 +69,7 @@ export default {
     },
     mounted() {
         let fail = this.$route.query.fail;
-        console.log('fail: ', fail);
         if (fail) {
-            // console.log(fail);
             this.all = fail;
             this.list = fail.fail;
         }

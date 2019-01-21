@@ -57,7 +57,6 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
   mounted() {
-    // console.log(this.fromData);
   },
   methods: {
     download() {

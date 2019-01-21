@@ -60,7 +60,6 @@ export default {
   methods: {
     changeTop(name) {
       this.$store.commit("setLeftMenuList", name);
-      console.log(this.$store.state.leftMenuList);
       this.$router.push("/index");
     },
     logout() {

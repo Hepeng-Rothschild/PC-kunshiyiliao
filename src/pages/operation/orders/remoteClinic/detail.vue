@@ -282,7 +282,6 @@ export default {
             .post(api.ordermanagementselectbyremoteclinicid, { remoteClinicId: this.id })
             .then(resp => {
                 this.info = resp.data.object;
-                console.log(this.info);
                 
                 this.info.caseImages = this.tryCatch(this.info.caseImages) ? this.tryCatch(this.info.caseImages) : [];
             })
