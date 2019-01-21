@@ -4,11 +4,12 @@
             <Col :xs="24">
                 <Select
                     class="w-select"
+                    clearable
                     @on-change="changeProvince"
                     placeholder="省"
                     v-model="province"
                 >
-                    <Option value="0">全国</Option>
+                    <!-- <Option value="0">全国</Option> -->
                     <Option
                         v-for="item in provinceList"
                         :value="item.value"
@@ -56,7 +57,7 @@ export default {
             areaList: [],
             hospitalList: [],
             itemName: "",
-            province: "0",
+            province: null,
             city: "0",
             area: "0",
             hospitalId: "0",
@@ -243,7 +244,7 @@ export default {
             this.hospitalId = "0";
             var params = {};
             params.provinceCode = parseInt(
-                this.province == 0 ? null : this.province
+                this.province ? this.province : null
             );
             if (this.area) {
                 this.$axios
@@ -274,7 +275,7 @@ export default {
             this.pageNo = pageNo;
             var params = {};
             params.provinceId = parseInt(
-                this.province == 0 ? null : this.province
+                this.province ? this.province : null
             );
             params.cityId = parseInt(this.city == 0 ? null : this.city);
             params.areaId = parseInt(this.area == 0 ? null : this.area);
