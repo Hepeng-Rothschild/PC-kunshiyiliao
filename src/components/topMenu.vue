@@ -22,7 +22,7 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img :src="userIcon || '/static/img/heicon.jpg'" @click="edit">
+        <img :src="userIcon || '/static/img/heicon.jpg'" @click="edit" style = 'cursor:pointer;'>
       </div>
       <div class="info">
         <span>{{username || "喜大普奔"}}</span>
