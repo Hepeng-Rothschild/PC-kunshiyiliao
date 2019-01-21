@@ -128,7 +128,7 @@ if(store.state.env == "production"){
 		'ContentType':'multipart/form-data'
 	};
 }else if(store.state.env == "test"){
-	Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
 		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')

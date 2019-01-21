@@ -28,7 +28,7 @@ export default {
   },
   props:["leftActiveName","openList","leftMenuLists"],
   components: { Menu, Submenu, MenuItem, MenuGroup },
-  created() {},
+  mounted() {},
   computed: {
     lists() {
 //    console.log(this.$store.state.leftMenuList);
