@@ -38,9 +38,10 @@ Object.keys(filters).forEach(key => {
 });
 
 //注册全局函数
-import {GetDate,uploadFileDecrypt} from "@/commons/function.js";
+import {GetDate,uploadFileDecrypt,findStr} from "@/commons/function.js";
 Vue.prototype.GetDate = GetDate;
 Vue.prototype.uploadFileDecrypt = uploadFileDecrypt;
+Vue.prototype.findStr = findStr;
 
 //kindeditor
 import VueKindEditor from '@/plugins/kindeditor.js'

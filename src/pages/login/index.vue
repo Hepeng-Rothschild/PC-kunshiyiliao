@@ -150,12 +150,10 @@ export default {
                                 }
                             });
                             topMenu = topMenu.reverse();
-                            // console.log("topMenu",topMenu);
-                            // console.log("secondMenu",secondMenu);
-                            // console.log("thirdMenu",thirdMenu);
                             let menuList = [];
                             for(let i=0;i<topMenu.length;i++){
                                 let tmpMenu = [];
+                                let times = 0;
                                 for(let j=0;j<secondMenu.length;j++){
                                     let tmpObj = {};
                                     if(secondMenu[j].parentId == topMenu[i].id){
@@ -171,6 +169,13 @@ export default {
                                                 tmpObjS.name = thirdMenu[k].name;
                                                 tmpObjS.path = thirdMenu[k].path;
                                                 tmpObj.childLists.push(tmpObjS);
+                                                if(secondMenu[j].parentId == topMenu[i].id && times<1){
+                                                    let start = this.findStr(thirdMenu[k].path,'/',1)+1;
+                                                    let end = this.findStr(thirdMenu[k].path,'/',2);
+                                                    let type = thirdMenu[k].path.slice(start,end);
+                                                    topMenu[i].type = type;
+                                                    times++;
+                                                }
                                             }
                                         }
                                         tmpMenu.push(tmpObj);
