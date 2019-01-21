@@ -27,51 +27,26 @@ export default {
 	},
 	// 设置显示的左侧菜单
 	setLeftMenuList(state,name){
-		let operation,maintain,statistics,supervision;
-		switch(name){
-			case 1:
-			if(state.env == 'dev'){
-				state.leftMenuList = menuList.operationLeftMenu
-			}else{
-			operation = window.localStorage.getItem("operation");
-				if(operation)
-				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),operation))
-			}
-			break;
-			case 2:
-			if(state.env == 'dev'){
-				state.leftMenuList = menuList.maintainLeftMenu
-			}else{
-				maintain = window.localStorage.getItem("maintain");
-				if(maintain)
-				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),maintain))
-			}
-			break;
-			case 3:
-			if(state.env == 'dev'){
-				state.leftMenuList = menuList.statisticsLeftMenu
-			}else{
-				statistics = window.localStorage.getItem("statistics");
-				if(statistics)
-				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),statistics))
-			}
-			break;
-			case 4:
-			if(state.env == 'dev'){
-				state.leftMenuList = menuList.supervisionLeftMenu
-			}else{
-				supervision = window.localStorage.getItem("supervision");
-				if(supervision)
-				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),supervision))
-			}
-			break;
-			default:
-			if(state.env == 'dev'){
-				state.leftMenuList = menuList.operationLeftMenu
-			}else{
-				operation = window.localStorage.getItem("operation");
-				if(operation)
-				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),operation))
+		if(state.env != "dev"){
+			let sunList = window.localStorage.getItem("sun"+name);
+			if(sunList)
+				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),sunList));
+		}else{
+			switch(name){
+				case 1:
+					state.leftMenuList = menuList.operationLeftMenu
+				break;
+				case 2:
+					state.leftMenuList = menuList.maintainLeftMenu
+				break;
+				case 3:
+					state.leftMenuList = menuList.statisticsLeftMenu
+				break;
+				case 4:
+					state.leftMenuList = menuList.supervisionLeftMenu
+				break;
+				default:
+					state.leftMenuList = menuList.operationLeftMenu
 			}
 		}
 	},
