@@ -274,7 +274,7 @@ var big_upload = {
                                 console.log(xhr.responseText);
                             }++succeed;
                             var cent = jQuery.fcup_getPercent(succeed, shardCount);
-                            console.log(cent + '%');
+                            // console.log(cent + '%');
                             controlButton.fcupSet(cent);
                         }
                     }

@@ -340,7 +340,6 @@ export default {
       params.doctorId = this.selectExpert.doctorId;
       // 医院ID
       params.hospitalId = this.selectExpert.hospitalId;
-      // console.log(params);
       if (this.searchType == -1) {
         this.$Message.info("请选择远程门诊类型");
       } else if (this.time < 0) {
@@ -443,7 +442,6 @@ export default {
         } else {
           this.topLength = null;
         }
-        console.log(val);
 
         this.params.oneAm = this.topLength;
         this.params.twoAm = this.topLength;

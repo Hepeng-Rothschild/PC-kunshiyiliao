@@ -41,7 +41,6 @@ export default {
     Table
   },
   created() {
-    //			console.log(this.$route.fullPath);
   },
   data() {
     return {
@@ -64,7 +63,6 @@ export default {
       });
     },
     pageChange (index) {
-	  // console.log(index);
 	  
 	},
 	change () {

@@ -198,7 +198,6 @@ export default {
   },
   mounted() {
     let id = this.$route.params;
-    console.log(id);
     if (id) {
       this.changes(id);
     }
@@ -336,7 +335,6 @@ export default {
           url: this.fileBaseUrl + res.object[0].fileName
         });
       }
-      // console.log(this.uploadList);
     },
     handleFormatError(file) {
       this.$Notice.warning({

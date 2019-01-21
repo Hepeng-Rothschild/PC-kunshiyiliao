@@ -82,7 +82,6 @@ export default {
           }
         });
       })
-      console.log(changeList);
 
       let params = {
         appid: this.appid,
@@ -94,7 +93,6 @@ export default {
         } else {
           this.$Message.info("保存失败,请稍候重试");
         }
-        console.log(res.data);
       });
     },
     switchBoolean(num) {

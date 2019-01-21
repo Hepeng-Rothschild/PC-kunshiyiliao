@@ -181,7 +181,6 @@ export default {
         imageUrl: images,
         iclick: Number(this.switch2)
       };
-      // console.log(params);
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {

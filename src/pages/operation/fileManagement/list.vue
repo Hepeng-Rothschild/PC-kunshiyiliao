@@ -68,7 +68,6 @@ export default {
             this.$axios
                 .post(api.ordermanagementlistbyremoteorder, params)
                 .then(resp => {
-                    console.log(resp);
                     if (resp.data.success) {
                         let tmpObj = resp.data.object;
                         this.count = tmpObj.count;

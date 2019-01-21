@@ -174,7 +174,6 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
   mounted() {
-  console.log('我是同步执行的方法')
     this.loadingPage(this.pageNo);
   },
   methods: {

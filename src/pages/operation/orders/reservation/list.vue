@@ -98,7 +98,6 @@ export default {
                     render: (h, params) => {
                         let status = params.row.status;
                         let statusText;
-                        console.log(status);
                         switch(status){
                             case 0:
                                 statusText = "即将就诊";

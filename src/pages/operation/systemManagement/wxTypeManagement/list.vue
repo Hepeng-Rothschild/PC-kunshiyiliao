@@ -87,7 +87,6 @@ export default {
     },
     // 添加新功能
     fn(index) {
-      console.log(index);
       this.$router.push({
         path: "/index/operation/wxTypeManagement/fn",
         query: {
@@ -112,7 +111,6 @@ export default {
       return num;
     },
     change() {
-      console.log(this.valueCustomText);
     }
   }
 };

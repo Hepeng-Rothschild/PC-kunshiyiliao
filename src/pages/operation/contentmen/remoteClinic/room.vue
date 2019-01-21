@@ -190,30 +190,23 @@ export default {
     },
     startMorning(time) {
       this.time.startMorning = time;
-      //   console.log(time);
     },
     endMorning(time) {
       this.time.endMorning = time;
-      //   console.log(time);
     },
     startAfternoon(time) {
       this.time.startAfternoon = time;
-      //   console.log(time);
     },
     endAfternoon(time) {
       this.time.endAfternoon = time;
-      //   console.log(time);
     },
     startNight(time) {
       this.time.startNight = time;
-      //   console.log(time);
     },
     endNight(time) {
       this.time.endNight = time;
-      //   console.log(time);
     },
     save() {
-      // console.log(this.time);
     }
   }
 };

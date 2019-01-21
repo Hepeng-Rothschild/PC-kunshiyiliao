@@ -193,7 +193,6 @@ export default {
         // ID
         id: this.currentId
       };
-      //   console.log(params);
       this.$axios
         .post(api.departmentChange, params)
         .then(res => {

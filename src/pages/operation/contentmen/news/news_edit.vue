@@ -203,7 +203,6 @@ export default {
       this.info.content = val;
     },
     chan(e) {
-      // console.log(e);
     },
     valueHandle(param) {
       this.tinymceHtml = param;

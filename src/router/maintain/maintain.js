@@ -189,7 +189,7 @@ const jurisdictionAdd = {
 //接口权限管理
 const interfacePermiseList = {
     path:'maintain/system/iface_permise/lt',
-    name:'interfacePermise',
+    name:'interfacePermiseList',
     meta:{
         index:2,
         title:'权限管理'
@@ -198,7 +198,7 @@ const interfacePermiseList = {
 }
 const interfacePermiseEdit = {
     path:'maintain/system/iface_permise/ed',
-    name:'interfacePermise',
+    name:'interfacePermiseEdit',
     meta:{
         index:3,
         title:'权限管理-编辑'

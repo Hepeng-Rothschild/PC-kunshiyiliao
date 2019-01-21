@@ -67,7 +67,6 @@ export default {
             this.$axios
                 .post(api.selectDiseaseInfo, { id: this.id })
                 .then(resp => {
-                //   console.log(resp);
                     this.info = resp.data.object;
                 })
                 .catch(err => {

@@ -263,7 +263,6 @@ export default {
         },
         showTimesModal(id) {
             let tmpArr = this.doctorTimesList[id];
-            // console.log(tmpArr);
             let tmpHtml = ``;
             tmpArr.forEach((element, i) => {
                 tmpHtml += `${this.weeks[element.week]}&nbsp;&nbsp;

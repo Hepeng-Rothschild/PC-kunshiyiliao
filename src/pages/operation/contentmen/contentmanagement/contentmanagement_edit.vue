@@ -251,7 +251,6 @@ export default {
       file.name = res.object[0].fileName;
     },
     handleFormatError(file) {
-      // console.log(file);
       this.$Message.info("文件" + file.name + "上传失败");
     },
     handleMaxSize(file) {
@@ -331,7 +330,6 @@ export default {
           .catch(err => {
             console.log(err);
           });
-        // console.log(params);
       }
     },
     afterChange(val) {

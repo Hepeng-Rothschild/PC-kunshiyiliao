@@ -28,7 +28,6 @@ export default {
   methods: {
     afterChange(val) {
       this.textHtml = val;
-      console.log(this.textHtml);
     }
   },
   components:{

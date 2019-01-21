@@ -246,7 +246,6 @@ export default {
         .then(res => {
           if (res.data.code) {
             let ret = res.data.object;
-            console.log(ret);
             this.selectHospial = ret;
           }
         })

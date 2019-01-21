@@ -216,7 +216,6 @@ export default {
       } else if (this.mechanismType1 == "" || this.mechanismType2 == "") {
         this.$Message.info("机构类型不能为空");
       } else {
-        // console.log(params);
         this.$axios.post(api.mechanismregAdd, params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");
@@ -235,7 +234,6 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      // console.log(pageNo);
       this.$router.push({
         name: "mechanismreglist",
         params: {

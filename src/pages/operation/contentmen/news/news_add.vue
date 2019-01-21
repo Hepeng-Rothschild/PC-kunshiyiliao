@@ -168,7 +168,6 @@ export default {
       this.info.content = val;
     },
     chan(e) {
-      // console.log(e);
     },
     valueHandle(param) {
       this.tinymceHtml = param;
@@ -262,7 +261,6 @@ export default {
     },
     back() {
 	  let pageNo = this.$route.params.pageNo;
-	  // console.log(pageNo);
       this.$router.push({
         name: "operationNews",
         params: {

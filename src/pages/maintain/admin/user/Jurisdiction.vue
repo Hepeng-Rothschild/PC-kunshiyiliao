@@ -42,7 +42,6 @@ export default {
               if (item.second.length == 0) {
                 item.top.checked = true;
               }
-              //   console.log(item.top.id + item.top.menuName);
             }
             let a = item.top;
             let children = [];
@@ -54,7 +53,6 @@ export default {
                 if (i.last.length == 0) {
                   i.second.checked = Boolean(i.second.iopen);
                 }
-                // console.log(i.second.id + i.second.menuName);
               }
               let child = [];
               //   取到三级菜单
@@ -64,7 +62,6 @@ export default {
                 s.checked = Boolean(s.iopen);
                 child.push(s);
                 if (Boolean(s.iopen)) {
-                  //   console.log(s.id + s.menuName);
                 }
               });
               i.second.children = child;
@@ -103,20 +100,16 @@ export default {
               if (three === free.id) {
                 // 功能 id
                 menuIds.push(free.id);
-                // console.log(free.id + free.title);
                 // 二级菜单id
                 menuIds.push(two.id);
-                // console.log(two.id + two.title);
                 // 主菜单id
                 menuIds.push(item.id);
-                // console.log(item.id + item.title);
               }
             });
           });
         });
       });
       let a = new Set([...menuIds]);
-      console.log(a);
       if (a.size === 0) {
         this.$Message.info("修改成功");
         let pageNo = this.$route.query.pageNo;

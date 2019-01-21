@@ -171,7 +171,6 @@ export default {
       }
     },
     changes() {
-      // console.log(this.keshi);
       let index = this.keshi;
       let data = this.list[index];
       // // 显示
@@ -269,13 +268,10 @@ export default {
           } else {
             this.$Message.info("添加失败请重试");
           }
-          // console.log(res);
         })
         .catch(err => {
           console.log(err);
         });
-
-      // console.log(params);
     }
   }
 };
