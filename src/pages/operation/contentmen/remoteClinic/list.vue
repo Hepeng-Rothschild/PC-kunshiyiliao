@@ -17,7 +17,7 @@
       <div class="headers">
         <div class="city">
           <!-- 省 -->
-          <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange">
+          <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange" clearable>
             <Option value>请选择</Option>
             <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
           </Select>
@@ -26,12 +26,13 @@
             v-model="model.cityCode"
             style="width:150px;margin:0 10px;"
             @on-change="cityChange"
+            clearable
           >
             <Option value>请选择</Option>
             <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
           </Select>
           <!-- 区 -->
-          <Select v-model="model.districtCode" style="width:200px">
+          <Select v-model="model.districtCode" style="width:200px" clearable>
             <Option value>请选择</Option>
             <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
           </Select>
@@ -45,6 +46,7 @@
             placeholder="请输入关键字检索"
             v-model.trim="model.orgName"
             style="width: 300px;margin-right:20px;"
+            clearable
           />
           <Button type="primary" @click="searchContent">查询</Button>
         </div>

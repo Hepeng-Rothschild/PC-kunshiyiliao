@@ -10,6 +10,7 @@
             placeholder="输入医生姓名/联系方式/医院名称进行查询"
             style="width: 260px"
             @on-keyup="nameChange"
+            clearable
           />
         </div>
       </header>

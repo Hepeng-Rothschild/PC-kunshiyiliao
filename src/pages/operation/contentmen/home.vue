@@ -2,7 +2,7 @@
   <div class="management1">
     <header>
       <span>机构名称</span>
-      <Input v-model.trim="val" placeholder="请输入医疗机构名称" style="width: 200px" />
+      <Input v-model.trim="val" placeholder="请输入医疗机构名称" style="width: 200px" clearable />
       <button @click="search">查询</button>
     </header>
     <table border="0" cellspacing="0" cellpadding="0">

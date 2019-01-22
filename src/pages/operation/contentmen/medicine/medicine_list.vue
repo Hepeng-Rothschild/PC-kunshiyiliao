@@ -7,7 +7,7 @@
         <div class="box">
           <div class="header_input">
             <span></span>
-              <Input v-model.trim="val" placeholder="一级科室/二级科室" style="width: 200px" />
+              <Input v-model.trim="val" placeholder="一级科室/二级科室" style="width: 200px" clearable/>
           </div>
           <button @click="change" class="btn">查询</button>
         </div>

@@ -6,20 +6,20 @@
       <!--类型选择-->
       <div class="selectType">
         <span>类型</span>
-        <iSelect v-model="type1" style="width:100px">
+        <iSelect v-model="type1" style="width:100px" clearable>
           <iOption v-for="item in cityList" :value="item.id" :key="item.id">{{ item.label }}</iOption>
         </iSelect>
       </div>
       <!--发布选择-->
       <div class="selectType">
         <span>状态</span>
-        <iSelect v-model="type2" style="width:100px">
+        <iSelect v-model="type2" style="width:100px" clearable>
           <iOption v-for="item in cityLists" :value="item.id" :key="item.id">{{ item.label }}</iOption>
         </iSelect>
       </div>
       <!--搜索输入-->
       <div class="search">
-        <Input v-model.trim="val" placeholder="文章名称" style="width: 200px"/>
+        <Input v-model.trim="val" placeholder="文章名称" style="width: 200px" clearable/>
       </div>
       <!--搜索按钮-->
       <Button type="primary" icon="ios-search" @click="btn">搜索</Button>

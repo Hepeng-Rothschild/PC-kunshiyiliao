@@ -5,7 +5,7 @@
       <!-- 模板 -->
       <div class="item" v-for="item,index in list">
         <span>{{ item.name }}</span>
-        <Input placeholder="模板编号" style="width: 500px" v-model="item.template"/>
+        <Input placeholder="模板编号" style="width: 500px" v-model="item.template" clearable/>
       </div>
       <!-- 保存 -->
       <div class="save">

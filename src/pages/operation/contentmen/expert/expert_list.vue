@@ -7,7 +7,7 @@
       <Button type="primary" @click="navto">添加专家</Button>
       <div class="box">
         <div class="boxs">
-          <Input v-model.trim="val" placeholder="专家姓名" style="width: 200px" />
+          <Input v-model.trim="val" placeholder="专家姓名" style="width: 200px" clearable/>
         </div>
         <Button type="primary" @click="valChange" style='margin-left:20px;'>查询</Button>
       </div>

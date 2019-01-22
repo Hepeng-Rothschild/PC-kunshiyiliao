@@ -4,12 +4,12 @@
     <!-- 头部选择框 -->
     <header>
       <!-- 省份 -->
-      <Select class="w-select" v-model="city">
+      <Select class="w-select" v-model="city" clearable>
         <Option value="0">全国</Option>
         <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
       </Select>
       <!-- 检索的医院名称 -->
-      <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'"/>
+      <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'" clearable/>
       <!-- 查询 -->
       <Button type="primary" class="primary" @click="search">
         <Icon type="ios-search" size="14"/>查询

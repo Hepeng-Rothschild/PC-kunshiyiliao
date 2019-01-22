@@ -10,9 +10,10 @@
         <div>
           <Input
             placeholder="输入登录账号/用户昵称进行查询"
-            style="width: 300px"
+            style="width: 250px"
             v-model.trim="searchKey"
             @on-keyup.enter="vagueSearch"
+            clearable
           />
           <Button type="primary" @click="vagueSearch">查询</Button>
         </div>

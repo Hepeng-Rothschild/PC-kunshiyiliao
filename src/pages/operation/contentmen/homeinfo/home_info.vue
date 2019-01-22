@@ -54,14 +54,14 @@
         <!-- <select v-model="y_type">
           <option :value="item.dictType" v-for="item,index in types">{{ item.dictName }}</option>
         </select> -->
-        <Select v-model="y_type" style="width:100px">
+        <Select v-model="y_type" style="width:100px" clearable>
           <Option v-for="item in types" :value="item.dictType" :key="item.dictType">{{ item.dictName }}</Option>
         </Select>
       </div>
       <!--医联体上级医院-->
       <div class="main_info">
         <span>医联体上级医院</span>
-        <Select v-model="y_search1" style="width:200px;">
+        <Select v-model="y_search1" style="width:200px;" clearable>
           <Option value="0">请选择</Option>
           <Option :value="item.orgCode" v-for="item,index in ylt" :key="item.orgCode">{{ item.orgName }}</Option>
         </Select>
@@ -70,7 +70,7 @@
       <div class="main_moban">
         <span>背景模板</span>
 
-         <Select v-model="y_module" style="width:100px;">
+         <Select v-model="y_module" style="width:100px;" clearable>
           <Option :value="2">默认模板</Option>
            <Option :value="1">中医院模板</Option>
         </Select>
@@ -110,7 +110,7 @@
       <!--互联网医院公众号-->
       <div class="main_moban">
         <span>互联网医院公众号</span>
-        <Select v-model="y_gzh" style="width:150px;" :disabled="status">
+        <Select v-model="y_gzh" style="width:150px;" :disabled="status" clearable>
           <Option :value="0">请选择</Option>
           <Option v-for="item,index in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
         </Select>
