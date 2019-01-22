@@ -16,7 +16,8 @@ export default {
 	},
 	// 设置显示的顶级菜单
 	setTopMenuList(state){
-		if(state.env == 'dev'){
+		if(state.env == 'dev' || state.env == 'production'){
+			
 			state.topMenuList = menuList.topMenu;
 		}else{
 			let top = window.localStorage.getItem("top");
@@ -27,11 +28,13 @@ export default {
 	},
 	// 设置显示的左侧菜单
 	setLeftMenuList(state,name){
-		if(state.env != "dev"){
+		if(state.env != "dev" && state.env != 'production'){
 			let sunList = window.localStorage.getItem("sun"+name);
+			
 			if(sunList)
 				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),sunList));
 		}else{
+			
 			switch(name){
 				case 1:
 					state.leftMenuList = menuList.operationLeftMenu
