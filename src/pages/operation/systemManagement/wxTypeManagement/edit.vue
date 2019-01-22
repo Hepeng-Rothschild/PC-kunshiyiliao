@@ -13,7 +13,7 @@
         <span class="title">
           <span style="color:red;">*</span>类型
         </span>
-        <Select v-model="params.function" style="width:200px">
+        <Select v-model="params.function" style="width:100px">
           <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
       </div>
@@ -92,10 +92,13 @@ export default {
   },
   mounted() {
     let params = this.$route.params.item;
+    console.log(params);
     this.params.menuName = params.menuName;
     this.params.path = params.path;
     this.params.priority = params.priority;
+
     this.params.function = params.function;
+
     this.shortcut = Boolean(params.shortcut);
     this.params.remark = params.remark;
     this.params.menuicon = params.menuicon;
