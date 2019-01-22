@@ -7,6 +7,7 @@
         v-model.trim="params.uId"
         placeholder="请输入检索内容"
         style="width: 200px;margin:0 20px;"
+        clearable
       />
       <Button type="primary" icon="ios-search" @click="search">查询</Button>
     </header>

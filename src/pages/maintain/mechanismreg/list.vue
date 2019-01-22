@@ -8,7 +8,7 @@
           <button @click = 'add'>新增机构</button>
         </div>
         <div class="search">
-          <Input v-model.trim="Name" placeholder="输入机构名称进行查询" style="width: 300px" @on-keyup='nameChange'/>
+          <Input v-model.trim="Name" clearable placeholder="输入机构名称进行查询" style="width: 300px" @on-keyup='nameChange'/>
         </div>
       </header>
       <!-- 列表 -->

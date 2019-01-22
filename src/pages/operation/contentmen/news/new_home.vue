@@ -7,7 +7,7 @@
       <div>
         <!--  @click = 'press' -->
         <span></span>
-        <Input v-model.trim="search" placeholder="新闻标题" style="width: 200px" @on-keyup="press"/>
+        <Input v-model.trim="search" placeholder="新闻标题" style="width: 200px" @on-keyup="press" clearable/>
       </div>
       <button @click="add">创建新闻</button>
     </div>

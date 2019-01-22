@@ -2,11 +2,11 @@
   <div class="fileManagement">
     <header>
       <span>机构名称：</span>
-      <Input v-model.trim="params.hospitalName" placeholder="请输入机构名称" style="width: 200px"/>
+      <Input v-model.trim="params.hospitalName" placeholder="请输入机构名称" style="width: 200px" clearable />
       <span>患者姓名：</span>
-      <Input v-model.trim="params.memberName" placeholder="请输入患者姓名" style="width: 200px"/>
+      <Input v-model.trim="params.memberName" placeholder="请输入患者姓名" style="width: 200px" clearable />
       <span>身份证号：</span>
-      <Input v-model.trim="params.fdsOrderId" placeholder="请输入患者身份证号码" style="width: 200px"/>
+      <Input v-model.trim="params.fdsOrderId" placeholder="请输入患者身份证号码" style="width: 200px" clearable />
       <Button type="primary" icon="ios-search" @click="search">查询</Button>
     </header>
     <div class="table">
@@ -27,8 +27,11 @@ export default {
   data() {
     return {
       params: {
+        // 医院名
         hospitalName: null,
+        // 患者
         memberName: null,
+        // 身份证
         fdsOrderId: null
       },
       pageNo: 1,
@@ -42,19 +45,22 @@ export default {
         { title: "电话", key: "telephone", align: "center" },
         { title: "签约医生", key: "doctorName", align: "center" },
         { title: "签约日期", key: "contractStartTime", align: "center" },
-        { title: "签约机构", key: "hospitalName", align: "center" },
+        { title: "签约机构", key: "hospitalName", align: "center" }
       ],
       data1: []
-    }
+    };
   },
   mounted() {
     this.loadingData(this.pageNo, this.pageSize, 1);
     let breadList = [
-        {path:"/index",title:"首页"},
-        {path:"/index/operation/doctorManagement/index",title:"医生端运营"},
-        {path:"/index/operation/contractManagement/list",title:"家医签约管理"}
-    ]
-    this.$emit("changeBreadList",breadList);
+      { path: "/index", title: "首页" },
+      { path: "/index/operation/doctorManagement/index", title: "医生端运营" },
+      {
+        path: "/index/operation/contractManagement/list",
+        title: "家医签约管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     loadPage(index) {
@@ -71,7 +77,7 @@ export default {
           this.params.hospitalName,
           this.params.memberName,
           this.params.fdsOrderId
-        )
+        );
       } else {
         this.loadingData(this.pageNo, this.pageSize, 1);
       }
@@ -88,10 +94,14 @@ export default {
         pageNo,
         pageSize,
         ieffective: status
-      }
+      };
+      // 医院名
       params.hospitalName = hospitalName;
+      // 患者
       params.memberName = memberName;
-      params.fdsOrderId = fdsOrderId;
+      // 医院名
+      params.idcard = fdsOrderId;
+
       this.$axios.post(api.contractManagementList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
@@ -104,13 +114,14 @@ export default {
               item.gender = "女";
             }
           });
+          console.log(ret.list)
           this.data1 = ret.list;
         } else {
-           this.$Message.info("没有访问权限");
+          this.$Message.info("没有访问权限");
         }
       });
     },
-    
+
     search() {
       this.loadingData(
         this.pageNo,

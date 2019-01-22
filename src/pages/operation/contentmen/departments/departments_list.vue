@@ -6,7 +6,7 @@
       <div class="ibanner_header">
         <div class="header_input">
           <span></span>
-          <Input v-model.trim="search" placeholder="一级科室/二级科室" style="width: 200px" @on-keyup='searchs'/>
+          <Input v-model.trim="search" clearable placeholder="一级科室/二级科室" style="width: 200px" @on-keyup='searchs'/>
         </div>
       </div>
       <!--列表-->

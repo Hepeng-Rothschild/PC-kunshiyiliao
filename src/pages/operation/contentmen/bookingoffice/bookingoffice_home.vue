@@ -5,7 +5,7 @@
       <!--搜索框-->
       <header>
         <div>
-          <Input placeholder="一级科室二级科室" v-model.trim="val" style="width: 200px" />
+          <Input placeholder="一级科室二级科室" v-model.trim="val" style="width: 200px" clearable/>
         </div>
         <button @click="valChange" class="btn">查询</button>
       </header>
