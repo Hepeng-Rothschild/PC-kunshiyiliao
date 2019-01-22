@@ -22,7 +22,7 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img :src="userIcon || '/static/img/heicon.jpg'" @click="edit" style="cursor:pointer;">
+        <img :src="userIcon || './static/img/heicon.jpg'" @click="edit" style="cursor:pointer;">
       </div>
       <div class="info">
         <span>{{username || "喜大普奔"}}</span>
@@ -71,6 +71,7 @@ export default {
       this.$router.push("/login");
     },
     edit() {
+      return ;
       this.$router.push({
         path: "/index/maintain/admin/user/edit",
         query: {
