@@ -194,7 +194,6 @@ const servicepackageupdatepageagehospital ='/operateapi/servicepackageupdatepage
 //通过省份ID查询医院列表
 const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
 
-//
 const wxList = '/operateapi/wxappbannerwxapplist'  //公众号列表
 const wxBannerList = '/operateapi/wxappbannerlist'  //公众号banner图列表
 const wxBannerAdd = '/operateapi/wxappbannerinsert'  //公众号Banner图添加

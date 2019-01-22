@@ -51,6 +51,14 @@ export default {
 		Bread
 	},
 	created(){
+		let randmId;
+		if(this.$store.state.end != "dev"){
+			randmId = cookie.getCookie("randmId");
+			if(!randmId){
+				 this.$router.push("/login");
+				 return ;
+			}
+		}
 		this.$store.commit("setTopMenuList");
 		let topMenuList = this.$store.state.topMenuList;
 		let leftMenuList = this.$store.state.leftMenuList;
