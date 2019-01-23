@@ -380,7 +380,7 @@ export default {
                 this.$refs[name].validate(valid => {
                     if (valid) {
                         this.checkStatus = true;
-                        params.notPassingReasons = this.reviewNoMsg;
+                        params.notPassingReasons = this.noMsg.reviewNoMsg;
                         params.remarks = this.reviewNoRemark;
                         sMsg = "审核不通过成功";
                         fMsg = "审核不通过失败，请重试";

@@ -58,12 +58,12 @@ const maintainLeftMenu = [
         {id:39,level:2,name:"症状管理",path:"/index/maintain/symptom/list"},
         {id:48,level:2,name:"评价管理",path:"/index/maintain/starClass/list"},
     ]},
-    // {id:2,level:1,name:"系统管理",childLists:[
-    //     {id:31,level:2,name:"账号管理",path:"/index/maintain/admin/user/list"},
-    //     // {id:44,level:2,name:"权限管理",path:"/index/maintain/admin/jurisdiction/list"},
-    //     {id:44,level:2,name:"权限管理",path:"/index/maintain/system/iface_permise/lt"},
-    //     {id:49,level:2,name:"菜单管理",path:"/index/maintain/system/m_manage/lt"},
-    // ]}
+    {id:2,level:1,name:"系统管理",childLists:[
+        {id:31,level:2,name:"账号管理",path:"/index/maintain/admin/user/list"},
+        // {id:44,level:2,name:"权限管理",path:"/index/maintain/admin/jurisdiction/list"},
+        {id:44,level:2,name:"权限管理",path:"/index/maintain/system/iface_permise/lt"},
+        {id:49,level:2,name:"菜单管理",path:"/index/maintain/system/m_manage/lt"},
+    ]}
 ];
 const statisticsLeftMenu = [
     {id:1,level:1,name:"统计端列表",childLists:[

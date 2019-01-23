@@ -140,6 +140,10 @@ export default {
                     width: 60,
                     render: (h, params) => {
                         let id = params.row.remoteClinicId;
+                        let startDate = new Date(this.startDate);
+                        let endDate = new Date(this.endDate);
+                        startDate = startDate.toLocaleDateString().replace(/\//g, "-");
+                        endDate = endDate.toLocaleDateString().replace(/\//g, "-");
                         return h(
                             "a",
                             {
@@ -153,7 +157,11 @@ export default {
                                                 "/index/operation/orders/remoteClinic/detail",
                                             query: {
                                                 id,
-                                                pageNo: this.pageNo
+                                                pageNo: this.pageNo,
+                                                searchKey: this.searchKey,
+                                                startDate: startDate,
+                                                endDate: endDate,
+                                                status: this.status
                                             }
                                         });
                                     }
@@ -176,8 +184,14 @@ export default {
         DatePicker
     },
     created() {
-        this.startDate = this.GetDate(-2);
-        this.endDate = this.GetDate(0);
+        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.startDate = this.$route.query.startDate?this.$route.query.startDate:this.GetDate(-2);
+        this.endDate = this.$route.query.endDate?this.$route.query.endDate:this.GetDate(0);
+        this.status = this.$route.query.status == null?null:parseInt(this.$route.query.status);
+        //上来就加载第一页数据
+        this.loadPage(pageNo);
+
         let breadList = [
             {path:"/index",title:"首页"},
             {path:"/index/operation/ordersmanagement/index",title:"订单管理"},
@@ -186,9 +200,6 @@ export default {
         this.$emit("changeBreadList",breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
-        //上来就加载第一页数据
-        this.loadPage(pageNo);
     },
     methods: {
         changeStart(val) {

@@ -265,12 +265,21 @@ export default {
             ],
             casePic: [{ fileName: require("@/assets/images/weixiaobao.jpg") }],
             showViewModal: false,
-            modalSrc: ""
+            modalSrc: "",
+
+            searchKey: "",
+            startDate: "",
+            endDate: "",
+            status: null,
         };
     },
     created() {
         this.id = parseInt(this.$route.query.id);
         this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.startDate = this.$route.query.startDate?this.$route.query.startDate:"";
+        this.endDate = this.$route.query.endDate?this.$route.query.endDate:"";
+        this.status = this.$route.query.status == null?null:parseInt(this.$route.query.status);
         let breadList = [
             {path:"/index",title:"首页"},
             {path:"/index/operation/ordersmanagement/index",title:"订单管理"},
@@ -297,7 +306,13 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/operation/orders/remoteClinic/list",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    searchKey: this.searchKey,
+                    startDate: this.startDate,
+                    endDate: this.endDate,
+                    status: this.status
+                }
             });
         }
     }
