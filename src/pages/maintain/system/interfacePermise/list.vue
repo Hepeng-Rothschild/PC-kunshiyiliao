@@ -47,7 +47,8 @@ export default {
                                                     "/index/maintain/system/iface_permise/ed",
                                                 query: {
                                                     id,
-                                                    pageNo: this.pageNo
+                                                    pageNo: this.pageNo,
+                                                    searchKey:this.searchKey
                                                 }
                                             });
                                         }
@@ -66,6 +67,7 @@ export default {
         };
     },
     created(){
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
         let breadList = [
             { path: "/index", title: "首页" },
             {

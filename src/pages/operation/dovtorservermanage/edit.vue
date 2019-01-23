@@ -51,6 +51,7 @@ export default {
             docServiceList: [],
             id: null,
             pageNo: null,
+            searchKey: "",
             editFlag: false
         };
     },
@@ -75,7 +76,10 @@ export default {
                         this.$Message.info("修改成功");
                         this.$router.push({
                             path: "/index/operation/doctormanage/list",
-                            query: { pageNo: this.pageNo }
+                            query: { 
+                                pageNo: this.pageNo,
+                                searchKey: this.searchKey
+                            }
                         });
                     }
                 });
@@ -89,13 +93,18 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/operation/doctormanage/list",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    searchKey: this.searchKey
+                }
             });
         }
     },
     created() {
         this.id = this.$route.query.id;
-        this.pageNo = parseInt(this.$route.query.pageNo);
+        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+
         this.$axios
             .post(api.doctorServerManage)
             .then(resp => {

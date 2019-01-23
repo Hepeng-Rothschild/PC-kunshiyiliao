@@ -420,6 +420,10 @@ export default {
             id: null,
             pageNo: null,
             tabId: null,
+            sonTab: null,
+            publicationStatus: null,
+            articleText: "",
+
             titleList: [],
             deptList: [],
             hospitalList: [],
@@ -453,7 +457,11 @@ export default {
     created() {
         let id = parseInt(this.$route.query.id);
         this.tabId = parseInt(this.$route.query.tabId);
-        this.pageNo = parseInt(this.$route.query.pageNo);
+        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.sonTab = this.$route.query.sonTab?parseInt(this.$route.query.sonTab):null;
+        this.publicationStatus = this.$route.query.publicationStatus == null?null:parseInt(this.$route.query.publicationStatus);
+        this.articleText = this.$route.query.articleText?this.$route.query.articleText:"";
+        
         this.tabList = this.classicCaseSontab;
         if (isNaN(id)) {
             this.editTt = `新增-经典案例`;
@@ -582,7 +590,10 @@ export default {
                                         "/index/operation/doctorContentCheck/list",
                                     query: {
                                         tabId: this.tabId,
-                                        pageNo: this.pageNo
+                                        pageNo: this.pageNo,
+                                        sonTab: this.sonTab,
+                                        publicationStatus: this.publicationStatus,
+                                        articleText: this.articleText
                                     }
                                 });
                             } else {
@@ -600,7 +611,13 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/operation/doctorContentCheck/list",
-                query: { tabId: this.tabId, pageNo: this.pageNo }
+                query: { 
+                    tabId: this.tabId,
+                    pageNo: this.pageNo,
+                    sonTab: this.sonTab,
+                    publicationStatus: this.publicationStatus,
+                    articleText: this.articleText
+                }
             });
         },
         introductionAfterChange(val) {

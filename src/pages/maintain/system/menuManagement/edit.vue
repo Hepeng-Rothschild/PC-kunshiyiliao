@@ -324,7 +324,8 @@ export default {
         this.id = this.$route.query.id ? parseInt(this.$route.query.id) : null;
         this.func = this.$route.query.func ? this.$route.query.func : null;
         this.level = parseInt(this.$route.query.level);
-        this.pageNo = parseInt(this.$route.query.pageNo);
+        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
         this.map = new Map();
         this.$axios
             .post(api.operatemenuprentlist, { level: 2 })
@@ -493,7 +494,10 @@ export default {
                             if (resp.data.code == 1) {
                                 this.$router.push({
                                     path: "/index/maintain/system/m_manage/lt",
-                                    query: { pageNo: this.pageNo }
+                                    query: { 
+                                        pageNo: this.pageNo,
+                                        searchKey:this.searchKey
+                                    }
                                 });
                             } else {
                                 this.$Message.error(noticeMsg + "失败，请重试");
@@ -510,7 +514,10 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/maintain/system/m_manage/lt",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    searchKey:this.searchKey
+                }
             });
         }
     }

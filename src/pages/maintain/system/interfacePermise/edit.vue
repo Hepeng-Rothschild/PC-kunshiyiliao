@@ -80,7 +80,8 @@ export default {
     },
     created() {
         this.id = this.$route.query.id ? this.$route.query.id : null;
-        this.pageNo = parseInt(this.$route.query.pageNo);
+        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
         if (this.id) {
             this.$axios
                 .post(api.operateauthquerybyid, { id: this.id })
@@ -130,7 +131,10 @@ export default {
                                 this.$router.push({
                                     path:
                                         "/index/maintain/system/iface_permise/lt",
-                                    query: { pageNo: this.pageNo }
+                                    query: { 
+                                        pageNo: this.pageNo,
+                                        searchKey:this.searchKey
+                                    }
                                 });
                             } else {
                                 this.$Message.error(noticeMsg + "失败，请重试");
@@ -147,7 +151,10 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/maintain/system/iface_permise/lt",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    searchKey:this.searchKey
+                }
             });
         }
     }

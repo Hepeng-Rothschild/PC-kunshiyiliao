@@ -371,9 +371,12 @@ export default {
     };
   },
   created() {
-    let pageNo = this.$route.query.pageNo;
-    pageNo = pageNo ? parseInt(pageNo) : 1;
     this.tabId = this.$route.query.tabId ? this.$route.query.tabId : 0;
+    let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+    this.sonTab = this.$route.query.sonTab?parseInt(this.$route.query.sonTab):null;
+    this.publicationStatus = this.$route.query.publicationStatus == null?null:parseInt(this.$route.query.publicationStatus);
+    this.articleText = this.$route.query.articleText?this.$route.query.articleText:"";
+    
     this.tabId == 0 &&
       ((this.columns = this.healthEducation),
       (this.sonTabList = this.healthEducationSontab),
@@ -386,8 +389,6 @@ export default {
       ((this.columns = this.hotRecommend),
       (this.sonTabList = this.hotRecommendSontab),
       (this.listApi = this.hotRecommendApi));
-    console.log(this.tabId);
-    console.log(this.columns);
     this.loadPage(pageNo);
 
     let breadList = [
@@ -414,7 +415,13 @@ export default {
         (tmpUrl = "/index/operation/doctorContentCheck/hot-add");
       this.$router.push({
         path: tmpUrl,
-        query: { tabId: this.tabId, pageNo: this.pageNo }
+        query: { 
+          tabId: this.tabId, 
+          pageNo: this.pageNo,
+          sonTab: this.sonTab,
+          publicationStatus: this.publicationStatus,
+          articleText: this.articleText
+        }
       });
     },
     toEdit(id) {
@@ -427,7 +434,14 @@ export default {
         (tmpUrl = "/index/operation/doctorContentCheck/hot-edit");
       this.$router.push({
         path: tmpUrl,
-        query: { id, tabId: this.tabId, pageNo: this.pageNo }
+        query: { 
+          id, 
+          tabId: this.tabId, 
+          pageNo: this.pageNo,
+          sonTab: this.sonTab,
+          publicationStatus: this.publicationStatus,
+          articleText: this.articleText
+        }
       });
     },
     changeEnable(index, id, url, enable) {
@@ -450,6 +464,10 @@ export default {
     },
     changeComponent(index) {
       this.tabId = index;
+      this.pageNo = 1;
+      this.sonTab = null;
+      this.publicationStatus = null;
+      this.articleText = "";
       this.tabId == 0 &&
         ((this.columns = this.healthEducation),
         (this.sonTabList = this.healthEducationSontab),

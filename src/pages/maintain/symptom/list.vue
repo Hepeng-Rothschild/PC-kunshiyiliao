@@ -75,7 +75,8 @@ export default {
                                                     "/index/maintain/symptom/edit",
                                                 query: {
                                                     id,
-                                                    pageNo: this.pageNo
+                                                    pageNo: this.pageNo,
+                                                    searchKey:this.searchKey
                                                 }
                                             });
                                         }
@@ -109,6 +110,7 @@ export default {
         };
     },
     created(){
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -123,8 +125,7 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo;
-        pageNo = pageNo ? pageNo : 1;
+        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
