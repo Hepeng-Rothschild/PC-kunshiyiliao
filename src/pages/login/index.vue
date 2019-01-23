@@ -116,31 +116,23 @@ export default {
                                 "access_token",
                                 resp.data.object.access_token
                             );
-                            
                             let tmpIcon = resp.data.object.userIcon;
                             let username = resp.data.object.nickname;
-
                             let operateUserId = resp.data.object.operateUserId;
-                            // 把用户头像，昵称，ID存入COokie
                             if (tmpIcon) {
                                 let tmpObj = JSON.parse(tmpIcon);
                                 let userIcon =
                                     this.fileBaseUrl + tmpObj.fileName;
                                 cookie.setCookie("userIcon", userIcon, times);
                                 cookie.setCookie("username", username, times);
-
                                 cookie.setCookie("operateUserId", operateUserId, times);
 
                             }
                             let key = resp.data.object.randmId;
                             let iv = this.$store.state.iv;
                             let salt = this.$store.state.salt;
-                            // 取到加密后的菜单列表
                             let menus = resp.data.object.menus;
-
                             cookie.setCookie("randmId", key, times);
-
-                            // 获取用户权限菜单列表
                             let topMenu = [],
                                 secondMenu = [],
                                 thirdMenu = [];
@@ -199,8 +191,6 @@ export default {
                                 "top",
                                 aesUtils.encrypt(salt, iv, key, topMenu)
                             );
-
-
                             this.$router.push("/index");
                         } else {
                             this.loginFlag = true;

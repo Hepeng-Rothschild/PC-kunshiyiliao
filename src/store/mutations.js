@@ -16,7 +16,8 @@ export default {
 	},
 	// 设置显示的顶级菜单
 	setTopMenuList(state){
-		if(state.env == 'dev' || state.env == 'production'){
+		if(state.env == 'dev'){
+			
 			state.topMenuList = menuList.topMenu;
 		}else{
 			let top = window.localStorage.getItem("top");
@@ -28,7 +29,7 @@ export default {
 	},
 	// 设置显示的左侧菜单
 	setLeftMenuList(state,name){
-		if(state.env != "dev" && state.env != 'production'){
+		if(state.env != "dev"){
 			let sunList = window.localStorage.getItem("sun"+name);
 			
 			if(sunList)

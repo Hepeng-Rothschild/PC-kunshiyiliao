@@ -56,6 +56,10 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
 	response => {
+		if (response.data.code === 401) {
+			router.push("/login")
+			return Promise.reject(response);
+		}
 		let iv = store.state.iv;
 		let salt = store.state.salt;
 		let key = cookie.getCookie("randmId");
@@ -68,10 +72,6 @@ axios.interceptors.response.use(
 			}
 		}
 		
-		if (response.data.code === 401) {
-			router.push("/login")
-			return Promise.reject(response);
-		}
 		return response;
 	},
 	error => {
