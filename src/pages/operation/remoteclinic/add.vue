@@ -4,7 +4,7 @@
     <!-- 主体 -->
     <div class="main">
       <!-- 添加接诊医生  -->
-      <Button type="primary" class="primary" @click="modal1=true">
+      <Button type="primary" class="primary" @click="addDoctr">
         <Icon type="ios-search" size="14"/>添加接诊医生
       </Button>
       <div class="doctor">
@@ -179,8 +179,8 @@
       </div>
       <!-- 保存 -->
       <div class="save">
-        <div style="background:#57a3f3;color:#fff;" @click="save">保存</div>
-        <div @click="back">取消</div>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -295,6 +295,10 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   methods: {
+    addDoctr() {
+      this.searchExpert();
+      this.modal1 = true;
+    },
     //  取消,后退 上一次
     back() {
       let pageNo = this.$route.query.pageNo;
@@ -605,14 +609,6 @@ export default {
       width: 200px;
       margin: 10px auto;
       justify-content: space-around;
-      div {
-        width: 80px;
-        line-height: 30px;
-        border-radius: 40px;
-        border: 1px solid #ddd;
-        text-align: center;
-        cursor: pointer;
-      }
     }
   }
 }

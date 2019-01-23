@@ -29,7 +29,6 @@
               <label :for="'a' + items.id">{{ items.menuName }}</label>
             </div>
           </div>
-          
         </div>
       </div>
       <!--保存-->
@@ -44,11 +43,7 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import {CheckboxGroup,Checkbox} from 'iview'
 export default {
-  components:{
-CheckboxGroup,Checkbox
-  },
   data() {
     return {
       arr: [],
@@ -60,19 +55,19 @@ CheckboxGroup,Checkbox
   components: {
     tmpHeader
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     navto() {
@@ -85,7 +80,6 @@ CheckboxGroup,Checkbox
           arr.push(el[i].getAttribute("data-id"));
         }
       }
-
       this.$axios
         .post(api.setserver, {
           hospitalId: this.id,
@@ -102,7 +96,7 @@ CheckboxGroup,Checkbox
           } else {
             this.$Message.error("修改失败,请重试");
           }
-        });
+        })
     }
   },
   mounted() {
@@ -136,6 +130,7 @@ CheckboxGroup,Checkbox
 </script>
 
 <style scoped lang="less">
+
 .addManagement {
   width: calc(100% - 20px);
   padding: 10px 30px;

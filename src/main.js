@@ -60,6 +60,8 @@ router.beforeEach((to, from, next) => {
 				document.title = title;
 				next();
 			}else{
+				// this.$Message.info('token已过期,请重新登录');
+				alert("token已过期,请重新登录")
 				next("/login");
 			}
 		}else{

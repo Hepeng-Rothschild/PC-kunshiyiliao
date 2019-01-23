@@ -2,7 +2,6 @@
   <!--Banner-->
   <div class="i_addBanner">
     <div class="i_addBanner_main">
-      <h3>banner信息</h3>
       <!--banner名称-->
       <div class="main_title">
         <div class="main_title_info">

@@ -148,8 +148,8 @@
       </div>
       <!-- 保存 -->
       <div class="save">
-        <div style="background:#57a3f3;color:#fff;" @click="save">保存</div>
-        <div @click="back">取消</div>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -318,7 +318,7 @@ export default {
         this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
           let pageNo = this.$route.query.pageNo;
           if (res.data.code) {
-            let info = res.data.object.file ||res.data.object.success
+            let info = res.data.object.file || res.data.object.success;
             this.$Message.info(info);
             setTimeout(() => {
               this.$router.push({
@@ -617,14 +617,6 @@ export default {
       width: 200px;
       margin: 10px auto;
       justify-content: space-around;
-      div {
-        width: 80px;
-        line-height: 30px;
-        border-radius: 40px;
-        border: 1px solid #ddd;
-        text-align: center;
-        cursor: pointer;
-      }
     }
   }
 }

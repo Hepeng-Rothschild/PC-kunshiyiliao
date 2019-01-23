@@ -7,12 +7,10 @@
       <!--搜索框-->
       <div class="ibanner_header">
         <div class="header_input">
-          <span>
-            <Icon type=" i-icon i-icon-shop_fill" size="24"/>
-          </span>
-          <Input v-model.trim="search" placeholder="请输入banner图名称查询" style="width: 200px" clearable/>
+          <Input v-model.trim="search" @on-keyup.enter='searchData' placeholder="请输入banner图名称查询" style="width: 200px" clearable/>
+          <Button type="primary" @click="searchData">查询</Button>
         </div>
-        <button @click="navto">添加Banner</button>
+         <Button type="primary" @click="navto">添加Banner</Button>
       </div>
       <!--表格列表-->
       <div class="tabList">
@@ -88,6 +86,10 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
   methods: {
+    // 根据输入的值获取不同的数据
+    searchData () {
+      this.getData(1, this.search);
+    },
     pageChange(index) {
       this.pageNo = index;
       if (this.search) {
@@ -153,15 +155,6 @@ export default {
       this.pageNo = pageNo;
     }
     this.getData(this.pageNo);
-  },
-  // 根据输入的值获取不同的数据
-  watch: {
-    search: {
-      deep: true,
-      handler(oldval) {
-        this.getData(1, oldval);
-      }
-    }
   }
 };
 </script>
@@ -181,14 +174,6 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      button {
-        padding: 6px 8px;
-        background: #2d8cf0;
-        color: #fff;
-        border: none;
-        outline: none;
-        border-radius: 4px;
-      }
     }
     .tabList {
       width: 100%;

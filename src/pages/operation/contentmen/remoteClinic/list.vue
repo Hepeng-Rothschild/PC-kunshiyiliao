@@ -21,7 +21,7 @@
             v-model="model.provinceCode"
             style="width:100px"
             @on-change="provinceChange"
-            clearable
+            
           >
             <Option value>请选择</Option>
             <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
@@ -31,13 +31,13 @@
             v-model="model.cityCode"
             style="width:150px;margin:0 10px;"
             @on-change="cityChange"
-            clearable
+            
           >
             <Option value>请选择</Option>
             <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
           </Select>
           <!-- 区 -->
-          <Select v-model="model.districtCode" style="width:200px" clearable>
+          <Select v-model="model.districtCode" style="width:200px" >
             <Option value>请选择</Option>
             <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
           </Select>
@@ -48,7 +48,7 @@
       <div class="inputContent">
         <div class="search">
           <Input
-            placeholder="请输入关键字检索"
+            placeholder="请输入医院名称检索"
             v-model.trim="model.orgName"
             style="width: 300px;margin-right:20px;"
             clearable
