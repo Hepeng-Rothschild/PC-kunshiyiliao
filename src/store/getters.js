@@ -6,9 +6,11 @@ export default {
 		let tmpProvinceList = [];
 		for(let item of state.address){
 			if(item.parent == undefined){
+				item.id = parseInt(item.value);
 				tmpProvinceList.push(item)
 			}
 		}
+		console.log("tmpProvinceList",tmpProvinceList);
 		return tmpProvinceList;
 	},
 	getCityList:(state)=>(parent)=>{

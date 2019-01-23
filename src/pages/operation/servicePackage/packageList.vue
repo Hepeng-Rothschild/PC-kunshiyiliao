@@ -12,8 +12,8 @@
                     <!-- <Option value="0">全国</Option> -->
                     <Option
                         v-for="item in provinceList"
-                        :value="item.value"
-                        :key="item.value"
+                        :value="item.id"
+                        :key="item.id"
                     >{{item.name}}</Option>
                 </Select>
                 <Select class="w-select" @on-change="changeCity" placeholder="市" v-model="city">

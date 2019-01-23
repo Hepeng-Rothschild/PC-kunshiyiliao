@@ -35,8 +35,8 @@
                             <!-- <Option value="0">全国</Option> -->
                             <Option
                                 v-for="item in provinceList"
-                                :value="item.value"
-                                :key="item.value"
+                                :value="item.id"
+                                :key="item.id"
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -252,7 +252,7 @@ export default {
                 ascription: 1,
                 hospitalId: null,
                 serviceDes: null,
-                provinceId: "1",
+                provinceId: null,
                 cityId: null,
                 areaId: null,
                 remarks: null,
@@ -330,11 +330,6 @@ export default {
             : 1;
         if (isNaN(id)) {
             this.editTt = `添加服务项目`;
-            if (this.info.provinceId) {
-                this.cityList = this.$store.getters.getCityList(
-                    parseInt(this.info.provinceId)
-                );
-            }
         } else {
             this.editTt = `修改服务项目`;
             this.id = id;
