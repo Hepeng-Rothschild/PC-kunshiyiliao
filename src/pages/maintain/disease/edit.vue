@@ -62,7 +62,9 @@ export default {
     },
     created() {
         this.id = this.$route.query.id ? this.$route.query.id : null;
-        this.pageNo = parseInt(this.$route.query.pageNo);
+        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+
         if (this.id) {
             this.$axios
                 .post(api.selectDiseaseInfo, { id: this.id })
@@ -111,7 +113,10 @@ export default {
                             if (resp.data.code == 1) {
                                 this.$router.push({
                                     path: "/index/maintain/disease/list",
-                                    query: { pageNo: this.pageNo }
+                                    query: { 
+                                        pageNo: this.pageNo,
+                                        searchKey:this.searchKey
+                                    }
                                 });
                             } else if(resp.data.code == 2){
                               this.$Message.error("名称重复，请修改");
@@ -130,7 +135,10 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/maintain/disease/list",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    searchKey:this.searchKey
+                }
             });
         }
     }
