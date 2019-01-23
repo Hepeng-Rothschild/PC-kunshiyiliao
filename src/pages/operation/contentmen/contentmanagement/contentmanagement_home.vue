@@ -19,7 +19,7 @@
       </div>
       <!--搜索输入-->
       <div class="search">
-        <Input v-model.trim="val" placeholder="文章名称" style="width: 200px" clearable/>
+        <Input v-model.trim="val" placeholder="请输入文章名称进行检索" style="width: 200px" clearable/>
       </div>
       <!--搜索按钮-->
       <Button type="primary" icon="ios-search" @click="btn">搜索</Button>
@@ -32,11 +32,11 @@
         <th>标题</th>
         <th>类型</th>
         <th>栏目</th>
-        <th>状态</th>
         <th>阅读量</th>
         <th>收藏量</th>
         <th>排序</th>
         <th>时间</th>
+        <th>状态</th>
         <th>操作</th>
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
@@ -48,9 +48,6 @@
         <th v-show="item.type != 1">视频</th>
         <!-- 栏目 -->
         <th>{{ item.columnName || '' }}</th>
-        <!-- 状态 -->
-        <th style="color:red;" v-show="item.enable == 0">未发布</th>
-        <th v-show="item.enable == 1">已发布</th>
         <!-- 阅读量 -->
         <th>{{ item.readAmount }}</th>
         <!-- 收藏量 -->
@@ -58,6 +55,9 @@
         <!-- 排序 -->
         <th>{{ item.priority }}</th>
         <th>{{ item.updateTime }}</th>
+        <!-- 状态 -->
+        <th style="color:red;" v-show="item.enable == 0">未发布</th>
+        <th v-show="item.enable == 1">已发布</th>
         <th class="modi">
           <span style="color: black;cursor:pointer" @click="changeItem(item)">修改</span>
           <span
@@ -120,22 +120,12 @@ export default {
       pageNo: 1,
       cityList: [
         {
-          value: "全部",
-          label: "全部",
-          id: ""
-        },
-        {
           value: "文章",
           label: "文章",
           id: 1
         }
       ],
       cityLists: [
-        {
-          value: "全部",
-          label: "全部",
-          id: ""
-        },
         {
           value: "未发布",
           label: "未发布",
@@ -166,7 +156,7 @@ export default {
   mounted() {
     let pageNo = this.$route.query.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = Number(pageNo);
     }
     this.getContentData(this.pageNo);
   },
@@ -202,6 +192,7 @@ export default {
       });
     },
     homeBtn() {
+
       this.$router.push({
         path: "/index/operation/contentmanagement_edit",
         query: {
@@ -223,6 +214,7 @@ export default {
       if (type2 == null) {
         type2 = "";
       }
+      console.log(type1,type2)
       this.getContentData(1, this.val, type1, type2);
     },
     // 下架
@@ -282,7 +274,7 @@ export default {
     changeItem(item) {
       let id = item.articleId;
       this.$router.push({
-      path: "/index/operation/contentmanagement_edit",
+        path: "/index/operation/contentmanagement_edit",
         query: {
           id,
           pageNo: this.pageNo
@@ -422,7 +414,7 @@ export default {
       background: #fff;
     }
     tr:not(:first-child):hover {
-      background: #adc9da;
+      background: #ebf7ff;
     }
     tr {
       border-top: 1px solid #dddee1;

@@ -84,7 +84,7 @@
         <!-- 是否开启 -->
         <div class="item">
           <div class="item-left">
-            <span style="color:red;">*</span>
+            <span style="color:red;">&nbsp;</span>
             <span>是否开启</span>
           </div>
           <iSwitch v-model="switch1" size="large">

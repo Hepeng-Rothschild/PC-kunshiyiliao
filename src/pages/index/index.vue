@@ -52,7 +52,7 @@ export default {
 	},
 	created(){
 		let randmId;
-		if(this.$store.state.end != "dev"){
+		if(this.$store.state.env != "dev"){
 			randmId = cookie.getCookie("randmId");
 			if(!randmId){
 				 this.$router.push("/login");
@@ -91,6 +91,7 @@ export default {
 				}
 			}
 		}
+		
 		// let bread = {path:fullPath,title:this.$route.meta.title};
 		// this.breadList.push(bread)
 		// this.breadTitle = this.$route.meta.title;

@@ -3,7 +3,6 @@
     <div class="container">
       <!-- 头部信息 -->
       <header>
-        <Button @click="branch">批量导入</Button>
         <div class="search">
           <Input
             v-model.trim="Name"
@@ -13,6 +12,7 @@
             clearable
           />
         </div>
+        <Button type="primary" @click="branch">批量导入</Button>
       </header>
       <!-- 列表 -->
       <div class="list">
@@ -181,15 +181,6 @@ export default {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      button {
-        background: #2d8cf0;
-        border: none;
-        outline: none;
-        color: #fff;
-        width: 128px;
-        height: 39px;
-        border-radius: 2px;
-      }
     }
     .list {
       width: 100%;
@@ -204,7 +195,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

@@ -26,9 +26,6 @@
           <span>专家科室</span>
         </div>
         <div class="iselected">
-          <!-- <select v-model="keshi" disabled>
-            <option :value="keshi">{{ keshi }}</option>
-          </select>-->
           <Select v-model="keshi" style="width:200px" disabled>
             <Option :value="keshi" :key="keshi">{{ keshi }}</Option>
           </Select>
@@ -57,7 +54,7 @@
           <span>专业特长</span>
         </div>
         <div class="shuru">
-          <textarea name rows cols disabled v-model="doctorGood"></textarea>
+          <Input v-model="doctorGood" type="textarea" :rows="6" placeholder="请输入个人简介" disabled style='width:400px;'/>
         </div>
       </div>
       <!--个人简介-->
@@ -67,7 +64,7 @@
           <span>个人简介</span>
         </div>
         <div class="shuru">
-          <textarea name rows cols disabled v-model="personalIntroduction"></textarea>
+          <Input v-model="personalIntroduction" type="textarea" :rows="6" placeholder="请输入个人简介" disabled style='width:400px;' />
         </div>
       </div>
       <!--排序-->
@@ -96,8 +93,8 @@
       </div>
       <!--保存-->
       <div class="expert_save">
-        <span @click="save">保存</span>
-        <span @click="back">取消</span>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -210,7 +207,7 @@ export default {
         iexpert: Number(this.switch2)
       };
       if (params.name == "") {
-        this.$Message.info("专家姓名不能为空");
+        this.$Message.error("专家姓名不能为空");
       } else {
         this.$axios.post(api.expertedit, params).then(res => {
           if (res.data.code) {
@@ -225,7 +222,7 @@ export default {
               });
             }, 500);
           } else {
-            this.$Message.info("修改失败请重试");
+            this.$Message.error("修改失败请重试");
           }
         });
       }
@@ -306,22 +303,10 @@ export default {
     }
     .expert_save {
       width: 200px;
-      height: 50px;
       margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      span {
-        display: inline-block;
-        width: 60px;
-        height: 30px;
-        color: #fff;
-        border-radius: 4px;
-        text-align: center;
-        line-height: 30px;
-        background: #2d8cf0;
-        cursor: pointer;
-      }
     }
   }
 }

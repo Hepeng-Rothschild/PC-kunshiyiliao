@@ -96,10 +96,10 @@
             </RadioGroup>
           </div>
         </div>-->
-        <!-- 联系电话 -->
+        <!-- 是否开启 -->
         <div class="pass">
           <div class="left">
-            <span style="color:red;">*</span>
+            <span style="color:red;">&nbsp;</span>
             <span>是否开启</span>
           </div>
           <iSwitch v-model="switch1" size="large">
@@ -251,15 +251,14 @@ export default {
         userIcon: images
       };
       if (this.text == "") {
-        this.$Message.info("账号不能为空");
+        this.$Message.info("登录账号不能为空");
       } else if (this.pass == "") {
-        this.$Message.info("密码不能为空");
+        this.$Message.info("登录密码不能为空");
       } else if (params.niceName == "") {
-        this.$Message.info("昵称不能为空");
+        this.$Message.info("用户昵称不能为空");
       } else {
         this.$axios.post(api.adminAdd, params).then(res => {
           if (res.data.code) {
-            console.log(res)
             let a = res.data.object.fail;
             this.$Message.info(a);
             let pageNo = this.$route.query.pageNo;

@@ -4,7 +4,7 @@
     <!-- 头部选择框 -->
     <header>
       <!-- 省份 -->
-      <Select class="w-select" v-model="city" clearable>
+      <Select class="w-select" v-model="city" >
         <Option value="0">全国</Option>
         <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
       </Select>
@@ -340,7 +340,7 @@ export default {
         background: #fff;
       }
       tr:not(:first-child):hover {
-        background: #9dcae4;
+        background: #ebf7ff;
       }
       tr {
         border-top: 1px solid #ddd;

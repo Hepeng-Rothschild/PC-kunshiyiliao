@@ -1,9 +1,9 @@
 <template>
   <div class="management1">
     <header>
-      <span>机构名称</span>
-      <Input v-model.trim="val" placeholder="请输入医疗机构名称" style="width: 200px" clearable />
-      <button @click="search">查询</button>
+      <span>机构名称：</span>
+      <Input v-model.trim="val" placeholder="请输入医疗机构名称检索" style="width: 200px;margin-right:10px;" clearable />
+      <Button type="primary" icon="ios-search" @click="search">查询</Button>
     </header>
     <table border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -151,16 +151,6 @@ export default {
       line-height: 30px;
       margin-right:10px;
     }
-    button {
-      margin-left:10px;
-      width: 50px;
-      height: 30px;
-      background: #3399ff;
-      color: #fff;
-      border-radius: 3px;
-      outline: none;
-      border: none;
-    }
   }
   table {
     width: 100%;
@@ -173,7 +163,7 @@ export default {
       background: #fff;
     }
     tr:not(:first-child):hover {
-      background: #9dcae4;
+       background: #ebf7ff;
     }
     tr {
       border-top: 1px solid #ddd;

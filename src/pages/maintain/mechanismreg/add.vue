@@ -32,7 +32,7 @@
             <span style="color:red;">*</span>
             <span>机构名称:</span>
           </div>
-          <input type="text" placeholder="机构全称" v-model.trim="mechanismName">
+          <Input v-model.trim="mechanismName" placeholder="请输入机构全称" clearable style="width: 300px" />
         </div>
         <!-- 详细地址 -->
         <div class="address">
@@ -40,7 +40,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>详细地址:</span>
           </div>
-          <input type="text" placeholder="请填写详细的地址:省,市,区" v-model.trim="address">
+           <Input v-model.trim="address" placeholder="请填写详细的地址:省,市,区" clearable style="width: 300px" />
         </div>
         <!-- 机构组织编码 -->
         <div class="address">
@@ -48,7 +48,7 @@
             <span style="color:red;">*</span>
             <span>机构组织编码:</span>
           </div>
-          <input type="text" placeholder="医疗组织机构代码" v-model.trim="mechanismCode">
+          <Input v-model.trim="mechanismCode" placeholder="医疗组织机构代码" clearable style="width: 300px" />
         </div>
         <!-- 机构类型 -->
         <div class="region">
@@ -83,7 +83,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>机构电话:</span>
           </div>
-          <input type="text" placeholder="机构电话" v-model="mechanismPhone" maxlength="12">
+           <Input v-model.trim="mechanismPhone" placeholder="机构电话" clearable style="width: 300px" :maxlength="12"/>
         </div>
         <!-- 机构联系人 -->
         <div class="address">
@@ -91,7 +91,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>机构联系人:</span>
           </div>
-          <input type="text" placeholder="姓名" v-model="Contacts">
+          <Input v-model.trim="Contacts" placeholder="姓名" clearable style="width: 300px" />
         </div>
         <!-- 联系人电话 -->
         <div class="address">
@@ -99,12 +99,12 @@
             <span style="color:red;">&nbsp;</span>
             <span>联系人电话:</span>
           </div>
-          <input type="text" placeholder="电话号码" v-model="phone" maxlength="11">
+          <Input v-model.trim="phone" placeholder="电话号码" clearable style="width: 300px" :maxlength="11"/>
         </div>
         <!-- 保存 -->
         <div class="save">
-          <div style="background:#fff;" @click="back">取消</div>
-          <div style="background:#2d8cf0;color:#fff;" @click="save">提交</div>
+          <Button type="primary" @click="back">取消</Button>
+          <Button type="primary"  @click="save">提交</Button>
         </div>
       </div>
     </div>

@@ -2,13 +2,10 @@
   <div class="list">
     <header>
       <Button type="primary" @click="add">添加新服务</Button>
-      <!-- <Rate show-text allow-half v-model="valueCustomText" @on-change ='change'>
-        <span style="color: #f5a623">{{ valueCustomText }}</span>
-      </Rate>-->
     </header>
     
     <div class="main" v-for="item,index in list" v-show="list.length">
-      <h3>{{ item.name.menuName }}</h3>
+      <h2>{{ item.name.menuName }}</h2>
       <div class="tabList">
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -140,7 +137,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

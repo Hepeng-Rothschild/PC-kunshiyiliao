@@ -17,7 +17,12 @@
       <div class="headers">
         <div class="city">
           <!-- 省 -->
-          <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange" clearable>
+          <Select
+            v-model="model.provinceCode"
+            style="width:100px"
+            @on-change="provinceChange"
+            clearable
+          >
             <Option value>请选择</Option>
             <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
           </Select>
@@ -72,7 +77,7 @@
         </div>
       </div>
       <!-- 保存 -->
-      <div class="save" @click="edit">保存</div>
+      <Button type="primary" @click="edit">保存</Button>
     </div>
   </div>
 </template>
@@ -109,19 +114,19 @@ export default {
       selectHospial: []
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     let doctor = sessionStorage.getItem("doctor");

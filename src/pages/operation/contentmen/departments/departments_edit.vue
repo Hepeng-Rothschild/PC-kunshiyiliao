@@ -40,7 +40,8 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
-          <textarea name rows cols v-model="test1"></textarea>
+          <!-- <textarea name rows cols v-model="test1"></textarea> -->
+          <Input v-model="test1" type="textarea" :rows="6" placeholder="请输入科室简介" style='width:350px;'/>
         </div>
         <!--排序-->
         <div class="keshi_name_text" style="align-items:center;">
@@ -61,8 +62,8 @@
         </div>
         <!--保存-->
         <div class="save">
-          <div @click="save">保存</div>
-          <div @click="back">取消</div>
+          <Button type="primary" @click="save">保存</Button>
+          <Button @click="back">取消</Button>
         </div>
       </div>
     </div>

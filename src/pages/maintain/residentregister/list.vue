@@ -4,9 +4,9 @@
       <!-- 头部信息 -->
       <header>
         <div class="search">
-          <Input v-model.trim="Name" placeholder="输入医生姓名/联系方式/医院名称查询" style="width: 250px" clearable/>
+          <Input v-model.trim="Name" placeholder="输入注册昵称/联系方式/公众号名称查询" style="width: 250px;margin-right:10px;" clearable/>
         </div>
-        <button @click="nameChange">查询</button>
+        <Button type="primary" icon="ios-search" @click="nameChange">查询</Button>
       </header>
       <!-- 列表 -->
       <div class="list">
@@ -136,18 +136,6 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
-      button {
-        width: 100px;
-        text-align: center;
-        line-height: 32px;
-        border: none;
-        outline: none;
-        background: #2d8cf0;
-        text-align: center;
-        border-radius: 4px;
-        color: #fff;
-        margin-left: 10px;
-      }
     }
     .list {
       width: 100%;
@@ -169,7 +157,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
       }
       .notData {

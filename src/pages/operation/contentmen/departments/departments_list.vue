@@ -6,7 +6,8 @@
       <div class="ibanner_header">
         <div class="header_input">
           <span></span>
-          <Input v-model.trim="search" clearable placeholder="一级科室/二级科室" style="width: 200px" @on-keyup='searchs'/>
+          <Input v-model.trim="search" clearable placeholder="请输入一级科室或二级科室查询" style="width: 200px" @on-keyup.enter='searchs'/>
+        <Button type="primary" @click="searchs" icon="ios-search">查询</Button>
         </div>
       </div>
       <!--列表-->
@@ -174,14 +175,6 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      button {
-        padding: 6px 8px;
-        background: #716bb2;
-        color: #ffb2b2;
-        border: none;
-        outline: none;
-        border-radius: 4px;
-      }
     }
     .tabList {
       width: 100%;
@@ -204,7 +197,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

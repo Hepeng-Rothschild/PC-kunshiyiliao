@@ -25,7 +25,6 @@ export default {
   },
   mounted() {
     let userId = this.$route.query.id;
-    // console.log(userId);
     this.$axios
       .post(api.adminSearch, {
         userId

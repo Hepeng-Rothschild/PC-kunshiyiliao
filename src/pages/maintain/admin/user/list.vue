@@ -4,10 +4,6 @@
     <div class="container">
       <header>
         <div>
-          <!-- 添加账号 -->
-          <Button type="primary" @click="add">添加账号</Button>
-        </div>
-        <div>
           <Input
             placeholder="输入登录账号/用户昵称进行查询"
             style="width: 250px"
@@ -15,7 +11,9 @@
             @on-keyup.enter="vagueSearch"
             clearable
           />
-          <Button type="primary" @click="vagueSearch">查询</Button>
+          <Button type="primary" icon="ios-search" @click="vagueSearch">查询</Button>
+          <!-- 添加账号 -->
+          <Button  @click="add">添加账号</Button>
         </div>
       </header>
       <!-- 列表 -->
@@ -291,7 +289,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

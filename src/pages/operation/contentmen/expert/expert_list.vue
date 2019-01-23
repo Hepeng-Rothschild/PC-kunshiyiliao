@@ -7,9 +7,9 @@
       <Button type="primary" @click="navto">添加专家</Button>
       <div class="box">
         <div class="boxs">
-          <Input v-model.trim="val" placeholder="专家姓名" style="width: 200px" clearable/>
+          <Input v-model.trim="val" placeholder="请输入专家姓名查询" style="width: 200px" @on-keyup.enter="valChange" clearable/>
         </div>
-        <Button type="primary" @click="valChange" style='margin-left:20px;'>查询</Button>
+        <Button type="primary" @click="valChange" style="margin-left:20px;">查询</Button>
       </div>
     </div>
     <!--表格列表-->
@@ -70,19 +70,19 @@ export default {
       this.pageNo = pageNo;
     }
     this.getExpertData(pageNo);
-    
+
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.status();
@@ -177,14 +177,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    button {
-      border: none;
-      outline: none;
-      background: #2d8cf0;
-      color: #fff;
-      border-radius: 4px;
-      padding: 5px 16px;
-    }
     .box {
       display: flex;
       flex-direction: row;
@@ -223,7 +215,7 @@ export default {
         background: #fff;
       }
       tr:not(:first-child):hover {
-        background: #9dcae4;
+        background: #ebf7ff;
       }
       tr {
         border-top: 1px solid #ddd;

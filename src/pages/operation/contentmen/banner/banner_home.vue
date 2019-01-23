@@ -10,7 +10,7 @@
           <span>
             <Icon type=" i-icon i-icon-shop_fill" size="24"/>
           </span>
-          <Input v-model.trim="search" placeholder="名称" style="width: 200px" clearable/>
+          <Input v-model.trim="search" placeholder="输入名称进行检索" style="width: 200px" clearable/>
         </div>
         <button @click="navto">添加Banner</button>
       </div>
@@ -30,15 +30,10 @@
             <td>{{ addZero(index) }}</td>
             <td>{{ item.bannerName }}</td>
             <td>
-              <!-- <img
-                :src="item.imageUrl == ''? '' :fileBaseUrl + item.imageUrl"
-                alt
-                style="margin:10px 0;width:80px;height:80px;"
-              >-->
               <img
                 :src="analysisImages(item.imageUrl)"
-                alt
-                style="margin:10px 0;width:80px;height:80px;"
+                alt='路径错误'
+                style="display:inline-block;margin:10px 0;width:80px;height:80px;"
               >
             </td>
             <td>{{ item.bannerUrl }}</td>
@@ -210,7 +205,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

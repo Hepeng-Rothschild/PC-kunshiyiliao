@@ -4,7 +4,7 @@
     <tmpHeader/>
     <!--添加专家/搜索-->
     <div class="iheader">
-      <button @click="navto">添加服务</button>
+      <Button type="primary" @click="navto">添加服务</Button>
     </div>
     <!--表格列表-->
     <div class="main">
@@ -106,14 +106,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    button {
-      border: none;
-      outline: none;
-      background: #2d8cf0;
-      color: #fff;
-      border-radius: 4px;
-      padding: 5px 16px;
-    }
     div {
       width: 200px;
       height: 30px;
@@ -152,7 +144,7 @@ export default {
         background: #fff;
       }
       tr:not(:first-child):hover {
-        background: #9dcae4;
+        background: #ebf7ff;
       }
       tr {
         border-top: 1px solid #ddd;

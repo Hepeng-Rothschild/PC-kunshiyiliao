@@ -93,7 +93,7 @@
             :textHtml="info.content"
             :urlCode="urlCode"
             @valueHandle="afterChange"
-            style='margin:0;'
+            style="margin:0;"
           ></vueEditor>
         </div>
         <!--科室特色-->
@@ -128,8 +128,8 @@
         </div>
         <!--保存-->
         <div class="save">
-          <div @click="save">保存</div>
-          <div @click="back">取消</div>
+          <Button type="primary" @click="save">保存</Button>
+          <Button @click="back">取消</Button>
         </div>
       </div>
     </div>
@@ -182,19 +182,19 @@ export default {
       data1: []
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     let id = this.$route.params;
@@ -310,7 +310,7 @@ export default {
     },
     changes(item) {
       let id = item.id;
-      this.addBookingofficeData(id)
+      this.addBookingofficeData(id);
     },
     handleView(name) {
       this.imgName = name;
@@ -408,7 +408,7 @@ export default {
         });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="less">

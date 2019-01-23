@@ -133,8 +133,8 @@
       </div>
       <!--保存-->
       <div class="save">
-        <div @click="save" style="cursor:pointer;">保存</div>
-        <div @click="back" style="cursor:pointer;">取消</div>
+        <Button type="primary" @click="save">保存</Button>
+        <Button  @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -145,14 +145,16 @@ import api from "@/api/commonApi";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import vueEditor from "@/components/vueEditor";
 import code from "@/config/base.js";
-import { Switch, Upload, Icon } from "iview";
+import { Switch, Upload, Icon, Select, Option } from "iview";
 export default {
   components: {
     tmpHeader,
     vueEditor,
     iSwitch: Switch,
     Upload,
-    Icon
+    Icon,
+    iSelect: Select,
+    iOption: Option
   },
   data() {
     return {

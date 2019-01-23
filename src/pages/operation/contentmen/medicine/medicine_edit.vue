@@ -91,7 +91,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
-          <textarea name rows cols v-model="test2"></textarea>
+          <Input v-model="test2" type="textarea" :rows="6" placeholder="请输入科室简介" />
         </div>
         <!--科室特色-->
         <div class="keshi_name_text">
@@ -133,8 +133,8 @@
         </div>
         <!--保存-->
         <div class="save">
-          <div @click="save">保存</div>
-          <div @click="back">取消</div>
+          <Button type="primary" @click="save">保存</Button>
+          <Button @click="back">取消</Button>
         </div>
       </div>
     </div>
@@ -392,8 +392,8 @@ export default {
       parent.style.display = "block";
     },
     threeChild(index) {
-      if(index.length == 0) {
-        return ""
+      if (index.length == 0) {
+        return "";
       }
       if (Boolean(index[0].id) && index[0].id != this.currentId) {
         this.currentId = index[0].id;
@@ -407,17 +407,17 @@ export default {
       this.getRightData(id);
     }
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
@@ -441,7 +441,7 @@ export default {
               i.title = i.childDept;
               if (id == i.id) {
                 i.selected = true;
-                a.expand=true
+                a.expand = true;
               }
               children.push(i);
             });

@@ -5,9 +5,9 @@
       <!--搜索框-->
       <header>
         <div>
-          <Input placeholder="一级科室二级科室" v-model.trim="val" style="width: 200px" clearable/>
+          <Input placeholder="请输入一级科室或二级科室查询" v-model.trim="val" style="width: 200px;margin-right:10px;" clearable/>
         </div>
-        <button @click="valChange" class="btn">查询</button>
+        <Button type="primary" icon="ios-search" @click="valChange">查询</Button>
       </header>
       <!--列表-->
       <div class="tabList">
@@ -146,18 +146,6 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: row;
-      .btn {
-        width: 100px;
-        height: 30px;
-        text-align: center;
-        line-height: 30px;
-        border: none;
-        outline: none;
-        background: #2d8cf0;
-        color: #fff;
-        border-radius: 4px;
-        margin-left: 10px;
-      }
     }
     .tabList {
       width: 100%;
@@ -180,7 +168,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

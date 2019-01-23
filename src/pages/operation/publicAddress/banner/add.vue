@@ -97,8 +97,8 @@
       </div>
       <!--保存-->
       <div class="save">
-        <div @click="save" style="cursor:pointer;">保存</div>
-        <div @click="back" style="cursor:pointer;">取消</div>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@
   <div class="i_addBanner">
     <tmpHeader/>
     <div class="i_addBanner_main">
-      <h3>banner信息</h3>
+      <!-- <h3>banner信息</h3> -->
       <!--banner名称-->
       <div class="main_title">
         <div class="main_title_info">
@@ -11,7 +11,7 @@
           <span>banner名称</span>
         </div>
         <div class="input">
-          <Input v-model.trim="title" placeholder="医院大图" style="width: 360px" />
+          <Input v-model.trim="title" placeholder="请输入Banner图名称" style="width: 360px"/>
         </div>
       </div>
       <!--banner图片-->
@@ -68,7 +68,7 @@
           <span>banner链接</span>
         </div>
         <div class="input">
-          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px" />
+          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px"/>
         </div>
       </div>
       <!--排序-->
@@ -78,7 +78,7 @@
           <span>排序</span>
         </div>
         <div class="input">
-           <Input v-model.trim="isort" placeholder="" style="width: 100px" />
+          <Input v-model.trim="isort" placeholder style="width: 100px"/>
         </div>
       </div>
       <!--是否显示-->
@@ -91,8 +91,8 @@
       </div>
       <!--保存-->
       <div class="save">
-        <div @click="save" style="cursor:pointer;">保存</div>
-        <div @click="back" style="cursor:pointer;">取消</div>
+        <Button @click="save" type="primary">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -123,25 +123,25 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
 
       uploadModal: true,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalBanner +'"}' },
+      uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       images: ""
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     change(status) {
@@ -177,17 +177,17 @@ export default {
           .then(res => {
             if (res.data.message === "success") {
               this.$Message.info("添加成功");
-                let pageNo = this.$route.params.pageNo;
+              let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
                 this.$router.push({
                   name: "iBanner",
-                  params:{
+                  params: {
                     pageNo
                   }
                 });
               }, 300);
             } else {
-               this.$Message.info('修改失败请重试');
+              this.$Message.info("修改失败请重试");
             }
           })
           .catch(err => {
@@ -212,17 +212,14 @@ export default {
     handleFormatError(file) {
       this.$Notice.warning({
         title: "格式错误",
-        desc:
-          "文件 " +
-          file.name +
-          " 上传失败,请重试"
-      })
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload(file) {
       const check = this.uploadList.length < 1;

@@ -7,12 +7,16 @@
         <div class="box">
           <div class="header_input">
             <span></span>
-              <Input v-model.trim="val" placeholder="一级科室/二级科室" style="width: 200px" clearable/>
+            <Input
+              v-model.trim="val"
+              placeholder="请输入一级科室或二级科室查询"
+              style="width: 230px;margin-right:10px;"
+              clearable
+            />
           </div>
-          <button @click="change" class="btn">查询</button>
+          <Button type="primary" icon="ios-search" @click="change">查询</Button>
         </div>
-
-        <button @click="navto" class="btn1">添加科室</button>
+        <Button type="primary" @click="navto">添加科室</Button>
       </div>
       <!--列表-->
       <div class="tabList">
@@ -68,19 +72,19 @@ export default {
       pageNo: 1
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     let pageNo = this.$route.params.pageNo;
@@ -106,8 +110,8 @@ export default {
     navto() {
       this.$router.push({
         name: "medicineAdd",
-        params:{
-          pageNo:this.pageNo
+        params: {
+          pageNo: this.pageNo
         }
       });
     },
@@ -117,7 +121,7 @@ export default {
         name: "medicineEdit",
         params: {
           id,
-          pageNo:this.pageNo
+          pageNo: this.pageNo
         }
       });
     },
@@ -169,56 +173,10 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items:center;
+      align-items: center;
       .box {
         display: flex;
         flex-direction: row;
-        // .header_input {
-        //   width: 200px;
-        //   border-radius: 15px;
-        //   border: 1px solid black;
-        //   height: 30px;
-        //   display: flex;
-        //   flex-direction: row;
-        //   align-items: center;
-        //   justify-content: space-between;
-        //   span {
-        //     display: inline-block;
-        //     width: 20px;
-        //     margin-left: 5px;
-        //     height: 20px;
-        //     background: url("../../../../assets/images/search.png") no-repeat;
-        //     background-size: 100% 100%;
-        //   }
-        //   input {
-        //     display: block;
-        //     width: calc(100% - 20px);
-        //     border: none;
-        //     outline: none;
-        //     background: none;
-        //     text-indent: 5px;
-        //   }
-        // }
-        .btn {
-          width: 100px;
-          height: 30px;
-          text-align: center;
-          line-height: 30px;
-          border: none;
-          outline: none;
-          background: #2d8cf0;
-          color: #fff;
-          border-radius: 4px;
-          margin-left: 10px;
-        }
-      }
-      .btn1 {
-        padding: 6px 8px;
-        background: #2d8cf0;
-        color: #fff;
-        border: none;
-        outline: none;
-        border-radius: 4px;
       }
     }
     .tabList {
@@ -229,7 +187,7 @@ export default {
         border: 1px solid #ddd;
         border-top: none;
         text-align: center;
-        background:#fff;
+        background: #fff;
         height: 40px;
         line-height: 40px;
       }
@@ -243,7 +201,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

@@ -5,11 +5,11 @@
     <!--搜索/创建-->
     <div class="headeri" v-show="!flag">
       <div>
-        <!--  @click = 'press' -->
         <span></span>
-        <Input v-model.trim="search" placeholder="新闻标题" style="width: 200px" @on-keyup="press" clearable/>
+        <Input v-model.trim="search" placeholder="请输入新闻标题查询" style="width: 200px" @on-keyup.enter="press" clearable/>
+       <Button type="primary" @click="press"  icon="ios-search">查询</Button>
       </div>
-      <button @click="add">创建新闻</button>
+      <Button type="primary" @click="add">创建新闻</Button>
     </div>
     <!--表格列表-->
     <div class="main" v-show="tablesList.length">
@@ -34,8 +34,8 @@
             >-->
             <img
               :src="analysisImages(item.newsHeadlines)"
-              alt
-              style="margin:10px 0;width:100px;height:50px;"
+              alt='路径错误'
+              style="display:inline-block;margin:10px 0;width:100px;height:50px;"
             >
           </th>
           <th>{{ item.source}}</th>
@@ -213,18 +213,6 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 
-    button {
-      width: 80px;
-      height: 30px;
-      margin-left: 20px;
-      text-align: center;
-      line-height: 30px;
-      border: none;
-      outline: none;
-      background: #2d8cf0;
-      color: #fff;
-      border-radius: 4px;
-    }
   }
   .main {
     width: calc(90% - 40px);
@@ -247,7 +235,7 @@ export default {
         background: #fff;
       }
       tr:not(:first-child):hover {
-        background: #9dcae4;
+        background: #ebf7ff;
       }
     }
   }
@@ -272,7 +260,7 @@ export default {
         background: #fff;
       }
       tr:not(:first-child):hover {
-        background: #9dcae4;
+        background: #ebf7ff;
       }
     }
     .fooDiv {

@@ -3,7 +3,7 @@
   <div class="i_addBanner">
     <tmpHeader/>
     <div class="i_addBanner_main">
-      <h3>banner信息</h3>
+      <!-- <h3>banner信息</h3> -->
       <!--banner名称-->
       <div class="main_title">
         <div class="main_title_info">
@@ -11,7 +11,7 @@
           <span>banner名称</span>
         </div>
         <div class="input">
-          <Input v-model.trim="title" placeholder="Banner图名称" style="width: 360px"/>
+          <Input v-model.trim="title" placeholder="请输入Banner图名称" style="width: 360px"/>
         </div>
       </div>
       <!--banner图片-->
@@ -90,8 +90,10 @@
       </div>
       <!--保存-->
       <div class="save">
-        <div @click="save" style="cursor:pointer;">保存</div>
-        <div @click="back" style="cursor:pointer;">取消</div>
+        <!-- <div @click="save" style="cursor:pointer;">保存</div>
+        <div @click="back" style="cursor:pointer;">取消</div> -->
+        <Button @click="save" type="primary">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>

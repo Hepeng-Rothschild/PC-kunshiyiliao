@@ -9,7 +9,7 @@
           <span>新闻标题</span>
         </div>
         <div class="input">
-          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 350px" :maxlength="30" />
+          <Input v-model.trim="title" placeholder="请输入新闻标题" style="width: 350px" :maxlength="30"/>
           <span>{{ title.length }}/30</span>
         </div>
       </div>
@@ -66,10 +66,10 @@
         </div>
         <div class="shuru">
           <vueEditor
-              id="editor_id"
-              :textHtml="info.content"
-              :urlCode="urlCode"
-              @valueHandle="afterChange"
+            id="editor_id"
+            :textHtml="info.content"
+            :urlCode="urlCode"
+            @valueHandle="afterChange"
           ></vueEditor>
         </div>
       </div>
@@ -79,7 +79,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>新闻来源</span>
         </div>
-        <Input v-model.trim="isource"  style="width: 300px" placeholder="请输入新闻的来源"/>
+        <Input v-model.trim="isource" style="width: 300px" placeholder="请输入新闻的来源"/>
       </div>
       <!--排序-->
       <div class="main_sort">
@@ -87,7 +87,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <Input v-model.trim="isort"  style="width: 100px" />
+        <Input v-model.trim="isort" style="width: 100px"/>
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--是否显示-->
@@ -100,8 +100,8 @@
       </div>
       <!--保存-->
       <div class="save">
-        <div @click="save" style="cursor:pointer">保存</div>
-        <div @click="back" style="cursor:pointer">取消</div>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -134,31 +134,33 @@ export default {
       visible: false,
       uploadList: [],
       switch1: true,
-      info:{
-        content:""
+      info: {
+        content: ""
       },
       uploadModal: true,
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
-      uploadData: { json: '{"urlCode":"'+ code.urlCode.hospitalDynamicNews +'"}' },
+      uploadData: {
+        json: '{"urlCode":"' + code.urlCode.hospitalDynamicNews + '"}'
+      },
       images: "",
       id: sessionStorage.getItem("hospitalId"),
-      urlCode: '{"urlCode":"'+ code.urlCode.richText+'"}',
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
@@ -167,8 +169,7 @@ export default {
     afterChange(val) {
       this.info.content = val;
     },
-    chan(e) {
-    },
+    chan(e) {},
     valueHandle(param) {
       this.tinymceHtml = param;
     },
@@ -189,17 +190,14 @@ export default {
     handleFormatError(file) {
       this.$Notice.warning({
         title: "格式错误",
-        desc:
-          "文件 " +
-          file.name +
-          " 上传失败,请重试"
-      })
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;
@@ -260,7 +258,7 @@ export default {
       }
     },
     back() {
-	  let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.params.pageNo;
       this.$router.push({
         name: "operationNews",
         params: {

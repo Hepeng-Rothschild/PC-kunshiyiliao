@@ -17,11 +17,11 @@ export default {
 	// 设置显示的顶级菜单
 	setTopMenuList(state){
 		if(state.env == 'dev' || state.env == 'production'){
-			
 			state.topMenuList = menuList.topMenu;
 		}else{
 			let top = window.localStorage.getItem("top");
 			if(top){
+				
 				state.topMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),top));
 			}
 		}

@@ -61,7 +61,7 @@
       <!--医联体上级医院-->
       <div class="main_info">
         <span>医联体上级医院</span>
-        <Select v-model="y_search1" style="width:200px;" clearable>
+        <Select v-model="y_search1" style="width:200px;" >
           <Option value="0">请选择</Option>
           <Option :value="item.orgCode" v-for="item,index in ylt" :key="item.orgCode">{{ item.orgName }}</Option>
         </Select>
@@ -110,7 +110,7 @@
       <!--互联网医院公众号-->
       <div class="main_moban">
         <span>互联网医院公众号</span>
-        <Select v-model="y_gzh" style="width:150px;" :disabled="status" clearable>
+        <Select v-model="y_gzh" style="width:150px;" :disabled="status" >
           <Option :value="0">请选择</Option>
           <Option v-for="item,index in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
         </Select>
@@ -160,8 +160,8 @@
       </div>
       <!--保存-->
       <div class="main_save">
-        <div @click="save" style="cursor:pointer;">保存</div>
-        <div @click="$router.push('/index/operation/home')" style="cursor:pointer;">取消</div>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="$router.push('/index/operation/home')">取消</Button>
       </div>
     </div>
   </div>
@@ -588,18 +588,6 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
-      div:first-child {
-        background: dodgerblue;
-      }
-      div {
-        width: 100px;
-        height: 30px;
-        background: gray;
-        color: #fff;
-        text-align: center;
-        line-height: 30px;
-        border-radius: 4px;
-      }
     }
   }
 }

@@ -35,8 +35,8 @@
       </div>
       <!--保存-->
       <div class="expert_save">
-        <span @click="navto">保存</span>
-        <span @click="btn">取消</span>
+        <Button type="primary" @click="navto">保存</Button>
+        <Button @click="btn">取消</Button>
       </div>
     </div>
   </div>
@@ -154,18 +154,18 @@ export default {
         console.log(err);
       });
 
-      let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   // 数据更新后的DOM结构
   updated() {
@@ -191,7 +191,7 @@ export default {
   .addManag {
     display: flex;
     flex-direction: column;
-    padding: 20px;  
+    padding: 20px;
     .fuwu {
       width: calc(100% - 100px);
       margin: 0 auto;
@@ -227,22 +227,10 @@ export default {
     }
     .expert_save {
       width: 200px;
-      height: 50px;
       margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      span {
-        display: inline-block;
-        width: 60px;
-        height: 30px;
-        color: #fff;
-        border-radius: 4px;
-        text-align: center;
-        line-height: 30px;
-        background: #2d8cf0;
-        cursor: pointer;
-      }
     }
   }
 }

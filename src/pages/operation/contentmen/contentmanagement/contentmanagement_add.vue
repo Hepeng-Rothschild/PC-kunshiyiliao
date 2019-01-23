@@ -1,9 +1,9 @@
 <template>
   <div class="home_article">
     <!--标题-->
-    <div class="article_title">
+    <!-- <div class="article_title">
       <span>文章</span>
-    </div>
+    </div>-->
     <!--编辑-->
     <div class="home_edit">
       <!--主标题-->
@@ -81,23 +81,24 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>栏目</span>
         </div>
-        <select v-model="select">
-          <option value="1">头条</option>
-          <option value="2">今日热点</option>
-          <option value="3">医学前沿</option>
-          <option value="4">宝宝喂养</option>
-          <option value="5">科普</option>
-          <option value="6">决策者说</option>
-        </select>
+        <iSelect v-model="select" style="width:100px" clearable>
+          <iOption :value="1" :key="1">头条</iOption>
+          <iOption :value="2" :key="2">今日热点</iOption>
+          <iOption :value="3" :key="3">医学前沿</iOption>
+          <iOption :value="4" :key="4">宝宝喂养</iOption>
+          <iOption :value="5" :key="5">科普</iOption>
+          <iOption :value="6" :key="6">决策者说</iOption>
+        </iSelect>
       </div>
+      <!-- 类型 -->
       <div class="lanmu">
         <div class="listImgTitle">
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>类型</span>
         </div>
-        <select v-model="type">
-          <option value="1">文章</option>
-        </select>
+        <iSelect v-model="type" style="width:100px" clearable>
+          <iOption :value="1" :key="1">文章</iOption>
+        </iSelect>
       </div>
       <!--排序-->
       <div class="sort">
@@ -149,8 +150,8 @@
       </div>
       <!--保存/取消-->
       <div class="queding">
-        <button @click="save">保存</button>
-        <button @click="back">取消</button>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -158,7 +159,7 @@
 
 <script>
 import vueEditor from "@/components/vueEditor";
-import { Switch, Upload, Icon, Select } from "iview";
+import { Switch, Upload, Icon, Select, Option } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
@@ -189,29 +190,33 @@ export default {
       id: sessionStorage.getItem("hospitalId"),
       type: "",
       editorText: "请输入要编辑的内容...",
-
       uploadModal: true,
-
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       uploadData: { json: '{"urlCode":"' + code.urlCode.patientNews + '"}' },
       images: "",
-      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
+      selectList:[
+        {
+          value:1,
+          label:'头条'
+        }
+      ]
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/patient/index",
-                title: "患者端运营"
-            },
-            {
-                path: "/index/operation/contentmanagement_home",
-                title: "内容管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/patient/index",
+        title: "患者端运营"
+      },
+      {
+        path: "/index/operation/contentmanagement_home",
+        title: "内容管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
@@ -539,16 +544,6 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    button {
-      padding: 6px 20px;
-      color: #fff;
-      border: none;
-      outline: none;
-      border-radius: 4px;
-    }
-    button:first-child {
-      background: #359aff;
-    }
   }
 }
 </style>

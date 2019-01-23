@@ -116,81 +116,91 @@ export default {
                                 "access_token",
                                 resp.data.object.access_token
                             );
-                            // let tmpIcon = resp.data.object.userIcon;
-                            // let username = resp.data.object.nickname;
+                            
+                            let tmpIcon = resp.data.object.userIcon;
+                            let username = resp.data.object.nickname;
+
                             let operateUserId = resp.data.object.operateUserId;
-                            // if (tmpIcon) {
-                            //     let tmpObj = JSON.parse(tmpIcon);
-                            //     let userIcon =
-                            //         this.fileBaseUrl + tmpObj.fileName;
-                            //     cookie.setCookie("userIcon", userIcon, times);
-                            //     cookie.setCookie("username", username, times);
+                            // 把用户头像，昵称，ID存入COokie
+                            if (tmpIcon) {
+                                let tmpObj = JSON.parse(tmpIcon);
+                                let userIcon =
+                                    this.fileBaseUrl + tmpObj.fileName;
+                                cookie.setCookie("userIcon", userIcon, times);
+                                cookie.setCookie("username", username, times);
+
                                 cookie.setCookie("operateUserId", operateUserId, times);
 
-                            // }
+                            }
                             let key = resp.data.object.randmId;
                             let iv = this.$store.state.iv;
                             let salt = this.$store.state.salt;
-                            // let menus = resp.data.object.menus;
+                            // 取到加密后的菜单列表
+                            let menus = resp.data.object.menus;
+
                             cookie.setCookie("randmId", key, times);
-                            // let topMenu = [],
-                            //     secondMenu = [],
-                            //     thirdMenu = [];
-                            // menus.map((el, i) => {
-                            //     if(el.level == 0){
-                            //         let tmpTop = {id:el.id,name:el.menuName,level:el.level};
-                            //         topMenu.push(tmpTop);
-                            //     }else if(el.level == 1){
-                            //         let tmpSecond = {id:el.id,name:el.menuName,parentId:el.prentId,level:el.level};
-                            //         secondMenu.push(tmpSecond);
-                            //     }else if(el.level == 2){
-                            //         let tmpThird = {id:el.id,name:el.menuName,parentId:el.prentId,level:el.level,path:el.path};
-                            //         thirdMenu.push(tmpThird);
-                            //     }
-                            // });
-                            // topMenu = topMenu.reverse();
-                            // let menuList = [];
-                            // for(let i=0;i<topMenu.length;i++){
-                            //     let tmpMenu = [];
-                            //     let times = 0;
-                            //     for(let j=0;j<secondMenu.length;j++){
-                            //         let tmpObj = {};
-                            //         if(secondMenu[j].parentId == topMenu[i].id){
-                            //             tmpObj.id = topMenu[i].id;
-                            //             tmpObj.level = secondMenu[j].level;
-                            //             tmpObj.name = secondMenu[j].name;
-                            //             tmpObj.childLists = [];
-                            //             for(let k=0;k<thirdMenu.length;k++){
-                            //                 if(thirdMenu[k].parentId == secondMenu[j].id){
-                            //                     let tmpObjS = {};
-                            //                     tmpObjS.id = thirdMenu[k].id;
-                            //                     tmpObjS.level = thirdMenu[k].level;
-                            //                     tmpObjS.name = thirdMenu[k].name;
-                            //                     tmpObjS.path = thirdMenu[k].path;
-                            //                     tmpObj.childLists.push(tmpObjS);
-                            //                     if(secondMenu[j].parentId == topMenu[i].id && times<1){
-                            //                         let start = this.findStr(thirdMenu[k].path,'/',1)+1;
-                            //                         let end = this.findStr(thirdMenu[k].path,'/',2);
-                            //                         let type = thirdMenu[k].path.slice(start,end);
-                            //                         topMenu[i].type = type;
-                            //                         times++;
-                            //                     }
-                            //                 }
-                            //             }
-                            //             tmpMenu.push(tmpObj);
-                            //         }
-                            //     }
-                            //     tmpMenu = JSON.stringify(tmpMenu);
-                            //     window.localStorage.setItem(
-                            //         "sun"+topMenu[i].id,
-                            //         aesUtils.encrypt(salt, iv, key, tmpMenu)
-                            //     );
-                            // }
-                            // topMenu = JSON.stringify(topMenu);
-                            // window.localStorage.setItem(
-                            //     "top",
-                            //     aesUtils.encrypt(salt, iv, key, topMenu)
-                            // );
+
+                            // 获取用户权限菜单列表
+                            let topMenu = [],
+                                secondMenu = [],
+                                thirdMenu = [];
+                            menus.map((el, i) => {
+                                if(el.level == 0){
+                                    let tmpTop = {id:el.id,name:el.menuName,level:el.level};
+                                    topMenu.push(tmpTop);
+                                }else if(el.level == 1){
+                                    let tmpSecond = {id:el.id,name:el.menuName,parentId:el.prentId,level:el.level};
+                                    secondMenu.push(tmpSecond);
+                                }else if(el.level == 2){
+                                    let tmpThird = {id:el.id,name:el.menuName,parentId:el.prentId,level:el.level,path:el.path};
+                                    thirdMenu.push(tmpThird);
+                                }
+                            });
+                            topMenu = topMenu.reverse();
+                            let menuList = [];
+                            for(let i=0;i<topMenu.length;i++){
+                                let tmpMenu = [];
+                                let times = 0;
+                                for(let j=0;j<secondMenu.length;j++){
+                                    let tmpObj = {};
+                                    if(secondMenu[j].parentId == topMenu[i].id){
+                                        tmpObj.id = topMenu[i].id;
+                                        tmpObj.level = secondMenu[j].level;
+                                        tmpObj.name = secondMenu[j].name;
+                                        tmpObj.childLists = [];
+                                        for(let k=0;k<thirdMenu.length;k++){
+                                            if(thirdMenu[k].parentId == secondMenu[j].id){
+                                                let tmpObjS = {};
+                                                tmpObjS.id = thirdMenu[k].id;
+                                                tmpObjS.level = thirdMenu[k].level;
+                                                tmpObjS.name = thirdMenu[k].name;
+                                                tmpObjS.path = thirdMenu[k].path;
+                                                tmpObj.childLists.push(tmpObjS);
+                                                if(secondMenu[j].parentId == topMenu[i].id && times<1){
+                                                    let start = this.findStr(thirdMenu[k].path,'/',1)+1;
+                                                    let end = this.findStr(thirdMenu[k].path,'/',2);
+                                                    let type = thirdMenu[k].path.slice(start,end);
+                                                    topMenu[i].type = type;
+                                                    times++;
+                                                }
+                                            }
+                                        }
+                                        tmpMenu.push(tmpObj);
+                                    }
+                                }
+                                tmpMenu = JSON.stringify(tmpMenu);
+                                window.localStorage.setItem(
+                                    "sun"+topMenu[i].id,
+                                    aesUtils.encrypt(salt, iv, key, tmpMenu)
+                                );
+                            }
+                            topMenu = JSON.stringify(topMenu);
+                            window.localStorage.setItem(
+                                "top",
+                                aesUtils.encrypt(salt, iv, key, topMenu)
+                            );
+
+
                             this.$router.push("/index");
                         } else {
                             this.loginFlag = true;

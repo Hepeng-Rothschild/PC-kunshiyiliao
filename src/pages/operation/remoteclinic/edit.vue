@@ -318,7 +318,8 @@ export default {
         this.$axios.post(api.doctorRomteclinicEdit, params).then(res => {
           let pageNo = this.$route.query.pageNo;
           if (res.data.code) {
-            this.$Message.info(res.data.object.file);
+            let info = res.data.object.file ||res.data.object.success
+            this.$Message.info(info);
             setTimeout(() => {
               this.$router.push({
                 path: "/index/operation/remoteclinic/list",
@@ -578,7 +579,7 @@ export default {
           background: #fff;
         }
         tr:not(:first-child):hover {
-          background: #9dcae4;
+          background: #ebf7ff;
         }
         tr {
           border-top: 1px solid #ddd;

@@ -3,17 +3,15 @@
   <div class="addManagement">
     <tmpHeader/>
     <div class="addManag">
-      <h3>添加服务</h3>
+      <!-- <h3>添加服务</h3> -->
       <div class="fuwu">
         <!--线上服务-->
         <div class="xsfw" v-for="item,index in allMenuList">
-          <p>{{ item.menuName }}</p>
+          <h2>{{ item.menuName }}</h2>
           <!--第一行-->
           <div class="select_wufu" ref="all">
             <div v-for="items,index in item.dtoList">
-              <!-- <input type = "checkbox" :data-id = 'items.id' v-show = 'items.selected != 0' :checked = 'items.selected'/> -->
-              <!-- <input type = "checkbox" :data-id = 'items.id' :value = 'items.id' v-model = 'checkedNames'/> -->
-              <input
+             <input
                 type="checkbox"
                 :value="items.id"
                 v-if="!items.selected"
@@ -28,17 +26,16 @@
                 :data-id="items.id"
                 :id="'a' + items.id"
               >
-              <!-- <span v-show = 'items.selected == 0'>{{ items.selected }}</span>
-              <span v-show = 'items.selected != 0'>{{ items.selected }}</span>-->
               <label :for="'a' + items.id">{{ items.menuName }}</label>
             </div>
           </div>
+          
         </div>
       </div>
       <!--保存-->
       <div class="expert_save">
-        <span @click="navto">保存</span>
-        <span @click="$router.back()">取消</span>
+        <Button type="primary" @click="navto">保存</Button>
+        <Button @click="$router.back()">取消</Button>
       </div>
     </div>
   </div>
@@ -47,7 +44,11 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
+import {CheckboxGroup,Checkbox} from 'iview'
 export default {
+  components:{
+CheckboxGroup,Checkbox
+  },
   data() {
     return {
       arr: [],
@@ -98,6 +99,8 @@ export default {
                 name: "serviceManagement"
               });
             }, 500);
+          } else {
+            this.$Message.error("修改失败,请重试");
           }
         });
     }
@@ -176,22 +179,10 @@ export default {
     }
     .expert_save {
       width: 200px;
-      height: 50px;
       margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      span {
-        display: inline-block;
-        width: 60px;
-        height: 30px;
-        color: #fff;
-        border-radius: 4px;
-        text-align: center;
-        line-height: 30px;
-        background: #2d8cf0;
-        cursor: pointer;
-      }
     }
   }
 }

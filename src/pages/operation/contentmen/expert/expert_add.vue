@@ -9,8 +9,13 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>专家姓名</span>
         </div>
-        <Input v-model="name" placeholder="请输入专家姓名" style="width: 360px" @on-keyup.enter="search"/>
-        <Button type="primary" @click='search'>查询</Button>
+        <Input
+          v-model="name"
+          placeholder="请输入专家姓名查询"
+          style="width: 360px"
+          @on-keyup.enter="search"
+        />
+        <Button type="primary" @click="search">查询</Button>
       </div>
       <div class="main_expert_item">
         <div class="main_expert_title">
@@ -110,8 +115,8 @@
       </div>
       <!--保存-->
       <div class="expert_save">
-        <span @click="save">保存</span>
-        <span @click="back">取消</span>
+        <Button type="primary" @click="save">保存</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -149,19 +154,19 @@ export default {
       switch2: true
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     isorts() {
@@ -249,29 +254,32 @@ export default {
         // 专家
         iexpert: Number(this.switch2)
       };
-
-      this.$axios
-        .post(api.expertedit, params)
-        .then(res => {
-          if (res.data.code) {
-            let ret = res.data;
-            let pageNo = this.$route.params.pageNo;
-            setTimeout(() => {
-              this.$router.push({
-                name: "operationExpert",
-                params: {
-                  pageNo
-                }
-              });
-            }, 500);
-            this.$Message.info("添加成功");
-          } else {
-            this.$Message.info("添加失败请重试");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      if (this.currentId == -1) {
+        this.$Message.error("请选择专家");
+      } else {
+        this.$axios
+          .post(api.expertedit, params)
+          .then(res => {
+            if (res.data.code) {
+              let ret = res.data;
+              let pageNo = this.$route.params.pageNo;
+              setTimeout(() => {
+                this.$router.push({
+                  name: "operationExpert",
+                  params: {
+                    pageNo
+                  }
+                });
+              }, 500);
+              this.$Message.info("添加成功");
+            } else {
+              this.$Message.error("添加失败请重试");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
   }
 };
@@ -341,22 +349,10 @@ export default {
     }
     .expert_save {
       width: 200px;
-      height: 50px;
       margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      span {
-        display: inline-block;
-        width: 60px;
-        height: 30px;
-        color: #fff;
-        border-radius: 4px;
-        text-align: center;
-        line-height: 30px;
-        background: #2d8cf0;
-        cursor: pointer;
-      }
     }
   }
 }
