@@ -149,7 +149,12 @@ export default {
                                                     "/index/operation/doctorReview/review",
                                                 query: {
                                                     id,
-                                                    pageNo: this.pageNo
+                                                    pageNo: this.pageNo,
+                                                    city: this.city,
+                                                    searchType: this.searchType,
+                                                    searchKey: this.searchKey,
+                                                    dictType: this.dictType,
+                                                    authStatus: this.authStatus
                                                 }
                                             });
                                         }
@@ -171,7 +176,12 @@ export default {
                                                     "/index/operation/doctorReview/edit",
                                                 query: {
                                                     id,
-                                                    pageNo: this.pageNo
+                                                    pageNo: this.pageNo,
+                                                    city: this.city,
+                                                    searchType: this.searchType,
+                                                    searchKey: this.searchKey,
+                                                    dictType: this.dictType,
+                                                    authStatus: this.authStatus
                                                 }
                                             });
                                         }
@@ -214,6 +224,12 @@ export default {
         Option
     },
     created() {
+        this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
+        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
+        this.authStatus = this.$route.query.authStatus==null?null:parseInt(this.$route.query.authStatus);
+        
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -228,7 +244,6 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo ? parseInt(this.$route.query.pageNo) : 1;
         //获取省级列表
         this.$axios
             .post(api.getProvince)
@@ -247,6 +262,7 @@ export default {
             .catch(err => {
                 console.log(err);
             });
+        let pageNo = this.$route.query.pageNo ? parseInt(this.$route.query.pageNo) : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },

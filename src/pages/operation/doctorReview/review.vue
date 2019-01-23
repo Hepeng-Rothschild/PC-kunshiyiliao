@@ -260,7 +260,13 @@ export default {
     },
     created() {
         this.id = parseInt(this.$route.query.id);
-        this.pageNo = parseInt(this.$route.query.pageNo);
+        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
+        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
+        this.authStatus = this.$route.query.authStatus==null?null:parseInt(this.$route.query.authStatus);
+
         this.$axios
             .post(api.reviewDoctorInfo, { id: this.id })
             .then(resp => {
@@ -354,7 +360,14 @@ export default {
             // this.$router.back(-1);
             this.$router.push({
                 path: "/index/operation/doctorreview/list",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    city: this.city,
+                    searchType: this.searchType,
+                    searchKey: this.searchKey,
+                    dictType: this.dictType,
+                    authStatus: this.authStatus
+                }
             });
         },
         reviewPass() {
@@ -409,7 +422,14 @@ export default {
                         this.$Message.info(sMsg);
                         this.$router.push({
                             path: "/index/operation/doctorreview/list",
-                            query: { pageNo: this.pageNo }
+                            query: { 
+                                pageNo: this.pageNo,
+                                city: this.city,
+                                searchType: this.searchType,
+                                searchKey: this.searchKey,
+                                dictType: this.dictType,
+                                authStatus: this.authStatus
+                            }
                         });
                     } else {
                         this.$Message.info(fMsg);

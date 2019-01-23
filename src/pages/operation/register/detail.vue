@@ -103,6 +103,12 @@ export default {
             id: null,
             info: null,
             pageNo: null,
+            city: null,
+            searchType: 1,
+            searchKey: "",
+            deptKey: "",
+            dictType: "",
+
             littleTitle: "查看",
             icloseText: "关闭",
             registerFlag: null
@@ -111,6 +117,12 @@ export default {
     created() {
         this.id = parseInt(this.$route.query.id);
         this.pageNo = parseInt(this.$route.query.pageNo);
+        this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
+        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.deptKey = this.$route.query.deptKey?this.$route.query.deptKey:"";
+        this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
+
         this.$axios
             .post(api.registerDoctorDetail, { registerId: this.id })
             .then(resp => {
@@ -154,7 +166,14 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/operation/register/list",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    city: this.city,
+                    searchType: this.searchType,
+                    searchKey: this.searchKey,
+                    deptKey: this.deptKey,
+                    dictType: this.dictType
+                }
             });
         },
         changeRegisterFlag() {
@@ -188,7 +207,15 @@ export default {
         toEdit() {
             this.$router.push({
                 path: "/index/operation/register/edit",
-                query: { id: this.id, pageNo: this.pageNo }
+                query: { 
+                    id: this.id, 
+                    pageNo: this.pageNo,
+                    city: this.city,
+                    searchType: this.searchType,
+                    searchKey: this.searchKey,
+                    deptKey: this.deptKey,
+                    dictType: this.dictType
+                }
             });
         }
     }

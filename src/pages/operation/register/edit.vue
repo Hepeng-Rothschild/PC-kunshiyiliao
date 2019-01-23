@@ -174,6 +174,12 @@ export default {
             id: null,
             info: null,
             pageNo: null,
+            city: null,
+            searchType: 1,
+            searchKey: "",
+            deptKey: "",
+            dictType: "",
+
             littleTitle: "编辑",
             addBtnFlag: false,
             doctorName: null,
@@ -240,7 +246,13 @@ export default {
   },
   created() {
     this.id = this.$route.query.id;
-    this.pageNo = parseInt(this.$route.query.pageNo);
+    this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+    this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
+    this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
+    this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+    this.deptKey = this.$route.query.deptKey?this.$route.query.deptKey:"";
+    this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
+
     if (this.id) {
       this.littleTitle = "编辑";
       this.addBtnFlag = false;
@@ -328,23 +340,33 @@ export default {
             params.term = this.term;
             params.registerTimes = tmpRegistertimes;
             let url = "";
+            let msg = "";
             if (this.id) {
                 url = api.registerDoctorUpdate;
+                msg = "修改";
             } else {
                 url = api.registerDoctorInsert;
+                msg = "添加";
             }
             if (params.doctorId) {
                 this.$axios
                     .post(url, params)
                     .then(resp => {
                         if (resp.data.success) {
-                            this.$Message.info("添加成功");
+                            this.$Message.info(msg+"成功");
                             this.$router.push({
                                 path: "/index/operation/register/list",
-                                query: { pageNo: this.pageNo }
+                                query: { 
+                                    pageNo: this.pageNo,
+                                    city: this.city,
+                                    searchType: this.searchType,
+                                    searchKey: this.searchKey,
+                                    deptKey: this.deptKey,
+                                    dictType: this.dictType
+                                }
                             });
                         } else {
-                            this.$Message.info("添加失败，请重试");
+                            this.$Message.info(msg+"失败，请重试");
                         }
                     })
                     .catch(err => {
@@ -357,7 +379,14 @@ export default {
         reback() {
             this.$router.push({
                 path: "/index/operation/register/list",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    city: this.city,
+                    searchType: this.searchType,
+                    searchKey: this.searchKey,
+                    deptKey: this.deptKey,
+                    dictType: this.dictType
+                }
             });
         },
         chooseDoc(

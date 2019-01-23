@@ -122,7 +122,12 @@ export default {
                                                     "/index/operation/register/detail",
                                                 query: {
                                                     id,
-                                                    pageNo: this.pageNo
+                                                    pageNo: this.pageNo,
+                                                    city: this.city,
+                                                    searchType: this.searchType,
+                                                    searchKey: this.searchKey,
+                                                    deptKey: this.deptKey,
+                                                    dictType: this.dictType
                                                 }
                                             });
                                         }
@@ -144,7 +149,12 @@ export default {
                                                     "/index/operation/register/edit",
                                                 query: {
                                                     id,
-                                                    pageNo: this.pageNo
+                                                    pageNo: this.pageNo,
+                                                    city: this.city,
+                                                    searchType: this.searchType,
+                                                    searchKey: this.searchKey,
+                                                    deptKey: this.deptKey,
+                                                    dictType: this.dictType
                                                 }
                                             });
                                         }
@@ -180,8 +190,7 @@ export default {
         tempHeader
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo;
-        pageNo = pageNo ? pageNo : 1;
+        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
         //获取省级列表
         this.$axios
             .post(api.getProvince)
@@ -220,9 +229,9 @@ export default {
             params.title = this.dictType;
             if (this.searchType == 1) {
                 params.hospitalName = this.searchKey;
-                params.name = "";
+                params.doctorName = "";
             } else {
-                params.name = this.searchKey;
+                params.doctorName = this.searchKey;
                 params.hospitalName = "";
             }
             params.pageNo = pageNo;
@@ -277,12 +286,25 @@ export default {
         addDoc() {
             this.$router.push({
                 path: "/index/operation/register/edit",
-                query: { pageNo: this.pageNo }
+                query: { 
+                    pageNo: this.pageNo,
+                    city: this.city,
+                    searchType: this.searchType,
+                    searchKey: this.searchKey,
+                    deptKey: this.deptKey,
+                    dictType: this.dictType
+                }
             });
         }
     },
     created() {
         sessionStorage.setItem("index", 0);
+        this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
+        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
+        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.deptKey = this.$route.query.deptKey?this.$route.query.deptKey:"";
+        this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
+        
         let breadList = [
             { path: "/index", title: "首页" },
             {
