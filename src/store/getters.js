@@ -10,7 +10,6 @@ export default {
 				tmpProvinceList.push(item)
 			}
 		}
-		console.log("tmpProvinceList",tmpProvinceList);
 		return tmpProvinceList;
 	},
 	getCityList:(state)=>(parent)=>{
