@@ -70,7 +70,6 @@ export default {
             });
             data.push(a);
           });
-          console.log(data);
           this.data2 = data;
         } else {
           this.$Message.info("查询用户权限失败");
@@ -100,13 +99,13 @@ export default {
           // 功能
           two.children.forEach(free => {
             console.log(free);
-            // if (free.iopen) {
-            //   menuIds.push(free.id);
-            //   // 二级菜单id
-            //   menuIds.push(two.id);
-            //   // 主菜单id
-            //   menuIds.push(item.id);
-            // }
+            if (free.expand) {
+              menuIds.push(free.id);
+              // 二级菜单id
+              menuIds.push(two.id);
+              // 主菜单id
+              menuIds.push(item.id);
+            }
             //   判断ID
             menuIds.forEach(three => {
               console.log(three);
@@ -127,38 +126,38 @@ export default {
       });
 
       let a = new Set([...menuIds]);
-      console.log(a);
-
       
+      // console.log(a);
+
       if (!a.size) {
         this.$Message.error("请选择需要开通的权限");
         let pageNo = this.$route.query.pageNo;
-        // this.$router.push({
-        //   path: "/index/maintain/admin/user/list",
-        //   query: {
-        //     pageNo
-        //   }
-        // });
+        this.$router.push({
+          path: "/index/maintain/admin/user/list",
+          query: {
+            pageNo
+          }
+        });
       } else {
-        // this.$axios
-        //   .post(api.adminManageChange, {
-        //     userId,
-        //     menuIds: a
-        //   })
-        //   .then(res => {
-        //     if (res.data.code) {
-        //       this.$Message.info("修改成功");
-        //       let pageNo = this.$route.query.pageNo;
-        //       this.$router.push({
-        //         path: "/index/maintain/admin/user/list",
-        //         query: {
-        //           pageNo
-        //         }
-        //       });
-        //     } else {
-        //       this.$Message.info(res.data.message);
-        //     }
-        //   });
+        this.$axios
+          .post(api.adminManageChange, {
+            userId,
+            menuIds: a
+          })
+          .then(res => {
+            if (res.data.code) {
+              this.$Message.info("修改成功");
+              let pageNo = this.$route.query.pageNo;
+              this.$router.push({
+                path: "/index/maintain/admin/user/list",
+                query: {
+                  pageNo
+                }
+              });
+            } else {
+              this.$Message.info(res.data.message);
+            }
+          });
       }
     },
     back() {
