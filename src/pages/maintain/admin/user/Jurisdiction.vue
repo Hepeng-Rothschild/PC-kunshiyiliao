@@ -4,7 +4,7 @@
       <h2>用户权限管理</h2>
       <Tree :data="data2" show-checkbox @on-check-change="selectItem"></Tree>
       <div class="save">
-        <Button type="primary" @click="save">保存</Button>
+        <Button type="primary" @click="save" :disabled="flag">保存</Button>
         <Button @click="back">取消</Button>
       </div>
     </div>
@@ -20,7 +20,8 @@ export default {
   data() {
     return {
       data2: [],
-      selectData: []
+      selectData: [],
+      flag: true
     };
   },
   mounted() {
@@ -69,6 +70,7 @@ export default {
             });
             data.push(a);
           });
+          console.log(data);
           this.data2 = data;
         } else {
           this.$Message.info("查询用户权限失败");
@@ -76,9 +78,12 @@ export default {
       });
   },
   methods: {
+    // 获取用户菜单
     selectItem(item) {
       this.selectData = item;
+      this.flag = false;
     },
+    // 修改用户权限
     save() {
       let userId = this.$route.query.id;
       let menuIds = [];
@@ -94,50 +99,66 @@ export default {
         item.children.forEach(two => {
           // 功能
           two.children.forEach(free => {
+            console.log(free);
+            // if (free.iopen) {
+            //   menuIds.push(free.id);
+            //   // 二级菜单id
+            //   menuIds.push(two.id);
+            //   // 主菜单id
+            //   menuIds.push(item.id);
+            // }
             //   判断ID
             menuIds.forEach(three => {
+              console.log(three);
               if (three === free.id) {
                 // 功能 id
+                console.log(free.id);
+                console.log(two.id);
+                console.log(item.id);
                 menuIds.push(free.id);
                 // 二级菜单id
                 menuIds.push(two.id);
                 // 主菜单id
                 menuIds.push(item.id);
               }
-            });
+            })
           });
         });
       });
+
       let a = new Set([...menuIds]);
-      if (a.size === 0) {
-        this.$Message.info("修改成功");
+      console.log(a);
+
+      
+      if (!a.size) {
+        this.$Message.error("请选择需要开通的权限");
         let pageNo = this.$route.query.pageNo;
-        this.$router.push({
-          path: "/index/maintain/admin/user/list",
-          query: {
-            pageNo
-          }
-        });
+        // this.$router.push({
+        //   path: "/index/maintain/admin/user/list",
+        //   query: {
+        //     pageNo
+        //   }
+        // });
       } else {
-        this.$axios
-          .post(api.adminManageChange, {
-            userId,
-            menuIds: a
-          })
-          .then(res => {
-            if (res.data.code) {
-              this.$Message.info("修改成功");
-              let pageNo = this.$route.query.pageNo;
-              this.$router.push({
-                path: "/index/maintain/admin/user/list",
-                query: {
-                  pageNo
-                }
-              });
-            } else {
-              this.$Message.info(res.data.message);
-            }
-          });
+        // this.$axios
+        //   .post(api.adminManageChange, {
+        //     userId,
+        //     menuIds: a
+        //   })
+        //   .then(res => {
+        //     if (res.data.code) {
+        //       this.$Message.info("修改成功");
+        //       let pageNo = this.$route.query.pageNo;
+        //       this.$router.push({
+        //         path: "/index/maintain/admin/user/list",
+        //         query: {
+        //           pageNo
+        //         }
+        //       });
+        //     } else {
+        //       this.$Message.info(res.data.message);
+        //     }
+        //   });
       }
     },
     back() {

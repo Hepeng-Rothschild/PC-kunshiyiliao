@@ -259,7 +259,7 @@ export default {
       } else {
         this.$axios.post(api.adminAdd, params).then(res => {
           if (res.data.code) {
-            let a = res.data.object.fail;
+            let a = res.data.object.fail || res.data.object.success;
             this.$Message.info(a);
             let pageNo = this.$route.query.pageNo;
             if (!res.data.object.fail) {

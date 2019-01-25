@@ -9,11 +9,13 @@
   </header>
 </template>
 <script>
+import aesUtils from "@/plugins/aes-utils.js";
+import store from "@/store";
 export default {
   data() {
     return {
-      hospitalName: sessionStorage.getItem("hospitalName"),
-      current: sessionStorage.getItem("homeIndex") || -1,
+      hospitalName: "",
+      current: localStorage.getItem("homeIndex") || -1,
       dataList: [
         {
           name: "/index/operation/home_info",
@@ -63,9 +65,19 @@ export default {
       ]
     };
   },
+  mounted() {
+    let iv = store.state.iv;
+    let salt = store.state.salt;
+    this.hospitalName = aesUtils.decrypt(
+      salt,
+      iv,
+      "Doctortoservice",
+      localStorage.getItem("hospitalName")
+    );
+  },
   methods: {
     changeIndex(index) {
-      sessionStorage.setItem("homeIndex", index);
+      localStorage.setItem("homeIndex", index);
     }
   }
 };

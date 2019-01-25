@@ -57,7 +57,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
 	response => {
 		if (response.data.code === 401) {
-			router.push("/login")
+			router.push("/login")	
 			return Promise.reject(response);
 		}
 		let iv = store.state.iv;

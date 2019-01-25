@@ -100,7 +100,7 @@ export default {
       if (!Boolean(flag)) {
         this.$Message.info("您还没有开通互联网医院,去开通");
         this.flag = true;
-        sessionStorage.setItem("homeIndex", 0);
+        localStorage.setItem("homeIndex", 0);
         setTimeout(() => {
           this.$router.push({
             name: "homeInfo"

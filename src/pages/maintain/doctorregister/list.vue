@@ -8,9 +8,10 @@
             v-model.trim="Name"
             placeholder="输入医生姓名/联系方式/医院名称进行查询"
             style="width: 260px"
-            @on-keyup="nameChange"
+            @on-keyup.enter="nameChange"
             clearable
           />
+          <Button type="primary" @click="nameChange">查询</Button>
         </div>
         <Button type="primary" @click="branch">批量导入</Button>
       </header>
@@ -78,19 +79,19 @@ export default {
     };
   },
   created() {
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/indexManagement/index",
-                title: "索引管理"
-            },
-            {
-                path: "/index/maintain/doctorregister/list",
-                title: "医生注册信息"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/indexManagement/index",
+        title: "索引管理"
+      },
+      {
+        path: "/index/maintain/doctorregister/list",
+        title: "医生注册信息"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
@@ -120,12 +121,12 @@ export default {
     // 显示简介
     simple(item) {
       this.modal1 = true;
-      this.path = item.personalIntroduction
+      this.path = item.personalIntroduction;
     },
     // 显示特长
-    simples (item) {
+    simples(item) {
       this.modal1 = true;
-      this.path = item.doctorGood
+      this.path = item.doctorGood;
     },
     // 模糊查询
     nameChange() {
@@ -146,7 +147,7 @@ export default {
           this.doctorregisterSize = ret.count;
           this.list = ret.list;
         } else {
-          this.$Message.info("不允许访问")
+          this.$Message.info(res.data.message);
         }
       });
     },

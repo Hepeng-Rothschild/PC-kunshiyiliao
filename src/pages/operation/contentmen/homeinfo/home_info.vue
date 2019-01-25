@@ -294,6 +294,12 @@ export default {
       if (!this.switch1) {
         params.appid = null;
       }
+        // 远程门诊状态缓存
+      if (this.switch4) {
+        localStorage.setItem("doctor", "show");
+      } else {
+        localStorage.setItem("doctor", "");
+      }
 
       this.$axios
         .post(api.managementEdit, params)
@@ -307,12 +313,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
+      // 开通互联网医院状态缓存/动态新闻/预约科室/院内科室
       if (this.switch1) {
         localStorage.setItem("status", "show");
-        sessionStorage.setItem("doctor", "show");
       } else {
         localStorage.setItem("status", "");
-        sessionStorage.setItem("doctor", "");
       }
     },
     valueHandle(param) {
@@ -387,7 +392,7 @@ export default {
     }
   },
   created() {
-    sessionStorage.setItem("homeIndex", 0);
+    localStorage.setItem("homeIndex", 0);
     this.addData();
   },
   mounted() {
@@ -457,9 +462,9 @@ export default {
           // 开启远程门诊
           this.switch4 = Boolean(ret.iremote);
           if (this.switch4) {
-            sessionStorage.setItem("doctor", "show");
+            localStorage.setItem("doctor", "show");
           } else {
-            sessionStorage.setItem("doctor", "");
+            localStorage.setItem("doctor", "");
           }
 
           //医联体上级医院

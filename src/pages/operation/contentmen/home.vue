@@ -2,7 +2,12 @@
   <div class="management1">
     <header>
       <span>机构名称：</span>
-      <Input v-model.trim="val" placeholder="请输入医疗机构名称检索" style="width: 200px;margin-right:10px;" clearable />
+      <Input
+        v-model.trim="val"
+        placeholder="请输入医疗机构名称检索"
+        style="width: 200px;margin-right:10px;"
+        clearable
+      />
       <Button type="primary" icon="ios-search" @click="search">查询</Button>
     </header>
     <table border="0" cellspacing="0" cellpadding="0">
@@ -29,9 +34,7 @@
         <th>{{ item.orgName }}</th>
         <th>{{ item.linkman }}</th>
         <th>{{ item.linkmanTelephone }}</th>
-
-        <th v-show='item.hospitalType==1'>医院</th>
-
+        <th v-show="item.hospitalType==1">医院</th>
         <th>{{ item.newsCount }}</th>
         <th>{{ item.doctorCount }}</th>
         <th>{{ item.specialDeptCount }}</th>
@@ -55,6 +58,8 @@
 <script>
 import api from "@/api/commonApi";
 import { Page } from "iview";
+import aesUtils from "@/plugins/aes-utils.js";
+import store from '@/store';
 export default {
   components: {
     Page
@@ -66,32 +71,32 @@ export default {
       homeSize: 10
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     this.getDate(1);
   },
   methods: {
-    getDate(pageNo,val) {
+    getDate(pageNo, val) {
       let params = {
-          pageNo,
-          pageSize: 10
-        }
-        if (val != '') {
-          params.orgName = val
-        }
+        pageNo,
+        pageSize: 10
+      };
+      if (val != "") {
+        params.orgName = val;
+      }
       this.$axios
         .post(api.management, params)
         .then(res => {
@@ -100,7 +105,7 @@ export default {
             this.homeSize = res.data.object.count;
             this.tableList = ret;
           } else {
-             this.$Message.error('没有访问权限');
+            this.$Message.error("没有访问权限");
           }
         })
         .catch(err => {
@@ -108,21 +113,23 @@ export default {
         });
     },
     pageChange(index) {
-      if (this.val != '') {
+      if (this.val != "") {
         this.getDate(index, this.val);
       } else {
         this.getDate(index);
       }
     },
     navto(item) {
+      let iv = store.state.iv;
+      let salt = store.state.salt;
       sessionStorage.setItem("hospitalId", item.hospitalId);
-      sessionStorage.setItem("hospitalName",item.orgName)
+      localStorage.setItem("hospitalName", aesUtils.encrypt(salt, iv, 'Doctortoservice', item.orgName));
       this.$router.push({
         name: "homeInfo"
-      });
+      })
     },
     search() {
-      this.getDate(1, this.val)
+      this.getDate(1, this.val);
     },
     addZero(num) {
       num = num + 1;
@@ -149,7 +156,7 @@ export default {
     span {
       color: black;
       line-height: 30px;
-      margin-right:10px;
+      margin-right: 10px;
     }
   }
   table {
@@ -163,7 +170,7 @@ export default {
       background: #fff;
     }
     tr:not(:first-child):hover {
-       background: #ebf7ff;
+      background: #ebf7ff;
     }
     tr {
       border-top: 1px solid #ddd;
@@ -181,9 +188,9 @@ export default {
     width: 100%;
     text-align: center;
     border: 1px solid #dddddd;
-    height:40px;
-    line-height:40px;
-    background:#fff;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
     border-top: none;
   }
 }

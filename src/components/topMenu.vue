@@ -35,6 +35,7 @@
 <script>
 import { Menu, MenuItem } from "iview";
 import cookie from "./../utils/cookie.js";
+import aesUtils from "@/plugins/aes-utils.js";
 export default {
   data() {
     return {
@@ -71,7 +72,7 @@ export default {
       this.$router.push("/login");
     },
     edit() {
-      return ;
+      // return ;
       this.$router.push({
         path: "/index/maintain/admin/user/edit",
         query: {

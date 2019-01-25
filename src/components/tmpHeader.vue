@@ -2,7 +2,7 @@
   <div class="temHeader">
     <ul>
       <li v-for="item,index in dataList" >
-        <router-link :to="item.name"  >{{ item.title }}</router-link>
+        <router-link :to="item.name">{{ item.title }}</router-link>
       </li>
     </ul>
   </div>
