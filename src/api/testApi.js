@@ -209,7 +209,6 @@ const wxMenuListChange = '/operateapi/wxappmenuupdatebatchorinsertbatch' //公�
 const systemManagement = '/operateapi/wxappmenuselectmenulist' //系统管理菜单列表
 const systemManagementAdd = '/operateapi/wxappmenuinsert' //添加系统管理菜单
 const systemManagementEdit = '/operateapi/wxappmenuupdate' //修改系统管理菜单
-const systemManagementDetail = '/operationapi/wxappmenuselectbyid' //查询系统管理菜单
 
 const starClassList = '/operateapi/evaluationpage' //获取星级列表
 const starClassAdd = '/operateapi/evaluationinsert' //添加星级列表
@@ -360,7 +359,6 @@ export default {
     systemManagement,
     systemManagementAdd,
     systemManagementEdit,
-    systemManagementDetail,
     // 星级列表
     starClassList,
     starClassAdd,

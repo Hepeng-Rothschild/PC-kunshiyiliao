@@ -9,6 +9,7 @@
                     @change="checkInput"
                     v-model="username"
                     placeholder="用户账号"
+                    ref="username"
                 >
             </div>
             <div class="pwd-box">
@@ -197,8 +198,9 @@ export default {
                             this.noticeClassColor = "alert-color";
                             this.iconClass = "alert-icon";
                             this.iconText = "!";
-                            this.alertMsg = "登陆失败，请重试";
+                            this.alertMsg = "用户名或密码错误，请重新输入";
                             this.verifyCode.refresh();
+                            this.$refs.username.focus();
                         }
                     })
                     .catch(err => {
@@ -223,9 +225,9 @@ export default {
                 this.alertMsg = "请输入用户名和密码";
                 return;
             } else {
-                this.noticeClassColor = "success-color";
-                this.iconClass = "success-icon";
-                this.iconText = "ok";
+                this.noticeClassColor = "";
+                this.iconClass = "";
+                this.iconText = "";
                 this.alertMsg = "";
             }
         }

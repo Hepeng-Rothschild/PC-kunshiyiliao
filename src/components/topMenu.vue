@@ -71,7 +71,6 @@ export default {
       this.$router.push("/login");
     },
     edit() {
-      return ;
       this.$router.push({
         path: "/index/maintain/admin/user/edit",
         query: {

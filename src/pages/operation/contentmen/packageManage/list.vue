@@ -20,7 +20,7 @@
                     <th>{{ addZero(index) }}</th>
                     <th>{{ item.menuName }}</th>
                     <th>
-                        <span v-for="items,index in item.result" v-show='items.packagestatus!=0'>{{index == 0?'':' | '}}{{ items.packageName }}</span>
+                        <span v-for="(items,index) in item.result" v-show='items.packagestatus!=0'>{{index == 0?'':' | '}}{{ items.packageName }}</span>
                     </th>
                     <th @click="navto(item)" style="cursor:pointer;">编辑</th>
                 </tr>
