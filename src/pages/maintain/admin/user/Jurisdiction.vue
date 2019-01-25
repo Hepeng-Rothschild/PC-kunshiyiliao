@@ -98,7 +98,7 @@ export default {
         item.children.forEach(two => {
           // 功能
           two.children.forEach(free => {
-            console.log(free);
+            // console.log(free);
             if (free.expand) {
               menuIds.push(free.id);
               // 二级菜单id
@@ -108,12 +108,12 @@ export default {
             }
             //   判断ID
             menuIds.forEach(three => {
-              console.log(three);
+              // console.log(three);
               if (three === free.id) {
                 // 功能 id
-                console.log(free.id);
-                console.log(two.id);
-                console.log(item.id);
+                // console.log(free.id);
+                // console.log(two.id);
+                // console.log(item.id);
                 menuIds.push(free.id);
                 // 二级菜单id
                 menuIds.push(two.id);
@@ -126,7 +126,7 @@ export default {
       });
 
       let a = new Set([...menuIds]);
-      
+
       // console.log(a);
 
       if (!a.size) {

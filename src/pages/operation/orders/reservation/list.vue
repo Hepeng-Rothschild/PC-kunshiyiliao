@@ -3,12 +3,6 @@
         <Row>
             <Col :xs="24">
                 <div class="first">
-                    <Input class="w-input" v-model="searchKey" placeholder="订单号、医院、科室、医生、就诊人"/>
-                    <Button type="primary" @click="loadPage(1)">
-                        <Icon type="ios-search" size="14"/>查询
-                    </Button>
-                </div>
-                <div class="second">
                     <span>状态:</span>
                     <Select class="w-select" clearable v-model="status">
                         <!-- <Option value="9">全部</Option> -->
@@ -19,7 +13,7 @@
                         >{{item}}</Option>
                     </Select>
                 </div>
-                <div class="third">
+                <div class="second">
                     <span>日期:</span>
                     <DatePicker
                         type="date"
@@ -40,6 +34,12 @@
                         format="yyyy-MM-dd"
                         style="width: 200px"
                     ></DatePicker>
+                </div>
+                <div class="third">
+                    <Input class="w-input" v-model="searchKey" placeholder="订单号、医院、科室、医生、就诊人"/>
+                    <Button type="primary" @click="loadPage(1)">
+                        <Icon type="ios-search" size="14"/>查询
+                    </Button>
                 </div>
             </Col>
         </Row>
@@ -248,17 +248,17 @@ export default {
     }
     .first {
         display: inline-block;
-        min-width: 300px;
+        min-width: 160px;
         text-align: left;
     }
     .second {
         display: inline-block;
-        min-width: 200px;
+        min-width: 500px;
         text-align: center;
     }
     .third {
         display: inline-block;
-        min-width: 500px;
+        min-width: 350px;
         text-align: center;
     }
 }
