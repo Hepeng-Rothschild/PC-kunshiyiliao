@@ -5,7 +5,7 @@
       <header>
         <div>
           <Input
-            placeholder="输入登录账号/用户昵称进行查询"
+            placeholder="请输入登录账号/用户昵称进行查询"
             style="width: 250px"
             v-model.trim="searchKey"
             @on-keyup.enter="vagueSearch"

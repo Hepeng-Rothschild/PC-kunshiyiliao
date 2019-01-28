@@ -38,7 +38,7 @@ export default {
       count: 10,
       columns1: [
         { title: "编号", key: "sum", align: "center" },
-        { title: "版本ID", key: "id", align: "center" },
+        { title: "版本ID", key: "versionId", align: "center" },
         { title: "版本名", key: "versionName", align: "center" },
         { title: "版本号", key: "versionNumber", align: "center" },
         { title: "类型", key: "type1", align: "center" },

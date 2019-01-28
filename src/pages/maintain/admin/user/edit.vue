@@ -268,6 +268,7 @@ export default {
           if (res.data.code) {
             let pageNo = this.$route.query.pageNo;
             this.$Message.info("修改成功");
+            // 当pageNo有值时它是从列表跳转过来的,需要跳回列表,值为空时,是从头像跳转过来的,跳转到主页面
             if (pageNo) {
               setTimeout(() => {
                 this.$router.push({
@@ -277,11 +278,15 @@ export default {
                   }
                 });
               }, 800);
+            } else {
+              this.$router.push({
+                  path: "/index"
+                });
             }
           } else {
             this.$Message.info("修改失败,请稍候重试");
           }
-        });
+        })
       }
     },
     back() {

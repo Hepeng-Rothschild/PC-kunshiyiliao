@@ -118,7 +118,7 @@
                                 <div class="img-box" v-for="(item,index) of info.caseImages" :key="index">
                                     <img
                                         :src="fileBaseUrl+item.fileName"
-                                        @dblclick="handleView(fileBaseUrl+item.fileName)"
+                                        @click="handleView(fileBaseUrl+item.fileName)"
                                     >
                                     <!-- <img :src="item.fileName" @dblclick="handleView(item.fileName)"> -->
                                 </div>
