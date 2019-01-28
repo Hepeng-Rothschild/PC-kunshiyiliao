@@ -158,10 +158,11 @@ export default {
       ],
       healthEducationSontab: [
         // {id:1,name:"常用"},
-        { id: 2, name: "最新" },
-        { id: 3, name: "医生忠告" },
-        { id: 4, name: "用药" },
-        { id: 5, name: "日常" }
+// 修改了这里
+        { id: 1, name: "最新" },
+        { id: 2, name: "医生忠告" },
+        { id: 3, name: "用药" },
+        { id: 4, name: "日常" }
       ],
       healthEducationApi: api.educationArticleList,
       classicCase: [
@@ -372,11 +373,20 @@ export default {
   },
   created() {
     this.tabId = this.$route.query.tabId ? this.$route.query.tabId : 0;
-    let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
-    this.sonTab = this.$route.query.sonTab?parseInt(this.$route.query.sonTab):null;
-    this.publicationStatus = this.$route.query.publicationStatus == null?null:parseInt(this.$route.query.publicationStatus);
-    this.articleText = this.$route.query.articleText?this.$route.query.articleText:"";
-    
+    let pageNo = this.$route.query.pageNo
+      ? parseInt(this.$route.query.pageNo)
+      : 1;
+    this.sonTab = this.$route.query.sonTab
+      ? parseInt(this.$route.query.sonTab)
+      : null;
+    this.publicationStatus =
+      this.$route.query.publicationStatus == null
+        ? null
+        : parseInt(this.$route.query.publicationStatus);
+    this.articleText = this.$route.query.articleText
+      ? this.$route.query.articleText
+      : "";
+
     this.tabId == 0 &&
       ((this.columns = this.healthEducation),
       (this.sonTabList = this.healthEducationSontab),
@@ -415,8 +425,8 @@ export default {
         (tmpUrl = "/index/operation/doctorContentCheck/hot-add");
       this.$router.push({
         path: tmpUrl,
-        query: { 
-          tabId: this.tabId, 
+        query: {
+          tabId: this.tabId,
           pageNo: this.pageNo,
           sonTab: this.sonTab,
           publicationStatus: this.publicationStatus,
@@ -434,9 +444,9 @@ export default {
         (tmpUrl = "/index/operation/doctorContentCheck/hot-edit");
       this.$router.push({
         path: tmpUrl,
-        query: { 
-          id, 
-          tabId: this.tabId, 
+        query: {
+          id,
+          tabId: this.tabId,
           pageNo: this.pageNo,
           sonTab: this.sonTab,
           publicationStatus: this.publicationStatus,
@@ -487,12 +497,17 @@ export default {
       this.pageNo = pageNo;
       var params = {};
       params.type = this.sonTab ? parseInt(this.sonTab) : null;
-      params.enable = this.publicationStatus
-        ? parseInt(this.publicationStatus)
-        : null;
+
+      // 修改了这里的三目运算符
+      // params.enable = this.publicationStatus
+      //   ? parseInt(this.publicationStatus)
+      //   : null;
+      params.enable = this.publicationStatus;
+
       params.searchKey = this.articleText;
       params.pageNo = pageNo;
       params.pageSize = this.pageSize;
+
       this.$axios
         .post(this.listApi, params)
         .then(resp => {
@@ -502,7 +517,6 @@ export default {
             for (let key in dataList) {
               dataList[key].iNum = parseInt(key) + 1;
             }
-            console.log(dataList);
             this.datas = dataList;
           } else {
             console.log("网络连接失败");

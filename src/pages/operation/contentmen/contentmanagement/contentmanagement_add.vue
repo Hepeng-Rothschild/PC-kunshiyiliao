@@ -1,9 +1,5 @@
 <template>
   <div class="home_article">
-    <!--标题-->
-    <!-- <div class="article_title">
-      <span>文章</span>
-    </div>-->
     <!--编辑-->
     <div class="home_edit">
       <!--主标题-->
@@ -31,7 +27,7 @@
       <!--列表小图-->
       <div class="listImg">
         <div class="listImgTitle">
-          <span style="color:red;">*&nbsp;&nbsp;</span>
+          <span style="color:red;">&nbsp;&nbsp;</span>
           <span>列表小图</span>
         </div>
         <div class="demo-upload-list" v-for="item in uploadList">
@@ -177,7 +173,7 @@ export default {
       height: 200,
       title: "",
       ftitle: "",
-      select: "1",
+      select: "-1",
       num: "",
       source: "",
       switch1: true,
@@ -189,17 +185,17 @@ export default {
       uploadList: [],
       id: sessionStorage.getItem("hospitalId"),
       type: "",
-      editorText: "请输入要编辑的内容...",
+      editorText: "",
       uploadModal: true,
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
       uploadData: { json: '{"urlCode":"' + code.urlCode.patientNews + '"}' },
       images: "",
       urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
-      selectList:[
+      selectList: [
         {
-          value:1,
-          label:'头条'
+          value: 1,
+          label: "头条"
         }
       ]
     };
@@ -274,15 +270,17 @@ export default {
     save() {
       //判断必填项是否已填
       if (!this.title) {
-        this.$Message.info("主标题不能为空");
+        this.$Message.error("主标题不能为空");
       } else if (!this.ftitle) {
-        this.$Message.info("副标题不能为空");
-      } else if (!this.num) {
-        this.$Message.info("排序不能为空");
-      } else if (!this.select) {
-        this.$Message.info("请选择栏目");
+        this.$Message.error("副标题不能为空");
+      } else if (this.select=='-1') {
+        this.$Message.error("请选择栏目");
       } else if (!this.type) {
-        this.$Message.info("请选择类型");
+        this.$Message.error("请选择类型");
+      } else if (!this.num) {
+        this.$Message.error("排序不能为空");
+      } else if (!this.editorText) {
+        this.$Message.error("请输入新闻内容");
       } else {
         //把页面上的参数获取到
         let params = {

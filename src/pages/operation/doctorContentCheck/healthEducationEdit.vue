@@ -296,6 +296,7 @@ export default {
                         )
                             ? 1
                             : parseInt(this.eduInfo.priority);
+                            
                         this.$axios
                             .post(subApi, this.eduInfo)
                             .then(resp => {

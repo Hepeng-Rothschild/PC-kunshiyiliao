@@ -75,6 +75,7 @@ export default {
         let ret = res.object[0];
         this.disabled = false;
         this.errorData = ret;
+        console.log(ret);
         this.$Message.info("上传成功");
         /* 移除上传文件列表的删除图标 start */
         let uploadListObj = window.document.getElementsByClassName(

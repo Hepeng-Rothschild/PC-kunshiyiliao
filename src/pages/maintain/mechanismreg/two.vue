@@ -14,24 +14,24 @@
         <span>数据:{{ list.length }}条</span>
       </div>
       <div class="next">
-        <button @click="next">下一步</button>
-        <span @click="prev">返回重新上传</span>
+        <Button type="primary" @click="next">下一步</Button>
+         <Button @click="prev">返回重新上传</Button>
       </div>
       <!-- 列表 -->
       <div class="list" v-show = 'list.length'>
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <th>编号</th>
-            <th>医生姓名</th>
-            <th>医院名称</th>
-            <th>医生手机号码</th>
+            <th>机构等级</th>
+            <th>机构名称</th>
+            <th>机构组织代码</th>
             <th>错误提示</th>
           </tr>
-          <tr v-for="item in list">
-            <th>编号</th>
-            <th>{{ item.doctorName }}</th>
+          <tr v-for="item,index in list">
+            <th>{{ index+1 }}</th>
+            <th>{{ item.grade }}</th>
             <th>{{ item.hospitalName }}</th>
-            <th>{{ item.phone }}</th>
+            <th>{{ item.orgCode }}</th>
             <th>{{ item.errorPrompt }}</th>
           </tr>
         </table>
@@ -113,19 +113,6 @@ export default {
       margin: 20px auto;
     }
     .next {
-      button {
-        width: 150px;
-        height: 30px;
-        border: none;
-        outline: none;
-        background: #2d8cf0;
-        border-radius: 4px;
-        color: #fff;
-      }
-      span {
-        color: red;
-        cursor: pointer;
-      }
     }
     .list {
       width: 80%;

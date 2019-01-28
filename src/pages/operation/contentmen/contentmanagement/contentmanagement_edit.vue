@@ -26,7 +26,7 @@
       <!--添加大图-->
       <div class="main_imgs">
         <div class="main_title_info">
-          <span style="color:red;">*&nbsp;&nbsp;</span>
+          <span style="color:red;">&nbsp;&nbsp;</span>
           <span>添加首图</span>
         </div>
         <div class="demo-upload-list" v-for="item in uploadList">
@@ -134,7 +134,7 @@
       <!--保存-->
       <div class="save">
         <Button type="primary" @click="save">保存</Button>
-        <Button  @click="back">取消</Button>
+        <Button @click="back">取消</Button>
       </div>
     </div>
   </div>
@@ -169,7 +169,7 @@ export default {
       info: {
         content: ""
       },
-      select: 1,
+      select: "-1",
 
       visible: false,
       uploadList: [],
@@ -224,6 +224,7 @@ export default {
                 url: this.analysisImages(detail.cover)
               });
             }
+            this.select = ret.columnId;
             //标题
             this.title = detail.title;
             this.titles = detail.synopsis || "";
@@ -298,7 +299,7 @@ export default {
           priority: this.isort,
           //内容
           content: this.info.content,
-          //够源
+          //来源
           source: this.isource,
           //显示
           enable: Number(this.switch1),
@@ -307,7 +308,13 @@ export default {
         }
       };
       if (this.title == "") {
-        this.$Message.info("新闻标题不能为空");
+        this.$Message.error("新闻标题不能为空");
+      } else if (this.titles == "") {
+        this.$Message.error("新闻副标题不能为空");
+      } else if (this.select == "") {
+        this.$Message.error("栏目不能为空");
+      } else if (this.isort == "") {
+        this.$Message.error("排序不能为空");
       } else if (this.info.content == "") {
         this.$Message.info("新闻内容不能为空");
       } else {

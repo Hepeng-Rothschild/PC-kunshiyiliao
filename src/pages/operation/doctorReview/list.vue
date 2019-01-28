@@ -280,7 +280,12 @@ export default {
             var params = {};
             params.province = parseInt(this.city ? this.city : null);
             params.title = this.dictType;
-            params.authStatus = this.authStatus ? this.authStatus : "";
+
+        // 修改了这里
+
+            // params.authStatus = this.authStatus ? `${this.authStatus}` : "";
+            params.authStatus = this.authStatus
+        
             if (this.searchType == 1) {
                 params.hospitalName = this.searchKey;
                 params.name = "";

@@ -67,7 +67,7 @@ export default {
             }
             return h("img", {
               attrs: {
-                src: avatar || "",
+                src: avatar || './static/img/heicon.jpg',
                 style: "width:40px;height:40px;border-radius:50%;"
               }
             });

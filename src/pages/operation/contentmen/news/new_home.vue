@@ -34,7 +34,7 @@
             >-->
             <img
               :src="analysisImages(item.newsHeadlines)"
-              alt='路径错误'
+              alt=''
               style="display:inline-block;margin:10px 0;width:100px;height:50px;"
             >
           </th>
