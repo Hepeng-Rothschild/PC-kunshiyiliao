@@ -24,7 +24,7 @@ export default new Router({
 				index: 1,
 				title: "互联网医院管理系统"
 			},
-			component: () => import('@/pages/index'),
+			component: () => import(/* webpackChunkName: 'index' */'@/pages/index'),
 			children: [
 				{
 					path:'/index/test_rsa',
@@ -33,7 +33,7 @@ export default new Router({
 						index: 1,
 						title: 'RSA加解密TEST'
 					},
-					component: () => import('@/pages/testRsa')
+					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa')
 				},
 				//运营端路由
 				operation.doctorManagement,
@@ -200,7 +200,7 @@ export default new Router({
 				index: 1,
 				title: "登陆"
 			},
-			component: () => import('@/pages/login')
+			component: () => import(/* webpackChunkName: 'login' */'@/pages/login')
 		},
 		{
 			path: '*',

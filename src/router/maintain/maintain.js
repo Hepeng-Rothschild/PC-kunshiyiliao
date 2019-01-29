@@ -15,7 +15,7 @@ const residentRegisterList = {
         index:2,
         title:'居民注册信息'
     },
-    component:()=>import("@/pages/maintain/residentregister/list")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-resident' */"@/pages/maintain/residentregister/list")
 }
 // 医生注册信息
 const doctorRegisterList = {
@@ -25,7 +25,7 @@ const doctorRegisterList = {
         index:2,
         title:'医生注册信息'
     },
-    component:()=>import("@/pages/maintain/doctorregister/list")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-doctor' */"@/pages/maintain/doctorregister/list")
 }
 const doctorRegisterBatchOne = {
     path:'maintain/doctorregister/batchone',
@@ -34,7 +34,7 @@ const doctorRegisterBatchOne = {
         index:3,
         title:'医生注册信息-批量加入-第一步'
     },
-    component:()=>import("@/pages/maintain/doctorregister/one")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-doctor' */"@/pages/maintain/doctorregister/one")
 }
 const doctorRegisterBatchTwo = {
     path:'maintain/doctorregister/batchtwo',
@@ -43,7 +43,7 @@ const doctorRegisterBatchTwo = {
         index:3,
         title:'医生注册信息-批量加入-第二步'
     },
-    component:()=>import("@/pages/maintain/doctorregister/two")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-doctor' */"@/pages/maintain/doctorregister/two")
 }
 const doctorRegisterBatchThree = {
     path:'maintain/doctorregister/batchthree',
@@ -52,7 +52,7 @@ const doctorRegisterBatchThree = {
         index:3,
         title:'医生注册信息-批量加入-第三步'
     },
-    component:()=>import("@/pages/maintain/doctorregister/three")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-doctor' */"@/pages/maintain/doctorregister/three")
 }
 
 // 机构注册信息
@@ -63,7 +63,7 @@ const mechanismregList = {
         index:2,
         title:'机构注册信息'
     },
-    component:()=>import("@/pages/maintain/mechanismreg/list")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/list")
 }
 const mechanismregAdd = {
     path:'maintain/mechanismreg/mechanismregAdd',
@@ -72,7 +72,7 @@ const mechanismregAdd = {
         index:3,
         title:'机构注册信息-新增'
     },
-    component:()=>import("@/pages/maintain/mechanismreg/add")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/add")
 }
 const mechanismregEdit = {
     path:'maintain/mechanismreg/mechanismregEdit',
@@ -81,7 +81,7 @@ const mechanismregEdit = {
         index:3,
         title:'机构注册信息-编辑'
     },
-    component:()=>import("@/pages/maintain/mechanismreg/edit")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/edit")
 }
 const mechanismregBatchOne = {
     path:'maintain/mechanismreg/batchone',
@@ -90,7 +90,7 @@ const mechanismregBatchOne = {
         index:3,
         title:'机构注册信息-批量加入-第一步'
     },
-    component:()=>import("@/pages/maintain/mechanismreg/one")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/one")
 }
 const mechanismregBatchTwo = {
     path:'maintain/mechanismreg/batchtwo',
@@ -99,7 +99,7 @@ const mechanismregBatchTwo = {
         index:3,
         title:'机构注册信息-批量加入-第二步'
     },
-    component:()=>import("@/pages/maintain/mechanismreg/two")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/two")
 }
 const mechanismregBatchThree = {
     path:'maintain/mechanismreg/batchthree',
@@ -108,7 +108,7 @@ const mechanismregBatchThree = {
         index:3,
         title:'机构注册信息-批量加入-第三步'
     },
-    component:()=>import("@/pages/maintain/mechanismreg/three")
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/three")
 }
 //系统管理
 const systemManagementIndex = {
@@ -127,7 +127,7 @@ const adminList = {
         index:2,
         title:'系统管理'
     },
-    component:()=>import("@/pages/maintain/admin/user/list")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement' */"@/pages/maintain/admin/user/list")
 }
 const adminAdd = {
     path:'maintain/admin/user/add',
@@ -136,7 +136,7 @@ const adminAdd = {
         index:3,
         title:'添加账号'
     },
-    component:()=>import("@/pages/maintain/admin/user/add")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-user' */"@/pages/maintain/admin/user/add")
 }
 const adminEdit = {
     path:'maintain/admin/user/edit',
@@ -145,7 +145,7 @@ const adminEdit = {
         index:3,
         title:'编辑账号'
     },
-    component:()=>import("@/pages/maintain/admin/user/edit")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-user' */"@/pages/maintain/admin/user/edit")
 }
 const adminReset = {
     path:'maintain/admin/user/reset',
@@ -154,7 +154,7 @@ const adminReset = {
         index:3,
         title:'重置密码'
     },
-    component:()=>import("@/pages/maintain/admin/user/reset")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-user' */"@/pages/maintain/admin/user/reset")
 }
 const adminJurisdiction = {
     path:'maintain/admin/user/Jurisdiction',
@@ -163,7 +163,7 @@ const adminJurisdiction = {
         index:3,
         title:'用户权限管理'
     },
-    component:()=>import("@/pages/maintain/admin/user/Jurisdiction")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-user' */"@/pages/maintain/admin/user/Jurisdiction")
 }
 
 // 权限管理
@@ -174,7 +174,7 @@ const jurisdictionList = {
         index:2,
         title:'权限管理'
     },
-    component:()=>import("@/pages/maintain/admin/jurisdiction/list")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-power' */"@/pages/maintain/admin/jurisdiction/list")
 }
 const jurisdictionAdd = {
     // 权限管理-添加角色
@@ -184,7 +184,7 @@ const jurisdictionAdd = {
         index:3,
         title:'权限管理-添加角色'
     },
-    component:()=>import("@/pages/maintain/admin/jurisdiction/add")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-power' */"@/pages/maintain/admin/jurisdiction/add")
 }
 //接口权限管理
 const interfacePermiseList = {
@@ -194,7 +194,7 @@ const interfacePermiseList = {
         index:2,
         title:'权限管理'
     },
-    component:()=>import("@/pages/maintain/system/interfacePermise/list")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-power' */"@/pages/maintain/system/interfacePermise/list")
 }
 const interfacePermiseEdit = {
     path:'maintain/system/iface_permise/ed',
@@ -203,8 +203,9 @@ const interfacePermiseEdit = {
         index:3,
         title:'权限管理-编辑'
     },
-    component:()=>import("@/pages/maintain/system/interfacePermise/edit")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-power' */"@/pages/maintain/system/interfacePermise/edit")
 }
+
 //菜单管理
 const menuManagementList = {
     path:'maintain/system/m_manage/lt',
@@ -213,7 +214,7 @@ const menuManagementList = {
         index:2,
         title:'菜单管理'
     },
-    component:()=>import("@/pages/maintain/system/menuManagement/list")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-menumanagement' */"@/pages/maintain/system/menuManagement/list")
 }
 const menuManagementEdit = {
     path:'maintain/system/m_manage/ed',
@@ -222,7 +223,7 @@ const menuManagementEdit = {
         index:3,
         title:'菜单管理-编辑'
     },
-    component:()=>import("@/pages/maintain/system/menuManagement/edit")
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-menumanagement' */"@/pages/maintain/system/menuManagement/edit")
 }
 
 
@@ -243,7 +244,7 @@ const dictionary = {
         index:2,
         title:'字典管理'
     },
-    component:()=>import("@/pages/maintain/dictionary/tree")
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-dictionaries' */"@/pages/maintain/dictionary/tree")
 }
 const diseaseList = {
     path:'maintain/disease/list',
@@ -252,7 +253,7 @@ const diseaseList = {
         index:2,
         title:'疾病管理'
     },
-    component:()=>import("@/pages/maintain/disease/list")
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-disease' */"@/pages/maintain/disease/list")
 }
 const diseaseEdit = {
     path:'maintain/disease/edit',
@@ -261,7 +262,7 @@ const diseaseEdit = {
         index:3,
         title:'疾病编辑'
     },
-    component:()=>import("@/pages/maintain/disease/edit")
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-disease' */"@/pages/maintain/disease/edit")
 }
 const symptomList = {
     path:'maintain/symptom/list',
@@ -270,7 +271,7 @@ const symptomList = {
         index:2,
         title:'症状管理'
     },
-    component:()=>import("@/pages/maintain/symptom/list")
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-symptom' */"@/pages/maintain/symptom/list")
 }
 const symptomEdit = {
     path:'maintain/symptom/edit',
@@ -279,7 +280,7 @@ const symptomEdit = {
         index:3,
         title:'症状编辑'
     },
-    component:()=>import("@/pages/maintain/symptom/edit")
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-symptom' */"@/pages/maintain/symptom/edit")
 }
 const starClass = {
     path:'maintain/starClass/list',
@@ -288,10 +289,10 @@ const starClass = {
         index:3,
         title:'评价管理'
     },
-    component:()=>import("@/pages/maintain/starClass/list")
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-starclass' */"@/pages/maintain/starClass/list")
 }
 
-//系统管理
+
 
 export default {
     //索引管理

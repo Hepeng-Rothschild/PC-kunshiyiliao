@@ -5,7 +5,7 @@ const reviewList = {
         index:2,
         title:'监管列表'
     },
-    component:()=>import("@/pages/supervision/doctorReview/list")
+    component:()=>import(/* webpackChunkName: 'supervision' */"@/pages/supervision/doctorReview/list")
 }
 export default {
     reviewList,
