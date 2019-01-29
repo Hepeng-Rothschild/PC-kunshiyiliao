@@ -1,15 +1,5 @@
 <template>
   <div class="table-editor">
-    <!-- <editor
-      id="editor_id"
-      height="500px"
-      width="700px"
-      :content.sync="editorText"
-      :afterChange="afterChange()"
-      pluginsPath="@/../static/kindeditor/plugins/"
-      :loadStyleMode="false"
-      @on-content-change="onContentChange"
-    ></editor> -->
     <vueEditor id="editorDemo" :textHtml="textHtml" :urlCode="urlCode" @valueHandle="afterChange"></vueEditor>
   </div>
 </template>

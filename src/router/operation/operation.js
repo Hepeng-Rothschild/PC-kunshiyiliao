@@ -62,16 +62,6 @@ const registerDetail = {
 	},
 	component: () => import("@/pages/operation/register/detail")
 }
-
-const kindeditorTest = {
-	path: 'operation/kindeditor',
-	name: 'kindeditor',
-	meta: {
-		index: 2,
-		title: 'kindeditor demo'
-	},
-	component: () => import("@/pages/operation/kindeditor")
-}
 const uploaddemo = {
 	path: 'operation/uploaddemo',
 	name: 'uploaddemo',
@@ -917,7 +907,6 @@ export default {
 	registerList,
 	registerEdit,
 	registerDetail,
-	kindeditorTest,
 	uploaddemo,
 	//机构运营
 	contentmanagementHome,
