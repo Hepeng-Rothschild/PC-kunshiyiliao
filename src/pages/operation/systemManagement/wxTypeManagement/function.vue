@@ -1,6 +1,7 @@
 <template>
   <div class="add">
     <div class="main">
+      <h2>{{ title }}</h2>
       <!-- 服务名称 -->
       <div class="item">
         <span class="title">
@@ -35,7 +36,6 @@
       <div class="item">
         <span class="title">跳转路径</span>
         <Input v-model="params.path" placeholder="请输入服务路径" style="width: 300px"/>
-        
       </div>
       <!-- 备注 -->
       <div class="item">
@@ -78,11 +78,12 @@ export default {
         prentId: ""
       },
       shortcut: true,
+      title: "",
       cityList: [
-        {
-          value: "1",
-          label: "菜单"
-        },
+        // {
+        //   value: "1",
+        //   label: "菜单"
+        // },
         {
           value: "2",
           label: "功能"
@@ -92,6 +93,7 @@ export default {
   },
   mounted() {
     this.params.prentId = this.$route.query.id;
+    this.title = this.$route.query.name;
   },
   methods: {
     // 添加新功能
@@ -120,7 +122,7 @@ export default {
         });
       }
     },
-    // 回到列表 
+    // 回到列表
     back() {
       this.$router.push({
         path: "/index/operation/wxTypeManagement/list"
@@ -141,7 +143,7 @@ export default {
     .item {
       display: flex;
       flex-direction: row;
-      align-items:center;
+      align-items: center;
       .title {
         display: inline-block;
         min-width: 150px;

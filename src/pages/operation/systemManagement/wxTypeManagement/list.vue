@@ -1,11 +1,11 @@
 <template>
   <div class="list">
     <header>
-      <Button type="primary" @click="add">添加新服务</Button>
+      <Button type="primary" @click="add" size='large'>添加新服务</Button>
     </header>
-    
     <div class="main" v-for="item,index in list" v-show="list.length">
       <h2>{{ item.name.menuName }}</h2>
+      <Button type="success" @click="fn(item)">添加新功能</Button>
       <div class="tabList">
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -22,15 +22,13 @@
             <td @click="instance(items)" style="cursor:pointer;" class="flowr">{{ items.path }}</td>
             <td>{{ items.priority }}</td>
             <td>{{ items.shortcut===1? '是':"否" }}</td>
-            <td @click="edit(items)" style="cursor:pointer;">编辑</td>
+            <td @click="edit(items,item.name.menuName)" style="cursor:pointer;">编辑</td>
           </tr>
         </table>
         <div class="footer" v-show="!item.child.length">暂无更多数据</div>
-        <Button type="primary" @click="fn(item.name.id)" style="margin-top:20px;">添加新功能</Button>
       </div>
       <hr/>
     </div>
-
     <div class="main" v-show="!list.length">暂无数据</div>
     <Modal v-model="modal1" title="预览跳转路径" footer-hide>
       <p class="modal_p">{{ path }}</p>
@@ -51,6 +49,7 @@ export default {
       valueCustomText: 3
     };
   },
+  // 页面初始化
   mounted() {
     this.$axios
       .post(api.systemManagement)
@@ -74,11 +73,12 @@ export default {
       });
     },
     // 编辑功能
-    edit(item) {
+    edit(item,name) {
       this.$router.push({
        name: "wxSystemManagementEdit",
         params: {
-          item
+          item,
+          name
         }
       });
     },
@@ -87,7 +87,8 @@ export default {
       this.$router.push({
         path: "/index/operation/wxTypeManagement/fn",
         query: {
-          id: index
+          id: index.name.id,
+          name:index.name.menuName
         }
       });
     },
@@ -106,8 +107,6 @@ export default {
         return "0" + num;
       }
       return num;
-    },
-    change() {
     }
   }
 };

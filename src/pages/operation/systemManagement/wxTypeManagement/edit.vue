@@ -2,6 +2,7 @@
   <div class="add">
     <div class="main">
       <!-- 服务名称 -->
+      <h2>{{ title }}</h2>
       <div class="item">
         <span class="title">
           <span style="color:red;">*</span>服务名称
@@ -78,11 +79,12 @@ export default {
         parentId: ""
       },
       shortcut: true,
+      title:"",
       cityList: [
-        {
-          value: "1",
-          label: "菜单"
-        },
+        // {
+        //   value: "1",
+        //   label: "菜单"
+        // },
         {
           value: "2",
           label: "功能"
@@ -92,7 +94,7 @@ export default {
   },
   mounted() {
     let params = this.$route.params.item;
-    console.log(params);
+    this.title = this.$route.params.name;
     this.params.menuName = params.menuName;
     this.params.path = params.path;
     this.params.priority = params.priority;

@@ -1,6 +1,7 @@
 <template>
   <div class="add">
     <div class="main">
+      <h2 style='user-select:none;'>添加新服务</h2>
       <!-- 服务名称 -->
       <div class="item">
         <span class="title">
@@ -82,10 +83,10 @@ export default {
           value: "1",
           label: "菜单"
         },
-        {
-          value: "2",
-          label: "功能"
-        }
+        // {
+        //   value: "2",
+        //   label: "功能"
+        // }
       ]
     };
   },
