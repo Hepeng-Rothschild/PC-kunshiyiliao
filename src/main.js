@@ -43,13 +43,6 @@ Vue.prototype.GetDate = GetDate;
 Vue.prototype.uploadFileDecrypt = uploadFileDecrypt;
 Vue.prototype.findStr = findStr;
 
-//kindeditor
-import VueKindEditor from '@/plugins/kindeditor.js'
-import '@/../static/kindeditor/themes/default/default.css'
-import '@/../static/kindeditor/kindeditor-all.js'
-import '@/../static/kindeditor/lang/zh-CN.js'
-Vue.use(VueKindEditor)
-
 //设置title
 router.beforeEach((to, from, next) => {
 	if(store.state.env == "production" || store.state.env == "test"){

@@ -103,11 +103,6 @@
 						<span>科室特色</span>
 					</div>
 					<textarea name="" id="" cols="30" rows="10" v-model = 'test2'></textarea>
-					<editor id="editor_ids" height="300px" width="400px" :content.sync="editorTexts"
-			            :afterChange="afterChanges()"
-			            pluginsPath="@/../static/kindeditor/plugins/"
-			            :loadStyleMode="false"
-			            @on-content-change="onContentChanges"> 
         </div>-->
         <!--排序-->
         <div class="keshi_name_text" style="align-items:center;">

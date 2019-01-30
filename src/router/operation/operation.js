@@ -147,16 +147,6 @@ const DoctorRemoteclinicAdd = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/remoteclinic/add")
 }
-
-const kindeditorTest = {
-	path: 'operation/kindeditor',
-	name: 'kindeditor',
-	meta: {
-		index: 2,
-		title: 'kindeditor demo'
-	},
-	component: () => import(/* webpackChunkName: 'operation-doctormanagement-demo' */"@/pages/operation/kindeditor")
-}
 const uploaddemo = {
 	path: 'operation/uploaddemo',
 	name: 'uploaddemo',
@@ -920,7 +910,6 @@ export default {
 	registerList,
 	registerEdit,
 	registerDetail,
-	kindeditorTest,
 	uploaddemo,
 	//机构运营
 	contentmanagementHome,

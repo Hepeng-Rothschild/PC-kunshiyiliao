@@ -43,7 +43,6 @@ export default new Router({
 				operation.registerList,
 				operation.registerEdit,
 				operation.registerDetail,
-				operation.kindeditorTest,
 				operation.uploaddemo,
 
 				operation.contentmanagementHome,
