@@ -2,7 +2,7 @@
   <div class="mechanismregAdd">
     <div class="container">
       <!-- title -->
-      <header>医院基本信息</header>
+      <h2>医院基本信息</h2>
       <div class="container-main">
         <!-- 区域 -->
         <div class="region">
@@ -79,7 +79,7 @@
         <!-- 机构等级 -->
         <div class="region">
           <div class="left">
-            <span style="color:red;">&nbsp;</span>
+            <span style="color:red;">*</span>
             <span>机构等级</span>
           </div>
           <!-- 医院等级 -->
@@ -161,11 +161,11 @@ export default {
       //机构代码
       mechanismCode: "",
       //机构类型
-      mechanismType1: "1",
+      mechanismType1: "-1",
       //公私
-      mechanismType2: "1",
+      mechanismType2: "-1",
       //机构等级
-      mechanismGrade: "1",
+      mechanismGrade: "-1",
       //机构电话
       mechanismPhone: "",
       //联系人
@@ -243,8 +243,10 @@ export default {
         this.$Message.error("机构地址不能为空");
       } else if (this.mechanismCode == "") {
         this.$Message.error("机构组织代码不能为空");
-      } else if (this.mechanismType1 == "" || this.mechanismType2 == "") {
+      } else if (this.mechanismType1 == "-1" || this.mechanismType2 == "-1") {
         this.$Message.error("机构类型不能为空");
+      } else if (this.mechanismGrade=='-1'){
+        this.$Message.error("机构等级不能为空");
       } else {
         this.$axios.post(api.mechanismregAdd, params).then(res => {
           if (res.data.code) {
@@ -258,6 +260,8 @@ export default {
                 }
               });
             }, 500);
+          } else {
+            this.$Message.info(res.data.message);
           }
         });
       }

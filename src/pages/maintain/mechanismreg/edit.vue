@@ -2,7 +2,6 @@
   <div class="mechanismregEdit">
     <div class="container">
       <!-- title -->
-      <header>医院基本信息</header>
       <div class="container-main">
         <!-- 区域 -->
         <div class="region">
@@ -32,14 +31,14 @@
             <span style="color:red;">*</span>
             <span>机构名称:</span>
           </div>
-          <Input v-model.trim="mechanismName" placeholder="请输入机构全称" clearable style="width: 300px" />
+          <Input v-model.trim="mechanismName" placeholder="请输入机构全称" clearable style="width: 300px"/>
         </div>
         <div class="address">
           <div class="left">
             <span style="color:red;">*</span>
             <span>机构地址:</span>
           </div>
-          <Input v-model.trim="hosAddr" placeholder="请输入机构地址" clearable style="width: 300px" />
+          <Input v-model.trim="hosAddr" placeholder="请输入机构地址" clearable style="width: 300px"/>
         </div>
         <!-- 机构组织编码 -->
         <div class="address">
@@ -47,7 +46,12 @@
             <span style="color:red;">*</span>
             <span>机构组织编码:</span>
           </div>
-          <Input v-model.trim="mechanismCode" placeholder="请输入医疗组织机构代码" clearable style="width: 300px" />
+          <Input
+            v-model.trim="mechanismCode"
+            placeholder="请输入医疗组织机构代码"
+            clearable
+            style="width: 300px"
+          />
         </div>
         <!-- 机构类型 -->
         <div class="region">
@@ -63,12 +67,16 @@
         <!-- 机构等级 -->
         <div class="region">
           <div class="left">
-            <span style="color:red;">&nbsp;</span>
+            <span style="color:red;">*</span>
             <span>机构等级</span>
           </div>
           <!-- 医院等级 -->
           <Select v-model="mechanismGrade" style="width:200px">
-            <Option :value="item.dictType" v-for="item in grade" :key='item.dictType'>{{ item.dictName }}</Option>
+            <Option
+              :value="item.dictType"
+              v-for="item in grade"
+              :key="item.dictType"
+            >{{ item.dictName }}</Option>
           </Select>
         </div>
         <!-- 机构联系人 -->
@@ -77,7 +85,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>机构联系人:</span>
           </div>
-          <Input v-model.trim="Contacts" placeholder="请输入姓名" clearable style="width: 300px" />
+          <Input v-model.trim="Contacts" placeholder="请输入姓名" clearable style="width: 300px"/>
         </div>
         <!-- 联系人电话 -->
         <div class="address">
@@ -85,12 +93,18 @@
             <span style="color:red;">&nbsp;</span>
             <span>联系人电话:</span>
           </div>
-          <Input v-model.trim="phone" placeholder="请输入电话号码" clearable style="width: 300px" :maxlength="11" />
+          <Input
+            v-model.trim="phone"
+            placeholder="请输入电话号码"
+            clearable
+            style="width: 300px"
+            :maxlength="11"
+          />
         </div>
         <!-- 保存 -->
         <div class="save">
           <Button type="primary" @click="back">取消</Button>
-          <Button type="primary"  @click="save">提交</Button>
+          <Button type="primary" @click="save">提交</Button>
         </div>
       </div>
     </div>
@@ -121,7 +135,7 @@ export default {
       //机构类型
       mechanismType1: "0",
       //机构等级
-      mechanismGrade: "1",
+      mechanismGrade: "-1",
       //联系人
       Contacts: "",
       //联系人电话
@@ -141,17 +155,17 @@ export default {
     this.getGrent();
 
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/indexManagement/index",
-                title: "索引管理"
-            },
-            {
-                path: "/index/maintain/mechanismreg/list",
-                title: "机构注册信息"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/indexManagement/index",
+        title: "索引管理"
+      },
+      {
+        path: "/index/maintain/mechanismreg/list",
+        title: "机构注册信息"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   mounted() {
     let id = this.$route.params.id;
@@ -218,14 +232,18 @@ export default {
         id: this.hospitalId
       };
       if (this.regionProv == "-1" || this.regionCity == "-1") {
-        this.$Message.info("区域不能为空");
+        this.$Message.error("区域不能为空");
       } else if (this.mechanismName == "") {
-        this.$Message.info("机构名称不能为空");
+        this.$Message.error("机构名称不能为空");
+      } else if (this.address == "") {
+        this.$Message.error("机构地址不能为空");
       } else if (this.mechanismCode == "") {
-        this.$Message.info("组织机构代码不能为空");
+        this.$Message.error("组织机构代码不能为空");
       } else if (this.mechanismType1 == "-1") {
-        this.$Message.info("机构类型不能为空");
-      } else {
+        this.$Message.error("机构类型不能为空");
+      } else if (this.mechanismGrade=='-1'){
+        this.$Message.error("机构等级不能为空");
+      }  else {
         this.$axios.post(api.mechanismregEdit, params).then(res => {
           if (res.data.code) {
             let ret = res.data;
