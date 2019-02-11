@@ -86,13 +86,13 @@
                 <b>身份证(正反面照)</b>
                 <Row>
                     <Col :xs="24">
-                        <div class="img-box">
+                        <div class="img-box" v-if="idcardFront">
                             <img :src="idcardFront" @click="handleView(idcardFront)">
                         </div>
                     </Col>
                     <Col :xs="24">
-                        <div class="img-box">
-                            <img :src="idcardFront" @click="handleView(idcardFront)">
+                        <div class="img-box" v-if="idcardBack">
+                            <img :src="idcardBack" @click="handleView(idcardBack)">
                         </div>
                     </Col>
                 </Row>
@@ -101,7 +101,7 @@
                 <b>医师执业证(首页+个人信息页)</b>
                 <Row v-if="practiceCertificate.length>0">
                     <Col :xs="24" v-for="(item,index) of practiceCertificate" :key="index">
-                        <div class="img-box">
+                        <div class="img-box" v-if="item.fileName">
                             <img
                                 :src="fileBaseUrl+item.fileName"
                                 @click="handleView(fileBaseUrl+item.fileName)"
@@ -127,7 +127,7 @@
                 <b>专业技术资格证(职称证)</b>
                 <Row>
                     <Col :xs="24">
-                        <div class="img-box">
+                        <div class="img-box" v-if="specialtyCertificate">
                             <img
                                 :src="specialtyCertificate"
                                 @click="handleView(specialtyCertificate)"
@@ -140,7 +140,7 @@
                 <b>医生签名</b>
                 <Row>
                     <Col :xs="24">
-                        <div class="img-box">
+                        <div class="img-box" v-if="prescriptionSignature">
                             <img
                                 :src="prescriptionSignature"
                                 @click="handleView(prescriptionSignature)"
