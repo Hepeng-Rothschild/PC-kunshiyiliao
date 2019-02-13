@@ -8,16 +8,16 @@
       <span>机构名称：</span>
       <Input
         v-model.trim="params.hospitalName"
-        placeholder="请输入机构名称"
+        placeholder="请输入机构名称检索"
         style="width: 200px"
         clearable
       />
       <span>患者姓名：</span>
-      <Input v-model.trim="params.memberName" placeholder="请输入患者姓名" style="width: 200px" clearable/>
+      <Input v-model.trim="params.memberName" placeholder="请输入患者姓名检索" style="width: 200px" clearable/>
       <span>身份证号：</span>
       <Input
         v-model.trim="params.fdsOrderId"
-        placeholder="请输入患者身份证号码"
+        placeholder="请输入患者身份证号码检索"
         style="width: 200px"
         clearable
       />
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       statusList: ["审核中", "签约成功", "签约拒绝", "解约","系统自动拒绝"],
-      authStatus: null,
+      authStatus: 1,
       params: {
         // 医院名
         hospitalName: null,
