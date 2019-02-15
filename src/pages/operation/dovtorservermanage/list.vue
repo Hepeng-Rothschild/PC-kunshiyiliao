@@ -59,6 +59,60 @@ export default {
                     }
                 },
                 {
+                    title: "排序",
+                    key: "sort",
+                    align: "center",
+                    render: (h,params) => {
+                        let id = params.row.doctorId,
+                            sort = params.row.sort,
+                            sortStatus = params.row.sortStatus,
+                            _index = params.row._index;
+                        let content = h("span",{
+                                on:{
+                                    click:(e)=>{
+                                        this.closeOther(_index);
+                                        let tmpArr = this.doctorList[_index];
+                                        tmpArr.sortStatus = true;
+                                        this.$set(this.doctorList,_index,tmpArr);
+                                    }
+                                }
+                            },sort);
+                        if(sortStatus){
+                            content = h("Input",{
+                                props:{
+                                    type:"text",
+                                    value:sort
+                                },
+                                on:{
+                                    'on-blur':(e)=>{
+                                        if(this.controlTimes == 1){
+                                            this.controlTimes++;
+                                            let val = e.target.value,
+                                                _index = params.row._index;
+                                            this.changeSort(id,val,_index);
+                                            let tmpArr = this.doctorList[_index];
+                                            tmpArr.sortStatus = false;
+                                            this.$set(this.doctorList,_index,tmpArr);
+                                        }
+                                    },
+                                    'on-enter':(e)=>{
+                                        if(this.controlTimes == 1){
+                                            this.controlTimes++;
+                                            let val = e.target.value,
+                                                _index = params.row._index;
+                                            this.changeSort(id,val,_index);
+                                            let tmpArr = this.doctorList[_index];
+                                            tmpArr.sortStatus = false;
+                                            this.$set(this.doctorList,_index,tmpArr);
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        return content
+                    }
+                },
+                {
                     title: "操作",
                     key: "operate",
                     align: "center",
@@ -75,10 +129,10 @@ export default {
                                         this.$router.push({
                                             path:
                                                 "/index/operation/doctormanage/edit",
-                                            query: { 
-                                                id, 
+                                            query: {
+                                                id,
                                                 pageNo: this.pageNo,
-                                                searchKey:this.searchKey
+                                                searchKey: this.searchKey
                                             }
                                         });
                                     }
@@ -92,7 +146,8 @@ export default {
             doctorList: [],
             count: 0,
             pageSize: 10,
-            pageNo: 1
+            pageNo: 1,
+            controlTimes:1
         };
     },
     components: {
@@ -101,7 +156,9 @@ export default {
         "i-switch": Switch
     },
     created() {
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -116,7 +173,9 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -131,15 +190,48 @@ export default {
             this.$axios
                 .post(api.doctorList, params)
                 .then(resp => {
-                    if(resp.data.success){
-                    this.count = resp.data.object.count;
-                    this.doctorList = resp.data.object.list;
-                    for (let i = 0; i < this.doctorList.length; i++) {
-                        this.doctorList[i].iNum = i + 1;
-                    }
-                    }else{
+                    if (resp.data.success) {
+                        this.count = resp.data.object.count;
+                        this.doctorList = resp.data.object.list;
+                        for (let i = 0; i < this.doctorList.length; i++) {
+                            this.doctorList[i].iNum = i + 1;
+                            this.doctorList[i].sortStatus = false;
+                        }
+                    } else {
                         this.$Message.info("不允许访问");
                     }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        closeOther(_index){
+            this.doctorList.map((el,i)=>{
+                if(i != _index){
+                    let tmp = el;
+                    el.sortStatus = false;
+                    this.$set(this.doctorList,i,el);
+                }
+            })
+        },
+        changeSort(id,sort,_index){
+            sort = Number(sort);
+            if(!Number.isInteger(sort) || sort<1){
+                this.$Message.info("排序值只能为大于0的整数");
+                sort = 1;
+            }
+            let params = {};
+            params.id = parseInt(id);
+            params.sort = parseInt(sort);
+            this.$axios
+                .post(api.doctorupdatedoctorsort, params)
+                .then(resp => {
+                    if (resp.data.success) {
+                        let tmpArr = this.doctorList[_index];
+                        tmpArr.sort = sort;
+                        this.$set(this.doctorList,_index,tmpArr);
+                        this.controlTimes = 1;
+                    } else this.$Message.info("修改排序失败，请重试");
                 })
                 .catch(err => {
                     console.log(err);
