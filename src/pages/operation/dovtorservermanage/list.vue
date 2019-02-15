@@ -90,9 +90,7 @@ export default {
                                             let val = e.target.value,
                                                 _index = params.row._index;
                                             this.changeSort(id,val,_index);
-                                            let tmpArr = this.doctorList[_index];
-                                            tmpArr.sortStatus = false;
-                                            this.$set(this.doctorList,_index,tmpArr);
+                                            
                                         }
                                     },
                                     'on-enter':(e)=>{
@@ -101,9 +99,7 @@ export default {
                                             let val = e.target.value,
                                                 _index = params.row._index;
                                             this.changeSort(id,val,_index);
-                                            let tmpArr = this.doctorList[_index];
-                                            tmpArr.sortStatus = false;
-                                            this.$set(this.doctorList,_index,tmpArr);
+                                            
                                         }
                                     }
                                 }
@@ -215,10 +211,13 @@ export default {
             })
         },
         changeSort(id,sort,_index){
+            let tmpArr = this.doctorList[_index];
+            tmpArr.sortStatus = false;
+            this.$set(this.doctorList,_index,tmpArr);
             sort = Number(sort);
             if(!Number.isInteger(sort) || sort<1){
                 this.$Message.info("排序值只能为大于0的整数");
-                sort = 1;
+                sort = this.doctorList[_index].sort;
             }
             let params = {};
             params.id = parseInt(id);
