@@ -1,12 +1,26 @@
 <template>
   <div class="fileManagement">
     <header>
+      <span>签约状态：</span>
+      <Select class="w-select" clearable v-model="authStatus" style='width:120px;'>
+        <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
+      </Select>
       <span>机构名称：</span>
-      <Input v-model.trim="params.hospitalName" placeholder="请输入机构名称" style="width: 200px" clearable />
+      <Input
+        v-model.trim="params.hospitalName"
+        placeholder="请输入机构名称检索"
+        style="width: 200px"
+        clearable
+      />
       <span>患者姓名：</span>
-      <Input v-model.trim="params.memberName" placeholder="请输入患者姓名" style="width: 200px" clearable />
+      <Input v-model.trim="params.memberName" placeholder="请输入患者姓名检索" style="width: 200px" clearable/>
       <span>身份证号：</span>
-      <Input v-model.trim="params.fdsOrderId" placeholder="请输入患者身份证号码" style="width: 200px" clearable />
+      <Input
+        v-model.trim="params.fdsOrderId"
+        placeholder="请输入患者身份证号码检索"
+        style="width: 200px"
+        clearable
+      />
       <Button type="primary" icon="ios-search" @click="search">查询</Button>
     </header>
     <div class="table">
@@ -22,10 +36,17 @@
   </div>
 </template>
 <script>
+import { Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
+  components: {
+    Select,
+    Option
+  },
   data() {
     return {
+      statusList: ["审核中", "签约成功", "签约拒绝", "解约","系统自动拒绝"],
+      authStatus: 1,
       params: {
         // 医院名
         hospitalName: null,
@@ -44,6 +65,7 @@ export default {
         { title: "身份证号", key: "idcard", align: "center" },
         { title: "电话", key: "telephone", align: "center" },
         { title: "签约医生", key: "doctorName", align: "center" },
+        { title: "签约状态", key: "status", align: "center" },
         { title: "签约日期", key: "contractStartTime", align: "center" },
         { title: "签约机构", key: "hospitalName", align: "center" }
       ],
@@ -51,7 +73,7 @@ export default {
     };
   },
   mounted() {
-    this.loadingData(this.pageNo, this.pageSize, 1);
+    this.loadingData(this.pageNo, this.pageSize,1);
     let breadList = [
       { path: "/index", title: "首页" },
       { path: "/index/operation/doctorManagement/index", title: "医生端运营" },
@@ -73,13 +95,13 @@ export default {
         this.loadingData(
           this.pageNo,
           this.pageSize,
-          1,
+          this.authStatus,
           this.params.hospitalName,
           this.params.memberName,
           this.params.fdsOrderId
         );
       } else {
-        this.loadingData(this.pageNo, this.pageSize, 1);
+        this.loadingData(this.pageNo, this.pageSize, this.authStatus);
       }
     },
     loadingData(
@@ -113,8 +135,8 @@ export default {
             } else {
               item.gender = "女";
             }
+            item.status = this.statusList[item.ieffective]
           });
-          console.log(ret.list)
           this.data1 = ret.list;
         } else {
           this.$Message.info("没有访问权限");
@@ -124,13 +146,14 @@ export default {
 
     search() {
       this.loadingData(
-        this.pageNo,
-        this.pageSize,
         1,
+        this.pageSize,
+        this.authStatus,
         this.params.hospitalName,
         this.params.memberName,
         this.params.fdsOrderId
       );
+      // this.loadPage(1);
     }
   }
 };
