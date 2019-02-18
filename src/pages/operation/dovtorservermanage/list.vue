@@ -229,7 +229,7 @@ export default {
                         tmpArr.sort = sort;
                         this.$set(this.doctorList,_index,tmpArr);
                         this.controlTimes = 1;
-                    } else this.$Message.info("修改排序失败，请重试");
+                    };
                 })
                 .catch(err => {
                     console.log(err);
