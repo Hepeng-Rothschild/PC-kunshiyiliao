@@ -16,7 +16,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="item,index in list" v-show="list.length">
-            <td>{{ addZero(1)}}</td>
+            <td>{{ addZeros(1)}}</td>
             <td>功能模块</td>
             <td>显示</td>
             <td>支持类型</td>
@@ -69,13 +69,6 @@ export default {
 		this.$router.push({
 			name:"addClassify"
 		})
-	},
-	addZero (num) {
-		num = num + 1
-		if (num < 10) {
-			return '0' + num
-		}
-		return num
 	}
   }
 };

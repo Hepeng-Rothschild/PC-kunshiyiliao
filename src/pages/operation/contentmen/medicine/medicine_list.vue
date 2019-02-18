@@ -10,7 +10,7 @@
             <Input
               v-model.trim="val"
               placeholder="请输入一级科室或二级科室查询"
-              style="width: 230px;margin-right:10px;"
+              style="width: 200px;margin-right:10px;"
               clearable
             />
           </div>
@@ -31,15 +31,15 @@
             <th>操作</th>
           </tr>
           <tr v-for="item,index in tableList" v-show="tableList.length">
-            <td>{{ addZero(index) }}</td>
+            <td>{{ addZeros(index) }}</td>
             <td>{{ item.parentDept }}</td>
             <td>{{ item.childDept }}</td>
             <td>{{ item.deptNickname}}</td>
             <td>{{ item.registeredReservation == '1'? '是':"否" }}</td>
             <td>{{ item.specialDept == '1'? '是':"否" }}</td>
-            <td class="ltd">
+            <td >
               <span @click="edit(item)" style="cursor:pointer;">编辑</span>
-              <span>删除</span>
+              <!-- <span>删除</span> -->
             </td>
           </tr>
         </table>
@@ -124,13 +124,6 @@ export default {
           pageNo: this.pageNo
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     },
     getMedicineData(pageNo, val) {
       let params = {

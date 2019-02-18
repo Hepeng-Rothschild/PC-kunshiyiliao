@@ -206,7 +206,7 @@ export default {
               percentage: 100,
               status: "finished",
               uid: 1544263544971,
-              url: this.fileBaseUrl + this.analysisImages(ret.userIcon)
+              url: this.fileBaseUrl + this.pictureFormat(ret.userIcon)
             });
           }
         } else {
@@ -338,14 +338,6 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
-    },
-    analysisImages(json) {
-      try {
-        json = JSON.parse(json);
-        return json.fileName;
-      } catch (error) {
-        return "";
-      }
     }
   }
 };

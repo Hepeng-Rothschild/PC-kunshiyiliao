@@ -40,7 +40,7 @@
         <th>操作</th>
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
-        <th>{{ addZero(index) }}</th>
+        <th>{{ addZeros(index) }}</th>
         <!-- 标题 -->
         <th class="one">{{ item.title }}</th>
         <!-- 类型 -->
@@ -283,14 +283,7 @@ export default {
     ok() {
       let a = this.tableList[this.currentIndex];
     },
-    cancel() {},
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
-    }
+    cancel() {}
   },
   watch: {
     type1: {
@@ -430,12 +423,12 @@ export default {
         }
       }
       th.one {
-        max-width: 200px;
+        max-width: 160px;
         overflow: hidden;
+        padding:0 10px;
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-
       .red {
         color: red;
       }

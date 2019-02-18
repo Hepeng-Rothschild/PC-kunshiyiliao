@@ -61,7 +61,7 @@ export default {
           key: "avatar",
           align: "center",
           render: (h, params) => {
-            let avatar = this.analysisImages(params.row.userIcon);
+            let avatar = this.pictureFormat(params.row.userIcon);
             if (Boolean(avatar)) {
               avatar = this.fileBaseUrl + avatar;
             }
@@ -205,21 +205,13 @@ export default {
           let ret = res.data.object;
           this.count = ret.count;
           ret.list.forEach((item, index) => {
-            item.num = index + 1;
+            item.num = this.addZeros(index);
           });
           this.data1 = ret.list;
         } else {
           this.$Message.info("没有访问权限");
         }
       });
-    },
-    analysisImages(json) {
-      try {
-        json = JSON.parse(json);
-        return json.fileName;
-      } catch (error) {
-        return "";
-      }
     }
   }
 };

@@ -28,7 +28,7 @@
             <th>错误提示</th>
           </tr>
           <tr v-for="item,index in list">
-            <th>{{ addZero(index) }}</th>
+            <th>{{ addZeros(index) }}</th>
             <th>{{ item.doctorName }}</th>
             <th>{{ item.hospitalName }}</th>
             <th>{{ item.phone }}</th>
@@ -95,13 +95,6 @@ export default {
       this.$router.push({
         name: "doctorregisterbatchone"
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   }
 };

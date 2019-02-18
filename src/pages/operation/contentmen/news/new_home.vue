@@ -24,7 +24,7 @@
           <th>操作</th>
         </tr>
         <tr v-for="(item,index) in tablesList" :key="index">
-          <th>{{ addZero(index) }}</th>
+          <th>{{ addZeros(index) }}</th>
           <th>{{ item.title }}</th>
           <th>
             <!-- <img
@@ -155,13 +155,6 @@ export default {
           pageNo: this.pageNo
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     },
     press() {
       this.getData(1, this.search);

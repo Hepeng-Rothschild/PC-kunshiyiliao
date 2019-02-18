@@ -16,7 +16,7 @@
           <th>操作</th>
         </tr>
         <tr v-for="item,index in tablesList" v-show="tablesList.length">
-          <th>{{ addZero(index) }}</th>
+          <th>{{ addZeros(index) }}</th>
           <th>{{ item.menuName }}</th>
           <th>
             <span v-for="items,index in item.result">{{ items }}<span v-show='item.result.length != index+1'>、</span></span>
@@ -70,13 +70,6 @@ export default {
       this.$router.push({
         name: "managementAdd"
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     },
     getManagementData() {
       this.$axios

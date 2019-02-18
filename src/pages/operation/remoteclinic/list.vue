@@ -30,7 +30,7 @@
           <td>操作</td>
         </tr>
         <tr v-for="item,index in list" v-show="list.length">
-          <td>{{ addZero(index) }}</td>
+          <td>{{ index + 1 }}</td>
           <td>{{ item.doctorName }}</td>
           <td>{{ item.deptName }}</td>
           <td @click="showModel(item)" style="cursor:pointer;">
@@ -42,8 +42,8 @@
             >下午:{{ item.intervalTimePmStart + '-' +item.intervalTimeAmEnd }}</p>
           </td>
           <td>{{ item.cycleDay }}</td>
-          <td v-show="item.iremote==1">启用</td>
-          <td style="color:red;" v-show="item.iremote==0">停用</td>
+          <td v-if="item.iremote==1">启用</td>
+          <td style="color:red;" v-else>停用</td>
           <td style="cursor:pointer;" @click="edit(item)">编辑</td>
         </tr>
       </table>
@@ -174,7 +174,7 @@ export default {
     this.getInfoData();
     let pageNo = this.$route.query.pageNo;
     if (Boolean(pageNo)) {
-      this.pageNo = pageNo;
+      this.pageNo = Number(pageNo);
     }
     this.getDoctorList(this.pageNo);
   },
@@ -233,12 +233,16 @@ export default {
     },
     // 新增
     add() {
-      this.$router.push({
-        path: "/index/operation/remoteclinic/add",
-        query: {
-          pageNo: this.pageNo
-        }
-      });
+      // this.$router.push({
+      //   path: "/index/operation/remoteclinic/add",
+      //   query: {
+      //     pageNo: this.pageNo
+      //   }
+      // });
+      // function全局方法
+      this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/add",{
+        pageNo: this.pageNo
+        })
     },
     // 页面加载时获取省级,职称列表
     getInfoData() {
@@ -254,13 +258,18 @@ export default {
     },
     // 修改
     edit(item) {
-      this.$router.push({
-        path: "/index/operation/remoteclinic/edit",
-        query: {
-          id: item.id,
-          pageNo: this.pageNo
-        }
-      });
+      // this.$router.push({
+      //   path: "/index/operation/remoteclinic/edit",
+      //   query: {
+      //     id: item.id,
+      //     pageNo: this.pageNo
+      //   }
+      // });
+      // function全局方法
+      this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/edit",{
+        pageNo: this.pageNo,
+         id: item.id
+        })
     },
     search() {
       let params = {
@@ -290,13 +299,6 @@ export default {
           this.$Message.info("没有访问权限");
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   }
 };

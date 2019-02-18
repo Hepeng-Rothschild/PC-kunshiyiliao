@@ -29,7 +29,7 @@
         <th>操作</th>
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
-        <th>{{ addZero(index) }}</th>
+        <th>{{ addZeros(index) }}</th>
         <th>{{ item.provinceName }}</th>
         <th>{{ item.orgName }}</th>
         <th>{{ item.linkman }}</th>
@@ -130,13 +130,6 @@ export default {
     },
     search() {
       this.getDate(1, this.val);
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   }
 };

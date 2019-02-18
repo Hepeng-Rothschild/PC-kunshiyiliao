@@ -326,12 +326,6 @@ export default {
             console.log(err);
           });
       }
-    },
-    addZero(num) {
-      if (num < 10) {
-        num = "0" + num;
-      }
-      return num;
     }
   }
 };

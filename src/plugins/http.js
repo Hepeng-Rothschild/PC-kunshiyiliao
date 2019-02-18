@@ -45,7 +45,6 @@ axios.interceptors.request.use(
 			if (access_token != undefined)
 				config.headers.Authorization = "Bearer " + access_token;
 		}
-		
 		return config;
 	},
 	err => {

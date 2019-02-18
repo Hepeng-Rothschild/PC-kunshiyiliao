@@ -11,8 +11,9 @@
             <Icon type=" i-icon i-icon-shop_fill" size="24"/>
           </span>
           <Input v-model.trim="search" placeholder="输入名称进行检索" style="width: 200px" clearable/>
+          <Button type="primary" @click='searchInput' icon="ios-search">查询</Button>
         </div>
-        <button @click="navto">添加Banner</button>
+        <Button @click="navto" type="primary">添加Banner</Button>
       </div>
       <!--表格列表-->
       <div class="tabList">
@@ -27,7 +28,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="item,index in tbleList" v-show="tbleList.length">
-            <td>{{ addZero(index) }}</td>
+            <td>{{ addZeros(index) }}</td>
             <td>{{ item.bannerName }}</td>
             <td>
               <img
@@ -96,6 +97,9 @@ export default {
         this.getData(index);
       }
     },
+    searchInput () {
+      this.getData(1, this.search);
+    },
     navto() {
       this.$router.push({
         name: "bannerAdd",
@@ -112,13 +116,6 @@ export default {
           pageNo: this.pageNo
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     },
     getData(pageNo, val) {
       let params = {
@@ -147,22 +144,13 @@ export default {
       }
     }
   },
-  // 页面加载时获取数据
+  // 页面初始化获取数据
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
       this.pageNo = pageNo;
     }
     this.getData(this.pageNo);
-  },
-  // 根据输入的值获取不同的数据
-  watch: {
-    search: {
-      deep: true,
-      handler(oldval) {
-        this.getData(1, oldval);
-      }
-    }
   }
 };
 </script>
@@ -176,21 +164,12 @@ export default {
   .ibanner_main {
     display: flex;
     flex-direction: column;
-    // margin-top: 10px;
     .ibanner_header {
       width: 80%;
       margin: 10px auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      button {
-        padding: 6px 8px;
-        background: #2d8cf0;
-        color: #fff;
-        border: none;
-        outline: none;
-        border-radius: 4px;
-      }
     }
     .tabList {
       width: 80%;

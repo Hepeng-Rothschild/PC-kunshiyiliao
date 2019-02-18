@@ -129,7 +129,7 @@ export default {
           let ret = res.data.object;
           this.count = ret.count;
           ret.list.forEach((item, index) => {
-            item.iNum = index + 1;
+            item.iNum = this.addZeros(index);
             if (item.gender == 1) {
               item.gender = "男";
             } else {

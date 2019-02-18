@@ -323,14 +323,6 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
-    },
-    analysisImages(json) {
-      try {
-        json = JSON.parse(json);
-        return json.fileName;
-      } catch (error) {
-        return "";
-      }
     }
   }
 };

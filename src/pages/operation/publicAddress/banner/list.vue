@@ -25,7 +25,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="item,index in tbleList" v-show="tbleList.length">
-            <td>{{ addZero(index) }}</td>
+            <td>{{ addZeros(index) }}</td>
             <td>{{ item.bannerName }}</td>
             <td>
               <img
@@ -115,13 +115,6 @@ export default {
         }
       });
     },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
-    },
     getData(pageNo, val) {
       let params = {
         pageNo,
@@ -136,6 +129,7 @@ export default {
           let ret = res.data.object;
           this.tbleList = ret.list;
           this.bannerSize = ret.count;
+          console.log(ret.list)
         }
       });
     },

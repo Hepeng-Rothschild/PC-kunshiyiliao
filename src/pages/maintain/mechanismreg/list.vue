@@ -4,13 +4,8 @@
       <!-- 头部信息 -->
       <header>
         <div class="search">
-          <Input
-            v-model.trim="Name"
-            clearable
-            placeholder="输入机构名称进行查询"
-            style="width: 260px"
-            @on-keyup="nameChange"
-          />
+          <Input v-model.trim="Name" clearable placeholder="输入机构名称进行查询" style="width: 260px"/>
+          <Button type="primary" icon="ios-search" @click="nameChange">查询</Button>
         </div>
         <div class="btn">
           <Button type="primary" @click="batch">批量导入</Button>
@@ -34,7 +29,7 @@
             <th>操作</th>
           </tr>
           <tr v-for="item,index in list">
-            <th>{{ addZero(index) }}</th>
+            <th>{{ addZeros(index) }}</th>
             <th>{{ item.city }}</th>
             <th>{{ item.hospitalName }}</th>
             <th>{{ item.internetHospital == '0'? '企业' :'医院' }}</th>
@@ -46,7 +41,6 @@
             <th>{{ item.createTime }}</th>
             <th>
               <span style="cursor:pointer" @click="edit(item)">编辑</span>
-              <!-- <span style = 'cursor:pointer'>删除</span> -->
               <span
                 style="cursor:pointer"
                 @click="enable(item)"
@@ -119,12 +113,9 @@ export default {
         });
     },
     batch() {
-      this.$router.push({
-        name: "mechanismregeditbatchone",
-        params: {
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this,"mechanismregeditbatchone", {
+        pageNo: this.pageNo
+      })
     },
     nameChange() {
       this.getMechanismreg(1, this.Name);
@@ -138,22 +129,16 @@ export default {
       }
     },
     add() {
-      this.$router.push({
-        name: "mechanismregadd",
-        params: {
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this,"mechanismregadd", {
+        pageNo: this.pageNo
+      })
     },
     edit(item) {
       let id = item.id;
-      this.$router.push({
-        name: "mechanismregedit",
-        params: {
-          id,
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this,"mechanismregedit", {
+        id,
+        pageNo: this.pageNo
+      })
     },
     getMechanismreg(pageNo, name) {
       let params = {
@@ -172,13 +157,6 @@ export default {
           this.$Message.info("不允许访问");
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   },
   components: {

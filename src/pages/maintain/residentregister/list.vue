@@ -24,7 +24,7 @@
             <th>注册时间</th>
           </tr>
           <tr v-for="item,index in list">
-            <th>{{ addZero(index) }}</th>
+            <th>{{ addZeros(index) }}</th>
             <th>{{ item.openid }}</th>
             <th>{{ item.userName }}</th>
             <th>{{ item.nickname }}</th>
@@ -106,13 +106,6 @@ export default {
           this.$Message.info("不允许访问");
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   },
   components: {

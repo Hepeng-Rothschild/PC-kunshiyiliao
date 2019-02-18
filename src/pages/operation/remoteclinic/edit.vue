@@ -259,12 +259,16 @@ export default {
     //  取消,后退 上一次
     back() {
       let pageNo = this.$route.query.pageNo;
-      this.$router.push({
-        path: "/index/operation/remoteclinic/list",
-        query: {
-          pageNo
-        }
-      });
+      // this.$router.push({
+      //   path: "/index/operation/remoteclinic/list",
+      //   query: {
+      //     pageNo
+      //   }
+      // });
+      // function全局方法
+      this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/list",{
+        pageNo
+      })
     },
     // 根据远程门诊类型变更金额
     changeSearchType(val) {
@@ -321,12 +325,10 @@ export default {
             let info = res.data.object.file || res.data.object.success;
             this.$Message.info(info);
             setTimeout(() => {
-              this.$router.push({
-                path: "/index/operation/remoteclinic/list",
-                query: {
-                  pageNo
-                }
-              });
+              // function全局方法
+              this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/list",{
+                pageNo
+              })
             }, 800);
           }
         });

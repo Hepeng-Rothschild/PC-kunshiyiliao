@@ -11,7 +11,7 @@
             @on-keyup.enter="nameChange"
             clearable
           />
-          <Button type="primary" @click="nameChange">查询</Button>
+          <Button type="primary" @click="nameChange" icon="ios-search">查询</Button>
         </div>
         <Button type="primary" @click="branch">批量导入</Button>
       </header>
@@ -33,7 +33,7 @@
             <th>数据来源</th>
           </tr>
           <tr v-for="item,index in list">
-            <th>{{ addZero(index) }}</th>
+            <th>{{ addZeros(index) }}</th>
             <th>{{ item.doctorName }}</th>
             <th>{{ item.gender == '0'? '女' :'男' }}</th>
             <th>{{ item.city }}</th>
@@ -41,12 +41,10 @@
             <th>{{ item.deptType }}</th>
             <th>{{ item.title }}</th>
             <th>{{ item.phone }}</th>
-
-            <!-- <th style = 'max-width:200px;'>{{ item.personalIntroduction }}</th>
-            <th style = 'max-width:200px;'>{{ item.doctorGood }}</th>-->
+            <!-- 显示简介modal -->
             <th class="one" @click="simple(item)">{{ item.personalIntroduction }}</th>
+            <!-- 显示特长modal -->
             <th class="one" @click="simples(item)">{{ item.doctorGood }}</th>
-
             <th>{{ item.createTime }}</th>
             <th>{{ item.ibatch == '0'? '个人注册' :'批量导入'}}</th>
           </tr>
@@ -150,13 +148,6 @@ export default {
           this.$Message.info(res.data.message);
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   },
   components: {

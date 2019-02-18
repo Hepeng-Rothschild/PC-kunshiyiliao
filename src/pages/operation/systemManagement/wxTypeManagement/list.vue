@@ -17,7 +17,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="items,index in item.child" v-show="item.child.length">
-            <td>{{ addZero(index) }}</td>
+            <td>{{ addZeros(index) }}</td>
             <td>{{ items.menuName }}</td>
             <td @click="instance(items)" style="cursor:pointer;" class="flowr">{{ items.path }}</td>
             <td>{{ items.priority }}</td>
@@ -100,13 +100,6 @@ export default {
       } else {
         this.$Message.info("暂无跳转路径");
       }
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   }
 };

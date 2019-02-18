@@ -99,7 +99,6 @@ export default {
                                             let val = e.target.value,
                                                 _index = params.row._index;
                                             this.changeSort(id,val,_index);
-                                            
                                         }
                                     }
                                 }

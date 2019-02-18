@@ -3,7 +3,7 @@
     <header>
       <div class="one" v-for="item,index in list">
         <div :class="{active:index <= active}">
-          <em>{{ addZero(index) }}</em>
+          <em>{{ addZeros(index) }}</em>
           <span>{{ item }}</span>
         </div>
         <span class="triangle" :class="{active:index <= active}"></span>
@@ -23,15 +23,6 @@ export default {
     return {
       list: ["上传文件", "执行导入", "完成"]
     };
-  },
-  methods: {
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
-    }
   }
 };
 </script>
