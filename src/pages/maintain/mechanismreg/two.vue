@@ -15,10 +15,10 @@
       </div>
       <div class="next">
         <Button type="primary" @click="next">下一步</Button>
-         <Button @click="prev">返回重新上传</Button>
+        <Button @click="prev">返回重新上传</Button>
       </div>
       <!-- 列表 -->
-      <div class="list" v-show = 'list.length'>
+      <div class="list" v-show="list.length">
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <th>编号</th>
@@ -54,19 +54,19 @@ export default {
     };
   },
   created() {
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/indexManagement/index",
-                title: "索引管理"
-            },
-            {
-                path: "/index/maintain/mechanismreg/list",
-                title: "机构注册信息"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/indexManagement/index",
+        title: "索引管理"
+      },
+      {
+        path: "/index/maintain/mechanismreg/list",
+        title: "机构注册信息"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     let fail = this.$route.params.fail;
     if (fail) {
@@ -77,15 +77,13 @@ export default {
   methods: {
     //   下一步
     next() {
-     let fail = this.$route.params.fail;
-     let success = fail.success;
-     let error = fail.fail.length;
-      this.$router.push({
-        name: "mechanismregeditbatchthree",
-        params:{
-          success,
-          error
-        }
+      let fail = this.$route.params.fail;
+      let success = fail.success;
+      let error = fail.fail.length;
+      // functionJS公用 方法
+      this.functionJS.paramsNavgationTo(this, "mechanismregeditbatchthree", {
+        success,
+        error
       });
     },
     //   上一步

@@ -153,12 +153,8 @@ export default {
     // 后退
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "wxbannerList",
-        params: {
-          pageNo
-        }
-      });
+       // FUNCTIONJS公用 跳转方法
+      this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
     },
     save() {
       let images = "";
@@ -190,12 +186,8 @@ export default {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
-              this.$router.push({
-                name: "wxbannerList",
-                params: {
-                  pageNo
-                }
-              });
+              // FUNCTIONJS公用 跳转方法
+              this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
             }, 500);
           } else {
             this.$Message.info("修改失败请重试");

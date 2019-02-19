@@ -82,19 +82,16 @@ export default {
      let fail = this.$route.params.fail;
      let success = fail.success;
      let error = fail.fail.length;
-      this.$router.push({
-        name: "doctorregisterbatchthree",
-        params:{
+      // FunctionJS公用方法
+      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchthree", {
           success,
           error
-        }
-      })
+        });
     },
     //   上一步
     prev() {
-      this.$router.push({
-        name: "doctorregisterbatchone"
-      });
+      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchone");
+      
     }
   }
 };
@@ -118,7 +115,7 @@ export default {
     }
     .next {
       button {
-        width: 150px;
+        width: 100px;
         height: 30px;
         border: none;
         outline: none;

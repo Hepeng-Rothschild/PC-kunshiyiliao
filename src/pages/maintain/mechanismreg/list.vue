@@ -113,6 +113,7 @@ export default {
         });
     },
     batch() {
+      // functionJS公用 方法
       this.functionJS.paramsNavgationTo(this,"mechanismregeditbatchone", {
         pageNo: this.pageNo
       })
@@ -129,12 +130,14 @@ export default {
       }
     },
     add() {
+      // functionJS公用 方法
       this.functionJS.paramsNavgationTo(this,"mechanismregadd", {
         pageNo: this.pageNo
       })
     },
     edit(item) {
       let id = item.id;
+      // functionJS公用 方法
       this.functionJS.paramsNavgationTo(this,"mechanismregedit", {
         id,
         pageNo: this.pageNo

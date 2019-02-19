@@ -33,6 +33,7 @@
           </div>
           <Input v-model.trim="mechanismName" placeholder="请输入机构全称" clearable style="width: 300px"/>
         </div>
+        <!-- 机构地址 -->
         <div class="address">
           <div class="left">
             <span style="color:red;">*</span>
@@ -250,11 +251,9 @@ export default {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
-              this.$router.push({
-                name: "mechanismreglist",
-                params: {
-                  pageNo
-                }
+              // functionJS公用 方法
+              this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+                pageNo
               });
             }, 500);
           } else {
@@ -265,11 +264,9 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "mechanismreglist",
-        params: {
-          pageNo
-        }
+      // functionJS公用 方法
+      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+        pageNo
       });
     },
     //获取医院等级

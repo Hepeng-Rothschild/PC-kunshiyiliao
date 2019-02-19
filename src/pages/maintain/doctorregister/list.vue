@@ -100,12 +100,16 @@ export default {
   methods: {
     // 批量导入
     branch() {
-      this.$router.push({
-        name: "doctorregisterbatchone",
-        params: {
+      // this.$router.push({
+      //   name: "doctorregisterbatchone",
+      //   params: {
+      //     pageNo: this.pageNo
+      //   }
+      // });
+      // function全局方法
+      this.functionJS.paramsNavgationTo(this,"doctorregisterbatchone",{
           pageNo: this.pageNo
-        }
-      });
+        })
     },
     // 分页
     pageChange(index) {

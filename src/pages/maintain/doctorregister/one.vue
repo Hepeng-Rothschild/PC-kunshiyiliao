@@ -19,7 +19,7 @@
       </div>
       <div>
         <button class="next" :class="{'disabled':disabled}" @click="next">下一步</button>
-        <span @click="back" style= 'user-select:none;cursor:pointer;'>上一步</span>
+        <span @click="back" style="user-select:none;cursor:pointer;">上一步</span>
       </div>
     </div>
   </div>
@@ -43,21 +43,20 @@ export default {
     };
   },
   created() {
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/indexManagement/index",
-                title: "索引管理"
-            },
-            {
-                path: "/index/maintain/doctorregister/list",
-                title: "医生注册信息"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
-  mounted() {
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/indexManagement/index",
+        title: "索引管理"
+      },
+      {
+        path: "/index/maintain/doctorregister/list",
+        title: "医生注册信息"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
+  mounted() {},
   methods: {
     download() {
       this.$axios
@@ -94,11 +93,9 @@ export default {
     },
     next() {
       if (!this.disabled) {
-        this.$router.push({
-          name: "doctorregisterbatchtwo",
-          params: {
-            fail: this.errorData
-          }
+        // FUNCTION公用 方法
+        this.functionJS.paramsNavgationTo(this, "doctorregisterbatchtwo", {
+          fail: this.errorData
         });
       } else {
         this.$Message.info("请选择批量上传的文件");
@@ -106,11 +103,9 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "doctorregisterlist",
-        params: {
-          pageNo
-        }
+      // FUNCTION公用 方法
+      this.functionJS.paramsNavgationTo(this, "doctorregisterlist", {
+        pageNo
       });
     }
   }

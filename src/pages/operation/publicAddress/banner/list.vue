@@ -98,22 +98,16 @@ export default {
         this.getData(index);
       }
     },
+    // 添加banner图
     navto() {
-      this.$router.push({
-        name: "wxbannerAdd",
-        params: {
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this,'wxbannerAdd',{pageNo:this.pageNo})
     },
+    // 点击编辑
     change(item) {
-      this.$router.push({
-        name: "wxbannerEdit",
-        params: {
+      this.functionJS.paramsNavgationTo(this,'wxbannerEdit',{
           id: item.id,
           pageNo: this.pageNo
-        }
-      });
+        })
     },
     getData(pageNo, val) {
       let params = {
@@ -129,7 +123,6 @@ export default {
           let ret = res.data.object;
           this.tbleList = ret.list;
           this.bannerSize = ret.count;
-          console.log(ret.list)
         }
       });
     },
@@ -146,7 +139,7 @@ export default {
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = Number(pageNo);
     }
     this.getData(this.pageNo);
   }

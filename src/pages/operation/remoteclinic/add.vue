@@ -302,12 +302,6 @@ export default {
     //  取消,后退 上一次
     back() {
       let pageNo = this.$route.query.pageNo;
-      // this.$router.push({
-      //   path: "/index/operation/remoteclinic/list",
-      //   query: {
-      //     pageNo
-      //   }
-      // });
      // function全局方法
       this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/list",{
         pageNo
@@ -364,12 +358,6 @@ export default {
             this.$Message.info("添加成功");
             let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
-              // this.$router.push({
-              //   path: "/index/operation/remoteclinic/list",
-              //   query: {
-              //     pageNo
-              //   }
-              // });
               // function全局方法
               this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/list",{
                 pageNo

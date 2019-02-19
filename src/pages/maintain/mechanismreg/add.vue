@@ -253,11 +253,9 @@ export default {
             this.$Message.info("添加成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
-              this.$router.push({
-                name: "mechanismreglist",
-                params: {
-                  pageNo
-                }
+              // functionJS公用 方法
+              this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+                pageNo
               });
             }, 500);
           } else {
@@ -270,11 +268,9 @@ export default {
     back() {
       // 获取路由参数
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "mechanismreglist",
-        params: {
-          pageNo
-        }
+      // functionJS公用 方法
+      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+        pageNo
       });
     },
     //获取医院等级

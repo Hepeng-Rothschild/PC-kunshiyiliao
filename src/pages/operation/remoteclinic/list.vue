@@ -125,6 +125,7 @@
   </div>
 </template>
 <script>
+// 医生端远程门诊
 import tempHeader from "@/components/tmpHeader";
 import { Select, Option } from "iview";
 import api from "@/api/commonApi";
@@ -233,12 +234,6 @@ export default {
     },
     // 新增
     add() {
-      // this.$router.push({
-      //   path: "/index/operation/remoteclinic/add",
-      //   query: {
-      //     pageNo: this.pageNo
-      //   }
-      // });
       // function全局方法
       this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/add",{
         pageNo: this.pageNo
@@ -258,13 +253,6 @@ export default {
     },
     // 修改
     edit(item) {
-      // this.$router.push({
-      //   path: "/index/operation/remoteclinic/edit",
-      //   query: {
-      //     id: item.id,
-      //     pageNo: this.pageNo
-      //   }
-      // });
       // function全局方法
       this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/edit",{
         pageNo: this.pageNo,

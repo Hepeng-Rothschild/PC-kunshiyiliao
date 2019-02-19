@@ -93,24 +93,20 @@ export default {
     },
     next() {
       if (!this.disabled) {
-        this.$router.push({
-          name: "mechanismregeditbatchtwo",
-          params: {
-            fail: this.errorData
-          }
-        });
+        // function全局方法
+        this.functionJS.paramsNavgationTo(this,"mechanismregeditbatchtwo",{
+          fail: this.errorData
+        })
       } else {
         this.$Message.info("请选择批量上传的文件");
       }
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "mechanismreglist",
-        params: {
+      // functionJS公用 方法
+      this.functionJS.paramsNavgationTo(this,"mechanismreglist",{
           pageNo
-        }
-      });
+        })
     }
   }
 };

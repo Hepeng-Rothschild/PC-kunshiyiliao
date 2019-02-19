@@ -68,29 +68,24 @@ export default {
   methods: {
     // 添加新服务
     add() {
-      this.$router.push({
-        path: "/index/operation/wxTypeManagement/add"
-      });
+      // FunctionJS方法
+      this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/add')
     },
     // 编辑功能
     edit(item,name) {
-      this.$router.push({
-       name: "wxSystemManagementEdit",
-        params: {
+      // FunctionJS方法
+      this.functionJS.paramsNavgationTo(this,'wxSystemManagementEdit',{
           item,
           name
-        }
-      });
+        })
     },
     // 添加新功能
     fn(index) {
-      this.$router.push({
-        path: "/index/operation/wxTypeManagement/fn",
-        query: {
+      // FunctionJS方法
+      this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/fn',{
           id: index.name.id,
           name:index.name.menuName
-        }
-      });
+        })
     },
     // 弹出modal层
     instance(item) {

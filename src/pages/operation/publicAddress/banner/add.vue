@@ -57,7 +57,6 @@
           </Modal>
         </div>
       </div>
-
       <!--banner链接-->
       <div class="main_title">
         <div class="main_title_info">
@@ -86,7 +85,7 @@
         </div>
         <iSwitch v-model.trim="switch1"/>
       </div>
-      <!--是否显示-->
+      <!--是否可点击-->
       <div class="main_title">
         <div class="main_title_info">
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
@@ -155,12 +154,8 @@ export default {
     // 后退
     back() {
       let pageNo = this.$route.query.pageNo;
-      this.$router.push({
-        path: "/index/operation/banner/list",
-        query: {
-          pageNo
-        }
-      });
+      // FUNCTIONJS公用 跳转方法
+      this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
     },
     save() {
       let images = "";
@@ -186,13 +181,9 @@ export default {
               this.$Message.info("添加成功");
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
-                this.$router.push({
-                  name: "wxbannerList",
-                  params: {
-                    pageNo
-                  }
-                });
-              }, 300);
+                // FUNCTIONJS公用 跳转方法
+                this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
+              }, 500);
             } else {
               this.$Message.info("添加失败请重试");
             }
