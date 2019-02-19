@@ -8,7 +8,7 @@
                 <Col class :xs="24" :md="12">
                     <Row>
                         <Col :xs="24">
-                            <i class="req-icon"></i>提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;示：敏感词汇与敏感词汇之间以英文的逗号隔开,如：“词1,词2,词3”
+                            <i class="req-icon"></i>提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;示：敏感词汇与敏感词汇之间以 "<span style='color:red'>英文输入法</span>" 的逗号隔开,如：“词1,词2,词3”
                             <FormItem prop="sensitives">
                             </FormItem>
                         </Col>
@@ -34,7 +34,7 @@
                                     :maxlength="20"
                                     placeholder="请输入敏感指数"
                                 />
-                                <label for="">介于0~1之间，最小为0最大为1</label>
+                                <label for="">介于0~1之间，大于等于0，小于1</label>
                             </FormItem>
                         </Col>
                         <Col :xs="24">
@@ -46,7 +46,7 @@
                                     :maxlength="20"
                                     placeholder="请输入敏感指数"
                                 />
-                                <label for="">介于0~1之间，最小为0最大为1</label>
+                                <label for="">介于0~1之间，大于等于0，小于1</label>
                             </FormItem>
                         </Col>
                         <Col :xs="24">
@@ -58,7 +58,7 @@
                                     :maxlength="20"
                                     placeholder="请输入敏感指数"
                                 />
-                                <label for="">介于0~1之间，最小为0最大为1</label>
+                                <label for="">介于0~1之间，大于等于0，小于1</label>
                             </FormItem>
                         </Col>
                         <Col :xs="24">
@@ -70,7 +70,7 @@
                                     :maxlength="20"
                                     placeholder="请输入敏感指数"
                                 />
-                                <label for="">介于0~1之间，最小为0最大为1</label>
+                                <label for="">介于0~1之间，大于等于0，小于1</label>
                             </FormItem>
                         </Col>
                         <Col :xs="24">
@@ -82,7 +82,7 @@
                                     :maxlength="20"
                                     placeholder="请输入敏感指数"
                                 />
-                                <label for="">介于0~1之间，最小为0最大为1</label>
+                                <label for="">介于0~1之间，大于等于0，小于1</label>
                             </FormItem>
                         </Col>
                         <Col :xs="24">
@@ -94,7 +94,7 @@
                                     :maxlength="20"
                                     placeholder="请输入敏感指数"
                                 />
-                                <label for="">介于0~1之间，最小为0最大为1</label>
+                                <label for="">介于0~1之间，大于等于0，小于1</label>
                             </FormItem>
                         </Col>
                         <Col :xs="24">
@@ -121,22 +121,46 @@ import api from "@/api/commonApi";
 import { Avatar, Select, Option, Switch } from "iview";
 export default {
     data() {
+        const validateScore = (rule, value, callback) => {
+                if (value === '') {
+                    return callback(new Error('敏感指数最小为0，不能为空'));
+                }
+                let reg = /^[0-9]+.?[0-9]*$/;
+                if(!reg.test(value)){
+                    callback(new Error('敏感指数必须为数字,且不能位负数'));
+                }else{
+                    if(value<0 || value>=1){
+                        callback(new Error("敏感指数必须大于等于0或者小于1"))
+                    }else{
+                        let tmp = value.toString().split('.');
+                        if(tmp[1] != undefined && tmp[1].length>4){
+                            callback(new Error("小数点后只能保留4位或小于4位"))
+                        }else{
+                            callback();
+                        }
+                    }
+                }
+            };
         return {
             info: {
                 id: null,
                 sensitives: "",
-                start: 1
+                start: 1,
+                score1: 0.0001,
+                score2: 0.0001,
+                score3: 0.0001,
+                score4: 0.0001,
+                score5: 0.0001,
+                score6: 0.0001
             },
             pageNo: null,
-
             infoRules: {
-                // sensitives: [
-                //     {
-                //         required: true,
-                //         message: "疾病名称不能为空",
-                //         trigger: "blur"
-                //     }
-                // ]
+                score1: [{validator:validateScore,trigger:'blur'}],
+                score2: [{validator:validateScore,trigger:'blur'}],
+                score3: [{validator:validateScore,trigger:'blur'}],
+                score4: [{validator:validateScore,trigger:'blur'}],
+                score5: [{validator:validateScore,trigger:'blur'}],
+                score6: [{validator:validateScore,trigger:'blur'}]
             }
         };
     },
@@ -144,7 +168,6 @@ export default {
         this.$axios
             .post(api.sensitiveSelectSensitive)
             .then(resp => {
-                console.log("this.info",resp);
                 if (resp.data.object) this.info = resp.data.object;
             })
             .catch(err => {
@@ -175,12 +198,12 @@ export default {
                     params.id = parseInt(this.info.id);
                     params.sensitives = this.info.sensitives;
                     params.start = this.info.start;
-                    params.score1 = 0;
-                    params.score2 = 0;
-                    params.score3 = 0;
-                    params.score4 = 0;
-                    params.score5 = 0;
-                    params.score6 = 0;
+                    params.score1 = parseFloat(this.info.score1);
+                    params.score2 = parseFloat(this.info.score2);
+                    params.score3 = parseFloat(this.info.score3);
+                    params.score4 = parseFloat(this.info.score4);
+                    params.score5 = parseFloat(this.info.score5);
+                    params.score6 = parseFloat(this.info.score6);
                     this.$axios
                         .post(operateApi, params)
                         .then(resp => {
