@@ -69,6 +69,10 @@ export default {
       cookie.delCookie("userIcon");
       cookie.delCookie("randmId");
       cookie.delCookie("operateUserId");
+      cookie.delCookie("idtt");
+      cookie.delCookie("idttC");
+      cookie.delCookie("access_user");
+      cookie.delCookie("ownArea");
       this.$router.push("/login");
     },
     edit() {

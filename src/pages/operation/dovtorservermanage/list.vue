@@ -2,6 +2,53 @@
     <div class="doctorreviewlist">
         <Row>
             <Col :xs="24">
+            <Select
+                    class="w-select"
+                    :clearable="!provinceStatus"
+                    v-model="province"
+                    :disabled="provinceStatus"
+                    placeholder="省"
+                    @on-change="changeProvince"
+                >
+                    <Option
+                        v-for="item in provinceList"
+                        :value="item.id"
+                        :key="item.id"
+                    >{{item.name}}</Option>
+                </Select>
+                <Select
+                    class="w-select"
+                    :clearable="!cityStatus"
+                    :disabled="cityStatus"
+                    v-model="city"
+                    placeholder="市"
+                    @on-change="changeCity"
+                >
+                    <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
+                </Select>
+                <Select
+                    class="w-select"
+                    :clearable="!areaStatus"
+                    :disabled="areaStatus"
+                    v-model="area"
+                    placeholder="区"
+                    @on-change="changeArea"
+                >
+                    <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
+                </Select>
+                <Select
+                    class="w-select-hos"
+                    :clearable="!hospitalStatus"
+                    :disabled="hospitalStatus"
+                    v-model="hospital"
+                    placeholder="机构"
+                >
+                    <Option
+                        v-for="item in hospitalList"
+                        :value="item.id"
+                        :key="item.id"
+                    >{{item.name}}</Option>
+                </Select>
                 <Input class="w-input" v-model="searchKey" placeholder="输入医生科室或职称关键字"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <Button type="primary" @click="loadPage(1)">
                     <Icon type="ios-search" size="14"/>查询
@@ -18,6 +65,18 @@ import api from "@/api/commonApi";
 export default {
     data() {
         return {
+            provinceList: [],
+            province: null,
+            provinceStatus: false,
+            cityList: [],
+            city: null,
+            cityStatus: false,
+            areaList: [],
+            area: null,
+            areaStatus: false,
+            hospitalList: [],
+            hospital: null,
+            hospitalStatus: false,
             searchKey: "",
             columns: [
                 { title: "序号", key: "iNum", align: "center" },
@@ -167,6 +226,64 @@ export default {
             }
         ];
         this.$emit("changeBreadList", breadList);
+        this.identity = this.$store.getters.getIdentity;
+        this.identityCoding = this.$store.getters.getIdentityCoding;
+        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        if (this.ownArea.province) {
+            this.provinceStatus = true;
+            this.provinceList.push(this.ownArea.province);
+            this.province = this.ownArea.province.id;
+        }
+        if (this.ownArea.city) {
+            this.cityStatus = true;
+            this.cityList.push(this.ownArea.city);
+            this.city = this.ownArea.city.id;
+        }
+        if (this.ownArea.area) {
+            this.areaStatus = true;
+            this.areaList.push(this.ownArea.area);
+            this.area = this.ownArea.area.id;
+        }
+        if (this.identity == 1) {
+            this.provinceList = this.$store.getters.getProvinceList;
+        } else if (this.identity == 2) {
+            this.cityList = this.$store.getters.getCityList(this.province);
+        } else if (this.identity == 3) {
+            this.areaList = this.$store.getters.getAreaList(this.city);
+        } else if (this.identity == 4) {
+            var params = {};
+            params.provinceCode = parseInt(this.province);
+            params.cityCode = parseInt(this.city);
+            params.districtCode = parseInt(this.area);
+            this.$axios
+                .post(api.hospitalselectbyprovincecode, params)
+                .then(resp => {
+                    let list = resp.data.object;
+                    list.map((el, i) => {
+                        let tmpObj = {};
+                        tmpObj.id = parseInt(el.id);
+                        tmpObj.name = el.orgName;
+                        this.hospitalList.push(tmpObj);
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else if (this.identity == 5) {
+            this.hospital = parseInt(this.identityCoding);
+            this.hospitalStatus = true;
+            this.$axios
+                .post(api.managementInfo, {
+                    hospitalId: parseInt(this.identityCoding)
+                })
+                .then(resp => {
+                    this.hospitalList.push({
+                        id: resp.data.object.hospitalId,
+                        name: resp.data.object.orgName
+                    });
+                })
+                .catch(err => {});
+        }
     },
     mounted() {
         let pageNo = this.$route.query.pageNo
@@ -176,13 +293,55 @@ export default {
         this.loadPage(pageNo);
     },
     methods: {
+        changeProvince() {
+            this.city = null;
+            this.area = null;
+            this.hospital = null;
+            this.hospitalList = [];
+            this.cityList = this.$store.getters.getCityList(this.province);
+        },
+        changeCity() {
+            this.area = null;
+            this.hospital = null;
+            this.hospitalList = [];
+            this.areaList = this.$store.getters.getAreaList(this.city);
+        },
+        changeArea() {
+            this.hospital = null;
+            this.hospitalList = [];
+            if (this.area) {
+                var params = {};
+                params.provinceCode = parseInt(this.province);
+                params.cityCode = parseInt(this.city);
+                params.districtCode = parseInt(this.area);
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        let list = resp.data.object;
+                        list.map((el, i) => {
+                            let tmpObj = {};
+                            tmpObj.id = parseInt(el.id);
+                            tmpObj.name = el.orgName;
+                            this.hospitalList.push(tmpObj);
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+        },
         //加载列表数据
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
+            params.provinceCode = parseInt(this.province ? this.province : null);
+            params.cityCode = parseInt(this.city ? this.city : null);
+            params.areaCode = parseInt(this.area ? this.area : null);
+            params.hospitalId = parseInt(this.hospital ? this.hospital : null);
             params.searchKey = this.searchKey;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log(params);
             this.$axios
                 .post(api.doctorList, params)
                 .then(resp => {
@@ -272,6 +431,9 @@ export default {
     box-sizing: border-box;
     .w-select {
         width: 100px;
+    }
+    .w-select-hos {
+        width: 180px;
     }
     .w-input {
         width: 200px;

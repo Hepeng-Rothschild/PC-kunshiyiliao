@@ -214,8 +214,11 @@ export default {
             id: null,
             info: null,
             pageNo: null,
+            province: null,
             city: null,
-            searchType: 1,
+            area: null,
+            hospital: null,
+
             searchKey: "",
             dictType: "",
             authStatus: null,
@@ -294,8 +297,10 @@ export default {
     created() {
         this.id = this.$route.query.id;
         this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        this.province = this.$route.query.province?parseInt(this.$route.query.province):null;
         this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
-        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
+        this.area = this.$route.query.area?parseInt(this.$route.query.area):null;
+        this.hospital = this.$route.query.hospital?parseInt(this.$route.query.hospital):null;
         this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
         this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
         this.authStatus = this.$route.query.authStatus==null?null:parseInt(this.$route.query.authStatus);
@@ -381,8 +386,10 @@ export default {
                 path: "/index/operation/doctorreview/list",
                 query: { 
                     pageNo: this.pageNo,
+                    province: this.province,
                     city: this.city,
-                    searchType: this.searchType,
+                    area: this.area,
+                    hospital: this.hospital,
                     searchKey: this.searchKey,
                     dictType: this.dictType,
                     authStatus: this.authStatus
@@ -416,8 +423,10 @@ export default {
                             path: "/index/operation/doctorreview/list",
                             query: { 
                                 pageNo: this.pageNo,
+                                province: this.province,
                                 city: this.city,
-                                searchType: this.searchType,
+                                area: this.area,
+                                hospital: this.hospital,
                                 searchKey: this.searchKey,
                                 dictType: this.dictType,
                                 authStatus: this.authStatus
