@@ -1,87 +1,97 @@
 <template>
-  <div class="add">
-    <div class="container">
-      <header>
-        <div>添加账号</div>
-      </header>
-      <div class="main">
-        <!-- 登录账号 -->
-        <div class="pass">
-          <div class="left">
-            <span style="color:red;">*</span>
-            <span>登录账号</span>
-          </div>
-          <Input v-model.trim="text" placeholder="请输入登录账号" style="width: 300px"/>
-        </div>
-        <!-- 登录密码 -->
-        <div class="pass">
-          <div class="left">
-            <span style="color:red;">*</span>
-            <span>登录密码</span>
-          </div>
-          <Input
-            v-model.trim="pass"
-            placeholder="请设置登录密码"
-            style="width: 300px"
-            type="password"
-            :maxlength="16"
-          />
-        </div>
-        <!-- 用户昵称 -->
-        <div class="pass">
-          <div class="left">
-            <span style="color:red;">*</span>
-            <span>用户昵称</span>
-          </div>
-          <Input v-model.trim="niceName" placeholder="请设置用户昵称" style="width: 300px"/>
-        </div>
-        <!-- 用户头像 -->
-        <div class="main_imgs">
-          <div class="main_title_info">
-            <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>用户头像</span>
-          </div>
-          <div class="input">
-            <div class="demo-upload-list" v-for="item in uploadList">
-              <div v-if="item.status === 'finished'">
-                <img :src="item.url">
-                <div class="demo-upload-list-cover">
-                  <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                  <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+    <div class="add">
+        <div class="container">
+            <header>
+                <div>添加账号</div>
+            </header>
+            <div class="main">
+                <!-- 登录账号 -->
+                <div class="pass">
+                    <div class="left">
+                        <span style="color:red;">*</span>
+                        <span>登录账号</span>
+                    </div>
+                    <Input v-model.trim="text" placeholder="请输入登录账号" style="width: 300px"/>
                 </div>
-              </div>
-              <div v-else>
-                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-              </div>
-            </div>
-            <Upload
-              ref="upload"
-              :show-upload-list="false"
-              :default-file-list="defaultList"
-              :on-success="handleSuccess"
-              :format="['jpg','jpeg','png']"
-              :max-size="2000"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              :before-upload="handleBeforeUpload"
-              multiple
-              type="drag"
-              :action="uploadUrl"
-              :headers="fromData"
-              :data="uploadData"
-              style="display: inline-block;width:58px;"
-            >
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="ios-camera" size="20"></Icon>
-              </div>
-            </Upload>
-            <Modal title="预览图片" v-model="visible">
-              <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
-            </Modal>
-          </div>
-        </div>
-        <!-- 用户姓名 -->
-        <!-- <div class="pass">
+                <!-- 登录密码 -->
+                <div class="pass">
+                    <div class="left">
+                        <span style="color:red;">*</span>
+                        <span>登录密码</span>
+                    </div>
+                    <Input
+                        v-model.trim="pass"
+                        placeholder="请设置登录密码"
+                        style="width: 300px"
+                        type="password"
+                        :maxlength="16"
+                    />
+                </div>
+                <!-- 用户昵称 -->
+                <div class="pass">
+                    <div class="left">
+                        <span style="color:red;">*</span>
+                        <span>用户昵称</span>
+                    </div>
+                    <Input v-model.trim="niceName" placeholder="请设置用户昵称" style="width: 300px"/>
+                </div>
+                <!-- 用户头像 -->
+                <div class="main_imgs">
+                    <div class="main_title_info">
+                        <span style="color:red;">&nbsp;&nbsp;</span>
+                        <span>用户头像</span>
+                    </div>
+                    <div class="input">
+                        <div class="demo-upload-list" v-for="item in uploadList">
+                            <div v-if="item.status === 'finished'">
+                                <img :src="item.url">
+                                <div class="demo-upload-list-cover">
+                                    <Icon
+                                        type="ios-eye-outline"
+                                        @click.native="handleView(item.name)"
+                                    ></Icon>
+                                    <Icon
+                                        type="ios-trash-outline"
+                                        @click.native="handleRemove(item)"
+                                    ></Icon>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <Progress
+                                    v-if="item.showProgress"
+                                    :percent="item.percentage"
+                                    hide-info
+                                ></Progress>
+                            </div>
+                        </div>
+                        <Upload
+                            ref="upload"
+                            :show-upload-list="false"
+                            :default-file-list="defaultList"
+                            :on-success="handleSuccess"
+                            :format="['jpg','jpeg','png']"
+                            :max-size="2000"
+                            :on-format-error="handleFormatError"
+                            :on-exceeded-size="handleMaxSize"
+                            :before-upload="handleBeforeUpload"
+                            multiple
+                            type="drag"
+                            :action="uploadUrl"
+                            :headers="fromData"
+                            :data="uploadData"
+                            style="display: inline-block;width:58px;"
+                        >
+                            <div style="width: 58px;height:58px;line-height: 58px;">
+                                <Icon type="ios-camera" size="20"></Icon>
+                            </div>
+                        </Upload>
+                        <Modal title="预览图片" v-model="visible">
+                            <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+                        </Modal>
+                    </div>
+                </div>
+                <!-- 用户姓名 -->
+                <!-- <div class="pass">
           <div class="left">
             <span style="color:red;">*</span>
             <span>用户姓名</span>
@@ -95,20 +105,100 @@
               <Radio label="griy">女</Radio>
             </RadioGroup>
           </div>
-        </div>-->
-        <!-- 是否开启 -->
-        <div class="pass">
-          <div class="left">
-            <span style="color:red;">&nbsp;</span>
-            <span>是否开启</span>
-          </div>
-          <iSwitch v-model="switch1" size="large">
-            <span slot="open">启用</span>
-            <span slot="close">禁用</span>
-          </iSwitch>
-        </div>
-        <!-- 机构名称 -->
-        <!-- <div class="pass">
+                </div>-->
+                <div class="pass">
+                    <div class="left">
+                        <span style="color:red;">*</span>
+                        <span>用户身份</span>
+                    </div>
+                    <div>
+                        <Select class="w-select-identity" placeholder="用户身份" v-model="identity">
+                            <!-- <Option value="0">全国</Option> -->
+                            <Option
+                                v-for="item in identityList"
+                                :value="item.id"
+                                :key="item.id"
+                            >{{item.name}}</Option>
+                        </Select>
+                    </div>
+                </div>
+                <div class="pass">
+                    <div class="left">
+                        <span style="color:red;">*</span>
+                        <span>用户所属</span>
+                    </div>
+                    <div>
+                        <Select
+                            class="w-select"
+                            @on-change="changeProvince"
+                            placeholder="省"
+                            v-model="provinceId"
+                            clearable
+                            v-if="identity >= 2 || identity == 5"
+                        >
+                            <!-- <Option value="0">全国</Option> -->
+                            <Option
+                                v-for="item in provinceList"
+                                :value="item.id"
+                                :key="item.id"
+                            >{{item.name}}</Option>
+                        </Select>
+                        <Select
+                            class="w-select"
+                            @on-change="changeCity"
+                            placeholder="市"
+                            v-model="cityId"
+                            clearable
+                            v-if="identity >= 3 || identity == 5"
+                        >
+                            <Option
+                                v-for="(item,index) in cityList"
+                                :value="item.id"
+                                :key="item.id"
+                            >{{item.name}}</Option>
+                        </Select>
+                        <Select
+                            class="w-select"
+                            @on-change="changeArea"
+                            placeholder="区/县"
+                            v-model="areaId"
+                            clearable
+                            v-if="identity >= 4 || identity == 5"
+                        >
+                            <Option
+                                v-for="item in areaList"
+                                :value="item.id"
+                                :key="item.id"
+                            >{{item.name}}</Option>
+                        </Select>
+                        <Select
+                            class="w-select-hos"
+                            placeholder="医院"
+                            v-model="hospitalId"
+                            clearable
+                            v-if="identity == 5"
+                        >
+                            <Option
+                                v-for="item in hospitalList"
+                                :value="item.id"
+                                :key="item.id"
+                            >{{item.orgName}}</Option>
+                        </Select>
+                    </div>
+                </div>
+                <!-- 是否开启 -->
+                <div class="pass">
+                    <div class="left">
+                        <span style="color:red;">&nbsp;</span>
+                        <span>是否开启</span>
+                    </div>
+                    <iSwitch v-model="switch1" size="large">
+                        <span slot="open">启用</span>
+                        <span slot="close">禁用</span>
+                    </iSwitch>
+                </div>
+                <!-- 机构名称 -->
+                <!-- <div class="pass">
           <div class="left">
             <span style="color:red;">*</span>
             <span>机构名称</span>
@@ -116,9 +206,9 @@
           <Select v-model="Organizationname" style="width:150px">
             <Option v-for="item in hosipal" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-        </div>-->
-        <!-- 用户角色 -->
-        <!-- <div class="pass">
+                </div>-->
+                <!-- 用户角色 -->
+                <!-- <div class="pass">
           <div class="left">
             <span style="color:red;">*</span>
             <span>用户角色</span>
@@ -126,330 +216,426 @@
           <Select v-model="role" style="width:150px">
             <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-        </div>-->
-        <!-- 备注 -->
-        <!-- <div class="remarks">
+                </div>-->
+                <!-- 备注 -->
+                <!-- <div class="remarks">
           <div class="left">
             <span style="color:red;">&nbsp;</span>
             <span>备注</span>
           </div>
           <Input v-model="remarks" type="textarea" :rows="4"/>
-        </div>-->
-        <!-- 保存 -->
-        <div class="save">
-          <Button type="primary" @click="save">添加</Button>
-          <Button @click="back">取消</Button>
+                </div>-->
+                <!-- 保存 -->
+                <div class="save">
+                    <Button type="primary" @click="save">添加</Button>
+                    <Button @click="back">取消</Button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import { Select, Option, RadioGroup, Radio, Upload, Icon, Switch } from "iview";
 export default {
-  components: {
-    Select,
-    Option,
-    RadioGroup,
-    Radio,
-    Upload,
-    Icon,
-    iSwitch: Switch
-  },
-  data() {
-    return {
-      switch1: true,
-      // 账号
-      text: "",
-      // 密码
-      pass: "",
-      // 姓名
-      name: "",
-      // 手机号码
-      phone: "",
-      // 昵称
-      niceName: "",
-      sex: "",
-      // 机构名称
-      Organizationname: "",
-      //用户角色
-      role: "",
-      // 备注
-      remarks: "",
-      // 机构名称
-      hosipal: [
-        {
-          value: "New York",
-          label: "New York"
-        }
-      ],
-      // //用户角色列表
-      roleList: [
-        {
-          value: "New York",
-          label: "New York"
-        }
-      ],
-      readonly: true,
-      defaultList: [],
-      imgName: "",
-      visible: false,
-      uploadList: [],
-      id: sessionStorage.getItem("appid"),
-      uploadModal: true,
-      uploadData: { json: '{"urlCode":"' + code.urlCode.userImage + '"}' },
-      activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
-      uploadUrl: api.fileAll,
-      images: ""
-    };
-  },
-  mounted() {
-    this.uploadList = this.$refs.upload.fileList;
-    // 关闭input框的自动填充
-    setTimeout(() => {
-      this.text = "";
-      this.pass = "";
-    });
-  },
-  created() {
-    let breadList = [
-      { path: "/index", title: "首页" },
-      {
-        path: "/index/maintain/systemManagement/index",
-        title: "系统管理"
-      },
-      {
-        path: "/index/maintain/admin/user/list",
-        title: "账号管理"
-      }
-    ];
-    this.$emit("changeBreadList", breadList);
-  },
-  methods: {
-    save() {
-      let images = "";
-      // 上传
-      if (this.images != "") {
-        images = this.images;
-      } else if (this.sourceImages != "" && this.uploadList.length) {
-        images = this.sourceImages;
-        // 默认
-      } else {
-        images = "";
-      }
-      let params = {
-        // 账号
-        userName: this.text,
-        //密码
-        passWord: this.pass,
-        // 用户昵称
-        nickName: this.niceName,
-        status: Number(this.switch1),
-        // 用户头像
-        userIcon: images
-      };
-      if (this.text == "") {
-        this.$Message.info("登录账号不能为空");
-      } else if (this.pass == "") {
-        this.$Message.info("登录密码不能为空");
-      } else if (params.niceName == "") {
-        this.$Message.info("用户昵称不能为空");
-      } else {
-        this.$axios.post(api.adminAdd, params).then(res => {
-          if (res.data.code) {
-            let a = res.data.object.fail || res.data.object.success;
-            this.$Message.info(a);
-            let pageNo = this.$route.query.pageNo;
-            if (!res.data.object.fail) {
-              setTimeout(() => {
-                this.$router.push({
-                  path: "/index/maintain/admin/user/list",
-                  query: {
-                    pageNo
-                  }
-                });
-              }, 800);
-            }
-          } else {
-            this.$Message.info("不允许访问");
-          }
+    components: {
+        Select,
+        Option,
+        RadioGroup,
+        Radio,
+        Upload,
+        Icon,
+        iSwitch: Switch
+    },
+    data() {
+        return {
+            switch1: true,
+            // 账号
+            text: "",
+            // 密码
+            pass: "",
+            // 姓名
+            name: "",
+            // 手机号码
+            phone: "",
+            // 昵称
+            niceName: "",
+            sex: "",
+            // 机构名称
+            Organizationname: "",
+            //用户角色
+            role: "",
+            // 备注
+            remarks: "",
+            // 机构名称
+            hosipal: [
+                {
+                    value: "New York",
+                    label: "New York"
+                }
+            ],
+            // //用户角色列表
+            roleList: [
+                {
+                    value: "New York",
+                    label: "New York"
+                }
+            ],
+            readonly: true,
+            defaultList: [],
+            imgName: "",
+            visible: false,
+            uploadList: [],
+            id: sessionStorage.getItem("appid"),
+            uploadModal: true,
+            uploadData: {
+                json: '{"urlCode":"' + code.urlCode.userImage + '"}'
+            },
+            activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
+            uploadUrl: api.fileAll,
+            images: "",
+
+            identityList: [
+                // {id:1,name:'超级管理员'},
+                { id: 2, name: "省级管理员" },
+                { id: 3, name: "市级管理员" },
+                { id: 4, name: "区级管理员" },
+                { id: 5, name: "机构管理员" }
+            ],
+            identity: 5,
+            identityCoding: null,
+            provinceList: [],
+            cityList: [],
+            areaList: [],
+            hospitalList: [],
+            provinceId: null,
+            cityId: null,
+            areaId: null,
+            hospitalId: null,
+        };
+    },
+    mounted() {
+        this.uploadList = this.$refs.upload.fileList;
+        // 关闭input框的自动填充
+        setTimeout(() => {
+            this.text = "";
+            this.pass = "";
         });
-      }
     },
-    back() {
-      let pageNo = this.$route.query.pageNo;
-      this.$router.push({
-        path: "/index/maintain/admin/user/list",
-        query: {
-          pageNo
+    created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/systemManagement/index",
+                title: "系统管理"
+            },
+            {
+                path: "/index/maintain/admin/user/list",
+                title: "账号管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+
+        this.provinceList = this.$store.getters.getProvinceList;
+    },
+    methods: {
+        changeProvince() {
+            this.cityId = null;
+            this.areaId = null;
+            this.hospitalId = null;
+            this.cityList = this.$store.getters.getCityList(this.provinceId);
+            this.hospitalList = null;
+        },
+        changeCity() {
+            this.areaId = null;
+            this.hospitalId = null;
+            this.areaList = this.$store.getters.getAreaList(this.cityId);
+            this.hospitalList = null;
+        },
+        changeArea() {
+            this.hospitalId = null;
+            this.hospitalList = null;
+            var params = {};
+            params.provinceCode = parseInt(
+                this.provinceId == 0 ? null : this.provinceId
+            );
+            this.$axios
+                .post(api.hospitalselectbyprovincecode, params)
+                .then(resp => {
+                    this.hospitalList = resp.data.object;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        save() {
+            let images = "";
+            // 上传
+            if (this.images != "") {
+                images = this.images;
+            } else if (this.sourceImages != "" && this.uploadList.length) {
+                images = this.sourceImages;
+                // 默认
+            } else {
+                images = "";
+            }
+            if (this.identity == 1) {
+            } else if (this.identity == 2) {
+                if (this.provinceId == null) {
+                    this.$Message.info("请选择所属");
+                    return ;
+                }
+                this.identityCoding = this.provinceId;
+            } else if (this.identity == 3) {
+                if (this.cityId == null) {
+                    this.$Message.info("请选择所属");
+                    return ;
+                }
+                this.identityCoding = this.cityId;
+            } else if (this.identity == 4) {
+                if (this.areaId == null) {
+                    this.$Message.info("请选择所属");
+                    return ;
+                }
+                this.identityCoding = this.areaId;
+            } else if (this.identity == 5) {
+                if (this.hospitalId == null) {
+                    this.$Message.info("请选择所属");
+                    return ;
+                }
+                this.identityCoding = this.hospitalId;
+            }
+            let params = {
+                // 账号
+                userName: this.text,
+                //密码
+                passWord: this.pass,
+                // 用户昵称
+                nickName: this.niceName,
+                status: Number(this.switch1),
+                // 用户头像
+                userIcon: images,
+                identity: this.identity,
+                identityCoding: this.identityCoding
+            };
+            if (this.text == "") {
+                this.$Message.info("登录账号不能为空");
+            } else if (this.pass == "") {
+                this.$Message.info("登录密码不能为空");
+            } else if (params.niceName == "") {
+                this.$Message.info("用户昵称不能为空");
+            } else {
+                this.$axios.post(api.adminAdd, params).then(res => {
+                    if (res.data.code) {
+                        let a = res.data.object.fail || res.data.object.success;
+                        this.$Message.info(a);
+                        let pageNo = this.$route.query.pageNo;
+                        if (!res.data.object.fail) {
+                            setTimeout(() => {
+                                this.$router.push({
+                                    path: "/index/maintain/admin/user/list",
+                                    query: {
+                                        pageNo
+                                    }
+                                });
+                            }, 800);
+                        }
+                    } else {
+                        this.$Message.info("不允许访问");
+                    }
+                });
+            }
+        },
+        back() {
+            let pageNo = this.$route.query.pageNo;
+            this.$router.push({
+                path: "/index/maintain/admin/user/list",
+                query: {
+                    pageNo
+                }
+            });
+        },
+        handleView(name) {
+            this.imgName = name;
+            this.visible = true;
+        },
+        handleRemove(file) {
+            const fileList = this.$refs.upload.fileList;
+            this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+        },
+        handleSuccess(res, file) {
+            res = this.uploadFileDecrypt(res);
+            if (res.code) {
+                file.url = this.fileBaseUrl + res.object[0].fileName;
+                this.images = JSON.stringify(res.object[0]);
+                file.name = res.object[0].fileName;
+            } else {
+                this.$Message.info("上传失败,请重试");
+            }
+        },
+        handleFormatError(file) {
+            this.$Notice.warning({
+                title: "上传失败",
+                desc: "文件格式错误"
+            });
+        },
+        handleMaxSize(file) {
+            this.$Notice.warning({
+                title: "文件过大",
+                desc: `文件${file.name}过大，文件最大限制为2000KB`
+            });
+        },
+        handleBeforeUpload(file) {
+            const check = this.uploadList.length < 1;
+            if (!check) {
+                this.$Message.info("只能上传一张图片");
+            }
+            return check;
+        },
+        analysisImages(json) {
+            try {
+                json = JSON.parse(json);
+                return json.fileName;
+            } catch (error) {
+                return "";
+            }
         }
-      });
-    },
-    handleView(name) {
-      this.imgName = name;
-      this.visible = true;
-    },
-    handleRemove(file) {
-      const fileList = this.$refs.upload.fileList;
-      this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-    },
-    handleSuccess(res, file) {
-      res = this.uploadFileDecrypt(res);
-      if (res.code) {
-        file.url = this.fileBaseUrl + res.object[0].fileName;
-        this.images = JSON.stringify(res.object[0]);
-        file.name = res.object[0].fileName;
-      } else {
-        this.$Message.info("上传失败,请重试");
-      }
-    },
-    handleFormatError(file) {
-      this.$Notice.warning({
-        title: "上传失败",
-        desc: "文件格式错误"
-      });
-    },
-    handleMaxSize(file) {
-      this.$Notice.warning({
-        title: "文件过大",
-        desc: `文件${file.name}过大，文件最大限制为2000KB`
-      });
-    },
-    handleBeforeUpload(file) {
-      const check = this.uploadList.length < 1;
-      if (!check) {
-        this.$Message.info("只能上传一张图片");
-      }
-      return check;
     }
-  }
 };
 </script>
 <style lang="less" scoped>
 .demo-upload-list {
-  display: inline-block;
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #fff;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  margin-right: 4px;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    margin-right: 4px;
 }
 .demo-upload-list img {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 .demo-upload-list-cover {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.6);
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
 }
 .demo-upload-list:hover .demo-upload-list-cover {
-  display: block;
+    display: block;
 }
 .demo-upload-list-cover i {
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 0 2px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+}
+.w-select {
+    width: 100px;
+}
+.w-select-hos {
+    width: 180px;
+}
+.w-select-identity {
+    width: 100px;
 }
 .add {
-  margin-left: 1%;
-  padding: 10px;
-  width: 98%;
-  background: #ffffff;
-  box-sizing: border-box;
-  .container {
-    width: 90%;
-    margin: 0 auto;
-    header {
-      div {
-        font-size: 18px;
-      }
+    margin-left: 1%;
+    padding: 10px;
+    width: 98%;
+    background: #ffffff;
+    box-sizing: border-box;
+    .container {
+        width: 90%;
+        margin: 0 auto;
+        header {
+            div {
+                font-size: 18px;
+            }
+        }
+        .main {
+            width: 90%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            .pass {
+                width: 600px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin: 10px auto;
+                .left {
+                    width: 100px;
+                }
+                .sex {
+                    margin: 0 20px;
+                    input {
+                        width: 15px;
+                        height: 15px;
+                    }
+                }
+            }
+            .main_imgs {
+                display: flex;
+                width: 600px;
+                flex-direction: row;
+                margin: 10px auto;
+                align-items: center;
+                .main_title_info {
+                    min-width: 100px;
+                }
+            }
+            .remarks {
+                display: flex;
+                width: 600px;
+                flex-direction: row;
+                margin: 10px auto;
+                .left {
+                    width: 100px;
+                }
+                textarea {
+                    display: inline-block;
+                    outline: none;
+                    text-indent: 10px;
+                    width: 400px;
+                }
+            }
+            .save {
+                width: 300px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin: 20px auto;
+                div {
+                    width: 100px;
+                    line-height: 30px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+                div:first-child {
+                    background: #fff;
+                    border: 1px solid #cacaca;
+                    border-radius: 4px;
+                }
+                div:last-child {
+                    background: #3399ff;
+                    color: #fff;
+                    border-radius: 4px;
+                }
+            }
+        }
     }
-    .main {
-      width: 90%;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      .pass {
-        width: 600px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin: 10px auto;
-        .left {
-          width: 100px;
-        }
-        .sex {
-          margin: 0 20px;
-          input {
-            width: 15px;
-            height: 15px;
-          }
-        }
-      }
-      .main_imgs {
-        display: flex;
-        width: 600px;
-        flex-direction: row;
-        margin: 10px auto;
-        align-items: center;
-        .main_title_info {
-          min-width: 100px;
-        }
-      }
-      .remarks {
-        display: flex;
-        width: 600px;
-        flex-direction: row;
-        margin: 10px auto;
-        .left {
-          width: 100px;
-        }
-        textarea {
-          display: inline-block;
-          outline: none;
-          text-indent: 10px;
-          width: 400px;
-        }
-      }
-      .save {
-        width: 300px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 20px auto;
-        div {
-          width: 100px;
-          line-height: 30px;
-          text-align: center;
-          cursor: pointer;
-        }
-        div:first-child {
-          background: #fff;
-          border: 1px solid #cacaca;
-          border-radius: 4px;
-        }
-        div:last-child {
-          background: #3399ff;
-          color: #fff;
-          border-radius: 4px;
-        }
-      }
-    }
-  }
 }
 </style>
 

@@ -180,11 +180,13 @@ export default new Router({
 				maintain.symptomEdit,
 				maintain.starClass,
 
-
 				//配置仓
 				maintain.configurationWarehouseIndex,
 				//字典管理
 				maintain.dictionary,
+				//敏感词
+				maintain.sensitiveWordEdit,
+
 				//统计端路由
 				statistics.reviewList,
 				//监管端路由

@@ -291,9 +291,16 @@ const starClass = {
     },
     component:()=>import(/* webpackChunkName: 'maintain-disposed-starclass' */"@/pages/maintain/starClass/list")
 }
-
-
-
+//敏感词过滤
+const sensitiveWordEdit = {
+    path:'maintain/sensitiveWord/edit',
+    name:'sensitiveWordEdit',
+    meta:{
+        index:2,
+        title:'敏感词汇'
+    },
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-starclass' */"@/pages/maintain/sensitiveWord/edit")
+}
 export default {
     //索引管理
     indexManagementIndex,
@@ -335,5 +342,7 @@ export default {
     diseaseEdit,
     symptomList,
     symptomEdit,
-    starClass
+    starClass,
+    //敏感词
+    sensitiveWordEdit
 }
