@@ -2,12 +2,49 @@
     <div class="doctorreviewlist">
         <Row>
             <Col :xs="24">
-                <Select class="w-select" clearable v-model="city">
+                <Select
+                    class="w-select"
+                    :clearable="!provinceStatus"
+                    v-model="province"
+                    :disabled="provinceStatus"
+                    placeholder="省"
+                    @on-change="changeProvince"
+                >
+                    <Option
+                        v-for="item in provinceList"
+                        :value="item.id"
+                        :key="item.id"
+                    >{{item.name}}</Option>
+                </Select>
+                <Select
+                    class="w-select"
+                    :clearable="!cityStatus"
+                    :disabled="cityStatus"
+                    v-model="city"
+                    placeholder="市"
+                    @on-change="changeCity"
+                >
                     <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
                 </Select>
-                <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
+                <Select
+                    class="w-select"
+                    :clearable="!areaStatus"
+                    :disabled="areaStatus"
+                    v-model="area"
+                    placeholder="区"
+                    @on-change="changeArea"
+                >
+                    <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
+                </Select>
+                <Select
+                    class="w-select-hos"
+                    :clearable="!hospitalStatus"
+                    :disabled="hospitalStatus"
+                    v-model="hospital"
+                    placeholder="机构"
+                >
                     <Option
-                        v-for="item in searchTypeList"
+                        v-for="item in hospitalList"
                         :value="item.id"
                         :key="item.id"
                     >{{item.name}}</Option>
@@ -20,7 +57,7 @@
                         :key="item.dictType"
                     >{{item.dictName}}</Option>
                 </Select>
-                <Select class="w-select" clearable v-model="authStatus">
+                <Select class="w-select" clearable v-model="authStatus" placeholder="认证状态">
                     <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
                 </Select>
                 <Button type="primary" @click="loadPage(1)">
@@ -47,27 +84,32 @@ import api from "@/api/commonApi";
 export default {
     data() {
         return {
+            provinceList: [],
+            province: null,
+            provinceStatus: false,
             cityList: [],
             city: null,
-            searchTypeList: [
-                { id: 1, name: "医院名称" },
-                { id: 2, name: "医生姓名" }
-            ],
-            searchType: 1,
+            cityStatus: false,
+            areaList: [],
+            area: null,
+            areaStatus: false,
+            hospitalList: [],
+            hospital: null,
+            hospitalStatus: false,
             searchKey: "",
-            keyPlaceHolder: "医院名称",
+            keyPlaceHolder: "医生姓名",
             titleList: "",
             dictType: "",
             statusList: ["未认证", "审核中", "审核通过", "审核未通过"],
             openList: ["未开通", "未开通", "已开通", "未开通"],
             authStatus: null,
             columns: [
-                { title: "序号", key: "iNum", align: "center", width: "60px" },
+                { title: "序号", key: "iNum", align: "center", width: 60 },
                 {
                     title: "头像",
                     key: "avatar",
                     align: "center",
-                    width: "80px",
+                    width: 80,
                     render: (h, params) => {
                         let avatar = params.row.avatar;
                         let defaultSrc = require("@/assets/images/heicon.jpg");
@@ -80,55 +122,49 @@ export default {
                         });
                     }
                 },
-                { title: "姓名", key: "name", align: "center", width: "80px" },
-                { title: "职称", key: "title", align: "center", width: "90px" },
+                { title: "姓名", key: "name", align: "center", width: 80 },
+                { title: "职称", key: "title", align: "center" },
                 {
                     title: "科室",
                     key: "deptType",
-                    align: "center",
-                    width: "90px"
+                    align: "center"
                 },
                 {
                     title: "所在医院",
                     key: "hospitalName",
                     align: "center",
-                    width: "220px"
+                    width: 160
                 },
                 {
                     title: "认证状态",
                     key: "authStatus",
-                    align: "center",
-                    width: "90px"
+                    align: "center"
                 },
                 {
                     title: "图文问诊",
                     key: "imginquiry",
-                    align: "center",
-                    width: "90px"
+                    align: "center"
                 },
                 {
                     title: "电话问诊",
                     key: "phoneinquiry",
-                    align: "center",
-                    width: "90px"
+                    align: "center"
                 },
                 {
                     title: "视频问诊",
                     key: "videoinquiry",
-                    align: "center",
-                    width: "90px"
+                    align: "center"
                 },
                 {
                     title: "家庭医生",
                     key: "homedoctor",
-                    align: "center",
-                    width: "90px"
+                    align: "center"
                 },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: "130px",
+                    width: 140,
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";
@@ -150,8 +186,10 @@ export default {
                                                 query: {
                                                     id,
                                                     pageNo: this.pageNo,
+                                                    province: this.province,
                                                     city: this.city,
-                                                    searchType: this.searchType,
+                                                    area: this.area,
+                                                    hospital: this.hospital,
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
@@ -177,8 +215,10 @@ export default {
                                                 query: {
                                                     id,
                                                     pageNo: this.pageNo,
+                                                    province: this.province,
                                                     city: this.city,
-                                                    searchType: this.searchType,
+                                                    area: this.area,
+                                                    hospital: this.hospital,
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
@@ -216,7 +256,11 @@ export default {
             modalConfirm: false,
             confirmInfo: "",
             delIndex: null,
-            delId: null
+            delId: null,
+            identity: null,
+            identityCoding: null,
+            ownArea: null,
+            isBack:1
         };
     },
     components: {
@@ -224,12 +268,29 @@ export default {
         Option
     },
     created() {
-        this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
-        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
-        this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
-        this.authStatus = this.$route.query.authStatus==null?null:parseInt(this.$route.query.authStatus);
-        
+        // this.province = this.$route.query.province
+        //     ? parseInt(this.$route.query.province)
+        //     : null;
+        // this.city = this.$route.query.city
+        //     ? parseInt(this.$route.query.city)
+        //     : null;
+        // this.area = this.$route.query.area
+        //     ? parseInt(this.$route.query.area)
+        //     : null;
+        // this.hospital = this.$route.query.hospital
+        //     ? parseInt(this.$route.query.hospital)
+        //     : null;
+        // this.searchKey = this.$route.query.searchKey
+        //     ? this.$route.query.searchKey
+        //     : "";
+        // this.dictType = this.$route.query.dictType
+        //     ? this.$route.query.dictType
+        //     : "";
+        // this.authStatus =
+        //     this.$route.query.authStatus == null
+        //         ? null
+        //         : parseInt(this.$route.query.authStatus);
+
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -242,17 +303,66 @@ export default {
             }
         ];
         this.$emit("changeBreadList", breadList);
+        this.identity = this.$store.getters.getIdentity;
+        this.identityCoding = this.$store.getters.getIdentityCoding;
+        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        if (this.ownArea.province) {
+            this.provinceStatus = true;
+            this.provinceList.push(this.ownArea.province);
+            this.province = this.ownArea.province.id;
+        }
+        if (this.ownArea.city) {
+            this.cityStatus = true;
+            this.cityList.push(this.ownArea.city);
+            this.city = this.ownArea.city.id;
+        }
+        if (this.ownArea.area) {
+            this.areaStatus = true;
+            this.areaList.push(this.ownArea.area);
+            this.area = this.ownArea.area.id;
+        }
+        if (this.identity == 1) {
+            this.provinceList = this.$store.getters.getProvinceList;
+        } else if (this.identity == 2) {
+            this.cityList = this.$store.getters.getCityList(this.province);
+        } else if (this.identity == 3) {
+            this.areaList = this.$store.getters.getAreaList(this.city);
+        } else if (this.identity == 4) {
+            var params = {};
+            params.provinceCode = parseInt(this.province);
+            params.cityCode = parseInt(this.city);
+            params.districtCode = parseInt(this.area);
+            this.$axios
+                .post(api.hospitalselectbyprovincecode, params)
+                .then(resp => {
+                    let list = resp.data.object;
+                    list.map((el, i) => {
+                        let tmpObj = {};
+                        tmpObj.id = parseInt(el.id);
+                        tmpObj.name = el.orgName;
+                        this.hospitalList.push(tmpObj);
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else if (this.identity == 5) {
+            this.hospital = parseInt(this.identityCoding);
+            this.hospitalStatus = true;
+            this.$axios
+                .post(api.managementInfo, {
+                    hospitalId: parseInt(this.identityCoding)
+                })
+                .then(resp => {
+                    this.hospitalList.push({
+                        id: resp.data.object.hospitalId,
+                        name: resp.data.object.orgName
+                    });
+                })
+                .catch(err => {});
+        }
     },
     mounted() {
-        //获取省级列表
-        this.$axios
-            .post(api.getProvince)
-            .then(resp => {
-                this.cityList = resp.data.object;
-            })
-            .catch(err => {
-                console.log(err);
-            });
         //获取职称列表
         this.$axios
             .post(api.getTitle)
@@ -262,43 +372,67 @@ export default {
             .catch(err => {
                 console.log(err);
             });
-        let pageNo = this.$route.query.pageNo ? parseInt(this.$route.query.pageNo) : 1;
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
     methods: {
-        changeSearchType(val) {
-            if (val == 1) {
-                this.keyPlaceHolder = "医院名称";
-            } else {
-                this.keyPlaceHolder = "医生名称";
+        changeProvince() {
+            this.city = null;
+            this.area = null;
+            this.hospital = null;
+            this.hospitalList = [];
+            this.cityList = this.$store.getters.getCityList(this.province);
+        },
+        changeCity() {
+            this.area = null;
+            this.hospital = null;
+            this.hospitalList = [];
+            this.areaList = this.$store.getters.getAreaList(this.city);
+        },
+        changeArea() {
+            this.hospital = null;
+            this.hospitalList = [];
+            if (this.area) {
+                var params = {};
+                params.provinceCode = parseInt(this.province);
+                params.cityCode = parseInt(this.city);
+                params.districtCode = parseInt(this.area);
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        let list = resp.data.object;
+                        list.map((el, i) => {
+                            let tmpObj = {};
+                            tmpObj.id = parseInt(el.id);
+                            tmpObj.name = el.orgName;
+                            this.hospitalList.push(tmpObj);
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             }
         },
         //加载列表数据
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.province = parseInt(this.city ? this.city : null);
+            params.provinceCode = parseInt(this.province ? this.province : null);
+            params.cityCode = parseInt(this.city ? this.city : null);
+            params.areaCode = parseInt(this.area ? this.area : null);
+            params.hospitalId = parseInt(this.hospital ? this.hospital : null);
             params.title = this.dictType;
-
-        // 修改了这里
-
-            // params.authStatus = this.authStatus ? `${this.authStatus}` : "";
-            params.authStatus = this.authStatus
-        
-            if (this.searchType == 1) {
-                params.hospitalName = this.searchKey;
-                params.name = "";
-            } else {
-                params.name = this.searchKey;
-                params.hospitalName = "";
-            }
+            params.authStatus = this.authStatus;
+            params.name = this.searchKey;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios
                 .post(api.getReviewDoctorList, params)
                 .then(resp => {
-                    if(resp.data.success){
+                    if (resp.data.success) {
                         this.count = resp.data.object.count;
                         this.doctorList = resp.data.object.list;
                         for (let i = 0; i < this.doctorList.length; i++) {
@@ -325,8 +459,8 @@ export default {
                             ];
                             this.doctorList[i].operate = this.doctorList[i].id;
                         }
-                    }else{
-                        this.$Message.info("不允许访问")
+                    } else {
+                        this.$Message.info("不允许访问");
                     }
                 })
                 .catch(err => {
@@ -378,6 +512,9 @@ export default {
     box-sizing: border-box;
     .w-select {
         width: 100px;
+    }
+    .w-select-hos {
+        width: 180px;
     }
     .w-input {
         width: 200px;

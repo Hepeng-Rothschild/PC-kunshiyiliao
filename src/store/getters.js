@@ -1,6 +1,7 @@
 /**
  * @file getters
  */
+import cookie from "../utils/cookie";
 export default {
 	getProvinceList:(state)=>{
 		let tmpProvinceList = [];
@@ -125,4 +126,13 @@ export default {
 		}
 		return city;
 	},
+	getIdentity:(state)=>{
+		return cookie.getCookie("idtt");
+	},
+	getIdentityCoding:(state)=>{
+		return cookie.getCookie("idttC");
+	},
+	getOwnArea:(state)=>{
+		return cookie.getCookie("ownArea");
+	}
 };

@@ -74,6 +74,14 @@ export default {
         if (assets_token) {
             window.localStorage.removeItem("access_token");
         }
+        cookie.delCookie("username");
+        cookie.delCookie("userIcon");
+        cookie.delCookie("randmId");
+        cookie.delCookie("operateUserId");
+        cookie.delCookie("idtt");
+        cookie.delCookie("idttC");
+        cookie.delCookie("access_user");
+        cookie.delCookie("ownArea");
     },
     mounted() {
         this.verifyCode = new GVerify("verify");
@@ -111,6 +119,7 @@ export default {
                 axios
                     .post(api.login, params)
                     .then(resp => {
+                        console.log("resp",resp);
                         if (resp.data.success) {
                             let times = 10 * 60 * 60;
                             window.localStorage.setItem(
@@ -120,59 +129,151 @@ export default {
                             let tmpIcon = resp.data.object.userIcon;
                             let username = resp.data.object.nickname;
                             let operateUserId = resp.data.object.operateUserId;
-                            if (tmpIcon) {
-                                let tmpObj = JSON.parse(tmpIcon);
-                                let userIcon =
-                                    this.fileBaseUrl + tmpObj.fileName;
-                                cookie.setCookie("userIcon", userIcon, times);
+                            let identity = resp.data.object.identity;
+                            let identityCoding =
+                                resp.data.object.identityCoding;
+                            let areaCode =
+                                resp.data.object.areaCode;
+                            if (operateUserId) {
+                                let tmpObj;
+                                if(tmpIcon){
+                                    tmpObj = JSON.parse(tmpIcon);
+                                    let userIcon =
+                                        this.fileBaseUrl + tmpObj.fileName;
+                                    cookie.setCookie("userIcon", userIcon, times);
+                                }
                                 cookie.setCookie("username", username, times);
-                                cookie.setCookie("operateUserId", operateUserId, times);
-
+                                cookie.setCookie(
+                                    "operateUserId",
+                                    operateUserId,
+                                    times
+                                );
+                                cookie.setCookie("idtt", identity, times);
+                                cookie.setCookie(
+                                    "idttC",
+                                    identityCoding,
+                                    times
+                                );
                             }
                             let key = resp.data.object.randmId;
+                            let access_user = resp.data.object["access_user"];
                             let iv = this.$store.state.iv;
                             let salt = this.$store.state.salt;
                             let menus = resp.data.object.menus;
                             cookie.setCookie("randmId", key, times);
+                            cookie.setCookie(
+                                "access_user",
+                                aesUtils.encrypt(salt, iv, key, access_user),
+                                times
+                            );
+                            //存储当前用户身份对应省市区
+                            let province = null,
+                                city = null,
+                                area = null;
+                            switch (parseInt(identity)) {
+                                case 1: //超级管理员，暂时不管
+                                    break;
+                                case 2: //省级
+                                    province = this.$store.getters.getProvinceById( identityCoding );
+                                    break;
+                                case 3: //市级
+                                    city = this.$store.getters.getCityById( identityCoding );
+                                    province = this.$store.getters.getProvinceByCityId( identityCoding );
+                                    break;
+                                case 4: //区级
+                                    area = this.$store.getters.getAreaById( identityCoding );
+                                    city = this.$store.getters.getCityByAreaId( identityCoding );
+                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                                    break;
+                                case 5: //机构
+                                    area = this.$store.getters.getAreaById( areaCode );
+                                    city = this.$store.getters.getCityByAreaId( areaCode );
+                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                            }
+                            let ownArea = JSON.stringify({province,city,area});
+                            
+                            cookie.setCookie("ownArea",ownArea,times);
                             let topMenu = [],
                                 secondMenu = [],
                                 thirdMenu = [];
                             menus.map((el, i) => {
-                                if(el.level == 0){
-                                    let tmpTop = {id:el.id,name:el.menuName,level:el.level};
+                                if (el.level == 0) {
+                                    let tmpTop = {
+                                        id: el.id,
+                                        name: el.menuName,
+                                        level: el.level
+                                    };
                                     topMenu.push(tmpTop);
-                                }else if(el.level == 1){
-                                    let tmpSecond = {id:el.id,name:el.menuName,parentId:el.prentId,level:el.level};
+                                } else if (el.level == 1) {
+                                    let tmpSecond = {
+                                        id: el.id,
+                                        name: el.menuName,
+                                        parentId: el.prentId,
+                                        level: el.level
+                                    };
                                     secondMenu.push(tmpSecond);
-                                }else if(el.level == 2){
-                                    let tmpThird = {id:el.id,name:el.menuName,parentId:el.prentId,level:el.level,path:el.path};
+                                } else if (el.level == 2) {
+                                    let tmpThird = {
+                                        id: el.id,
+                                        name: el.menuName,
+                                        parentId: el.prentId,
+                                        level: el.level,
+                                        path: el.path
+                                    };
                                     thirdMenu.push(tmpThird);
                                 }
                             });
                             topMenu = topMenu.reverse();
                             let menuList = [];
-                            for(let i=0;i<topMenu.length;i++){
+                            for (let i = 0; i < topMenu.length; i++) {
                                 let tmpMenu = [];
                                 let times = 0;
-                                for(let j=0;j<secondMenu.length;j++){
+                                for (let j = 0; j < secondMenu.length; j++) {
                                     let tmpObj = {};
-                                    if(secondMenu[j].parentId == topMenu[i].id){
+                                    if (
+                                        secondMenu[j].parentId == topMenu[i].id
+                                    ) {
                                         tmpObj.id = topMenu[i].id;
                                         tmpObj.level = secondMenu[j].level;
                                         tmpObj.name = secondMenu[j].name;
                                         tmpObj.childLists = [];
-                                        for(let k=0;k<thirdMenu.length;k++){
-                                            if(thirdMenu[k].parentId == secondMenu[j].id){
+                                        for (
+                                            let k = 0;
+                                            k < thirdMenu.length;
+                                            k++
+                                        ) {
+                                            if (
+                                                thirdMenu[k].parentId ==
+                                                secondMenu[j].id
+                                            ) {
                                                 let tmpObjS = {};
                                                 tmpObjS.id = thirdMenu[k].id;
-                                                tmpObjS.level = thirdMenu[k].level;
-                                                tmpObjS.name = thirdMenu[k].name;
-                                                tmpObjS.path = thirdMenu[k].path;
+                                                tmpObjS.level =
+                                                    thirdMenu[k].level;
+                                                tmpObjS.name =
+                                                    thirdMenu[k].name;
+                                                tmpObjS.path =
+                                                    thirdMenu[k].path;
                                                 tmpObj.childLists.push(tmpObjS);
-                                                if(secondMenu[j].parentId == topMenu[i].id && times<1){
-                                                    let start = this.findStr(thirdMenu[k].path,'/',1)+1;
-                                                    let end = this.findStr(thirdMenu[k].path,'/',2);
-                                                    let type = thirdMenu[k].path.slice(start,end);
+                                                if (
+                                                    secondMenu[j].parentId ==
+                                                        topMenu[i].id &&
+                                                    times < 1
+                                                ) {
+                                                    let start =
+                                                        this.findStr(
+                                                            thirdMenu[k].path,
+                                                            "/",
+                                                            1
+                                                        ) + 1;
+                                                    let end = this.findStr(
+                                                        thirdMenu[k].path,
+                                                        "/",
+                                                        2
+                                                    );
+                                                    let type = thirdMenu[
+                                                        k
+                                                    ].path.slice(start, end);
                                                     topMenu[i].type = type;
                                                     times++;
                                                 }
@@ -183,7 +284,7 @@ export default {
                                 }
                                 tmpMenu = JSON.stringify(tmpMenu);
                                 window.localStorage.setItem(
-                                    "sun"+topMenu[i].id,
+                                    "sun" + topMenu[i].id,
                                     aesUtils.encrypt(salt, iv, key, tmpMenu)
                                 );
                             }
