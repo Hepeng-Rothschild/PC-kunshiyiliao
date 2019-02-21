@@ -3,30 +3,37 @@
         <tempHeader :index='0'></tempHeader>
         <Row>
             <Col :xs="24">
-                <br>
-                <Select class="w-select" clearable v-model="city">
-                    <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
-                </Select>
-                <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-                    <Option
-                        v-for="item in searchTypeList"
-                        :value="item.id"
-                        :key="item.id"
-                    >{{item.name}}</Option>
-                </Select>
-                <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
-                <Input class="w-input" v-model="deptKey" placeholder="请输入科室关键字"/>
-                <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
-                    <Option
-                        v-for="item in titleList"
-                        :value="item.dictType"
-                        :key="item.dictType"
-                    >{{item.dictName}}</Option>
-                </Select>
-                <Button type="primary" @click="loadPage(1)">
-                    <Icon type="ios-search" size="14"/>查询
-                </Button>
-                <Button type="primary" @click="addDoc">添加排班信息</Button>
+                <div class="margin-up-down">
+                    <fourLevelLinkage
+                        @changeProvince="changeProvince"
+                        @changeCity="changeCity"
+                        @changeArea="changeArea"
+                        @changeHospital="changeHospital"
+                    ></fourLevelLinkage>
+                </div>
+                <div class="margin-up-down">
+                    <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
+                </div>
+                <div class="margin-up-down">
+                    <Input class="w-input" v-model="deptKey" placeholder="请输入科室关键字"/>
+                </div>
+                <div class="margin-up-down">
+                    <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
+                        <Option
+                            v-for="item in titleList"
+                            :value="item.dictType"
+                            :key="item.dictType"
+                        >{{item.dictName}}</Option>
+                    </Select>
+                </div>
+                <div class="margin-up-down">
+                    <Button type="primary" @click="loadPage(1)">
+                        <Icon type="ios-search" size="14"/>查询
+                    </Button>
+                </div>
+                <div class="margin-up-down">
+                    <Button type="primary" @click="addDoc">添加排班信息</Button>
+                </div>
             </Col>
         </Row>
         <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
@@ -42,21 +49,19 @@
     </div>
 </template>
 <script>
-import { Select, Option } from "iview";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
 import tempHeader from "@/components/tmpHeader";
 export default {
     data() {
         return {
-            cityList: [],
+            province: null,
             city: null,
-            searchTypeList: [
-                { id: 1, name: "医院名称" },
-                { id: 2, name: "医生姓名" }
-            ],
-            searchType: 1,
+            area: null,
+            hospital: null,
+
             searchKey: "",
-            keyPlaceHolder: "医院名称",
+            keyPlaceHolder: "医生姓名",
             deptKey: "",
             titleList: "",
             dictType: "",
@@ -124,8 +129,6 @@ export default {
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
-                                                    city: this.city,
-                                                    searchType: this.searchType,
                                                     searchKey: this.searchKey,
                                                     deptKey: this.deptKey,
                                                     dictType: this.dictType
@@ -153,8 +156,6 @@ export default {
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
-                                                    city: this.city,
-                                                    searchType: this.searchType,
                                                     searchKey: this.searchKey,
                                                     deptKey: this.deptKey,
                                                     dictType: this.dictType
@@ -189,21 +190,13 @@ export default {
         };
     },
     components: {
-        Select,
-        Option,
+        fourLevelLinkage,
         tempHeader
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
-        //获取省级列表
-        this.$axios
-            .post(api.getProvince)
-            .then(resp => {
-                this.cityList = resp.data.object;
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //获取职称列表
         this.$axios
             .post(api.getTitle)
@@ -217,56 +210,62 @@ export default {
         this.loadPage(pageNo);
     },
     methods: {
-        changeSearchType(val) {
-            if (val == 1) {
-                this.keyPlaceHolder = "医院名称";
-            } else {
-                this.keyPlaceHolder = "医生名称";
-            }
+        changeProvince(val) {
+            this.province = val;
         },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
+        },
+
         //加载列表数据
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.province = this.city ? parseInt(this.city) : null;
             params.dept = this.deptKey;
             params.title = this.dictType;
-            if (this.searchType == 1) {
-                params.hospitalName = this.searchKey;
-                params.doctorName = "";
-            } else {
-                params.doctorName = this.searchKey;
-                params.hospitalName = "";
-            }
+            params.doctorName = this.searchKey;
+            params.hospitalName = "";
+            params.provinceCode = this.province ? this.province : null;
+            params.cityCode = this.city ? this.city : null;
+            params.areaCode = this.area ? this.area : null;
+            params.hospitalId = this.hospital ? this.hospital : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log("预约挂号 params",params);
             this.$axios
                 .post(api.registerList, params)
                 .then(resp => {
-                    if(resp.data.success){
-                    this.count = resp.data.object.count;
-                    this.doctorList = resp.data.object.list;
-                    for (let i = 0; i < this.doctorList.length; i++) {
-                        let item = this.doctorList[i];
-                        this.doctorList[i].iNum = i + 1;
-                        this.doctorList[i].hospitaldept =
-                            item.hospitalName + "<br>" + item.dept;
-                        let tmpTimes = item.registerTimes;
-                        this.doctorTimesList[item.id] = tmpTimes;
-                        let tmphtml = ``;
-                        let max = tmpTimes.length >= 2 ? 2 : tmpTimes.length;
-                        for (let j = 0; j < max; j++) {
-                            tmphtml +=
-                                this.weeks[tmpTimes[j].week] +
-                                "&nbsp;&nbsp;" +
-                                this.days[tmpTimes[j].day];
-                            if (j == 0) {
-                                tmphtml += "<br/>";
+                    if (resp.data.success) {
+                        this.count = resp.data.object.count;
+                        this.doctorList = resp.data.object.list;
+                        for (let i = 0; i < this.doctorList.length; i++) {
+                            let item = this.doctorList[i];
+                            this.doctorList[i].iNum = i + 1;
+                            this.doctorList[i].hospitaldept =
+                                item.hospitalName + "<br>" + item.dept;
+                            let tmpTimes = item.registerTimes;
+                            this.doctorTimesList[item.id] = tmpTimes;
+                            let tmphtml = ``;
+                            let max =
+                                tmpTimes.length >= 2 ? 2 : tmpTimes.length;
+                            for (let j = 0; j < max; j++) {
+                                tmphtml +=
+                                    this.weeks[tmpTimes[j].week] +
+                                    "&nbsp;&nbsp;" +
+                                    this.days[tmpTimes[j].day];
+                                if (j == 0) {
+                                    tmphtml += "<br/>";
+                                }
                             }
+                            this.doctorList[i].registerTimes = tmphtml;
                         }
-                        this.doctorList[i].registerTimes = tmphtml;
-                    }
-                    }else{
+                    } else {
                         this.$Message.info("不允许访问");
                     }
                 })
@@ -294,8 +293,6 @@ export default {
                 "/index/operation/register/edit",
                 {
                     pageNo: this.pageNo,
-                    city: this.city,
-                    searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
@@ -306,12 +303,16 @@ export default {
     },
     created() {
         sessionStorage.setItem("index", 0);
-        this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
-        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
-        this.deptKey = this.$route.query.deptKey?this.$route.query.deptKey:"";
-        this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
-        
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
+        this.deptKey = this.$route.query.deptKey
+            ? this.$route.query.deptKey
+            : "";
+        this.dictType = this.$route.query.dictType
+            ? this.$route.query.dictType
+            : "";
+
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -342,6 +343,10 @@ export default {
     }
     .m-table {
         margin: 10px 0;
+    }
+    .margin-up-down {
+        display: inline-block;
+        margin-top: 10px;
     }
 }
 </style>

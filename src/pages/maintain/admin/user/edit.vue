@@ -237,14 +237,14 @@ export default {
       uploadUrl: api.fileAll,
       images: "",
 
-      identityList: [
-        // {id:1,name:'超级管理员'},
-        { id: 2, name: "省级管理员" },
-        { id: 3, name: "市级管理员" },
-        { id: 4, name: "区级管理员" },
-        { id: 5, name: "机构管理员" }
-      ],
-      identity: 5,
+            identityList: [
+                { id: 1, name: "超级管理员" },
+                { id: 2, name: "省级管理员" },
+                { id: 3, name: "市级管理员" },
+                { id: 4, name: "区级管理员" },
+                { id: 5, name: "机构管理员" }
+            ],
+            identity: 5,
 
       provinceList: [],
       cityList: [],

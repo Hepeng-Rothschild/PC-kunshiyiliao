@@ -2,43 +2,26 @@
     <div class="doctorreviewlist">
         <Row>
             <Col :xs="24">
-                <Select
-                    class="w-select"
-                    clearable
-                    @on-change="changeProvince"
-                    placeholder="省"
-                    v-model="province"
-                >
-                    <!-- <Option value="0">全国</Option> -->
-                    <Option
-                        v-for="item in provinceList"
-                        :value="item.id"
-                        :key="item.id"
-                    >{{item.name}}</Option>
-                </Select>
-                <Select class="w-select" @on-change="changeCity" placeholder="市" v-model="city">
-                    <Option
-                        v-for="(item,index) in cityList"
-                        :value="item.id"
-                        :key="item.id"
-                    >{{item.name}}</Option>
-                </Select>
-                <Select class="w-select" @on-change="changeArea" placeholder="区/县" v-model="area">
-                    <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
-                </Select>
-                <Select class="w-select-hos" placeholder="医院" v-model="hospitalId">
-                    <Option
-                        v-for="item in hospitalList"
-                        :value="item.id"
-                        :key="item.id"
-                    >{{item.orgName}}</Option>
-                </Select>
-                <span>服务包名称</span>
-                <Input class="w-input" v-model="itemName" placeholder="请输入服务包名称"/>
-                <Button type="primary" @click="loadPage(1)">
-                    <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
-                </Button>
-                <Button type="warning" @click="goAdd">添加服务包</Button>
+                <div class="margin-up-down">
+                    <fourLevelLinkage
+                        @changeProvince="changeProvince"
+                        @changeCity="changeCity"
+                        @changeArea="changeArea"
+                        @changeHospital="changeHospital"
+                    ></fourLevelLinkage>
+                </div>
+                <div class="margin-up-down">
+                    <span>服务包名称</span>
+                    <Input class="w-input" v-model="itemName" placeholder="请输入服务包名称"/>
+                </div>
+                <div class="margin-up-down">
+                    <Button type="primary" @click="loadPage(1)">
+                        <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
+                    </Button>
+                </div>
+                <div class="margin-up-down">
+                    <Button type="warning" @click="goAdd">添加服务包</Button>
+                </div>
                 <!-- <Button type="default" @click="goImport">批量导入</Button> -->
             </Col>
         </Row>
@@ -47,20 +30,17 @@
     </div>
 </template>
 <script>
-import { Select, Option } from "iview";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
 export default {
     data() {
         return {
-            provinceList: [],
-            cityList: [],
-            areaList: [],
-            hospitalList: [],
-            itemName: "",
             province: null,
-            city: "0",
-            area: "0",
-            hospitalId: "0",
+            city: null,
+            area: null,
+            hospital: null,
+
+            itemName: "",
 
             columns: [
                 {
@@ -154,7 +134,6 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 130,
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";
@@ -206,8 +185,7 @@ export default {
         };
     },
     components: {
-        Select,
-        Option
+        fourLevelLinkage
     },
     created() {
         let breadList = [
@@ -224,7 +202,6 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        this.provinceList = this.$store.getters.getProvinceList;
         let pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
             : 1;
@@ -232,30 +209,17 @@ export default {
         this.loadPage(pageNo);
     },
     methods: {
-        changeProvince() {
-            this.city = "0";
-            this.cityList = this.$store.getters.getCityList(this.province);
+        changeProvince(val) {
+            this.province = val;
         },
-        changeCity() {
-            this.area = "0";
-            this.areaList = this.$store.getters.getAreaList(this.city);
+        changeCity(val) {
+            this.city = val;
         },
-        changeArea() {
-            this.hospitalId = "0";
-            var params = {};
-            params.provinceCode = parseInt(
-                this.province ? this.province : null
-            );
-            if (this.area) {
-                this.$axios
-                    .post(api.hospitalselectbyprovincecode, params)
-                    .then(resp => {
-                        this.hospitalList = resp.data.object;
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
         },
         goAdd() {
              //   公用方法
@@ -284,17 +248,21 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.provinceId = parseInt(
-                this.province ? this.province : null
-            );
-            params.cityId = parseInt(this.city == 0 ? null : this.city);
-            params.areaId = parseInt(this.area == 0 ? null : this.area);
-            params.hospitalId = parseInt(
-                this.hospitalId == 0 ? null : this.hospitalId
-            );
+
+            // params.provinceCode = this.province ? this.province : null;
+            // params.cityCode = this.city ? this.city : null;
+            // params.areaCode = this.area ? this.area : null;
+            // params.hospitalId = this.hospital ? this.hospital : null;
+
+            params.provinceId = this.province ? this.province : null;
+            params.cityId = this.city ? this.city : null;
+            params.areaId = this.area ? this.area : null;
+            params.hospitalId = this.hospital ? this.hospital : null;
+
             params.itemName = this.itemName ? this.itemName : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log("服务包 params", params);
             this.$axios
                 .post(api.servicepackagepage, params)
                 .then(resp => {
@@ -318,8 +286,8 @@ export default {
                                 this.dataList.push(el);
                             });
                         });
-                    }else{
-                        this.$Message.info("不允许访问")
+                    } else {
+                        this.$Message.info("不允许访问");
                     }
                 })
                 .catch(err => {
@@ -351,9 +319,7 @@ export default {
             if (hospitalId) {
                 var params = {};
                 params.provinceCode = parseInt(
-                    provinceId == 0
-                        ? null
-                        : provinceId
+                    provinceId == 0 ? null : provinceId
                 );
                 this.$axios
                     .post(api.hospitalselectbyprovincecode, params)
@@ -420,6 +386,10 @@ export default {
         width: 200px;
     }
     .m-table {
+        margin: 10px 0;
+    }
+    .margin-up-down {
+        display: inline-block;
         margin: 10px 0;
     }
 }

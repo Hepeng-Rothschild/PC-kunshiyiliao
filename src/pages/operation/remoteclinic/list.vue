@@ -1,22 +1,33 @@
 <template>
   <div class="remoteClinic">
-    <tempHeader :index='1'></tempHeader>
+    <tempHeader/>
     <!-- 头部选择框 -->
-    <header>
-      <!-- 省份 -->
-      <Select class="w-select" v-model="city" >
-        <Option value="0">全国</Option>
-        <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
-      </Select>
-      <!-- 检索的医院名称 -->
-      <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'" clearable/>
-      <!-- 查询 -->
-      <Button type="primary" class="primary" @click="search">
-        <Icon type="ios-search" size="14"/>查询
-      </Button>
-      <!-- 添加接诊医生排班 -->
-      <Button type="primary" class="primary" @click="add">添加接诊医生排班</Button>
-    </header>
+    <Row>
+      <Col :xs="24">
+        <div class="margin-up-down">
+          <fourLevelLinkage
+            @changeProvince="changeProvince"
+            @changeCity="changeCity"
+            @changeArea="changeArea"
+            @changeHospital="changeHospital"
+          ></fourLevelLinkage>
+        </div>
+        <div class="margin-up-down">
+          <!-- 检索的医院名称 -->
+          <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'" clearable/>
+        </div>
+        <div class="margin-up-down">
+          <!-- 查询 -->
+          <Button type="primary" class="primary" @click="search">
+            <Icon type="ios-search" size="14"/>查询
+          </Button>
+        </div>
+        <div class="margin-up-down">
+          <!-- 添加接诊医生排班 -->
+          <Button type="primary" class="primary" @click="add">添加接诊医生排班</Button>
+        </div>
+      </Col>
+    </Row>
     <!-- 主体列表 -->
     <div class="main">
       <table border="0" cellspacing="0" cellpadding="0">
@@ -29,8 +40,8 @@
           <td>启用标示</td>
           <td>操作</td>
         </tr>
-        <tr v-for="item,index in list" v-show="list.length">
-          <td>{{ index + 1 }}</td>
+        <tr v-for="(item,index) in list" :key="index" v-show="list.length">
+          <td>{{ addZero(index) }}</td>
           <td>{{ item.doctorName }}</td>
           <td>{{ item.deptName }}</td>
           <td @click="showModel(item)" style="cursor:pointer;">
@@ -42,8 +53,8 @@
             >下午:{{ item.intervalTimePmStart + '-' +item.intervalTimeAmEnd }}</p>
           </td>
           <td>{{ item.cycleDay }}</td>
-          <td v-if="item.iremote==1">启用</td>
-          <td style="color:red;" v-else>停用</td>
+          <td v-show="item.iremote==1">启用</td>
+          <td style="color:red;" v-show="item.iremote==0">停用</td>
           <td style="cursor:pointer;" @click="edit(item)">编辑</td>
         </tr>
       </table>
@@ -127,16 +138,20 @@
 <script>
 // 医生端远程门诊
 import tempHeader from "@/components/tmpHeader";
-import { Select, Option } from "iview";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
 export default {
   components: {
     tempHeader,
-    Select,
-    Option
+    fourLevelLinkage
   },
   data() {
     return {
+      province: null,
+      city: null,
+      area: null,
+      hospital: null,
+
       remoteClinicLength: 0,
       pageNo: 1,
       pageSize: 10,
@@ -146,8 +161,6 @@ export default {
       ],
       searchType: 1,
       keyPlaceHolder: "医院名称",
-      cityList: [],
-      city: "0",
       searchKey: "",
       dictType: "",
       titleList: "",
@@ -175,11 +188,23 @@ export default {
     this.getInfoData();
     let pageNo = this.$route.query.pageNo;
     if (Boolean(pageNo)) {
-      this.pageNo = Number(pageNo);
+      this.pageNo = pageNo;
     }
     this.getDoctorList(this.pageNo);
   },
   methods: {
+    changeProvince(val) {
+      this.province = val;
+    },
+    changeCity(val) {
+      this.city = val;
+    },
+    changeArea(val) {
+      this.area = val;
+    },
+    changeHospital(val) {
+      this.hospital = val;
+    },
     // 显示model
     showModel(item) {
       let params = {};
@@ -225,19 +250,14 @@ export default {
         this.getDoctorList(index);
       }
     },
-    changeSearchType(val) {
-      if (val == 1) {
-        this.keyPlaceHolder = "医院名称";
-      } else {
-        this.keyPlaceHolder = "医生名称";
-      }
-    },
     // 新增
     add() {
-      // function全局方法
-      this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/add",{
-        pageNo: this.pageNo
-      })
+      this.$router.push({
+        path: "/index/operation/remoteclinic/add",
+        query: {
+          pageNo: this.pageNo
+        }
+      });
     },
     // 页面加载时获取省级,职称列表
     getInfoData() {
@@ -253,13 +273,14 @@ export default {
     },
     // 修改
     edit(item) {
-      // function全局方法
-      this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/edit",{
-        pageNo: this.pageNo,
-         id: item.id
-        })
+      this.$router.push({
+        path: "/index/operation/remoteclinic/edit",
+        query: {
+          id: item.id,
+          pageNo: this.pageNo
+        }
+      });
     },
-    // 模糊查询
     search() {
       let params = {
         city: this.city,
@@ -268,18 +289,19 @@ export default {
       };
       this.getDoctorList(1, this.city, this.searchKey);
     },
-    // 请求接口
     getDoctorList(pageNo, provinceId, searchKey) {
       let params = {
         pageNo,
         pageSize: this.pageSize
       };
-      if (provinceId != "") {
-        params.provinceId = provinceId;
-      }
+      params.provinceCode = this.province ? this.province : null;
+      params.cityCode = this.city ? this.city : null;
+      params.areaCode = this.area ? this.area : null;
+      params.hospitalId = this.hospital ? this.hospital : null;
       if (searchKey != "") {
         params.searchKey = searchKey;
       }
+      console.log("家庭医生签约 params", params);
       this.$axios.post(api.doctorRomteclinicList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
@@ -289,6 +311,13 @@ export default {
           this.$Message.info("没有访问权限");
         }
       });
+    },
+    addZero(num) {
+      num = num + 1;
+      if (num < 10) {
+        return "0" + num;
+      }
+      return num;
     }
   }
 };
@@ -300,6 +329,9 @@ export default {
   margin-left: 1%;
   margin: 0 auto;
   background: #fff;
+  .w-input {
+    width: 300px;
+  }
   header {
     width: 100%;
     display: flex;
@@ -309,9 +341,6 @@ export default {
     .w-select {
       width: 100px;
       margin: 0 10px;
-    }
-    .w-input {
-      width: 300px;
     }
     .primary {
       margin: 0 10px;
@@ -354,6 +383,10 @@ export default {
       border-top: none;
       text-align: center;
     }
+  }
+  .margin-up-down {
+    display: inline-block;
+    margin-top: 10px;
   }
 }
 </style>

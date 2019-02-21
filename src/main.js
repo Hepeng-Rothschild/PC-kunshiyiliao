@@ -14,7 +14,7 @@ import 'iview/dist/styles/fonts/ionicons.eot';
 import 'iview/dist/styles/fonts/ionicons.svg';
 import 'iview/dist/styles/fonts/ionicons.ttf';
 import 'iview/dist/styles/fonts/ionicons.woff';
-import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch } from 'iview';
+import { Button, Select, Option, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch } from 'iview';
 import './assets/css/base.css';
 /* 分片上传大文件JQ插件，暂时没用 */
 // require('@/plugins/jquery.fcup.js');
@@ -80,6 +80,8 @@ Vue.use({
 
 // 设置iview部分全局组件
 Vue.component('Button', Button);
+Vue.component('Select', Select);
+Vue.component('Option', Option);
 Vue.component('Modal', Modal);
 Vue.component('Col', Col);
 Vue.component('Row', Row);

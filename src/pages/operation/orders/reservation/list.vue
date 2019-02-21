@@ -2,10 +2,17 @@
     <div class="doctorreviewlist">
         <Row>
             <Col :xs="24">
-                <div class="first">
+                <div class="margin-up-down">
+                    <fourLevelLinkage
+                        @changeProvince="changeProvince"
+                        @changeCity="changeCity"
+                        @changeArea="changeArea"
+                        @changeHospital="changeHospital"
+                    ></fourLevelLinkage>
+                </div>
+                <div class="margin-up-down">
                     <span>状态:</span>
                     <Select class="w-select" clearable v-model="status">
-                        <!-- <Option value="9">全部</Option> -->
                         <Option
                             v-for="(item,index) in statusList"
                             :value="index+1"
@@ -13,7 +20,7 @@
                         >{{item}}</Option>
                     </Select>
                 </div>
-                <div class="second">
+                <div class="margin-up-down">
                     <span>日期:</span>
                     <DatePicker
                         type="date"
@@ -35,30 +42,21 @@
                         style="width: 200px"
                     ></DatePicker>
                 </div>
-                <div class="third">
+                <div class="margin-up-down">
                     <Input class="w-input" v-model="searchKey" placeholder="订单号、医院、科室、医生、就诊人"/>
                     <Button type="primary" @click="loadPage(1)">
                         <Icon type="ios-search" size="14"/>查询
                     </Button>
                 </div>
-            </Col>
-        </Row>
-        <br>
-        <Row>
-            <Col :xs="24">
-                <span>医院</span>
-                <Select class="w-select-hos" clearable @on-change="changeHospital" v-model="hospitalId">
-                    <!-- <Option value="0">全部</Option> -->
-                    <Option
-                        v-for="(item,index) in hospitalList"
-                        :value="item.id"
-                        :key="index"
-                    >{{item.orgName}}</Option>
-                </Select>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span>履约率</span>
-                <Input class="w-num-input" @on-focus="blurInput" v-model="lvyue"/>
-                <span>爽约率</span>
-                <Input class="w-num-input" @on-focus="blurInput" v-model="shuangyue"/>
+                <div class="margin-up-down">
+                    <br>
+                </div>
+                <div class="margin-up-down">
+                    <span>履约率</span>
+                    <Input class="w-num-input" @on-focus="blurInput" v-model="lvyue"/>
+                    <span>爽约率</span>
+                    <Input class="w-num-input" @on-focus="blurInput" v-model="shuangyue"/>
+                </div>
             </Col>
         </Row>
         <Table class="m-table" stripe :columns="columns" :data="orderList"></Table>
@@ -66,11 +64,17 @@
     </div>
 </template>
 <script>
-import { Select, Option, DatePicker } from "iview";
+import { DatePicker } from "iview";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
 export default {
     data() {
         return {
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+
             shuangyue: "", //爽约率
             lvyue: "", //履约率
             searchKey: "",
@@ -78,8 +82,7 @@ export default {
             startDate: "",
             endDate: "",
             statusList: ["退诊", "取消", "履约", "爽约"],
-            hospitalList: [],
-            hospitalId: null,
+
             columns: [
                 { title: "编号", key: "iNum", align: "center" },
                 { title: "订单号", key: "orderNum", align: "center" },
@@ -98,7 +101,7 @@ export default {
                     render: (h, params) => {
                         let status = params.row.status;
                         let statusText;
-                        switch(status){
+                        switch (status) {
                             case 0:
                                 statusText = "即将就诊";
                                 break;
@@ -131,65 +134,71 @@ export default {
         };
     },
     components: {
-        Select,
-        Option,
-        DatePicker
+        DatePicker,
+        fourLevelLinkage
     },
     created() {
         this.startDate = this.GetDate(-2);
         this.endDate = this.GetDate(0);
         let breadList = [
-            {path:"/index",title:"首页"},
-            {path:"/index/operation/ordersmanagement/index",title:"订单管理"},
-            {path:"/index/operation/orders/reservation/list",title:"预约挂号订单"}
-        ]
-        this.$emit("changeBreadList",breadList);
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/ordersmanagement/index",
+                title: "订单管理"
+            },
+            {
+                path: "/index/operation/orders/reservation/list",
+                title: "预约挂号订单"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     },
     mounted() {
         let pageNo = this.$route.query.pageNo;
         pageNo = pageNo ? pageNo : 1;
-        //获取医院列表
-        this.$axios
-            .post(api.hospitalList)
-            .then(resp => {
-                this.hospitalList = resp.data.object;
-            })
-            .catch(err => {
-                console.log(err);
-            });
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
     methods: {
-        changeStart(val) {
-          this.startDate = val;
+        changeProvince(val) {
+            this.province = val;
         },
-        changeEnd(val) {
-          this.endDate = val;
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
         },
         changeHospital(val) {
-            this.hospitalId = parseInt(val);
-            this.loadPage(1);
+            this.hospital = val;
+        },
+        changeStart(val) {
+            this.startDate = val;
+        },
+        changeEnd(val) {
+            this.endDate = val;
         },
         //加载列表数据
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            // params.status = this.status == 9 ? "" : this.status;
-            params.status = this.status?this.status:"";
-            params.hospitalId = this.hospitalId?this.hospitalId:null;
-            // params.hospitalId = this.hospitalId == 0 ? null : this.hospitalId;
+            params.status = this.status ? this.status : "";
+            params.provinceCode = this.province ? this.province : null;
+            params.cityCode = this.city ? this.city : null;
+            params.areaCode = this.area ? this.area : null;
+            params.hospitalId = this.hospital ? this.hospital : null;
 
-            let startDate = new Date(this.startDate)
-            let endDate = new Date(this.endDate)
-            startDate = startDate.toLocaleDateString().replace(/\//g,"-");
-            endDate = endDate.toLocaleDateString().replace(/\//g,"-");
+            let startDate = new Date(this.startDate);
+            let endDate = new Date(this.endDate);
+            startDate = startDate.toLocaleDateString().replace(/\//g, "-");
+            endDate = endDate.toLocaleDateString().replace(/\//g, "-");
             params.startTime = startDate;
             // params.startTime = "2018-11-01";
             params.endTime = endDate;
-            params.searchKey = this.searchKey?this.searchKey:null;
+            params.searchKey = this.searchKey ? this.searchKey : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log("预约挂号订单 params",params);
             this.$axios
                 .post(api.orderManageAppointRegistList, params)
                 .then(resp => {
@@ -197,18 +206,23 @@ export default {
                         let tmpObj = resp.data.object.page;
                         let lvyue = resp.data.object.lvyue;
                         let shuangyue = resp.data.object.shuangyue;
-                        this.lvyue = parseInt((lvyue*100))+'%';
-                        this.shuangyue = parseInt((shuangyue*100))+'%';
+                        this.lvyue = parseInt(lvyue * 100) + "%";
+                        this.shuangyue = parseInt(shuangyue * 100) + "%";
                         this.count = tmpObj.count;
                         this.orderList = tmpObj.list;
                         for (let i = 0; i < this.orderList.length; i++) {
-                          this.orderList[i].iNum = i+1;
+                            this.orderList[i].iNum = i + 1;
                             this.orderList[i].dept =
                                 this.orderList[i].parentDept +
                                 "-" +
                                 this.orderList[i].childDept;
-                              this.orderList[i].cost = this.orderList[i].cost.toFixed(2);
-                              this.orderList[i].appointmentTime = this.orderList[i].appointmentTime + '  ' + (this.orderList[i].day==1?'上午':'下午');
+                            this.orderList[i].cost = this.orderList[
+                                i
+                            ].cost.toFixed(2);
+                            this.orderList[i].appointmentTime =
+                                this.orderList[i].appointmentTime +
+                                "  " +
+                                (this.orderList[i].day == 1 ? "上午" : "下午");
                         }
                     } else {
                         this.$Message.info("网络错误，请刷新重试");
@@ -260,6 +274,13 @@ export default {
         display: inline-block;
         min-width: 350px;
         text-align: center;
+    }
+    .fourth {
+        display: inline-block;
+    }
+    .margin-up-down {
+        display: inline-block;
+        margin: 10px 0;
     }
 }
 </style>

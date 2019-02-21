@@ -1,261 +1,238 @@
 <template>
-  <div class="doctorreviewlist">
-    <Row>
-      <Col :xs="24">
-        <Select
-          class="w-select"
-          clearable
-          @on-change="changeProvince"
-          placeholder="省"
-          v-model="province"
-        >
-          <!-- <Option value="0">全国</Option> -->
-          <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{item.name}}</Option>
-        </Select>
-        <Select class="w-select" @on-change="changeCity" placeholder="市" v-model="city">
-          <Option v-for="(item,index) in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
-        </Select>
-        <Select class="w-select" @on-change="changeArea" placeholder="区/县" v-model="area">
-          <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
-        </Select>
-        <Select class="w-select-hos" placeholder="医院" v-model="hospitalId">
-          <Option v-for="item in hospitalList" :value="item.id" :key="item.id">{{item.orgName}}</Option>
-        </Select>
-        <span>服务项名称</span>
-        <Input class="w-input" v-model="searchKey" placeholder="请输入服务项名称"/>
-        <Button type="primary" @click="loadPage(1)">
-          <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
-        </Button>
-        <Button type="warning" @click="goAdd">添加服务项</Button>
-        <Button type="default" @click="goImport">批量导入</Button>
-      </Col>
-    </Row>
-    <Table class="m-table" :columns="columns" :data="dataList"></Table>
-    <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
-  </div>
+    <div class="doctorreviewlist">
+        <Row>
+            <Col :xs="24">
+                <div class="margin-up-down">
+                    <fourLevelLinkage
+                        @changeProvince="changeProvince"
+                        @changeCity="changeCity"
+                        @changeArea="changeArea"
+                        @changeHospital="changeHospital"
+                    ></fourLevelLinkage>
+                </div>
+                <div class="margin-up-down">
+                    <span>服务项名称</span>
+                    <Input class="w-input" v-model="searchKey" placeholder="请输入服务项名称"/>
+                </div>
+                <div class="margin-up-down">
+                    <Button type="primary" @click="loadPage(1)">
+                        <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
+                    </Button>
+                </div>
+                <div class="margin-up-down">
+                    <Button type="warning" @click="goAdd">添加服务项</Button>
+                </div>
+                <div class="margin-up-down">
+                    <Button type="default" @click="goImport">批量导入</Button>
+                </div>
+            </Col>
+        </Row>
+        <Table class="m-table" :columns="columns" :data="dataList"></Table>
+        <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
+    </div>
 </template>
 <script>
-import { Select, Option } from "iview";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
 export default {
-  data() {
-    return {
-      provinceList: [],
-      cityList: [],
-      areaList: [],
-      hospitalList: [],
-      searchKey: "",
-      province: null,
-      city: null,
-      area: null,
-      hospitalId: "",
-      natureList: [
-        { id: 1, name: "增值付费项目" },
-        { id: 2, name: "基本公共卫生服务承担项目" }
-      ],
-      columns: [
-        {
-          title: "序号",
-          key: "iNum",
-          align: "center",
-          width: 60,
-          render: (h, params) => {
-            return h("span", {
-              domProps: {
-                innerHTML: params.row._index + 1
-              }
-            });
-          }
-        },
-        {
-          title: "服务项目名称",
-          key: "serviceName",
-          align: "center",
-          width: 120
-        },
-        {
-          title: "服务项目类型",
-          key: "nature",
-          align: "center",
-          width: 120,
-          render: (h, params) => {
-            let text = "";
-            for (let item of this.natureList) {
-              if (item.id == params.row.nature) {
-                text = item.name;
-              }
-            }
-            return h("span", {
-              domProps: {
-                innerHTML: text
-              }
-            });
-          }
-        },
-        {
-          title: "服务项目归属",
-          key: "attribution",
-          align: "center",
-          width: 160,
-          render: (h, params) => {
-            return h("span", {
-              domProps: {
-                innerHTML: params.row.attribution
-              }
-            });
-          }
-        },
-        {
-          title: "创建时间",
-          key: "createTime",
-          align: "center",
-          width: 120
-        },
-        {
-          title: "年服务次数",
-          key: "numberYear",
-          align: "center",
-          width: 100
-        },
-        {
-          title: "收费标准(元/次)",
-          key: "amt",
-          align: "center",
-          width: 120
-        },
-        {
-          title: "实收金额",
-          key: "amountReceived",
-          align: "center",
-          width: 90
-        },
-        {
-          title: "自付金额",
-          key: "residentowncost",
-          align: "center",
-          width: 90
-        },
-        {
-          title: "政府补贴",
-          key: "governmentsubsidycost",
-          align: "center",
-          width: 90
-        },
-        {
-          title: "是否启用",
-          key: "packagestatus",
-          align: "center",
-          width: 90,
-          render: (h, params) => {
-            let packagestatus = params.row.packagestatus;
-            let text = "";
-            if (packagestatus == 1) {
-              text = "启用";
-            } else {
-              text = "禁用";
-            }
-            return h("span", {
-              domProps: {
-                innerHTML: text
-              }
-            });
-          }
-        },
-        {
-          title: "操作",
-          key: "operate",
-          align: "center",
-          width: 60,
-          render: (h, params) => {
-            let id = params.row.id;
-            return [
-              h(
-                "a",
+    data() {
+        return {
+            
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            
+            searchKey: "",
+            natureList: [
+                { id: 1, name: "增值付费项目" },
+                { id: 2, name: "基本公共卫生服务承担项目" }
+            ],
+            columns: [
                 {
-                  attrs: {
-                    href: "javascript:void(0);"
-                  },
-                  on: {
-                    click: () => {
-                      this.goEdit(id);
+                    title: "序号",
+                    key: "iNum",
+                    align: "center",
+                    width: 60,
+                    render: (h, params) => {
+                        return h("span", {
+                            domProps: {
+                                innerHTML: params.row._index + 1
+                            }
+                        });
                     }
-                  }
                 },
-                "编辑"
-              )
-            ];
-          }
-        }
-      ],
-      dataList: [],
-      count: 0,
-      pageSize: 10,
-      pageNo: 1,
-      modalConfirm: false,
-      confirmInfo: "",
-      delIndex: null,
-      delId: null
-    };
-  },
-  components: {
-    Select,
-    Option
-  },
-  created() {
-    let breadList = [
-      { path: "/index", title: "首页" },
-      {
-        path: "/index/operation/servicePackage/pindex",
-        title: "服务包管理"
-      },
-      {
-        path: "/index/operation/servicePackage/itemList",
-        title: "服务项目管理"
-      }
-    ];
-    this.$emit("changeBreadList", breadList);
-  },
-  mounted() {
-    this.provinceList = this.$store.getters.getProvinceList;
-    let pageNo = this.$route.query.pageNo
-      ? parseInt(this.$route.query.pageNo)
-      : 1;
-    //上来就加载第一页数据
-    this.loadPage(pageNo);
-  },
-  methods: {
-    changeProvince() {
-      this.city = "0";
-      this.cityList = this.$store.getters.getCityList(this.province);
+                {
+                    title: "服务项目名称",
+                    key: "serviceName",
+                    align: "center",
+                    width: 120
+                },
+                {
+                    title: "服务项目类型",
+                    key: "nature",
+                    align: "center",
+                    width: 120,
+                    render: (h, params) => {
+                        let text = "";
+                        for (let item of this.natureList) {
+                            if (item.id == params.row.nature) {
+                                text = item.name;
+                            }
+                        }
+                        return h("span", {
+                            domProps: {
+                                innerHTML: text
+                            }
+                        });
+                    }
+                },
+                {
+                    title: "服务项目归属",
+                    key: "attribution",
+                    align: "center",
+                    width: 160,
+                    render: (h, params) => {
+                        return h("span", {
+                            domProps: {
+                                innerHTML: params.row.attribution
+                            }
+                        });
+                    }
+                },
+                {
+                    title: "创建时间",
+                    key: "createTime",
+                    align: "center"
+                },
+                {
+                    title: "年服务次数",
+                    key: "numberYear",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    title: "收费标准(元/次)",
+                    key: "amt",
+                    align: "center",
+                    width: 120
+                },
+                {
+                    title: "实收金额",
+                    key: "amountReceived",
+                    align: "center",
+                    width: 90
+                },
+                {
+                    title: "自付金额",
+                    key: "residentowncost",
+                    align: "center",
+                    width: 90
+                },
+                {
+                    title: "政府补贴",
+                    key: "governmentsubsidycost",
+                    align: "center",
+                    width: 90
+                },
+                {
+                    title: "是否启用",
+                    key: "packagestatus",
+                    align: "center",
+                    width: 90,
+                    render: (h, params) => {
+                        let packagestatus = params.row.packagestatus;
+                        let text = "";
+                        if (packagestatus == 1) {
+                            text = "启用";
+                        } else {
+                            text = "禁用";
+                        }
+                        return h("span", {
+                            domProps: {
+                                innerHTML: text
+                            }
+                        });
+                    }
+                },
+                {
+                    title: "操作",
+                    key: "operate",
+                    align: "center",
+                    width: 60,
+                    render: (h, params) => {
+                        let id = params.row.id;
+                        return [
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.goEdit(id);
+                                        }
+                                    }
+                                },
+                                "编辑"
+                            )
+                        ];
+                    }
+                }
+            ],
+            dataList: [],
+            count: 0,
+            pageSize: 10,
+            pageNo: 1,
+            modalConfirm: false,
+            confirmInfo: "",
+            delIndex: null,
+            delId: null
+        };
     },
-    changeCity() {
-      this.area = "0";
-      this.areaList = this.$store.getters.getAreaList(this.city);
+    components: {
+        fourLevelLinkage
     },
-    changeArea() {
-      this.hospitalId = "0";
-      var params = {};
-      params.provinceCode = parseInt(this.province ? this.province : null);
-      if (this.area) {
-        this.$axios
-          .post(api.hospitalselectbyprovincecode, params)
-          .then(resp => {
-            this.hospitalList = resp.data.object;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+    created() {
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/servicePackage/pindex",
+                title: "服务包管理"
+            },
+            {
+                path: "/index/operation/servicePackage/itemList",
+                title: "服务项目管理"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     },
-    goAdd() {
-      //   公用方法
-      this.functionJS.queryNavgationTo(
-        this,
-        "/index/operation/servicePackage/itemAdd",
-        {
-          pageNo: this.pageNo
-        }
-      );
+    mounted() {
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
+        //上来就加载第一页数据
+        this.loadPage(pageNo);
+    },
+    methods: {
+        changeProvince(val) {
+            this.province = val;
+        },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
+        },
+        goAdd() {
+            this.$router.push({
+                path: "/index/operation/servicePackage/itemAdd",
+                query: { pageNo: this.pageNo }
+               });
     },
     goEdit(id) {
       //   公用方法
@@ -279,48 +256,49 @@ export default {
       );
     },
     //加载列表数据
-    loadPage(pageNo) {
-      this.pageNo = pageNo;
-      var params = {};
-      params.provinceId = parseInt(this.province ? this.province : null);
-      params.cityId = parseInt(this.city == 0 ? null : this.city);
-      params.areaId = parseInt(this.area == 0 ? null : this.area);
-      params.hospitalId = parseInt(
-        this.hospitalId == 0 || this.hospitalId == "" ? null : this.hospitalId
-      );
-      params.searchKey = this.searchKey == "" ? null : this.searchKey;
-      params.pageNo = pageNo;
-      params.pageSize = this.pageSize;
-      this.$axios
-        .post(api.fdspackageitempage, params)
-        .then(resp => {
-          if (resp.data.success) {
-            this.count = resp.data.object.count;
-            this.dataList = [];
-            resp.data.object.list.map((el, i) => {
-              /* 这儿注释代码不许删除掉 */
-              // let promise = new Promise((resolve, reject) =>{
-              //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
-              // });
-              // promise.then(val=>{
-              //     el.attribution = val;
-              //     this.dataList.push(el)
-              // })
-              let promise = new Promise((resolve, reject) => {
-                this.attribution(resolve, el);
-              });
-              promise.then(val => {
-                el.attribution = val;
-                this.dataList.push(el);
-              });
-            });
-          } else {
-            this.$Message.info("不允许访问");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        loadPage(pageNo) {
+            this.pageNo = pageNo;
+            var params = {};
+
+            params.provinceId = this.province ? this.province : null;
+            params.cityId = this.city ? this.city : null;
+            params.areaId = this.area ? this.area : null;
+            params.hospitalId = this.hospital ? this.hospital : null;
+
+            params.searchKey = this.searchKey == "" ? null : this.searchKey;
+            params.pageNo = pageNo;
+            params.pageSize = this.pageSize;
+            console.log("服务项 params",params);
+            this.$axios
+                .post(api.fdspackageitempage, params)
+                .then(resp => {
+                    if (resp.data.success) {
+                        this.count = resp.data.object.count;
+                        this.dataList = [];
+                        resp.data.object.list.map((el, i) => {
+                            /* 这儿注释代码不许删除掉 */
+                            // let promise = new Promise((resolve, reject) =>{
+                            //     this.getAttribution(resolve,el.provinceId,el.cityId,el.areaId,el.hospitalId);
+                            // });
+                            // promise.then(val=>{
+                            //     el.attribution = val;
+                            //     this.dataList.push(el)
+                            // })
+                            let promise = new Promise((resolve, reject) => {
+                                this.attribution(resolve, el);
+                            });
+                            promise.then(val => {
+                                el.attribution = val;
+                                this.dataList.push(el);
+                            });
+                        });
+                    } else {
+                        this.$Message.info("不允许访问");
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
     },
     attribution(resolve, opt) {
       let attribution = "";
@@ -393,22 +371,26 @@ export default {
 </script>
 <style lang="less" scoped>
 .doctorreviewlist {
-  margin-left: 1%;
-  padding: 10px;
-  width: 98%;
-  background: #ffffff;
-  box-sizing: border-box;
-  .w-select {
-    width: 100px;
-  }
-  .w-select-hos {
-    width: 200px;
-  }
-  .w-input {
-    width: 200px;
-  }
-  .m-table {
-    margin: 10px 0;
-  }
+    margin-left: 1%;
+    padding: 10px;
+    width: 98%;
+    background: #ffffff;
+    box-sizing: border-box;
+    .w-select {
+        width: 100px;
+    }
+    .w-select-hos {
+        width: 200px;
+    }
+    .w-input {
+        width: 200px;
+    }
+    .m-table {
+        margin: 10px 0;
+    }
+    .margin-up-down {
+        display: inline-block;
+        margin: 10px 0;
+    }
 }
 </style>
