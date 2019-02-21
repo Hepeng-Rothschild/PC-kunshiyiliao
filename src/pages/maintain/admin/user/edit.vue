@@ -276,7 +276,7 @@ export default {
             images: "",
 
             identityList: [
-                // {id:1,name:'超级管理员'},
+                { id: 1, name: "超级管理员" },
                 { id: 2, name: "省级管理员" },
                 { id: 3, name: "市级管理员" },
                 { id: 4, name: "区级管理员" },

@@ -43,6 +43,8 @@
                             @on-change="changeProvince"
                             placeholder="省"
                             v-model="info.provinceId"
+                            :disabled="provinceStatus"
+                            :clearable="!provinceStatus"
                         >
                             <Option
                                 v-for="item in provinceList"
@@ -55,6 +57,8 @@
                             @on-change="changeCity"
                             placeholder="市"
                             v-model="info.cityId"
+                            :disabled="cityStatus"
+                            :clearable="!cityStatus"
                         >
                             <Option
                                 v-for="(item,index) in cityList"
@@ -67,6 +71,8 @@
                             @on-change="changeArea"
                             placeholder="区"
                             v-model="info.areaId"
+                            :disabled="areaStatus"
+                            :clearable="!areaStatus"
                         >
                             <Option
                                 v-for="item in areaList"
@@ -79,6 +85,8 @@
                             @on-change="changeHospital"
                             placeholder="医院"
                             v-model="info.hospitalId"
+                            :disabled="hospitalStatus"
+                            :clearable="!hospitalStatus"
                         >
                             <Option
                                 v-for="item in hospitalList"
@@ -265,9 +273,13 @@ export default {
             tmpHospitalList: [],
 
             provinceList: [],
+            provinceStatus: false,
             cityList: [],
+            cityStatus: false,
             areaList: [],
+            areaStatus: false,
             hospitalList: [],
+            hospitalStatus: false,
             province: "0",
             city: "0",
             area: "0",
@@ -284,6 +296,10 @@ export default {
             },
             switch1: false,
             searchKey: null,
+
+            identity: null,
+            identityCoding: null,
+            ownArea: null,
 
             count: 0,
             pageSize: 10,
@@ -392,10 +408,6 @@ export default {
         };
     },
     created() {
-        this.provinceList = this.$store.getters.getProvinceList;
-        this.provinceList.forEach((el, i) => {
-            this.provinceList[i].value = parseInt(el.value);
-        });
         let id = parseInt(this.$route.query.id);
         this.type = this.$route.query.type
             ? parseInt(this.$route.query.type)
@@ -461,6 +473,64 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        }
+        this.identity = this.$store.getters.getIdentity;
+        this.identityCoding = this.$store.getters.getIdentityCoding;
+        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        if (this.ownArea.province) {
+            this.provinceStatus = true;
+            this.provinceList.push(this.ownArea.province);
+            this.info.provinceId = this.ownArea.province.id;
+        }
+        if (this.ownArea.city) {
+            this.cityStatus = true;
+            this.cityList.push(this.ownArea.city);
+            this.info.cityId = this.ownArea.city.id;
+        }
+        if (this.ownArea.area) {
+            this.areaStatus = true;
+            this.areaList.push(this.ownArea.area);
+            this.info.areaId = this.ownArea.area.id;
+        }
+        if (this.identity == 1) {
+            this.provinceList = this.$store.getters.getProvinceList;
+        } else if (this.identity == 2) {
+            this.cityList = this.$store.getters.getCityList(this.info.provinceId);
+        } else if (this.identity == 3) {
+            this.areaList = this.$store.getters.getAreaList(this.info.cityId);
+        } else if (this.identity == 4) {
+            var params = {};
+            params.provinceCode = parseInt(this.info.provinceId);
+            params.cityCode = parseInt(this.info.cityId);
+            params.districtCode = parseInt(this.info.areaId);
+            this.$axios
+                .post(api.hospitalselectbyprovincecode, params)
+                .then(resp => {
+                    let list = resp.data.object;
+                    list.map((el, i) => {
+                        let tmpObj = {};
+                        tmpObj.id = parseInt(el.id);
+                        tmpObj.name = el.orgName;
+                        this.hospitalList.push(tmpObj);
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else if (this.identity == 5) {
+            this.info.hospitalId = parseInt(this.identityCoding);
+            this.hospitalStatus = true;
+            this.$axios
+                .post(api.managementInfo, {
+                    hospitalId: parseInt(this.identityCoding)
+                })
+                .then(resp => {
+                    this.hospitalList.push({
+                        id: resp.data.object.hospitalId,
+                        name: resp.data.object.orgName
+                    });
+                })
+                .catch(err => {});
         }
 
         if (isNaN(id)) this.loadPage(1);
@@ -613,10 +683,9 @@ export default {
                 });
         },
         changeProvince() {
-            this.info.cityId = "0";
-            this.info.areaId = "0";
-            this.areaList = [];
-            this.info.hospitalId = "0";
+            this.info.cityId = null;
+            this.info.areaId = null;
+            this.info.hospitalId = null;
             this.hospitalList = [];
             this.cityList = this.$store.getters.getCityList(
                 this.info.provinceId
@@ -626,8 +695,8 @@ export default {
             this.loadPage(1);
         },
         changeCity() {
-            this.info.areaId = "0";
-            this.info.hospitalId = "0";
+            this.info.areaId = null;
+            this.info.hospitalId = null;
             this.hospitalList = [];
             this.areaList = this.$store.getters.getAreaList(this.info.cityId);
             this.allData = [];
@@ -635,20 +704,23 @@ export default {
             this.loadPage(1);
         },
         changeArea() {
-            this.info.hospitalId = "0";
-            var params = {};
-            params.provinceCode = parseInt(
-                this.info.provinceId == 0 ? null : this.info.provinceId
-            );
-            if (this.info.areaId) {
-                this.$axios
-                    .post(api.hospitalselectbyprovincecode, params)
-                    .then(resp => {
-                        this.hospitalList = resp.data.object;
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+            this.info.hospitalId = null;
+            this.hospitalList = [];
+            if(this.info.areaId){
+                var params = {};
+                params.provinceCode = this.info.provinceId;
+                params.cityCode = this.info.cityId;
+                params.districtCode = this.info.areaId;
+                if (this.info.areaId) {
+                    this.$axios
+                        .post(api.hospitalselectbyprovincecode, params)
+                        .then(resp => {
+                            this.hospitalList = resp.data.object;
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
             }
             this.allData = [];
             this.selData = [];

@@ -2,10 +2,17 @@
     <div class="doctorreviewlist">
         <Row>
             <Col :xs="24">
-                <div class="second">
+                <div class="margin-up-down">
+                    <fourLevelLinkage
+                        @changeProvince="changeProvince"
+                        @changeCity="changeCity"
+                        @changeArea="changeArea"
+                        @changeHospital="changeHospital"
+                    ></fourLevelLinkage>
+                </div>
+                <div class="margin-up-down">
                     <span>状态:</span>
                     <Select class="w-select" clearable v-model="status">
-                        <!-- <Option value="999">全部</Option> -->
                         <Option
                             v-for="(item,index) in statusList"
                             :value="index"
@@ -13,7 +20,7 @@
                         >{{item}}</Option>
                     </Select>
                 </div>
-                <div class="third">
+                <div class="margin-up-down">
                     <span>日期:</span>
                     <DatePicker
                         type="date"
@@ -35,7 +42,7 @@
                         style="width: 200px"
                     ></DatePicker>
                 </div>
-                <div class="first">
+                <div class="margin-up-down">
                     <Input class="w-input" v-model="searchKey" placeholder="订单号、医院、科室、医生、就诊人"/>
                     <Button type="primary" @click="loadPage(1)">
                         <Icon type="ios-search" size="14"/>查询
@@ -43,17 +50,22 @@
                 </div>
             </Col>
         </Row>
-        <br>
         <Table class="m-table" stripe :columns="columns" :data="orderList"></Table>
         <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
     </div>
 </template>
 <script>
-import { Select, Option, DatePicker } from "iview";
+import { DatePicker } from "iview";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
 export default {
     data() {
         return {
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+
             searchKey: "",
             startDate: "",
             endDate: "",
@@ -179,9 +191,8 @@ export default {
         };
     },
     components: {
-        Select,
-        Option,
-        DatePicker
+        DatePicker,
+        fourLevelLinkage
     },
     created() {
         let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
@@ -202,6 +213,18 @@ export default {
     mounted() {
     },
     methods: {
+        changeProvince(val) {
+            this.province = val;
+        },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
+        },
         changeStart(val) {
             this.startDate = val;
         },
@@ -220,8 +243,14 @@ export default {
             params.remoteDateStrar = startDate;
             params.remoteDateEnd = endDate;
             params.searchKey = this.searchKey ? this.searchKey : null;
+            params.provinceCode = this.province ? this.province : null;
+            params.cityCode = this.city ? this.city : null;
+            params.areaCode = this.area ? this.area : null;
+            params.hospitalId = this.hospital ? this.hospital : null;
+
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log("远程门诊订单 params",params);
             this.$axios
                 .post(api.ordermanagementlistbyremoteorder, params)
                 .then(resp => {
@@ -287,6 +316,10 @@ export default {
         display: inline-block;
         min-width: 460px;
         text-align: center;
+    }
+    .margin-up-down{
+        display:inline-block;
+        margin:10px 0;
     }
 }
 </style>

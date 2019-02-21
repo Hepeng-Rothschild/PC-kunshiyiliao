@@ -7,6 +7,11 @@
                     @changeCity="changeCity"
                     @changeArea="changeArea"
                     @changeHospital="changeHospital"
+                    :province="province"
+                    :city="city"
+                    :area="area"
+                    :hospital="hospital"
+                    :checkReback="checkReback"
                 ></fourLevelLinkage>
                 <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
                 <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
@@ -47,6 +52,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            checkReback: 1,
 
             searchKey: "",
             keyPlaceHolder: "医生姓名",
@@ -142,6 +148,8 @@ export default {
                                                     city: this.city,
                                                     area: this.area,
                                                     hospital: this.hospital,
+                                                    checkReback: this
+                                                        .checkReback,
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
@@ -171,6 +179,8 @@ export default {
                                                     city: this.city,
                                                     area: this.area,
                                                     hospital: this.hospital,
+                                                    checkReback: this
+                                                        .checkReback,
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
@@ -212,13 +222,38 @@ export default {
             identity: null,
             identityCoding: null,
             ownArea: null,
-            isBack:1
+            isBack: 1
         };
     },
     components: {
         fourLevelLinkage
     },
     created() {
+        //不能删除，这段代码有待完善功能
+        /* this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
+        this.dictType = this.$route.query.dictType
+            ? this.$route.query.dictType
+            : "";
+        this.authStatus =
+            this.$route.query.authStatus == null
+                ? null
+                : parseInt(this.$route.query.authStatus);
+        this.checkReback = this.$route.query.checkReback?parseInt(this.$route.query.checkReback):1; */
+
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -274,7 +309,7 @@ export default {
             params.name = this.searchKey;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
-            console.log(params);
+            console.log("医生认证 params",params);
             this.$axios
                 .post(api.getReviewDoctorList, params)
                 .then(resp => {

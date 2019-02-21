@@ -218,6 +218,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            checkReback: 2,
 
             searchKey: "",
             dictType: "",
@@ -304,7 +305,7 @@ export default {
         this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
         this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
         this.authStatus = this.$route.query.authStatus==null?null:parseInt(this.$route.query.authStatus);
-
+        this.checkReback = 2;
         this.$axios
             .post(api.reviewDoctorInfo, { id: this.id })
             .then(resp => {
@@ -390,6 +391,7 @@ export default {
                     city: this.city,
                     area: this.area,
                     hospital: this.hospital,
+                    checkReback: this.checkReback,
                     searchKey: this.searchKey,
                     dictType: this.dictType,
                     authStatus: this.authStatus
@@ -427,6 +429,7 @@ export default {
                                 city: this.city,
                                 area: this.area,
                                 hospital: this.hospital,
+                                checkReback: this.checkReback,
                                 searchKey: this.searchKey,
                                 dictType: this.dictType,
                                 authStatus: this.authStatus
