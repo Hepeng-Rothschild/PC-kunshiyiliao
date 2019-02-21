@@ -17,12 +17,7 @@
       <div class="headers">
         <div class="city">
           <!-- 省 -->
-          <Select
-            v-model="model.provinceCode"
-            style="width:100px"
-            @on-change="provinceChange"
-            
-          >
+          <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange">
             <Option value>请选择</Option>
             <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
           </Select>
@@ -31,13 +26,12 @@
             v-model="model.cityCode"
             style="width:150px;margin:0 10px;"
             @on-change="cityChange"
-            
           >
             <Option value>请选择</Option>
             <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
           </Select>
           <!-- 区 -->
-          <Select v-model="model.districtCode" style="width:200px" >
+          <Select v-model="model.districtCode" style="width:200px">
             <Option value>请选择</Option>
             <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
           </Select>
@@ -134,9 +128,8 @@ export default {
       this.$Message.info("您还没有开通远程门诊,去开通");
       setTimeout(() => {
         localStorage.setItem("homeIndex", 0);
-        this.$router.push({
-          name: "homeInfo"
-        });
+        // 公用方法
+        this.functionJS.paramsNavgationTo(this, "homeInfo");
       }, 800);
       return "";
     }
@@ -145,9 +138,8 @@ export default {
   methods: {
     // 跳转云诊室列表
     roomListTo() {
-      this.$router.push({
-        name: "remoteClinicRoomList"
-      });
+       // 公用方法
+      this.functionJS.paramsNavgationTo(this, "remoteClinicRoomList");
     },
     // 输入值检索搜索内容
     searchContent() {

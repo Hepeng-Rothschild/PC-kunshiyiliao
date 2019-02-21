@@ -180,15 +180,17 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.$router.push({
-                                            path:
-                                                "/index/operation/doctormanage/edit",
-                                            query: {
+                                         //   公用方法
+                                        this.functionJS.queryNavgationTo(
+                                            this,
+                                            "/index/operation/doctormanage/edit",
+                                            {
                                                 id,
                                                 pageNo: this.pageNo,
                                                 searchKey: this.searchKey
                                             }
-                                        });
+                                        );
+
                                     }
                                 }
                             },

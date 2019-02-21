@@ -58,17 +58,22 @@ export default {
   },
   methods: {
     navto() {
-      this.$router.push({
-        path: "/index/operation/newClassify"
-      });
+       //   公用方法
+      this.functionJS.queryNavgationTo(
+          this,
+          "/index/operation/newClassify"
+      );
+
     },
     pageChange (index) {
 	  
 	},
 	change () {
-		this.$router.push({
-			name:"addClassify"
-		})
+    //   公用方法
+      this.functionJS.paramsNavgationTo(
+          this,
+          "addClassify"
+      );
 	}
   }
 };

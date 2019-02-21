@@ -135,12 +135,14 @@ export default {
             if (res.data.code) {
               this.$Message.info("修改成功");
               let pageNo = this.$route.query.pageNo;
-              this.$router.push({
-                path: "/index/maintain/admin/user/list",
-                query: {
+               //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/admin/user/list",
+                {
                   pageNo
                 }
-              });
+            );
             } else {
               this.$Message.info(res.data.message);
             }
@@ -149,12 +151,14 @@ export default {
     },
     back() {
       let pageNo = this.$route.query.pageNo;
-      this.$router.push({
-        path: "/index/maintain/admin/user/list",
-        query: {
-          pageNo
-        }
-      });
+       //   公用方法
+      this.functionJS.queryNavgationTo(
+          this,
+          "/index/maintain/admin/user/list",
+          {
+              pageNo
+          }
+      );
     }
   }
 };

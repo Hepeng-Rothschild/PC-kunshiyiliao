@@ -423,16 +423,20 @@ export default {
         (tmpUrl = "/index/operation/doctorContentCheck/cls-add");
       this.tabId == 2 &&
         (tmpUrl = "/index/operation/doctorContentCheck/hot-add");
-      this.$router.push({
-        path: tmpUrl,
-        query: {
+       //   公用方法
+      this.functionJS.queryNavgationTo(
+          this,
+          tmpUrl,
+          {
           tabId: this.tabId,
           pageNo: this.pageNo,
           sonTab: this.sonTab,
           publicationStatus: this.publicationStatus,
           articleText: this.articleText
-        }
-      });
+          }
+      );
+
+
     },
     toEdit(id) {
       let tmpUrl = "";
@@ -442,17 +446,20 @@ export default {
         (tmpUrl = "/index/operation/doctorContentCheck/cls-edit");
       this.tabId == 2 &&
         (tmpUrl = "/index/operation/doctorContentCheck/hot-edit");
-      this.$router.push({
-        path: tmpUrl,
-        query: {
+       //   公用方法
+      this.functionJS.queryNavgationTo(
+          this,
+          tmpUrl,
+          {
           id,
           tabId: this.tabId,
           pageNo: this.pageNo,
           sonTab: this.sonTab,
           publicationStatus: this.publicationStatus,
           articleText: this.articleText
-        }
-      });
+          }
+      );
+
     },
     changeEnable(index, id, url, enable) {
       let engable = null;

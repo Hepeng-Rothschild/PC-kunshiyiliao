@@ -61,12 +61,10 @@ export default {
   methods: {
     btn() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "iKeshi",
-        params: {
-          pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "iKeshi", {
+        // 公用方法
+        pageNo
+      }); 
     },
     toSelected(num) {
       let flag = false;
@@ -114,12 +112,10 @@ export default {
           this.$Message.info("修改成功");
           setTimeout(() => {
             let pageNo = this.$route.params.pageNo;
-            this.$router.push({
-              name: "iKeshi",
-              params: {
-                pageNo
-              }
-            });
+            this.functionJS.paramsNavgationTo(this, "iKeshi", {
+              // 公用方法
+              pageNo
+            }); 
           }, 500);
         }
       });

@@ -11,9 +11,9 @@
             <Icon type=" i-icon i-icon-shop_fill" size="24"/>
           </span>
           <Input v-model.trim="search" placeholder="输入名称进行检索" style="width: 200px" clearable/>
-          <Button type="primary" @click='searchInput' icon="ios-search">查询</Button>
+          <Button type="primary" @click="searchInput" icon="ios-search">查询</Button>
         </div>
-        <Button @click="navto" type="primary">添加Banner</Button>
+        <Button @click="addBanner" type="primary">添加Banner</Button>
       </div>
       <!--表格列表-->
       <div class="tabList">
@@ -33,14 +33,14 @@
             <td>
               <img
                 :src="analysisImages(item.imageUrl)"
-                alt='路径错误'
+                alt="路径错误"
                 style="display:inline-block;margin:10px 0;width:80px;height:80px;"
               >
             </td>
             <td>{{ item.bannerUrl }}</td>
             <td>{{ item.enable == 1? "是" :"否" }}</td>
             <td>{{ item.priority }}</td>
-            <td @click="change(item)" style="cursor:pointer;">编辑</td>
+            <td @click="editBanner(item)" style="cursor:pointer;">编辑</td>
           </tr>
         </table>
         <div class="footer" v-show="!tbleList.length">暂无更多数据</div>
@@ -74,19 +74,19 @@ export default {
       pageNo: 1
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     pageChange(index) {
@@ -97,24 +97,22 @@ export default {
         this.getData(index);
       }
     },
-    searchInput () {
+    searchInput() {
       this.getData(1, this.search);
     },
-    navto() {
-      this.$router.push({
-        name: "bannerAdd",
-        params: {
-          pageNo: this.pageNo
-        }
+    // 新增
+    addBanner() {
+      //functionJS公用跳转方法
+      this.functionJS.paramsNavgationTo(this, "bannerAdd", {
+        pageNo: this.pageNo
       });
     },
-    change(item) {
-      this.$router.push({
-        name: "addBanner",
-        params: {
-          id: item.id,
-          pageNo: this.pageNo
-        }
+    // 编辑
+    editBanner(item) {
+      //functionJS公用跳转方法
+      this.functionJS.paramsNavgationTo(this, "addBanner", {
+        id: item.id,
+        pageNo: this.pageNo
       });
     },
     getData(pageNo, val) {

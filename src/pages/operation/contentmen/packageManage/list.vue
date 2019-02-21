@@ -67,17 +67,15 @@ export default {
             //   this.getManagementData(index);
         },
         navto() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/edit"
-            });
+            this.functionJS.queryNavgationTo(this, "/index/operation/servicePackage/edit", {
+            // 公用方法
+            }); 
         },
         navtoAdd() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/pAdd",
-                query:{
-                    type:1
-                }
-            });
+            this.functionJS.queryNavgationTo(this, "/index/operation/servicePackage/pAdd", {
+                // 公用方法
+                type:1
+            }); 
         },
         getManagementData() {
             this.$axios

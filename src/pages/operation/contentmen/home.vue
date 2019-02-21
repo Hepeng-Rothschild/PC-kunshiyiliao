@@ -59,7 +59,7 @@
 import api from "@/api/commonApi";
 import { Page } from "iview";
 import aesUtils from "@/plugins/aes-utils.js";
-import store from '@/store';
+import store from "@/store";
 export default {
   components: {
     Page
@@ -123,10 +123,12 @@ export default {
       let iv = store.state.iv;
       let salt = store.state.salt;
       sessionStorage.setItem("hospitalId", item.hospitalId);
-      localStorage.setItem("hospitalName", aesUtils.encrypt(salt, iv, 'Doctortoservice', item.orgName));
-      this.$router.push({
-        name: "homeInfo"
-      })
+      localStorage.setItem(
+        "hospitalName",
+        aesUtils.encrypt(salt, iv, "Doctortoservice", item.orgName)
+      );
+      //   公用方法
+      this.functionJS.paramsNavgationTo(this, "homeInfo");
     },
     search() {
       this.getDate(1, this.val);

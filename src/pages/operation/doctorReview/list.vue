@@ -180,10 +180,11 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push({
-                                                path:
-                                                    "/index/operation/doctorReview/review",
-                                                query: {
+                                             //   公用方法
+                                            this.functionJS.queryNavgationTo(
+                                                this,
+                                                "/index/operation/doctorReview/review",
+                                                {
                                                     id,
                                                     pageNo: this.pageNo,
                                                     province: this.province,
@@ -194,7 +195,8 @@ export default {
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
                                                 }
-                                            });
+                                            );
+
                                         }
                                     }
                                 },
@@ -209,10 +211,11 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push({
-                                                path:
-                                                    "/index/operation/doctorReview/edit",
-                                                query: {
+                                             //   公用方法
+                                            this.functionJS.queryNavgationTo(
+                                                this,
+                                                "/index/operation/doctorReview/edit",
+                                                {
                                                     id,
                                                     pageNo: this.pageNo,
                                                     province: this.province,
@@ -223,7 +226,8 @@ export default {
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
                                                 }
-                                            });
+                                            );
+
                                         }
                                     }
                                 },

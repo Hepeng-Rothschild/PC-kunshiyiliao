@@ -115,12 +115,6 @@ export default {
             this.$Message.info("添加成功");
             let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
-              // this.$router.push({
-              //   path: "/index/operation/versionManagement/home",
-              //   query: {
-              //     pageNo
-              //   }
-              // });
               this.functionJS.queryNavgationTo(this,"/index/operation/versionManagement/home",{
                 pageNo
               })
@@ -133,12 +127,6 @@ export default {
     },
     back() {
       let pageNo = this.$route.query.pageNo;
-      // this.$router.push({
-      //   path: "/index/operation/versionManagement/home",
-      //   query: {
-      //     pageNo
-      //   }
-      // });
       this.functionJS.queryNavgationTo(this,"/index/operation/versionManagement/home",{
         pageNo
       })

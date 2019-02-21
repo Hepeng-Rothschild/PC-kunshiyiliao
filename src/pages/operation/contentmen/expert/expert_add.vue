@@ -17,6 +17,7 @@
         />
         <Button type="primary" @click="search">查询</Button>
       </div>
+      <!-- 选择专家 -->
       <div class="main_expert_item">
         <div class="main_expert_title">
           <span style="color:red;">*&nbsp;&nbsp;</span>
@@ -105,7 +106,7 @@
         </div>
         <iSwitch v-model="switch1" @on-change="change"/>
       </div>
-      <!--显示-->
+      <!--是否为专家-->
       <div class="main_expert_item">
         <div class="main_expert_title">
           <span style="color:red;">&nbsp;&nbsp;</span>
@@ -234,12 +235,10 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "operationExpert",
-        params: {
+      this.functionJS.paramsNavgationTo(this, "operationExpert", {
+        // 公用方法
           pageNo
-        }
-      });
+      }); 
     },
     save() {
       let params = {
@@ -264,12 +263,10 @@ export default {
               let ret = res.data;
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
-                this.$router.push({
-                  name: "operationExpert",
-                  params: {
+                this.functionJS.paramsNavgationTo(this, "operationExpert", {
+                  // 公用方法
                     pageNo
-                  }
-                });
+                }); 
               }, 500);
               this.$Message.info("添加成功");
             } else {

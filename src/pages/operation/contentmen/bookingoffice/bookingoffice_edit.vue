@@ -254,11 +254,8 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "kDepartment",
-        params: {
-          pageNo
-        }
+      this.functionJS.paramsNavgationTo(this, "kDepartment", {
+        pageNo
       });
     },
     save() {
@@ -290,11 +287,9 @@ export default {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
-              this.$router.push({
-                name: "kDepartment",
-                params: {
-                  pageNo
-                }
+               //functionJS公用跳转方法
+              this.functionJS.paramsNavgationTo(this, "kDepartment", {
+                pageNo
               });
             });
           } else {

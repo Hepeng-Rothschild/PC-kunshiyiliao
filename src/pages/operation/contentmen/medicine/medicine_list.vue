@@ -108,22 +108,18 @@ export default {
       this.getMedicineData(1, this.val);
     },
     navto() {
-      this.$router.push({
-        name: "medicineAdd",
-        params: {
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "medicineAdd", {
+        // 公用方法
+        pageNo: this.pageNo
+      }); 
     },
     edit(item) {
       let id = item.id;
-      this.$router.push({
-        name: "medicineEdit",
-        params: {
-          id,
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "medicineEdit", {
+        // 公用方法
+         id,
+        pageNo: this.pageNo
+      }); 
     },
     getMedicineData(pageNo, val) {
       let params = {

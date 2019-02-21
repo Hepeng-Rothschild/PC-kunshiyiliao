@@ -258,16 +258,26 @@ export default {
             }
         },
         goAdd() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/pAdd",
-                query: { pageNo: this.pageNo }
-            });
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/pAdd",
+                {
+                    pageNo: this.pageNo
+                }
+            );
+
         },
         goEdit(id) {
-            this.$router.push({
-                path: "/index/operation/servicePackage/pEdit",
-                query: { id, pageNo: this.pageNo }
-            });
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/pEdit",
+                {
+                    id, pageNo: this.pageNo
+                }
+            );
+
         },
         goImport() {},
         //加载列表数据

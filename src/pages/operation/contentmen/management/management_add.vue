@@ -33,7 +33,7 @@
       </div>
       <!--保存-->
       <div class="expert_save">
-        <Button type="primary" @click="navto">保存</Button>
+        <Button type="primary" @click="save">保存</Button>
         <Button @click="$router.back()">取消</Button>
       </div>
     </div>
@@ -70,7 +70,7 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   methods: {
-    navto() {
+    save() {
       let wrap = document.getElementsByClassName("addManag")[0];
       let el = wrap.getElementsByTagName("input");
       let len = el.length;
@@ -89,9 +89,9 @@ export default {
           if (res.data.code) {
             this.$Message.info("修改成功");
             setTimeout(() => {
-              this.$router.push({
-                name: "serviceManagement"
-              });
+              this.functionJS.paramsNavgationTo(this, "serviceManagement", {
+                // 公用方法
+              }); 
             }, 500);
           } else {
             this.$Message.error("修改失败,请重试");

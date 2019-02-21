@@ -3,6 +3,7 @@
     <header>
       <span>签约状态：</span>
       <Select class="w-select" clearable v-model="authStatus" style='width:120px;'>
+        <Option value="null" key="null">全部</Option>
         <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
       </Select>
       <span>机构名称：</span>

@@ -217,12 +217,10 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "iKeshi",
-        params: {
-          pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "iKeshi", {
+        // 公用方法
+        pageNo
+      }); 
     },
     //保存
     save() {
@@ -258,12 +256,10 @@ export default {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
-              this.$router.push({
-                name: "iKeshi",
-                params: {
-                  pageNo
-                }
-              });
+              this.functionJS.paramsNavgationTo(this, "iKeshi", {
+                // 公用方法
+                pageNo
+              }); 
             }, 500);
           } else {
             this.$Message.info("修改失败");

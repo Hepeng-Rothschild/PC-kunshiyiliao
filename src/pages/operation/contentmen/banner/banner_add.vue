@@ -149,11 +149,9 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "iBanner",
-        params: {
-          pageNo
-        }
+      //functionJS公用跳转方法
+      this.functionJS.paramsNavgationTo(this, "iBanner", {
+        pageNo
       });
     },
     save() {
@@ -179,11 +177,9 @@ export default {
               this.$Message.info("添加成功");
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
-                this.$router.push({
-                  name: "iBanner",
-                  params: {
-                    pageNo
-                  }
+                //functionJS公用跳转方法
+                this.functionJS.paramsNavgationTo(this, "iBanner", {
+                  pageNo
                 });
               }, 300);
             } else {

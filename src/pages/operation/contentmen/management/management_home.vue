@@ -67,10 +67,11 @@ export default {
       //   this.getManagementData(index);
     },
     navto(item) {
-      this.$router.push({
-        name: "managementAdd"
-      });
+      this.functionJS.paramsNavgationTo(this, "managementAdd", {
+        // 公用方法
+      }); 
     },
+    // 请求数据
     getManagementData() {
       this.$axios
         .post(api._server, {

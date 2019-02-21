@@ -107,13 +107,15 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        path: "/index/maintain/admin/user/edit",
-                        query: {
-                          pageNo: this.pageNo,
-                          id
-                        }
-                      });
+                       //   公用方法
+                      this.functionJS.queryNavgationTo(
+                          this,
+                          "/index/maintain/admin/user/edit",
+                          {
+                            pageNo: this.pageNo,
+                            id
+                          }
+                      );
                     }
                   }
                 },
@@ -127,13 +129,14 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        path: "/index/maintain/admin/user/Jurisdiction",
-                        query: {
-                          pageNo: this.pageNo,
-                          id
-                        }
-                      })
+                      this.functionJS.queryNavgationTo(
+                          this,
+                          "/index/maintain/admin/user/Jurisdiction",
+                          {
+                            pageNo: this.pageNo,
+                            id
+                          }
+                      );
                     }
                   }
                 },
@@ -171,12 +174,14 @@ export default {
   methods: {
     // 添加角色
     add() {
-      this.$router.push({
-        path: "/index/maintain/admin/user/add",
-        query: {
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.queryNavgationTo(
+          this,
+          "/index/maintain/admin/user/add",
+          {
+            pageNo: this.pageNo
+          }
+      );
+      
     },
     // 分页器改变
     loadPage(pageNo) {

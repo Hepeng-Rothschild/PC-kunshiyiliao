@@ -132,29 +132,25 @@ export default {
         localStorage.setItem("homeIndex", 0);
         this.flag = true;
         setTimeout(() => {
-          this.$router.push({
-            name: "homeInfo"
-          });
+          this.functionJS.paramsNavgationTo(this, "homeInfo", {
+            // 公用方法
+          }); 
         }, 600);
       }
     },
     navto(item) {
       let id = item.id;
-      this.$router.push({
-        name: "newsEdit",
-        params: {
-          id,
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "newsEdit", {
+        // 公用方法
+        id,
+        pageNo: this.pageNo
+      }); 
     },
     add() {
-      this.$router.push({
-        name: "d_createdNews",
-        params: {
+      this.functionJS.paramsNavgationTo(this, "d_createdNews", {
+        // 公用方法
           pageNo: this.pageNo
-        }
-      });
+      }); 
     },
     press() {
       this.getData(1, this.search);

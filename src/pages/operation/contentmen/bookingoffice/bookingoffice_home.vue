@@ -29,7 +29,7 @@
             <td>{{ item.display !=1? '否' :'是' }}</td>
             <td>{{ item.priority }}</td>
             <td >
-              <span @click="navto(item)" style='cursor:pointer;'>编辑</span>
+              <span @click="edit(item)" style='cursor:pointer;'>编辑</span>
             </td>
           </tr>
         </table>
@@ -85,15 +85,13 @@ export default {
         this.getBookingofficeData(index);
       }
     },
-    navto(item) {
+    edit(item) {
       let id = item.id;
-      this.$router.push({
-        name: "bookingofficeEdit",
-        params: {
+       //functionJS公用跳转方法
+        this.functionJS.paramsNavgationTo(this, "bookingofficeEdit", {
           id,
           pageNo:this.pageNo
-        }
-      });
+        });
     },
     // 模糊查询
     valChange() {

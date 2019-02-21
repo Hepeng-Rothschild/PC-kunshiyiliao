@@ -80,13 +80,16 @@ export default {
             let fail = this.$route.query.fail;
             let success = fail.success;
             let error = fail.fail.length;
-            this.$router.push({
-                path: "/index/operation/servicePackage/itemImportThree",
-                query: {
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/itemImportThree",
+                {
                     success,
                     error
                 }
-            });
+            );
+
         },
         //   上一步
         prev() {

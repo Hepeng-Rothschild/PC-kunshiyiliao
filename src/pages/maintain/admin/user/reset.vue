@@ -117,23 +117,27 @@ export default {
         this.$Message.info("重置成功");
         let pageNo = this.$route.params.pageNo;
         setTimeout(() => {
-          this.$router.push({
-            name: "adminlist",
-            params: {
-              pageNo
-            }
-          });
+           //   公用方法
+            this.functionJS.paramsNavgationTo(
+                this,
+                "adminlist",
+                {
+                    pageNo
+                }
+            );
         }, 800);
       }
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "adminlist",
-        params: {
-          pageNo
-        }
-      });
+      //   公用方法
+      this.functionJS.paramsNavgationTo(
+          this,
+          "adminlist",
+          {
+              pageNo
+          }
+      );
     }
   }
 };

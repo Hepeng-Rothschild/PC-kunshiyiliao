@@ -97,20 +97,26 @@ export default {
         },
         next() {
             if (!this.disabled) {
-                this.$router.push({
-                    path: "/index/operation/servicePackage/itemImportTwo",
-                    query: {
+                 //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/itemImportTwo",
+                {
                         fail: this.errorData
-                    }
-                });
+                }
+            );
+
             } else {
                 this.$Message.info("请选择批量上传的文件");
             }
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/itemList"
-            });
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/itemList"
+            );
+
         }
     }
 };

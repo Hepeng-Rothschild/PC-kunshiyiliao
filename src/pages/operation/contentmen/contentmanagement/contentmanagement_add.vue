@@ -259,12 +259,14 @@ export default {
     },
     back() {
       let pageNo = this.$route.query.pageNo;
-      this.$router.push({
-        path: "/index/operation/contentmanagement_home",
-        query: {
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/operation/contentmanagement_home",
+        {
+          //公用方法
           pageNo
         }
-      });
+      );
     },
     //保存
     save() {
@@ -273,7 +275,7 @@ export default {
         this.$Message.error("主标题不能为空");
       } else if (!this.ftitle) {
         this.$Message.error("副标题不能为空");
-      } else if (this.select=='-1') {
+      } else if (this.select == "-1") {
         this.$Message.error("请选择栏目");
       } else if (!this.type) {
         this.$Message.error("请选择类型");
@@ -311,12 +313,14 @@ export default {
               this.$Message.info("添加成功");
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
-                this.$router.push({
-                  name: "contentmanagementHome",
-                  params: {
+                this.functionJS.queryNavgationTo(
+                  this,
+                  "/index/operation/contentmanagement_home",
+                  {
+                    //公用方法
                     pageNo
                   }
-                });
+                );
               }, 500);
             } else {
               this.$Message.info("添加失败请重试");

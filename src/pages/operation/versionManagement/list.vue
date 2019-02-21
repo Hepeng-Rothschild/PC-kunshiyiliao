@@ -59,13 +59,6 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // this.$router.push({
-                      //   path: "/index/operation/versionManagement/edit",
-                      //   query: {
-                      //     id,
-                      //     pageNo: this.pageNo
-                      //   }
-                      // });
                       // function全局方法
                       this.functionJS.queryNavgationTo(
                         this,
@@ -147,12 +140,6 @@ export default {
       });
     },
     add() {
-      // this.$router.push({
-      //   path: "/index/operation/versionManagement/add",
-      //   query: {
-      //     pageNo: this.pageNo
-      //   }
-      // });
       // function全局方法
       this.functionJS.queryNavgationTo(
         this,

@@ -433,12 +433,10 @@ export default {
                         let pageNo = this.$route.query.pageNo;
                         if (!res.data.object.fail) {
                             setTimeout(() => {
-                                this.$router.push({
-                                    path: "/index/maintain/admin/user/list",
-                                    query: {
-                                        pageNo
-                                    }
-                                });
+                                 this.functionJS.queryNavgationTo(this, '/index/maintain/admin/user/list',{
+                                    pageNo
+                                 });
+                                
                             }, 800);
                         }
                     } else {
@@ -449,12 +447,14 @@ export default {
         },
         back() {
             let pageNo = this.$route.query.pageNo;
-            this.$router.push({
-                path: "/index/maintain/admin/user/list",
-                query: {
+            //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/admin/user/list",
+                {
                     pageNo
                 }
-            });
+            );
         },
         handleView(name) {
             this.imgName = name;

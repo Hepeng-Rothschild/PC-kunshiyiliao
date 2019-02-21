@@ -382,9 +382,11 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/doctorreview/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/doctorreview/list",
+                {
                     pageNo: this.pageNo,
                     province: this.province,
                     city: this.city,
@@ -394,7 +396,8 @@ export default {
                     dictType: this.dictType,
                     authStatus: this.authStatus
                 }
-            });
+            );
+
         },
         ok() {
             this.checkStatus = false;
@@ -419,9 +422,11 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.$Message.success("修改成功");
-                        this.$router.push({
-                            path: "/index/operation/doctorreview/list",
-                            query: { 
+                         //   公用方法
+                        this.functionJS.queryNavgationTo(
+                            this,
+                            "/index/operation/doctorreview/list",
+                            {
                                 pageNo: this.pageNo,
                                 province: this.province,
                                 city: this.city,
@@ -431,7 +436,8 @@ export default {
                                 dictType: this.dictType,
                                 authStatus: this.authStatus
                             }
-                        });
+                        );
+
                     } else {
                         this.$Message.error("修改失败，请重试");
                     }

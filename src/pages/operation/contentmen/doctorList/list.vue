@@ -80,9 +80,9 @@ export default {
       this.$Message.info("您还没有开通远程门诊,去开通");
       localStorage.setItem("homeIndex", 0);
       setTimeout(() => {
-        this.$router.push({
-          name: "homeInfo"
-        });
+        this.functionJS.paramsNavgationTo(this, "homeInfo");
+        // 公用方法
+      
       }, 800)
       return ""
     }
@@ -110,11 +110,9 @@ export default {
     },
     cancel() {
         this.itme = {}
-      //   this.$Message.info("Clicked cancel");
     },
     pageChange(index) {
       this.pageNo = index;
-
       this.getIremote();
     },
     getIremote() {

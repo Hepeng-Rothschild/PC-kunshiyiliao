@@ -304,16 +304,19 @@ export default {
             this.showViewModal = true;
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/orders/remoteClinic/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/orders/remoteClinic/list",
+                {
                     pageNo: this.pageNo,
                     searchKey: this.searchKey,
                     startDate: this.startDate,
                     endDate: this.endDate,
                     status: this.status
                 }
-            });
+            );
+
         }
     }
 };

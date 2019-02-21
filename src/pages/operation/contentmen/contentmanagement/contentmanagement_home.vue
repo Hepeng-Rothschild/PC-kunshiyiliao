@@ -162,11 +162,9 @@ export default {
   },
   methods: {
     add() {
-      this.$router.push({
-        path: "/index/operation/contentmanagement_add",
-        query: {
-          pageNo: this.pageNo
-        }
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_add", {
+      //公用方法
+        pageNo:this.pageNo
       });
     },
     getContentData(pageNo, val, type, enable) {
@@ -192,12 +190,9 @@ export default {
       });
     },
     homeBtn() {
-
-      this.$router.push({
-        path: "/index/operation/contentmanagement_edit",
-        query: {
-          pageNo: this.pageNo
-        }
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_edit", {
+      //公用方法
+        pageNo:this.pageNo
       });
     },
     pageChange(index) {
@@ -271,12 +266,10 @@ export default {
     //根据ID修改对应的新闻资讯
     changeItem(item) {
       let id = item.articleId;
-      this.$router.push({
-        path: "/index/operation/contentmanagement_edit",
-        query: {
-          id,
-          pageNo: this.pageNo
-        }
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_edit", {
+      //公用方法
+        id,
+        pageNo:this.pageNo
       });
     },
     //模态框

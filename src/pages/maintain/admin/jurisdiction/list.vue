@@ -61,10 +61,10 @@ export default {
                     click: () => {
                       // 生成下载链接
                       //   window.open(ret.message)
-                      //   this.$router.push({
-                      //     path: "/index/operation/register/edit",
-                      //     query: { id,pageNo:this.pageNo }
-                      //   })
+                      // 公用方法
+                      // this.functionJS.queryNavgationTo(this, '/index/operation/register/edit',{
+                      //   id,pageNo:this.pageNo
+                      // });
                     }
                   }
                 },
@@ -82,9 +82,8 @@ export default {
       this.pageNo = index;
     },
     addRole () {
-        this.$router.push({
-            name:"jurisdictionAdd"
-        })
+        // 公用方法
+         this.functionJS.paramsNavgationTo(this, 'jurisdictionAdd');
     }
   }
 };

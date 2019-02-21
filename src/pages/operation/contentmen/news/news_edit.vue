@@ -100,8 +100,6 @@
       </div>
       <!--保存-->
       <div class="save">
-        <!-- <div @click="save" style="cursor:pointer">保存</div>
-        <div @click="back" style="cursor:pointer">取消</div> -->
         <Button type="primary" @click="save">保存</Button>
           <Button @click="back">取消</Button>
       </div>
@@ -280,12 +278,10 @@ export default {
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
                 setTimeout(() => {
-                  this.$router.push({
-                    name: "operationNews",
-                    params: {
-                      pageNo
-                    }
-                  });
+                  this.functionJS.paramsNavgationTo(this, "operationNews", {
+                    // 公用方法
+                    pageNo
+                  }); 
                 }, 500);
               });
             } else {
@@ -299,12 +295,10 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "operationNews",
-        params: {
-          pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "operationNews", {
+        // 公用方法
+        pageNo
+      }); 
     },
     analysisImages(json) {
       try {

@@ -282,17 +282,19 @@ export default {
                             .then(resp => {
                                 if (resp.data.success) {
                                     this.$Message.success(successMsg);
-                                    this.$router.push({
-                                        path:
-                                            "/index/operation/doctorContentCheck/list",
-                                        query: {
+                                     //   公用方法
+                                    this.functionJS.queryNavgationTo(
+                                        this,
+                                        "/index/operation/doctorContentCheck/list",
+                                        {
                                             tabId: this.tabId,
                                             pageNo: this.pageNo,
                                             sonTab: this.sonTab,
                                             publicationStatus: this.publicationStatus,
                                             articleText: this.articleText
                                         }
-                                    });
+                                    );
+
                                 } else {
                                     this.$Message.error(failMsg);
                                 }
@@ -309,16 +311,19 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/doctorContentCheck/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/doctorContentCheck/list",
+                {
                     tabId: this.tabId, 
                     pageNo: this.pageNo,
                     sonTab: this.sonTab,
                     publicationStatus: this.publicationStatus,
                     articleText: this.articleText
                 }
-            });
+            );
+
         },
         onContentChange(val) {
             this.info.content = val;

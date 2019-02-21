@@ -84,6 +84,7 @@
         </div>
         <iSwitch v-model="switch1" @on-change="change"/>
       </div>
+      <!-- 是否为专家 -->
       <div class="main_expert_item">
         <div class="main_expert_title">
           <span style="color:red;">&nbsp;&nbsp;</span>
@@ -185,12 +186,10 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "operationExpert",
-        params: {
+      this.functionJS.paramsNavgationTo(this, "operationExpert", {
+        // 公用方法
           pageNo
-        }
-      });
+      }); 
     },
     save() {
       let hospitalId = sessionStorage.getItem("hospitalId");
@@ -214,12 +213,10 @@ export default {
             let pageNo = this.$route.params.pageNo;
             this.$Message.info("修改成功");
             setTimeout(() => {
-              this.$router.push({
-                name: "operationExpert",
-                params: {
+              this.functionJS.paramsNavgationTo(this, "operationExpert", {
+                // 公用方法
                   pageNo
-                }
-              });
+              }); 
             }, 500);
           } else {
             this.$Message.error("修改失败请重试");

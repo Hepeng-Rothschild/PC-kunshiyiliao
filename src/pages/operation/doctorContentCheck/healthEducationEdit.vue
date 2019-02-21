@@ -302,17 +302,19 @@ export default {
                             .then(resp => {
                                 if (resp.data.success) {
                                     this.$Message.success(msg);
-                                    this.$router.push({
-                                        path:
-                                            "/index/operation/doctorContentCheck/list",
-                                        query: {
+                                     //   公用方法
+                                    this.functionJS.queryNavgationTo(
+                                        this,
+                                        "/index/operation/doctorContentCheck/list",
+                                        {
                                             tabId: this.tabId,
                                             pageNo: this.pageNo,
                                             sonTab: this.sonTab,
                                             publicationStatus: this.publicationStatus,
                                             articleText: this.articleText
                                         }
-                                    });
+                                    );
+
                                 } else {
                                     this.$Message.fail("修改失败，请重试");
                                 }
@@ -329,16 +331,19 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/doctorContentCheck/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/doctorContentCheck/list",
+                {
                     tabId: this.tabId, 
                     pageNo: this.pageNo,
                     sonTab: this.sonTab,
                     publicationStatus: this.publicationStatus,
                     articleText: this.articleText
                 }
-            });
+            );
+
         },
         handleView(name) {
             this.imgName = name;
