@@ -40,11 +40,9 @@
   </div>
 </template>
 <script>
-import { Upload } from "iview";
 import tmptab from "./tmptab";
 export default {
   components: {
-    Upload,
     tmptab
   },
   data() {

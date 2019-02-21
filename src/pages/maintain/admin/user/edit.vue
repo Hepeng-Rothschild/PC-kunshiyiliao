@@ -182,14 +182,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 
-import { Select, Option, Upload, Icon, Switch } from "iview";
+import { Select, Option } from "iview";
 export default {
   components: {
     Select,
-    Option,
-    Upload,
-    Icon,
-    iSwitch: Switch
+    Option
   },
   data() {
     return {

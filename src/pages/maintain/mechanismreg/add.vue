@@ -251,10 +251,10 @@ export default {
         this.$axios.post(api.mechanismregAdd, params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");
-            let pageNo = this.$route.params.pageNo;
+            let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
               // functionJS公用 方法
-              this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+              this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
                 pageNo
               });
             }, 500);
@@ -267,9 +267,9 @@ export default {
     // 返回上一步
     back() {
       // 获取路由参数
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+      this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
         pageNo
       });
     },

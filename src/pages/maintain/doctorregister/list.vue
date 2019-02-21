@@ -64,7 +64,6 @@
 <script>
 // 医生注册信息
 import api from "@/api/commonApi";
-import { Page, Upload } from "iview";
 export default {
   data() {
     return {
@@ -91,9 +90,9 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let pageNo = this.$route.params.pageNo;
+    let pageNo = this.$route.query.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = Number(pageNo);
     }
     this.getDoctorData(this.pageNo);
   },
@@ -101,7 +100,7 @@ export default {
     // 批量导入
     branch() {
       // function全局方法
-      this.functionJS.paramsNavgationTo(this,"doctorregisterbatchone",{
+      this.functionJS.queryNavgationTo(this,"/index/maintain/doctorregister/batchone",{
           pageNo: this.pageNo
         })
     },
@@ -147,10 +146,6 @@ export default {
         }
       });
     }
-  },
-  components: {
-    Page,
-    Upload
   }
 };
 </script>

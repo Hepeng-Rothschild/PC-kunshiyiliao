@@ -81,9 +81,10 @@ export default {
     loadPage(index) {
       this.pageNo = index;
     },
+    // 添加角色
     addRole () {
-        // 公用方法
-         this.functionJS.paramsNavgationTo(this, 'jurisdictionAdd');
+      // 公用方法
+        this.functionJS.paramsNavgationTo(this, 'jurisdictionAdd');
     }
   }
 };

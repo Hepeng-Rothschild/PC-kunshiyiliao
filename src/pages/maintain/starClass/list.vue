@@ -81,10 +81,10 @@
 </template>
 
 <script>
-import { Rate, Switch } from "iview";
+import { Rate } from "iview";
 import api from "@/api/commonApi";
 export default {
-  components: { Rate, iSwitch: Switch },
+  components: { Rate },
   data() {
     return {
       val: "",
@@ -159,20 +159,20 @@ export default {
       pageNo: 1
     };
   },
-    created(){
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/configurationWarehouse/index",
-                title: "配置仓"
-            },
-            {
-                path: "/index/maintain/starClass/list",
-                title: "评价管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+  created() {
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/configurationWarehouse/index",
+        title: "配置仓"
+      },
+      {
+        path: "/index/maintain/starClass/list",
+        title: "评价管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     this.loadingPage(this.pageNo);
   },
@@ -242,7 +242,7 @@ export default {
       if (Boolean(val)) {
         params.searchKey = val;
       }
-     await this.$axios.post(api.starClassList, params).then(res => {
+      await this.$axios.post(api.starClassList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
           this.count = ret.count;
@@ -251,7 +251,7 @@ export default {
           });
           this.diseaseList = ret.list;
         } else {
-          this.$Message.info("不允许访问")
+          this.$Message.info("不允许访问");
         }
       });
     }

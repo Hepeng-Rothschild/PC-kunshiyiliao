@@ -46,7 +46,6 @@
 <script>
 // 居民注册信息
 import api from "@/api/commonApi";
-import { Page } from "iview";
 export default {
   data() {
     return {
@@ -73,6 +72,7 @@ export default {
     this.getData(1);
   },
   methods: {
+    // 分页改变
     pageChange(index) {
       if (this.Name) {
         this.getData(index,this.Name);
@@ -80,9 +80,11 @@ export default {
         this.getData(index);
       }
     },
+    // 查询
     nameChange() {
       this.getData(1, this.Name);
     },
+    // 加载数据
     getData(pageNo, val) {
       let params = {
         pageNo,
@@ -107,9 +109,6 @@ export default {
         }
       });
     }
-  },
-  components: {
-    Page
   }
 };
 </script>

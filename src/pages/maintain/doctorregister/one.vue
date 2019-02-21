@@ -25,13 +25,11 @@
   </div>
 </template>
 <script>
-import { Upload } from "iview";
 import tmptab from "./tmptab";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
-    Upload,
     tmptab
   },
   data() {
@@ -102,9 +100,9 @@ export default {
       }
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       // FUNCTION公用 方法
-      this.functionJS.paramsNavgationTo(this, "doctorregisterlist", {
+      this.functionJS.queryNavgationTo(this, "/index/maintain/doctorregister/list", {
         pageNo
       });
     }

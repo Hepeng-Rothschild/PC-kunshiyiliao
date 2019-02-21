@@ -60,7 +60,6 @@
 <script>
 // 机构注册信息
 import api from "@/api/commonApi";
-import { Page } from "iview";
 export default {
   data() {
     return {
@@ -85,9 +84,9 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let pageNo = this.$route.params.pageNo;
+    let pageNo = this.$route.query.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = parseInt(pageNo);
     }
     this.getMechanismreg(this.pageNo);
   },
@@ -114,7 +113,7 @@ export default {
     },
     batch() {
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this,"mechanismregeditbatchone", {
+      this.functionJS.queryNavgationTo(this,"/index/maintain/mechanismreg/batchone", {
         pageNo: this.pageNo
       })
     },
@@ -131,14 +130,14 @@ export default {
     },
     add() {
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this,"mechanismregadd", {
+      this.functionJS.queryNavgationTo(this,"/index/maintain/mechanismreg/mechanismregAdd", {
         pageNo: this.pageNo
       })
     },
     edit(item) {
       let id = item.id;
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this,"mechanismregedit", {
+      this.functionJS.queryNavgationTo(this,"/index/maintain/mechanismreg/mechanismregEdit", {
         id,
         pageNo: this.pageNo
       })
@@ -161,9 +160,6 @@ export default {
         }
       });
     }
-  },
-  components: {
-    Page
   }
 };
 </script>

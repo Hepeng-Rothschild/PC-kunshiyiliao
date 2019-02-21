@@ -12,16 +12,14 @@
         <span>本次不可导入</span>
         <span>数据:{{ error }}条</span>
       </div>
-      <button class="btn" @click="btn">完成</button>
+      <button class="btn" @click="success">完成</button>
     </div>
   </div>
 </template>
 <script>
-import { Upload } from "iview";
 import tmptab from "./tmptab";
 export default {
   components: {
-    Upload,
     tmptab
   },
   data() {
@@ -52,7 +50,7 @@ export default {
     }
   },
   methods: {
-    btn() {
+    success() {
       this.functionJS.paramsNavgationTo(this, "doctorregisterlist");
     }
   }

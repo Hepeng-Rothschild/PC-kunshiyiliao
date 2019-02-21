@@ -14,7 +14,7 @@ import 'iview/dist/styles/fonts/ionicons.eot';
 import 'iview/dist/styles/fonts/ionicons.svg';
 import 'iview/dist/styles/fonts/ionicons.ttf';
 import 'iview/dist/styles/fonts/ionicons.woff';
-import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup } from 'iview';
+import { Button, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch } from 'iview';
 import './assets/css/base.css';
 /* 分片上传大文件JQ插件，暂时没用 */
 // require('@/plugins/jquery.fcup.js');
@@ -93,6 +93,7 @@ Vue.component('FormItem', FormItem);
 Vue.component('Upload', Upload);
 Vue.component('CheckboxGroup', CheckboxGroup);
 Vue.component('Checkbox', Checkbox);
+Vue.component("iSwitch", Switch);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
 Vue.prototype.$Modal = Modal;

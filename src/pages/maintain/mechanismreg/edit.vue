@@ -169,8 +169,7 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let id = this.$route.params.id;
-    // let pageNo = this.$route.params.pargeNo;
+    let id = this.$route.query.id;
     if (id) {
       this.$axios
         .post(api.mechanismregSearch, {
@@ -249,10 +248,10 @@ export default {
           if (res.data.code) {
             let ret = res.data;
             this.$Message.info("修改成功");
-            let pageNo = this.$route.params.pageNo;
+            let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
               // functionJS公用 方法
-              this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+              this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
                 pageNo
               });
             }, 500);
@@ -263,9 +262,9 @@ export default {
       }
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
+      this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
         pageNo
       });
     },

@@ -37,12 +37,7 @@
   </div>
 </template>
 <script>
-import { CheckboxGroup, Checkbox } from "iview";
 export default {
-  components: {
-    CheckboxGroup,
-    Checkbox
-  },
   data() {
     return {
       info: {

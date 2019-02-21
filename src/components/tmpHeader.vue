@@ -1,8 +1,9 @@
 <template>
   <div class="temHeader">
     <ul>
-      <li v-for="item,index in dataList" >
-        <router-link :to="item.name">{{ item.title }}</router-link>
+      <li v-for="item,sum in dataList" >
+        <span :class="index==sum? 'active':'' " @click ='navgationTo(item)'>{{ item.title }}</span>
+      
       </li>
     </ul>
   </div>
@@ -24,6 +25,13 @@ export default {
         }
       ]
     };
+  },
+  props: ['index'],
+  methods:{
+    navgationTo(item){
+      // function全局方法
+      this.functionJS.queryNavgationTo(this,item.name)
+    }
   }
 };
 </script>
@@ -37,14 +45,15 @@ export default {
     align-items: center;
     border-bottom: 1px solid #ddd;
     li {
-      a {
+      span{
         display: block;
         color: black;
         padding: 8px 10px;
         border-bottom: 2px solid transparent;
         transition: all 0.5s;
+        cursor:pointer;
       }
-      a:hover {
+      span:hover {
         color: #57a3f3;
       }
       .active {

@@ -237,16 +237,13 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-import { Select, Option, RadioGroup, Radio, Upload, Icon, Switch } from "iview";
+import { Select, Option, RadioGroup, Radio } from "iview";
 export default {
     components: {
         Select,
         Option,
         RadioGroup,
-        Radio,
-        Upload,
-        Icon,
-        iSwitch: Switch
+        Radio
     },
     data() {
         return {

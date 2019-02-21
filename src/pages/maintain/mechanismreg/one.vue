@@ -25,13 +25,11 @@
   </div>
 </template>
 <script>
-import { Upload } from "iview";
 import tmptab from "./tmptab";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
-    Upload,
     tmptab
   },
   data() {
@@ -91,6 +89,7 @@ export default {
         this.$Message.info("上传失败,请重试");
       }
     },
+    // 下一步
     next() {
       if (!this.disabled) {
         // function全局方法
@@ -101,12 +100,13 @@ export default {
         this.$Message.info("请选择批量上传的文件");
       }
     },
+    // 上一步
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this,"mechanismreglist",{
-          pageNo
-        })
+      this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
+        pageNo
+      });
     }
   }
 };
