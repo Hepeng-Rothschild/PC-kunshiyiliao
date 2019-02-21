@@ -247,20 +247,13 @@ export default {
           let ret = res.data.object;
           this.count = ret.count;
           ret.list.forEach((item, index) => {
-            item.iNum = this.addZero(index);
+            item.iNum = this.addZeros(index);
           });
           this.diseaseList = ret.list;
         } else {
           this.$Message.info("不允许访问")
         }
       });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   }
 };

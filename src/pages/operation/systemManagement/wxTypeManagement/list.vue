@@ -17,7 +17,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="items,index in item.child" v-show="item.child.length">
-            <td>{{ addZero(index) }}</td>
+            <td>{{ addZeros(index) }}</td>
             <td>{{ items.menuName }}</td>
             <td @click="instance(items)" style="cursor:pointer;" class="flowr">{{ items.path }}</td>
             <td>{{ items.priority }}</td>
@@ -68,29 +68,24 @@ export default {
   methods: {
     // 添加新服务
     add() {
-      this.$router.push({
-        path: "/index/operation/wxTypeManagement/add"
-      });
+      // FunctionJS方法
+      this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/add')
     },
     // 编辑功能
     edit(item,name) {
-      this.$router.push({
-       name: "wxSystemManagementEdit",
-        params: {
+      // FunctionJS方法
+      this.functionJS.paramsNavgationTo(this,'wxSystemManagementEdit',{
           item,
           name
-        }
-      });
+        })
     },
     // 添加新功能
     fn(index) {
-      this.$router.push({
-        path: "/index/operation/wxTypeManagement/fn",
-        query: {
+      // FunctionJS方法
+      this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/fn',{
           id: index.name.id,
           name:index.name.menuName
-        }
-      });
+        })
     },
     // 弹出modal层
     instance(item) {
@@ -100,13 +95,6 @@ export default {
       } else {
         this.$Message.info("暂无跳转路径");
       }
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     }
   }
 };

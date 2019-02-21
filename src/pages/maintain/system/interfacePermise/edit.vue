@@ -128,14 +128,16 @@ export default {
                         .post(operateApi, subMitObj)
                         .then(resp => {
                             if (resp.data.code == 1) {
-                                this.$router.push({
-                                    path:
-                                        "/index/maintain/system/iface_permise/lt",
-                                    query: { 
+                                 //   公用方法
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/index/maintain/system/iface_permise/lt",
+                                    {
                                         pageNo: this.pageNo,
                                         searchKey:this.searchKey
                                     }
-                                });
+                                );
+
                             } else {
                                 this.$Message.error(noticeMsg + "失败，请重试");
                             }
@@ -149,13 +151,15 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/maintain/system/iface_permise/lt",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/system/iface_permise/lt",
+                {
                     pageNo: this.pageNo,
                     searchKey:this.searchKey
                 }
-            });
+            );
         }
     }
 };

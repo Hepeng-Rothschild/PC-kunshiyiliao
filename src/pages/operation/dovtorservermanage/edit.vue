@@ -74,13 +74,16 @@ export default {
                 .then(res => {
                     if (res.data.success) {
                         this.$Message.info("修改成功");
-                        this.$router.push({
-                            path: "/index/operation/doctormanage/list",
-                            query: { 
+                         //   公用方法
+                        this.functionJS.queryNavgationTo(
+                            this,
+                            "/index/operation/doctormanage/list",
+                            {
                                 pageNo: this.pageNo,
                                 searchKey: this.searchKey
                             }
-                        });
+                        );
+
                     }
                 });
         },
@@ -91,13 +94,16 @@ export default {
             this.editFlag = false;
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/doctormanage/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/doctormanage/list",
+                {
                     pageNo: this.pageNo,
                     searchKey: this.searchKey
                 }
-            });
+            );
+
         }
     },
     created() {

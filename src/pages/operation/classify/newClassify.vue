@@ -99,11 +99,12 @@
 					this.$Message.info('栏目子分类不能为空');
 				} else {
 					this.$Message.info('ok');
-					this.$router.push({
-						name:"addClassify"
-					})
+					 //   公用方法
+					this.functionJS.paramsNavgationTo(
+						this,
+						"addClassify"
+					);
 				}
-				// console.log("++++++++++++++++++++++",params);
 			}
 		}
 	}

@@ -36,7 +36,8 @@ export default {
   },
   methods: {
     change(path) {
-      this.$router.push(path)
+      // 公用方法
+      this.functionJS.queryNavgationTo(this, path);
     }
   }
 };

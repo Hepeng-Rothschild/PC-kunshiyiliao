@@ -25,7 +25,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="item,index in tbleList" v-show="tbleList.length">
-            <td>{{ addZero(index) }}</td>
+            <td>{{ addZeros(index) }}</td>
             <td>{{ item.bannerName }}</td>
             <td>
               <img
@@ -98,29 +98,16 @@ export default {
         this.getData(index);
       }
     },
+    // 添加banner图
     navto() {
-      this.$router.push({
-        name: "wxbannerAdd",
-        params: {
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this,'wxbannerAdd',{pageNo:this.pageNo})
     },
+    // 点击编辑
     change(item) {
-      this.$router.push({
-        name: "wxbannerEdit",
-        params: {
+      this.functionJS.paramsNavgationTo(this,'wxbannerEdit',{
           id: item.id,
           pageNo: this.pageNo
-        }
-      });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
+        })
     },
     getData(pageNo, val) {
       let params = {
@@ -152,7 +139,7 @@ export default {
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = Number(pageNo);
     }
     this.getData(this.pageNo);
   }

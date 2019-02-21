@@ -42,15 +42,16 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push({
-                                                path:
-                                                    "/index/maintain/system/iface_permise/ed",
-                                                query: {
+                                             //   公用方法
+                                            this.functionJS.queryNavgationTo(
+                                                this,
+                                                "/index/maintain/system/iface_permise/ed",
+                                                {
                                                     id,
                                                     pageNo: this.pageNo,
                                                     searchKey:this.searchKey
                                                 }
-                                            });
+                                            );
                                         }
                                     }
                                 },
@@ -113,10 +114,15 @@ export default {
                 });
         },
         add() {
-            this.$router.push({
-                path: "/index/maintain/system/iface_permise/ed",
-                query: { pageNo: this.pageNo }
-            });
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/system/iface_permise/ed",
+                {
+                    pageNo: this.pageNo
+                }
+            );
+
         }
     }
 };

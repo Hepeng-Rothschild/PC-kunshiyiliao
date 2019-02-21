@@ -26,7 +26,7 @@
           <th>操作</th>
         </tr>
         <tr v-for="item,index in tablesList" v-show="tablesList.length">
-          <th>{{ addZero(index) }}</th>
+          <th>{{ addZeros(index) }}</th>
           <th>{{ item.deptType }}</th>
           <th>{{ item.doctorName }}</th>
           <th>{{ item.title }}</th>
@@ -104,9 +104,9 @@ export default {
         this.flag = true;
         localStorage.setItem("homeIndex", 0);
         setTimeout(() => {
-          this.$router.push({
-            name: "homeInfo"
-          });
+          this.functionJS.paramsNavgationTo(this, "homeInfo", {
+            // 公用方法
+          }); 
         }, 600);
       }
     },
@@ -115,29 +115,18 @@ export default {
       this.getExpertData(1, this.val);
     },
     navto() {
-      this.$router.push({
-        name: "expertAdd",
-        params: {
+      this.functionJS.paramsNavgationTo(this, "expertAdd", {
+        // 公用方法
           pageNo: this.pageNo
-        }
-      });
+      }); 
     },
     edit(item) {
       let id = item.doctorId;
-      this.$router.push({
-        name: "expert_edits",
-        params: {
+      this.functionJS.paramsNavgationTo(this, "expert_edits", {
+        // 公用方法
           item,
           pageNo: this.pageNo
-        }
-      });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
+      }); 
     },
     getExpertData(pageNo, val) {
       let params = {

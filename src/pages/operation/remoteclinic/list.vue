@@ -141,6 +141,7 @@
     </div>
 </template>
 <script>
+// 医生端远程门诊
 import tempHeader from "@/components/tmpHeader";
 import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";

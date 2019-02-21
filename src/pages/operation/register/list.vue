@@ -122,17 +122,19 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push({
-                                                path:
-                                                    "/index/operation/register/detail",
-                                                query: {
+                                             //   公用方法
+                                            this.functionJS.queryNavgationTo(
+                                                this,
+                                                "/index/operation/register/detail",
+                                                {
                                                     id,
                                                     pageNo: this.pageNo,
                                                     searchKey: this.searchKey,
                                                     deptKey: this.deptKey,
                                                     dictType: this.dictType
                                                 }
-                                            });
+                                            );
+
                                         }
                                     }
                                 },
@@ -147,17 +149,19 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push({
-                                                path:
-                                                    "/index/operation/register/edit",
-                                                query: {
+                                             //   公用方法
+                                            this.functionJS.queryNavgationTo(
+                                                this,
+                                                "/index/operation/register/edit",
+                                                {
                                                     id,
                                                     pageNo: this.pageNo,
                                                     searchKey: this.searchKey,
                                                     deptKey: this.deptKey,
                                                     dictType: this.dictType
                                                 }
-                                            });
+                                            );
+
                                         }
                                     }
                                 },
@@ -283,15 +287,18 @@ export default {
             this.registertimesFlag = true;
         },
         addDoc() {
-            this.$router.push({
-                path: "/index/operation/register/edit",
-                query: {
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/register/edit",
+                {
                     pageNo: this.pageNo,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
                 }
-            });
+            );
+
         }
     },
     created() {

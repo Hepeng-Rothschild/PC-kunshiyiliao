@@ -54,9 +54,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: "wxbannerList"
-                      });
+                      // FunctionJS方法
+                      this.functionJS.paramsNavgationTo(this,'wxbannerList')
                       sessionStorage.setItem("appid",id)
                     }
                   }

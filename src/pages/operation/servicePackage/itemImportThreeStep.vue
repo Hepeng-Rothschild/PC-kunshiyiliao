@@ -55,9 +55,12 @@ export default {
     },
     methods: {
         btn() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/itemList"
-            });
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/itemList"
+            );
+
         }
     }
 };

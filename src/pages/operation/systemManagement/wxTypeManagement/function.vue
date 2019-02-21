@@ -112,9 +112,8 @@ export default {
           if (res.data.code) {
             this.$Message.info("添加成功");
             setTimeout(() => {
-              this.$router.push({
-                path: "/index/operation/wxTypeManagement/list"
-              });
+               // FunctionJS方法
+              this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/list')
             }, 800);
           } else {
             this.$Message.info("添加失败,请稍候重试");
@@ -124,9 +123,8 @@ export default {
     },
     // 回到列表
     back() {
-      this.$router.push({
-        path: "/index/operation/wxTypeManagement/list"
-      });
+       // FunctionJS方法
+      this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/list')
     }
   }
 };

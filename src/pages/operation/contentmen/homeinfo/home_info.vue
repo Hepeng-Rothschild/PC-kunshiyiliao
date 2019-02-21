@@ -359,14 +359,6 @@ export default {
       }
       return check;
     },
-    analysisImages(json) {
-      try {
-        json = JSON.parse(json);
-        return json.fileName;
-      } catch (error) {
-        return "";
-      }
-    },
     addData() {
       // 医院等级
       this.$axios.post(api.managementAll, {}).then(res => {
@@ -416,7 +408,7 @@ export default {
               percentage: 100,
               status: "finished",
               uid: 1544263544970,
-              url: this.fileBaseUrl + this.analysisImages(ret.hosIcon)
+              url: this.fileBaseUrl + this.pictureFormat(ret.hosIcon)
             });
           }
 

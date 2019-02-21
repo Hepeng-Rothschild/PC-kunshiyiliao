@@ -40,7 +40,7 @@
         <th>操作</th>
       </tr>
       <tr v-for="item,index in tableList" v-show="tableList.length">
-        <th>{{ addZero(index) }}</th>
+        <th>{{ addZeros(index) }}</th>
         <!-- 标题 -->
         <th class="one">{{ item.title }}</th>
         <!-- 类型 -->
@@ -162,11 +162,9 @@ export default {
   },
   methods: {
     add() {
-      this.$router.push({
-        path: "/index/operation/contentmanagement_add",
-        query: {
-          pageNo: this.pageNo
-        }
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_add", {
+      //公用方法
+        pageNo:this.pageNo
       });
     },
     getContentData(pageNo, val, type, enable) {
@@ -192,12 +190,9 @@ export default {
       });
     },
     homeBtn() {
-
-      this.$router.push({
-        path: "/index/operation/contentmanagement_edit",
-        query: {
-          pageNo: this.pageNo
-        }
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_edit", {
+      //公用方法
+        pageNo:this.pageNo
       });
     },
     pageChange(index) {
@@ -271,26 +266,17 @@ export default {
     //根据ID修改对应的新闻资讯
     changeItem(item) {
       let id = item.articleId;
-      this.$router.push({
-        path: "/index/operation/contentmanagement_edit",
-        query: {
-          id,
-          pageNo: this.pageNo
-        }
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_edit", {
+      //公用方法
+        id,
+        pageNo:this.pageNo
       });
     },
     //模态框
     ok() {
       let a = this.tableList[this.currentIndex];
     },
-    cancel() {},
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
-    }
+    cancel() {}
   },
   watch: {
     type1: {
@@ -430,12 +416,12 @@ export default {
         }
       }
       th.one {
-        max-width: 200px;
+        max-width: 160px;
         overflow: hidden;
+        padding:0 10px;
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-
       .red {
         color: red;
       }

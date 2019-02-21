@@ -293,7 +293,9 @@ export default {
                                 "top",
                                 aesUtils.encrypt(salt, iv, key, topMenu)
                             );
-                            this.$router.push("/index");
+                            // 公用方法
+                            this.functionJS.queryNavgationTo(this, '/index');
+                            
                         } else {
                             this.loginFlag = true;
                             this.noticeClassColor = "alert-color";

@@ -28,7 +28,7 @@
             <th>错误提示</th>
           </tr>
           <tr v-for="item,index in list">
-            <th>{{ addZero(index) }}</th>
+            <th>{{ addZeros(index) }}</th>
             <th>{{ item.doctorName }}</th>
             <th>{{ item.hospitalName }}</th>
             <th>{{ item.phone }}</th>
@@ -82,26 +82,16 @@ export default {
      let fail = this.$route.params.fail;
      let success = fail.success;
      let error = fail.fail.length;
-      this.$router.push({
-        name: "doctorregisterbatchthree",
-        params:{
+      // FunctionJS公用方法
+      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchthree", {
           success,
           error
-        }
-      })
+        });
     },
     //   上一步
     prev() {
-      this.$router.push({
-        name: "doctorregisterbatchone"
-      });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
+      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchone");
+      
     }
   }
 };
@@ -125,7 +115,7 @@ export default {
     }
     .next {
       button {
-        width: 150px;
+        width: 100px;
         height: 30px;
         border: none;
         outline: none;

@@ -36,13 +36,11 @@
         <span class="title">备注</span>
         <Input v-model="params.remark" type="textarea" placeholder="请输入服务备注"/>
       </div>
-
       <!-- 服务图标 -->
       <div class="item">
         <span class="title">服务图标</span>
         <Input v-model="params.menuicon" placeholder="请输入服务图标路径" style="width: 300px"/>
       </div>
-
       <!-- 是否开启 -->
       <div class="item">
         <span class="title">快捷菜单</span>
@@ -102,10 +100,9 @@ export default {
           if (res.data.code) {
             this.$Message.info("添加成功");
             setTimeout(() => {
-              this.$router.push({
-                path: "/index/operation/wxTypeManagement/list"
-              });
-            }, 800);
+              // FunctionJS方法
+              this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/list')
+            }, 500);
           } else {
             this.$Message.info("修改失败,请稍候重试");
           }
@@ -113,9 +110,8 @@ export default {
       }
     },
     back() {
-      this.$router.push({
-         path: "/index/operation/wxTypeManagement/list"
-      });
+      // FunctionJS方法
+      this.functionJS.queryNavgationTo(this,'/index/operation/wxTypeManagement/list')
     }
   }
 };

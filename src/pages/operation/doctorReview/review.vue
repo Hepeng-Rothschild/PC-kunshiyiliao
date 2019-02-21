@@ -368,9 +368,11 @@ export default {
             this.viewStatus = false;
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/doctorreview/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/doctorreview/list",
+                {
                     pageNo: this.pageNo,
                     province: this.province,
                     city: this.city,
@@ -380,7 +382,8 @@ export default {
                     dictType: this.dictType,
                     authStatus: this.authStatus
                 }
-            });
+            );
+
         },
         reviewPass() {
             this.reviewYesStatus = true;
@@ -432,9 +435,11 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.$Message.info(sMsg);
-                        this.$router.push({
-                            path: "/index/operation/doctorreview/list",
-                            query: { 
+                         //   公用方法
+                        this.functionJS.queryNavgationTo(
+                            this,
+                            "/index/operation/doctorreview/list",
+                            {
                                 pageNo: this.pageNo,
                                 province: this.province,
                                 city: this.city,
@@ -444,7 +449,8 @@ export default {
                                 dictType: this.dictType,
                                 authStatus: this.authStatus
                             }
-                        });
+                        );
+
                     } else {
                         this.$Message.info(fMsg);
                         this.reviewYesStatus = false;

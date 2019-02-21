@@ -61,7 +61,8 @@ export default {
   methods: {
     changeTop(name) {
       this.$store.commit("setLeftMenuList", name);
-      this.$router.push("/index");
+      // 公用方法
+       this.functionJS.queryNavgationTo(this, '/index');
     },
     logout() {
       window.localStorage.removeItem("access_token");
@@ -73,14 +74,13 @@ export default {
       cookie.delCookie("idttC");
       cookie.delCookie("access_user");
       cookie.delCookie("ownArea");
-      this.$router.push("/login");
+      // 公用方法
+      this.functionJS.queryNavgationTo(this, '/login');
     },
     edit() {
-      this.$router.push({
-        path: "/index/maintain/admin/user/edit",
-        query: {
-          id:this.operateUserId
-        }
+      // 公用方法
+      this.functionJS.queryNavgationTo(this, '/index/maintain/admin/user/edit',{
+        id:this.operateUserId
       });
     }
   }

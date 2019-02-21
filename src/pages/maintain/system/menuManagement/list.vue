@@ -87,17 +87,19 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push({
-                                                path:
-                                                    "/index/maintain/system/m_manage/ed",
-                                                query: {
+                                             //   公用方法
+                                            this.functionJS.queryNavgationTo(
+                                                this,
+                                                "/index/maintain/system/m_manage/ed",
+                                                {
                                                     id,
                                                     func:func,
                                                     level,
                                                     pageNo: this.pageNo,
                                                     searchKey:this.searchKey
                                                 }
-                                            });
+                                            );
+
                                         }
                                     }
                                 },
@@ -170,10 +172,15 @@ export default {
                 });
         },
         add() {
-            this.$router.push({
-                path: "/index/maintain/system/m_manage/ed",
-                query: { pageNo: this.pageNo }
-            });
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/system/m_manage/ed",
+                {
+                    pageNo: this.pageNo
+                }
+            );
+
         }
     }
 };

@@ -240,12 +240,10 @@ export default {
               this.$Message.info("添加成功");
               setTimeout(() => {
                 setTimeout(() => {
-                  this.$router.push({
-                    name: "operationNews",
-                    params: {
-                      pageNo
-                    }
-                  });
+                  this.functionJS.paramsNavgationTo(this, "operationNews", {
+                    // 公用方法
+                    pageNo
+                  }); 
                 }, 500);
               });
             } else {
@@ -259,12 +257,10 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "operationNews",
-        params: {
-          pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "operationNews", {
+        // 公用方法
+        pageNo
+      }); 
     }
   }
 };

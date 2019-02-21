@@ -126,10 +126,9 @@ export default {
           if (res.data.code) {
             this.$Message.info("修改成功");
             setTimeout(() => {
-              this.$router.push({
-                name: "wxTypeManagementList"
-              });
-            }, 800);
+              // FunctionJS方法
+              this.functionJS.paramsNavgationTo(this,'wxTypeManagementList')
+            }, 500);
           } else {
             this.$Message.info("修改失败,请稍候重试");
           }
@@ -137,9 +136,7 @@ export default {
       }
     },
     back() {
-      this.$router.push({
-        name: "wxTypeManagementList"
-      });
+      this.functionJS.paramsNavgationTo(this,'wxTypeManagementList')
     }
   }
 };

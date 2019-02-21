@@ -55,7 +55,8 @@ export default {
 		if(this.$store.state.env != "dev"){
 			randmId = cookie.getCookie("randmId");
 			if(!randmId){
-				 this.$router.push("/login");
+				// 公用方法
+				 this.functionJS.queryNavgationTo(this, '/login');
 				 return ;
 			}
 		}
@@ -65,7 +66,8 @@ export default {
 		if(topMenuList.length>0){
 			this.topMenuLists = topMenuList;
 		}else{
-			this.$router.push("/login");
+			// 公用方法
+			this.functionJS.queryNavgationTo(this, '/login');
 		}
 		// this.leftMenuLists = this.$store.state.leftMenuList;
 	},

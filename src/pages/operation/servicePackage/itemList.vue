@@ -11,19 +11,19 @@
                     ></fourLevelLinkage>
                 </div>
                 <div class="margin-up-down">
-                <span>服务项名称</span>
-                <Input class="w-input" v-model="searchKey" placeholder="请输入服务项名称"/>
+                    <span>服务项名称</span>
+                    <Input class="w-input" v-model="searchKey" placeholder="请输入服务项名称"/>
                 </div>
                 <div class="margin-up-down">
-                <Button type="primary" @click="loadPage(1)">
-                    <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
-                </Button>
+                    <Button type="primary" @click="loadPage(1)">
+                        <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
+                    </Button>
                 </div>
                 <div class="margin-up-down">
-                <Button type="warning" @click="goAdd">添加服务项</Button>
+                    <Button type="warning" @click="goAdd">添加服务项</Button>
                 </div>
                 <div class="margin-up-down">
-                <Button type="default" @click="goImport">批量导入</Button>
+                    <Button type="default" @click="goImport">批量导入</Button>
                 </div>
             </Col>
         </Row>
@@ -232,21 +232,30 @@ export default {
             this.$router.push({
                 path: "/index/operation/servicePackage/itemAdd",
                 query: { pageNo: this.pageNo }
-            });
-        },
-        goEdit(id) {
-            this.$router.push({
-                path: "/index/operation/servicePackage/itemEdit",
-                query: { id, pageNo: this.pageNo }
-            });
-        },
-        goImport() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/itemImportOne",
-                query: { pageNo: this.pageNo }
-            });
-        },
-        //加载列表数据
+               });
+    },
+    goEdit(id) {
+      //   公用方法
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/operation/servicePackage/itemEdit",
+        {
+          id,
+          pageNo: this.pageNo
+        }
+      );
+    },
+    goImport() {
+      //   公用方法
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/operation/servicePackage/itemImportOne",
+        {
+          pageNo: this.pageNo
+        }
+      );
+    },
+    //加载列表数据
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
@@ -290,79 +299,74 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
-        },
-        attribution(resolve, opt) {
-            let attribution = "";
-            if (opt.hospitalId) {
-                attribution += opt.belong;
-            } else {
-                if (opt.provinceId) {
-                    attribution += opt.province;
-                    if (opt.cityId) {
-                        let pat = new RegExp(opt.province);
-                        !pat.test(opt.city) &&
-                            (attribution += "&nbsp;&nbsp;" + opt.city);
-                        if (opt.areaId) {
-                            attribution += "&nbsp;&nbsp;" + opt.area;
-                        }
-                    }
-                }
+    },
+    attribution(resolve, opt) {
+      let attribution = "";
+      if (opt.hospitalId) {
+        attribution += opt.belong;
+      } else {
+        if (opt.provinceId) {
+          attribution += opt.province;
+          if (opt.cityId) {
+            let pat = new RegExp(opt.province);
+            !pat.test(opt.city) && (attribution += "&nbsp;&nbsp;" + opt.city);
+            if (opt.areaId) {
+              attribution += "&nbsp;&nbsp;" + opt.area;
             }
-            resolve(attribution);
-        },
-        /* getAttribution 函数不许删除 */
-        getAttribution(resolve, provinceId, cityId, areaId, hospitalId) {
-            let attribution = "";
-            if (hospitalId) {
-                var params = {};
-                params.provinceCode = parseInt(
-                    provinceId == 0 ? null : provinceId
-                );
-                this.$axios
-                    .post(api.hospitalselectbyprovincecode, params)
-                    .then(resp => {
-                        let tmpHospitalList = resp.data.object;
-                        for (let item of tmpHospitalList) {
-                            if (item.id == hospitalId) {
-                                attribution += item.orgName;
-                                resolve(attribution);
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            } else {
-                if (provinceId) {
-                    let tmpProvinceList = this.$store.getters.getProvinceList;
-                    for (let item of tmpProvinceList) {
-                        if (item.value == provinceId) {
-                            attribution += item.name;
-                        }
-                    }
-                }
-                if (cityId) {
-                    let tmpCityList = this.$store.getters.getCityList(
-                        provinceId
-                    );
-                    for (let item of tmpCityList) {
-                        if (item.id == cityId) {
-                            attribution += "&nbsp;&nbsp;" + item.name;
-                        }
-                    }
-                }
-                if (areaId) {
-                    let tmpAreaList = this.$store.getters.getAreaList(cityId);
-                    for (let item of tmpAreaList) {
-                        if (item.id == areaId) {
-                            attribution += "&nbsp;&nbsp;" + item.name;
-                        }
-                    }
-                }
-                resolve(attribution);
-            }
+          }
         }
+      }
+      resolve(attribution);
+    },
+    /* getAttribution 函数不许删除 */
+    getAttribution(resolve, provinceId, cityId, areaId, hospitalId) {
+      let attribution = "";
+      if (hospitalId) {
+        var params = {};
+        params.provinceCode = parseInt(provinceId == 0 ? null : provinceId);
+        this.$axios
+          .post(api.hospitalselectbyprovincecode, params)
+          .then(resp => {
+            let tmpHospitalList = resp.data.object;
+            for (let item of tmpHospitalList) {
+              if (item.id == hospitalId) {
+                attribution += item.orgName;
+                resolve(attribution);
+              }
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        if (provinceId) {
+          let tmpProvinceList = this.$store.getters.getProvinceList;
+          for (let item of tmpProvinceList) {
+            if (item.value == provinceId) {
+              attribution += item.name;
+            }
+          }
+        }
+        if (cityId) {
+          let tmpCityList = this.$store.getters.getCityList(provinceId);
+          for (let item of tmpCityList) {
+            if (item.id == cityId) {
+              attribution += "&nbsp;&nbsp;" + item.name;
+            }
+          }
+        }
+        if (areaId) {
+          let tmpAreaList = this.$store.getters.getAreaList(cityId);
+          for (let item of tmpAreaList) {
+            if (item.id == areaId) {
+              attribution += "&nbsp;&nbsp;" + item.name;
+            }
+          }
+        }
+        resolve(attribution);
+      }
     }
+  }
 };
 </script>
 <style lang="less" scoped>

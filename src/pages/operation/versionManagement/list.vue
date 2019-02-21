@@ -59,13 +59,15 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        path: "/index/operation/versionManagement/edit",
-                        query: {
-                          id,
-                          pageNo: this.pageNo
+                      // function全局方法
+                      this.functionJS.queryNavgationTo(
+                        this,
+                        "/index/operation/versionManagement/edit",
+                        {
+                          pageNo: this.pageNo,
+                          id
                         }
-                      });
+                      );
                     }
                   }
                 },
@@ -95,7 +97,7 @@ export default {
   mounted() {
     let pageNo = this.$route.query.pageNo;
     if (Boolean(pageNo)) {
-      this.pageNo = pageNo;
+      this.pageNo = Number(pageNo);
     }
     this.loadingData(this.pageNo);
   },
@@ -138,12 +140,14 @@ export default {
       });
     },
     add() {
-      this.$router.push({
-        path: "/index/operation/versionManagement/add",
-        query: {
+      // function全局方法
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/operation/versionManagement/add",
+        {
           pageNo: this.pageNo
         }
-      });
+      );
     }
   }
 };

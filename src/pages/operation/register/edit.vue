@@ -354,9 +354,11 @@ export default {
                     .then(resp => {
                         if (resp.data.success) {
                             this.$Message.info(msg+"成功");
-                            this.$router.push({
-                                path: "/index/operation/register/list",
-                                query: { 
+                             //   公用方法
+                            this.functionJS.queryNavgationTo(
+                                this,
+                                "/index/operation/register/list",
+                                {
                                     pageNo: this.pageNo,
                                     city: this.city,
                                     searchType: this.searchType,
@@ -364,7 +366,8 @@ export default {
                                     deptKey: this.deptKey,
                                     dictType: this.dictType
                                 }
-                            });
+                            );
+
                         } else {
                             this.$Message.info(msg+"失败，请重试");
                         }
@@ -377,9 +380,11 @@ export default {
             }
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/register/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/register/list",
+                {
                     pageNo: this.pageNo,
                     city: this.city,
                     searchType: this.searchType,
@@ -387,7 +392,8 @@ export default {
                     deptKey: this.deptKey,
                     dictType: this.dictType
                 }
-            });
+            );
+
         },
         chooseDoc(
             hospitalName,

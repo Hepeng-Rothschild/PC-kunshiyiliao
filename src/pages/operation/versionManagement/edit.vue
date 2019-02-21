@@ -126,24 +126,18 @@ export default {
           this.$Message.info("修改成功");
           let pageNo = this.$route.query.pageNo;
           setTimeout(() => {
-            this.$router.push({
-              path: "/index/operation/versionManagement/home",
-              query: {
-                pageNo
-              }
-            });
+            this.functionJS.queryNavgationTo(this,"/index/operation/versionManagement/home",{
+              pageNo
+            })
           }, 800);
         }
       });
     },
     back() {
       let pageNo = this.$route.query.pageNo;
-      this.$router.push({
-        path: "/index/operation/versionManagement/home",
-        query: {
-          pageNo
-        }
-      });
+      this.functionJS.queryNavgationTo(this,"/index/operation/versionManagement/home",{
+        pageNo
+      })
     }
   }
 };

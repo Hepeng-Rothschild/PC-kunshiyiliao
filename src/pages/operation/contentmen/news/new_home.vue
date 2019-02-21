@@ -24,7 +24,7 @@
           <th>操作</th>
         </tr>
         <tr v-for="(item,index) in tablesList" :key="index">
-          <th>{{ addZero(index) }}</th>
+          <th>{{ addZeros(index) }}</th>
           <th>{{ item.title }}</th>
           <th>
             <!-- <img
@@ -132,36 +132,25 @@ export default {
         localStorage.setItem("homeIndex", 0);
         this.flag = true;
         setTimeout(() => {
-          this.$router.push({
-            name: "homeInfo"
-          });
+          this.functionJS.paramsNavgationTo(this, "homeInfo", {
+            // 公用方法
+          }); 
         }, 600);
       }
     },
     navto(item) {
       let id = item.id;
-      this.$router.push({
-        name: "newsEdit",
-        params: {
-          id,
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.paramsNavgationTo(this, "newsEdit", {
+        // 公用方法
+        id,
+        pageNo: this.pageNo
+      }); 
     },
     add() {
-      this.$router.push({
-        name: "d_createdNews",
-        params: {
+      this.functionJS.paramsNavgationTo(this, "d_createdNews", {
+        // 公用方法
           pageNo: this.pageNo
-        }
-      });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
+      }); 
     },
     press() {
       this.getData(1, this.search);

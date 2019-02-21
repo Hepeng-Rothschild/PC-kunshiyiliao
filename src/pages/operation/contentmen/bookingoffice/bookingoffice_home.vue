@@ -22,13 +22,15 @@
             <th>操作</th>
           </tr>
           <tr v-for="item,index in tableList" v-show="tableList.length">
-            <td>{{ addZero(index) }}</td>
+            <td>{{ addZeros(index) }}</td>
             <td>{{ item.parentDept }}</td>
             <td>{{ item.childDept }}</td>
             <td>{{ item.address }}</td>
             <td>{{ item.display !=1? '否' :'是' }}</td>
             <td>{{ item.priority }}</td>
-            <td class="ltd" @click="navto(item)">编辑</td>
+            <td >
+              <span @click="edit(item)" style='cursor:pointer;'>编辑</span>
+            </td>
           </tr>
         </table>
         <div class="footer" v-show="!tableList.length">暂无更多数据</div>
@@ -83,26 +85,17 @@ export default {
         this.getBookingofficeData(index);
       }
     },
-    navto(item) {
+    edit(item) {
       let id = item.id;
-      this.$router.push({
-        name: "bookingofficeEdit",
-        params: {
+       //functionJS公用跳转方法
+        this.functionJS.paramsNavgationTo(this, "bookingofficeEdit", {
           id,
           pageNo:this.pageNo
-        }
-      });
+        });
     },
     // 模糊查询
     valChange() {
       this.getBookingofficeData(1, this.val);
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
     },
     getBookingofficeData(pageNo, val) {
       let params = {

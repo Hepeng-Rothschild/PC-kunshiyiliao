@@ -164,10 +164,11 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.$router.push({
-                                            path:
-                                                "/index/operation/orders/remoteClinic/detail",
-                                            query: {
+                                         //   公用方法
+                                        this.functionJS.queryNavgationTo(
+                                            this,
+                                            "/index/operation/orders/remoteClinic/detail",
+                                            {
                                                 id,
                                                 pageNo: this.pageNo,
                                                 searchKey: this.searchKey,
@@ -175,7 +176,8 @@ export default {
                                                 endDate: endDate,
                                                 status: this.status
                                             }
-                                        });
+                                        );
+
                                     }
                                 }
                             },

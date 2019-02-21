@@ -535,13 +535,15 @@ export default {
                         .then(resp => {
                             if (resp.data.success) {
                                 this.$Message.success(msg + "成功");
-                                this.$router.push({
-                                    path:
-                                        "/index/operation/servicePackage/itemList",
-                                    query: {
+                                 //   公用方法
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/index/operation/servicePackage/itemList",
+                                    {
                                         pageNo: this.pageNo
                                     }
-                                });
+                                );
+
                             } else {
                                 this.$Message.fail(msg + "失败，请重试");
                             }
@@ -555,10 +557,15 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/itemList",
-                query: { pageNo: this.pageNo }
-            });
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/itemList",
+                {
+                   pageNo: this.pageNo
+                }
+            );
+
         },
         alertMsg(msg) {
             this.$Message.error({

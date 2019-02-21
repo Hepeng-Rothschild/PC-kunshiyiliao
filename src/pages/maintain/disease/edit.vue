@@ -111,13 +111,15 @@ export default {
                         .post(operateApi, subMitObj)
                         .then(resp => {
                             if (resp.data.code == 1) {
-                                this.$router.push({
-                                    path: "/index/maintain/disease/list",
-                                    query: { 
-                                        pageNo: this.pageNo,
-                                        searchKey:this.searchKey
+                                //   公用方法
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/index/maintain/disease/list",
+                                    {
+                                      pageNo: this.pageNo,
+                                      searchKey:this.searchKey
                                     }
-                                });
+                                );
                             } else if(resp.data.code == 2){
                               this.$Message.error("名称重复，请修改");
                             }else{
@@ -133,13 +135,16 @@ export default {
             });
         },
         reback() {
-            this.$router.push({
-                path: "/index/maintain/disease/list",
-                query: { 
-                    pageNo: this.pageNo,
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/disease/list",
+                {
+                   pageNo: this.pageNo,
                     searchKey:this.searchKey
                 }
-            });
+            );
+
         }
     }
 };

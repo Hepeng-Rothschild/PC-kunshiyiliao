@@ -16,7 +16,7 @@
                     <th>操作</th>
                 </tr>
                 <tr v-for="item,index in tablesList" v-show="tablesList.length">
-                    <th>{{ addZero(index) }}</th>
+                    <th>{{ addZeros(index) }}</th>
                     <th>{{ item.menuName }}</th>
                     <th>
                         <span v-for="(items,index) in item.result" v-show='items.packagestatus!=0'>{{index == 0?'':' | '}}{{ items.packageName }}</span>
@@ -67,24 +67,15 @@ export default {
             //   this.getManagementData(index);
         },
         navto() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/edit"
-            });
+            this.functionJS.queryNavgationTo(this, "/index/operation/servicePackage/edit", {
+            // 公用方法
+            }); 
         },
         navtoAdd() {
-            this.$router.push({
-                path: "/index/operation/servicePackage/pAdd",
-                query:{
-                    type:1
-                }
-            });
-        },
-        addZero(num) {
-            num = num + 1;
-            if (num < 10) {
-                return "0" + num;
-            }
-            return num;
+            this.functionJS.queryNavgationTo(this, "/index/operation/servicePackage/pAdd", {
+                // 公用方法
+                type:1
+            }); 
         },
         getManagementData() {
             this.$axios

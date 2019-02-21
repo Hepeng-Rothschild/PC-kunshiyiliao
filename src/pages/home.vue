@@ -39,7 +39,8 @@ export default {
           this.$axios.get(url.logout)
         },
         goHome(){
-          this.$router.push({path:'/'})
+					// 公用方法
+					this.functionJS.queryNavgationTo(this, '/');
         },
         cut(val){
           if(val == 'en_US'){

@@ -16,7 +16,7 @@
             <td>操作</td>
           </tr>
           <tr v-for="item,index in list" v-show="list.length">
-            <td>{{ addZero(1)}}</td>
+            <td>{{ addZeros(1)}}</td>
             <td>功能模块</td>
             <td>显示</td>
             <td>支持类型</td>
@@ -58,24 +58,22 @@ export default {
   },
   methods: {
     navto() {
-      this.$router.push({
-        path: "/index/operation/newClassify"
-      });
+       //   公用方法
+      this.functionJS.queryNavgationTo(
+          this,
+          "/index/operation/newClassify"
+      );
+
     },
     pageChange (index) {
 	  
 	},
 	change () {
-		this.$router.push({
-			name:"addClassify"
-		})
-	},
-	addZero (num) {
-		num = num + 1
-		if (num < 10) {
-			return '0' + num
-		}
-		return num
+    //   公用方法
+      this.functionJS.paramsNavgationTo(
+          this,
+          "addClassify"
+      );
 	}
   }
 };

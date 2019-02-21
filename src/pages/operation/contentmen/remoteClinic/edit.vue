@@ -123,9 +123,8 @@ export default {
   methods: {
     // 跳转云诊室列表
     roomListTo() {
-      this.$router.push({
-        name: "remoteClinicRoomList"
-      });
+      // 公用方法
+      this.functionJS.paramsNavgationTo(this, "remoteClinicRoomList");
     },
     // 输入值时搜索内容
     searchContent() {

@@ -61,7 +61,7 @@ export default {
           key: "avatar",
           align: "center",
           render: (h, params) => {
-            let avatar = this.analysisImages(params.row.userIcon);
+            let avatar = this.pictureFormat(params.row.userIcon);
             if (Boolean(avatar)) {
               avatar = this.fileBaseUrl + avatar;
             }
@@ -107,13 +107,15 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        path: "/index/maintain/admin/user/edit",
-                        query: {
-                          pageNo: this.pageNo,
-                          id
-                        }
-                      });
+                       //   公用方法
+                      this.functionJS.queryNavgationTo(
+                          this,
+                          "/index/maintain/admin/user/edit",
+                          {
+                            pageNo: this.pageNo,
+                            id
+                          }
+                      );
                     }
                   }
                 },
@@ -127,13 +129,14 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        path: "/index/maintain/admin/user/Jurisdiction",
-                        query: {
-                          pageNo: this.pageNo,
-                          id
-                        }
-                      })
+                      this.functionJS.queryNavgationTo(
+                          this,
+                          "/index/maintain/admin/user/Jurisdiction",
+                          {
+                            pageNo: this.pageNo,
+                            id
+                          }
+                      );
                     }
                   }
                 },
@@ -171,12 +174,14 @@ export default {
   methods: {
     // 添加角色
     add() {
-      this.$router.push({
-        path: "/index/maintain/admin/user/add",
-        query: {
-          pageNo: this.pageNo
-        }
-      });
+      this.functionJS.queryNavgationTo(
+          this,
+          "/index/maintain/admin/user/add",
+          {
+            pageNo: this.pageNo
+          }
+      );
+      
     },
     // 分页器改变
     loadPage(pageNo) {
@@ -205,21 +210,13 @@ export default {
           let ret = res.data.object;
           this.count = ret.count;
           ret.list.forEach((item, index) => {
-            item.num = index + 1;
+            item.num = this.addZeros(index);
           });
           this.data1 = ret.list;
         } else {
           this.$Message.info("没有访问权限");
         }
       });
-    },
-    analysisImages(json) {
-      try {
-        json = JSON.parse(json);
-        return json.fileName;
-      } catch (error) {
-        return "";
-      }
     }
   }
 };

@@ -268,11 +268,9 @@ export default {
     },
     back() {
       let pageNo = this.$route.query.pageNo;
-      this.$router.push({
-        path: "/index/operation/contentmanagement_home",
-        query: {
-          pageNo
-        }
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_home", {
+      //公用方法
+        pageNo
       });
     },
     save() {
@@ -325,11 +323,9 @@ export default {
               this.$Message.info("修改成功");
               let pageNo = this.$route.query.pageNo;
               setTimeout(() => {
-                this.$router.push({
-                  path: "/index/operation/contentmanagement_home",
-                  query: {
-                    pageNo
-                  }
+                this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_home", {
+                //公用方法
+                  pageNo
                 });
               }, 800);
             } else {

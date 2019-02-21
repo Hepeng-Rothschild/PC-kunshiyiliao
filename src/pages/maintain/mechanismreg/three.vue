@@ -53,9 +53,8 @@ export default {
     },
     methods: {
         btn () {
-            this.$router.push({
-                name:"mechanismreglist"
-            })
+          // functionJS公用 方法
+            this.functionJS.paramsNavgationTo(this, "mechanismreglist");
         }
     }
 

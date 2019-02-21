@@ -38,10 +38,15 @@ Object.keys(filters).forEach(key => {
 });
 
 //注册全局函数
-import {GetDate,uploadFileDecrypt,findStr} from "@/commons/function.js";
+import {GetDate,uploadFileDecrypt,findStr,addZeros,analysisImages,functionJS} from "@/commons/function.js";
+
 Vue.prototype.GetDate = GetDate;
 Vue.prototype.uploadFileDecrypt = uploadFileDecrypt;
 Vue.prototype.findStr = findStr;
+Vue.prototype.addZeros = addZeros;
+Vue.prototype.pictureFormat = analysisImages;
+
+Vue.prototype.functionJS = functionJS;
 
 //设置title
 router.beforeEach((to, from, next) => {

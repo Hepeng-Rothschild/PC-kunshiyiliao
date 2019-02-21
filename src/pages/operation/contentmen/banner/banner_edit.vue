@@ -90,8 +90,6 @@
       </div>
       <!--保存-->
       <div class="save">
-        <!-- <div @click="save" style="cursor:pointer;">保存</div>
-        <div @click="back" style="cursor:pointer;">取消</div> -->
         <Button @click="save" type="primary">保存</Button>
         <Button @click="back">取消</Button>
       </div>
@@ -131,19 +129,19 @@ export default {
       sourceImages: ""
     };
   },
-  created(){
+  created() {
     let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
-            },
-            {
-                path: "/index/operation/home",
-                title: "机构管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/operation/mechanism/index",
+        title: "机构运营"
+      },
+      {
+        path: "/index/operation/home",
+        title: "机构管理"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
   },
   methods: {
     change(status) {
@@ -151,11 +149,9 @@ export default {
     },
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "iBanner",
-        params: {
-          pageNo
-        }
+      //functionJS公用跳转方法
+      this.functionJS.paramsNavgationTo(this, "iBanner", {
+        pageNo
       });
     },
     save() {
@@ -189,11 +185,9 @@ export default {
               this.$Message.info("修改成功");
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
-                this.$router.push({
-                  name: "iBanner",
-                  params: {
-                    pageNo
-                  }
+                //functionJS公用跳转方法
+                this.functionJS.paramsNavgationTo(this, "iBanner", {
+                  pageNo
                 });
               }, 500);
             } else {
@@ -220,19 +214,16 @@ export default {
       file.name = res.object[0].fileName;
     },
     handleFormatError(file) {
-     this.$Notice.warning({
+      this.$Notice.warning({
         title: "格式错误",
-        desc:
-          "文件 " +
-          file.name +
-          " 上传失败,请重试"
-      })
+        desc: "文件 " + file.name + " 上传失败,请重试"
+      });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
         title: "文件过大",
         desc: `文件${file.name}过大，文件最大限制为2000KB`
-      })
+      });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 1;
@@ -240,14 +231,6 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
-    },
-    analysisImages(json) {
-      try {
-        json = JSON.parse(json);
-        return json.fileName;
-      } catch (error) {
-        return "";
-      }
     }
   },
   mounted() {
@@ -273,7 +256,7 @@ export default {
                 percentage: 100,
                 status: "finished",
                 uid: 1544263544971,
-                url: this.fileBaseUrl + this.analysisImages(ret.imageUrl)
+                url: this.fileBaseUrl + this.pictureFormat(ret.imageUrl)
               });
             }
           }

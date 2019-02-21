@@ -153,12 +153,8 @@ export default {
     // 后退
     back() {
       let pageNo = this.$route.params.pageNo;
-      this.$router.push({
-        name: "wxbannerList",
-        params: {
-          pageNo
-        }
-      });
+       // FUNCTIONJS公用 跳转方法
+      this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
     },
     save() {
       let images = "";
@@ -190,12 +186,8 @@ export default {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
-              this.$router.push({
-                name: "wxbannerList",
-                params: {
-                  pageNo
-                }
-              });
+              // FUNCTIONJS公用 跳转方法
+              this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
             }, 500);
           } else {
             this.$Message.info("修改失败请重试");
@@ -238,14 +230,6 @@ export default {
         this.$Message.info("只能上传一张图片");
       }
       return check;
-    },
-    analysisImages(json) {
-      try {
-        json = JSON.parse(json);
-        return json.fileName;
-      } catch (error) {
-        return "";
-      }
     }
   },
   mounted() {
@@ -272,7 +256,7 @@ export default {
                 percentage: 100,
                 status: "finished",
                 uid: 1544263544971,
-                url: this.fileBaseUrl + this.analysisImages(ret.imageUrl)
+                url: this.fileBaseUrl + this.pictureFormat(ret.imageUrl)
               });
             }
           }

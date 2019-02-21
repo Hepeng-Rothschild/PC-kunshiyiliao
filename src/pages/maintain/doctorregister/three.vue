@@ -53,9 +53,7 @@ export default {
   },
   methods: {
     btn() {
-      this.$router.push({
-        name: "doctorregisterlist"
-      });
+      this.functionJS.paramsNavgationTo(this, "doctorregisterlist");
     }
   }
 };

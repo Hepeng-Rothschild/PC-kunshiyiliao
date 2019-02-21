@@ -772,18 +772,22 @@ export default {
                             if (resp.data.success) {
                                 this.$Message.success(msg + "成功");
                                 if (this.type) {
-                                    this.$router.push({
-                                        path:
-                                            "/index/operation/servicePackage/list"
-                                    });
+                                     //   公用方法
+                                    this.functionJS.queryNavgationTo(
+                                        this,
+                                        "/index/operation/servicePackage/list"
+                                    );
+
                                 } else {
-                                    this.$router.push({
-                                        path:
-                                            "/index/operation/servicePackage/pList",
-                                        query: {
+                                     //   公用方法
+                                    this.functionJS.queryNavgationTo(
+                                        this,
+                                        "/index/operation/servicePackage/pList",
+                                        {
                                             pageNo: this.listPageNo
                                         }
-                                    });
+                                    );
+
                                 }
                             } else {
                                 this.$Message.fail(msg + "失败，请重试");
@@ -799,14 +803,22 @@ export default {
         },
         reback() {
             if (this.type) {
-                this.$router.push({
-                    path: "/index/operation/servicePackage/list"
-                });
+                 //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/list"
+            );
+
             } else {
-                this.$router.push({
-                    path: "/index/operation/servicePackage/pList",
-                    query: { pageNo: this.listPageNo }
-                });
+                 //   公用方法
+                this.functionJS.queryNavgationTo(
+                    this,
+                    "/index/operation/servicePackage/pList",
+                    {
+                        pageNo: this.listPageNo
+                    }
+                );
+
             }
         },
         alertMsg(msg) {

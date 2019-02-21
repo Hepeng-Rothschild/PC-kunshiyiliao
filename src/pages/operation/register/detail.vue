@@ -164,9 +164,11 @@ export default {
     },
     methods: {
         reback() {
-            this.$router.push({
-                path: "/index/operation/register/list",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/register/list",
+                {
                     pageNo: this.pageNo,
                     city: this.city,
                     searchType: this.searchType,
@@ -174,7 +176,8 @@ export default {
                     deptKey: this.deptKey,
                     dictType: this.dictType
                 }
-            });
+            );
+
         },
         changeRegisterFlag() {
             if (this.registerFlag == 1) {
@@ -205,9 +208,11 @@ export default {
                 });
         },
         toEdit() {
-            this.$router.push({
-                path: "/index/operation/register/edit",
-                query: { 
+             //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/register/edit",
+                {
                     id: this.id, 
                     pageNo: this.pageNo,
                     city: this.city,
@@ -216,7 +221,8 @@ export default {
                     deptKey: this.deptKey,
                     dictType: this.dictType
                 }
-            });
+            );
+
         }
     }
 };
