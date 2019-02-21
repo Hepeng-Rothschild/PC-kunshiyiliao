@@ -103,12 +103,11 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Select, Option } from "iview";
+import { Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
-    iSwitch: Switch,
     Select,
     Option
   },

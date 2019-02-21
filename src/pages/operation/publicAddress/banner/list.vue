@@ -3,7 +3,7 @@
   <div class="iBanner">
     <div class="ibanner_main">
       <!--导航-->
-      <tmpHeader/>
+      <tmpHeader :index='0' />
       <!--搜索框-->
       <div class="ibanner_header">
         <div class="header_input">
@@ -52,12 +52,9 @@
 <script>
 import tmpHeader from "../tmpHeader";
 import api from "@/api/commonApi";
-import { Icon, Page } from "iview";
 export default {
   components: {
-    tmpHeader,
-    Icon,
-    Page
+    tmpHeader
   },
   data() {
     return {
@@ -100,13 +97,17 @@ export default {
     },
     // 添加banner图
     navto() {
-      this.functionJS.paramsNavgationTo(this,'wxbannerAdd',{pageNo:this.pageNo})
+      // this.functionJS.paramsNavgationTo(this,'wxbannerAdd',{pageNo:this.pageNo})
+      this.functionJS.queryNavgationTo(this,'/index/operation/banner/add',{pageNo:this.pageNo})
     },
     // 点击编辑
     change(item) {
       this.functionJS.paramsNavgationTo(this,'wxbannerEdit',{
           id: item.id,
           pageNo: this.pageNo
+        })
+      this.functionJS.queryNavgationTo(this,'/index/operation/banner/edit',{
+        id: item.id,pageNo:this.pageNo
         })
     },
     getData(pageNo, val) {

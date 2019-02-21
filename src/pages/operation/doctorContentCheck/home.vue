@@ -32,11 +32,10 @@
 </template>
 
 <script>
-import { Page, Tabs, TabPane, Select, Option } from "iview";
+import { Tabs, TabPane, Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
-    Page,
     Tabs,
     TabPane,
     Select,

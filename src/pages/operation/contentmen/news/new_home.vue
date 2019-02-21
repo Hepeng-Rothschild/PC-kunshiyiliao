@@ -76,11 +76,9 @@
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
 import axios from "axios";
-import { Page } from "iview";
 export default {
   components: {
-    tmpHeader,
-    Page
+    tmpHeader
   },
   created(){
     let breadList = [
@@ -100,7 +98,7 @@ export default {
     this.status();
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = parseInt(pageNo);
     }
     this.getData(this.pageNo);
   },

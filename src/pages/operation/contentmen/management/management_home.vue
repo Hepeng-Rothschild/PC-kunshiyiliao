@@ -4,7 +4,7 @@
     <tmpHeader/>
     <!--添加专家/搜索-->
     <div class="iheader">
-      <Button type="primary" @click="navto">添加服务</Button>
+      <Button type="primary" @click="navto" icon="ios-search">添加服务</Button>
     </div>
     <!--表格列表-->
     <div class="main">
@@ -33,7 +33,6 @@
 //服务管理
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { Page } from "iview";
 export default {
   components: {
     tmpHeader
@@ -97,33 +96,6 @@ export default {
   .iheader {
     width: 80%;
     margin: 10px auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    div {
-      width: 200px;
-      height: 30px;
-      border: 1px solid black;
-      display: flex;
-      flex-direction: row;
-      border-radius: 20px;
-      span {
-        display: inline-block;
-        width: 20px;
-        margin-left: 5px;
-        margin-top: 4px;
-        height: 20px;
-        background: url("../../../../assets/images/search.png") no-repeat;
-        background-size: 100% 100%;
-      }
-      input {
-        border: none;
-        outline: none;
-        text-indent: 10px;
-        line-height: 30px;
-        background: none;
-      }
-    }
   }
   .main {
     width: 80%;

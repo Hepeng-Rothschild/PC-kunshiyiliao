@@ -1,6 +1,6 @@
 <template>
   <div class="remoteClinic">
-    <tempHeader/>
+    <tempHeader :index='1'></tempHeader>
     <!-- 头部选择框 -->
     <header>
       <!-- 省份 -->
@@ -237,7 +237,7 @@ export default {
       // function全局方法
       this.functionJS.queryNavgationTo(this,"/index/operation/remoteclinic/add",{
         pageNo: this.pageNo
-        })
+      })
     },
     // 页面加载时获取省级,职称列表
     getInfoData() {
@@ -259,6 +259,7 @@ export default {
          id: item.id
         })
     },
+    // 模糊查询
     search() {
       let params = {
         city: this.city,
@@ -267,6 +268,7 @@ export default {
       };
       this.getDoctorList(1, this.city, this.searchKey);
     },
+    // 请求接口
     getDoctorList(pageNo, provinceId, searchKey) {
       let params = {
         pageNo,

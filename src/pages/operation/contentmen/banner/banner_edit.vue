@@ -99,15 +99,11 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
-    tmpHeader,
-    iSwitch: Switch,
-    Upload,
-    Icon
+    tmpHeader
   },
   data() {
     return {
@@ -242,8 +238,8 @@ export default {
           id: route
         })
         .then(res => {
-          let ret = res.data.object;
-          if (ret) {
+          if (res.data.code) {
+            let ret = res.data.object;
             this.title = ret.bannerName;
             this.lianjie = ret.bannerUrl;
             this.isort = ret.priority;

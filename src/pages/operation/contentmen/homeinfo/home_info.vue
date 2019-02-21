@@ -170,16 +170,13 @@
 <script>
 import vueEditor from "@/components/vueEditor";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon, Select, Option } from "iview";
+import { Select, Option } from "iview";
 import code from "@/config/base.js";
 import cookie from "@/utils/cookie.js";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
-    iSwitch: Switch,
-    Upload,
-    Icon,
     vueEditor,
     Select,
     Option
@@ -359,6 +356,7 @@ export default {
       }
       return check;
     },
+    // 加载医院等级,医联体,公众号数据
     addData() {
       // 医院等级
       this.$axios.post(api.managementAll, {}).then(res => {
@@ -385,6 +383,7 @@ export default {
   },
   created() {
     localStorage.setItem("homeIndex", 0);
+     // 获取医院等级,医联体,公众号数据
     this.addData();
   },
   mounted() {
@@ -396,11 +395,10 @@ export default {
       })
       .then(res => {
         if (res.data.object) {
-          
           let ret = res.data.object;
-          // 名字
+          // 医院名字
           this.y_name = ret.orgName;
-          // 图片
+          // 医院图片
           if (ret.hosIcon) {
             this.source = ret.hosIcon;
             this.uploadList.push({
@@ -411,9 +409,8 @@ export default {
               url: this.fileBaseUrl + this.pictureFormat(ret.hosIcon)
             });
           }
-
           this.title = ret.orgName;
-          // m机构等级
+          // 机构等级
           this.y_type = ret.grade;
           // 医联体上级医院
           this.y_search1 = ret.orgParentCode;

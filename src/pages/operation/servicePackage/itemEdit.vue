@@ -70,7 +70,7 @@
                                 :key="item.id"
                             >{{item.orgName}}</Option>
                         </Select>
-                        <i-switch
+                        <iSwitch
                             v-if="info.hospitalId != '' && info.hospitalId != null && info.hospitalId != 0"
                             v-model="info.ascription"
                             :true-value="1"
@@ -79,7 +79,7 @@
                         >
                             <span slot="open">公有</span>
                             <span slot="close">私有</span>
-                        </i-switch>
+                        </iSwitch>
                     </FormItem>
                 </Col>
             </Row>
@@ -198,14 +198,14 @@
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="packagestatus">
-                        <i-switch
+                        <iSwitch
                             v-model="info.packagestatus"
                             :true-value="1"
                             :false-value="0"
                         >
                             <span slot="open">是</span>
                             <span slot="close">否</span>
-                        </i-switch>
+                        </iSwitch>
                     </FormItem>
                 </Col>
             </Row>
@@ -238,7 +238,7 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-import { Avatar, Select, Option, Switch } from "iview";
+import { Avatar, Select, Option } from "iview";
 export default {
     data() {
         return {
@@ -387,7 +387,7 @@ export default {
         ];
         this.$emit("changeBreadList", breadList);
     },
-    components: { Avatar, Select, Option, "i-switch": Switch },
+    components: { Avatar, Select, Option },
     methods: {
         changeProvince() {
             this.info.cityId = "0";

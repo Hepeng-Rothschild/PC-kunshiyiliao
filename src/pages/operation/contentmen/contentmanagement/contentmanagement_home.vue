@@ -10,7 +10,7 @@
           <iOption v-for="item in cityList" :value="item.id" :key="item.id">{{ item.label }}</iOption>
         </iSelect>
       </div>
-      <!--发布选择-->
+      <!--发布状态-->
       <div class="selectType">
         <span>状态</span>
         <iSelect v-model="type2" style="width:100px" clearable>
@@ -95,11 +95,10 @@
 </template>
 
 <script>
-import { Page, Select, Option } from "iview";
+import { Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
-    Page,
     iSelect: Select,
     iOption: Option
   },
@@ -387,8 +386,8 @@ export default {
   }
   /*表单*/
   table {
-    width: calc(100% - 60px);
-    padding: 0 30px;
+    width: calc(100% - 20px);
+    padding: 0 10px;
     margin: 0 auto;
     border: 1px solid #dddee1;
     tr:nth-child(odd) {
@@ -428,7 +427,7 @@ export default {
     }
   }
   .footer {
-    width: calc(100% - 60px);
+    width: calc(100% - 20px);
     border: 1px solid #ddd;
     line-height: 40px;
     margin: 0 auto;

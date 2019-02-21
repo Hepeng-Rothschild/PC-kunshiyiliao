@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <tmpHeader/>
+    <tmpHeader :index='2' />
     <div class="main">
       <div class="select" v-for="item,index in list">
         <h3>{{ item.name }}</h3>
@@ -21,12 +21,9 @@
 <script>
 import api from "@/api/commonApi";
 import tmpHeader from "../tmpHeader";
-import { Checkbox, Switch } from "iview";
 export default {
   components: {
-    tmpHeader,
-    Checkbox,
-    iSwitch: Switch
+    tmpHeader
   },
   data() {
     return {

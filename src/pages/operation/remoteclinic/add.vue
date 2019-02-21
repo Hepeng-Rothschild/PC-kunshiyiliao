@@ -1,6 +1,5 @@
 <template>
   <div class="edit">
-    <!-- <tempHeader/> -->
     <!-- 主体 -->
     <div class="main">
       <!-- 添加接诊医生  -->
@@ -16,7 +15,7 @@
         <span>{{ selectExpert.doctorName }}</span>
       </div>
       <!-- 选择专家 -->
-      <Modal v-model="modal1" title="选择专家">
+      <Modal v-model="modal1" title="选择专家" :footer-hide=true>
         <div class="modelExpert">
           <div class="searchExpertList">
             <input type="text" placeholder="输入医生姓名、医院、科室" v-model.trim="searchName">
@@ -187,14 +186,13 @@
 </template>
 <script>
 import tempHeader from "@/components/tmpHeader";
-import { Select, Option, Switch, TimePicker } from "iview";
+import { Select, Option,  TimePicker } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
     tempHeader,
     Select,
     Option,
-    iSwitch: Switch,
     TimePicker
   },
   data() {

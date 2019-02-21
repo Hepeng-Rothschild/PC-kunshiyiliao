@@ -56,12 +56,9 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { Icon, Page } from "iview";
 export default {
   components: {
-    tmpHeader,
-    Icon,
-    Page
+    tmpHeader
   },
   data() {
     return {
@@ -146,7 +143,7 @@ export default {
   mounted() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = parseInt(pageNo);
     }
     this.getData(this.pageNo);
   }

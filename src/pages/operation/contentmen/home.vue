@@ -57,13 +57,9 @@
 
 <script>
 import api from "@/api/commonApi";
-import { Page } from "iview";
 import aesUtils from "@/plugins/aes-utils.js";
 import store from "@/store";
 export default {
-  components: {
-    Page
-  },
   data() {
     return {
       tableList: [],
@@ -122,6 +118,7 @@ export default {
     navto(item) {
       let iv = store.state.iv;
       let salt = store.state.salt;
+      
       sessionStorage.setItem("hospitalId", item.hospitalId);
       localStorage.setItem(
         "hospitalName",

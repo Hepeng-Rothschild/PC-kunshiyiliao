@@ -145,14 +145,11 @@ import api from "@/api/commonApi";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import vueEditor from "@/components/vueEditor";
 import code from "@/config/base.js";
-import { Switch, Upload, Icon, Select, Option } from "iview";
+import { Select, Option } from "iview";
 export default {
   components: {
     tmpHeader,
     vueEditor,
-    iSwitch: Switch,
-    Upload,
-    Icon,
     iSelect: Select,
     iOption: Option
   },

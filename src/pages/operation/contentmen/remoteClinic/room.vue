@@ -144,12 +144,11 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { TimePicker, Switch } from "iview";
+import { TimePicker } from "iview";
 export default {
   components: {
     tmpHeader,
-    TimePicker,
-    iSwitch: Switch
+    TimePicker
   },
   data() {
     return {

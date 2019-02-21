@@ -22,7 +22,6 @@
 				<th>{{ item.show }}</th>
 				<th>{{ item.type }}</th>
 				<th class = 'thparents'>
-					<img src="@/assets/images/search.png" alt="" @click = 'flag = true'/>
 					<div class = 'search_list' v-show = 'flag'>
 						<ul class = 'list' @click = 'flag = false'>
 							<li v-for='items,index in item.childType'>{{ items.title }}</li>
@@ -30,7 +29,6 @@
 					</div>
 				</th>
 				<th>
-					<!--<img src="@/assets/images/jiahao.png" alt="" />-->
 					 <Icon custom="i-icon i-icon-shop_fill" size="24" />
 				</th>
 			</tr>
@@ -42,12 +40,7 @@
 </template>
 
 <script>
-	import { Page ,Icon} from 'iview'
 	export default {
-		components: {
-			Page,
-			Icon
-		},
 		data () {
 			return {
 				flag:false,

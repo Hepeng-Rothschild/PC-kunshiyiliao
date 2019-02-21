@@ -47,11 +47,9 @@
 // 特色科室
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { Page } from "iview";
 export default {
   components: {
-    tmpHeader,
-    Page
+    tmpHeader
   },
   data() {
     return {
@@ -81,7 +79,7 @@ export default {
     this.status()
      let pageNo = this.$route.params.pageNo
     if(pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = parseInt(pageNo);
     }
     this.getDepartmentsData(this.pageNo);
   },

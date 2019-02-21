@@ -33,7 +33,6 @@
 //服务管理
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { Page } from "iview";
 export default {
     components: {
         tmpHeader

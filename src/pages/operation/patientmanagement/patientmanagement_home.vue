@@ -108,7 +108,6 @@
 					margin-top:2px;
 					margin-left:5px;
 					height:20px;
-					background:url("../../../assets/images/search.png") no-repeat;
 					background-size:100% 100%;
 				}
 				input {

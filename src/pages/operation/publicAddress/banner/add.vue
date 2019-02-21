@@ -103,15 +103,9 @@
 </template>
 
 <script>
-import { Switch, Upload, Icon } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
-  components: {
-    iSwitch: Switch,
-    Upload,
-    Icon
-  },
   data() {
     return {
       title: "",
@@ -155,7 +149,7 @@ export default {
     back() {
       let pageNo = this.$route.query.pageNo;
       // FUNCTIONJS公用 跳转方法
-      this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
+      this.functionJS.queryNavgationTo(this,'/index/operation/banner/list',{pageNo})
     },
     save() {
       let images = "";
@@ -179,10 +173,10 @@ export default {
           .then(res => {
             if (res.data.message === "success") {
               this.$Message.info("添加成功");
-              let pageNo = this.$route.params.pageNo;
+              let pageNo = this.$route.query.pageNo;
               setTimeout(() => {
                 // FUNCTIONJS公用 跳转方法
-                this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
+                this.functionJS.queryNavgationTo(this,'/index/operation/banner/list',{pageNo})
               }, 500);
             } else {
               this.$Message.info("添加失败请重试");

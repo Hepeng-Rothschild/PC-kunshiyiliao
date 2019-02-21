@@ -51,7 +51,6 @@
         </div>
         <p>已选择远程远程门诊合作机构</p>
       </div>
-
       <div class="transfer">
         <div class="left" ref="scrollBoxL">
           <p @dblclick="leftHospial(item,index,$event)" v-for="item,index in hospialList">

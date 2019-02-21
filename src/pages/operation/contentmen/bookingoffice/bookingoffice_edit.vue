@@ -133,16 +133,13 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Switch, Upload, Icon, Tree } from "iview";
+import { Tree } from "iview";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
-    iSwitch: Switch,
-    Upload,
-    Icon,
     vueEditor,
     Tree
   },

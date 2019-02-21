@@ -1,6 +1,6 @@
 <template>
   <div class="templateHome">
-    <tmpHeader/>
+    <tmpHeader :index='1' />
     <div class="main">
       <!-- 模板 -->
       <div class="item" v-for="item,index in list">

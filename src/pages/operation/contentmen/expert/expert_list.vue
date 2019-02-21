@@ -48,11 +48,9 @@
 // 专家介绍
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { Page } from "iview";
 export default {
   components: {
-    tmpHeader,
-    Page
+    tmpHeader
   },
   data() {
     return {
@@ -67,9 +65,9 @@ export default {
   created() {
     let pageNo = this.$route.params.pageNo;
     if (pageNo) {
-      this.pageNo = pageNo;
+      this.pageNo = parseInt(pageNo);
     }
-    this.getExpertData(pageNo);
+    this.getExpertData(this.pageNo);
 
     let breadList = [
       { path: "/index", title: "首页" },

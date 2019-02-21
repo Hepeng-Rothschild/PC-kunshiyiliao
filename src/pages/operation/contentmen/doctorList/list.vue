@@ -55,12 +55,9 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { Switch, Input } from "iview";
 export default {
   components: {
-    tmpHeader,
-    iSwitch: Switch,
-    Input
+    tmpHeader
   },
   data() {
     return {

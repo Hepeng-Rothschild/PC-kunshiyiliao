@@ -142,7 +142,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否发布</span>
         </div>
-        <iSwitch v-model="switch1"/>
+        <iSwitch v-model="switch1" size="large">
+          <span slot="open">开启</span>
+          <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!--保存/取消-->
       <div class="queding">
@@ -155,15 +158,12 @@
 
 <script>
 import vueEditor from "@/components/vueEditor";
-import { Switch, Upload, Icon, Select, Option } from "iview";
+import { Select, Option } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
     vueEditor,
-    iSwitch: Switch,
-    Upload,
-    Icon,
     iSelect: Select,
     iOption: Option
   },

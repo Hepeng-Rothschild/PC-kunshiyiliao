@@ -105,15 +105,9 @@
 </template>
 
 <script>
-import { Switch, Upload, Icon } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
-  components: {
-    iSwitch: Switch,
-    Upload,
-    Icon
-  },
   data() {
     return {
       title: "",
@@ -152,9 +146,9 @@ export default {
   methods: {
     // 后退
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
        // FUNCTIONJS公用 跳转方法
-      this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
+      this.functionJS.queryNavgationTo(this,'/index/operation/banner/list',{pageNo})
     },
     save() {
       let images = "";
@@ -184,10 +178,10 @@ export default {
         this.$axios.post(api.wxBannerEdit, params).then(res => {
           if (res.data.code) {
             this.$Message.info("修改成功");
-            let pageNo = this.$route.params.pageNo;
+            let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
               // FUNCTIONJS公用 跳转方法
-              this.functionJS.paramsNavgationTo(this,'wxbannerList',{pageNo})
+              this.functionJS.queryNavgationTo(this,'/index/operation/banner/list',{pageNo})
             }, 500);
           } else {
             this.$Message.info("修改失败请重试");
@@ -234,7 +228,7 @@ export default {
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
-    let route = this.$route.params.id;
+    let route = this.$route.query.id;
     if (route) {
       this.$axios
         .post(api.wxBannerDetail, {

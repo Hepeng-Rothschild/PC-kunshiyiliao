@@ -34,12 +34,7 @@
 </template>
 
 <script>
-import { Page, Table } from "iview";
 export default {
-  components: {
-    Page,
-    Table
-  },
   created() {
   },
   data() {

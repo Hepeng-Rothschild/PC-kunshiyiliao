@@ -55,11 +55,10 @@
   </div>
 </template>
 <script>
-import { Switch, Select, Option } from "iview";
+import {  Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
-    iSwitch: Switch,
     Select,
     Option
   },
