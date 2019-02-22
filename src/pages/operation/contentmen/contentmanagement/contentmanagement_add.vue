@@ -310,12 +310,17 @@ export default {
             if (res.data.code) {
               this.$Message.info("添加成功");
               let query = this.$route.query
+              let pageNo = this.$route.query.pageNo ? Number(this.$route.query.pageNo) :1
+              let type2 = this.$route.query.type2 ? Number(this.$route.query.type2) : null
               setTimeout(() => {
                 let query = this.$route.query
                 this.functionJS.queryNavgationTo(
                   this,
                   "/index/operation/contentmanagement_home",
-                  query
+                  {
+                    pageNo,
+                    type2
+                  }
                   //公用方法
                 );
               }, 500);

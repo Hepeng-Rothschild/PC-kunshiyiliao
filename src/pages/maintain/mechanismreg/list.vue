@@ -165,6 +165,7 @@ export default {
                     }
                 });
         },
+        // 批量导入
         batch() {
             // this.$router.push({
             //     name: "mechanismregeditbatchone",
@@ -199,6 +200,7 @@ export default {
                 this.getMechanismreg(this.pageNo);
             }
         },
+        // 新增机构
         add() {
             // this.$router.push({
             //     name: "mechanismregadd",
@@ -224,6 +226,7 @@ export default {
                 }
             );
         },
+        // 编辑机构
         edit(item) {
             let id = item.id;
             // this.$router.push({
