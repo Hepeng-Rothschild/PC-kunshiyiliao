@@ -9,6 +9,11 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
                     ></fourLevelLinkage>
                 </div>
                 <div class="margin-up-down">
@@ -59,6 +64,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack:1,
 
             searchKey: "",
             keyPlaceHolder: "医生姓名",
@@ -129,6 +135,11 @@ export default {
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
+                                                    province: this.province,
+                                                    city: this.city,
+                                                    area: this.area,
+                                                    hospital: this.hospital,
+                                                    isBack:2,
                                                     searchKey: this.searchKey,
                                                     deptKey: this.deptKey,
                                                     dictType: this.dictType
@@ -156,6 +167,11 @@ export default {
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
+                                                    province: this.province,
+                                                    city: this.city,
+                                                    area: this.area,
+                                                    hospital: this.hospital,
+                                                    isBack:2,
                                                     searchKey: this.searchKey,
                                                     deptKey: this.deptKey,
                                                     dictType: this.dictType
@@ -293,6 +309,11 @@ export default {
                 "/index/operation/register/edit",
                 {
                     pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack:2,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
@@ -302,6 +323,7 @@ export default {
         }
     },
     created() {
+
         sessionStorage.setItem("index", 0);
         this.searchKey = this.$route.query.searchKey
             ? this.$route.query.searchKey
@@ -312,6 +334,19 @@ export default {
         this.dictType = this.$route.query.dictType
             ? this.$route.query.dictType
             : "";
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack?parseInt(this.$route.query.isBack):1;
 
         let breadList = [
             { path: "/index", title: "首页" },

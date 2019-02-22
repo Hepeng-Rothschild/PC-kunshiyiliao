@@ -8,6 +8,11 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
                     ></fourLevelLinkage>
                 </div>
                 <div class="margin-up-down">
@@ -65,6 +70,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack: 1,
 
             searchKey: "",
             startDate: "",
@@ -154,8 +160,12 @@ export default {
                         let id = params.row.remoteClinicId;
                         let startDate = new Date(this.startDate);
                         let endDate = new Date(this.endDate);
-                        startDate = startDate.toLocaleDateString().replace(/\//g, "-");
-                        endDate = endDate.toLocaleDateString().replace(/\//g, "-");
+                        startDate = startDate
+                            .toLocaleDateString()
+                            .replace(/\//g, "-");
+                        endDate = endDate
+                            .toLocaleDateString()
+                            .replace(/\//g, "-");
                         return h(
                             "a",
                             {
@@ -164,7 +174,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                         //   公用方法
+                                        //   公用方法
                                         this.functionJS.queryNavgationTo(
                                             this,
                                             "/index/operation/orders/remoteClinic/detail",
@@ -174,10 +184,14 @@ export default {
                                                 searchKey: this.searchKey,
                                                 startDate: startDate,
                                                 endDate: endDate,
-                                                status: this.status
+                                                status: this.status,
+                                                province: this.province,
+                                                city: this.city,
+                                                area: this.area,
+                                                hospital: this.hospital,
+                                                isBack: 2
                                             }
                                         );
-
                                     }
                                 }
                             },
@@ -197,23 +211,54 @@ export default {
         fourLevelLinkage
     },
     created() {
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
-        this.startDate = this.$route.query.startDate?this.$route.query.startDate:this.GetDate(-2);
-        this.endDate = this.$route.query.endDate?this.$route.query.endDate:this.GetDate(0);
-        this.status = this.$route.query.status == null?null:parseInt(this.$route.query.status);
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
+        this.startDate = this.$route.query.startDate
+            ? this.$route.query.startDate
+            : this.GetDate(-2);
+        this.endDate = this.$route.query.endDate
+            ? this.$route.query.endDate
+            : this.GetDate(0);
+        this.status =
+            this.$route.query.status == null
+                ? null
+                : parseInt(this.$route.query.status);
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
 
         let breadList = [
-            {path:"/index",title:"首页"},
-            {path:"/index/operation/ordersmanagement/index",title:"订单管理"},
-            {path:"/index/operation/orders/remoteClinic/list",title:"远程门诊订单"}
-        ]
-        this.$emit("changeBreadList",breadList);
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/ordersmanagement/index",
+                title: "订单管理"
+            },
+            {
+                path: "/index/operation/orders/remoteClinic/list",
+                title: "远程门诊订单"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
         changeProvince(val) {
             this.province = val;
@@ -237,7 +282,7 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.remoteType = this.status>=0 ? this.status : null;
+            params.remoteType = this.status >= 0 ? this.status : null;
             let startDate = new Date(this.startDate);
             let endDate = new Date(this.endDate);
             startDate = startDate.toLocaleDateString().replace(/\//g, "-");
@@ -252,7 +297,7 @@ export default {
 
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
-            console.log("远程门诊订单 params",params);
+            console.log("远程门诊订单 params", params);
             this.$axios
                 .post(api.ordermanagementlistbyremoteorder, params)
                 .then(resp => {
@@ -319,9 +364,9 @@ export default {
         min-width: 460px;
         text-align: center;
     }
-    .margin-up-down{
-        display:inline-block;
-        margin:10px 0;
+    .margin-up-down {
+        display: inline-block;
+        margin: 10px 0;
     }
 }
 </style>

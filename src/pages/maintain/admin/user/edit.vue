@@ -44,7 +44,7 @@
             <span>用户头像</span>
           </div>
           <div class="input">
-            <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
+            <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
               <div v-if="item.status === 'finished'">
                 <img :src="item.url">
                 <div class="demo-upload-list-cover">
@@ -238,14 +238,14 @@ export default {
       uploadUrl: api.fileAll,
       images: "",
 
-            identityList: [
-                { id: 1, name: "超级管理员" },
-                { id: 2, name: "省级管理员" },
-                { id: 3, name: "市级管理员" },
-                { id: 4, name: "区级管理员" },
-                { id: 5, name: "机构管理员" }
-            ],
-            identity: 5,
+      identityList: [
+        { id: 1, name: "超级管理员" },
+        { id: 2, name: "省级管理员" },
+        { id: 3, name: "市级管理员" },
+        { id: 4, name: "区级管理员" },
+        { id: 5, name: "机构管理员" }
+      ],
+      identity: 5,
 
       provinceList: [],
       cityList: [],
@@ -337,6 +337,18 @@ export default {
     });
   },
   created() {
+    this.province = this.$route.query.province
+      ? parseInt(this.$route.query.province)
+      : null;
+    this.city = this.$route.query.city
+      ? parseInt(this.$route.query.city)
+      : null;
+    this.area = this.$route.query.area
+      ? parseInt(this.$route.query.area)
+      : null;
+    this.hospital = this.$route.query.hospital
+      ? parseInt(this.$route.query.hospital)
+      : null;
     let breadList = [
       { path: "/index", title: "首页" },
       {
@@ -423,19 +435,20 @@ export default {
                   this,
                   "/index/maintain/admin/user/list",
                   {
-                    pageNo
+                    pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                   }
                 );
               }, 800);
             } else {
-               //   公用方法
-            this.functionJS.queryNavgationTo(
-                this,
-                "/index",
-                {
-                    pageNo
-                }
-            );
+              //   公用方法
+              this.functionJS.queryNavgationTo(this, "/index", {
+                pageNo
+              });
               //   公用方法
               this.functionJS.queryNavgationTo(this, "/index");
             }
@@ -448,13 +461,18 @@ export default {
     back() {
       let pageNo = this.$route.query.pageNo;
       if (pageNo) {
-         //   公用方法
+        //   公用方法
         this.functionJS.queryNavgationTo(
-            this,
-            "/index/maintain/admin/user/list",
-            {
-                pageNo
-            }
+          this,
+          "/index/maintain/admin/user/list",
+          {
+            pageNo,
+            province: this.province,
+            city: this.city,
+            area: this.area,
+            hospital: this.hospital,
+            isBack: 2
+          }
         );
       } else {
         this.$router.back();
@@ -524,7 +542,9 @@ export default {
   margin-right: 4px;
 }
 // 关闭input文本框自动填充背景色黄色
-input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset !important;}
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+}
 
 .demo-upload-list img {
   width: 100%;

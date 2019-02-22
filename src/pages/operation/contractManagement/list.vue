@@ -8,6 +8,11 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
                     ></fourLevelLinkage>
                 </div>
                 <div class="margin-up-down">
@@ -75,6 +80,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack: 1,
 
             statusList: [
                 "审核中",
@@ -114,6 +120,21 @@ export default {
         };
     },
     mounted() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         this.loadingData(this.pageNo, this.pageSize, 1);
         let breadList = [
             { path: "/index", title: "首页" },
@@ -183,7 +204,7 @@ export default {
             params.memberName = memberName;
             // 医院名
             params.idcard = fdsOrderId;
-            console.log("家庭医生签约 params",params);
+            console.log("家庭医生签约 params", params);
             this.$axios.post(api.contractManagementList, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;

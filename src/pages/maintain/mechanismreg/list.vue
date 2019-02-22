@@ -9,6 +9,11 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
                     ></fourLevelLinkage>
                     <Input
                         v-model.trim="Name"
@@ -83,6 +88,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack: 1,
 
             doctorregisterSize: 10,
             list: [],
@@ -91,6 +97,21 @@ export default {
         };
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -105,9 +126,9 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.params.pageNo;
+        let pageNo = this.$route.query.pageNo;
         if (pageNo) {
-            this.pageNo = pageNo;
+            this.pageNo = parseInt(pageNo);
         }
         this.getMechanismreg(this.pageNo);
     },
@@ -145,12 +166,30 @@ export default {
                 });
         },
         batch() {
-            this.$router.push({
-                name: "mechanismregeditbatchone",
-                params: {
-                    pageNo: this.pageNo
+            // this.$router.push({
+            //     name: "mechanismregeditbatchone",
+            //     params: {
+            //         pageNo: this.pageNo,
+            //         province: this.province,
+            //         city: this.city,
+            //         area: this.area,
+            //         hospital: this.hospital,
+            //         isBack: 2
+            //     }
+            // });
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/mechanismreg/batchone",
+                {
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                 }
-            });
+            );
+            // 
         },
         pageChange(index) {
             this.pageNo = index;
@@ -161,22 +200,57 @@ export default {
             }
         },
         add() {
-            this.$router.push({
-                name: "mechanismregadd",
-                params: {
-                    pageNo: this.pageNo
+            // this.$router.push({
+            //     name: "mechanismregadd",
+            //     params: {
+            //         pageNo: this.pageNo,
+            //         province: this.province,
+            //         city: this.city,
+            //         area: this.area,
+            //         hospital: this.hospital,
+            //         isBack: 2
+            //     }
+            // });
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/mechanismreg/mechanismregAdd",
+                {
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                 }
-            });
+            );
         },
         edit(item) {
             let id = item.id;
-            this.$router.push({
-                name: "mechanismregedit",
-                params: {
+            // this.$router.push({
+            //     name: "mechanismregedit",
+            //     params: {
+            //         id,
+            //         pageNo: this.pageNo,
+            //         province: this.province,
+            //         city: this.city,
+            //         area: this.area,
+            //         hospital: this.hospital,
+            //         isBack: 2
+            //     }
+            // });
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/mechanismreg/mechanismregEdit",
+                {
                     id,
-                    pageNo: this.pageNo
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                 }
-            });
+            );
         },
         getMechanismreg(pageNo) {
             let params = {

@@ -129,8 +129,8 @@
         </div>
         <!-- 保存 -->
         <div class="save">
-          <Button type="primary" @click="back">取消</Button>
           <Button type="primary" @click="save">提交</Button>
+          <Button type="default" @click="back">取消</Button>
         </div>
       </div>
     </div>
@@ -177,10 +177,28 @@ export default {
       cityList: [],
       countyList: [],
       //医院等级 列表
-      grade: []
+      grade: [],
+
+      province: null,
+      city: null,
+      area: null,
+      hospital: null,
+      isBack: 2
     };
   },
   created() {
+    this.province = this.$route.query.province
+      ? parseInt(this.$route.query.province)
+      : null;
+    this.city = this.$route.query.city
+      ? parseInt(this.$route.query.city)
+      : null;
+    this.area = this.$route.query.area
+      ? parseInt(this.$route.query.area)
+      : null;
+    this.hospital = this.$route.query.hospital
+      ? parseInt(this.$route.query.hospital)
+      : null;
     let breadList = [
       { path: "/index", title: "首页" },
       {
@@ -197,7 +215,7 @@ export default {
   mounted() {
     //获取省级信息
     this.getCity();
-    // a获取医院等级 
+    // a获取医院等级
     this.getGrent();
   },
   methods: {
@@ -245,20 +263,27 @@ export default {
         this.$Message.error("机构组织代码不能为空");
       } else if (this.mechanismType1 == "-1" || this.mechanismType2 == "-1") {
         this.$Message.error("机构类型不能为空");
-      } else if (this.mechanismGrade=='-1'){
+      } else if (this.mechanismGrade == "-1") {
         this.$Message.error("机构等级不能为空");
       } else {
         this.$axios.post(api.mechanismregAdd, params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");
-            let pageNo = this.$route.params.pageNo;
+            let pageNo = this.$route.query.pageNo;
             setTimeout(() => {
               // functionJS公用 方法
-              let pageNo = this.$route.params.pageNo;
-              // functionJS公用 方法
-              this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
-                pageNo
-              });
+              this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/mechanismreg/list",
+                {
+                  pageNo,
+                  province: this.province,
+                  city: this.city,
+                  area: this.area,
+                  hospital: this.hospital,
+                  isBack: 2
+                }
+              );
             }, 500);
           } else {
             this.$Message.info(res.data.message);
@@ -269,11 +294,20 @@ export default {
     // 返回上一步
     back() {
       // 获取路由参数
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
-        pageNo
-      });
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/maintain/mechanismreg/list",
+        {
+          pageNo,
+          province: this.province,
+          city: this.city,
+          area: this.area,
+          hospital: this.hospital,
+          isBack: 2
+        }
+      );
     },
     //获取医院等级
     getGrent() {

@@ -8,6 +8,11 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
                     ></fourLevelLinkage>
                 </div>
                 <div class="margin-up-down">
@@ -74,6 +79,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack: 1,
 
             shuangyue: "", //爽约率
             lvyue: "", //履约率
@@ -138,6 +144,21 @@ export default {
         fourLevelLinkage
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         this.startDate = this.GetDate(-2);
         this.endDate = this.GetDate(0);
         let breadList = [
@@ -198,7 +219,7 @@ export default {
             params.searchKey = this.searchKey ? this.searchKey : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
-            console.log("预约挂号订单 params",params);
+            console.log("预约挂号订单 params", params);
             this.$axios
                 .post(api.orderManageAppointRegistList, params)
                 .then(resp => {

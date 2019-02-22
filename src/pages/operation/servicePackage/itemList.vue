@@ -8,6 +8,11 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
                     ></fourLevelLinkage>
                 </div>
                 <div class="margin-up-down">
@@ -37,12 +42,12 @@ import api from "@/api/commonApi";
 export default {
     data() {
         return {
-            
             province: null,
             city: null,
             area: null,
             hospital: null,
-            
+            isBack: 1,
+
             searchKey: "",
             natureList: [
                 { id: 1, name: "增值付费项目" },
@@ -195,6 +200,21 @@ export default {
         fourLevelLinkage
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -231,31 +251,43 @@ export default {
         goAdd() {
             this.$router.push({
                 path: "/index/operation/servicePackage/itemAdd",
-                query: { pageNo: this.pageNo }
-               });
-    },
-    goEdit(id) {
-      //   公用方法
-      this.functionJS.queryNavgationTo(
-        this,
-        "/index/operation/servicePackage/itemEdit",
-        {
-          id,
-          pageNo: this.pageNo
-        }
-      );
-    },
-    goImport() {
-      //   公用方法
-      this.functionJS.queryNavgationTo(
-        this,
-        "/index/operation/servicePackage/itemImportOne",
-        {
-          pageNo: this.pageNo
-        }
-      );
-    },
-    //加载列表数据
+                query: {
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
+                }
+            });
+        },
+        goEdit(id) {
+            //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/itemEdit",
+                {
+                    id,
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
+                }
+            );
+        },
+        goImport() {
+            //   公用方法
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/servicePackage/itemImportOne",
+                {
+                    pageNo: this.pageNo
+                }
+            );
+        },
+        //加载列表数据
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
@@ -268,7 +300,7 @@ export default {
             params.searchKey = this.searchKey == "" ? null : this.searchKey;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
-            console.log("服务项 params",params);
+            console.log("服务项 params", params);
             this.$axios
                 .post(api.fdspackageitempage, params)
                 .then(resp => {
@@ -299,74 +331,79 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
-    },
-    attribution(resolve, opt) {
-      let attribution = "";
-      if (opt.hospitalId) {
-        attribution += opt.belong;
-      } else {
-        if (opt.provinceId) {
-          attribution += opt.province;
-          if (opt.cityId) {
-            let pat = new RegExp(opt.province);
-            !pat.test(opt.city) && (attribution += "&nbsp;&nbsp;" + opt.city);
-            if (opt.areaId) {
-              attribution += "&nbsp;&nbsp;" + opt.area;
+        },
+        attribution(resolve, opt) {
+            let attribution = "";
+            if (opt.hospitalId) {
+                attribution += opt.belong;
+            } else {
+                if (opt.provinceId) {
+                    attribution += opt.province;
+                    if (opt.cityId) {
+                        let pat = new RegExp(opt.province);
+                        !pat.test(opt.city) &&
+                            (attribution += "&nbsp;&nbsp;" + opt.city);
+                        if (opt.areaId) {
+                            attribution += "&nbsp;&nbsp;" + opt.area;
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-      resolve(attribution);
-    },
-    /* getAttribution 函数不许删除 */
-    getAttribution(resolve, provinceId, cityId, areaId, hospitalId) {
-      let attribution = "";
-      if (hospitalId) {
-        var params = {};
-        params.provinceCode = parseInt(provinceId == 0 ? null : provinceId);
-        this.$axios
-          .post(api.hospitalselectbyprovincecode, params)
-          .then(resp => {
-            let tmpHospitalList = resp.data.object;
-            for (let item of tmpHospitalList) {
-              if (item.id == hospitalId) {
-                attribution += item.orgName;
+            resolve(attribution);
+        },
+        /* getAttribution 函数不许删除 */
+        getAttribution(resolve, provinceId, cityId, areaId, hospitalId) {
+            let attribution = "";
+            if (hospitalId) {
+                var params = {};
+                params.provinceCode = parseInt(
+                    provinceId == 0 ? null : provinceId
+                );
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        let tmpHospitalList = resp.data.object;
+                        for (let item of tmpHospitalList) {
+                            if (item.id == hospitalId) {
+                                attribution += item.orgName;
+                                resolve(attribution);
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            } else {
+                if (provinceId) {
+                    let tmpProvinceList = this.$store.getters.getProvinceList;
+                    for (let item of tmpProvinceList) {
+                        if (item.value == provinceId) {
+                            attribution += item.name;
+                        }
+                    }
+                }
+                if (cityId) {
+                    let tmpCityList = this.$store.getters.getCityList(
+                        provinceId
+                    );
+                    for (let item of tmpCityList) {
+                        if (item.id == cityId) {
+                            attribution += "&nbsp;&nbsp;" + item.name;
+                        }
+                    }
+                }
+                if (areaId) {
+                    let tmpAreaList = this.$store.getters.getAreaList(cityId);
+                    for (let item of tmpAreaList) {
+                        if (item.id == areaId) {
+                            attribution += "&nbsp;&nbsp;" + item.name;
+                        }
+                    }
+                }
                 resolve(attribution);
-              }
             }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      } else {
-        if (provinceId) {
-          let tmpProvinceList = this.$store.getters.getProvinceList;
-          for (let item of tmpProvinceList) {
-            if (item.value == provinceId) {
-              attribution += item.name;
-            }
-          }
         }
-        if (cityId) {
-          let tmpCityList = this.$store.getters.getCityList(provinceId);
-          for (let item of tmpCityList) {
-            if (item.id == cityId) {
-              attribution += "&nbsp;&nbsp;" + item.name;
-            }
-          }
-        }
-        if (areaId) {
-          let tmpAreaList = this.$store.getters.getAreaList(cityId);
-          for (let item of tmpAreaList) {
-            if (item.id == areaId) {
-              attribution += "&nbsp;&nbsp;" + item.name;
-            }
-          }
-        }
-        resolve(attribution);
-      }
     }
-  }
 };
 </script>
 <style lang="less" scoped>

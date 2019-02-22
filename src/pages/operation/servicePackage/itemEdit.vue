@@ -330,10 +330,29 @@ export default {
                 //     }
                 // ]
             },
-            switch1: false
+            switch1: false,
+
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            isBack: 2
         };
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+
         let id = parseInt(this.$route.query.id);
         this.pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
@@ -403,7 +422,9 @@ export default {
         if (this.identity == 1) {
             this.provinceList = this.$store.getters.getProvinceList;
         } else if (this.identity == 2) {
-            this.cityList = this.$store.getters.getCityList(this.info.provinceId);
+            this.cityList = this.$store.getters.getCityList(
+                this.info.provinceId
+            );
         } else if (this.identity == 3) {
             this.areaList = this.$store.getters.getAreaList(this.info.cityId);
         } else if (this.identity == 4) {
@@ -474,7 +495,7 @@ export default {
         changeArea() {
             this.info.hospitalId = null;
             this.hospitalList = [];
-            if(this.info.areaId){
+            if (this.info.areaId) {
                 var params = {};
                 params.provinceCode = this.info.provinceId;
                 params.cityCode = this.info.cityId;
@@ -535,15 +556,19 @@ export default {
                         .then(resp => {
                             if (resp.data.success) {
                                 this.$Message.success(msg + "成功");
-                                 //   公用方法
+                                //   公用方法
                                 this.functionJS.queryNavgationTo(
                                     this,
                                     "/index/operation/servicePackage/itemList",
                                     {
-                                        pageNo: this.pageNo
+                                        pageNo: this.pageNo,
+                                        province: this.province,
+                                        city: this.city,
+                                        area: this.area,
+                                        hospital: this.hospital,
+                                        isBack: 2
                                     }
                                 );
-
                             } else {
                                 this.$Message.fail(msg + "失败，请重试");
                             }
@@ -557,15 +582,19 @@ export default {
             });
         },
         reback() {
-             //   公用方法
+            //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/operation/servicePackage/itemList",
                 {
-                   pageNo: this.pageNo
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                 }
             );
-
         },
         alertMsg(msg) {
             this.$Message.error({

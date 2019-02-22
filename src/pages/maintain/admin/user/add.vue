@@ -112,7 +112,7 @@
                         <span>用户身份</span>
                     </div>
                     <div>
-                        <Select class="w-select-identity" placeholder="用户身份" v-model="identity">
+                        <Select class="w-select-identity" placeholder="用户身份" v-model="identityAdd">
                             <!-- <Option value="0">全国</Option> -->
                             <Option
                                 v-for="item in identityList"
@@ -133,8 +133,9 @@
                             @on-change="changeProvince"
                             placeholder="省"
                             v-model="provinceId"
-                            clearable
-                            v-if="identity >= 2 || identity == 5"
+                            :clearable="!provinceStatus"
+                            :disabled="provinceStatus"
+                            v-if="identityAdd >= 2 || identityAdd == 5"
                         >
                             <!-- <Option value="0">全国</Option> -->
                             <Option
@@ -148,8 +149,9 @@
                             @on-change="changeCity"
                             placeholder="市"
                             v-model="cityId"
-                            clearable
-                            v-if="identity >= 3 || identity == 5"
+                            :clearable="!cityStatus"
+                            :disabled="cityStatus"
+                            v-if="identityAdd >= 3 || identityAdd == 5"
                         >
                             <Option
                                 v-for="(item) in cityList"
@@ -162,8 +164,9 @@
                             @on-change="changeArea"
                             placeholder="区/县"
                             v-model="areaId"
-                            clearable
-                            v-if="identity >= 4 || identity == 5"
+                            :clearable="!areaStatus"
+                            :disabled="areaStatus"
+                            v-if="identityAdd >= 4 || identityAdd == 5"
                         >
                             <Option
                                 v-for="item in areaList"
@@ -175,8 +178,9 @@
                             class="w-select-hos"
                             placeholder="医院"
                             v-model="hospitalId"
-                            clearable
-                            v-if="identity == 5"
+                            :clearable="!hospitalStatus"
+                            :disabled="hospitalStatus"
+                            v-if="identityAdd == 5"
                         >
                             <Option
                                 v-for="item in hospitalList"
@@ -237,11 +241,9 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-import { Select, Option, RadioGroup, Radio } from "iview";
+import { RadioGroup, Radio } from "iview";
 export default {
     components: {
-        Select,
-        Option,
         RadioGroup,
         Radio
     },
@@ -295,21 +297,31 @@ export default {
 
             identityList: [
                 // {id:1,name:'超级管理员'},
-                { id: 2, name: "省级管理员" },
-                { id: 3, name: "市级管理员" },
-                { id: 4, name: "区级管理员" },
-                { id: 5, name: "机构管理员" }
+                // { id: 2, name: "省级管理员" },
+                // { id: 3, name: "市级管理员" },
+                // { id: 4, name: "区级管理员" },
+                // { id: 5, name: "机构管理员" }
             ],
-            identity: 5,
-            identityCoding: null,
             provinceList: [],
             cityList: [],
             areaList: [],
             hospitalList: [],
+
             provinceId: null,
             cityId: null,
             areaId: null,
             hospitalId: null,
+            
+            provinceStatus: false,
+            cityStatus: false,
+            areaStatus: false,
+            hospitalStatus: false,
+
+            identityAdd: 5,
+            identityAddCoding: null,
+            identity: null,
+            identityCoding: null,
+            ownArea: null,
         };
     },
     mounted() {
@@ -333,6 +345,74 @@ export default {
             }
         ];
         this.$emit("changeBreadList", breadList);
+
+        this.identity = this.$store.getters.getIdentity;
+        this.identityCoding = this.$store.getters.getIdentityCoding;
+        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        if (this.ownArea.province) {
+            this.provinceStatus = true;
+            this.provinceList.push(this.ownArea.province);
+            this.provinceId = this.ownArea.province.id;
+        }
+        if (this.ownArea.city) {
+          this.cityStatus = true;
+            this.cityList.push(this.ownArea.city);
+            this.cityId = this.ownArea.city.id;
+        }
+        if (this.ownArea.area) {
+          this.areaStatus = true;
+            this.areaList.push(this.ownArea.area);
+            this.areaId = this.ownArea.area.id;
+        }
+
+        if (this.identity == 1) {
+            this.identityList.push({ id: 2, name: "省级管理员" });
+            this.identityList.push({ id: 3, name: "市级管理员" });
+            this.identityList.push({ id: 4, name: "区级管理员" });
+            this.identityList.push({ id: 5, name: "机构管理员" });
+            this.provinceList = this.$store.getters.getProvinceList;
+        } else if (this.identity == 2) {
+            this.identityList.push({ id: 3, name: "市级管理员" });
+            this.identityList.push({ id: 4, name: "区级管理员" });
+            this.identityList.push({ id: 5, name: "机构管理员" });
+            this.cityList = this.$store.getters.getCityList(this.provinceId);
+        } else if (this.identity == 3) {
+            this.identityList.push({ id: 4, name: "区级管理员" });
+            this.identityList.push({ id: 5, name: "机构管理员" });
+            this.areaList = this.$store.getters.getAreaList(this.cityId);
+        } else if (this.identity == 4) {
+            this.identityList.push({ id: 5, name: "机构管理员" });
+            var params = {};
+            params.provinceCode = parseInt(this.provinceId);
+            params.cityCode = parseInt(this.cityId);
+            params.districtCode = parseInt(this.areaId);
+            this.$axios
+                .post(api.hospitalselectbyprovincecode, params)
+                .then(resp => {
+                    let list = resp.data.object;
+                    list.map((el, i) => {
+                        this.hospitalList.push({id:parseInt(el.id),orgName:el.orgName});
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else if (this.identity == 5) {
+            this.identityList.push({ id: 5, name: "机构管理员" });
+            this.hospitalId = parseInt(this.identityCoding);
+            this.hospitalStatus = true;
+            this.$axios
+                .post(api.managementInfo, {
+                    hospitalId: parseInt(this.identityCoding)
+                })
+                .then(resp => {
+                    this.hospitalList.push({
+                        id: resp.data.object.hospitalId,
+                        orgName: resp.data.object.orgName
+                    });
+                })
+                .catch(err => {});
+        }
 
         this.provinceList = this.$store.getters.getProvinceList;
     },
@@ -377,31 +457,31 @@ export default {
             } else {
                 images = "";
             }
-            if (this.identity == 1) {
-            } else if (this.identity == 2) {
+            if (this.identityAdd == 1) {
+            } else if (this.identityAdd == 2) {
                 if (this.provinceId == null) {
-                    this.$Message.info("请选择所属");
+                    this.$Message.info("请选择所属省");
                     return ;
                 }
-                this.identityCoding = this.provinceId;
-            } else if (this.identity == 3) {
+                this.identityAddCoding = this.provinceId;
+            } else if (this.identityAdd == 3) {
                 if (this.cityId == null) {
-                    this.$Message.info("请选择所属");
+                    this.$Message.info("请选择所属市");
                     return ;
                 }
-                this.identityCoding = this.cityId;
-            } else if (this.identity == 4) {
+                this.identityAddCoding = this.cityId;
+            } else if (this.identityAdd == 4) {
                 if (this.areaId == null) {
-                    this.$Message.info("请选择所属");
+                    this.$Message.info("请选择所属区/县");
                     return ;
                 }
-                this.identityCoding = this.areaId;
-            } else if (this.identity == 5) {
+                this.identityAddCoding = this.areaId;
+            } else if (this.identityAdd == 5) {
                 if (this.hospitalId == null) {
-                    this.$Message.info("请选择所属");
+                    this.$Message.info("请选择所属机构");
                     return ;
                 }
-                this.identityCoding = this.hospitalId;
+                this.identityAddCoding = this.hospitalId;
             }
             let params = {
                 // 账号
@@ -413,8 +493,8 @@ export default {
                 status: Number(this.switch1),
                 // 用户头像
                 userIcon: images,
-                identity: this.identity,
-                identityCoding: this.identityCoding
+                identity: this.identityAdd,
+                identityCoding: this.identityAddCoding
             };
             if (this.text == "") {
                 this.$Message.info("登录账号不能为空");

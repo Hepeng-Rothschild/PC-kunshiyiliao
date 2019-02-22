@@ -41,19 +41,31 @@ export default {
     };
   },
   created() {
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/maintain/indexManagement/index",
-                title: "索引管理"
-            },
-            {
-                path: "/index/maintain/mechanismreg/list",
-                title: "机构注册信息"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+    this.province = this.$route.query.province
+      ? parseInt(this.$route.query.province)
+      : null;
+    this.city = this.$route.query.city
+      ? parseInt(this.$route.query.city)
+      : null;
+    this.area = this.$route.query.area
+      ? parseInt(this.$route.query.area)
+      : null;
+    this.hospital = this.$route.query.hospital
+      ? parseInt(this.$route.query.hospital)
+      : null;
+    let breadList = [
+      { path: "/index", title: "首页" },
+      {
+        path: "/index/maintain/indexManagement/index",
+        title: "索引管理"
+      },
+      {
+        path: "/index/maintain/mechanismreg/list",
+        title: "机构注册信息"
+      }
+    ];
+    this.$emit("changeBreadList", breadList);
+  },
   methods: {
     download() {
       this.$axios
@@ -93,20 +105,30 @@ export default {
     next() {
       if (!this.disabled) {
         // function全局方法
-        this.functionJS.paramsNavgationTo(this,"mechanismregeditbatchtwo",{
+        this.functionJS.paramsNavgationTo(this, "mechanismregeditbatchtwo", {
           fail: this.errorData
-        })
+        });
       } else {
         this.$Message.info("请选择批量上传的文件");
       }
     },
     // 上一步
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
-        pageNo
-      });    }
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/maintain/mechanismreg/list",
+        {
+          pageNo,
+          province: this.province,
+          city: this.city,
+          area: this.area,
+          hospital: this.hospital,
+          isBack: 2
+        }
+      );
+    }
   }
 };
 </script>
