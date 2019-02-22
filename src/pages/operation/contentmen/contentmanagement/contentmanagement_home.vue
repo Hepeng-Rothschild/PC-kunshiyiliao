@@ -13,7 +13,7 @@
       <!--发布状态-->
       <div class="selectType">
         <span>状态</span>
-        <iSelect v-model="type2" style="width:100px" clearable @on-change='statusChange'>
+        <iSelect v-model="type2" style="width:100px" clearable >
           <iOption v-for="item in cityLists" :value="item.id" :key="item.id">{{ item.label }}</iOption>
         </iSelect>
       </div>
@@ -22,7 +22,7 @@
         <Input v-model.trim="val" placeholder="请输入文章名称进行检索" style="width: 200px" clearable/>
       </div>
       <!--搜索按钮-->
-      <Button type="primary" icon="ios-search" @click="btn">搜索</Button>
+      <Button type="primary" icon="ios-search" @click="search">搜索</Button>
       <Button type="primary" @click="add">新增</Button>
     </div>
     <!--表格-->
@@ -59,7 +59,7 @@
         <th style="color:red;" v-show="item.enable == 0">未发布</th>
         <th v-show="item.enable == 1">已发布</th>
         <th class="modi">
-          <span style="color: black;cursor:pointer" @click="changeItem(item)">修改</span>
+          <span style="color: black;cursor:pointer" @click="edit(item)">修改</span>
           <span
             v-show="item.idelete == 0"
             style="color: black;cursor:pointer"
@@ -79,18 +79,6 @@
     <div class="paging">
       <Page :total="contentSize" @on-change="pageChange" :current="pageNo"/>
     </div>
-    <!--info-->
-    <div class="info" v-show="flag">
-      <h3>提示</h3>
-      <p>确定{{ content }}?</p>
-      <div class="info_tishi">
-        <span @click="flag = false">否</span>
-        <span>是</span>
-      </div>
-    </div>
-    <Modal v-model="modal1" title="提示" @on-ok="ok" @on-cancel="cancel">
-      <p>确定{{ content }}?</p>
-    </Modal>
   </div>
 </template>
 
@@ -104,13 +92,9 @@ export default {
   },
   data() {
     return {
-      modal1: false,
-      currentIndex: -1,
       type1: "",
       type2: "",
       val: "",
-      flag: false,
-      content: "",
       tableList: [],
       contentSize: 10,
       pageNo: 1,
@@ -132,7 +116,8 @@ export default {
           label: "已发布",
           id: 1
         }
-      ]
+      ],
+      query:{}
     };
   },
   created() {
@@ -148,41 +133,19 @@ export default {
       }
     ];
     this.$emit("changeBreadList", breadList);
-
-    // let query = this.$route.query;
-    
-    // this.type2 = Number(query.type2)
   },
   mounted() {
     let pageNo = this.$route.query.pageNo;
-    // let query = this.$route.query;
-    
     if (pageNo) {
       this.pageNo = Number(pageNo);
     }
-    // this.type1 = Boolean(query.type1) ? query.type1 : "";
-    // this.type2 = Boolean(query.type2) ? Number(query.type2) : "";
-
-    // console.log("query",query);
-    // console.log(typeof (this.type2))
-    // console.log(this.type2)
-
-    // this.getContentData(this.pageNo, this.val, query.type1, query.type2);
-    // this.getContentData(index, this.val, this.type1, this.type2);
     this.getContentData(this.pageNo)
   },
   methods: {
-    statusChange(id){
-      // console.log(id);
-      // console.log(this.type2)
-      // console.log(typeof this.type2)
-    },
     // 添加新内容
     add() {
       let query = {
-        pageNo: this.pageNo,
-        // type2: this.type2,
-        // type1: this.type1
+        pageNo: this.pageNo
       };
       this.functionJS.queryNavgationTo(
         this,
@@ -197,12 +160,9 @@ export default {
         pageNo,
         pageSize: 10
       };
-
       params.title = Boolean(val) ? val :''
       params.type = Boolean(type) ? type :''
       params.enable = enable 
-      console.log(params)
-      
       this.$axios.post(api.contentWrap, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
@@ -213,24 +173,13 @@ export default {
         }
       });
     },
-    // 编辑
-    homeBtn() {
-      this.functionJS.queryNavgationTo(
-        this,
-        "/index/operation/contentmanagement_edit",
-        {
-          //公用方法
-          pageNo: this.pageNo
-        }
-      );
-    },
     // 分页器改变
     pageChange(index) {
       this.pageNo = index;
       this.getContentData(index, this.val, this.type1, this.type2);
     },
     //关键字查询列表
-    btn() {
+    search() {
       let type1 = this.type1;
       let type2 = this.type2;
       if (type1 == null) {
@@ -294,7 +243,7 @@ export default {
       }
     },
     //根据ID修改对应的新闻资讯
-    changeItem(item) {
+    edit(item) {
       let id = item.articleId;
       this.functionJS.queryNavgationTo(
         this,
@@ -304,13 +253,8 @@ export default {
           id,
           pageNo: this.pageNo
         }
-      );
-    },
-    //模态框
-    ok() {
-      let a = this.tableList[this.currentIndex];
-    },
-    cancel() {}
+      )
+    }
   }
 };
 </script>
@@ -323,37 +267,6 @@ export default {
   background: #fff;
   position: relative;
   height: 100vh;
-  /*提示*/
-  .info {
-    width: 200px;
-    height: 100px;
-    background: #fff;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: absolute;
-    border-radius: 10px;
-    left: 50%;
-    top: 200px;
-    transform: translateX(-50%);
-    border: 1px solid black;
-    .info_tishi {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      span {
-        display: inline-block;
-        width: 40%;
-        height: 30px;
-        line-height: 30px;
-        background: palevioletred;
-        border-radius: 5px;
-        color: black;
-        margin: 0 5%;
-      }
-    }
-  }
   /*标题*/
   .contentHomeTitle {
     width: 100%;

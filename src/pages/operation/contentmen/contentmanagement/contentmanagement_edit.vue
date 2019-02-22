@@ -37,7 +37,6 @@
               <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
             </div>
           </div>
-
           <div v-else>
             <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
           </div>
@@ -64,9 +63,9 @@
             <Icon type="ios-camera" size="20"></Icon>
           </div>
         </Upload>
-        <Modal title="View Image" v-model="visible">
+        <Modal title="预览图片" v-model="visible">
           <img
-            :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'"
+            :src="preview"
             v-if="visible"
             style="width: 100%"
           >
@@ -180,7 +179,8 @@ export default {
 
       images: "",
       source: "",
-      titles: ""
+      titles: "",
+      preview:""
     };
   },
   created() {
@@ -220,6 +220,8 @@ export default {
                 uid: 1544263544970,
                 url: this.analysisImages(detail.cover)
               });
+              // 预览图片
+              this.preview = this.fileBaseUrl +  this.analysisImages(detail.cover)
             }
             this.select = ret.columnId;
             //标题
@@ -249,6 +251,13 @@ export default {
       file.url = res.object[0].fileName;
       this.images = JSON.stringify(res.object[0]);
       file.name = res.object[0].fileName;
+      this.uploadList.push({
+        name: "a42bdcc1178e62b4694c830f028db5c0",
+        percentage: 100,
+        status: "finished",
+        uid: 1544263544970,
+        url: this.analysisImages(this.images)
+      });
     },
     handleFormatError(file) {
       this.$Message.info("文件" + file.name + "上传失败");
@@ -263,6 +272,7 @@ export default {
       }
       return check;
     },
+    // 返回
     back() {
       let pageNo = this.$route.query.pageNo;
       this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_home", {
@@ -270,6 +280,7 @@ export default {
         pageNo
       });
     },
+    // 保存
     save() {
       let images = "";
       if (this.images && this.uploadList.length) {

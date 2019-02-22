@@ -177,9 +177,7 @@ export default {
         })
         .then(res => {
           if (res.data.code) {
-            
             let ret = res.data.object;
-            console.log(ret)
             //省
             this.regionProv = ret.provinceCode;
             //市
@@ -250,10 +248,10 @@ export default {
           if (res.data.code) {
             let ret = res.data;
             this.$Message.info("修改成功");
-            let pageNo = this.$route.query.pageNo;
+            let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
               // functionJS公用 方法
-              this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
+              this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
                 pageNo
               });
             }, 500);
@@ -264,9 +262,9 @@ export default {
       }
     },
     back() {
-      let pageNo = this.$route.query.pageNo;
+      let pageNo = this.$route.params.pageNo;
       // functionJS公用 方法
-      this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
+      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
         pageNo
       });
     },

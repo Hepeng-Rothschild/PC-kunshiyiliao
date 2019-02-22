@@ -102,12 +102,11 @@ export default {
     },
     // 上一步
     back() {
-      let pageNo = this.$route.query.pageNo;
+      let pageNo = this.$route.params.pageNo;
       // functionJS公用 方法
-      this.functionJS.queryNavgationTo(this, "/index/maintain/mechanismreg/list",{
+      this.functionJS.paramsNavgationTo(this, "mechanismreglist",{
         pageNo
-      });
-    }
+      });    }
   }
 };
 </script>
