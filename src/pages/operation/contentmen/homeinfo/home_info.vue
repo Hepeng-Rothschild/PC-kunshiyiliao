@@ -10,7 +10,7 @@
       <!--机构首图-->
       <div class="main_imgs">
         <span>机构首图</span>
-        <div class="demo-upload-list" v-for="item in uploadList">
+        <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
           <div v-if="item.status === 'finished'">
             <img :src="item.url">
             <div class="demo-upload-list-cover">
@@ -63,7 +63,7 @@
         <span>医联体上级医院</span>
         <Select v-model="y_search1" style="width:200px;" >
           <Option value="0">请选择</Option>
-          <Option :value="item.orgCode" v-for="item,index in ylt" :key="item.orgCode">{{ item.orgName }}</Option>
+          <Option :value="item.orgCode" v-for="(item) in ylt" :key="item.orgCode">{{ item.orgName }}</Option>
         </Select>
       </div>
       <!--背景模板-->

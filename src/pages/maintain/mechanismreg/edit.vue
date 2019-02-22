@@ -169,7 +169,7 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    let id = this.$route.query.id;
+    let id = this.$route.params.id;
     if (id) {
       this.$axios
         .post(api.mechanismregSearch, {
@@ -177,7 +177,9 @@ export default {
         })
         .then(res => {
           if (res.data.code) {
+            
             let ret = res.data.object;
+            console.log(ret)
             //省
             this.regionProv = ret.provinceCode;
             //市

@@ -2,7 +2,7 @@
   <header>
     <h1 class="hospitalName">{{ hospitalName }}</h1>
     <ul>
-      <li v-for="item,index in dataList" @click="changeIndex(index)">
+      <li v-for="(item,index) in dataList" @click="changeIndex(index)" :key='index'>
         <router-link :to="item.name" :class="{active:current==index}">{{ item.title }}</router-link>
       </li>
     </ul>

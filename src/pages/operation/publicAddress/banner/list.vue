@@ -24,7 +24,7 @@
             <td>排序</td>
             <td>操作</td>
           </tr>
-          <tr v-for="item,index in tbleList" v-show="tbleList.length">
+          <tr v-for="(item,index) in tbleList" v-show="tbleList.length" :key='index'>
             <td>{{ addZeros(index) }}</td>
             <td>{{ item.bannerName }}</td>
             <td>

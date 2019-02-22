@@ -17,7 +17,7 @@
           <p>远程门诊类型</p>
         </div>
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-          <Option v-for="item,index in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
+          <Option v-for="item in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
       </div>
       <!-- 医事服务费 -->

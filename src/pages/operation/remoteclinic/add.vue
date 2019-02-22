@@ -21,7 +21,7 @@
             <input type="text" placeholder="输入医生姓名、医院、科室" v-model.trim="searchName">
             <Button type="primary" icon="ios-search" @click="searchExpert">查询</Button>
           </div>
-          <div class="modelExpert_list" @click="expert(item)" v-for="item,index in expertList">
+          <div class="modelExpert_list" @click="expert(item)" v-for="(item,index) in expertList" :key='index'>
             <span>{{ item.hospitalName }}</span>
             <span>{{ item.deptType }}</span>
             <span>{{ item.doctorName }}</span>
@@ -39,7 +39,7 @@
           <p>远程门诊类型</p>
         </div>
         <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
-          <Option v-for="item,index in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
+          <Option v-for="(item) in searchTypeList" :value="item.id" :key="item.id">{{item.name}}</Option>
         </Select>
         <p style="margin-left:20px;color:gray;">！请先选择专家后，再选择远程门诊类型。</p>
       </div>

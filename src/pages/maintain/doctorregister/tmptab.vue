@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <header>
-      <div class="one" v-for="item,index in list">
+      <div class="one" v-for="(item,index) in list" :key='index'>
         <div :class="{active:index <= active}">
           <em>{{ addZeros(index) }}</em>
           <span>{{ item }}</span>

@@ -11,7 +11,7 @@
             <td>医事服务费价格（元）</td>
             <td>操作</td>
           </tr>
-          <tr v-for="item,index in list" v-show="list.length">
+          <tr v-for="(item,index) in list" v-show="list.length" :key='index'>
             <td>{{ index+1 }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.cost }}</td>

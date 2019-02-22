@@ -27,7 +27,7 @@
             <th>机构组织代码</th>
             <th>错误提示</th>
           </tr>
-          <tr v-for="item,index in list">
+          <tr v-for="(item,index) in list" :key='index'>
             <th>{{ index+1 }}</th>
             <th>{{ item.grade }}</th>
             <th>{{ item.hospitalName }}</th>

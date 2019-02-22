@@ -23,7 +23,7 @@
 				<th>最近登录</th>
 			</tr>
 			<!--表格内容-->
-			<tr v-for='item,index in tableList'>
+			<tr v-for='(item,index) in tableList' :key='index'>
 				<th>{{ item.id }}</th>
 				<th>{{ item.wx }}</th>
 				<th>{{ item.phone }}</th>

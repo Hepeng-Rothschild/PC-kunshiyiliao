@@ -37,7 +37,7 @@
                         <th>注册时间</th>
                         <th>数据来源</th>
                     </tr>
-                    <tr v-for="item,index in list">
+                    <tr v-for="(item,index) in list" :key='index'>
                         <th>{{ addZero(index) }}</th>
                         <th>{{ item.doctorName }}</th>
                         <th>{{ item.gender == '0'? '女' :'男' }}</th>

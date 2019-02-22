@@ -4,13 +4,13 @@
     <tmpHeader/>
     <!--添加专家/搜索-->
     <div class="iheader" v-show="!flag">
-      <Button type="primary" @click="navto">添加专家</Button>
       <div class="box">
         <div class="boxs">
           <Input v-model.trim="val" placeholder="请输入专家姓名查询" style="width: 200px" @on-keyup.enter="valChange" clearable/>
         </div>
         <Button type="primary" @click="valChange" style="margin-left:20px;">查询</Button>
       </div>
+      <Button type="primary" @click="navto">添加专家</Button>
     </div>
     <!--表格列表-->
     <div class="main" v-show="!flag">
@@ -25,7 +25,7 @@
           <th>排序</th>
           <th>操作</th>
         </tr>
-        <tr v-for="item,index in tablesList" v-show="tablesList.length">
+        <tr v-for="(item,index) in tablesList" v-show="tablesList.length" :key='index'>
           <th>{{ addZeros(index) }}</th>
           <th>{{ item.deptType }}</th>
           <th>{{ item.doctorName }}</th>

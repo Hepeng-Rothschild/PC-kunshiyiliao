@@ -27,7 +27,7 @@
             <th>医生手机号码</th>
             <th>错误提示</th>
           </tr>
-          <tr v-for="item,index in list">
+          <tr v-for="(item,index) in list" :key='index'>
             <th>{{ addZeros(index) }}</th>
             <th>{{ item.doctorName }}</th>
             <th>{{ item.hospitalName }}</th>

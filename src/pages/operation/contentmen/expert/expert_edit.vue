@@ -32,7 +32,7 @@
           <span>职称</span>
           <Select v-model="zhiwu" style="width:200px" disabled>
             <Option
-              v-for="item,index in doctorList"
+              v-for="(item) in doctorList"
               :value="item.value"
               :key="item.value"
             >{{ item.value }}</Option>

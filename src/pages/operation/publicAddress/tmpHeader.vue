@@ -1,7 +1,7 @@
 <template>
   <div class="temHeader">
     <ul>
-      <li v-for="item,sum in dataList">
+      <li v-for="(item,sum) in dataList" :key='index'>
         <span :class="index==sum? 'active':'' " @click ='navgationTo(item)'>{{ item.title }}</span>
       </li>
     </ul>
