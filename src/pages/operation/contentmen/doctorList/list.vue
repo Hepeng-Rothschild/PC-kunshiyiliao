@@ -12,7 +12,7 @@
             <td>开通远程门诊</td>
             <td>操作</td>
           </tr>
-          <tr v-for="item,index in expertList" v-show="expertList.length">
+          <tr v-for="(item,index) in expertList" v-show="expertList.length" :key='index'>
             <td>{{ index+1 }}</td>
             <td>{{ item.doctorName }}</td>
             <td>{{ item.hospitalName }}</td>

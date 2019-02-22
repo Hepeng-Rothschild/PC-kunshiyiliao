@@ -30,7 +30,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>列表小图</span>
         </div>
-        <div class="demo-upload-list" v-for="item in uploadList">
+        <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
           <div v-if="item.status === 'finished'">
             <img :src="item.url">
             <div class="demo-upload-list-cover">
@@ -258,14 +258,12 @@ export default {
       });
     },
     back() {
-      let pageNo = this.$route.query.pageNo;
+      let query = this.$route.query
       this.functionJS.queryNavgationTo(
         this,
         "/index/operation/contentmanagement_home",
-        {
-          //公用方法
-          pageNo
-        }
+        query
+        //公用方法
       );
     },
     //保存
@@ -311,15 +309,14 @@ export default {
           .then(res => {
             if (res.data.code) {
               this.$Message.info("添加成功");
-              let pageNo = this.$route.params.pageNo;
+              let query = this.$route.query
               setTimeout(() => {
+                let query = this.$route.query
                 this.functionJS.queryNavgationTo(
                   this,
                   "/index/operation/contentmanagement_home",
-                  {
-                    //公用方法
-                    pageNo
-                  }
+                  query
+                  //公用方法
                 );
               }, 500);
             } else {

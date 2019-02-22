@@ -11,7 +11,7 @@
             <span style="color:red;">*</span>
             <span>登录账号</span>
           </div>
-          <Input v-model.trim="text" placeholder="请输入登录账号" style="width: 300px"/>
+          <Input v-model.trim="text" placeholder="请输入登录账号" style="width: 300px" autocomplete="off"/>
         </div>
         <!-- 更改密码 -->
         <div class="item">
@@ -25,6 +25,7 @@
             style="width: 300px"
             type="password"
             :maxlength="16"
+            autocomplete="off"
           />
         </div>
         <p class="info">未填写更改密码时,不修改密码</p>
@@ -43,7 +44,7 @@
             <span>用户头像</span>
           </div>
           <div class="input">
-            <div class="demo-upload-list" v-for="item in uploadList">
+            <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
               <div v-if="item.status === 'finished'">
                 <img :src="item.url">
                 <div class="demo-upload-list-cover">
@@ -118,7 +119,7 @@
               disabled
               v-if="identity >= 3 && identity != 5"
             >
-              <Option v-for="(item,index) in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
+              <Option v-for="(item) in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
             </Select>
             <Select
               class="w-select"
@@ -522,6 +523,9 @@ export default {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   margin-right: 4px;
 }
+// 关闭input文本框自动填充背景色黄色
+input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset !important;}
+
 .demo-upload-list img {
   width: 100%;
   height: 100%;

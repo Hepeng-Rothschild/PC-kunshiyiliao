@@ -21,7 +21,7 @@
             <th>排序</th>
             <th>操作</th>
           </tr>
-          <tr v-for="item,index in tableList" v-show="tableList.length">
+          <tr v-for="(item,index) in tableList" v-show="tableList.length" :key='index'>
             <td>{{ addZeros(index) }}</td>
             <td>{{ item.parentDept }}</td>
             <td>{{ item.childDept }}</td>

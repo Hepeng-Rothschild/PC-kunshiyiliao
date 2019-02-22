@@ -19,17 +19,17 @@
           <!-- 省 -->
           <select @change="provinceChange" v-model="model.province">
             <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="item in provinceList">{{ item.name }}</option>
+            <option :value="item.id" v-for="item in provinceList" :key='item.id'>{{ item.name }}</option>
           </select>
           <!-- 市 -->
           <select v-model="model.city" @change="cityChange">
             <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="item in cityList">{{ item.city }}</option>
+            <option :value="item.id" v-for="item in cityList" :key='item.id'>{{ item.city }}</option>
           </select>
           <!-- 区 -->
           <select v-model="model.county">
             <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="item in countyList">{{ item.area }}</option>
+            <option :value="item.id" v-for="item in countyList" :key='item.id'>{{ item.area }}</option>
           </select>
         </div>
       </div>

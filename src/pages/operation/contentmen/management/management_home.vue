@@ -15,11 +15,11 @@
           <th>已开通服务</th>
           <th>操作</th>
         </tr>
-        <tr v-for="item,index in tablesList" v-show="tablesList.length">
+        <tr v-for="(item,index) in tablesList" v-show="tablesList.length" :key='index'>
           <th>{{ addZeros(index) }}</th>
           <th>{{ item.menuName }}</th>
           <th>
-            <span v-for="items,index in item.result">{{ items }}<span v-show='item.result.length != index+1'>、</span></span>
+            <span v-for="(items,index) in item.result" :key='index'>{{ items }}<span v-show='item.result.length != index+1'>、</span></span>
           </th>
           <th @click="navto(item)" style="cursor:pointer;">编辑</th>
         </tr>

@@ -61,7 +61,7 @@
                             :clearable="!cityStatus"
                         >
                             <Option
-                                v-for="(item,index) in cityList"
+                                v-for="(item) in cityList"
                                 :value="item.id"
                                 :key="item.id"
                             >{{item.name}}</Option>

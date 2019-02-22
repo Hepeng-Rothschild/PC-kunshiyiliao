@@ -15,7 +15,7 @@
             <td>支持类型</td>
             <td>操作</td>
           </tr>
-          <tr v-for="item,index in list" v-show="list.length">
+          <tr v-for="(item,index) in list" v-show="list.length" :key='index'>
             <td>{{ addZeros(1)}}</td>
             <td>功能模块</td>
             <td>显示</td>

@@ -6,11 +6,11 @@
       <h3>选择院内开通科室</h3>
       <div class="fuwu">
         <!--线上服务-->
-        <div class="xsfw" v-for="item,index in allMenuList" v-if="item.dept.list.length != 0">
+        <div class="xsfw" v-for="(item,index) in allMenuList" v-if="item.dept.list.length != 0" >
           <p>{{ item.dept.entity.dictName }}</p>
           <!--第一行-->
           <div class="select_wufu" ref="all">
-            <div v-for="items,index in item.dept.list">
+            <div v-for="(items,index) in item.dept.list" :key='index'>
               <input
                 type="checkbox"
                 :value="items.dictType"

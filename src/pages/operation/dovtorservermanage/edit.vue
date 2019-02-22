@@ -8,12 +8,12 @@
             </h4>
             <div class="fuwu">
                 <!--线上服务-->
-                <div class="xsfw" v-for="(item,index) of allServerList">
+                <div class="xsfw" v-for="(item,index) of allServerList" :key='index'>
                     <p>{{ item.name }}</p>
                     <!--第一行-->
                     <div class="select_wufu" ref="all">
                         <template v-if="editFlag">
-                            <div v-for="(items,index) in item.child">
+                            <div v-for="(items,index) in item.child" :key='index'>
                                 <input
                                     type="checkbox"
                                     :value="items.id"
@@ -25,7 +25,7 @@
                             </div>
                         </template>
                         <template v-else-if="!editFlag">
-                            <div v-if="items.selected == 1" v-for="(items,index) in item.child">
+                            <div v-if="items.selected == 1" v-for="(items,index) in item.child" :key='index'>
                                 <label :for="'a' + items.id">{{ items.menuName }}</label>
                             </div>
                         </template>

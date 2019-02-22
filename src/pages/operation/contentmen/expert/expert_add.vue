@@ -24,7 +24,7 @@
           <span>选择专家</span>
         </div>
         <Select v-model="keshi" style="width:100px" @on-change="changes">
-          <Option v-for="item,index in list" :value="index" :key="index">{{ item.doctorName }}</Option>
+          <Option v-for="(item,index) in list" :value="index" :key="index">{{ item.doctorName }}</Option>
         </Select>
       </div>
       <!--机构名称-->
@@ -58,7 +58,7 @@
       <!--专业特长-->
       <div class="main_expert_inputi">
         <div class="main_expert_title">
-          <span style="color:red;">*&nbsp;&nbsp;</span>
+          <span style="color:red;">&nbsp;&nbsp;</span>
           <span>专业特长</span>
         </div>
         <div class="shuru">
@@ -75,7 +75,7 @@
       <!--个人简介-->
       <div class="main_expert_inputi">
         <div class="main_expert_title">
-          <span style="color:red;">*&nbsp;&nbsp;</span>
+          <span style="color:red;">&nbsp;&nbsp;</span>
           <span>个人简介</span>
         </div>
         <div class="shuru">

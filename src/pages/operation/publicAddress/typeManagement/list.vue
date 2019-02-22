@@ -2,10 +2,10 @@
   <div class="list">
     <tmpHeader :index='2' />
     <div class="main">
-      <div class="select" v-for="item,index in list">
+      <div class="select" v-for="(item,index) in list" :key='index'>
         <h3>{{ item.name }}</h3>
         <div class="all">
-          <div class="item" v-for="items,index in item.child">
+          <div class="item" v-for="(items,index) in item.child" :key='index'>
             <Checkbox v-model="items.flag">{{ items.menuName }}</Checkbox>
             <div class="sort">
               <span>排序</span>

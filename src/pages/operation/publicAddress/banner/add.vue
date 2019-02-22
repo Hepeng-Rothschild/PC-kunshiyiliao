@@ -19,7 +19,7 @@
           <span>banner图片</span>
         </div>
         <div class="input">
-          <div class="demo-upload-list" v-for="item in uploadList">
+          <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
             <div v-if="item.status === 'finished'">
               <img :src="item.url">
               <div class="demo-upload-list-cover">

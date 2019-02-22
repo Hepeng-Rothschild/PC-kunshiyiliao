@@ -42,7 +42,7 @@
                         <span>用户头像</span>
                     </div>
                     <div class="input">
-                        <div class="demo-upload-list" v-for="item in uploadList">
+                        <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
                             <div v-if="item.status === 'finished'">
                                 <img :src="item.url">
                                 <div class="demo-upload-list-cover">
@@ -154,7 +154,7 @@
                             v-if="identityAdd >= 3 || identityAdd == 5"
                         >
                             <Option
-                                v-for="(item,index) in cityList"
+                                v-for="(item) in cityList"
                                 :value="item.id"
                                 :key="item.id"
                             >{{item.name}}</Option>
@@ -596,6 +596,8 @@ export default {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     margin-right: 4px;
 }
+// 关闭input文本框自动填充背景色黄色
+input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset !important;}
 .demo-upload-list img {
     width: 100%;
     height: 100%;

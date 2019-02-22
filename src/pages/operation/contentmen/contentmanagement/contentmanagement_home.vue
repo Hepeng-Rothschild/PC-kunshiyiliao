@@ -6,14 +6,14 @@
       <!--类型选择-->
       <div class="selectType">
         <span>类型</span>
-        <iSelect v-model="type1" style="width:100px" clearable>
+        <iSelect v-model="type1" style="width:100px" clearable >
           <iOption v-for="item in cityList" :value="item.id" :key="item.id">{{ item.label }}</iOption>
         </iSelect>
       </div>
       <!--发布状态-->
       <div class="selectType">
         <span>状态</span>
-        <iSelect v-model="type2" style="width:100px" clearable>
+        <iSelect v-model="type2" style="width:100px" clearable @on-change='statusChange'>
           <iOption v-for="item in cityLists" :value="item.id" :key="item.id">{{ item.label }}</iOption>
         </iSelect>
       </div>
@@ -39,7 +39,7 @@
         <th>状态</th>
         <th>操作</th>
       </tr>
-      <tr v-for="item,index in tableList" v-show="tableList.length">
+      <tr v-for="(item,index) in tableList" v-show="tableList.length" :key='index'>
         <th>{{ addZeros(index) }}</th>
         <!-- 标题 -->
         <th class="one">{{ item.title }}</th>
@@ -108,13 +108,10 @@ export default {
       currentIndex: -1,
       type1: "",
       type2: "",
-      allSelect: "null",
       val: "",
       flag: false,
       content: "",
       tableList: [],
-      arr1: [],
-      len: 10,
       contentSize: 10,
       pageNo: 1,
       cityList: [
@@ -151,33 +148,61 @@ export default {
       }
     ];
     this.$emit("changeBreadList", breadList);
+
+    // let query = this.$route.query;
+    
+    // this.type2 = Number(query.type2)
   },
   mounted() {
     let pageNo = this.$route.query.pageNo;
+    // let query = this.$route.query;
+    
     if (pageNo) {
       this.pageNo = Number(pageNo);
     }
-    this.getContentData(this.pageNo);
+    // this.type1 = Boolean(query.type1) ? query.type1 : "";
+    // this.type2 = Boolean(query.type2) ? Number(query.type2) : "";
+
+    // console.log("query",query);
+    // console.log(typeof (this.type2))
+    // console.log(this.type2)
+
+    // this.getContentData(this.pageNo, this.val, query.type1, query.type2);
+    // this.getContentData(index, this.val, this.type1, this.type2);
+    this.getContentData(this.pageNo)
   },
   methods: {
-    add() {
-      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_add", {
-      //公用方法
-        pageNo:this.pageNo
-      });
+    statusChange(id){
+      // console.log(id);
+      // console.log(this.type2)
+      // console.log(typeof this.type2)
     },
+    // 添加新内容
+    add() {
+      let query = {
+        pageNo: this.pageNo,
+        // type2: this.type2,
+        // type1: this.type1
+      };
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/operation/contentmanagement_add",
+        //公用方法
+        query
+      );
+    },
+    // 加载数据
     getContentData(pageNo, val, type, enable) {
       let params = {
         pageNo,
         pageSize: 10
       };
-      if (Boolean(val)) {
-        params.title = val;
-      }
-      if (Boolean(type)) {
-        params.type = Number(type);
-      }
-      params.enable = enable;
+
+      params.title = Boolean(val) ? val :''
+      params.type = Boolean(type) ? type :''
+      params.enable = enable 
+      console.log(params)
+      
       this.$axios.post(api.contentWrap, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
@@ -188,12 +213,18 @@ export default {
         }
       });
     },
+    // 编辑
     homeBtn() {
-      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_edit", {
-      //公用方法
-        pageNo:this.pageNo
-      });
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/operation/contentmanagement_edit",
+        {
+          //公用方法
+          pageNo: this.pageNo
+        }
+      );
     },
+    // 分页器改变
     pageChange(index) {
       this.pageNo = index;
       this.getContentData(index, this.val, this.type1, this.type2);
@@ -219,7 +250,7 @@ export default {
         })
         .then(res => {
           if (res.data.code) {
-           this.getContentData(1, this.val, this.type1, this.type2);
+            this.getContentData(1, this.val, this.type1, this.type2);
             this.$Message.info("操作成功");
           } else {
             this.$Message.info("操作失败,请重试");
@@ -265,31 +296,21 @@ export default {
     //根据ID修改对应的新闻资讯
     changeItem(item) {
       let id = item.articleId;
-      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_edit", {
-      //公用方法
-        id,
-        pageNo:this.pageNo
-      });
+      this.functionJS.queryNavgationTo(
+        this,
+        "/index/operation/contentmanagement_edit",
+        {
+          //公用方法
+          id,
+          pageNo: this.pageNo
+        }
+      );
     },
     //模态框
     ok() {
       let a = this.tableList[this.currentIndex];
     },
     cancel() {}
-  },
-  watch: {
-    type1: {
-      deep: true,
-      handler(val) {
-        this.allSelect = val;
-      }
-    },
-    type2: {
-      deep: true,
-      handler(val) {
-        this.allSelect = val;
-      }
-    }
   }
 };
 </script>
@@ -417,7 +438,7 @@ export default {
       th.one {
         max-width: 160px;
         overflow: hidden;
-        padding:0 10px;
+        padding: 0 10px;
         white-space: nowrap;
         text-overflow: ellipsis;
       }

@@ -16,7 +16,7 @@
 				<th>编辑</th>
 			</tr>
 		<!--内容列表-->
-			<tr v-for = 'item,index in classifyList'>
+			<tr v-for = '(item,index) in classifyList' :key='index'>
 				<th>{{ item.id }}</th>
 				<th>{{ item.zhuanlan }}</th>
 				<th>{{ item.show }}</th>
@@ -24,7 +24,7 @@
 				<th class = 'thparents'>
 					<div class = 'search_list' v-show = 'flag'>
 						<ul class = 'list' @click = 'flag = false'>
-							<li v-for='items,index in item.childType'>{{ items.title }}</li>
+							<li v-for='(items,index) in item.childType' :key='index'>{{ items.title }}</li>
 						</ul>
 					</div>
 				</th>

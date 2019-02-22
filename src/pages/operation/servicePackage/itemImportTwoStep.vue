@@ -29,7 +29,7 @@
                         <th>服务包名称</th>
                         <th>错误提示</th>
                     </tr>
-                    <tr v-for="item in list">
+                    <tr v-for="(item,index) in list" :key='index'>
                         <th>{{ item.num }}</th>
                         <th>{{ item.serviceName }}</th>
                         <th>{{ item.errorPrompt }}</th>

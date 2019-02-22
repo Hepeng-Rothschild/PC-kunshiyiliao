@@ -3,7 +3,7 @@
     <header>
       <Button type="primary" @click="add" size='large'>添加新服务</Button>
     </header>
-    <div class="main" v-for="item,index in list" v-show="list.length">
+    <div class="main" v-for="(item,index) in list" v-show="list.length" :key='index'>
       <h2>{{ item.name.menuName }}</h2>
       <Button type="success" @click="fn(item)">添加新功能</Button>
       <div class="tabList">
@@ -16,7 +16,7 @@
             <td>快捷菜单</td>
             <td>操作</td>
           </tr>
-          <tr v-for="items,index in item.child" v-show="item.child.length">
+          <tr v-for="(items,index) in item.child" v-show="item.child.length" :key='index'>
             <td>{{ addZeros(index) }}</td>
             <td>{{ items.menuName }}</td>
             <td @click="instance(items)" style="cursor:pointer;" class="flowr">{{ items.path }}</td>
