@@ -274,14 +274,12 @@ export default {
     },
     // 返回
     back() {
-      let pageNo = this.$route.query.pageNo;
-      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_home", {
-      //公用方法
-        pageNo
-      });
+      let query = this.$route.query;
+      this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_home", query);
     },
     // 保存
     save() {
+      let query = this.$route.query;
       let images = "";
       if (this.images && this.uploadList.length) {
         images = this.images;
@@ -331,10 +329,7 @@ export default {
               this.$Message.info("修改成功");
               let pageNo = this.$route.query.pageNo;
               setTimeout(() => {
-                this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_home", {
-                //公用方法
-                  pageNo
-                });
+                this.functionJS.queryNavgationTo(this, "/index/operation/contentmanagement_home", query);
               }, 800);
             } else {
               this.$Message.info("修改失败请重试");

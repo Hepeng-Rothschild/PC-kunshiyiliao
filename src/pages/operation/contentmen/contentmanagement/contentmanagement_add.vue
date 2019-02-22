@@ -197,7 +197,7 @@ export default {
           value: 1,
           label: "头条"
         }
-      ]
+      ],
     };
   },
   created() {
@@ -258,7 +258,7 @@ export default {
       });
     },
     back() {
-      let query = this.$route.query
+      let query = this.$route.query;
       this.functionJS.queryNavgationTo(
         this,
         "/index/operation/contentmanagement_home",

@@ -166,17 +166,6 @@ export default {
                 });
         },
         batch() {
-            // this.$router.push({
-            //     name: "mechanismregeditbatchone",
-            //     params: {
-            //         pageNo: this.pageNo,
-            //         province: this.province,
-            //         city: this.city,
-            //         area: this.area,
-            //         hospital: this.hospital,
-            //         isBack: 2
-            //     }
-            // });
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/mechanismreg/batchone",
@@ -200,17 +189,6 @@ export default {
             }
         },
         add() {
-            // this.$router.push({
-            //     name: "mechanismregadd",
-            //     params: {
-            //         pageNo: this.pageNo,
-            //         province: this.province,
-            //         city: this.city,
-            //         area: this.area,
-            //         hospital: this.hospital,
-            //         isBack: 2
-            //     }
-            // });
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/mechanismreg/mechanismregAdd",
@@ -226,18 +204,6 @@ export default {
         },
         edit(item) {
             let id = item.id;
-            // this.$router.push({
-            //     name: "mechanismregedit",
-            //     params: {
-            //         id,
-            //         pageNo: this.pageNo,
-            //         province: this.province,
-            //         city: this.city,
-            //         area: this.area,
-            //         hospital: this.hospital,
-            //         isBack: 2
-            //     }
-            // });
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/mechanismreg/mechanismregEdit",
