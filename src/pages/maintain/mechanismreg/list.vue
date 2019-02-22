@@ -167,17 +167,6 @@ export default {
         },
         // 批量导入
         batch() {
-            // this.$router.push({
-            //     name: "mechanismregeditbatchone",
-            //     params: {
-            //         pageNo: this.pageNo,
-            //         province: this.province,
-            //         city: this.city,
-            //         area: this.area,
-            //         hospital: this.hospital,
-            //         isBack: 2
-            //     }
-            // });
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/mechanismreg/batchone",
@@ -202,17 +191,6 @@ export default {
         },
         // 新增机构
         add() {
-            // this.$router.push({
-            //     name: "mechanismregadd",
-            //     params: {
-            //         pageNo: this.pageNo,
-            //         province: this.province,
-            //         city: this.city,
-            //         area: this.area,
-            //         hospital: this.hospital,
-            //         isBack: 2
-            //     }
-            // });
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/mechanismreg/mechanismregAdd",
@@ -229,18 +207,6 @@ export default {
         // 编辑机构
         edit(item) {
             let id = item.id;
-            // this.$router.push({
-            //     name: "mechanismregedit",
-            //     params: {
-            //         id,
-            //         pageNo: this.pageNo,
-            //         province: this.province,
-            //         city: this.city,
-            //         area: this.area,
-            //         hospital: this.hospital,
-            //         isBack: 2
-            //     }
-            // });
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/mechanismreg/mechanismregEdit",

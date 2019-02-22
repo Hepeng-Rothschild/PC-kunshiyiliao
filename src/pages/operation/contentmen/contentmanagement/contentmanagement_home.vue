@@ -6,24 +6,24 @@
             <!--类型选择-->
             <div class="selectType">
                 <span>类型</span>
-                <iSelect v-model="type1" style="width:100px" clearable>
-                    <iOption
+                <Select v-model="type1" style="width:100px" clearable>
+                    <Option
                         v-for="item in cityList"
                         :value="item.id"
                         :key="item.id"
-                    >{{ item.label }}</iOption>
-                </iSelect>
+                    >{{ item.label }}</Option>
+                </Select>
             </div>
             <!--发布状态-->
             <div class="selectType">
                 <span>状态</span>
-                <iSelect v-model="type2" style="width:100px" clearable>
-                    <iOption
-                        v-for="item in cityLists"
+                <Select v-model="type2" style="width:100px" clearable>
+                    <Option
+                        v-for="(item,index) in cityLists"
                         :value="item.id"
-                        :key="item.id"
-                    >{{ item.label }}</iOption>
-                </iSelect>
+                        :key="index"
+                    >{{ item.label }}</Option>
+                </Select>
             </div>
             <!--搜索输入-->
             <div class="search">
@@ -91,20 +91,16 @@
 </template>
 
 <script>
-import { Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
-    components: {
-        iSelect: Select,
-        iOption: Option
-    },
     data() {
         return {
+            type1: "",
+            type2: "",
             val: "",
             tableList: [],
             contentSize: 10,
             pageNo: 1,
-            type1: "",
             cityList: [
                 {
                     value: "文章",
@@ -112,7 +108,6 @@ export default {
                     id: 1
                 }
             ],
-            type2: null,
             cityLists: [
                 {
                     value: "未发布",
@@ -124,10 +119,13 @@ export default {
                     label: "已发布",
                     id: 1
                 }
-            ]
+            ],
+            query: {}
         };
     },
     created() {
+        this.type1 = isNaN(parseInt(this.$route.query.type1))?null:parseInt(this.$route.query.type1);
+        this.type2 = isNaN(parseInt(this.$route.query.type2))?null:parseInt(this.$route.query.type2);
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -140,21 +138,22 @@ export default {
             }
         ];
         this.$emit("changeBreadList", breadList);
-        
     },
     mounted() {
         let pageNo = this.$route.query.pageNo;
-        // 页码
-        
-        // 请求数据
-        this.getContentData(this.pageNo);
+        if (pageNo) {
+            this.pageNo = Number(pageNo);
+        }
+
+        this.getContentData(this.pageNo,this.val,this.type1,this.type2);
     },
     methods: {
         // 添加新内容
         add() {
             let query = {
                 pageNo: this.pageNo,
-                type2: this.type2
+                type1: this.type1,
+                type2: this.type2,
             };
             this.functionJS.queryNavgationTo(
                 this,
@@ -275,7 +274,9 @@ export default {
                 {
                     //公用方法
                     id,
-                    pageNo: this.pageNo
+                    pageNo: this.pageNo,
+                    type1: this.type1,
+                    type2: this.type2,
                 }
             );
         }
