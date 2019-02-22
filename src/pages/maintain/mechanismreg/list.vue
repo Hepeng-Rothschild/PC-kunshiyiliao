@@ -9,6 +9,11 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
                     ></fourLevelLinkage>
                     <Input
                         v-model.trim="Name"
@@ -83,6 +88,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack: 1,
 
             doctorregisterSize: 10,
             list: [],
@@ -91,6 +97,21 @@ export default {
         };
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -148,7 +169,12 @@ export default {
             this.$router.push({
                 name: "mechanismregeditbatchone",
                 params: {
-                    pageNo: this.pageNo
+                    pageNo: this.pageNo,
+                                                province: this.province,
+                                                city: this.city,
+                                                area: this.area,
+                                                hospital: this.hospital,
+                                                isBack: 2
                 }
             });
         },
@@ -164,7 +190,12 @@ export default {
             this.$router.push({
                 name: "mechanismregadd",
                 params: {
-                    pageNo: this.pageNo
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                 }
             });
         },
@@ -174,7 +205,12 @@ export default {
                 name: "mechanismregedit",
                 params: {
                     id,
-                    pageNo: this.pageNo
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                 }
             });
         },

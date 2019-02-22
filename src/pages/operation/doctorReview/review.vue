@@ -229,6 +229,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack: 2,
 
             searchKey: "",
             dictType: "",
@@ -378,6 +379,7 @@ export default {
                     city: this.city,
                     area: this.area,
                     hospital: this.hospital,
+                    isBack:2,
                     searchKey: this.searchKey,
                     dictType: this.dictType,
                     authStatus: this.authStatus
@@ -447,7 +449,8 @@ export default {
                                 hospital: this.hospital,
                                 searchKey: this.searchKey,
                                 dictType: this.dictType,
-                                authStatus: this.authStatus
+                                authStatus: this.authStatus,
+                                isBack:2
                             }
                         );
 

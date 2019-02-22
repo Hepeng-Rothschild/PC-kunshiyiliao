@@ -48,8 +48,8 @@
                         >
                             <Option
                                 v-for="item in provinceList"
-                                :value="item.value"
-                                :key="item.value"
+                                :value="item.id"
+                                :key="item.id"
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -404,10 +404,29 @@ export default {
                 }
             ],
             allData: [],
-            selData: []
+            selData: [],
+
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            isBack: 2
         };
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+
         let id = parseInt(this.$route.query.id);
         this.type = this.$route.query.type
             ? parseInt(this.$route.query.type)
@@ -417,14 +436,77 @@ export default {
             this.$route.query.pageNo ? this.$route.query.pageNo : 1
         );
         this.tabList = this.healthEducationSontab;
+
+        this.identity = this.$store.getters.getIdentity;
+        this.identityCoding = this.$store.getters.getIdentityCoding;
+        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        if (this.ownArea.province) {
+            this.provinceStatus = true;
+            this.provinceList.push(this.ownArea.province);
+            this.info.provinceId = this.ownArea.province.id;
+        }
+        if (this.ownArea.city) {
+            this.cityStatus = true;
+            this.cityList.push(this.ownArea.city);
+            this.info.cityId = this.ownArea.city.id;
+        }
+        if (this.ownArea.area) {
+            this.areaStatus = true;
+            this.areaList.push(this.ownArea.area);
+            this.info.areaId = this.ownArea.area.id;
+        }
+        if (this.identity == 1) {
+            this.provinceList = this.$store.getters.getProvinceList;
+        } else if (this.identity == 2) {
+            this.cityList = this.$store.getters.getCityList(
+                this.info.provinceId
+            );
+        } else if (this.identity == 3) {
+            this.areaList = this.$store.getters.getAreaList(this.info.cityId);
+        } else if (this.identity == 4) {
+            var params = {};
+            params.provinceCode = parseInt(this.info.provinceId);
+            params.cityCode = parseInt(this.info.cityId);
+            params.districtCode = parseInt(this.info.areaId);
+            this.$axios
+                .post(api.hospitalselectbyprovincecode, params)
+                .then(resp => {
+                    let list = resp.data.object;
+                    list.map((el, i) => {
+                        let tmpObj = {};
+                        tmpObj.id = parseInt(el.id);
+                        tmpObj.orgName = el.orgName;
+                        this.hospitalList.push(tmpObj);
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else if (this.identity == 5) {
+            this.info.hospitalId = parseInt(this.identityCoding);
+            this.hospitalStatus = true;
+            this.$axios
+                .post(api.managementInfo, {
+                    hospitalId: parseInt(this.identityCoding)
+                })
+                .then(resp => {
+                    this.hospitalList.push({
+                        id: resp.data.object.hospitalId,
+                        orgName: resp.data.object.orgName
+                    });
+                })
+                .catch(err => {});
+        }
+
         if (isNaN(id)) {
             this.editTt = `添加服务包`;
-            if (this.info.provinceId) {
-                this.cityList = this.$store.getters.getCityList(
-                    this.info.provinceId
-                );
-            }
+            // if (this.info.provinceId) {
+            //     this.cityList = this.$store.getters.getCityList(
+            //         this.info.provinceId
+            //     );
+            // }
         } else {
+            console.log("修改服务包");
             this.editTt = `修改服务包`;
             this.id = id;
             this.$axios
@@ -474,64 +556,6 @@ export default {
                     console.log(err);
                 });
         }
-        this.identity = this.$store.getters.getIdentity;
-        this.identityCoding = this.$store.getters.getIdentityCoding;
-        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
-        if (this.ownArea.province) {
-            this.provinceStatus = true;
-            this.provinceList.push(this.ownArea.province);
-            this.info.provinceId = this.ownArea.province.id;
-        }
-        if (this.ownArea.city) {
-            this.cityStatus = true;
-            this.cityList.push(this.ownArea.city);
-            this.info.cityId = this.ownArea.city.id;
-        }
-        if (this.ownArea.area) {
-            this.areaStatus = true;
-            this.areaList.push(this.ownArea.area);
-            this.info.areaId = this.ownArea.area.id;
-        }
-        if (this.identity == 1) {
-            this.provinceList = this.$store.getters.getProvinceList;
-        } else if (this.identity == 2) {
-            this.cityList = this.$store.getters.getCityList(this.info.provinceId);
-        } else if (this.identity == 3) {
-            this.areaList = this.$store.getters.getAreaList(this.info.cityId);
-        } else if (this.identity == 4) {
-            var params = {};
-            params.provinceCode = parseInt(this.info.provinceId);
-            params.cityCode = parseInt(this.info.cityId);
-            params.districtCode = parseInt(this.info.areaId);
-            this.$axios
-                .post(api.hospitalselectbyprovincecode, params)
-                .then(resp => {
-                    let list = resp.data.object;
-                    list.map((el, i) => {
-                        let tmpObj = {};
-                        tmpObj.id = parseInt(el.id);
-                        tmpObj.name = el.orgName;
-                        this.hospitalList.push(tmpObj);
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        } else if (this.identity == 5) {
-            this.info.hospitalId = parseInt(this.identityCoding);
-            this.hospitalStatus = true;
-            this.$axios
-                .post(api.managementInfo, {
-                    hospitalId: parseInt(this.identityCoding)
-                })
-                .then(resp => {
-                    this.hospitalList.push({
-                        id: resp.data.object.hospitalId,
-                        name: resp.data.object.orgName
-                    });
-                })
-                .catch(err => {});
-        }
 
         if (isNaN(id)) this.loadPage(1);
 
@@ -557,7 +581,7 @@ export default {
                     if (resp.data.success) {
                         let Flag = true;
                         this.detail = resp.data.object;
-                        
+
                         this.detail.nature = this.natureList[
                             this.detail.nature
                         ];
@@ -628,9 +652,9 @@ export default {
                 });
         },
         selThis(obj) {
-            if(this.info.provinceId){
+            if (this.info.provinceId) {
                 this.selData.push(obj);
-            }else{
+            } else {
                 this.$Message.info("请选择服务包所属区域");
             }
         },
@@ -706,7 +730,7 @@ export default {
         changeArea() {
             this.info.hospitalId = null;
             this.hospitalList = [];
-            if(this.info.areaId){
+            if (this.info.areaId) {
                 var params = {};
                 params.provinceCode = this.info.provinceId;
                 params.cityCode = this.info.cityId;
@@ -766,28 +790,39 @@ export default {
                     for (let item of this.selData) {
                         params.packageItemsIds.push(item.id);
                     }
+
                     this.$axios
                         .post(api.servicepackageinsert, params)
                         .then(resp => {
                             if (resp.data.success) {
                                 this.$Message.success(msg + "成功");
                                 if (this.type) {
-                                     //   公用方法
+                                    //   公用方法
                                     this.functionJS.queryNavgationTo(
                                         this,
-                                        "/index/operation/servicePackage/list"
+                                        "/index/operation/servicePackage/list",
+                                        {
+                                            province: this.province,
+                                            city: this.city,
+                                            area: this.area,
+                                            hospital: this.hospital,
+                                            isBack: 2
+                                        }
                                     );
-
                                 } else {
-                                     //   公用方法
+                                    //   公用方法
                                     this.functionJS.queryNavgationTo(
                                         this,
                                         "/index/operation/servicePackage/pList",
                                         {
-                                            pageNo: this.listPageNo
+                                            pageNo: this.listPageNo,
+                                            province: this.province,
+                                            city: this.city,
+                                            area: this.area,
+                                            hospital: this.hospital,
+                                            isBack: 2
                                         }
                                     );
-
                                 }
                             } else {
                                 this.$Message.fail(msg + "失败，请重试");
@@ -803,22 +838,32 @@ export default {
         },
         reback() {
             if (this.type) {
-                 //   公用方法
-            this.functionJS.queryNavgationTo(
-                this,
-                "/index/operation/servicePackage/list"
-            );
-
+                //   公用方法
+                this.functionJS.queryNavgationTo(
+                    this,
+                    "/index/operation/servicePackage/list",
+                    {
+                        province: this.province,
+                        city: this.city,
+                        area: this.area,
+                        hospital: this.hospital,
+                        isBack: 2
+                    }
+                );
             } else {
-                 //   公用方法
+                //   公用方法
                 this.functionJS.queryNavgationTo(
                     this,
                     "/index/operation/servicePackage/pList",
                     {
-                        pageNo: this.listPageNo
+                        pageNo: this.listPageNo,
+                        province: this.province,
+                        city: this.city,
+                        area: this.area,
+                        hospital: this.hospital,
+                        isBack: 2
                     }
                 );
-
             }
         },
         alertMsg(msg) {

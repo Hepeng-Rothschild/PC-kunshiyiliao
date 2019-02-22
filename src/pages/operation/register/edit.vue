@@ -174,11 +174,15 @@ export default {
             id: null,
             info: null,
             pageNo: null,
-            city: null,
             searchType: 1,
             searchKey: "",
             deptKey: "",
             dictType: "",
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            isBack: 2,
 
             littleTitle: "编辑",
             addBtnFlag: false,
@@ -247,11 +251,14 @@ export default {
   created() {
     this.id = this.$route.query.id;
     this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
-    this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
     this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
     this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
     this.deptKey = this.$route.query.deptKey?this.$route.query.deptKey:"";
     this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
+    this.province = this.$route.query.province?parseInt(this.$route.query.province):null;
+    this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
+    this.area = this.$route.query.area?parseInt(this.$route.query.area):null;
+    this.hospital = this.$route.query.hospital?parseInt(this.$route.query.hospital):null;
 
     if (this.id) {
       this.littleTitle = "编辑";
@@ -360,7 +367,11 @@ export default {
                                 "/index/operation/register/list",
                                 {
                                     pageNo: this.pageNo,
+                                    province: this.province,
                                     city: this.city,
+                                    area: this.area,
+                                    hospital: this.hospital,
+                                    isBack:2,
                                     searchType: this.searchType,
                                     searchKey: this.searchKey,
                                     deptKey: this.deptKey,
@@ -386,7 +397,11 @@ export default {
                 "/index/operation/register/list",
                 {
                     pageNo: this.pageNo,
+                    province: this.province,
                     city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack:2,
                     searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,

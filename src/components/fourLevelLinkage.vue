@@ -3,7 +3,7 @@
         <Select
             class="w-select"
             :clearable="!provinceStatus"
-            v-model="province"
+            :value="province"
             :disabled="provinceStatus"
             placeholder="省"
             @on-change="changeProvince"
@@ -14,7 +14,7 @@
             class="w-select"
             :clearable="!cityStatus"
             :disabled="cityStatus"
-            v-model="city"
+            :value="city"
             placeholder="市"
             @on-change="changeCity"
         >
@@ -24,7 +24,7 @@
             class="w-select"
             :clearable="!areaStatus"
             :disabled="areaStatus"
-            v-model="area"
+            :value="area"
             placeholder="区"
             @on-change="changeArea"
         >
@@ -34,7 +34,7 @@
             class="w-select-hos"
             :clearable="!hospitalStatus"
             :disabled="hospitalStatus"
-            v-model="hospital"
+            :value="hospital"
             placeholder="机构"
             @on-change="changeHospital"
         >
@@ -49,126 +49,78 @@ export default {
     data() {
         return {
             provinceList: [],
-            province: null,
-            provinceStatus: false,
             cityList: [],
-            city: null,
-            cityStatus: false,
             areaList: [],
-            area: null,
-            areaStatus: false,
             hospitalList: [],
-            hospital: null,
-            hospitalStatus: false,
-            identity: null,
-            identityCoding: null,
-            ownArea: null,
+
+            provinceStatus: false,
+            cityStatus: false,
+            areaStatus: false,
+            hospitalStatus: false
         };
     },
-    created() {
-        this.identity = this.$store.getters.getIdentity;
-        this.identityCoding = this.$store.getters.getIdentityCoding;
-        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
-        if (this.ownArea.province) {
-            this.provinceStatus = true;
-            this.provinceList.push(this.ownArea.province);
-            this.province = this.ownArea.province.id;
-        }
-        if (this.ownArea.city) {
-          this.cityStatus = true;
-            this.cityList.push(this.ownArea.city);
-            this.city = this.ownArea.city.id;
-        }
-        if (this.ownArea.area) {
-          this.areaStatus = true;
-            this.areaList.push(this.ownArea.area);
-            this.area = this.ownArea.area.id;
-        }
-        if (this.identity == 1) {
-            this.provinceList = this.$store.getters.getProvinceList;
-        } else if (this.identity == 2) {
-            this.cityList = this.$store.getters.getCityList(this.province);
-            this.$emit("changeProvince",this.province);
-        } else if (this.identity == 3) {
-            this.areaList = this.$store.getters.getAreaList(this.city);
-            this.$emit("changeProvince",this.province);
-            this.$emit("changeCity",this.city);
-        } else if (this.identity == 4) {
-            var params = {};
-            params.provinceCode = parseInt(this.province);
-            params.cityCode = parseInt(this.city);
-            params.districtCode = parseInt(this.area);
-            this.$emit("changeProvince",this.province);
-            this.$emit("changeCity",this.city);
-            this.$emit("changeArea",this.area);
-            this.$axios
-                .post(api.hospitalselectbyprovincecode, params)
-                .then(resp => {
-                    let list = resp.data.object;
-                    list.map((el, i) => {
-                        let tmpObj = {};
-                        tmpObj.id = parseInt(el.id);
-                        tmpObj.name = el.orgName;
-                        this.hospitalList.push(tmpObj);
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        } else if (this.identity == 5) {
-            this.hospital = parseInt(this.identityCoding);
-            this.hospitalStatus = true;
-            this.$emit("changeProvince",this.province);
-            this.$emit("changeCity",this.city);
-            this.$emit("changeArea",this.area);
-            this.$emit("changeHospital",this.hospital);
-            this.$axios
-                .post(api.managementInfo, {
-                    hospitalId: parseInt(this.identityCoding)
-                })
-                .then(resp => {
-                    this.hospitalList.push({
-                        id: resp.data.object.hospitalId,
-                        name: resp.data.object.orgName
-                    });
-                })
-                .catch(err => {});
+    props: {
+        province: {
+            default: null
+        },
+        city: {
+            default: null
+        },
+        area: {
+            default: null
+        },
+        hospital: {
+            default: null
+        },
+        isBack: {
+            default: 1
         }
     },
-    methods: {
-        changeProvince(val) {
-            val = val ? val : null;
-            this.$emit("changeProvince", val);
-            this.$emit("changeCity", null);
-            this.$emit("changeArea", null);
-            this.$emit("changeHospital", null);
-            this.city = null;
-            this.area = null;
-            this.hospital = null;
-            this.hospitalList = [];
-            this.cityList = this.$store.getters.getCityList(val);
-        },
-        changeCity(val) {
-            val = val ? val : null;
-            this.$emit("changeCity", val);
-            this.$emit("changeArea", null);
-            this.$emit("changeHospital", null);
-            this.area = null;
-            this.hospital = null;
-            this.hospitalList = [];
-            this.areaList = this.$store.getters.getAreaList(val);
-        },
-        changeArea(val) {
-            val = val ? val : null;
-            this.$emit("changeArea", val);
-            this.$emit("changeHospital", null);
-            this.hospital = null;
-            this.hospitalList = [];
-            if (val) {
+    created() {
+        console.log("组件内部输出start");
+        console.log(this.province);
+        console.log(this.city);
+        console.log(this.area);
+        console.log(this.hospital);
+        console.log(this.isBack);
+        console.log("组件内部输出end");
+        if (this.isBack == 1) {
+            console.log(1);
+            this.identity = this.$store.getters.getIdentity;
+            this.identityCoding = this.$store.getters.getIdentityCoding;
+            this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+            if (this.ownArea.province) {
+                this.provinceStatus = true;
+                this.provinceList.push(this.ownArea.province);
+                this.province = this.ownArea.province.id;
+            }
+            if (this.ownArea.city) {
+                this.cityStatus = true;
+                this.cityList.push(this.ownArea.city);
+                this.city = this.ownArea.city.id;
+            }
+            if (this.ownArea.area) {
+                this.areaStatus = true;
+                this.areaList.push(this.ownArea.area);
+                this.area = this.ownArea.area.id;
+            }
+            if (this.identity == 1) {
+                this.provinceList = this.$store.getters.getProvinceList;
+            } else if (this.identity == 2) {
+                this.cityList = this.$store.getters.getCityList(this.province);
+                this.$emit("changeProvince", this.province);
+            } else if (this.identity == 3) {
+                this.areaList = this.$store.getters.getAreaList(this.city);
+                this.$emit("changeProvince", this.province);
+                this.$emit("changeCity", this.city);
+            } else if (this.identity == 4) {
                 var params = {};
                 params.provinceCode = parseInt(this.province);
                 params.cityCode = parseInt(this.city);
-                params.districtCode = parseInt(val);
+                params.districtCode = parseInt(this.area);
+                this.$emit("changeProvince", this.province);
+                this.$emit("changeCity", this.city);
+                this.$emit("changeArea", this.area);
                 this.$axios
                     .post(api.hospitalselectbyprovincecode, params)
                     .then(resp => {
@@ -185,11 +137,114 @@ export default {
                     .catch(err => {
                         console.log(err);
                     });
+            } else if (this.identity == 5) {
+                this.hospital = parseInt(this.identityCoding);
+                this.hospitalStatus = true;
+                this.$emit("changeProvince", this.province);
+                this.$emit("changeCity", this.city);
+                this.$emit("changeArea", this.area);
+                this.$emit("changeHospital", this.hospital);
+                this.$axios
+                    .post(api.managementInfo, {
+                        hospitalId: parseInt(this.identityCoding)
+                    })
+                    .then(resp => {
+                        this.hospitalList.push({
+                            id: resp.data.object.hospitalId,
+                            name: resp.data.object.orgName
+                        });
+                    })
+                    .catch(err => {});
+            }
+        }else if(this.isBack == 2){
+        //设置从其他页面返回后默认值
+            if (this.province) {
+                this.provinceList = this.$store.getters.getProvinceList;
+                this.cityList = this.$store.getters.getCityList(this.province);
+                if (this.city) {
+                    this.areaList = this.$store.getters.getAreaList(this.city);
+                    if (this.area) {
+                        var params = {};
+                        params.provinceCode = parseInt(this.province);
+                        params.cityCode = parseInt(this.city);
+                        params.districtCode = parseInt(this.area);
+                        this.$axios
+                        .post(api.hospitalselectbyprovincecode, params)
+                        .then(resp => {
+                            let list = resp.data.object;
+                            if(list && list.length>0){
+                                list.map((el, i) => {
+                                    let tmpObj = {};
+                                    tmpObj.id = parseInt(el.id);
+                                    tmpObj.name = el.orgName;
+                                    this.hospitalList.push(tmpObj);
+                                });
+                            }
+                        })
+                        .catch(err => {});
+                    }
+                }
+            }
+        }
+
+    },
+    methods: {
+        changeProvince(val) {
+            console.log("changeProvince");
+            val = val ? val : null;
+            this.$emit("changeProvince", val);
+            this.$emit("changeCity", null);
+            this.$emit("changeArea", null);
+            this.$emit("changeHospital", null);
+            this.city = null;
+            this.area = null;
+            this.hospital = null;
+            this.hospitalList = [];
+            this.cityList = this.$store.getters.getCityList(val);
+        },
+        changeCity(val) {
+            console.log("changeCity");
+            val = val ? val : null;
+            this.$emit("changeCity", val);
+            this.$emit("changeArea", null);
+            this.$emit("changeHospital", null);
+            this.area = null;
+            this.hospital = null;
+            this.hospitalList = [];
+            this.areaList = this.$store.getters.getAreaList(val);
+        },
+        changeArea(val) {
+            console.log("changeArea");
+            val = val ? val : null;
+            this.$emit("changeArea", val);
+            this.$emit("changeHospital", null);
+            this.hospital = null;
+            this.hospitalList = [];
+            if (val) {
+                var params = {};
+                params.provinceCode = parseInt(this.province);
+                params.cityCode = parseInt(this.city);
+                params.districtCode = parseInt(val);
+                this.$axios
+                    .post(api.hospitalselectbyprovincecode, params)
+                    .then(resp => {
+                        let list = resp.data.object;
+                        list.map((el, i) => {
+                            let tmpObj = {};
+                            tmpObj.id = parseInt(el.id);
+                            tmpObj.name = el.orgName;
+                            this.hospitalList.push(tmpObj);
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             }
         },
-        changeHospital(val){
-          val = val?val:null;
-          this.$emit("changeHospital",val)
+        changeHospital(val) {
+            console.log("changeHospital");
+            val = val ? val : null;
+            this.$emit("changeHospital", val);
         }
     }
 };

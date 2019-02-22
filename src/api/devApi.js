@@ -235,6 +235,9 @@ const adminDetail = '/operateapi/operateuserupdate' //账号管理修改用户
 const adminManage ='/operateapi/operateuserinsertusermenu' //账号管理用户权限
 const adminSearch = '/operateapi/operateuserfindmenubyuserid'//查询用户权限管理详情
 const adminManageChange='/operateapi/operateuserupdateusermenu' //修改用户权限管理
+//敏感词
+const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
+const sensitiveUpdate='/operateapi/sensitive/update' //修改
 
 export default {
     login,
@@ -461,4 +464,7 @@ export default {
     adminManage,
     adminSearch,
     adminManageChange,
+    //敏感词
+    sensitiveSelectSensitive,
+    sensitiveUpdate
 }

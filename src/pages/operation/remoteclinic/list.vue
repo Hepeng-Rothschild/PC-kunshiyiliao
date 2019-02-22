@@ -1,139 +1,149 @@
 <template>
-  <div class="remoteClinic">
-    <tempHeader/>
-    <!-- 头部选择框 -->
-    <Row>
-      <Col :xs="24">
-        <div class="margin-up-down">
-          <fourLevelLinkage
-            @changeProvince="changeProvince"
-            @changeCity="changeCity"
-            @changeArea="changeArea"
-            @changeHospital="changeHospital"
-          ></fourLevelLinkage>
+    <div class="remoteClinic">
+        <tempHeader/>
+        <!-- 头部选择框 -->
+        <Row>
+            <Col :xs="24">
+                <div class="margin-up-down">
+                    <fourLevelLinkage
+                        @changeProvince="changeProvince"
+                        @changeCity="changeCity"
+                        @changeArea="changeArea"
+                        @changeHospital="changeHospital"
+                        :province="province"
+                        :city="city"
+                        :area="area"
+                        :hospital="hospital"
+                        :isBack="isBack"
+                    ></fourLevelLinkage>
+                </div>
+                <div class="margin-up-down">
+                    <!-- 检索的医院名称 -->
+                    <Input
+                        class="w-input"
+                        v-model="searchKey"
+                        :placeholder="'请输入职称/医院名称/医生名称'"
+                        clearable
+                    />
+                </div>
+                <div class="margin-up-down">
+                    <!-- 查询 -->
+                    <Button type="primary" class="primary" @click="search">
+                        <Icon type="ios-search" size="14"/>查询
+                    </Button>
+                </div>
+                <div class="margin-up-down">
+                    <!-- 添加接诊医生排班 -->
+                    <Button type="primary" class="primary" @click="add">添加接诊医生排班</Button>
+                </div>
+            </Col>
+        </Row>
+        <!-- 主体列表 -->
+        <div class="main">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>序号</td>
+                    <td>专家姓名</td>
+                    <td>医院科室</td>
+                    <td>远程门诊时间</td>
+                    <td>预约期限</td>
+                    <td>启用标示</td>
+                    <td>操作</td>
+                </tr>
+                <tr v-for="(item,index) in list" :key="index" v-show="list.length">
+                    <td>{{ addZero(index) }}</td>
+                    <td>{{ item.doctorName }}</td>
+                    <td>{{ item.deptName }}</td>
+                    <td @click="showModel(item)" style="cursor:pointer;">
+                        <p
+                            v-show="item.intervalTimeAmStart && item.intervalTimeAmEnd"
+                        >上午:{{ item.intervalTimeAmStart + '-' +item.intervalTimeAmEnd }}</p>
+                        <p
+                            v-show="item.intervalTimePmStart && item.intervalTimeAmEnd"
+                        >下午:{{ item.intervalTimePmStart + '-' +item.intervalTimeAmEnd }}</p>
+                    </td>
+                    <td>{{ item.cycleDay }}</td>
+                    <td v-show="item.iremote==1">启用</td>
+                    <td style="color:red;" v-show="item.iremote==0">停用</td>
+                    <td style="cursor:pointer;" @click="edit(item)">编辑</td>
+                </tr>
+            </table>
+            <div class="nodata" v-show="!list.length">暂无更多数据</div>
         </div>
-        <div class="margin-up-down">
-          <!-- 检索的医院名称 -->
-          <Input class="w-input" v-model="searchKey" :placeholder="'请输入职称/医院名称/医生名称'" clearable/>
+        <Modal v-model="modal1" title="远程门诊时间" footer-hide>
+            <p style="text-align:center;">
+                周一：
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >上午：&nbsp;{{ currentData.oneAm || "无"}}</span>
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >下午：&nbsp;{{ currentData.onePm || "无"}}</span>
+            </p>
+            <p style="text-align:center;">
+                周二：
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >上午：&nbsp;{{ currentData.twoAm || "无"}}</span>
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >下午：&nbsp;{{ currentData.twoPm || "无"}}</span>
+            </p>
+            <p style="text-align:center;">
+                周三：
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >上午：&nbsp;{{ currentData.threeAm || "无"}}</span>
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >下午：&nbsp;{{ currentData.threePm || "无"}}</span>
+            </p>
+            <p style="text-align:center;">
+                周四：
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >上午：&nbsp;{{ currentData.fourAm || "无"}}</span>
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >下午：&nbsp;{{ currentData.fourPm || "无" }}</span>
+            </p>
+            <p style="text-align:center;">
+                周五：
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >上午：&nbsp;{{ currentData.fiveAm || "无"}}</span>
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >下午：&nbsp;{{ currentData.fivePm || "无" }}</span>
+            </p>
+            <p style="text-align:center;">
+                周六：
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >上午：&nbsp;{{ currentData.sixAm || "无" }}</span>
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >下午：&nbsp;{{ currentData.sixPm || "无"}}</span>
+            </p>
+            <p style="text-align:center;">
+                周日：
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >上午：&nbsp;{{ currentData.sevenAm || "无" }}</span>
+                <span
+                    style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
+                >下午：&nbsp;{{ currentData.sevenPm || "无" }}</span>
+            </p>
+        </Modal>
+        <div class="total">
+            <Page
+                :total="remoteClinicLength"
+                :current="pageNo"
+                @on-change="change"
+                :page-size="pageSize"
+            />
         </div>
-        <div class="margin-up-down">
-          <!-- 查询 -->
-          <Button type="primary" class="primary" @click="search">
-            <Icon type="ios-search" size="14"/>查询
-          </Button>
-        </div>
-        <div class="margin-up-down">
-          <!-- 添加接诊医生排班 -->
-          <Button type="primary" class="primary" @click="add">添加接诊医生排班</Button>
-        </div>
-      </Col>
-    </Row>
-    <!-- 主体列表 -->
-    <div class="main">
-      <table border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td>序号</td>
-          <td>专家姓名</td>
-          <td>医院科室</td>
-          <td>远程门诊时间</td>
-          <td>预约期限</td>
-          <td>启用标示</td>
-          <td>操作</td>
-        </tr>
-        <tr v-for="(item,index) in list" :key="index" v-show="list.length">
-          <td>{{ addZero(index) }}</td>
-          <td>{{ item.doctorName }}</td>
-          <td>{{ item.deptName }}</td>
-          <td @click="showModel(item)" style="cursor:pointer;">
-            <p
-              v-show="item.intervalTimeAmStart && item.intervalTimeAmEnd"
-            >上午:{{ item.intervalTimeAmStart + '-' +item.intervalTimeAmEnd }}</p>
-            <p
-              v-show="item.intervalTimePmStart && item.intervalTimeAmEnd"
-            >下午:{{ item.intervalTimePmStart + '-' +item.intervalTimeAmEnd }}</p>
-          </td>
-          <td>{{ item.cycleDay }}</td>
-          <td v-show="item.iremote==1">启用</td>
-          <td style="color:red;" v-show="item.iremote==0">停用</td>
-          <td style="cursor:pointer;" @click="edit(item)">编辑</td>
-        </tr>
-      </table>
-      <div class="nodata" v-show="!list.length">暂无更多数据</div>
     </div>
-    <Modal v-model="modal1" title="远程门诊时间" footer-hide>
-      <p style="text-align:center;">
-        周一：
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >上午：&nbsp;{{ currentData.oneAm || "无"}}</span>
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >下午：&nbsp;{{ currentData.onePm || "无"}}</span>
-      </p>
-      <p style="text-align:center;">
-        周二：
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >上午：&nbsp;{{ currentData.twoAm || "无"}}</span>
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >下午：&nbsp;{{ currentData.twoPm || "无"}}</span>
-      </p>
-      <p style="text-align:center;">
-        周三：
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >上午：&nbsp;{{ currentData.threeAm || "无"}}</span>
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >下午：&nbsp;{{ currentData.threePm || "无"}}</span>
-      </p>
-      <p style="text-align:center;">
-        周四：
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >上午：&nbsp;{{ currentData.fourAm || "无"}}</span>
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >下午：&nbsp;{{ currentData.fourPm || "无" }}</span>
-      </p>
-      <p style="text-align:center;">
-        周五：
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >上午：&nbsp;{{ currentData.fiveAm || "无"}}</span>
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >下午：&nbsp;{{ currentData.fivePm || "无" }}</span>
-      </p>
-      <p style="text-align:center;">
-        周六：
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >上午：&nbsp;{{ currentData.sixAm || "无" }}</span>
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >下午：&nbsp;{{ currentData.sixPm || "无"}}</span>
-      </p>
-      <p style="text-align:center;">
-        周日：
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >上午：&nbsp;{{ currentData.sevenAm || "无" }}</span>
-        <span
-          style="margin-left:10px;text-align:left;display:inline-block;min-width:100px;"
-        >下午：&nbsp;{{ currentData.sevenPm || "无" }}</span>
-      </p>
-    </Modal>
-    <div class="total">
-      <Page
-        :total="remoteClinicLength"
-        :current="pageNo"
-        @on-change="change"
-        :page-size="pageSize"
-      />
-    </div>
-  </div>
 </template>
 <script>
 // 医生端远程门诊
@@ -141,252 +151,278 @@ import tempHeader from "@/components/tmpHeader";
 import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
 export default {
-  components: {
-    tempHeader,
-    fourLevelLinkage
-  },
-  data() {
-    return {
-      province: null,
-      city: null,
-      area: null,
-      hospital: null,
+    components: {
+        tempHeader,
+        fourLevelLinkage
+    },
+    data() {
+        return {
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            isBack: 1,
 
-      remoteClinicLength: 0,
-      pageNo: 1,
-      pageSize: 10,
-      searchTypeList: [
-        { id: 1, name: "医院名称" },
-        { id: 2, name: "医生姓名" }
-      ],
-      searchType: 1,
-      keyPlaceHolder: "医院名称",
-      searchKey: "",
-      dictType: "",
-      titleList: "",
-      modal1: false,
-      modelList: [],
-      currentData: [],
-      list: []
-    };
-  },
-  created() {
-    let breadList = [
-      { path: "/index", title: "首页" },
-      {
-        path: "/index/operation/doctorManagement/index",
-        title: "医生端运营"
-      },
-      {
-        path: "/index/operation/remoteclinic/list",
-        title: "远程门诊"
-      }
-    ];
-    this.$emit("changeBreadList", breadList);
-  },
-  mounted() {
-    this.getInfoData();
-    let pageNo = this.$route.query.pageNo;
-    if (Boolean(pageNo)) {
-      this.pageNo = pageNo;
+            remoteClinicLength: 0,
+            pageNo: 1,
+            pageSize: 10,
+            searchTypeList: [
+                { id: 1, name: "医院名称" },
+                { id: 2, name: "医生姓名" }
+            ],
+            searchType: 1,
+            keyPlaceHolder: "医院名称",
+            searchKey: "",
+            dictType: "",
+            titleList: "",
+            modal1: false,
+            modelList: [],
+            currentData: [],
+            list: []
+        };
+    },
+    created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/doctorManagement/index",
+                title: "医生端运营"
+            },
+            {
+                path: "/index/operation/remoteclinic/list",
+                title: "远程门诊"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
+    mounted() {
+        this.getInfoData();
+        let pageNo = this.$route.query.pageNo;
+        if (Boolean(pageNo)) {
+            this.pageNo = pageNo;
+        }
+        this.getDoctorList(this.pageNo);
+    },
+    methods: {
+        changeProvince(val) {
+            this.province = val;
+        },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
+        },
+        // 显示model
+        showModel(item) {
+            let params = {};
+            params.oneAm = item.oneAm;
+            params.onePm = item.onePm;
+
+            params.twoAm = item.twoAm;
+            params.twoPm = item.twoPm;
+
+            params.threeAm = item.threeAm;
+            params.threePm = item.threePm;
+
+            params.fourAm = item.fourAm;
+            params.fourPm = item.fourPm;
+
+            params.fiveAm = item.fiveAm;
+            params.fivePm = item.fivePm;
+
+            params.sixAm = item.sixAm;
+            params.sixPm = item.sixPm;
+
+            params.sevenAm = item.sevenAm;
+            params.sevenPm = item.sevenPm;
+
+            this.currentData = params;
+            let flag = false;
+            for (let i in params) {
+                if (params[i]) {
+                    flag = true;
+                }
+            }
+            this.modal1 = flag;
+            if (!flag) {
+                this.$Message.info("远程门诊时间为空");
+            }
+        },
+        // 页码改变
+        change(index) {
+            this.pageNo = index;
+            if (this.searchKey != "") {
+                this.getDoctorList(1, this.city, this.searchKey);
+            } else {
+                this.getDoctorList(index);
+            }
+        },
+        // 新增
+        add() {
+            this.$router.push({
+                path: "/index/operation/remoteclinic/add",
+                query: {
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack:2,
+                }
+            });
+        },
+        // 页面加载时获取省级,职称列表
+        getInfoData() {
+            //获取省级列表
+            this.$axios
+                .post(api.getProvince)
+                .then(resp => {
+                    this.cityList = resp.data.object;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        // 修改
+        edit(item) {
+            this.$router.push({
+                path: "/index/operation/remoteclinic/edit",
+                query: {
+                    id: item.id,
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack:2,
+                }
+            });
+        },
+        search() {
+            let params = {
+                city: this.city,
+                // 医院/医生名称
+                searchKey: this.searchKey
+            };
+            this.getDoctorList(1, this.city, this.searchKey);
+        },
+        getDoctorList(pageNo, provinceId, searchKey) {
+            let params = {
+                pageNo,
+                pageSize: this.pageSize
+            };
+            params.provinceCode = this.province ? this.province : null;
+            params.cityCode = this.city ? this.city : null;
+            params.areaCode = this.area ? this.area : null;
+            params.hospitalId = this.hospital ? this.hospital : null;
+            if (searchKey != "") {
+                params.searchKey = searchKey;
+            }
+            console.log("家庭医生签约 params", params);
+            this.$axios.post(api.doctorRomteclinicList, params).then(res => {
+                if (res.data.code) {
+                    let ret = res.data.object;
+                    this.remoteClinicLength = ret.count;
+                    this.list = ret.list;
+                } else {
+                    this.$Message.info("没有访问权限");
+                }
+            });
+        },
+        addZero(num) {
+            num = num + 1;
+            if (num < 10) {
+                return "0" + num;
+            }
+            return num;
+        }
     }
-    this.getDoctorList(this.pageNo);
-  },
-  methods: {
-    changeProvince(val) {
-      this.province = val;
-    },
-    changeCity(val) {
-      this.city = val;
-    },
-    changeArea(val) {
-      this.area = val;
-    },
-    changeHospital(val) {
-      this.hospital = val;
-    },
-    // 显示model
-    showModel(item) {
-      let params = {};
-      params.oneAm = item.oneAm;
-      params.onePm = item.onePm;
-
-      params.twoAm = item.twoAm;
-      params.twoPm = item.twoPm;
-
-      params.threeAm = item.threeAm;
-      params.threePm = item.threePm;
-
-      params.fourAm = item.fourAm;
-      params.fourPm = item.fourPm;
-
-      params.fiveAm = item.fiveAm;
-      params.fivePm = item.fivePm;
-
-      params.sixAm = item.sixAm;
-      params.sixPm = item.sixPm;
-
-      params.sevenAm = item.sevenAm;
-      params.sevenPm = item.sevenPm;
-
-      this.currentData = params;
-      let flag = false;
-      for (let i in params) {
-        if (params[i]) {
-          flag = true;
-        }
-      }
-      this.modal1 = flag;
-      if (!flag) {
-        this.$Message.info("远程门诊时间为空");
-      }
-    },
-    // 页码改变
-    change(index) {
-      this.pageNo = index;
-      if (this.searchKey != "") {
-        this.getDoctorList(1, this.city, this.searchKey);
-      } else {
-        this.getDoctorList(index);
-      }
-    },
-    // 新增
-    add() {
-      this.$router.push({
-        path: "/index/operation/remoteclinic/add",
-        query: {
-          pageNo: this.pageNo
-        }
-      });
-    },
-    // 页面加载时获取省级,职称列表
-    getInfoData() {
-      //获取省级列表
-      this.$axios
-        .post(api.getProvince)
-        .then(resp => {
-          this.cityList = resp.data.object;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    // 修改
-    edit(item) {
-      this.$router.push({
-        path: "/index/operation/remoteclinic/edit",
-        query: {
-          id: item.id,
-          pageNo: this.pageNo
-        }
-      });
-    },
-    search() {
-      let params = {
-        city: this.city,
-        // 医院/医生名称
-        searchKey: this.searchKey
-      };
-      this.getDoctorList(1, this.city, this.searchKey);
-    },
-    getDoctorList(pageNo, provinceId, searchKey) {
-      let params = {
-        pageNo,
-        pageSize: this.pageSize
-      };
-      params.provinceCode = this.province ? this.province : null;
-      params.cityCode = this.city ? this.city : null;
-      params.areaCode = this.area ? this.area : null;
-      params.hospitalId = this.hospital ? this.hospital : null;
-      if (searchKey != "") {
-        params.searchKey = searchKey;
-      }
-      console.log("家庭医生签约 params", params);
-      this.$axios.post(api.doctorRomteclinicList, params).then(res => {
-        if (res.data.code) {
-          let ret = res.data.object;
-          this.remoteClinicLength = ret.count;
-          this.list = ret.list;
-        } else {
-          this.$Message.info("没有访问权限");
-        }
-      });
-    },
-    addZero(num) {
-      num = num + 1;
-      if (num < 10) {
-        return "0" + num;
-      }
-      return num;
-    }
-  }
 };
 </script>
 <style lang="less" scoped>
 .remoteClinic {
-  width: 98%;
-  padding: 10px;
-  margin-left: 1%;
-  margin: 0 auto;
-  background: #fff;
-  .w-input {
-    width: 300px;
-  }
-  header {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 10px 0;
-    .w-select {
-      width: 100px;
-      margin: 0 10px;
+    width: 98%;
+    padding: 10px;
+    margin-left: 1%;
+    margin: 0 auto;
+    background: #fff;
+    .w-input {
+        width: 300px;
     }
-    .primary {
-      margin: 0 10px;
-    }
-  }
-  .main {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-    table {
-      width: 100%;
-      border: 1px solid #ddd;
-      tr:nth-child(odd) {
-        background: #f8f8f9;
-      }
-      tr:nth-child(even) {
-        background: #fff;
-      }
-      tr:not(:first-child):hover {
-        background: #ebf7ff;
-      }
-      tr {
-        border-top: 1px solid #ddd;
-        height: 40px;
-        td {
-          padding: 10px 0;
-          text-align: center;
+    header {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 10px 0;
+        .w-select {
+            width: 100px;
+            margin: 0 10px;
         }
-        td.none {
-          display: none;
+        .primary {
+            margin: 0 10px;
         }
-      }
     }
-    .nodata {
-      width: calc(100% - 1px);
-      line-height: 50px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-top: none;
-      text-align: center;
+    .main {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+        table {
+            width: 100%;
+            border: 1px solid #ddd;
+            tr:nth-child(odd) {
+                background: #f8f8f9;
+            }
+            tr:nth-child(even) {
+                background: #fff;
+            }
+            tr:not(:first-child):hover {
+                background: #ebf7ff;
+            }
+            tr {
+                border-top: 1px solid #ddd;
+                height: 40px;
+                td {
+                    padding: 10px 0;
+                    text-align: center;
+                }
+                td.none {
+                    display: none;
+                }
+            }
+        }
+        .nodata {
+            width: calc(100% - 1px);
+            line-height: 50px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            text-align: center;
+        }
     }
-  }
-  .margin-up-down {
-    display: inline-block;
-    margin-top: 10px;
-  }
+    .margin-up-down {
+        display: inline-block;
+        margin-top: 10px;
+    }
 }
 </style>

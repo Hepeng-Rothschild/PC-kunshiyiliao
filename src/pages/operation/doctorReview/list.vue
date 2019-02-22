@@ -7,6 +7,11 @@
                     @changeCity="changeCity"
                     @changeArea="changeArea"
                     @changeHospital="changeHospital"
+                    :province="province"
+                    :city="city"
+                    :area="area"
+                    :hospital="hospital"
+                    :isBack="isBack"
                 ></fourLevelLinkage>
                 <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
                 <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
@@ -145,7 +150,8 @@ export default {
                                                     hospital: this.hospital,
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
-                                                    authStatus: this.authStatus
+                                                    authStatus: this.authStatus,
+                                                    isBack:2
                                                 }
                                             );
 
@@ -174,6 +180,7 @@ export default {
                                                     city: this.city,
                                                     area: this.area,
                                                     hospital: this.hospital,
+                                                    isBack:2,
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
@@ -223,6 +230,29 @@ export default {
         fourLevelLinkage
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack?parseInt(this.$route.query.isBack):1;
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
+        this.dictType = this.$route.query.dictType
+            ? this.$route.query.dictType
+            : "";
+        this.authStatus =
+            this.$route.query.authStatus == null
+                ? null
+                : parseInt(this.$route.query.authStatus);
         let breadList = [
             { path: "/index", title: "首页" },
             {

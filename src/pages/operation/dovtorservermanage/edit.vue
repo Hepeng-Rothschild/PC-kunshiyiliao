@@ -52,7 +52,13 @@ export default {
             id: null,
             pageNo: null,
             searchKey: "",
-            editFlag: false
+            editFlag: false,
+            
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            isBack: 2
         };
     },
     methods: {
@@ -74,16 +80,20 @@ export default {
                 .then(res => {
                     if (res.data.success) {
                         this.$Message.info("修改成功");
-                         //   公用方法
+                        //   公用方法
                         this.functionJS.queryNavgationTo(
                             this,
                             "/index/operation/doctormanage/list",
                             {
                                 pageNo: this.pageNo,
-                                searchKey: this.searchKey
+                                searchKey: this.searchKey,
+                                province: this.province,
+                                city: this.city,
+                                area: this.area,
+                                hospital: this.hospital,
+                                isBack: 2
                             }
                         );
-
                     }
                 });
         },
@@ -94,22 +104,42 @@ export default {
             this.editFlag = false;
         },
         reback() {
-             //   公用方法
+            //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/operation/doctormanage/list",
                 {
                     pageNo: this.pageNo,
-                    searchKey: this.searchKey
+                    searchKey: this.searchKey,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack: 2
                 }
             );
-
         }
     },
     created() {
         this.id = this.$route.query.id;
-        this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+        this.pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
 
         this.$axios
             .post(api.doctorServerManage)
