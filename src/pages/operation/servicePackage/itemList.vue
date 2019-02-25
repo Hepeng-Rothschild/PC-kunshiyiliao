@@ -108,7 +108,8 @@ export default {
                 {
                     title: "创建时间",
                     key: "createTime",
-                    align: "center"
+                    align: "center",
+                    width: 120
                 },
                 {
                     title: "年服务次数",
