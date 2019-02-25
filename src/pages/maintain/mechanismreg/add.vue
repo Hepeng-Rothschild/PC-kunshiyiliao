@@ -11,20 +11,29 @@
             <span>区域</span>
           </div>
           <!-- 省 -->
-          <select v-model="regionProv" @change="provChange">
+          <!-- <select v-model="regionProv" @change="provChange">
             <option value="-1">--请选择--</option>
             <option :value="item.id" v-for="(item,index) in provList" :key="index">{{ item.name }}</option>
-          </select>
+          </select> -->
+          <Select v-model="regionProv" @on-change="provChange" style="width:80px">
+            <Option v-for="item in provList" :value="item.id" :key="item.value">{{ item.name }}</Option>
+          </Select>
           <!-- 市 -->
-          <select v-model="regionCity" @change="cityChange">
+          <!-- <select v-model="regionCity" @change="cityChange">
             <option value="-1">--请选择--</option>
             <option :value="item.id" v-for="(item,index) in cityList" :key="index">{{ item.city }}</option>
-          </select>
+          </select> -->
+          <Select v-model="regionCity" @on-change="cityChange" style="width:80px;margin:0 10px;">
+            <Option v-for="item in cityList" :value="item.id" :key="item.value">{{ item.city }}</Option>
+          </Select>
           <!-- 县 -->
-          <select v-model="regionCounty">
+          <!-- <select v-model="regionCounty">
             <option value="-1">--请选择--</option>
             <option :value="item.id" v-for="(item,index) in countyList" :key="index">{{ item.area }}</option>
-          </select>
+          </select> -->
+          <Select v-model="regionCounty" style="width:100px">
+            <Option v-for="item in countyList" :value="item.id" :key="item.value">{{ item.area }}</Option>
+          </Select>
         </div>
         <!-- 机构名称 -->
         <div class="address">

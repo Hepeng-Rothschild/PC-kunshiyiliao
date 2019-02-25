@@ -104,7 +104,7 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.params.pageNo;
+        let pageNo = this.$route.query.pageNo;
         if (pageNo) {
             this.pageNo = pageNo;
         }
@@ -125,11 +125,8 @@ export default {
         },
         // 批量导入
         branch() {
-            this.$router.push({
-                name: "doctorregisterbatchone",
-                params: {
-                    pageNo: this.pageNo
-                }
+            this.functionJS.queryNavgationTo(this, "/index/maintain/doctorregister/batchone", {
+                pageNo: this.pageNo
             });
         },
         // 分页

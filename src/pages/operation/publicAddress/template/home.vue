@@ -17,6 +17,8 @@
 <script>
 import api from "@/api/commonApi";
 import tmpHeader from "../tmpHeader";
+import aesUtils from "@/plugins/aes-utils.js";
+import store from "@/store";
 export default {
   components: {
     tmpHeader
@@ -24,10 +26,13 @@ export default {
   data() {
     return {
       list: [],
-      appid: sessionStorage.getItem("appid")
+      appid: ''
     };
   },
     created() {
+      let iv = store.state.iv;
+      let salt = store.state.salt;
+      this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
         let breadList = [
             { path: "/index", title: "首页" },
             {

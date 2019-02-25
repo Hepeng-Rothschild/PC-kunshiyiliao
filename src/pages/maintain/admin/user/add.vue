@@ -286,7 +286,7 @@ export default {
             imgName: "",
             visible: false,
             uploadList: [],
-            id: sessionStorage.getItem("appid"),
+            // id: sessionStorage.getItem("appid"),
             uploadModal: true,
             uploadData: {
                 json: '{"urlCode":"' + code.urlCode.userImage + '"}'

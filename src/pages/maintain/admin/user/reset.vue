@@ -115,12 +115,12 @@ export default {
         this.$Message.info("新密码不能为空");
       } else {
         this.$Message.info("重置成功");
-        let pageNo = this.$route.params.pageNo;
+        let pageNo = this.$route.query.pageNo;
         setTimeout(() => {
            //   公用方法
-            this.functionJS.paramsNavgationTo(
+            this.functionJS.queryNavgationTo(
                 this,
-                "adminlist",
+                "/index/maintain/admin/user/list",
                 {
                     pageNo
                 }
@@ -129,11 +129,11 @@ export default {
       }
     },
     back() {
-      let pageNo = this.$route.params.pageNo;
+      let pageNo = this.$route.query.pageNo;
       //   公用方法
-      this.functionJS.paramsNavgationTo(
+      this.functionJS.queryNavgationTo(
           this,
-          "adminlist",
+          "/index/maintain/admin/user/list",
           {
               pageNo
           }

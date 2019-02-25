@@ -105,6 +105,8 @@
 <script>
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
+import aesUtils from "@/plugins/aes-utils.js";
+import store from "@/store";
 export default {
   data() {
     return {
@@ -117,7 +119,7 @@ export default {
       imgName: "",
       visible: false,
       uploadList: [],
-      id: sessionStorage.getItem("appid"),
+      id:"",
       uploadModal: true,
       uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
@@ -126,6 +128,9 @@ export default {
     };
   },
   created() {
+      let iv = store.state.iv;
+      let salt = store.state.salt;
+      this.id = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
     let breadList = [
       { path: "/index", title: "首页" },
       {

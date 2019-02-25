@@ -129,6 +129,7 @@ export default new Router({
 				// 微信公众号模板
 				operation.templateHome,
 				operation.typeManagement,
+				operation.wxopeningmanagement,
 				//档案管理
 				operation.fileManagementList,
 				// 系统管理/菜单管理

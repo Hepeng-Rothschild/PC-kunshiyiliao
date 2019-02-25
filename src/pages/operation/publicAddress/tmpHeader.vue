@@ -1,16 +1,14 @@
 <template>
   <div class="temHeader">
     <ul>
-      <li v-for="(item,sum) in dataList" :key='index'>
-        <span :class="index==sum? 'active':'' " @click ='navgationTo(item)'>{{ item.title }}</span>
+      <li v-for="(item,sum) in dataList" :key='sum'>
+        <span :class="index == sum ? 'active' : '' " @click ='navgationTo(item)'>{{ item.title }}</span>
       </li>
     </ul>
   </div>
 </template>
 <script>
-import { TabPane } from "iview";
 export default {
-  components: { TabPane },
   data() {
     return {
       dataList: [
@@ -25,6 +23,10 @@ export default {
         {
           title: "菜单管理",
           name: "/index/operation/typeManagement/list"
+        },
+        {
+          title:"功能管理",
+          name:"/index/operation/wxopeningmanagement/index"
         }
       ]
     };

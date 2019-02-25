@@ -843,6 +843,17 @@ const typeManagement = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-publichosting-publicaddresslist-typemanagement' */"@/pages/operation/publicAddress/typeManagement/list")
 }
+// 公众号开通管理
+const wxopeningmanagement = {
+	path: 'operation/wxopeningmanagement/index',
+	name: 'wxopeningManagement',
+	meta: {
+		index: 2,
+		title: '公众号管理'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-publichosting-publicaddresslist-wxopeningManagement' */"@/pages/operation/publicAddress/openingmanagement/index")
+}
 
 //档案管理
 const fileManagementList = {
@@ -855,6 +866,7 @@ const fileManagementList = {
 	component: () =>
 		import(/* webpackChunkName: 'not-used' */"@/pages/operation/fileManagement/list")
 }
+
 
 // 系统管理/菜单管理
 const wxSystemManagement = {
@@ -999,10 +1011,11 @@ export default {
 	wxBannerEdit,
 	// 微信公众号模板
 	templateHome,
-	// 分类 管理
+	// 分类管理
 	typeManagement,
 	//档案管理
 	fileManagementList,
+	wxopeningmanagement,
 	// 系统管理/菜单管理 
 	wxSystemManagement,
 	wxSystemManagementAdd,

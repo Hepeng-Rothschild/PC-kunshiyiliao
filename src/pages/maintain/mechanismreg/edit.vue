@@ -136,11 +136,11 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { Select, Option } from "iview";
+// import { Select, Option } from "iview";
 export default {
     components: {
-        Select,
-        Option
+        // Select,
+        // Option
     },
     data() {
         return {

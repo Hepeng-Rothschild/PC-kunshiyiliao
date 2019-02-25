@@ -52,6 +52,8 @@
 <script>
 import tmpHeader from "../tmpHeader";
 import api from "@/api/commonApi";
+import aesUtils from "@/plugins/aes-utils.js";
+import store from "@/store";
 export default {
   components: {
     tmpHeader
@@ -62,13 +64,16 @@ export default {
       search: "",
       arr: [],
       len: 10,
-      appid: sessionStorage.getItem("appid"),
+      appid:"",
       bannerSize: 10,
       pageNo: 1,
       pageSize: 10
     };
   },
     created() {
+      let iv = store.state.iv;
+      let salt = store.state.salt;
+      this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -97,7 +102,6 @@ export default {
     },
     // 添加banner图
     navto() {
-      // this.functionJS.paramsNavgationTo(this,'wxbannerAdd',{pageNo:this.pageNo})
       this.functionJS.queryNavgationTo(this,'/index/operation/banner/add',{pageNo:this.pageNo})
     },
     // 点击编辑
@@ -138,7 +142,7 @@ export default {
   },
   // 页面加载时获取数据
   mounted() {
-    let pageNo = this.$route.params.pageNo;
+    let pageNo = this.$route.query.pageNo;
     if (pageNo) {
       this.pageNo = Number(pageNo);
     }

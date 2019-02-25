@@ -205,6 +205,8 @@ const wxTemplateSave = '/operateapi/wxapptemplateupdatetemplate' //公众号模�
 
 const wxMenuList = '/operateapi/wxappmenuquerymenulist' // 公众号菜单管理列表
 const wxMenuListChange = '/operateapi/wxappmenuupdatebatchorinsertbatch' //公众号菜单管理列表修改
+const wxMangent = '/operateapi/wxappmanageupdateocrstatus'  //公众号功能管理
+const wxMangentSearch ='/operateapi/wxappmanageselectbyappid' //公众号功能管理查询
 
 // 系统管理//公众号菜单管理
 const systemManagement = '/operateapi/wxappmenuselectmenulist' //系统管理菜单列表
@@ -356,8 +358,12 @@ export default {
     wxBannerAdd,
     wxBannerDetail,
     wxBannerEdit,
+    // 公众号模板管理
     wxTemplateList,
     wxTemplateSave,
+    // 公众号功能管理
+    wxMangent,
+    wxMangentSearch,
     // 公众号菜单管理
     wxMenuList,
     wxMenuListChange,

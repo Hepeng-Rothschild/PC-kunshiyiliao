@@ -107,6 +107,8 @@
 <script>
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
+import aesUtils from "@/plugins/aes-utils.js";
+import store from "@/store";
 export default {
   data() {
     return {
@@ -119,7 +121,7 @@ export default {
       imgName: "",
       visible: false,
       uploadList: [],
-      id: sessionStorage.getItem("appid"),
+      id: "",
 
       uploadModal: true,
       uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
@@ -130,6 +132,9 @@ export default {
     };
   },
   created() {
+      let iv = store.state.iv;
+      let salt = store.state.salt;
+      this.id = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
     let breadList = [
       { path: "/index", title: "首页" },
       {
@@ -167,11 +172,12 @@ export default {
         bannerName: this.title,
         bannerUrl: this.lianjie,
         priority: this.isort,
-        id: this.$route.params.id,
+        id: this.$route.query.id,
         enable: Number(this.switch1),
         imageUrl: images,
         iclick: Number(this.switch2)
       };
+      console.log(params);
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
