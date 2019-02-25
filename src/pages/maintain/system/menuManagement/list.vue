@@ -20,12 +20,18 @@ export default {
         return {
             searchKey: "",
             columns: [
-                { title: "序号", key: "iNum", align: "center" },
-                { title: "菜单名称", key: "menuName", align: "center" },
+                { title: "序号", key: "iNum", align: "center", width: 100 },
+                {
+                    title: "菜单名称",
+                    key: "menuName",
+                    align: "center",
+                    width: 220
+                },
                 {
                     title: "前端路径",
                     key: "path",
                     align: "center",
+                    width: 300,
                     render: (h, params) => {
                         let path = params.row.path;
                         let text = "无";
@@ -44,17 +50,20 @@ export default {
                 {
                     title: "备注",
                     key: "remark",
-                    align: "center"
+                    align: "center",
+                    width: 250
                 },
                 {
                     title: "层级",
                     key: "level",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "类型",
                     key: "function",
                     align: "center",
+                    width: 120,
                     render: (h, params) => {
                         let func = params.row.function;
                         let text = "菜单";
@@ -74,6 +83,7 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
+                    width: 120,
                     render: (h, params) => {
                         let id = params.row.id;
                         let func = params.row.function;
@@ -87,19 +97,18 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                             //   公用方法
+                                            //   公用方法
                                             this.functionJS.queryNavgationTo(
                                                 this,
                                                 "/index/maintain/system/m_manage/ed",
                                                 {
                                                     id,
-                                                    func:func,
+                                                    func: func,
                                                     level,
                                                     pageNo: this.pageNo,
-                                                    searchKey:this.searchKey
+                                                    searchKey: this.searchKey
                                                 }
                                             );
-
                                         }
                                     }
                                 },
@@ -125,8 +134,10 @@ export default {
             pageNo: 1
         };
     },
-    created(){
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+    created() {
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -141,7 +152,9 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -156,15 +169,15 @@ export default {
             this.$axios
                 .post(api.operatemenupage, params)
                 .then(resp => {
-                    if(resp.data.success){
-                    this.count = resp.data.object.count;
-                    this.dataList = resp.data.object.list;
-                    for (let i = 0; i < this.dataList.length; i++) {
-                        let item = this.dataList[i];
-                        this.dataList[i].iNum = i + 1;
-                    }
-                    }else{
-                        this.$Message.info("不允许访问")
+                    if (resp.data.success) {
+                        this.count = resp.data.object.count;
+                        this.dataList = resp.data.object.list;
+                        for (let i = 0; i < this.dataList.length; i++) {
+                            let item = this.dataList[i];
+                            this.dataList[i].iNum = i + 1;
+                        }
+                    } else {
+                        this.$Message.info("不允许访问");
                     }
                 })
                 .catch(err => {
@@ -172,7 +185,7 @@ export default {
                 });
         },
         add() {
-             //   公用方法
+            //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/system/m_manage/ed",
@@ -180,7 +193,6 @@ export default {
                     pageNo: this.pageNo
                 }
             );
-
         }
     }
 };

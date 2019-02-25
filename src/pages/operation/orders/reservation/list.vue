@@ -90,20 +90,56 @@ export default {
             statusList: ["退诊", "取消", "履约", "爽约"],
 
             columns: [
-                { title: "编号", key: "iNum", align: "center" },
-                { title: "订单号", key: "orderNum", align: "center" },
-                { title: "医院", key: "hospitalName", align: "center" },
-                { title: "科室", key: "dept", align: "center" },
-                { title: "医生", key: "doctorName", align: "center" },
-                { title: "就诊人", key: "memberName", align: "center" },
-                { title: "预约电话", key: "telephone", align: "center" },
-                { title: "挂号费", key: "cost", align: "center" },
-                { title: "订单时间", key: "createTime", align: "center" },
-                { title: "预约时间", key: "appointmentTime", align: "center" },
+                { title: "编号", key: "iNum", align: "center", width: 60 },
+                {
+                    title: "订单号",
+                    key: "orderNum",
+                    align: "center",
+                    width: 140
+                },
+                {
+                    title: "医院",
+                    key: "hospitalName",
+                    align: "center",
+                    width: 140
+                },
+                { title: "科室", key: "dept", align: "center", width: 120 },
+                {
+                    title: "医生",
+                    key: "doctorName",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    title: "就诊人",
+                    key: "memberName",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    title: "预约电话",
+                    key: "telephone",
+                    align: "center",
+                    width: 120
+                },
+                { title: "挂号费", key: "cost", align: "center", width: 90 },
+                {
+                    title: "订单时间",
+                    key: "createTime",
+                    align: "center",
+                    width: 150
+                },
+                {
+                    title: "预约时间",
+                    key: "appointmentTime",
+                    align: "center",
+                    width: 140
+                },
                 {
                     title: "状态",
                     key: "status",
                     align: "center",
+                    width: 90,
                     render: (h, params) => {
                         let status = params.row.status;
                         let statusText;

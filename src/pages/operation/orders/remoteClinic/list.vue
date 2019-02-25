@@ -94,28 +94,37 @@ export default {
                     title: "订单号",
                     key: "orderNumber",
                     align: "center",
-                    width: 130
+                    width: 140
                 },
                 {
                     title: "远程医院",
                     key: "remoteHospitalName",
-                    align: "center"
+                    align: "center",
+                    width: 140
                 },
                 {
                     title: "远程科室",
                     key: "remoteDepartmentName",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
-                { title: "远程医生", key: "remoteDoctorName", align: "center" },
+                {
+                    title: "远程医生",
+                    key: "remoteDoctorName",
+                    align: "center",
+                    width: 100
+                },
                 {
                     title: "申请医生",
                     key: "applyDoctorName",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "就诊人",
                     key: "memberName",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "预约电话",
@@ -219,7 +228,7 @@ export default {
             : "";
         this.startDate = this.$route.query.startDate
             ? this.$route.query.startDate
-            : this.GetDate(-2);
+            : this.GetDate(-200);
         this.endDate = this.$route.query.endDate
             ? this.$route.query.endDate
             : this.GetDate(0);

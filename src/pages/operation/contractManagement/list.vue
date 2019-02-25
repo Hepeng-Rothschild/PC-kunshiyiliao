@@ -102,19 +102,50 @@ export default {
             pageSize: 10,
             count: 10,
             columns1: [
-                { title: "编号", key: "iNum", align: "center" },
-                { title: "患者姓名", key: "memberName", align: "center" },
-                { title: "性别", key: "gender", align: "center" },
-                { title: "身份证号", key: "idcard", align: "center" },
-                { title: "电话", key: "telephone", align: "center" },
-                { title: "签约医生", key: "doctorName", align: "center" },
-                { title: "签约状态", key: "status", align: "center" },
+                { title: "编号", key: "iNum", align: "center", width: 60 },
+                {
+                    title: "患者姓名",
+                    key: "memberName",
+                    align: "center",
+                    width: 180
+                },
+                { title: "性别", key: "gender", align: "center", width: 80 },
+                {
+                    title: "身份证号",
+                    key: "idcard",
+                    align: "center",
+                    width: 180
+                },
+                {
+                    title: "电话",
+                    key: "telephone",
+                    align: "center",
+                    width: 160
+                },
+                {
+                    title: "签约医生",
+                    key: "doctorName",
+                    align: "center",
+                    width: 140
+                },
+                {
+                    title: "签约状态",
+                    key: "status",
+                    align: "center",
+                    width: 140
+                },
                 {
                     title: "签约日期",
                     key: "contractStartTime",
-                    align: "center"
+                    align: "center",
+                    width: 180
                 },
-                { title: "签约机构", key: "hospitalName", align: "center" }
+                {
+                    title: "签约机构",
+                    key: "hospitalName",
+                    align: "center",
+                    width: 140
+                }
             ],
             data1: []
         };

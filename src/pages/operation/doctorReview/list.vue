@@ -80,11 +80,12 @@ export default {
                     }
                 },
                 { title: "姓名", key: "name", align: "center", width: 80 },
-                { title: "职称", key: "title", align: "center" },
+                { title: "职称", key: "title", align: "center", width: 100 },
                 {
                     title: "科室",
                     key: "deptType",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "所在医院",
@@ -95,27 +96,32 @@ export default {
                 {
                     title: "认证状态",
                     key: "authStatus",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "图文问诊",
                     key: "imginquiry",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "电话问诊",
                     key: "phoneinquiry",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "视频问诊",
                     key: "videoinquiry",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "家庭医生",
                     key: "homedoctor",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "操作",
@@ -137,7 +143,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                             //   公用方法
+                                            //   公用方法
                                             this.functionJS.queryNavgationTo(
                                                 this,
                                                 "/index/operation/doctorReview/review",
@@ -151,10 +157,9 @@ export default {
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus,
-                                                    isBack:2
+                                                    isBack: 2
                                                 }
                                             );
-
                                         }
                                     }
                                 },
@@ -169,7 +174,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                             //   公用方法
+                                            //   公用方法
                                             this.functionJS.queryNavgationTo(
                                                 this,
                                                 "/index/operation/doctorReview/edit",
@@ -180,13 +185,12 @@ export default {
                                                     city: this.city,
                                                     area: this.area,
                                                     hospital: this.hospital,
-                                                    isBack:2,
+                                                    isBack: 2,
                                                     searchKey: this.searchKey,
                                                     dictType: this.dictType,
                                                     authStatus: this.authStatus
                                                 }
                                             );
-
                                         }
                                     }
                                 },
@@ -223,7 +227,7 @@ export default {
             identity: null,
             identityCoding: null,
             ownArea: null,
-            isBack:1
+            isBack: 1
         };
     },
     components: {
@@ -242,7 +246,9 @@ export default {
         this.hospital = this.$route.query.hospital
             ? parseInt(this.$route.query.hospital)
             : null;
-        this.isBack = this.$route.query.isBack?parseInt(this.$route.query.isBack):1;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         this.searchKey = this.$route.query.searchKey
             ? this.$route.query.searchKey
             : "";

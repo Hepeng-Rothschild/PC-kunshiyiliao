@@ -38,16 +38,32 @@ export default {
 
             searchKey: "",
             columns: [
-                { title: "序号", key: "iNum", align: "center" },
-                { title: "医生姓名", key: "doctorName", align: "center" },
-                { title: "所在医院", key: "hospitalName", align: "center" },
-                { title: "科室", key: "deptType", align: "center" },
-                { title: "职称", key: "title", align: "center" },
-                { title: "联系电话", key: "phone", align: "center" },
+                { title: "序号", key: "iNum", align: "center", width: 60 },
+                {
+                    title: "医生姓名",
+                    key: "doctorName",
+                    align: "center",
+                    width: 140
+                },
+                {
+                    title: "所在医院",
+                    key: "hospitalName",
+                    align: "center",
+                    width: 220
+                },
+                { title: "科室", key: "deptType", align: "center", width: 140 },
+                { title: "职称", key: "title", align: "center", width: 140 },
+                {
+                    title: "联系电话",
+                    key: "phone",
+                    align: "center",
+                    width: 140
+                },
                 {
                     title: "远程门诊",
                     key: "remoteClinic",
                     align: "center",
+                    width: 140,
                     render: (h, params) => {
                         let iremote = params.row.iremote,
                             btnText = "已关闭",
@@ -80,6 +96,7 @@ export default {
                     title: "排序",
                     key: "sort",
                     align: "center",
+                    width: 80,
                     render: (h, params) => {
                         let id = params.row.doctorId,
                             sort = params.row.sort,
@@ -136,6 +153,7 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
+                    width: 140,
                     render: (h, params) => {
                         let id = params.row.doctorId;
                         return h(

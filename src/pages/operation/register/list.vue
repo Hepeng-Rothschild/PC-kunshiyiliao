@@ -75,12 +75,12 @@ export default {
             days: ["", "上午", "下午"],
             registertimesFlag: false,
             columns: [
-                { title: "序号", key: "iNum", align: "center" },
-                { title: "专家姓名", key: "doctorName", align: "center" },
+                { title: "序号", key: "iNum", align: "center", width: 60 },
+                { title: "专家姓名", key: "doctorName", align: "center", width: 140 },
                 {
                     title: "医院科室",
                     key: "hospitaldept",
-                    align: "center",
+                    align: "center", width: 200,
                     render: (h, params) => {
                         let item = params.row.hospitaldept;
                         return h("span", {
@@ -90,11 +90,11 @@ export default {
                         });
                     }
                 },
-                { title: "就诊地址", key: "address", align: "center" },
+                { title: "就诊地址", key: "address", align: "center", width: 200 },
                 {
                     title: "预约挂号门诊时间",
                     key: "registerTimes",
-                    align: "center",
+                    align: "center", width: 140,
                     render: (h, params) => {
                         let id = params.row.id;
                         let tmpTimes = params.row.registerTimes;
@@ -111,12 +111,12 @@ export default {
                         });
                     }
                 },
-                { title: "预约期限", key: "term", align: "center" },
-                { title: "备注信息", key: "remarks", align: "center" },
+                { title: "预约期限", key: "term", align: "center", width: 140 },
+                { title: "备注信息", key: "remarks", align: "center", width: 200 },
                 {
                     title: "操作",
                     key: "operate",
-                    align: "center",
+                    align: "center", width: 140,
                     render: (h, params) => {
                         let id = params.row.id;
                         return [
