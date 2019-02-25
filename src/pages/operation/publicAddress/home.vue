@@ -38,13 +38,14 @@ export default {
             pageSize: 10,
             count: 10,
             columns1: [
-                { title: "编号", key: "sum", align: "center" },
-                { title: "公众号", key: "nick", align: "center" },
-                { title: "Appid", key: "appid", align: "center" },
+                { title: "编号", key: "sum", align: "center", width: 100 },
+                { title: "公众号", key: "nick", align: "center", width: 250 },
+                { title: "Appid", key: "appid", align: "center", width: 500 },
                 {
                     title: "操作",
                     key: "iOperate",
                     align: "center",
+                    width: 300,
                     render: (h, params) => {
                         let id = params.row.appid;
                         return [

@@ -20,12 +20,18 @@ export default {
         return {
             searchKey: "",
             columns: [
-                { title: "序号", key: "iNum", align: "center" },
-                { title: "症状名称", key: "symptom", align: "center" },
+                { title: "序号", key: "iNum", align: "center", width: 100 },
+                {
+                    title: "症状名称",
+                    key: "symptom",
+                    align: "center",
+                    width: 300
+                },
                 {
                     title: "针对人群",
                     key: "gender",
                     align: "center",
+                    width: 300,
                     render: (h, params) => {
                         let gender = params.row.gender;
                         let peoples =
@@ -41,6 +47,7 @@ export default {
                     title: "状态",
                     key: "status",
                     align: "center",
+                    width: 300,
                     render: (h, params) => {
                         let status = params.row.status;
                         let statusText = status == 1 ? "正常" : "已删除";
@@ -55,6 +62,7 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
+                    width: 200,
                     render: (h, params) => {
                         let id = params.row.id;
                         let index = params.row._index;
@@ -70,17 +78,16 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                             //   公用方法
+                                            //   公用方法
                                             this.functionJS.queryNavgationTo(
                                                 this,
                                                 "/index/maintain/symptom/edit",
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
-                                                    searchKey:this.searchKey
+                                                    searchKey: this.searchKey
                                                 }
                                             );
-
                                         }
                                     }
                                 },
@@ -95,7 +102,11 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.changeStatus(id,index,status);
+                                            this.changeStatus(
+                                                id,
+                                                index,
+                                                status
+                                            );
                                         }
                                     }
                                 },
@@ -111,8 +122,10 @@ export default {
             pageNo: 1
         };
     },
-    created(){
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+    created() {
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -127,7 +140,9 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -142,15 +157,15 @@ export default {
             this.$axios
                 .post(api.getSymptomList, params)
                 .then(resp => {
-                    if(resp.data.success){
-                    this.count = resp.data.object.count;
-                    this.symptomList = resp.data.object.list;
-                    for (let i = 0; i < this.symptomList.length; i++) {
-                        let item = this.symptomList[i];
-                        this.symptomList[i].iNum = i + 1;
-                    }
-                    }else{
-                        this.$Message.info("不允许访问")
+                    if (resp.data.success) {
+                        this.count = resp.data.object.count;
+                        this.symptomList = resp.data.object.list;
+                        for (let i = 0; i < this.symptomList.length; i++) {
+                            let item = this.symptomList[i];
+                            this.symptomList[i].iNum = i + 1;
+                        }
+                    } else {
+                        this.$Message.info("不允许访问");
                     }
                 })
                 .catch(err => {
@@ -158,7 +173,7 @@ export default {
                 });
         },
         add() {
-             //   公用方法
+            //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/symptom/edit",
@@ -166,32 +181,33 @@ export default {
                     pageNo: this.pageNo
                 }
             );
-
         },
-        changeStatus(id,index,status) {
-            let params = {},tmpStatus,noticeMsg;
+        changeStatus(id, index, status) {
+            let params = {},
+                tmpStatus,
+                noticeMsg;
             params.id = id;
-            if(status == 1){
+            if (status == 1) {
                 params.status = "0";
                 tmpStatus = 0;
                 noticeMsg = "删除";
-            }else{
+            } else {
                 params.status = "1";
                 tmpStatus = 1;
                 noticeMsg = "恢复";
             }
             this.$axios
-            .post(api.changeSymptomStatus, params)
-            .then(resp => {
-                if(resp.data.success){
-                    this.symptomList[index].status = tmpStatus;
-                }else{
-                    this.$Message.info(noticeMsg+"失败，请重试")
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
+                .post(api.changeSymptomStatus, params)
+                .then(resp => {
+                    if (resp.data.success) {
+                        this.symptomList[index].status = tmpStatus;
+                    } else {
+                        this.$Message.info(noticeMsg + "失败，请重试");
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
     }
 };

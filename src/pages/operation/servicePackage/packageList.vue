@@ -140,6 +140,7 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
+                    width: 120,
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";

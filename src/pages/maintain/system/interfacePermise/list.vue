@@ -20,17 +20,19 @@ export default {
         return {
             searchKey: "",
             columns: [
-                { title: "序号", key: "iNum", align: "center" },
-                { title: "权限路径", key: "name", align: "center" },
+                { title: "序号", key: "iNum", align: "center", width: 100 },
+                { title: "权限路径", key: "name", align: "center", width: 450 },
                 {
                     title: "备注",
                     key: "remark",
-                    align: "center"
+                    align: "center",
+                    width: 400
                 },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
+                    width: 250,
                     render: (h, params) => {
                         let id = params.row.id;
                         return [
@@ -42,14 +44,14 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                             //   公用方法
+                                            //   公用方法
                                             this.functionJS.queryNavgationTo(
                                                 this,
                                                 "/index/maintain/system/iface_permise/ed",
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
-                                                    searchKey:this.searchKey
+                                                    searchKey: this.searchKey
                                                 }
                                             );
                                         }
@@ -67,8 +69,10 @@ export default {
             pageNo: 1
         };
     },
-    created(){
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
+    created() {
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -83,7 +87,9 @@ export default {
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        let pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
+        let pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
         //上来就加载第一页数据
         this.loadPage(pageNo);
     },
@@ -98,14 +104,14 @@ export default {
             this.$axios
                 .post(api.operateauthlist, params)
                 .then(resp => {
-                    if(resp.data.success){
-                    this.count = resp.data.object.count;
-                    this.dataList = resp.data.object.list;
-                    for (let i = 0; i < this.dataList.length; i++) {
-                        let item = this.dataList[i];
-                        this.dataList[i].iNum = i + 1;
-                    }
-                    }else{
+                    if (resp.data.success) {
+                        this.count = resp.data.object.count;
+                        this.dataList = resp.data.object.list;
+                        for (let i = 0; i < this.dataList.length; i++) {
+                            let item = this.dataList[i];
+                            this.dataList[i].iNum = i + 1;
+                        }
+                    } else {
                         this.$Message.info("不允许访问");
                     }
                 })
@@ -114,7 +120,7 @@ export default {
                 });
         },
         add() {
-             //   公用方法
+            //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/maintain/system/iface_permise/ed",
@@ -122,7 +128,6 @@ export default {
                     pageNo: this.pageNo
                 }
             );
-
         }
     }
 };
