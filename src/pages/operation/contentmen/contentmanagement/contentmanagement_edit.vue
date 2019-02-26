@@ -73,7 +73,7 @@
                         <Icon type="ios-camera" size="20"></Icon>
                     </div>
                 </Upload>
-                <Modal title="预览图片" v-model="visible">
+                <Modal title="预览图片" v-model="visible" footer-hide>
                     <img :src="preview" v-if="visible" style="width: 100%">
                 </Modal>
                 <p>添加标题首图</p>

@@ -71,7 +71,6 @@
 <script>
 // 医生注册信息
 import api from "@/api/commonApi";
-import { Page, Upload } from "iview";
 import fourLevelLinkage from "@/components/fourLevelLinkage";
 export default {
     data() {
@@ -181,8 +180,6 @@ export default {
         }
     },
     components: {
-        Page,
-        Upload,
         fourLevelLinkage
     }
 };

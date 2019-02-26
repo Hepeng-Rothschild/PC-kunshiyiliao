@@ -63,9 +63,9 @@
             <Icon type="ios-camera" size="20"></Icon>
           </div>
         </Upload>
-        <Modal title="预览图片" v-model="visible">
+        <Modal title="预览图片" v-model="visible" footer-hide>
           <img
-            :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'"
+            :src="fileBaseUrl + imgName"
             v-if="visible"
             style="width: 100%"
           >
@@ -223,6 +223,7 @@ export default {
     },
     handleView(name) {
       this.imgName = name;
+      console.log(name);
       this.visible = true;
     },
     handleRemove(file) {
