@@ -150,13 +150,10 @@ import api from "@/api/commonApi";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import vueEditor from "@/components/vueEditor";
 import code from "@/config/base.js";
-import { Select, Option } from "iview";
 export default {
     components: {
         tmpHeader,
-        vueEditor,
-        iSelect: Select,
-        iOption: Option
+        vueEditor
     },
     data() {
         return {

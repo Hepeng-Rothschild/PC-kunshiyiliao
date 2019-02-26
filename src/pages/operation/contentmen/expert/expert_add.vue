@@ -124,13 +124,10 @@
 </template>
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
   components: {
-    tmpHeader,
-    Select,
-    Option
+    tmpHeader
   },
   data() {
     return {

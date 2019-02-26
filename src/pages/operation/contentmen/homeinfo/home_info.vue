@@ -170,16 +170,13 @@
 <script>
 import vueEditor from "@/components/vueEditor";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Select, Option } from "iview";
 import code from "@/config/base.js";
 import cookie from "@/utils/cookie.js";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
-    vueEditor,
-    Select,
-    Option
+    vueEditor
   },
   data() {
     return {

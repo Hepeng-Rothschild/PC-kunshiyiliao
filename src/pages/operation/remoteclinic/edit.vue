@@ -160,13 +160,11 @@
 </template>
 <script>
 import tempHeader from "@/components/tmpHeader";
-import { Select, Option, TimePicker } from "iview";
+import { TimePicker } from "iview";
 import api from "@/api/commonApi";
 export default {
     components: {
         tempHeader,
-        Select,
-        Option,
         TimePicker
     },
     data() {

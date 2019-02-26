@@ -167,7 +167,7 @@
 <script>
 import api from "@/api/commonApi";
 import tempHeader from "@/components/tmpHeader";
-import { Avatar, Select, Option } from "iview";
+import { Avatar } from "iview";
 export default {
     data() {
         return {
@@ -313,7 +313,7 @@ export default {
         ];
         this.$emit("changeBreadList", breadList);
   },
-    components: { Avatar, Select, Option, tempHeader },
+    components: { Avatar, tempHeader },
     methods: {
         submit(name) {
             let tmpRegistertimes = [];

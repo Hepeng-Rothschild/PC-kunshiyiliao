@@ -312,6 +312,7 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         let tmpObj = resp.data.object;
+                        console.log(tmpObj)
                         this.count = tmpObj.count;
                         this.orderList = tmpObj.list;
                         for (let i = 0; i < this.orderList.length; i++) {

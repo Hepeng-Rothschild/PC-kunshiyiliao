@@ -56,12 +56,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { Select, Option } from "iview";
 export default {
-  components: {
-    Select,
-    Option
-  },
   data() {
     return {
       params: {

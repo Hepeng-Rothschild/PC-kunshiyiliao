@@ -82,6 +82,7 @@
             </Modal>
           </div>
         </div>
+        <!-- 用户身份 -->
         <div class="item">
           <div class="item-left">
             <span style="color:red;">*</span>
@@ -182,13 +183,7 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-
-import { Select, Option } from "iview";
 export default {
-  components: {
-    Select,
-    Option
-  },
   data() {
     return {
       switch1: true,

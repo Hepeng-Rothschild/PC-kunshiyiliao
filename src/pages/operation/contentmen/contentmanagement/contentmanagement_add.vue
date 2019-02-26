@@ -77,14 +77,14 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>栏目</span>
         </div>
-        <iSelect v-model="select" style="width:100px" clearable>
-          <iOption :value="1" :key="1">头条</iOption>
-          <iOption :value="2" :key="2">今日热点</iOption>
-          <iOption :value="3" :key="3">医学前沿</iOption>
-          <iOption :value="4" :key="4">宝宝喂养</iOption>
-          <iOption :value="5" :key="5">科普</iOption>
-          <iOption :value="6" :key="6">决策者说</iOption>
-        </iSelect>
+        <Select v-model="select" style="width:100px" clearable>
+          <Option :value="1" :key="1">头条</Option>
+          <Option :value="2" :key="2">今日热点</Option>
+          <Option :value="3" :key="3">医学前沿</Option>
+          <Option :value="4" :key="4">宝宝喂养</Option>
+          <Option :value="5" :key="5">科普</Option>
+          <Option :value="6" :key="6">决策者说</Option>
+        </Select>
       </div>
       <!-- 类型 -->
       <div class="lanmu">
@@ -92,9 +92,9 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>类型</span>
         </div>
-        <iSelect v-model="type" style="width:100px" clearable>
-          <iOption :value="1" :key="1">文章</iOption>
-        </iSelect>
+        <Select v-model="type" style="width:100px" clearable>
+          <Option :value="1" :key="1">文章</Option>
+        </Select>
       </div>
       <!--排序-->
       <div class="sort">
@@ -158,14 +158,11 @@
 
 <script>
 import vueEditor from "@/components/vueEditor";
-import { Select, Option } from "iview";
 import code from "@/config/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
-    vueEditor,
-    iSelect: Select,
-    iOption: Option
+    vueEditor
   },
   data() {
     return {

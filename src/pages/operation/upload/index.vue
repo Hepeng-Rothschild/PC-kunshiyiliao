@@ -45,7 +45,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { Avatar, Select, Option, Upload } from "iview";
+import { Avatar, Upload } from "iview";
 import code from "@/config/base.js";
 export default {
   data() {
