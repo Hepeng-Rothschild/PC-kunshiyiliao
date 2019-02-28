@@ -88,6 +88,13 @@ export default new Router({
 				operation.doctorContentCheckListClsEdit,
 				operation.doctorContentCheckListHotAdd,
 				operation.doctorContentCheckListHotEdit,
+				// 医生端讲堂 点播
+				operation.liveMantList,
+				operation.liveMantAdd,
+				operation.liveMantEdit,
+				// 讲堂审核
+				operation.physicianAudit,
+				operation.physicianAuditSee,
 				//订单管理
 				operation.ordersManagement,
 				operation.reservationOrders,

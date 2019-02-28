@@ -39,6 +39,7 @@ axios.interceptors.request.use(
 			tdata = aesUtils.encrypt(salt,iv,key,tdata);
 			config.data = {data:tdata};
 		}
+		
 		if (store.state.env == "production" || store.state.env == "test") {
 			let access_token = window.localStorage.getItem('access_token');
 			if (access_token != undefined)

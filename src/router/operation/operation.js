@@ -283,6 +283,62 @@ const versionManagementEdit = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-doctormanagement-versionmanagement' */"@/pages/operation/versionManagement/edit")
 }
+// 讲堂点播
+const liveMantList = {
+	// 直播管理
+	path: 'operation/liveMant/list',
+	name: 'liveMantList',
+	meta: {
+		index: 2,
+		title: '讲堂点播'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/liveMant/list")
+}
+const liveMantAdd = {
+	// 直播管理
+	path: 'operation/liveMant/liveAdd',
+	name: 'liveMantAdd',
+	meta: {
+		index: 3,
+		title: '点播添加'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/liveMant/liveAdd")
+}
+const liveMantEdit = {
+	// 直播管理
+	path: 'operation/liveMant/liveEdit',
+	name: 'liveMantEdit',
+	meta: {
+		index: 3,
+		title: '点播编辑'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/liveMant/liveEdit")
+}
+const physicianAudit = {
+	// 讲堂审核
+	path: 'operation/physicianAudit/list',
+	name: 'physicianAuditList',
+	meta: {
+		index: 2,
+		title: '讲堂审核'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/physicianAudit/list")
+}
+const physicianAuditSee = {
+	// 讲堂审核
+	path: 'operation/physicianAudit/search',
+	name: 'physicianAuditSearch',
+	meta: {
+		index: 3,
+		title: '讲堂查看'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/physicianAudit/search")
+}
 
 //患者端运营内容管理
 const patientOperation = {
@@ -987,7 +1043,14 @@ export default {
 	versionManagementList,
 	versionManagementAdd,
 	versionManagementEdit,
-	//服务包管理f
+	// 讲堂点播
+	liveMantList,
+	liveMantAdd,
+	liveMantEdit,
+	// 讲堂审核
+	physicianAudit,
+	physicianAuditSee,
+	//服务包管理
 	servicePackagePList,
 	servicePackagePAdd,
 	servicePackagePEdit,
