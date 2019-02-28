@@ -85,8 +85,8 @@
                                 <Icon type="ios-camera" size="20"></Icon>
                             </div>
                         </Upload>
-                        <Modal title="预览图片" v-model="visible">
-                            <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+                        <Modal title="预览图片" v-model="visible" footer-hide>
+                            <img :src="uploadList[0].url " v-if="visible" style="width: 100%">
                         </Modal>
                     </div>
                 </div>
@@ -106,6 +106,7 @@
             </RadioGroup>
           </div>
                 </div>-->
+                <!-- 用户身份 -->
                 <div class="pass">
                     <div class="left">
                         <span style="color:red;">*</span>
@@ -122,6 +123,7 @@
                         </Select>
                     </div>
                 </div>
+                <!-- 用户所属 -->
                 <div class="pass">
                     <div class="left">
                         <span style="color:red;">*</span>

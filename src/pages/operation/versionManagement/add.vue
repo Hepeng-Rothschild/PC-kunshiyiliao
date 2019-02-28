@@ -20,12 +20,6 @@
           <span class="info">版本号</span>
           <Input placeholder="请输入版本号" style="width: 300px" v-model="params.versionNumber"/>
         </div>
-        <!-- 版本唯一标识 -->
-        <!--  <div class="item">
-          <span style="color:red;">*</span>
-          <span class="info">唯一标识</span>
-          <Input placeholder="请输入版本唯一标识" style="width: 300px" v-model="params.id"/>
-        </div>-->
         <!-- 版本类型 -->
         <div class="item">
           <span style="color:red;">*</span>
@@ -56,12 +50,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { Select, Option } from "iview";
 export default {
-  components: {
-    Select,
-    Option
-  },
   data() {
     return {
       params: {

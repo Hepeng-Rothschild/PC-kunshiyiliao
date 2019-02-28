@@ -77,12 +77,10 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
-import { Select, Option, Transfer } from "iview";
+import { Transfer } from "iview";
 export default {
   components: {
     tmpHeader,
-    Select,
-    Option,
     Transfer
   },
   data() {

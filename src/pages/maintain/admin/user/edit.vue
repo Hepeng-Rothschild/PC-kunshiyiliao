@@ -77,11 +77,12 @@
                 <Icon type="ios-camera" size="20"></Icon>
               </div>
             </Upload>
-            <Modal title="预览图片" v-model="visible">
+            <Modal title="预览图片" v-model="visible" footer-hide>
               <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
             </Modal>
           </div>
         </div>
+        <!-- 用户身份 -->
         <div class="item">
           <div class="item-left">
             <span style="color:red;">*</span>
@@ -182,13 +183,7 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-
-import { Select, Option } from "iview";
 export default {
-  components: {
-    Select,
-    Option
-  },
   data() {
     return {
       switch1: true,

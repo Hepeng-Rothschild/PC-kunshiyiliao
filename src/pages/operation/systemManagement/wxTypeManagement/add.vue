@@ -55,13 +55,8 @@
   </div>
 </template>
 <script>
-import {  Select, Option } from "iview";
 import api from "@/api/commonApi";
 export default {
-  components: {
-    Select,
-    Option
-  },
   data() {
     return {
       shortcut: true,

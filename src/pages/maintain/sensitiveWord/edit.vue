@@ -118,7 +118,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { Avatar, Select, Option, Switch } from "iview";
+import { Avatar, Switch } from "iview";
 export default {
     data() {
         const validateScore = (rule, value, callback) => {

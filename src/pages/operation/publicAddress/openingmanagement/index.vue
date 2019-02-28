@@ -14,7 +14,7 @@
             </Col>
             <Col span="14">&nbsp;</Col>
         </Row>
-        
+
         <Row type="flex" justify="space-around" class="code-row-bg">
             <Col span="4">
                 <Button type="primary" @click="save">保存</Button>
@@ -33,7 +33,7 @@ export default {
     },
     data() {
         return {
-            ocrStatus: true,
+            ocrStatus: false,
             appid: ""
         };
     },

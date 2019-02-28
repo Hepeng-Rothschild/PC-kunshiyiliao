@@ -63,8 +63,8 @@
                         >下午:{{ item.intervalTimePmStart + '-' +item.intervalTimeAmEnd }}</p>
                     </td>
                     <td>{{ item.cycleDay }}</td>
-                    <td v-show="item.iremote==1">启用</td>
-                    <td style="color:red;" v-show="item.iremote==0">停用</td>
+                    <td v-if = "item.iremote == 1">启用</td>
+                    <td style="color:red;" v-else>停用</td>
                     <td style="cursor:pointer;" @click="edit(item)">编辑</td>
                 </tr>
             </table>
@@ -297,6 +297,7 @@ export default {
                 .post(api.getProvince)
                 .then(resp => {
                     this.cityList = resp.data.object;
+                    
                 })
                 .catch(err => {
                     console.log(err);

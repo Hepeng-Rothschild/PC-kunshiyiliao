@@ -21,7 +21,7 @@
     </div>
 </template>
 <script>
-import { Select, Option, DatePicker } from "iview";
+import {  DatePicker } from "iview";
 import api from "@/api/commonApi";
 export default {
     data() {
@@ -46,10 +46,6 @@ export default {
             pageSize: 10,
             pageNo: 1
         };
-    },
-    components: {
-        Select,
-        Option
     },
     created() {},
     mounted() {

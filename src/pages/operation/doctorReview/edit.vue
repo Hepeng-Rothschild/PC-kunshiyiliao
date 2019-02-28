@@ -207,7 +207,7 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
-import { Avatar, Select, Option } from "iview";
+import { Avatar } from "iview";
 export default {
     data() {
         return {
@@ -371,7 +371,7 @@ export default {
         ];
         this.$emit("changeBreadList", breadList);
     },
-    components: { Avatar, Select, Option },
+    components: { Avatar },
     methods: {
         submit(name) {
             this.$refs[name].validate(valid => {

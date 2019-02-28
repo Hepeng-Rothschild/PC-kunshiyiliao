@@ -43,7 +43,7 @@
             <Icon type="ios-camera" size="20"></Icon>
           </div>
         </Upload>
-        <Modal title="预览图片" v-model="visible">
+        <Modal title="预览图片" v-model="visible" footer-hide>
           <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
         </Modal>
         <span>添加图片</span>
@@ -112,7 +112,7 @@
         <span>互联网医院公众号</span>
         <Select v-model="y_gzh" style="width:150px;" :disabled="status" >
           <Option :value="0">请选择</Option>
-          <Option v-for="item,index in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
+          <Option v-for="item in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
         </Select>
       </div>
       <!--是否加入医院联盟-->
@@ -170,16 +170,13 @@
 <script>
 import vueEditor from "@/components/vueEditor";
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import { Select, Option } from "iview";
 import code from "@/config/base.js";
 import cookie from "@/utils/cookie.js";
 import api from "@/api/commonApi";
 export default {
   components: {
     tmpHeader,
-    vueEditor,
-    Select,
-    Option
+    vueEditor
   },
   data() {
     return {

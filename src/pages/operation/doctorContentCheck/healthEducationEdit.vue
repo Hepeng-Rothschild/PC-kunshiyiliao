@@ -163,14 +163,12 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { Avatar, Select, Option } from "iview";
+import { Avatar } from "iview";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
 export default {
     components: {
         Avatar,
-        Select,
-        Option,
         vueEditor
     },
     data() {

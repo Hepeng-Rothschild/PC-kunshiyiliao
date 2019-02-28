@@ -44,7 +44,7 @@
                 </div>
                 <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
                     <Option
-                        v-for="item,index in searchTypeList"
+                        v-for="(item,index) in searchTypeList"
                         :value="item.id"
                         :key="item.id"
                     >{{item.name}}</Option>
@@ -194,13 +194,11 @@
 </template>
 <script>
 import tempHeader from "@/components/tmpHeader";
-import { Select, Option, TimePicker } from "iview";
+import { TimePicker } from "iview";
 import api from "@/api/commonApi";
 export default {
     components: {
         tempHeader,
-        Select,
-        Option,
         TimePicker
     },
     data() {
