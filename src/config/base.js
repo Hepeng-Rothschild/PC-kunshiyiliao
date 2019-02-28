@@ -13,6 +13,7 @@ export default {
         reviewAvatar:102,//医生审核认证头像
         wxBanner:9989,//微信首页banner图
         userImage:9988,// 9988运维端用户头像上传
-        onDemand:9986
+        onDemand:9986,
+        lectureDemand:9987// 9988运维端用户头像上传
     }
 }

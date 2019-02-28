@@ -110,6 +110,7 @@ const DoctorRemoteClinicTypeAdd  = '/operateapi/outpatientinsert'   //新增远�
 const DoctorRemoteClinicTypeSearch = '/operateapi/outpatientquerybyid'  //查找远程门诊详情
 const DoctorRemoteClinicTypeEdit ='/operateapi/outpatientupdate'   //修改远程门诊类型
 const remotedoctorupdateremotestatus ='/operateapi/remotedoctorupdateremotestatus'   //修改医生是否开启远程门诊
+const doctorupdatedoctorsort ='/operateapi/doctorupdatedoctorsort'   //修改医生排序
 
 const DoctorListEdit ='/operateapi/remotedoctorupdateremotestatus' // 医生排班列表修改 
 
@@ -204,6 +205,8 @@ const wxTemplateSave = '/operateapi/wxapptemplateupdatetemplate' //公众号模�
 
 const wxMenuList = '/operateapi/wxappmenuquerymenulist' // 公众号菜单管理列表
 const wxMenuListChange = '/operateapi/wxappmenuupdatebatchorinsertbatch' //公众号菜单管理列表修改
+const wxMangent = '/operateapi/wxappmanageupdateocrstatus'  //公众号功能管理
+const wxMangentSearch ='/operateapi/wxappmanageselectbyappid' //公众号功能管理查询
 
 // 系统管理//公众号菜单管理
 const systemManagement = '/operateapi/wxappmenuselectmenulist' //系统管理菜单列表
@@ -234,6 +237,9 @@ const adminDetail = '/operateapi/operateuserupdate' //账号管理修改用户
 const adminManage ='/operateapi/operateuserinsertusermenu' //账号管理用户权限
 const adminSearch = '/operateapi/operateuserfindmenubyuserid'//查询用户权限管理详情
 const adminManageChange='/operateapi/operateuserupdateusermenu' //修改用户权限管理
+//敏感词
+const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
+const sensitiveUpdate='/operateapi/sensitive/update' //修改
 
 export default {
     login,
@@ -338,6 +344,7 @@ export default {
     searchRoomSelectAdd,
     searchCurrentRoom,
     remotedoctorupdateremotestatus,
+    doctorupdatedoctorsort,
     // 远程门诊类型
     DoctorRemoteClinicTypeList,
     DoctorRemoteClinicTypeAdd,
@@ -351,8 +358,12 @@ export default {
     wxBannerAdd,
     wxBannerDetail,
     wxBannerEdit,
+    // 公众号模板管理
     wxTemplateList,
     wxTemplateSave,
+    // 公众号功能管理
+    wxMangent,
+    wxMangentSearch,
     // 公众号菜单管理
     wxMenuList,
     wxMenuListChange,
@@ -459,4 +470,7 @@ export default {
     adminManage,
     adminSearch,
     adminManageChange,
+    //敏感词
+    sensitiveSelectSensitive,
+    sensitiveUpdate
 }
