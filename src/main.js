@@ -6,8 +6,6 @@ import App from './App';
 import router from './router';
 import store from './store';
 import VueI18n from 'vue-i18n';
-import cookie from './utils/cookie';
-import commonApi from './api/commonApi';
 // 全局公共样式
 import 'iview/dist/styles/iview.css';
 import 'iview/dist/styles/fonts/ionicons.eot';
@@ -16,21 +14,10 @@ import 'iview/dist/styles/fonts/ionicons.ttf';
 import 'iview/dist/styles/fonts/ionicons.woff';
 import { Button, Select, Option, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch } from 'iview';
 import './assets/css/base.css';
-/* 分片上传大文件JQ插件，暂时没用 */
-// require('@/plugins/jquery.fcup.js');
-/* rsa非对称加密 vue依赖版 */
-import JsEncrypt from 'jsencrypt/bin/jsencrypt'
-Vue.prototype.$jsEncrypt = JsEncrypt;
-/* 汉字转拼音 */
-require('@/plugins/py.js');
-/* RSA非对称加密 -- 强哥版 */
-require('@/plugins/security.js');
 import axios from './plugins/http';
 /* aes 对称加密 */
 import aesUtils from '@/plugins/aes-utils.js';
 Vue.prototype.aesUtils = aesUtils;
-/* base64字符串编码解码 */
-require('@/plugins/base64.js');
 //注册全局过滤器
 import * as filters from "@/plugins/filter.js";
 Object.keys(filters).forEach(key => {
@@ -67,9 +54,6 @@ router.beforeEach((to, from, next) => {
 		next();
 	}
 });
-// const SSOHEART = require('./plugins/sso.heart-1.0.1.min.js');
-// 设置心跳，需要和迎双确定参数
-// SSOHEART.ssoHeart.init('http://sso.vipkid.work:8080/cas');
 
 // Ajax
 Vue.use({
@@ -99,6 +83,16 @@ Vue.component("iSwitch", Switch);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
 Vue.prototype.$Modal = Modal;
+
+// 第一个是videoJs的样式，后一个是vue-video-player的样式，因为考虑到我其他业务组件可能也会用到视频播放，所以就放在了main.js内
+require("video.js/dist/video-js.css");
+require("vue-video-player/src/custom-theme.css");
+import VideoPlayer from "vue-video-player";
+Vue.use(VideoPlayer)
+
+//大文件分片上传
+import uploader from 'vue-simple-uploader';
+Vue.use(uploader);
 
 // 国际化
 Vue.use(VueI18n);

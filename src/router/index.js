@@ -4,7 +4,6 @@ import operation from './operation/operation';
 import maintain from './maintain/maintain';
 import statistics from './statistics/statistics';
 import supervision from './supervision/supervision';
-Vue.use(Router);
 
 export default new Router({
 	mode: 'hash',

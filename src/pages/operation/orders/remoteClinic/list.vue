@@ -228,7 +228,7 @@ export default {
             : "";
         this.startDate = this.$route.query.startDate
             ? this.$route.query.startDate
-            : this.GetDate(-200);
+            : this.GetDate(-2);
         this.endDate = this.$route.query.endDate
             ? this.$route.query.endDate
             : this.GetDate(0);

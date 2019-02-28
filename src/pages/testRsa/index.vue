@@ -1,74 +1,36 @@
 <template>
     <div>
-        <fourLevelLinkage
-                    @changeProvince="changeProvince"
-                    @changeCity="changeCity"
-                    @changeArea="changeArea"
-                    @changeHospital="changeHospital"
-                    :province="province"
-                    :city="city"
-                    :area="area"
-                    :hospital="hospital"
-                    :isBack="isBack"
-                ></fourLevelLinkage>
+        <!-- <play-video :src="src" :poster="poster" :videoStyle="videoStyle"></play-video> -->
+        <button @click="upload">上传</button>
+        <cusUploader></cusUploader>
     </div>
 </template>
 <script>
-
-import fourLevelLinkage from "@/components/fourLevelLinkage";
-import { ext } from "@/plugins/encrypt.js";
-// import CryptoJS from 'crypto-js';
+import videoPlay from "@/components/videoPlayer";
+import cusUploader from "@/components/uploader";
+import Bus from "@/plugins/bus.js";
 export default {
     data() {
         return {
-            province: null,
-            city: null,
-            area: null,
-            hospital: null,
-            isBack:1
+            src:
+                "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/coninq/video/01_%E5%B0%9A%E5%AD%A6%E5%A0%82_%E8%82%96%E6%96%8C_hadoop_hdfs1%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F01.mp4",
+            poster: "",
+            videoStyle: { width: "400px", height: "300px" }
         };
     },
-    created() {
-        this.province = this.$route.query.province
-            ? parseInt(this.$route.query.province)
-            : null;
-        this.city = this.$route.query.city
-            ? parseInt(this.$route.query.city)
-            : null;
-        this.area = this.$route.query.area
-            ? parseInt(this.$route.query.area)
-            : null;
-        this.hospital = this.$route.query.hospital
-            ? parseInt(this.$route.query.hospital)
-            : null;
-        this.searchKey = this.$route.query.searchKey
-            ? this.$route.query.searchKey
-            : "";
-        this.dictType = this.$route.query.dictType
-            ? this.$route.query.dictType
-            : "";
-        this.authStatus =
-            this.$route.query.authStatus == null
-                ? null
-                : parseInt(this.$route.query.authStatus);
-        this.isBack = this.$route.query.isBack?parseInt(this.$route.query.isBack):1;
-    },
+    created() {},
     components: {
-        fourLevelLinkage
+        "play-video": videoPlay,
+        cusUploader
     },
-    methods:{
-        changeProvince(val) {
-            this.province = val;
-        },
-        changeCity(val) {
-            this.city = val;
-        },
-        changeArea(val) {
-            this.area = val;
-        },
-        changeHospital(val) {
-            this.hospital = val;
-        },
+    methods: {
+        upload() {
+            console.log("触发上传");
+            // 打开文件选择框
+            Bus.$emit("openUploader", {
+                id: "1111" // 传入的参数
+            });
+        }
     }
 };
 </script>
