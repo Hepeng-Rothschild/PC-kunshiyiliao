@@ -1,9 +1,14 @@
 <template>
-    <Menu v-if="lists.length>0" @on-select="changeTop" class="topMenu" mode="horizontal" :theme="theme1" :active-name="lists[0].id">
-        <MenuItem v-for="item in lists"  :key="item.id" :name="item.id">
-            {{item.name}}
-        </MenuItem>
-        <!-- <MenuItem name="1">
+  <Menu
+    v-if="topMenuLists.length>0"
+    @on-select="changeTop"
+    class="topMenu"
+    mode="horizontal"
+    :theme="theme1"
+    :active-name="topActiveName"
+  >
+    <MenuItem v-for="item in topMenuLists" :key="item.id" :name="item.id">{{item.name}}</MenuItem>
+    <!-- <MenuItem name="1">
             运营平台
         </MenuItem>
         <MenuItem name="2">
@@ -14,52 +19,97 @@
         </MenuItem>
         <MenuItem name="4">
             监管平台
-        </MenuItem> -->
-    </Menu>
+    </MenuItem>-->
+    <div class="logout">
+      <div class="avatar">
+        <img :src="userIcon || './static/img/heicon.jpg'" @click="edit" style="cursor:pointer;">
+      </div>
+      <div class="info">
+        <span>{{username || "喜大普奔"}}</span>
+        <br>
+        <a href="javascript:void(0);" @click="logout">退出</a>
+      </div>
+    </div>
+  </Menu>
 </template>
 <script>
-import {Menu,MenuItem} from "iview";
+import { Menu, MenuItem } from "iview";
+import cookie from "./../utils/cookie.js";
+import aesUtils from "@/plugins/aes-utils.js";
 export default {
-    data(){
-        return {
-            theme1: 'light',
-            lists:[],
-        }
+  data() {
+    return {
+      theme1: "light",
+      username: "",
+      userIcon: "",
+      operateUserId: ""
+    };
+  },
+  props: ["topActiveName", "topMenuLists"],
+  components: {
+    Menu,
+    MenuItem
+  },
+  created() {
+    this.username = cookie.getCookie("username");
+    this.userIcon = cookie.getCookie("userIcon");
+    this.operateUserId = cookie.getCookie("operateUserId");
+    // this.$store.commit("setTopMenuList");
+    // this.lists = this.$store.state.topMenuList;
+    // this.$store.commit("setLeftMenuList",this.topActiveName);
+  },
+  methods: {
+    changeTop(name) {
+      this.$store.commit("setLeftMenuList", name);
+      // 公用方法
+       this.functionJS.queryNavgationTo(this, '/index');
     },
-    components:{
-        Menu,
-        MenuItem
+    logout() {
+      window.localStorage.removeItem("access_token");
+      cookie.delCookie("username");
+      cookie.delCookie("userIcon");
+      cookie.delCookie("randmId");
+      cookie.delCookie("operateUserId");
+      cookie.delCookie("idtt");
+      cookie.delCookie("idttC");
+      cookie.delCookie("access_user");
+      cookie.delCookie("ownArea");
+      // 公用方法
+      this.functionJS.queryNavgationTo(this, '/login');
     },
-    created(){
-        this.$store.commit("setTopMenuList");
-        this.lists = this.$store.state.topMenuList;
-        this.$store.commit("setLeftMenuList");
-    },
-    methods:{
-        changeTop(name){
-            this.$store.commit("setLeftMenuList",name);
-            switch(name){
-                case 1:
-                    this.$router.push("/index/operation/index");
-                    break;
-                case 2:
-                    this.$router.push("/index/maintain/index");
-                    break;
-                case 3:
-                    this.$router.push("/index/statistics/index");
-                    break;
-                case 4:
-                    this.$router.push("/index/supervision/index");
-                    break;
-                default :
-                    this.$router.push("/index/operation/index");
-            }
-        }
+    edit() {
+      // 公用方法
+      this.functionJS.queryNavgationTo(this, '/index/maintain/admin/user/edit',{
+        id:this.operateUserId
+      });
     }
-}
+  }
+};
 </script>
 <style lang="less" scoped>
-    .topMenu{
-		margin-top: 10px !important;
-	}
+.topMenu {
+  margin-top: 10px !important;
+  position: relative;
+  .logout {
+    display: inline-flex;
+    justify-content: start;
+    position: absolute;
+    right: 30px;
+    width: 150px;
+    height: 50px;
+    .avatar {
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+    }
+    .info {
+      line-height: 22px;
+      position: relative;
+      top: 10px;
+      left: 10px;
+    }
+  }
+}
 </style>
