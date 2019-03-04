@@ -439,7 +439,6 @@ export default {
                             item.videoSource =
                             item.videoSource == 1 ? "网站" : "多媒体";
                         });
-                        ret
                         this.count = resp.data.object.count;
                         this.data1 = ret;
                     } else {

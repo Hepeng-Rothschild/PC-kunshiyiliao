@@ -234,7 +234,9 @@ export default {
                 // 审核未通过原因
                 reason:""
             },
+            // 栏目数据
             liveType: [],
+            // 视频上传方式
             videoList: [
                 {
                     id: 1,
@@ -245,6 +247,7 @@ export default {
                     name: "多媒体"
                 }
             ],
+            // 编辑点播ID
             id:""
         };
     },
@@ -276,27 +279,27 @@ export default {
                 let ret = res.data.object;
                 // 点播状态
                 this.live.playStatus = ret.playStatus
-                // 医生信息
+                // // 医生信息
                 this.live.doctorName = ret.doctorName
                 this.live.doctorId = ret.doctorId
-                // 价格
+                // // 价格
                 this.live.originPrice = ret.originalPrice
                 this.live.discountPrice = ret.discountPrice;
-                // 路径
+                // // 路径
                 this.live.filePath = ret.filePath
-                // 播放地址
+                // // 播放地址
                 this.live.playbackAddress = ret.playbackAddress
-                // 标题
+                // // 标题
                 this.live.title = ret.title
-                // 课堂介绍
+                // // 课堂介绍
                 this.live.introduce = ret.introduce
                 // 来源
                 this.live.videoSource = ret.videoSource
-                // 推广力度
+                // // 推广力度
                 this.live.fictitiousNum = ret.fictitiousNum
-                // 课堂类型
+                // // 课堂类型
                 this.live.modalDataVal = ret.type
-                // 审核未通过原因
+                // // 审核未通过原因
                 this.live.reason = ret.reason
                 // 图片
                 if (ret.headImg) {

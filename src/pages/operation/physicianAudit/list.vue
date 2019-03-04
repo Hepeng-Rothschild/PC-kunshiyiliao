@@ -146,7 +146,6 @@ export default {
         },
         // 加载点播数据
         liveData(params) {
-            console.log(params)
             this.$axios
                 .post(api.lecturedemandpagebyexaminelist, {
                     pageNo: params.pageNo,

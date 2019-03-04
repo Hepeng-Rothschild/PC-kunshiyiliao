@@ -125,12 +125,13 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                <!-- <Input
-                    v-model="live.playbackAddress"
-                    placeholder="请输入播放地址"
-                    clearable
-                    style="width: 200px"
-                />-->
+
+                <div class ='videoCss'>
+                    <!-- <video>
+                        <source src='https://ydjk-dev.oss-cn-beijing.aliyuncs.com/coninq/video/01_%E5%B0%9A%E5%AD%A6%E5%A0%82_%E8%82%96%E6%96%8C_hadoop_hdfs1%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F01.mp4'></source>
+                    </video> -->
+                </div>
+
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
@@ -141,6 +142,13 @@
                     clearable
                     style="width: 200px"
                 />
+            </div>
+            <!-- 课堂类型 -->
+            <div class="live">
+                <span class="i">课堂类型：</span>
+                <Select v-model="live.modalDataVal" style="width:100px">
+                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                </Select>
             </div>
             <!-- 课堂介绍 -->
             <div class="live">
@@ -154,13 +162,6 @@
                         :height='300'
                     ></vueEditor>
                 </div>
-            </div>
-            <!-- 课堂类型 -->
-            <div class="live">
-                <span class="i">课堂类型：</span>
-                <Select v-model="live.modalDataVal" style="width:100px">
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                </Select>
             </div>
         </div>
         <!-- 保存 -->
@@ -232,7 +233,9 @@ export default {
                 // 课堂类型
                 modalDataVal: ""
             },
+            // 栏目数据
             liveType: [],
+            // 视频上传方式
             videoList: [
                 {
                     id: 1,
@@ -316,6 +319,9 @@ export default {
                 !Boolean(this.live.discountPrice)
             ) {
                 this.$Message.error("请检查原始价格与折后价格是否填写完整");
+                return "";
+            } else if (this.live.doctorId=='') {
+                this.$Message.error("请选择主讲人");
                 return "";
             }
             let params = {
@@ -409,6 +415,7 @@ export default {
             });
         },
         handleBeforeUpload(file) {
+            console.log(file)
             const check = this.uploadList.length < 1;
             if (!check) {
                 this.$Message.info("只能上传一张图片");
@@ -475,6 +482,14 @@ export default {
             display: inline-block;
             min-width: 80px;
             margin-right: 30px;
+        }
+        .videoCss{
+            width:100px;
+            height:60px;
+            video{
+                width:100%;
+                height:100%;
+            }
         }
     }
 }
