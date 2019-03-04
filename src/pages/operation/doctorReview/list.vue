@@ -320,6 +320,7 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.count = resp.data.object.count;
+                        console.log(resp.data)
                         this.doctorList = resp.data.object.list;
                         for (let i = 0; i < this.doctorList.length; i++) {
                             let item = this.doctorList[i];

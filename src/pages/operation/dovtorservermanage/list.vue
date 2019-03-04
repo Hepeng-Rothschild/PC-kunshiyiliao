@@ -268,6 +268,7 @@ export default {
                     if (resp.data.success) {
                         this.count = resp.data.object.count;
                         this.doctorList = resp.data.object.list;
+                        console.log(this.doctorList)
                         for (let i = 0; i < this.doctorList.length; i++) {
                             this.doctorList[i].iNum = i + 1;
                             this.doctorList[i].sortStatus = false;
