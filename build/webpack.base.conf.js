@@ -84,6 +84,8 @@ module.exports = {
     'vuex': 'Vuex',
     'axios': 'axios',
     'iview': 'iview',
-    SparkMD5: 'spark-md5'
+    'spark-md5': 'SparkMD5',
+    'crypto-js': 'CryptoJS',
+    'tinymce': 'tinymce',
   }
 }
