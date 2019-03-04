@@ -1,14 +1,14 @@
 <template>
     <div>
-        <!-- <play-video :src="src" :poster="poster" :videoStyle="videoStyle"></play-video> -->
-        <button @click="upload">上传</button>
-        <cusUploader></cusUploader>
+        <!-- <video-play :src="src" :poster="poster" :videoStyle="videoStyle"></video-play> -->
+        <!-- <button @click="upload">上传</button> -->
+        <globalUploader :src="fileBaseUrl+src" @getUploadUrl="getUploadUrl"></globalUploader>
     </div>
 </template>
 <script>
 import videoPlay from "@/components/videoPlayer";
-import cusUploader from "@/components/uploader";
-import Bus from "@/plugins/bus.js";
+import globalUploader from '@/components/globalUploader'
+// import Bus from "@/plugins/bus.js";
 export default {
     data() {
         return {
@@ -20,16 +20,14 @@ export default {
     },
     created() {},
     components: {
-        "play-video": videoPlay,
-        cusUploader
+        videoPlay,
+        globalUploader
     },
     methods: {
-        upload() {
-            console.log("触发上传");
-            // 打开文件选择框
-            Bus.$emit("openUploader", {
-                id: "1111" // 传入的参数
-            });
+        //获取上传的url
+        getUploadUrl(url){
+            console.log("传递过来的url",url);
+            this.src = url;
         }
     }
 };

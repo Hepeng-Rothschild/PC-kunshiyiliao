@@ -1,7 +1,6 @@
 <template>
 	<div id="app">
 		<router-view></router-view>
-		<global-uploader></global-uploader>
 	</div>
 </template>
 
@@ -9,7 +8,6 @@
 import api from "./api/commonApi.js";
 import cookie from "./utils/cookie";
 import aesUtils from './plugins/aes-utils.js';
-import globalUploader from './components/globalUploader'
 import Vue from 'vue';
 export default {
 	name: 'App',
@@ -48,7 +46,6 @@ export default {
 		// }
 	},
 	components:{
-		globalUploader
 	}
 };
 </script>

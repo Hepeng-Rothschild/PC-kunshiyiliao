@@ -251,7 +251,6 @@ const lecturedemandselectbyid = '/operateapi/lecturedemandselectbyid' //查询�
 const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详情
 const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
 const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
-
 export default {
     login,
     //字典
