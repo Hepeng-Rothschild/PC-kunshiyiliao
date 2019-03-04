@@ -240,6 +240,8 @@ const adminManageChange='/operateapi/operateuserupdateusermenu' //修改用户�
 //敏感词
 const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
 const sensitiveUpdate='/operateapi/sensitive/update' //修改
+//大文件分片上传接口
+const lecturedemanduploadfile='/operateapi/lecturedemanduploadfile' //大文件分片上传接口
 
 export default {
     login,
@@ -472,5 +474,7 @@ export default {
     adminManageChange,
     //敏感词
     sensitiveSelectSensitive,
-    sensitiveUpdate
+    sensitiveUpdate,
+    //大文件分片上传
+    lecturedemanduploadfile
 }

@@ -152,7 +152,7 @@
         </Row>
         <Button type="primary" v-if="showReviewBtn" @click="reviewPass">审核通过</Button>
         <Button type="primary" v-if="showReviewBtn" @click="reviewPassNo">审核不通过</Button>
-        <Button type="primary" @click="reback">返回</Button>
+        <Button type="default" @click="reback">返回</Button>
         <Modal
             title="审核提示："
             @on-ok="ok"

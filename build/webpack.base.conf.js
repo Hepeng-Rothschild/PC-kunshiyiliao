@@ -83,6 +83,7 @@ module.exports = {
     'vue-router': 'VueRouter',
     'vuex': 'Vuex',
     'axios': 'axios',
-    'iview': 'iview'
+    'iview': 'iview',
+    SparkMD5: 'spark-md5'
   }
 }
