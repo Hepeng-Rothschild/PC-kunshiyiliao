@@ -125,7 +125,7 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                    <bigUploadFile :src="fileBaseUrl+src" @getUrl="getUploadUrl"></bigUploadFile>
+                    <bigUploadFile :src="live.filePath" @getUrl="getUploadUrl"></bigUploadFile>
                 <p>如需更改视频需再次上传文件即可覆盖</p>
             </div>
             <!-- 文件路径 -->
