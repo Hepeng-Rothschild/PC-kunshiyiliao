@@ -39,6 +39,11 @@
                 <span class="i">推广力度：</span>
                 <b class="weight">{{ live.fictitiousNum }}</b>
             </div>
+            <!-- 课堂类型 -->
+            <div class="live">
+                <span class="i">课堂类型：</span>
+                <b class = 'weight'>{{ live.modalDataVal }}</b>
+            </div>
             <!-- 播放来源 -->
             <div class="live">
                 <span class="i">播放来源：</span>
@@ -54,15 +59,7 @@
                 <span class="i">播放地址</span>
                 <video-play :src="live.filePath" :poster="poster" :videoStyle="videoStyle"></video-play>
             </div>
-            <!-- 课堂类型 -->
-            <div class="live">
-                <span class="i">课堂类型：</span>
-                <!-- <Select v-model="live.modalDataVal" style="width:100px" disabled>
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                </Select> -->
-                <b class = 'weight'>{{ live.modalDataVal }}</b>
-                <!--  -->
-            </div>
+            
             <!-- 课堂介绍 -->
             <div class="live">
                 <span class="i">课堂介绍</span>

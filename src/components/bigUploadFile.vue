@@ -174,9 +174,12 @@ export default {
         },
         getProgress(evt) {
             if (evt.lengthComputable) {
-                this.percent += Math.round(
+                this.percent += Math.floor(
                     (evt.loaded * 100) / this.chunks / evt.total
                 );
+                if(this.percent>=99){
+                    this.percent = 99;
+                }
                 this.changeProgress(1);
             } else {
                 this.changeProgress(0);
@@ -238,6 +241,7 @@ export default {
             window.File.prototype.webkitSlice;
         this.spark = new SparkMD5.ArrayBuffer();
         this.fileReader = new FileReader();
+        this.percent = 0;
     }
 };
 </script>

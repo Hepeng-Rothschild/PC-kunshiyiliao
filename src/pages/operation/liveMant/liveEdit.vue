@@ -91,6 +91,13 @@
                     style="width:100px"
                 ></InputNumber>
             </div>
+             <!-- 课堂类型 -->
+            <div class="live">
+                <span class="i">课堂类型：</span>
+                <Select v-model="live.modalDataVal" style="width:100px">
+                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                </Select>
+            </div>
             <!-- 播放来源 -->
             <div class="live">
                 <span class="i">播放来源：</span>
@@ -105,9 +112,9 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                <div class ='videoCss'>
                     <bigUploadFile :src="live.filePath" @getUrl="getUploadUrl"></bigUploadFile>
-                </div>
+
+                 <p>如需更改视频需再次上传文件即可覆盖</p>
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
@@ -118,13 +125,6 @@
                     clearable
                     style="width: 200px"
                 />
-            </div>
-            <!-- 课堂类型 -->
-            <div class="live">
-                <span class="i">课堂类型：</span>
-                <Select v-model="live.modalDataVal" style="width:100px">
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                </Select>
             </div>
             <!-- 课堂介绍 -->
             <div class="live">
@@ -483,6 +483,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .shuru {
+    width:700px;
     div {
         margin: 0;
     }
@@ -529,23 +530,18 @@ export default {
     margin: 0 auto;
     background: #fff;
     .live {
-        width: 700px;
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         margin: 10px 0;
+        p{
+            margin-left:20px;
+        }
         span {
             display: inline-block;
             min-width: 80px;
             margin-right: 30px;
-        }
-        .videoCss{
-            width:100px;
-            // height:300px;
-            video{
-                width:100%;
-                height:100%;
-            }
         }
     }
 }
