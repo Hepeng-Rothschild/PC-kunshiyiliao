@@ -131,6 +131,7 @@ export default {
                 title: "讲堂审核"
             }
         ];
+        this.$emit("changeBreadList", breadList);
     },
     mounted () {
         let query = this.$route.query;

@@ -22,6 +22,8 @@ const operationLeftMenu = [
         
         {id:35,level:2,name:"医生管理",path:"/index/operation/doctormanage/list"},
         {id:46,level:2,name:"版本管理",path:"/index/operation/versionManagement/home"},
+        {id:46,level:2,name:"医师讲堂",path:"/index/operation/liveMant/list"},
+        {id:46,level:2,name:"讲堂审核",path:"/index/operation/physicianAudit/list"},
     ]},
     {id:1,level:1,name:"患者端运营",childLists:[
         {id:30,level:2,name:"内容管理",path:"/index/operation/contentmanagement_home"},

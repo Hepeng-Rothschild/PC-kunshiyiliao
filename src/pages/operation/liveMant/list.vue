@@ -297,6 +297,7 @@ export default {
                 title: "医师讲堂"
             }
         ];
+        this.$emit("changeBreadList", breadList);
     },
     mounted() {
         let query = this.$route.query.status;
@@ -323,7 +324,7 @@ export default {
                 }
             );
         },
-        // 模态框
+        // 栏目模态框的编辑与新增
         ok() {
             // 编辑栏目
             if (Boolean(this.modalClass.id)) {
@@ -389,6 +390,7 @@ export default {
         },
         // 加载栏目数据
         modalData() {
+            this.data1 = []
             this.$axios.post(api.lecturecolumnlist).then(resp => {
                 if (resp.data.success) {
                     let ret = resp.data.object;
@@ -403,6 +405,7 @@ export default {
         },
         // 加载点播数据
         liveData(params) {
+            this.data1 = []
             this.$axios
                 .post(api.lecturedemandpage, {
                     pageNo: params.pageNo,
@@ -496,6 +499,7 @@ export default {
             border-bottom: 2px solid skyblue;
         }
         span:hover {
+            border-bottom: 2px solid skyblue;
             color: skyblue;
         }
     }

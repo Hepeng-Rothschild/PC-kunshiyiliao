@@ -42,22 +42,17 @@
             <!-- 播放来源 -->
             <div class="live">
                 <span class="i">播放来源：</span>
-                 <b class="weight">{{ live.videoSource }}</b>
-            </div>
-            <!-- 上传的视频 -->
-            <div class="live" v-if="live.videoSource==2">
-                <span class="i">播放地址</span>
-                <!-- <Input
-                    v-model="live.playbackAddress"
-                    placeholder="请输入播放地址"
-                    clearable
-                    style="width: 200px"
-                />-->
+                 <b class="weight">{{ live.videoSourceTest }}</b>
             </div>
             <!-- 文件路径 -->
-            <div class="live" v-else>
+            <div class="live" v-if="live.videoSource==1">
                 <span class="i">文件路径：</span>
                 <b class="weight">{{ live.filePath }}</b>
+            </div>
+            <!-- 上传的视频 -->
+            <div class="live" v-else>
+                <span class="i">播放地址</span>
+                <video-play :src="live.playbackAddress" :poster="poster" :videoStyle="videoStyle"></video-play>
             </div>
             <!-- 课堂类型 -->
             <div class="live">
@@ -101,9 +96,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
+import videoPlay from "@/components/videoPlayer";
 export default {
     components:{
-        vueEditor
+        vueEditor,
+        videoPlay
     },
     data() {
         return {
@@ -139,6 +136,7 @@ export default {
                 filePath: "",
                 // 播放来源
                 videoSource: 1,
+                videoSourceTest:"",
                 // 课堂类型
                 modalDataVal: ""
             },
@@ -155,7 +153,9 @@ export default {
             ],
             id: "",
             reason: "",
-            playStatus: ""
+            playStatus: "",
+            poster: "",
+            videoStyle: { width: "400px", height: "300px" }
         };
     },
     created() {
@@ -170,6 +170,7 @@ export default {
                 title: "讲堂审核"
             }
         ];
+        this.$emit("changeBreadList", breadList);
     },
     mounted() {
         let query = this.$route.query;
@@ -192,7 +193,10 @@ export default {
                     // 路径
                     this.live.filePath = ret.filePath;
                     // 播放地址
-                    this.live.playbackAddress = ret.playbackAddress;
+                    if(Boolean(ret.playbackAddress)){
+                        this.videoStatus = true;
+                        this.live.playbackAddress = this.fileBaseUrl + ret.playbackAddress
+                    }
                     // 标题
                     this.live.title = ret.title;
                     // 拒绝原因
@@ -202,7 +206,8 @@ export default {
                     // 来源
                     this.videoList.forEach(item => {
                         if(ret.videoSource == item.id) {
-                            this.live.videoSource = item.name
+                            this.live.videoSource = item.id
+                            this.live.videoSourceTest=item.name
                         }
                     })
                     // 推广力度

@@ -23,7 +23,7 @@
             <!-- 主讲人 -->
             <div class="live">
                 <span class="i">
-                    <b style="color:red;">*</b>主讲人：
+                    <b style="color:red;"></b>主讲人：
                 </span>
                 <Select v-model="live.doctorId" style="width:100px" @on-change="changeItem">
                     <Option
@@ -125,13 +125,9 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-
                 <div class ='videoCss'>
-                    <!-- <video>
-                        <source src='https://ydjk-dev.oss-cn-beijing.aliyuncs.com/coninq/video/01_%E5%B0%9A%E5%AD%A6%E5%A0%82_%E8%82%96%E6%96%8C_hadoop_hdfs1%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F01.mp4'></source>
-                    </video> -->
+                    <globalUploader :src="fileBaseUrl+live.playbackAddress" @getUploadUrl="getUploadUrl"></globalUploader>
                 </div>
-
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
@@ -175,9 +171,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
+import globalUploader from '@/components/globalUploader'
 export default {
     components:{
-        vueEditor
+        vueEditor,
+        globalUploader
     },
     data() {
         return {
@@ -223,11 +221,10 @@ export default {
                 discountPrice: null,
                 // 推广力度
                 fictitiousNum: null,
-                // 播放地址
+                // 播放地址/上传的视频
                 playbackAddress: "",
                 // 文件路径
                 filePath: "",
-
                 // 播放来源
                 videoSource: 1,
                 // 课堂类型
@@ -245,7 +242,10 @@ export default {
                     id: 2,
                     name: "多媒体"
                 }
-            ]
+            ],
+            src:"",
+            poster: "",
+            videoStyle: { width: "400px", height: "300px" }
         };
     },
     created(){  
@@ -260,6 +260,7 @@ export default {
                 title: "医师讲堂"
             }
         ];
+        this.$emit("changeBreadList", breadList);
     },
     mounted() {
         this.status = this.$route.query.status;
@@ -392,6 +393,12 @@ export default {
             this.imgName = name;
             this.visible = true;
         },
+        //获取上传的url
+        getUploadUrl(url){
+            console.log("传递过来的url",url);
+            this.src = url;
+            this.live.playbackAddress = url
+        },
         handleRemove(file) {
             const fileList = this.$refs.upload.fileList;
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
@@ -485,7 +492,7 @@ export default {
         }
         .videoCss{
             width:100px;
-            height:60px;
+            // height:300px;
             video{
                 width:100%;
                 height:100%;

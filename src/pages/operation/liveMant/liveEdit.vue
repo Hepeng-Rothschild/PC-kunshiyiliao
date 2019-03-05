@@ -7,19 +7,6 @@
         </Row>
         <!-- 点播 -->
         <div>
-            <!-- 检索 -->
-            <!-- <Row type="flex" justify="space-around" class="code-row-bg" style="margin:10px 0;">
-                <Col span="24">
-                    <Input
-                        suffix="ios-search"
-                        placeholder="输入讲课人进行查询"
-                        style="width: 200px"
-                        v-model.trim="live.search"
-                        clearable
-                    />
-                    <Button type="primary" @click="InputSearch">查询</Button>
-                </Col>
-            </Row> -->
             <!-- 主讲人 -->
             <div class="live">
                 <span class="i">
@@ -118,12 +105,11 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                <!-- <Input
-                    v-model="live.playbackAddress"
-                    placeholder="请输入播放地址"
-                    clearable
-                    style="width: 200px"
-                />-->
+                <div class ='videoCss'>
+                    <!-- <video-play :src="fileBaseUrl+live.playbackAddress" :poster="poster" :videoStyle="videoStyle"></video-play> -->
+                    <globalUploader :src="live.playbackAddress" @getUploadUrl="getUploadUrl"  :showVideo='videoStatus'></globalUploader>
+
+                </div>
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
@@ -173,9 +159,13 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
+import globalUploader from '@/components/globalUploader'
+import videoPlay from "@/components/videoPlayer";
 export default {
     components:{
-        vueEditor
+        vueEditor,
+        globalUploader,
+        videoPlay
     },
     data() {
         return {
@@ -248,7 +238,11 @@ export default {
                 }
             ],
             // 编辑点播ID
-            id:""
+            id:"",
+            src:"",
+            poster: "",
+            videoStyle: { width: "400px", height: "300px" },
+            videoStatus:false
         };
     },
     created(){
@@ -263,6 +257,7 @@ export default {
                 title: "医师讲堂"
             }
         ];
+        this.$emit("changeBreadList", breadList);
         // 加载栏目类型
         this.modalData();
     },
@@ -288,7 +283,11 @@ export default {
                 // // 路径
                 this.live.filePath = ret.filePath
                 // // 播放地址
-                this.live.playbackAddress = ret.playbackAddress
+                if(Boolean(ret.playbackAddress)){
+                    this.videoStatus = true;
+                    this.live.playbackAddress = this.fileBaseUrl + ret.playbackAddress
+                }
+                this.src = ret.playbackAddress
                 // // 标题
                 this.live.title = ret.title
                 // // 课堂介绍
@@ -362,7 +361,7 @@ export default {
         },
         // 保存
         saveLive() {
-            // 折后价格与原始价格
+            // 折后价格与原始价格的限制
             if (
                 Number(this.live.originPrice) <
                     Number(this.live.discountPrice) ||
@@ -388,7 +387,7 @@ export default {
                 // 文件路径
                 filePath: this.live.filePath,
                 // 播放地址
-                playbackAddress: this.live.playbackAddress,
+                playbackAddress: this.src,
                 // 点播类型
                 type: this.live.modalDataVal,
                 // 标题图片
@@ -438,6 +437,17 @@ export default {
                     this.$Message.error("请求失败,请稍候重试");
                 }
             });
+        },
+        //获取上传的url
+        getUploadUrl(url){
+            console.log("传递过来的url",url);
+
+            this.src = url
+            if(Boolean(url)){
+                this.videoStatus = true
+                this.live.playbackAddress = this.fileBaseUrl + url
+            }
+            
         },
         // 标题图片上传
         handleView(name) {
@@ -535,6 +545,14 @@ export default {
             display: inline-block;
             min-width: 80px;
             margin-right: 30px;
+        }
+        .videoCss{
+            width:100px;
+            // height:300px;
+            video{
+                width:100%;
+                height:100%;
+            }
         }
     }
 }

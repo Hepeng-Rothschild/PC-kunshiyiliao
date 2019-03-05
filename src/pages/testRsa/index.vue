@@ -6,7 +6,7 @@
     </div>
 </template>
 <script>
-import videoPlay from "@/components/videoPlayer";
+// import videoPlay from "@/components/videoPlayer";
 import globalUploader from '@/components/globalUploader'
 // import Bus from "@/plugins/bus.js";
 export default {

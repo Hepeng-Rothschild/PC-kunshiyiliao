@@ -148,11 +148,11 @@
         <span class="main_yy_name">是否加入远程门诊</span>
         <iSwitch v-model="switch4"/>
       </div>
-      <!-- 是否开通预约门诊 -->
-      <!-- <div class="main_yy">
-        <span class="main_yy_name">是否开通预约挂号</span>
-        <iSwitch v-model="switch5"/>
-      </div>-->
+      <!-- 是否是否强制用券 -->
+      <div class="main_yy">
+        <span class="main_yy_name">是否是否强制用券</span>
+        <iSwitch v-model="usedCoupon"/>
+      </div>
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
@@ -195,7 +195,7 @@ export default {
       switch2: false,
       switch3: false,
       switch4: false,
-      switch5: false,
+      usedCoupon: false,
       y_name: "",
       y_type: 6001,
       y_module: "2",
@@ -281,9 +281,9 @@ export default {
         // 医院排序
         internetHospitalSort: this.hospitalSort,
         // 开启远程门诊
-        iremote: Number(this.switch4)
-        // 开启预约门诊
-        // registeredReservation: Number(this.switch5)
+        iremote: Number(this.switch4),
+       // 是否强制用卷
+        usedCoupon: Number(this.usedCoupon)
       };
       if (!this.switch1) {
         params.appid = null;
@@ -393,6 +393,7 @@ export default {
       .then(res => {
         if (res.data.object) {
           let ret = res.data.object;
+          console.log(ret);
           // 医院名字
           this.y_name = ret.orgName;
           // 医院图片
@@ -442,8 +443,6 @@ export default {
           } else {
             this.hospitalFlag = true;
           }
-          // 开通预约门诊
-          // this.switch5 = Boolean(ret.registeredReservation);
 
           // 开启远程门诊
           this.switch4 = Boolean(ret.iremote);
@@ -452,7 +451,8 @@ export default {
           } else {
             localStorage.setItem("doctor", "");
           }
-
+          // 是否强制用卷
+          this.usedCoupon = Boolean(ret.usedCoupon)
           //医联体上级医院
           // 处方流转
           this.switch3 = Boolean(ret.ipres);
