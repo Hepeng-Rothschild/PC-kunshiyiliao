@@ -1,7 +1,7 @@
 <template>
     <div class="biguploadfile">
         <progress v-if="pauseStatus"></progress> 
-        <videoPlay :src="src" v-if="showVideo"></videoPlay>
+        <videoPlay :src="src" v-if="showVideo && !pauseStatus"></videoPlay>
         <input type="file" class="bigFile" @change="computedSliceMd5" ref="file" name="file">
         <Button type="primary" @click="toUpload">上传</Button>
         <Button type="default" v-if="pauseStatus" @click="pauseUpload">暂停</Button>
@@ -64,6 +64,7 @@ export default {
                         this.uploadedList = tmpIdsList;
                     }
                     this.pauseStatus = true;
+                    this.showVideo = false;
                     this.uploadFile(
                         1,
                         this.formDataList,
