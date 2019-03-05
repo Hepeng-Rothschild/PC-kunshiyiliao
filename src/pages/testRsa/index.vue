@@ -1,6 +1,6 @@
 <template>
     <div>
-        <bigUploadFile :src="fileBaseUrl+src" @getUrl="getUploadUrl"></bigUploadFile>
+        <bigUploadFile :src="src" @getUrl="getUploadUrl"></bigUploadFile>
     </div>
 </template>
 <script>

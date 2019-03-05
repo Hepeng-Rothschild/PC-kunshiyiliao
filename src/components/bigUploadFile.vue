@@ -1,7 +1,7 @@
 <template>
     <div class="biguploadfile">
         <progress v-if="pauseStatus"></progress> 
-        <videoPlay :src="src" v-if="showVideo && !pauseStatus"></videoPlay>
+        <videoPlay :src="fileBaseUrl+src" v-if="showVideo && !pauseStatus"></videoPlay>
         <input type="file" class="bigFile" @change="computedSliceMd5" ref="file" name="file">
         <Button type="primary" @click="toUpload">上传</Button>
         <Button type="default" v-if="pauseStatus" @click="pauseUpload">暂停</Button>
@@ -194,7 +194,7 @@ export default {
         }
     },
     created() {
-        console.log(this.src)
+        console.log("this.src" ,this.src);
         if(Boolean(this.src)) {
             this.showVideo = true
         }
