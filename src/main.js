@@ -90,10 +90,6 @@ require("vue-video-player/src/custom-theme.css");
 import VideoPlayer from "vue-video-player";
 Vue.use(VideoPlayer)
 
-//大文件分片上传
-import uploader from 'vue-simple-uploader';
-Vue.use(uploader);
-
 // 国际化
 Vue.use(VueI18n);
 
