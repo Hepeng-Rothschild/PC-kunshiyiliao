@@ -56,6 +56,7 @@ export default function Ajax(resolve,reject,type, url, headers, data, xhrReturn=
             return ;
         }
         xhr.withCredentials = false;
+        
         xhr.upload.onprogress = progress;
         xhr.onabort = ()=>{
             xhr = null;
