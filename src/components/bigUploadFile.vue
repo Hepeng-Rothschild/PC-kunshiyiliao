@@ -66,8 +66,8 @@ export default {
                 .then(resp => {
                     if (resp.data.object.code == 2) {
                         let tmpIdsList = resp.data.object.ids;
-                        tmpIdsList.map(el => {
-                            el = parseInt(el);
+                        tmpIdsList.map((el,index) => {
+                            tmpIdsList[index] = parseInt(el);
                         });
                         this.uploadedList = tmpIdsList;
                     }
@@ -137,7 +137,9 @@ export default {
             this.fileReader.readAsArrayBuffer(pieceFile);
         },
         uploadFile(n, dataList, uploadedList, chunks) {
+            console.log("uploadedList",uploadedList);
             let status = uploadedList.indexOf(n) == -1 ? true : false;
+            console.log("status",status);
             let key = n - 1;
             if (status) {
                 new Promise((resolve, reject) => {
@@ -152,24 +154,37 @@ export default {
                         this.getProgress
                     );
                 })
-                    .then(resp => {
-                        if (resp.object.uploadStatus == 1) {
-                            let tmpUrl = JSON.parse(resp.object.fileUrl)[0]
-                                .fileName;
-                            this.$emit("getUrl", tmpUrl);
-                            this.success();
-                        } else {
-                            this.uploadFile(
-                                n + 1,
-                                this.formDataList,
-                                this.uploadedList,
-                                this.chunks
-                            );
-                        }
-                    })
-                    .catch(err => {
-                        this.initParam(0, "上传失败");
-                    });
+                .then(resp => {
+                    if(resp.code == "401"){
+                        this.$router.push({path:"/login"});
+                        return ;
+                    }
+                    if (resp.object.uploadStatus == 1) {
+                        let tmpUrl = JSON.parse(resp.object.fileUrl)[0]
+                            .fileName;
+                        this.$emit("getUrl", tmpUrl);
+                        this.success();
+                    } else {
+                        this.uploadFile(
+                            n + 1,
+                            this.formDataList,
+                            this.uploadedList,
+                            this.chunks
+                        );
+                    }
+                })
+                .catch(err => {
+                    this.initParam(0, "上传失败");
+                });
+            }else{
+                this.percent += Math.floor(100/this.chunks);
+                this.changeProgress(1);
+                this.uploadFile(
+                    n + 1,
+                    this.formDataList,
+                    this.uploadedList,
+                    this.chunks
+                );
             }
         },
         getProgress(evt) {
