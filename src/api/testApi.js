@@ -241,6 +241,7 @@ const adminManageChange = '/operateapi/operateuserupdateusermenu' //修改用户
 const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
 const sensitiveUpdate='/operateapi/sensitive/update' //修改
 //大文件分片上传接口
+const lecturedemanduploadfilemd5='/operateapi/lecturedemanduploadfilemd5' //大文件分片上传断点续传
 const lecturedemanduploadfile='/operateapi/lecturedemanduploadfile' //大文件分片上传接口
 
 const lecturecolumnlist = '/operateapi/lecturecolumnlist' //直播/栏目列表
@@ -488,6 +489,7 @@ export default {
     sensitiveUpdate,
     //大文件分片上传
     lecturedemanduploadfile,
+    lecturedemanduploadfilemd5,
     // 医师讲堂栏目
     lecturecolumnlist,
     lecturecolumninsert,

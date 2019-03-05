@@ -28,22 +28,20 @@ axios.defaults.withCredentials = false;
 axios.interceptors.request.use(
 	config => {
 		if (store.state.env == "production" || store.state.env == "test") {
-			let RegObj = new RegExp('operate/login','ig');
+			let RegObj = new RegExp('(operate/login)|(filemd5)','ig');
 			
 			if(!RegObj.test(config.url)){
-				console.log("非登陆...");
 				let iv = store.state.iv;
 				let salt = store.state.salt;
 				let key = cookie.getCookie("randmId");
-				console.log("cookie 存储的access_user",cookie.getCookie("access_user"));
 				let access_user = aesUtils.decrypt(salt,iv,key,cookie.getCookie("access_user"));
-				console.log("解密后的access_user",access_user);
 				config.headers["OPERATE-USER"] = access_user;
 				config.headers["FORM-ENCODE"] = 1;
 				let tdata = JSON.stringify(config.data);
 				tdata = aesUtils.encrypt(salt,iv,key,tdata);
 				config.data = {data:tdata};
 			}else{
+				console.log("config.url ",config.url);
 				console.log("登陆数据不做任何处理");
 			}
 

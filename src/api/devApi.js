@@ -241,6 +241,7 @@ const adminManageChange='/operateapi/operateuserupdateusermenu' //修改用户�
 const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
 const sensitiveUpdate='/operateapi/sensitive/update' //修改
 const testFile='/operateapi/test/file'
+const testFileMd5='/operateapi/test/testFileMd5'
 export default {
     login,
     //字典
@@ -250,6 +251,7 @@ export default {
 
     fileAll,
     testFile,
+    testFileMd5,
     //机构管理
     management,
     managementInfo,
