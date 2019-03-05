@@ -40,7 +40,6 @@
         </uploader>
         <br/>
         <input type="file" name="testFile" style="display:none;" id="testFile">
-        <button @click="testUpload">另外版本的上传(没好)</button>
     </div>
 </template>
 
@@ -59,19 +58,21 @@ export default {
             src:'',
             showVideo:false,
             options: {
+                // target: api.lecturedemanduploadfile,
                 target: api.lecturedemanduploadfile,
                 chunkSize: "1024000",
                 fileParameterName: "file",
                 forceChunkSize:true,
                 maxChunkRetries: 3,
                 query:{urlCode:code.urlCode.lectureDemand},
-                testChunks: false, //是否开启服务器分片校验,断点续传,秒传
+                testChunks: true, //是否开启服务器分片校验,断点续传,秒传
                 testMethod:"POST",
                 // 服务器分片校验函数，秒传及断点续传基础
                 checkChunkUploadedByResponse: function(chunk, message) {
                     let objMessage = {}
                     try {
                         objMessage = JSON.parse(message)
+                        console.log("objMessage",objMessage);
                     } catch (e) {}
                     if (objMessage.skipUpload) { //秒传走这儿，skipUpload为true,实际情况看后台返回值下标是什么
                         return true;

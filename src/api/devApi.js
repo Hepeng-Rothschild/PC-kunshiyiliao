@@ -238,8 +238,11 @@ const adminManage = '/operateapi/operateuserinsertusermenu' //账号管理用户
 const adminSearch = '/operateapi/operateuserfindmenubyuserid'//查询用户权限管理详情
 const adminManageChange = '/operateapi/operateuserupdateusermenu' //修改用户权限管理
 //敏感词
-const sensitiveSelectSensitive = '/operateapi/sensitive/selectSensitive' //查询
-const sensitiveUpdate = '/operateapi/sensitive/update' //修改
+const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
+const sensitiveUpdate='/operateapi/sensitive/update' //修改
+//大文件分片上传接口
+const lecturedemanduploadfilemd5='/operateapi/lecturedemanduploadfilemd5' //大文件分片上传断点续传
+const lecturedemanduploadfile='/operateapi/lecturedemanduploadfile' //大文件分片上传接口
 
 const lecturecolumnlist = '/operateapi/lecturecolumnlist' //直播/栏目列表
 const lecturecolumninsert = '/operateapi/lecturecolumninsert' // 添加栏目
@@ -251,6 +254,7 @@ const lecturedemandselectbyid = '/operateapi/lecturedemandselectbyid' //查询�
 const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详情
 const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
 const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
+
 export default {
     login,
     //字典
@@ -483,6 +487,9 @@ export default {
     //敏感词
     sensitiveSelectSensitive,
     sensitiveUpdate,
+    //大文件分片上传
+    lecturedemanduploadfile,
+    lecturedemanduploadfilemd5,
     // 医师讲堂栏目
     lecturecolumnlist,
     lecturecolumninsert,

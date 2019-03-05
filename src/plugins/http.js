@@ -28,7 +28,7 @@ axios.defaults.withCredentials = false;
 axios.interceptors.request.use(
 	config => {
 		if (store.state.env == "production" || store.state.env == "test") {
-			let RegObj = new RegExp('operate/login','ig');
+			let RegObj = new RegExp('(operate/login)|(filemd5)','ig');
 
 			let fileObj = new RegExp("uploadfiles",'ig')
 
@@ -51,6 +51,7 @@ axios.interceptors.request.use(
 				}
 				
 			}else{
+				console.log("config.url ",config.url);
 				console.log("登陆数据不做任何处理");
 			}
 			
