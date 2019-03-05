@@ -123,8 +123,8 @@ export default {
         let breadList = [
             { path: "/index", title: "首页" },
             {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
+                path: "/index/operation/contentmanagement_home",
+                title: "患者端运营"
             },
             {
                 path: "/index/operation/physicianAudit/list",

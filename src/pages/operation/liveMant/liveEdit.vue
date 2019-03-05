@@ -245,8 +245,8 @@ export default {
         let breadList = [
             { path: "/index", title: "首页" },
             {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
+                path: "/index/operation/contentmanagement_home",
+                title: "患者端运营"
             },
             {
                 path: "/index/operation/liveMant/list",
@@ -280,10 +280,7 @@ export default {
                 // // 路径
                 this.live.playbackAddress = ret.playbackAddress
                 // // 播放地址
-                if(Boolean(ret.filePath)){
-                    this.videoStatus = true;
-                    this.live.filePath = this.fileBaseUrl + ret.filePath
-                }
+                this.live.filePath = ret.filePath
                 this.src = ret.filePath
                 // // 标题
                 this.live.title = ret.title
@@ -441,7 +438,7 @@ export default {
             this.src = url
             if(Boolean(url)){
                 this.videoStatus = true
-                this.live.filePath = this.fileBaseUrl + url
+                this.live.filePath = url
             }
             
         },
