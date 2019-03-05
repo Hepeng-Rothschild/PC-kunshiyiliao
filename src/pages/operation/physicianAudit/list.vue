@@ -181,7 +181,7 @@ export default {
                                 ? arr[item.playStatus].content
                                 : arr[1].content;
                             item.videoSource =
-                                item.videoSource == 1 ? "网站" : "多媒体";
+                                item.videoSource == 1 ? "网站地址" : "本地上传";
                         });
                         ret;
                         this.count = resp.data.object.count;

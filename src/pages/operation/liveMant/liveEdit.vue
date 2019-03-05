@@ -106,16 +106,14 @@
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
                 <div class ='videoCss'>
-                    <!-- <video-play :src="fileBaseUrl+live.playbackAddress" :poster="poster" :videoStyle="videoStyle"></video-play> -->
-                    <globalUploader :src="live.playbackAddress" @getUploadUrl="getUploadUrl"  :showVideo='videoStatus'></globalUploader>
-
+                    <bigUploadFile :src="live.filePath" @getUrl="getUploadUrl"></bigUploadFile>
                 </div>
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
-                <span class="i">文件路径：</span>
+                <span class="i">网站地址：</span>
                 <Input
-                    v-model="live.filePath"
+                    v-model="live.playbackAddress"
                     placeholder="请输入文件路径"
                     clearable
                     style="width: 200px"
@@ -159,13 +157,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
-import globalUploader from '@/components/globalUploader'
-import videoPlay from "@/components/videoPlayer";
+import bigUploadFile from "@/components/bigUploadFile";
 export default {
     components:{
         vueEditor,
-        globalUploader,
-        videoPlay
+        bigUploadFile
     },
     data() {
         return {
@@ -230,11 +226,11 @@ export default {
             videoList: [
                 {
                     id: 1,
-                    name: "网站"
+                    name: "网站地址"
                 },
                 {
                     id: 2,
-                    name: "多媒体"
+                    name: "本地上传"
                 }
             ],
             // 编辑点播ID
@@ -272,6 +268,7 @@ export default {
         }).then(res => {
             if (res.data.success) {
                 let ret = res.data.object;
+                console.log(ret);
                 // 点播状态
                 this.live.playStatus = ret.playStatus
                 // // 医生信息
@@ -281,13 +278,13 @@ export default {
                 this.live.originPrice = ret.originalPrice
                 this.live.discountPrice = ret.discountPrice;
                 // // 路径
-                this.live.filePath = ret.filePath
+                this.live.playbackAddress = ret.playbackAddress
                 // // 播放地址
-                if(Boolean(ret.playbackAddress)){
+                if(Boolean(ret.filePath)){
                     this.videoStatus = true;
-                    this.live.playbackAddress = this.fileBaseUrl + ret.playbackAddress
+                    this.live.filePath = this.fileBaseUrl + ret.filePath
                 }
-                this.src = ret.playbackAddress
+                this.src = ret.filePath
                 // // 标题
                 this.live.title = ret.title
                 // // 课堂介绍
@@ -371,6 +368,7 @@ export default {
                 this.$Message.error("请检查原始价格与折后价格是否填写完整");
                 return "";
             }
+            
             let params = {
                 // 点播ID
                 id:this.id,
@@ -385,9 +383,9 @@ export default {
                 // 推广力度
                 fictitiousNum:this.live.fictitiousNum,
                 // 文件路径
-                filePath: this.live.filePath,
+                filePath: this.src,
                 // 播放地址
-                playbackAddress: this.src,
+                playbackAddress: this.live.playbackAddress,
                 // 点播类型
                 type: this.live.modalDataVal,
                 // 标题图片
@@ -399,7 +397,6 @@ export default {
                 // 点播状态
                 playStatus:this.live.playStatus
             };
-
             this.$axios.post(api.lecturedemandupdate, params).then(res => {
                 if (res.data.success) {
                     let ret = res.data.object;
@@ -415,7 +412,6 @@ export default {
                 } else {
                     this.$Message.error("修改失败请重试");
                 }
-                console.log(res)
             });
         },
         // 后退
@@ -445,7 +441,7 @@ export default {
             this.src = url
             if(Boolean(url)){
                 this.videoStatus = true
-                this.live.playbackAddress = this.fileBaseUrl + url
+                this.live.filePath = this.fileBaseUrl + url
             }
             
         },

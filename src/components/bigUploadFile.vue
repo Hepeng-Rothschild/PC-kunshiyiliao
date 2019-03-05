@@ -194,6 +194,10 @@ export default {
         }
     },
     created() {
+        console.log(this.src)
+        if(Boolean(this.src)) {
+            this.showVideo = true
+        }
         this.blobSlice =
             window.File.prototype.slice ||
             window.File.prototype.mozSlice ||

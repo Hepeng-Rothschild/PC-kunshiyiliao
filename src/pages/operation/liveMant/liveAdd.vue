@@ -125,15 +125,14 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                <div class ='videoCss'>
-                    <globalUploader :src="fileBaseUrl+live.playbackAddress" @getUploadUrl="getUploadUrl"></globalUploader>
-                </div>
+                    <bigUploadFile :src="fileBaseUrl+src" @getUrl="getUploadUrl"></bigUploadFile>
+                <p>如需更改视频需再次上传文件即可覆盖</p>
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
-                <span class="i">文件路径：</span>
+                <span class="i">网站地址：</span>
                 <Input
-                    v-model="live.filePath"
+                    v-model="live.playbackAddress"
                     placeholder="请输入文件路径"
                     clearable
                     style="width: 200px"
@@ -171,11 +170,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
-import globalUploader from '@/components/globalUploader'
+import bigUploadFile from "@/components/bigUploadFile";
 export default {
     components:{
         vueEditor,
-        globalUploader
+        bigUploadFile
     },
     data() {
         return {
@@ -236,11 +235,11 @@ export default {
             videoList: [
                 {
                     id: 1,
-                    name: "网站"
+                    name: "网站地址"
                 },
                 {
                     id: 2,
-                    name: "多媒体"
+                    name: "本地上传"
                 }
             ],
             src:"",
@@ -397,7 +396,7 @@ export default {
         getUploadUrl(url){
             console.log("传递过来的url",url);
             this.src = url;
-            this.live.playbackAddress = url
+            this.live.filePath = url
         },
         handleRemove(file) {
             const fileList = this.$refs.upload.fileList;

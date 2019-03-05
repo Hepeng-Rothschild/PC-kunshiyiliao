@@ -47,12 +47,12 @@
             <!-- 文件路径 -->
             <div class="live" v-if="live.videoSource==1">
                 <span class="i">文件路径：</span>
-                <b class="weight">{{ live.filePath }}</b>
+                <b class="weight">{{ live.playbackAddress }}</b>
             </div>
             <!-- 上传的视频 -->
             <div class="live" v-else>
                 <span class="i">播放地址</span>
-                <video-play :src="live.playbackAddress" :poster="poster" :videoStyle="videoStyle"></video-play>
+                <video-play :src="live.filePath" :poster="poster" :videoStyle="videoStyle"></video-play>
             </div>
             <!-- 课堂类型 -->
             <div class="live">
@@ -184,6 +184,7 @@ export default {
             .then(res => {
                 if (res.data.success) {
                     let ret = res.data.object;
+                    console.log(ret);
                     // 医生信息
                     this.live.doctorName = ret.doctorName;
                     this.live.doctorId = ret.doctorId;
@@ -191,11 +192,12 @@ export default {
                     this.live.originPrice = ret.originalPrice;
                     this.live.discountPrice = ret.discountPrice;
                     // 路径
-                    this.live.filePath = ret.filePath;
+                    this.live.filePath = ret.playbackAddress;
+                    // filePath
                     // 播放地址
-                    if(Boolean(ret.playbackAddress)){
+                    if(Boolean(ret.filePath)){
                         this.videoStatus = true;
-                        this.live.playbackAddress = this.fileBaseUrl + ret.playbackAddress
+                        this.live.filePath = this.fileBaseUrl + ret.filePath
                     }
                     // 标题
                     this.live.title = ret.title;
