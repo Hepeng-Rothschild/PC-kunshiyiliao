@@ -107,7 +107,7 @@
                 <span class="i">上传视频：</span>
                 <div class ='videoCss'>
                     <!-- <video-play :src="fileBaseUrl+live.playbackAddress" :poster="poster" :videoStyle="videoStyle"></video-play> -->
-                    <globalUploader :src="live.playbackAddress" @getUploadUrl="getUploadUrl"  :showVideo='videoStatus'></globalUploader>
+                    <!-- <globalUploader :src="live.playbackAddress" @getUploadUrl="getUploadUrl"  :showVideo='videoStatus'></globalUploader> -->
 
                 </div>
             </div>
@@ -159,12 +159,12 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
-import globalUploader from '@/components/globalUploader'
+// import globalUploader from '@/components/globalUploader'
 import videoPlay from "@/components/videoPlayer";
 export default {
     components:{
         vueEditor,
-        globalUploader,
+        // globalUploader,
         videoPlay
     },
     data() {

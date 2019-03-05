@@ -126,7 +126,7 @@
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
                 <div class ='videoCss'>
-                    <globalUploader :src="fileBaseUrl+live.playbackAddress" @getUploadUrl="getUploadUrl"></globalUploader>
+                    <!-- <globalUploader :src="fileBaseUrl+live.playbackAddress" @getUploadUrl="getUploadUrl"></globalUploader> -->
                 </div>
             </div>
             <!-- 文件路径 -->
@@ -171,11 +171,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
-import globalUploader from '@/components/globalUploader'
+// import globalUploader from '@/components/globalUploader'
 export default {
     components:{
         vueEditor,
-        globalUploader
+        // globalUploader
     },
     data() {
         return {
