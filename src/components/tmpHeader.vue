@@ -55,6 +55,7 @@ export default {
       }
       span:hover {
         color: #57a3f3;
+        border-bottom: 2px solid #2d8cf0;
       }
       .active {
         color: #2d8cf0;

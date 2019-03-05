@@ -131,6 +131,7 @@ export default {
                 title: "讲堂审核"
             }
         ];
+        this.$emit("changeBreadList", breadList);
     },
     mounted () {
         let query = this.$route.query;
@@ -146,7 +147,6 @@ export default {
         },
         // 加载点播数据
         liveData(params) {
-            console.log(params)
             this.$axios
                 .post(api.lecturedemandpagebyexaminelist, {
                     pageNo: params.pageNo,
@@ -181,7 +181,7 @@ export default {
                                 ? arr[item.playStatus].content
                                 : arr[1].content;
                             item.videoSource =
-                                item.videoSource == 1 ? "网站" : "多媒体";
+                                item.videoSource == 1 ? "网站地址" : "本地上传";
                         });
                         ret;
                         this.count = resp.data.object.count;

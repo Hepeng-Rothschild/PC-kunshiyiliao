@@ -14,7 +14,7 @@
         </header>
         <!-- 列表 -->
         <div class="table">
-            <Table size="small" :columns="columns1" :data="data1"></Table>
+            <Table size="small" :columns="columns1" :data="data1" stripe></Table>
             <Page
                 :total="count"
                 :current="pageNo"

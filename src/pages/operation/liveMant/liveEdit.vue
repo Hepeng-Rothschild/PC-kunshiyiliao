@@ -7,19 +7,6 @@
         </Row>
         <!-- 点播 -->
         <div>
-            <!-- 检索 -->
-            <!-- <Row type="flex" justify="space-around" class="code-row-bg" style="margin:10px 0;">
-                <Col span="24">
-                    <Input
-                        suffix="ios-search"
-                        placeholder="输入讲课人进行查询"
-                        style="width: 200px"
-                        v-model.trim="live.search"
-                        clearable
-                    />
-                    <Button type="primary" @click="InputSearch">查询</Button>
-                </Col>
-            </Row> -->
             <!-- 主讲人 -->
             <div class="live">
                 <span class="i">
@@ -118,18 +105,15 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                <!-- <Input
-                    v-model="live.playbackAddress"
-                    placeholder="请输入播放地址"
-                    clearable
-                    style="width: 200px"
-                />-->
+                <div class ='videoCss'>
+                    <bigUploadFile :src="live.filePath" @getUrl="getUploadUrl"></bigUploadFile>
+                </div>
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
-                <span class="i">文件路径：</span>
+                <span class="i">网站地址：</span>
                 <Input
-                    v-model="live.filePath"
+                    v-model="live.playbackAddress"
                     placeholder="请输入文件路径"
                     clearable
                     style="width: 200px"
@@ -173,9 +157,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
+import bigUploadFile from "@/components/bigUploadFile";
 export default {
     components:{
-        vueEditor
+        vueEditor,
+        bigUploadFile
     },
     data() {
         return {
@@ -234,18 +220,25 @@ export default {
                 // 审核未通过原因
                 reason:""
             },
+            // 栏目数据
             liveType: [],
+            // 视频上传方式
             videoList: [
                 {
                     id: 1,
-                    name: "网站"
+                    name: "网站地址"
                 },
                 {
                     id: 2,
-                    name: "多媒体"
+                    name: "本地上传"
                 }
             ],
-            id:""
+            // 编辑点播ID
+            id:"",
+            src:"",
+            poster: "",
+            videoStyle: { width: "400px", height: "300px" },
+            videoStatus:false
         };
     },
     created(){
@@ -260,6 +253,7 @@ export default {
                 title: "医师讲堂"
             }
         ];
+        this.$emit("changeBreadList", breadList);
         // 加载栏目类型
         this.modalData();
     },
@@ -274,29 +268,34 @@ export default {
         }).then(res => {
             if (res.data.success) {
                 let ret = res.data.object;
+                console.log(ret);
                 // 点播状态
                 this.live.playStatus = ret.playStatus
-                // 医生信息
+                // // 医生信息
                 this.live.doctorName = ret.doctorName
                 this.live.doctorId = ret.doctorId
-                // 价格
+                // // 价格
                 this.live.originPrice = ret.originalPrice
                 this.live.discountPrice = ret.discountPrice;
-                // 路径
-                this.live.filePath = ret.filePath
-                // 播放地址
+                // // 路径
                 this.live.playbackAddress = ret.playbackAddress
-                // 标题
+                // // 播放地址
+                if(Boolean(ret.filePath)){
+                    this.videoStatus = true;
+                    this.live.filePath = this.fileBaseUrl + ret.filePath
+                }
+                this.src = ret.filePath
+                // // 标题
                 this.live.title = ret.title
-                // 课堂介绍
+                // // 课堂介绍
                 this.live.introduce = ret.introduce
                 // 来源
                 this.live.videoSource = ret.videoSource
-                // 推广力度
+                // // 推广力度
                 this.live.fictitiousNum = ret.fictitiousNum
-                // 课堂类型
+                // // 课堂类型
                 this.live.modalDataVal = ret.type
-                // 审核未通过原因
+                // // 审核未通过原因
                 this.live.reason = ret.reason
                 // 图片
                 if (ret.headImg) {
@@ -359,7 +358,7 @@ export default {
         },
         // 保存
         saveLive() {
-            // 折后价格与原始价格
+            // 折后价格与原始价格的限制
             if (
                 Number(this.live.originPrice) <
                     Number(this.live.discountPrice) ||
@@ -369,6 +368,7 @@ export default {
                 this.$Message.error("请检查原始价格与折后价格是否填写完整");
                 return "";
             }
+            
             let params = {
                 // 点播ID
                 id:this.id,
@@ -383,7 +383,7 @@ export default {
                 // 推广力度
                 fictitiousNum:this.live.fictitiousNum,
                 // 文件路径
-                filePath: this.live.filePath,
+                filePath: this.src,
                 // 播放地址
                 playbackAddress: this.live.playbackAddress,
                 // 点播类型
@@ -397,7 +397,6 @@ export default {
                 // 点播状态
                 playStatus:this.live.playStatus
             };
-
             this.$axios.post(api.lecturedemandupdate, params).then(res => {
                 if (res.data.success) {
                     let ret = res.data.object;
@@ -413,7 +412,6 @@ export default {
                 } else {
                     this.$Message.error("修改失败请重试");
                 }
-                console.log(res)
             });
         },
         // 后退
@@ -435,6 +433,17 @@ export default {
                     this.$Message.error("请求失败,请稍候重试");
                 }
             });
+        },
+        //获取上传的url
+        getUploadUrl(url){
+            console.log("传递过来的url",url);
+
+            this.src = url
+            if(Boolean(url)){
+                this.videoStatus = true
+                this.live.filePath = this.fileBaseUrl + url
+            }
+            
         },
         // 标题图片上传
         handleView(name) {
@@ -532,6 +541,14 @@ export default {
             display: inline-block;
             min-width: 80px;
             margin-right: 30px;
+        }
+        .videoCss{
+            width:100px;
+            // height:300px;
+            video{
+                width:100%;
+                height:100%;
+            }
         }
     }
 }

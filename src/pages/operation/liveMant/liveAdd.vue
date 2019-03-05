@@ -23,7 +23,7 @@
             <!-- 主讲人 -->
             <div class="live">
                 <span class="i">
-                    <b style="color:red;">*</b>主讲人：
+                    <b style="color:red;"></b>主讲人：
                 </span>
                 <Select v-model="live.doctorId" style="width:100px" @on-change="changeItem">
                     <Option
@@ -125,22 +125,25 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                <!-- <Input
-                    v-model="live.playbackAddress"
-                    placeholder="请输入播放地址"
-                    clearable
-                    style="width: 200px"
-                />-->
+                    <bigUploadFile :src="fileBaseUrl+src" @getUrl="getUploadUrl"></bigUploadFile>
+                <p>如需更改视频需再次上传文件即可覆盖</p>
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>
-                <span class="i">文件路径：</span>
+                <span class="i">网站地址：</span>
                 <Input
-                    v-model="live.filePath"
+                    v-model="live.playbackAddress"
                     placeholder="请输入文件路径"
                     clearable
                     style="width: 200px"
                 />
+            </div>
+            <!-- 课堂类型 -->
+            <div class="live">
+                <span class="i">课堂类型：</span>
+                <Select v-model="live.modalDataVal" style="width:100px">
+                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                </Select>
             </div>
             <!-- 课堂介绍 -->
             <div class="live">
@@ -155,13 +158,6 @@
                     ></vueEditor>
                 </div>
             </div>
-            <!-- 课堂类型 -->
-            <div class="live">
-                <span class="i">课堂类型：</span>
-                <Select v-model="live.modalDataVal" style="width:100px">
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                </Select>
-            </div>
         </div>
         <!-- 保存 -->
         <div style="margin-top:20px;">
@@ -174,9 +170,11 @@
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
 import vueEditor from "@/components/vueEditor";
+import bigUploadFile from "@/components/bigUploadFile";
 export default {
     components:{
-        vueEditor
+        vueEditor,
+        bigUploadFile
     },
     data() {
         return {
@@ -222,27 +220,31 @@ export default {
                 discountPrice: null,
                 // 推广力度
                 fictitiousNum: null,
-                // 播放地址
+                // 播放地址/上传的视频
                 playbackAddress: "",
                 // 文件路径
                 filePath: "",
-
                 // 播放来源
                 videoSource: 1,
                 // 课堂类型
                 modalDataVal: ""
             },
+            // 栏目数据
             liveType: [],
+            // 视频上传方式
             videoList: [
                 {
                     id: 1,
-                    name: "网站"
+                    name: "网站地址"
                 },
                 {
                     id: 2,
-                    name: "多媒体"
+                    name: "本地上传"
                 }
-            ]
+            ],
+            src:"",
+            poster: "",
+            videoStyle: { width: "400px", height: "300px" }
         };
     },
     created(){  
@@ -257,6 +259,7 @@ export default {
                 title: "医师讲堂"
             }
         ];
+        this.$emit("changeBreadList", breadList);
     },
     mounted() {
         this.status = this.$route.query.status;
@@ -316,6 +319,9 @@ export default {
                 !Boolean(this.live.discountPrice)
             ) {
                 this.$Message.error("请检查原始价格与折后价格是否填写完整");
+                return "";
+            } else if (this.live.doctorId=='') {
+                this.$Message.error("请选择主讲人");
                 return "";
             }
             let params = {
@@ -386,6 +392,12 @@ export default {
             this.imgName = name;
             this.visible = true;
         },
+        //获取上传的url
+        getUploadUrl(url){
+            console.log("传递过来的url",url);
+            this.src = url;
+            this.live.filePath = url
+        },
         handleRemove(file) {
             const fileList = this.$refs.upload.fileList;
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
@@ -409,6 +421,7 @@ export default {
             });
         },
         handleBeforeUpload(file) {
+            console.log(file)
             const check = this.uploadList.length < 1;
             if (!check) {
                 this.$Message.info("只能上传一张图片");
@@ -475,6 +488,14 @@ export default {
             display: inline-block;
             min-width: 80px;
             margin-right: 30px;
+        }
+        .videoCss{
+            width:100px;
+            // height:300px;
+            video{
+                width:100%;
+                height:100%;
+            }
         }
     }
 }

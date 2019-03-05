@@ -192,7 +192,7 @@
             </Row>
         </Form>
         <Button type="primary" @click="submit('formInline')">提交</Button>
-        <Button type="primary" @click="reback">返回</Button>
+        <Button type="default" @click="reback">返回</Button>
         <Modal
             title="提示："
             @on-ok="ok"

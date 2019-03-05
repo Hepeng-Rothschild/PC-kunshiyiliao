@@ -26,15 +26,15 @@ const registerDoctorInsert = "/operateapi/registerinsertdoctorappointment"; //�
 const doctorRomteclinicAdd = '/operateapi/remotedoctorinsert'  //新增远程门诊医生排班
 const doctorRomteclinicEdit = '/operateapi/remotedoctorupdate' //编辑远程门诊医生排班详情
 const doctorRomteclinicSearchExpert = '/operateapi/remotedoctorselectremotedoctorlist'  //专家查找
-const doctorRomteclinicList ='/operateapi/remotedoctorpageremotedoctor' //远程门诊医生列表
-const doctorRomteclinicDetail='/operateapi/remotedoctorselectoutpatientdoctorscheduling' //查询远程门诊医生详情
+const doctorRomteclinicList = '/operateapi/remotedoctorpageremotedoctor' //远程门诊医生列表
+const doctorRomteclinicDetail = '/operateapi/remotedoctorselectoutpatientdoctorscheduling' //查询远程门诊医生详情
 
 const versioninsert = '/operateapi/versioninsert'   //医生端版本管理添加
 const versionlist = '/operateapi/versionlist' //医生端版本管理列表
-const versiondetail= '/operateapi/versionqueryversion' //医生端版本管理详情
-const versionupdate='/operateapi/versionupdate' //医生端版本管理修改
+const versiondetail = '/operateapi/versionqueryversion' //医生端版本管理详情
+const versionupdate = '/operateapi/versionupdate' //医生端版本管理修改
 // 家医签约管理
-const  contractManagementList ='/operateapi/ordermanagementsigningmanagepage'   //家医签约管理列表
+const contractManagementList = '/operateapi/ordermanagementsigningmanagepage'   //家医签约管理列表
 
 // 机构管理
 const management = '/operateapi/hospitalqueryhospitaloperatelist'  //机构管理医院列表
@@ -106,13 +106,13 @@ const searchCurrentRoom = '/operateapi/applyremotqueryremotelist'  //查询当�
 
 // 远程门诊类型维护 
 const DoctorRemoteClinicTypeList = '/operateapi/outpatientquerylist'    //查询当前医院下远程门诊类型
-const DoctorRemoteClinicTypeAdd  = '/operateapi/outpatientinsert'   //新增远程门诊类型
+const DoctorRemoteClinicTypeAdd = '/operateapi/outpatientinsert'   //新增远程门诊类型
 const DoctorRemoteClinicTypeSearch = '/operateapi/outpatientquerybyid'  //查找远程门诊详情
-const DoctorRemoteClinicTypeEdit ='/operateapi/outpatientupdate'   //修改远程门诊类型
-const remotedoctorupdateremotestatus ='/operateapi/remotedoctorupdateremotestatus'   //修改医生是否开启远程门诊
-const doctorupdatedoctorsort ='/operateapi/doctorupdatedoctorsort'   //修改医生排序
+const DoctorRemoteClinicTypeEdit = '/operateapi/outpatientupdate'   //修改远程门诊类型
+const remotedoctorupdateremotestatus = '/operateapi/remotedoctorupdateremotestatus'   //修改医生是否开启远程门诊
+const doctorupdatedoctorsort = '/operateapi/doctorupdatedoctorsort'   //修改医生排序
 
-const DoctorListEdit ='/operateapi/remotedoctorupdateremotestatus' // 医生排班列表修改 
+const DoctorListEdit = '/operateapi/remotedoctorupdateremotestatus' // 医生排班列表修改 
 
 //运维端!!!
 const residentReg = '/operateapi/residentqueryuserlist'//获取居民注册信息
@@ -126,7 +126,7 @@ const mechanismregList = '/operateapi/organizationqueryhospitallist' //机构注
 const mechanismregEnable = '/operateapi/hospitalupdateenablebyid' //机构注册信息启用禁用
 const mechanismregAdd = '/operateapi/hospitalinsert' // 新增机构
 const mechanismregSearch = '/operateapi/hospitalqueryhospitaloperatedtobyid'  //根据医院ID查询医院详情
-const mechanismregEdit ='/operateapi/hospitalupdate' //修改医院详情
+const mechanismregEdit = '/operateapi/hospitalupdate' //修改医院详情
 const mechanismregUpLoad = '/operateapi/organizationinsertbatchhospital' //批量上传机构信息  不加密
 
 /* ********************************************* */
@@ -168,45 +168,45 @@ const updateSymptomInfo = '/operateapi/symptomupdate';//更改症状信息
 const insertSymptom = '/operateapi/symptominsert';//添加症状信息
 const selectSymptomInfo = '/operateapi/symptomselect';//查询症状信息
 
-const downloadTxt ='/operateapi/organizationdownloadtemplate';  //批量上传信息模板下载  不加密
+const downloadTxt = '/operateapi/organizationdownloadtemplate';  //批量上传信息模板下载  不加密
 
 //订单管理
-const orderManageAppointRegistList ='/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
-const ordermanagementlistbyremoteorder ='/operateapi/ordermanagementlistbyremoteorder';  //远程问诊订单管理
-const ordermanagementselectbyremoteclinicid ='/operateapi/ordermanagementselectbyremoteclinicid';  //远程问诊订单详情
+const orderManageAppointRegistList = '/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
+const ordermanagementlistbyremoteorder = '/operateapi/ordermanagementlistbyremoteorder';  //远程问诊订单管理
+const ordermanagementselectbyremoteclinicid = '/operateapi/ordermanagementselectbyremoteclinicid';  //远程问诊订单详情
 
 //服务项目管理
-const fdspackageitempage ='/operateapi/fdspackageitempage';  //服务项目列表
-const fdspackageiteminsert ='/operateapi/fdspackageiteminsert';  //新增服务项目
-const fdspackageitemselectbyid ='/operateapi/fdspackageitemselectbyid';  //服务项目详情
-const fdspackageitemupdate ='/operateapi/fdspackageitemupdate';  //修改服务项目
-const fdspackageiteminsertbatch ='/operateapi/fdspackageiteminsertbatch';  //服务项目导入
+const fdspackageitempage = '/operateapi/fdspackageitempage';  //服务项目列表
+const fdspackageiteminsert = '/operateapi/fdspackageiteminsert';  //新增服务项目
+const fdspackageitemselectbyid = '/operateapi/fdspackageitemselectbyid';  //服务项目详情
+const fdspackageitemupdate = '/operateapi/fdspackageitemupdate';  //修改服务项目
+const fdspackageiteminsertbatch = '/operateapi/fdspackageiteminsertbatch';  //服务项目导入
 
 //服务包管理
-const servicepackageinsert ='/operateapi/servicepackageinsert';  //新增/修改服务包
-const servicepackagepage ='/operateapi/servicepackagepage';  //服务包列表
-const servicepackageselectbyid ='/operateapi/servicepackageselectbyid';  //服务包详情
-const organizationdownloadtemplate ='/operateapi/organizationdownloadtemplate';  //服务包详情
+const servicepackageinsert = '/operateapi/servicepackageinsert';  //新增/修改服务包
+const servicepackagepage = '/operateapi/servicepackagepage';  //服务包列表
+const servicepackageselectbyid = '/operateapi/servicepackageselectbyid';  //服务包详情
+const organizationdownloadtemplate = '/operateapi/organizationdownloadtemplate';  //服务包详情
 
-const servicepackagelistallpackage ='/operateapi/servicepackagelistallpackage';  //查询当前医院所在省份的所有服务包
-const servicepackagelistpackagebyhospital ='/operateapi/servicepackagelistpackagebyhospital';  //查询医院的所有服务包
-const servicepackageupdatepageagehospital ='/operateapi/servicepackageupdatepageagehospital';  //修改医院服务包
+const servicepackagelistallpackage = '/operateapi/servicepackagelistallpackage';  //查询当前医院所在省份的所有服务包
+const servicepackagelistpackagebyhospital = '/operateapi/servicepackagelistpackagebyhospital';  //查询医院的所有服务包
+const servicepackageupdatepageagehospital = '/operateapi/servicepackageupdatepageagehospital';  //修改医院服务包
 
 //通过省份ID查询医院列表
-const hospitalselectbyprovincecode ='/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
+const hospitalselectbyprovincecode = '/operateapi/hospitalselectbyprovincecode';  //通过省份ID查询医院列表
 
 const wxList = '/operateapi/wxappbannerwxapplist'  //公众号列表
 const wxBannerList = '/operateapi/wxappbannerlist'  //公众号banner图列表
 const wxBannerAdd = '/operateapi/wxappbannerinsert'  //公众号Banner图添加
 const wxBannerDetail = '/operateapi/wxappbannerselectbyid' //公众号Banner图详情
 const wxBannerEdit = '/operateapi/wxappbannerupdate' //公众号Banner图修改
-const wxTemplateList ='/operateapi/wxapptemplatelisttemplate'// 公众号模板管理列表 
+const wxTemplateList = '/operateapi/wxapptemplatelisttemplate'// 公众号模板管理列表 
 const wxTemplateSave = '/operateapi/wxapptemplateupdatetemplate' //公众号模板管理保存
 
 const wxMenuList = '/operateapi/wxappmenuquerymenulist' // 公众号菜单管理列表
 const wxMenuListChange = '/operateapi/wxappmenuupdatebatchorinsertbatch' //公众号菜单管理列表修改
 const wxMangent = '/operateapi/wxappmanageupdateocrstatus'  //公众号功能管理
-const wxMangentSearch ='/operateapi/wxappmanageselectbyappid' //公众号功能管理查询
+const wxMangentSearch = '/operateapi/wxappmanageselectbyappid' //公众号功能管理查询
 
 // 系统管理//公众号菜单管理
 const systemManagement = '/operateapi/wxappmenuselectmenulist' //系统管理菜单列表
@@ -234,12 +234,23 @@ const adminList = '/operateapi/operateuserfindoperteuserbypage'  //账号管理�
 const adminAdd = '/operateapi/operateuserinsert' //账号管理新增用户
 const adminEdit = '/operateapi/operateuserfindbyid' //账号管理编辑用户
 const adminDetail = '/operateapi/operateuserupdate' //账号管理修改用户
-const adminManage ='/operateapi/operateuserinsertusermenu' //账号管理用户权限
+const adminManage = '/operateapi/operateuserinsertusermenu' //账号管理用户权限
 const adminSearch = '/operateapi/operateuserfindmenubyuserid'//查询用户权限管理详情
-const adminManageChange='/operateapi/operateuserupdateusermenu' //修改用户权限管理
+const adminManageChange = '/operateapi/operateuserupdateusermenu' //修改用户权限管理
 //敏感词
-const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
-const sensitiveUpdate='/operateapi/sensitive/update' //修改
+const sensitiveSelectSensitive = '/operateapi/sensitive/selectSensitive' //查询
+const sensitiveUpdate = '/operateapi/sensitive/update' //修改
+
+const lecturecolumnlist = '/operateapi/lecturecolumnlist' //直播/栏目列表
+const lecturecolumninsert = '/operateapi/lecturecolumninsert' // 添加栏目
+const lecturecolumnupdate = '/operateapi/lecturecolumnupdate' //修改栏目详情
+// 点播
+const lecturedemandpage = '/operateapi/lecturedemandpage' //讲堂点播列表
+const lecturedemandinsert = '/operateapi/lecturedemandinsert' //添加讲堂点播
+const lecturedemandselectbyid = '/operateapi/lecturedemandselectbyid' //查询讲堂点播详情
+const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详情
+const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
+const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
 
 export default {
     login,
@@ -256,7 +267,7 @@ export default {
     managementGzh,
     managementYlt,
     managementEdit,
-    
+
     //动态新闻
     news,
     getProvince,
@@ -288,7 +299,7 @@ export default {
     contractManagementList,
 
     /* ********************************************** */
-    
+
     //内容管理
     contentWrap,
     createdWrap,
@@ -333,7 +344,7 @@ export default {
     servicepackagelistallpackage,
     servicepackagelistpackagebyhospital,
     servicepackageupdatepageagehospital,
-    
+
     //预约科室
     kDepartment,
     getDepartment,
@@ -436,7 +447,7 @@ export default {
     orderManageAppointRegistList,
     ordermanagementlistbyremoteorder,
     ordermanagementselectbyremoteclinicid,
-    
+
     //服务项目管理
     fdspackageitempage,
     fdspackageiteminsert,
@@ -472,5 +483,16 @@ export default {
     adminManageChange,
     //敏感词
     sensitiveSelectSensitive,
-    sensitiveUpdate
+    sensitiveUpdate,
+    // 医师讲堂栏目
+    lecturecolumnlist,
+    lecturecolumninsert,
+    lecturecolumnupdate,
+    // 点播
+    lecturedemandpage,
+    lecturedemandinsert,
+    lecturedemandselectbyid,
+    lecturedemandupdate,
+    lecturedemandpagebyexaminelist,
+    lecturedemandupdateplaystatus,
 }

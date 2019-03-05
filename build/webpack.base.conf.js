@@ -83,6 +83,9 @@ module.exports = {
     'vue-router': 'VueRouter',
     'vuex': 'Vuex',
     'axios': 'axios',
-    'iview': 'iview'
+    'iview': 'iview',
+    'spark-md5': 'SparkMD5',
+    'crypto-js': 'CryptoJS',
+    'tinymce': 'tinymce',
   }
 }
