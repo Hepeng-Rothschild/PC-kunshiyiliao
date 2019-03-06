@@ -268,7 +268,6 @@ export default {
         }).then(res => {
             if (res.data.success) {
                 let ret = res.data.object;
-                console.log(ret);
                 // 点播状态
                 this.live.playStatus = ret.playStatus
                 // // 医生信息
@@ -433,7 +432,7 @@ export default {
         },
         //获取上传的url
         getUploadUrl(url){
-            console.log("传递过来的url",url);
+            // console.log("传递过来的url",url);
 
             this.src = url
             if(Boolean(url)){

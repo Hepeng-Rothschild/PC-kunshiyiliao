@@ -4,7 +4,7 @@
             <div class="progressBox" v-if="showProgress">
                 <span class="progressItem" ref="progressItem"></span>
             </div>
-            <videoPlay :src="fileBaseUrl+src" v-if="showVideo && !pauseStatus && !showProgress"></videoPlay>
+            <videoPlay :src="fileBaseUrl+src" poster='' v-if="showVideo && !pauseStatus && !showProgress"></videoPlay>
         </div>
         <input type="file" class="bigFile" @change="computedSliceMd5" ref="file" name="file">
         <div class="btns">

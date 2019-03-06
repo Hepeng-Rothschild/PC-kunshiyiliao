@@ -394,7 +394,7 @@ export default {
         },
         //获取上传的url
         getUploadUrl(url){
-            console.log("传递过来的url",url);
+            // console.log("传递过来的url",url);
             this.src = url;
             this.live.filePath = url
         },
