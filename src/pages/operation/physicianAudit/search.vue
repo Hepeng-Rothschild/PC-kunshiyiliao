@@ -80,12 +80,17 @@
             </div>
         </div>
         <!-- 保存 -->
-        <div style="margin-top:20px;" >
-            <Button type="primary" @click="saveLive" v-if="playStatus != 2">审核通过</Button>
-            <Button @click="backLive(3)" v-if="playStatus != 2">审核不通过</Button>
-            <Button v-else @click="backLive(4)" type="primary">下架</Button>
+        <!--1待审核
+            2审核通过
+            3审核未通过
+            4下架 -->
+        <div style="margin-top:20px;">
+            <Button type="primary" @click="saveLive" v-if="playStatus == 1">审核通过</Button>
+            <Button @click="backLive(3)" v-if="playStatus == 1">审核不通过</Button>
+            <Button @click="backLive(4)" type="primary" v-if="playStatus == 2">下架</Button>
             <Button @click="back">返回</Button>
         </div>
+        
         
     </div>
 </template>
@@ -141,11 +146,11 @@ export default {
             videoList: [
                 {
                     id: 1,
-                    name: "网站"
+                    name: "网站地址"
                 },
                 {
                     id: 2,
-                    name: "多媒体"
+                    name: "本地上传"
                 }
             ],
             id: "",
@@ -181,7 +186,6 @@ export default {
             .then(res => {
                 if (res.data.success) {
                     let ret = res.data.object;
-                    console.log(ret);
                     // 医生信息
                     this.live.doctorName = ret.doctorName;
                     this.live.doctorId = ret.doctorId;
@@ -189,8 +193,7 @@ export default {
                     this.live.originPrice = ret.originalPrice;
                     this.live.discountPrice = ret.discountPrice;
                     // 路径
-                    this.live.filePath = ret.playbackAddress;
-                    // filePath
+                    this.live.playbackAddress = ret.playbackAddress;
                     // 播放地址
                     if(Boolean(ret.filePath)){
                         this.videoStatus = true;

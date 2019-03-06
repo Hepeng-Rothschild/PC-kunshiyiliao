@@ -5,8 +5,8 @@
             <Col span="8">
                 <Input
                     suffix="ios-search"
-                    placeholder="输入主讲人或标题进行查询"
-                    style="width: 200px"
+                    placeholder="输入主讲人审核人或标题进行查询"
+                    style="width: 230px"
                     v-model="search"
                     clearable
                 />
