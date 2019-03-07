@@ -39,6 +39,11 @@
                 <span class="i">推广力度：</span>
                 <b class="weight">{{ live.fictitiousNum }}</b>
             </div>
+            <!-- 课堂类型 -->
+            <div class="live">
+                <span class="i">课堂类型：</span>
+                <b class = 'weight'>{{ live.modalDataVal }}</b>
+            </div>
             <!-- 播放来源 -->
             <div class="live">
                 <span class="i">播放来源：</span>
@@ -54,15 +59,7 @@
                 <span class="i">播放地址</span>
                 <video-play :src="live.filePath" :poster="poster" :videoStyle="videoStyle"></video-play>
             </div>
-            <!-- 课堂类型 -->
-            <div class="live">
-                <span class="i">课堂类型：</span>
-                <!-- <Select v-model="live.modalDataVal" style="width:100px" disabled>
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                </Select> -->
-                <b class = 'weight'>{{ live.modalDataVal }}</b>
-                <!--  -->
-            </div>
+            
             <!-- 课堂介绍 -->
             <div class="live">
                 <span class="i">课堂介绍</span>
@@ -83,12 +80,17 @@
             </div>
         </div>
         <!-- 保存 -->
-        <div style="margin-top:20px;" >
-            <Button type="primary" @click="saveLive" v-if="playStatus != 2">审核通过</Button>
-            <Button @click="backLive(3)" v-if="playStatus != 2">审核不通过</Button>
-            <Button v-else @click="backLive(4)" type="primary">下架</Button>
+        <!--1待审核
+            2审核通过
+            3审核未通过
+            4下架 -->
+        <div style="margin-top:20px;">
+            <Button type="primary" @click="saveLive" v-if="playStatus == 1">审核通过</Button>
+            <Button @click="backLive(3)" v-if="playStatus == 1">审核不通过</Button>
+            <Button @click="backLive(4)" type="primary" v-if="playStatus == 2">下架</Button>
             <Button @click="back">返回</Button>
         </div>
+        
         
     </div>
 </template>
@@ -144,11 +146,11 @@ export default {
             videoList: [
                 {
                     id: 1,
-                    name: "网站"
+                    name: "网站地址"
                 },
                 {
                     id: 2,
-                    name: "多媒体"
+                    name: "本地上传"
                 }
             ],
             id: "",
@@ -162,8 +164,8 @@ export default {
         let breadList = [
             { path: "/index", title: "首页" },
             {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
+                path: "/index/operation/contentmanagement_home",
+                title: "患者端运营"
             },
             {
                 path: "/index/operation/physicianAudit/list",
@@ -184,7 +186,6 @@ export default {
             .then(res => {
                 if (res.data.success) {
                     let ret = res.data.object;
-                    console.log(ret);
                     // 医生信息
                     this.live.doctorName = ret.doctorName;
                     this.live.doctorId = ret.doctorId;
@@ -192,8 +193,7 @@ export default {
                     this.live.originPrice = ret.originalPrice;
                     this.live.discountPrice = ret.discountPrice;
                     // 路径
-                    this.live.filePath = ret.playbackAddress;
-                    // filePath
+                    this.live.playbackAddress = ret.playbackAddress;
                     // 播放地址
                     if(Boolean(ret.filePath)){
                         this.videoStatus = true;

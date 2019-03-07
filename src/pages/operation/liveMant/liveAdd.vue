@@ -111,6 +111,13 @@
                     style="width:100px"
                 ></InputNumber>
             </div>
+            <!-- 课堂类型 -->
+            <div class="live">
+                <span class="i">课堂类型：</span>
+                <Select v-model="live.modalDataVal" style="width:100px">
+                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                </Select>
+            </div>
             <!-- 播放来源 -->
             <div class="live">
                 <span class="i">播放来源：</span>
@@ -125,7 +132,7 @@
             <!-- 上传的视频 -->
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
-                    <bigUploadFile :src="fileBaseUrl+src" @getUrl="getUploadUrl"></bigUploadFile>
+                    <bigUploadFile :src="live.filePath" @getUrl="getUploadUrl"></bigUploadFile>
                 <p>如需更改视频需再次上传文件即可覆盖</p>
             </div>
             <!-- 文件路径 -->
@@ -137,13 +144,6 @@
                     clearable
                     style="width: 200px"
                 />
-            </div>
-            <!-- 课堂类型 -->
-            <div class="live">
-                <span class="i">课堂类型：</span>
-                <Select v-model="live.modalDataVal" style="width:100px">
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                </Select>
             </div>
             <!-- 课堂介绍 -->
             <div class="live">
@@ -251,8 +251,8 @@ export default {
         let breadList = [
             { path: "/index", title: "首页" },
             {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
+                path: "/index/operation/contentmanagement_home",
+                title: "患者端运营"
             },
             {
                 path: "/index/operation/liveMant/list",
@@ -394,7 +394,7 @@ export default {
         },
         //获取上传的url
         getUploadUrl(url){
-            console.log("传递过来的url",url);
+            // console.log("传递过来的url",url);
             this.src = url;
             this.live.filePath = url
         },
@@ -433,6 +433,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .shuru {
+    width:700px;
     div {
         margin: 0;
     }
@@ -479,7 +480,7 @@ export default {
     margin: 0 auto;
     background: #fff;
     .live {
-        width: 700px;
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -489,13 +490,8 @@ export default {
             min-width: 80px;
             margin-right: 30px;
         }
-        .videoCss{
-            width:100px;
-            // height:300px;
-            video{
-                width:100%;
-                height:100%;
-            }
+        p{
+            margin-left:20px;
         }
     }
 }

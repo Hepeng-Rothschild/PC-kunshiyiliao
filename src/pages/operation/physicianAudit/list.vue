@@ -5,8 +5,8 @@
             <Col span="8">
                 <Input
                     suffix="ios-search"
-                    placeholder="输入主讲人或标题进行查询"
-                    style="width: 200px"
+                    placeholder="输入主讲人审核人或标题进行查询"
+                    style="width: 230px"
                     v-model="search"
                     clearable
                 />
@@ -123,8 +123,8 @@ export default {
         let breadList = [
             { path: "/index", title: "首页" },
             {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
+                path: "/index/operation/contentmanagement_home",
+                title: "患者端运营"
             },
             {
                 path: "/index/operation/physicianAudit/list",

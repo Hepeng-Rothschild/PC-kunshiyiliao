@@ -7,11 +7,11 @@ import router from './router';
 import store from './store';
 import VueI18n from 'vue-i18n';
 // 全局公共样式
-import 'iview/dist/styles/iview.css';
-import 'iview/dist/styles/fonts/ionicons.eot';
-import 'iview/dist/styles/fonts/ionicons.svg';
-import 'iview/dist/styles/fonts/ionicons.ttf';
-import 'iview/dist/styles/fonts/ionicons.woff';
+// import 'iview/dist/styles/iview.css';
+// import 'iview/dist/styles/fonts/ionicons.eot';
+// import 'iview/dist/styles/fonts/ionicons.svg';
+// import 'iview/dist/styles/fonts/ionicons.ttf';
+// import 'iview/dist/styles/fonts/ionicons.woff';
 import { Button, Select, Option, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch } from 'iview';
 import './assets/css/base.css';
 import axios from './plugins/http';
@@ -120,8 +120,8 @@ if(store.state.env == "production"){
 		'ContentType':'multipart/form-data'
 	};
 }else if(store.state.env == "test"){
-	Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
-	// Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
+	// Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
 		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')

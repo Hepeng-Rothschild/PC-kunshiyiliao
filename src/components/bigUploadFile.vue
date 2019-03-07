@@ -1,10 +1,16 @@
 <template>
     <div class="biguploadfile">
-        <progress v-if="pauseStatus"></progress> 
-        <videoPlay :src="fileBaseUrl+src" v-if="showVideo && !pauseStatus"></videoPlay>
+        <div class="videoBox">
+            <div class="progressBox" v-if="showProgress">
+                <span class="progressItem" ref="progressItem"></span>
+            </div>
+            <videoPlay :src="fileBaseUrl+src" poster='' v-if="showVideo && !pauseStatus && !showProgress"></videoPlay>
+        </div>
         <input type="file" class="bigFile" @change="computedSliceMd5" ref="file" name="file">
-        <Button type="primary" @click="toUpload">上传</Button>
-        <Button type="default" v-if="pauseStatus" @click="pauseUpload">暂停</Button>
+        <div class="btns">
+            <Button type="primary" v-if="!pauseStatus" @click="toUpload">上传</Button>
+            <Button type="default" v-if="pauseStatus" @click="pauseUpload">取消</Button>
+        </div>
     </div>
 </template>
 <script>
@@ -16,7 +22,7 @@ import code from "@/config/base.js";
 export default {
     data() {
         return {
-            showVideo:false,
+            showVideo: false,
             blobSlice: null,
             file: null,
             identifier: null,
@@ -32,39 +38,41 @@ export default {
             end: 0,
             headers: {},
             urlCode: code.urlCode.lectureDemand,
-            xhr:null,
-            pauseStatus:false
+            xhr: null,
+            pauseStatus: false,
+            showProgress: false,
+            percent: 0
         };
     },
     props: {
-        src:{
-            type:String,
-            default:""
+        src: {
+            type: String,
+            default: ""
         }
     },
-    components: {videoPlay},
+    components: { videoPlay },
     methods: {
         pauseUpload() {
             this.xhr.abort();
             this.xhr = null;
-            this.initParam(0,"中断上传")
         },
         toUpload() {
             this.$refs.file.click();
         },
         checkMd5() {
+            this.showProgress = true;
             this.$axios
                 .post(api.lecturedemanduploadfilemd5, { md5: this.identifier })
                 .then(resp => {
                     if (resp.data.object.code == 2) {
                         let tmpIdsList = resp.data.object.ids;
-                        tmpIdsList.map(el=>{
-                            el = parseInt(el);
-                        })
+                        tmpIdsList.map((el,index) => {
+                            tmpIdsList[index] = parseInt(el);
+                        });
                         this.uploadedList = tmpIdsList;
                     }
-                    this.pauseStatus = true;
                     this.showVideo = false;
+                    this.pauseStatus = true;
                     this.uploadFile(
                         1,
                         this.formDataList,
@@ -73,7 +81,7 @@ export default {
                     );
                 })
                 .catch(err => {
-                    this.$Message.error("断点续传检查失败，请重试");
+                    this.initParam(0, "断点续传检查失败，请重试");
                 });
         },
         computedSliceMd5() {
@@ -129,10 +137,11 @@ export default {
             this.fileReader.readAsArrayBuffer(pieceFile);
         },
         uploadFile(n, dataList, uploadedList, chunks) {
+            console.log("uploadedList",uploadedList);
             let status = uploadedList.indexOf(n) == -1 ? true : false;
+            console.log("status",status);
             let key = n - 1;
             if (status) {
-                
                 new Promise((resolve, reject) => {
                     Ajax(
                         resolve,
@@ -141,36 +150,80 @@ export default {
                         api.lecturedemanduploadfile,
                         this.headers,
                         dataList[key],
-                        this.xhrReturn
+                        this.xhrReturn,
+                        this.getProgress
                     );
                 })
-                    .then(resp => {
-                        if (resp.object.uploadStatus == 1) {
-                            let tmpUrl = JSON.parse(resp.object.fileUrl)[0].fileName;
-                            this.$emit("getUrl",tmpUrl);
-                            this.success();
-                        } else {
-                            this.uploadFile(
-                                n + 1,
-                                this.formDataList,
-                                this.uploadedList,
-                                this.chunks
-                            );
-                        }
-                    })
-                    .catch(err => {
-                        
-                    });
+                .then(resp => {
+                    if(resp.code == "401"){
+                        this.$router.push({path:"/login"});
+                        return ;
+                    }
+                    if (resp.object.uploadStatus == 1) {
+                        let tmpUrl = JSON.parse(resp.object.fileUrl)[0]
+                            .fileName;
+                        this.$emit("getUrl", tmpUrl);
+                        this.success();
+                    } else {
+                        this.uploadFile(
+                            n + 1,
+                            this.formDataList,
+                            this.uploadedList,
+                            this.chunks
+                        );
+                    }
+                })
+                .catch(err => {
+                    this.initParam(0, "上传失败");
+                });
+            }else{
+                this.percent += Math.floor(100/this.chunks);
+                this.changeProgress(1);
+                this.uploadFile(
+                    n + 1,
+                    this.formDataList,
+                    this.uploadedList,
+                    this.chunks
+                );
+            }
+        },
+        getProgress(evt) {
+            if (evt.lengthComputable) {
+                this.percent += Math.floor(
+                    (evt.loaded * 100) / this.chunks / evt.total
+                );
+                if(this.percent>=99){
+                    this.percent = 99;
+                }
+                this.changeProgress(1);
+            } else {
+                this.changeProgress(0);
+            }
+        },
+        changeProgress(type) {
+            if (type) {
+                this.$refs.progressItem.innerHTML =
+                    this.percent.toFixed(2) + "%";
+                this.$refs.progressItem.style.width =
+                    this.percent.toFixed(2) + "%";
+            } else {
+                this.$refs.progressItem.innerHTML = "上传失败";
             }
         },
         success() {
-            this.initParam(1,"上传成功");
+            this.percent = 100;
+            this.changeProgress(1);
+            setTimeout(() => {
+                this.initParam(1, "上传成功");
+            }, 500);
         },
         failed(err) {
-            this.initParam(0,err);
+            this.initParam(0, err);
         },
-        initParam(type,msg){
+        initParam(type, msg) {
+            this.percent = 0;
             this.pauseStatus = false;
+            this.showProgress = false;
             this.file = null;
             this.identifier = null;
             this.chunks = 0;
@@ -181,22 +234,21 @@ export default {
             this.start = 0;
             this.end = 0;
             this.$refs.file.value = "";
-            if(type == 1){
+            if (type == 1) {
                 this.showVideo = true;
                 this.$Message.success(msg);
-            }else{
+            } else {
                 this.showVideo = false;
                 this.$Message.error(msg);
             }
         },
-        xhrReturn(xhr){
+        xhrReturn(xhr) {
             this.xhr = xhr;
         }
     },
     created() {
-        console.log("this.src" ,this.src);
-        if(Boolean(this.src)) {
-            this.showVideo = true
+        if (Boolean(this.src)) {
+            this.showVideo = true;
         }
         this.blobSlice =
             window.File.prototype.slice ||
@@ -204,6 +256,7 @@ export default {
             window.File.prototype.webkitSlice;
         this.spark = new SparkMD5.ArrayBuffer();
         this.fileReader = new FileReader();
+        this.percent = 0;
     }
 };
 </script>
@@ -213,8 +266,26 @@ export default {
     .bigFile {
         display: none;
     }
-    progress{
-        width:150px;
+    .progressBox {
+        display: inline-block;
+        width: 200px;
+        height: 20px;
+        background-color: gray;
+        vertical-align: middle;
+    }
+    .progressItem {
+        display: inline-block;
+        height: 20px;
+        background-color: #2d8cf0;
+        font-weight: bold;
+        color:#ffffff;
+    }
+    .btns {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .videoBox {
+        display: inline-block;
         vertical-align: middle;
     }
 }
