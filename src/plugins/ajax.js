@@ -1,9 +1,7 @@
-import Vue from 'vue';
 import store from '../store';
 import cookie from '../utils/cookie.js';
 import aesUtils from '../plugins/aes-utils.js';
 
-Vue.prototype.allXhr = [];
 let iv = store.state.iv;
 let salt = store.state.salt;
 let key = cookie.getCookie("randmId");
