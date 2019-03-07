@@ -30,7 +30,6 @@
 - src/pages：vue组件页面
 - src/plugins：插件
 - src/plugins/http.js：axios全局请求和响应拦截处理
-- src/plugins/sso.heart-1.0.1.min：心跳方法
 - src/router：路由配置
 - src/store：vuex状态管理
 - src/App.vue：入口组件
