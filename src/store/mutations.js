@@ -1,22 +1,15 @@
 /**
  * @file mutations
  */
-import Vue from 'vue';
-import * as Types from './mutation-types';
 import menuList from './mutations/menuList';
 import aesUtils from '@/plugins/aes-utils.js';
 import cookie from '@/utils/cookie.js';
 
 export default {
-	[Types.ADDTODO] (state, todo) {
-		state.mapList.push(todo);
-	},
-	[Types.CHANGELOCALE] (state, locale) {
-		state.locale = locale;
-	},
 	// 设置显示的顶级菜单
 	setTopMenuList(state){
 		if(state.env == 'dev'){
+			
 			state.topMenuList = menuList.topMenu;
 		}else{
 			let top = window.localStorage.getItem("top");

@@ -9,7 +9,6 @@ import actions from './actions';
 import getters from './getters';
 import addressConfig from '@/config/address.js';
 
-
 // 状态管理vuex
 Vue.use(Vuex);
 
