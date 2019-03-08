@@ -119,7 +119,6 @@ export default {
                 axios
                     .post(api.login, params)
                     .then(resp => {
-                        console.log("登陆返回值",resp.data);
                         if (resp.data.success) {
                             let times = 10 * 60 * 60;
                             window.localStorage.setItem(
