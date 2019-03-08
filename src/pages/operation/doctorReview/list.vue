@@ -69,7 +69,7 @@ export default {
                     width: 80,
                     render: (h, params) => {
                         let avatar = params.row.avatar;
-                        let defaultSrc = require("@/assets/images/heicon.jpg");
+                        let defaultSrc = require("@/assets/images/doctor.jpg");
                         return h("img", {
                             attrs: {
                                 src: avatar || defaultSrc,
