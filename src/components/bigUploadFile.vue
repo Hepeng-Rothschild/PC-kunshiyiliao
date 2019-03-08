@@ -92,7 +92,7 @@ export default {
                 this.currentChunk++;
                 if (this.currentChunk < this.chunks) {
                     this.loadNext();
-                } else {
+                } else {        
                     this.identifier = this.spark.end(); //文件的MD5身份标识
                     this.tmpDataList.map((el, i) => {
                         let formData = new FormData();
@@ -189,7 +189,7 @@ export default {
         },
         getProgress(evt) {
             if (evt.lengthComputable) {
-                this.percent += Math.floor(
+                this.percent += Math.floor( 
                     (evt.loaded * 100) / this.chunks / evt.total
                 );
                 if(this.percent>=99){
