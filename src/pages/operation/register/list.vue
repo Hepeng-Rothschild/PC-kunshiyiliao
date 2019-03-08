@@ -163,7 +163,7 @@ export default {
                                              //   公用方法
                                             this.functionJS.queryNavgationTo(
                                                 this,
-                                                "/index/operation/register/edit",
+                                                "/index/operation/register/normaledit",
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
@@ -306,7 +306,7 @@ export default {
              //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
-                "/index/operation/register/edit",
+                "/index/operation/register/normaledit",
                 {
                     pageNo: this.pageNo,
                     province: this.province,
