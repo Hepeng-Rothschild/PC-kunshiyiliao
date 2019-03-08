@@ -26,13 +26,22 @@ export default new Router({
 			component: () => import(/* webpackChunkName: 'index' */'@/pages/index'),
 			children: [
 				{
-					path:'/index/test_rsa',
-					name:'test_rsa',
+					path:'test',
+					name:'test',
 					meta: {
 						index: 1,
-						title: 'RSA加解密TEST'
+						title: 'test'
 					},
 					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa')
+				},
+				{
+					path:'test_jump',
+					name:'test_jump',
+					meta: {
+						index: 2,
+						title: 'test_jump'
+					},
+					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa/jump')
 				},
 				//运营端路由
 				operation.doctorManagement,
@@ -40,8 +49,10 @@ export default new Router({
 				operation.reviewEdit,
 				operation.reviewreview,
 				operation.registerList,
-				operation.registerEdit,
-				operation.registerDetail,
+				operation.registerNormalEdit,
+				operation.registerSegmentationEdit,
+				operation.registerNormalDetail,
+				operation.registerSegmentationDetail,
 				operation.uploaddemo,
 
 				operation.contentmanagementHome,

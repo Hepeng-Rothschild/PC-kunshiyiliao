@@ -96,23 +96,41 @@ const registerList = {
 	},
 	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/list")
 }
-const registerEdit = {
-	path: 'operation/register/edit',
-	name: 'registeredit',
+const registerNormalEdit = {
+	path: 'operation/register/normaledit',
+	name: 'registerNormalEdit',
 	meta: {
 		index: 3,
 		title: '添加医生挂号信息'
 	},
-	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/edit")
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/normaledit")
 }
-const registerDetail = {
-	path: 'operation/register/detail',
-	name: 'registerdetail',
+const registerSegmentationEdit = {
+	path: 'operation/register/segmentationedit',
+	name: 'registerSegmentationEdit',
+	meta: {
+		index: 3,
+		title: '添加医生挂号信息'
+	},
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/segmentationedit")
+}
+const registerNormalDetail = {
+	path: 'operation/register/normaldetail',
+	name: 'registernormaldetail',
 	meta: {
 		index: 3,
 		title: '预约挂号详情'
 	},
-	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/detail")
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/normaldetail")
+}
+const registerSegmentationDetail = {
+	path: 'operation/register/segmentationdetail',
+	name: 'registersegmentationdetail',
+	meta: {
+		index: 3,
+		title: '预约挂号详情'
+	},
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/segmentationdetail")
 }
 
 // 医生远程门诊列表
@@ -976,8 +994,10 @@ export default {
 	reviewEdit,
 	reviewreview,
 	registerList,
-	registerEdit,
-	registerDetail,
+	registerNormalEdit,
+	registerSegmentationEdit,
+	registerNormalDetail,
+	registerSegmentationDetail,
 	uploaddemo,
 	//机构运营
 	contentmanagementHome,
