@@ -343,6 +343,7 @@ export default {
                 this.alertMsg = "";
             }
         },
+        // 输入值重置
         resetInput(){
             // 样式
             this.noticeClassColor = ""
