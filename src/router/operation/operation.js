@@ -114,14 +114,23 @@ const registerSegmentationEdit = {
 	},
 	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/segmentationedit")
 }
-const registerDetail = {
-	path: 'operation/register/detail',
-	name: 'registerdetail',
+const registerNormalDetail = {
+	path: 'operation/register/normaldetail',
+	name: 'registernormaldetail',
 	meta: {
 		index: 3,
 		title: '预约挂号详情'
 	},
-	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/detail")
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/normaldetail")
+}
+const registerSegmentationDetail = {
+	path: 'operation/register/segmentationdetail',
+	name: 'registersegmentationdetail',
+	meta: {
+		index: 3,
+		title: '预约挂号详情'
+	},
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/segmentationdetail")
 }
 
 // 医生远程门诊列表
@@ -987,7 +996,8 @@ export default {
 	registerList,
 	registerNormalEdit,
 	registerSegmentationEdit,
-	registerDetail,
+	registerNormalDetail,
+	registerSegmentationDetail,
 	uploaddemo,
 	//机构运营
 	contentmanagementHome,

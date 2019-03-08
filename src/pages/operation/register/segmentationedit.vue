@@ -9,9 +9,6 @@
             <Col :xs="24" :md="3">{{hospitalName}}</Col>
             <Col :xs="24" :md="3">{{dept}}</Col>
             <Col :xs="24" :md="2">{{doctorName}}</Col>
-            <!-- <Col :xs="24" :md="3">
-                {{title}}
-            </Col>-->
             <Col :xs="24" :md="5">
                 <Button type="primary" v-if="addBtnFlag" @click="loadPage(1)">添加专家</Button>
                 <span class="expert-msg" :class="{'show-msg': expertMsgStatus}">请添加专家</span>
@@ -27,12 +24,6 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">门诊类型</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <!-- <Input
-                    class="w-input"
-                    :maxlength="20"
-                    v-model="outpatientType"
-                    placeholder="请输入门诊类型"
-                />-->
                 <Select class="w-select" v-model="outpatientType">
                     <Option
                         v-for="(item,index) of typeList"
@@ -248,7 +239,6 @@ export default {
             id: null,
             info: null,
             pageNo: null,
-            searchType: 1,
             searchKey: "",
             deptKey: "",
             dictType: "",
@@ -320,9 +310,6 @@ export default {
         this.pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
             : 1;
-        this.searchType = this.$route.query.searchType
-            ? parseInt(this.$route.query.searchType)
-            : 1;
         this.searchKey = this.$route.query.searchKey
             ? this.$route.query.searchKey
             : "";
@@ -354,22 +341,62 @@ export default {
             this.expertMsgStatus = true;
         }
         if (this.id) {
+            this.upList = [];
+            this.dnList = [];
             this.$axios
                 .post(api.registerDoctorDetail, { registerId: this.id })
                 .then(resp => {
                     this.info = resp.data.object;
-                    for (let i = 0; i < this.info.registerTimes.length; i++) {
-                        let tmpregistertimes = this.info.registerTimes[i];
-                        this[
-                            "wd" + tmpregistertimes.week + tmpregistertimes.day
-                        ] = tmpregistertimes.num;
-                        this[
-                            "wd" +
-                                tmpregistertimes.week +
-                                tmpregistertimes.day +
-                                "d"
-                        ] = tmpregistertimes.id;
-                    }
+                    this.info.registerTimes.map((el, i) => {
+                        if(el.day == 1){
+                            let tmpPiece = [el.timeStart, el.timeEnd];
+                            if(this.upList.length<=0){
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                tmpArr[el.week] = el.num;
+                                this.upList.push(tmpArr);
+                            }else{
+                                let pFlag = true;
+                                let tmpIndex = null;
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                this.upList.map((ele,i)=>{
+                                    if(ele[0].toString() === tmpPiece.toString()){
+                                        pFlag = false;
+                                        tmpIndex = i;
+                                    }
+                                })
+                                if(pFlag){
+                                    tmpArr[el.week] = el.num;
+                                    this.upList.push(tmpArr);
+                                }else{
+                                    this.upList[tmpIndex][el.week] = el.num;
+                                }
+                            }
+                        }else if(el.day == 2){
+                            let tmpPiece = [el.timeStart, el.timeEnd];
+                            if(this.dnList.length<=0){
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                tmpArr[el.week] = el.num;
+                                this.dnList.push(tmpArr);
+                            }else{
+                                let pFlag = true;
+                                let tmpIndex = null;
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                this.dnList.map((ele,i)=>{
+                                    if(ele[0].toString() === tmpPiece.toString()){
+                                        pFlag = false;
+                                        tmpIndex = i;
+                                    }
+                                })
+                                if(pFlag){
+                                    tmpArr[el.week] = el.num;
+                                    this.dnList.push(tmpArr);
+                                }else{
+                                    this.dnList[tmpIndex][el.week] = el.num;
+                                }
+                            }
+                        }
+                    });
+                    
                     this.doctorName = this.info.doctorName;
                     this.doctorId = this.info.doctorId;
                     this.hospitalName = this.info.hospitalName;
@@ -549,21 +576,32 @@ export default {
 
         submit(name) {
             let tmpRegistertimes = [];
-            for (let i = 1; i <= 7; i++) {
-                for (let j = 1; j <= 2; j++) {
-                    let tmpObj = {};
-                    if (
-                        this["wd" + i + j] > 0 ||
-                        this["wd" + i + j + "d"] != null
-                    ) {
-                        tmpObj.id = this["wd" + i + j + "d"];
-                        tmpObj.num = this["wd" + i + j];
-                        tmpObj.day = j;
+            this.upList.map((el,i)=>{
+                for(let i=1;i<=7;i++){
+                    if(el[i] != '' && el[i]>0){
+                        let tmpObj = {};
+                        tmpObj.timeStart = el[0][0];
+                        tmpObj.timeEnd = el[0][1];
+                        tmpObj.num = el[i];
+                        tmpObj.day = 1;
                         tmpObj.week = i;
                         tmpRegistertimes.push(tmpObj);
                     }
                 }
-            }
+            })
+            this.dnList.map((el,i)=>{
+                for(let i=1;i<=7;i++){
+                    if(el[i] != '' && el[i]>0){
+                        let tmpObj = {};
+                        tmpObj.timeStart = el[0][0];
+                        tmpObj.timeEnd = el[0][1];
+                        tmpObj.num = el[i];
+                        tmpObj.day = 2;
+                        tmpObj.week = i;
+                        tmpRegistertimes.push(tmpObj);
+                    }
+                }
+            })
             let params = {};
             params.address = this.address;
             params.cost = this.cost;
@@ -578,6 +616,7 @@ export default {
             params.remarks = this.remarks;
             params.term = this.term;
             params.registerTimes = tmpRegistertimes;
+            params.icut = this.icut;
             let url = "";
             let msg = "";
             if (this.id) {
@@ -604,7 +643,6 @@ export default {
                                     area: this.area,
                                     hospital: this.hospital,
                                     isBack: 2,
-                                    searchType: this.searchType,
                                     searchKey: this.searchKey,
                                     deptKey: this.deptKey,
                                     dictType: this.dictType
@@ -633,7 +671,6 @@ export default {
                     area: this.area,
                     hospital: this.hospital,
                     isBack: 2,
-                    searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
@@ -691,13 +728,13 @@ export default {
                 this,
                 "/index/operation/register/normaledit",
                 {
+                    id: this.id,
                     pageNo: this.pageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
                     hospital: this.hospital,
                     isBack:2,
-                    searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType

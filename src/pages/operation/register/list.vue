@@ -1,6 +1,6 @@
 <template>
     <div class="doctorreviewlist">
-        <tempHeader :index='0'></tempHeader>
+        <tempHeader :index="0"></tempHeader>
         <Row>
             <Col :xs="24">
                 <div class="margin-up-down">
@@ -64,7 +64,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
-            isBack:1,
+            isBack: 1,
 
             searchKey: "",
             keyPlaceHolder: "医生姓名",
@@ -76,11 +76,17 @@ export default {
             registertimesFlag: false,
             columns: [
                 { title: "序号", key: "iNum", align: "center", width: 60 },
-                { title: "专家姓名", key: "doctorName", align: "center", width: 140 },
+                {
+                    title: "专家姓名",
+                    key: "doctorName",
+                    align: "center",
+                    width: 140
+                },
                 {
                     title: "医院科室",
                     key: "hospitaldept",
-                    align: "center", width: 200,
+                    align: "center",
+                    width: 200,
                     render: (h, params) => {
                         let item = params.row.hospitaldept;
                         return h("span", {
@@ -90,11 +96,17 @@ export default {
                         });
                     }
                 },
-                { title: "就诊地址", key: "address", align: "center", width: 200 },
+                {
+                    title: "就诊地址",
+                    key: "address",
+                    align: "center",
+                    width: 200
+                },
                 {
                     title: "预约挂号门诊时间",
                     key: "registerTimes",
-                    align: "center", width: 140,
+                    align: "center",
+                    width: 140,
                     render: (h, params) => {
                         let id = params.row.id;
                         let tmpTimes = params.row.registerTimes;
@@ -112,13 +124,64 @@ export default {
                     }
                 },
                 { title: "预约期限", key: "term", align: "center", width: 140 },
-                { title: "备注信息", key: "remarks", align: "center", width: 200 },
+                {
+                    title: "备注信息",
+                    key: "remarks",
+                    align: "center",
+                    width: 200
+                },
                 {
                     title: "操作",
                     key: "operate",
-                    align: "center", width: 140,
+                    align: "center",
+                    width: 140,
                     render: (h, params) => {
                         let id = params.row.id;
+                        let icut = params.row.icut;
+                        let updateStatus = params.row.updateStatus;
+                        let jumpPath =
+                            "/index/operation/register/segmentationdetail";
+                        let updatePath =
+                            "/index/operation/register/segmentationedit";
+                        let btn = null,
+                            separator = null;
+                        if (icut == null || icut == 1) {
+                            jumpPath = "/index/operation/register/normaldetail";
+                            updatePath = "/index/operation/register/normaledit";
+                        }
+                        if (updateStatus !== 1) {
+                            separator = " | ";
+                            btn = h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            //   公用方法
+                                            this.functionJS.queryNavgationTo(
+                                                this,
+                                                updatePath,
+                                                {
+                                                    id,
+                                                    pageNo: this.pageNo,
+                                                    province: this.province,
+                                                    city: this.city,
+                                                    area: this.area,
+                                                    hospital: this.hospital,
+                                                    isBack: 2,
+                                                    searchKey: this.searchKey,
+                                                    deptKey: this.deptKey,
+                                                    dictType: this.dictType
+                                                }
+                                            );
+                                        }
+                                    }
+                                },
+                                "编辑"
+                            );
+                        }
                         return [
                             h(
                                 "a",
@@ -128,10 +191,10 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                             //   公用方法
+                                            //   公用方法
                                             this.functionJS.queryNavgationTo(
                                                 this,
-                                                "/index/operation/register/detail",
+                                                jumpPath,
                                                 {
                                                     id,
                                                     pageNo: this.pageNo,
@@ -139,50 +202,19 @@ export default {
                                                     city: this.city,
                                                     area: this.area,
                                                     hospital: this.hospital,
-                                                    isBack:2,
+                                                    isBack: 2,
                                                     searchKey: this.searchKey,
                                                     deptKey: this.deptKey,
                                                     dictType: this.dictType
                                                 }
                                             );
-
                                         }
                                     }
                                 },
                                 "查看"
                             ),
-                            " | ",
-                            h(
-                                "a",
-                                {
-                                    attrs: {
-                                        href: "javascript:void(0);"
-                                    },
-                                    on: {
-                                        click: () => {
-                                             //   公用方法
-                                            this.functionJS.queryNavgationTo(
-                                                this,
-                                                "/index/operation/register/normaledit",
-                                                {
-                                                    id,
-                                                    pageNo: this.pageNo,
-                                                    province: this.province,
-                                                    city: this.city,
-                                                    area: this.area,
-                                                    hospital: this.hospital,
-                                                    isBack:2,
-                                                    searchKey: this.searchKey,
-                                                    deptKey: this.deptKey,
-                                                    dictType: this.dictType
-                                                }
-                                            );
-
-                                        }
-                                    }
-                                },
-                                "编辑"
-                            )
+                            separator,
+                            btn
                         ];
                     }
                 }
@@ -253,7 +285,6 @@ export default {
             params.hospitalId = this.hospital ? this.hospital : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
-            console.log("预约挂号 params",params);
             this.$axios
                 .post(api.registerList, params)
                 .then(resp => {
@@ -292,18 +323,30 @@ export default {
         showTimesModal(id) {
             let tmpArr = this.doctorTimesList[id];
             let tmpHtml = ``;
-            tmpArr.forEach((element, i) => {
-                tmpHtml += `${this.weeks[element.week]}&nbsp;&nbsp;
-                ${
-                    this.days[element.day]
-                }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
+            tmpArr.forEach((el, i) => {
+                tmpHtml += `<span style="display:inline-block;width:30px;">${
+                    this.weeks[el.week]
+                }</span><span style="width:5px;display:inline-block;"></span>
+                <span style="display:inline-block;width:30px;">${
+                    this.days[el.day]
+                }</span><span style="width:5px;display:inline-block;"></span>
+                <span style="display:inline-block;width:100px;">${
+                    el.timeStart
+                } - ${
+                    el.timeEnd
+                }</span><span style="width:5px;display:inline-block;"></span><span style="display:inline-block;width:30px;">${
+                    el.num
+                }</span><span style="width:30px;display:inline-block;"></span>`;
                 if (i % 2 == 1) tmpHtml += `<br>`;
+                if (i % 2 == 0 && i == tmpArr.length - 1) {
+                    tmpHtml += `<span style="width:242px;display:inline-block;"></span>`;
+                }
             });
             this.timesHtml = tmpHtml;
             this.registertimesFlag = true;
         },
         addDoc() {
-             //   公用方法
+            //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/operation/register/normaledit",
@@ -313,17 +356,15 @@ export default {
                     city: this.city,
                     area: this.area,
                     hospital: this.hospital,
-                    isBack:2,
+                    isBack: 2,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
                 }
             );
-
         }
     },
     created() {
-
         sessionStorage.setItem("index", 0);
         this.searchKey = this.$route.query.searchKey
             ? this.$route.query.searchKey
@@ -346,7 +387,9 @@ export default {
         this.hospital = this.$route.query.hospital
             ? parseInt(this.$route.query.hospital)
             : null;
-        this.isBack = this.$route.query.isBack?parseInt(this.$route.query.isBack):1;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
 
         let breadList = [
             { path: "/index", title: "首页" },

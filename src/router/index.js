@@ -51,7 +51,8 @@ export default new Router({
 				operation.registerList,
 				operation.registerNormalEdit,
 				operation.registerSegmentationEdit,
-				operation.registerDetail,
+				operation.registerNormalDetail,
+				operation.registerSegmentationDetail,
 				operation.uploaddemo,
 
 				operation.contentmanagementHome,

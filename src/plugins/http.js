@@ -78,7 +78,7 @@ axios.interceptors.response.use(
 				response.data.object = JSON.parse(aesUtils.decrypt(salt,iv,key,tmpData));
 			}
 		}
-		console.log("返回的数据:::",response);
+		// console.log("返回的数据:::",response);
 		return response;
 	},
 	error => {

@@ -33,6 +33,7 @@
             <Col class="padding-l borderLeft" :xs="24" :md="21">
                 <Row>
                     <Col class="text-align-c" :xs="2">&nbsp;</Col>
+                    <Col class="text-align-c" :xs="3">&nbsp;</Col>
                     <Col class="text-align-c" :xs="2">星期一</Col>
                     <Col class="text-align-c" :xs="2">星期二</Col>
                     <Col class="text-align-c" :xs="2">星期三</Col>
@@ -43,6 +44,21 @@
                 </Row>
                 <Row>
                     <Col class="text-align-c" :xs="2">上午</Col>
+                    <Col class="text-align-c" :xs="3">
+                        <TimePicker
+                            :open="false"
+                            :value="upTime"
+                            format="HH:mm"
+                            type="timerange"
+                            :editable="false"
+                            :disabled="true"
+                        >
+                            <a href="javascript:void(0)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template>{{ upTime[0] + '-' + upTime[1] }}</template>
+                            </a>
+                        </TimePicker>
+                    </Col>
                     <Col class="text-align-c" :xs="2">{{info.wd11?info.wd11:'&nbsp;'}}</Col>
                     <Col class="text-align-c" :xs="2">{{info.wd21?info.wd21:'&nbsp;'}}</Col>
                     <Col class="text-align-c" :xs="2">{{info.wd31?info.wd31:'&nbsp;'}}</Col>
@@ -53,6 +69,21 @@
                 </Row>
                 <Row>
                     <Col class="text-align-c" :xs="2">下午</Col>
+                    <Col class="text-align-c" :xs="3">
+                        <TimePicker
+                            :open="false"
+                            :value="dnTime"
+                            format="HH:mm"
+                            type="timerange"
+                            :editable="false"
+                            :disabled="true"
+                        >
+                            <a href="javascript:void(0)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template>{{ dnTime[0] + '-' + dnTime[1] }}</template>
+                            </a>
+                        </TimePicker>
+                    </Col>
                     <Col class="text-align-c" :xs="2">{{info.wd12?info.wd12:'&nbsp;'}}</Col>
                     <Col class="text-align-c" :xs="2">{{info.wd22?info.wd22:'&nbsp;'}}</Col>
                     <Col class="text-align-c" :xs="2">{{info.wd32?info.wd32:'&nbsp;'}}</Col>
@@ -89,7 +120,7 @@
         </Row>
         <br>
         <Button type="primary" @click="changeRegisterFlag">{{icloseText}}预约</Button>
-        <Button type="primary" @click="toEdit">编辑</Button>
+        <Button type="primary" v-if="info.updateStatus !== 1" @click="toEdit">编辑</Button>
         <Button type="primary" @click="reback">返回</Button>
     </div>
 </template>
@@ -112,6 +143,8 @@ export default {
             searchKey: "",
             deptKey: "",
             dictType: "",
+            upTime: ["08:00", "12:00"],
+            dnTime: ["13:00", "17:00"],
 
             littleTitle: "查看",
             icloseText: "关闭",
