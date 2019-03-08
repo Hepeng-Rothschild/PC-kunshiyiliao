@@ -177,6 +177,7 @@ export default {
                                 aesUtils.encrypt(salt, iv, key, access_user),
                                 times
                             );
+
                             //存储当前用户身份对应省市区
                             let province = null,
                                 city = null,
@@ -202,7 +203,6 @@ export default {
                                     province = this.$store.getters.getProvinceByCityId( city.id );
                             }
                             let ownArea = JSON.stringify({province,city,area});
-                            
                             cookie.setCookie("ownArea",ownArea,times);
                             let topMenu = [],
                                 secondMenu = [],
@@ -306,7 +306,6 @@ export default {
                             );
                             // 公用方法
                             this.functionJS.queryNavgationTo(this, '/index');
-                            
                         } else {
                             this.loginFlag = true;
                             this.noticeClassColor = "alert-color";
@@ -318,16 +317,12 @@ export default {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
                         this.loginFlag = true;
-                        if (err) {
-                            this.noticeClassColor = "";
-                            this.iconClass = "";
-                            this.iconText = "";
-                            this.alertMsg = "";
-                            // this.$Message.info("服务器超时");
-                            this.verifyCode.refresh();
-                        }
+                        this.noticeClassColor = "alert-color";
+                        this.iconClass = "alert-icon";
+                        this.iconText = "!";
+                        this.alertMsg = "登陆失败";
+                        this.verifyCode.refresh();
                     });
             }
         },
