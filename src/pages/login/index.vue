@@ -306,6 +306,8 @@ export default {
                             );
                             // 公用方法
                             this.functionJS.queryNavgationTo(this, '/index');
+                            // 清空输入的内容
+                            this.resetInput()
                         } else {
                             this.loginFlag = true;
                             this.noticeClassColor = "alert-color";
@@ -317,6 +319,7 @@ export default {
                         }
                     })
                     .catch(err => {
+                        console.log(err)
                         this.loginFlag = true;
                         this.noticeClassColor = "alert-color";
                         this.iconClass = "alert-icon";
@@ -339,6 +342,25 @@ export default {
                 this.iconText = "";
                 this.alertMsg = "";
             }
+        },
+        resetInput(){
+            // 样式
+            this.noticeClassColor = ""
+            this.iconClass = ""
+            // 符号
+            this.iconText = ""
+            // 弹示框
+            this.alertMsg = ''
+            // 刷新验证码
+            this.verifyCode.refresh();
+            // 失去焦点
+            this.$refs.username.focus();
+            this.verify = "";
+            // 用户名密码
+            this.username = ''
+            this.password = ''
+            // 打开允许登录
+            this.loginFlag = true
         }
     }
 };

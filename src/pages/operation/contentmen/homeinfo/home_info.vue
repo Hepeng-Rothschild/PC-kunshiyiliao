@@ -153,6 +153,11 @@
         <span class="main_yy_name">是否是否强制用券</span>
         <iSwitch v-model="usedCoupon"/>
       </div>
+      <!-- 预约挂号支付 -->
+      <div class="main_yy">
+        <span class="main_yy_name">预约挂号支付</span>
+        <iSwitch v-model="registerPayStatus"/>
+      </div>
       <!--处方流转平台接口ID-->
       <div class="main_info">
         <span>处方流转平台接口ID</span>
@@ -196,6 +201,7 @@ export default {
       switch3: false,
       switch4: false,
       usedCoupon: false,
+      registerPayStatus:false,
       y_name: "",
       y_type: 6001,
       y_module: "2",
@@ -283,7 +289,9 @@ export default {
         // 开启远程门诊
         iremote: Number(this.switch4),
        // 是否强制用卷
-        usedCoupon: Number(this.usedCoupon)
+        usedCoupon: Number(this.usedCoupon),
+        // 预约挂号支付
+        registerPayStatus:Number(this.registerPayStatus)
       };
       if (!this.switch1) {
         params.appid = null;
@@ -453,6 +461,8 @@ export default {
           }
           // 是否强制用卷
           this.usedCoupon = Boolean(ret.usedCoupon)
+          // 预约挂号支付
+          this.registerPayStatus = Boolean(ret.registerPayStatus)
           //医联体上级医院
           // 处方流转
           this.switch3 = Boolean(ret.ipres);
