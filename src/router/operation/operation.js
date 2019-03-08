@@ -96,14 +96,23 @@ const registerList = {
 	},
 	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/list")
 }
-const registerEdit = {
-	path: 'operation/register/edit',
-	name: 'registeredit',
+const registerNormalEdit = {
+	path: 'operation/register/normaledit',
+	name: 'registerNormalEdit',
 	meta: {
 		index: 3,
 		title: '添加医生挂号信息'
 	},
-	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/edit")
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/normaledit")
+}
+const registerSegmentationEdit = {
+	path: 'operation/register/segmentationedit',
+	name: 'registerSegmentationEdit',
+	meta: {
+		index: 3,
+		title: '添加医生挂号信息'
+	},
+	component: () => import(/* webpackChunkName: 'operation-docrormanagement-register' */"@/pages/operation/register/segmentationedit")
 }
 const registerDetail = {
 	path: 'operation/register/detail',
@@ -976,7 +985,8 @@ export default {
 	reviewEdit,
 	reviewreview,
 	registerList,
-	registerEdit,
+	registerNormalEdit,
+	registerSegmentationEdit,
 	registerDetail,
 	uploaddemo,
 	//机构运营

@@ -222,7 +222,7 @@ export default {
              //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
-                "/index/operation/register/edit",
+                "/index/operation/register/normaledit",
                 {
                     id: this.id, 
                     pageNo: this.pageNo,

@@ -27,12 +27,20 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">门诊类型</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <Input
+                <!-- <Input
                     class="w-input"
                     :maxlength="20"
                     v-model="outpatientType"
                     placeholder="请输入门诊类型"
-                />
+                /> -->
+                <Select class="w-select" v-model="outpatientType">
+                    <Option
+                        v-for="(item,index) of typeList"
+                        :key="item.id"
+                        :value="item.name"
+                    >{{item.name}}</Option>
+                </Select>
+                <Button type="primary" @click="jump">分时段设置</Button>
             </Col>
         </Row>
         <Row class="bordered">
@@ -40,6 +48,7 @@
             <Col class="padding-l borderLeft" :xs="24" :md="21">
                 <Row>
                     <Col :xs="2">&nbsp;</Col>
+                    <Col :xs="3">&nbsp;</Col>
                     <Col :xs="2">星期一</Col>
                     <Col :xs="2">星期二</Col>
                     <Col :xs="2">星期三</Col>
@@ -50,6 +59,20 @@
                 </Row>
                 <Row>
                     <Col :xs="2">上午</Col>
+                    <Col :xs="3">
+                        <TimePicker
+                            :open="false"
+                            :value="upTime"
+                            format="HH:mm"
+                            type="timerange"
+                            :editable="false"
+                            :disabled="true">
+                            <a href="javascript:void(0)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template>{{ upTime[0] + '-' + upTime[1] }}</template>
+                            </a>
+                        </TimePicker>
+                    </Col>
                     <Col :xs="2">
                         <InputNumber :min="1" v-model="wd11"></InputNumber>
                     </Col>
@@ -74,6 +97,20 @@
                 </Row>
                 <Row>
                     <Col :xs="2">下午</Col>
+                    <Col :xs="3">
+                        <TimePicker
+                            :open="false"
+                            :value="dnTime"
+                            format="HH:mm"
+                            type="timerange"
+                            :editable="false"
+                            :disabled="true">
+                            <a href="javascript:void(0)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template>{{ dnTime[0] + '-' + dnTime[1] }}</template>
+                            </a>
+                        </TimePicker>
+                    </Col>
                     <Col :xs="2">
                         <InputNumber :min="1" v-model="wd12"></InputNumber>
                     </Col>
@@ -194,35 +231,45 @@ export default {
             dept: null,
             deptId: null,
             address: null,
-            outpatientType: null,
-            wd11: null,
-            wd1d: null,
-            wd21: null,
+            typeList: [
+                { id: 1, name: "普通门诊" }
+                // {id:2,name:"社保门诊"}
+            ],
+            outpatientType: "普通门诊",
+            upTime:['09:00','12:00'],
+            dnTime:['13:00','17:00'],
+            wd11: 0,
+            wd21: 0,
+            wd31: 0,
+            wd41: 0,
+            wd51: 0,
+            wd61: 0,
+            wd71: 0,
+
+            wd12: 0,
+            wd22: 0,
+            wd32: 0,
+            wd42: 0,
+            wd52: 0,
+            wd62: 0,
+            wd72: 0,
+
+            wd11d: null,
             wd21d: null,
-            wd31: null,
             wd31d: null,
-            wd41: null,
             wd41d: null,
-            wd51: null,
             wd51d: null,
-            wd61: null,
             wd61d: null,
-            wd71: null,
             wd71d: null,
-            wd12: null,
+
             wd12d: null,
-            wd22: null,
             wd22d: null,
-            wd32: null,
             wd32d: null,
-            wd42: null,
             wd42d: null,
-            wd52: null,
             wd52d: null,
-            wd62: null,
             wd62d: null,
-            wd72: null,
             wd72d: null,
+
             term: null,
             cost: null,
             receive: null,
@@ -236,7 +283,8 @@ export default {
             pageSize: 10,
             count: 0,
 
-      expertMsgStatus: false
+            expertMsgStatus: false,
+            icut: 2
     };
   },
   watch: {
@@ -332,6 +380,8 @@ export default {
                     }
                 }
             }
+            console.log("tmpRegistertimes:::",tmpRegistertimes);
+            return ;
             let params = {};
             params.address = this.address;
             params.cost = this.cost;
@@ -346,6 +396,8 @@ export default {
             params.remarks = this.remarks;
             params.term = this.term;
             params.registerTimes = tmpRegistertimes;
+            params.icut = this.icut;
+            console.log("normal params",params);
             let url = "";
             let msg = "";
             if (this.id) {
@@ -449,6 +501,24 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        jump() {
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/register/segmentationedit",
+                {
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack:2,
+                    searchType: this.searchType,
+                    searchKey: this.searchKey,
+                    deptKey: this.deptKey,
+                    dictType: this.dictType
+                }
+            );
         }
     }
 };
