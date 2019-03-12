@@ -222,13 +222,32 @@ export default new Router({
 			component: () => import(/* webpackChunkName: 'login' */'@/pages/login')
 		},
 		{
+			path: '/public',
+			name: 'public',
+			meta: {
+				index: 1,
+				title: "公共平台"
+			},
+			children:[
+				{
+					path:'index',
+					name:'index',
+					meta: {
+						index: 2,
+						title: '提示'
+					},
+					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/public/notice')
+				}
+			]
+		},
+		{
 			path: '*',
 			name: '404',
 			meta: {
 				index: 1,
 				title: "404 NOT FOUND"
 			},
-			component: () => import(/* webpackChunkName: 'not-found' */'@/pages/404')
+			component: () => import(/* webpackChunkName: 'not-found' */'@/pages/public/404')
 		}
 	]
 });

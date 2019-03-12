@@ -1,5 +1,6 @@
+
 <template>
-    <div id="main">
+    <div ref="notice" class="notice">
         <Row>
             <Col class="top" :xs="24" :md="4">
                 <img class="logo" src="@/assets/images/logo.png">
@@ -26,7 +27,6 @@
         </Row>
     </div>
 </template>
-
 <script>
 import topMenu from "@/components/topMenu";
 import leftMenu from "@/components/leftMenu";
@@ -60,6 +60,30 @@ export default {
                 return;
             }
         }
+		let tmpTopMenu = [{ id: 5, name: "公共平台", type: "public" }];
+		tmpTopMenu = JSON.stringify(tmpTopMenu);
+        let tmpLeftMenu = [
+            {
+                id: 100001,
+                level: 1,
+                name: "权限提示",
+                childLists: [
+                    {
+                        id: 100002,
+                        level: 2,
+                        name: "暂无权限",
+                        path: "/index/public/notice"
+                    }
+                ]
+            }
+		];
+		tmpLeftMenu = JSON.stringify(tmpLeftMenu);
+		let iv = this.$store.state.iv;
+		let salt = this.$store.state.salt;
+		let key = cookie.getCookie("randmId");
+		window.localStorage.setItem("top",aesUtils.encrypt(salt, iv, key, tmpTopMenu));
+		window.localStorage.setItem("sun5",aesUtils.encrypt(salt, iv, key, tmpLeftMenu));
+		
         this.$store.commit("setTopMenuList");
         let topMenuList = this.$store.state.topMenuList;
         let leftMenuList = this.$store.state.leftMenuList;
@@ -135,33 +159,9 @@ export default {
     }
 };
 </script>
-<style lang="less" scoped>
-#main {
-    .top {
-        .logo {
-            width: 60px;
-            margin: 5px;
-        }
-        .logo-text {
-            text-align: center;
-            display: inline-block;
-            width: 60%;
-        }
-    }
-    .left-menu {
-        width: 100% !important;
-    }
-    .content {
-        // padding:15px 0 0 15px;
-        background: #f5f5f5;
-        .welcome {
-            height: 500px;
-            width: 100%;
-            background: #ffffff;
-            text-align: center;
-            line-height: 380px;
-            font-size: 48px;
-        }
-    }
+<style scoped lang='less'>
+.notice {
+    width: 100%;
+    height: 100%;
 }
 </style>
