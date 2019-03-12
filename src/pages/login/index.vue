@@ -14,6 +14,7 @@
             </div>
             <div class="pwd-box">
                 <input
+                    autocomplete="new-password"
                     type="password"
                     class="password"
                     @change="checkInput"
@@ -69,22 +70,9 @@ export default {
             loginFlag: true
         };
     },
-    beforeCreate() {
-        let assets_token = window.localStorage.getItem("access_token");
-        if (assets_token) {
-            window.localStorage.removeItem("access_token");
-        }
-        cookie.delCookie("username");
-        cookie.delCookie("userIcon");
-        cookie.delCookie("randmId");
-        cookie.delCookie("operateUserId");
-        cookie.delCookie("idtt");
-        cookie.delCookie("idttC");
-        cookie.delCookie("access_user");
-        cookie.delCookie("ownArea");
-    },
-    mounted() {
+    mounted(){
         this.verifyCode = new GVerify("verify");
+        this.clearData();
     },
     methods: {
         checkLogin() {
@@ -131,15 +119,18 @@ export default {
                             let identity = resp.data.object.identity;
                             let identityCoding =
                                 resp.data.object.identityCoding;
-                            let areaCode =
-                                resp.data.object.areaCode;
+                            let areaCode = resp.data.object.areaCode;
                             if (operateUserId) {
                                 let tmpObj;
-                                if(tmpIcon){
+                                if (tmpIcon) {
                                     tmpObj = JSON.parse(tmpIcon);
                                     let userIcon =
                                         this.fileBaseUrl + tmpObj.fileName;
-                                    cookie.setCookie("userIcon", userIcon, times);
+                                    cookie.setCookie(
+                                        "userIcon",
+                                        userIcon,
+                                        times
+                                    );
                                 }
                                 cookie.setCookie("username", username, times);
                                 cookie.setCookie(
@@ -159,17 +150,6 @@ export default {
                             let iv = this.$store.state.iv;
                             let salt = this.$store.state.salt;
                             let menus = resp.data.object.menus;
-                            // if(menus.length<=0){
-                            //     this.$Message.error({content:"该账号暂无任何权限,登陆失败~",duration:3});
-                            //     this.loginFlag = true;
-                            //     this.noticeClassColor = "alert-color";
-                            //     this.iconClass = "alert-icon";
-                            //     this.iconText = "!";
-                            //     this.alertMsg = "暂无权限,登陆失败!";
-                            //     this.verify = "";
-                            //     this.verifyCode.refresh();
-                            //     return ;
-                            // }
                             cookie.setCookie("randmId", key, times);
                             cookie.setCookie(
                                 "access_user",
@@ -185,24 +165,46 @@ export default {
                                 case 1: //超级管理员，暂时不管
                                     break;
                                 case 2: //省级
-                                    province = this.$store.getters.getProvinceById( identityCoding );
+                                    province = this.$store.getters.getProvinceById(
+                                        identityCoding
+                                    );
                                     break;
                                 case 3: //市级
-                                    city = this.$store.getters.getCityById( identityCoding );
-                                    province = this.$store.getters.getProvinceByCityId( identityCoding );
+                                    city = this.$store.getters.getCityById(
+                                        identityCoding
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        identityCoding
+                                    );
                                     break;
                                 case 4: //区级
-                                    area = this.$store.getters.getAreaById( identityCoding );
-                                    city = this.$store.getters.getCityByAreaId( identityCoding );
-                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                                    area = this.$store.getters.getAreaById(
+                                        identityCoding
+                                    );
+                                    city = this.$store.getters.getCityByAreaId(
+                                        identityCoding
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        city.id
+                                    );
                                     break;
                                 case 5: //机构
-                                    area = this.$store.getters.getAreaById( areaCode );
-                                    city = this.$store.getters.getCityByAreaId( areaCode );
-                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                                    area = this.$store.getters.getAreaById(
+                                        areaCode
+                                    );
+                                    city = this.$store.getters.getCityByAreaId(
+                                        areaCode
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        city.id
+                                    );
                             }
-                            let ownArea = JSON.stringify({province,city,area});
-                            cookie.setCookie("ownArea",ownArea,times);
+                            let ownArea = JSON.stringify({
+                                province,
+                                city,
+                                area
+                            });
+                            cookie.setCookie("ownArea", ownArea, times);
                             let topMenu = [],
                                 secondMenu = [],
                                 thirdMenu = [];
@@ -303,14 +305,20 @@ export default {
                                 "top",
                                 aesUtils.encrypt(salt, iv, key, topMenu)
                             );
-                            if(menus.length<=0){
-                                this.$Message.error({content:"该账号暂无任何权限",duration:3});
+                            if (menus.length <= 0) {
+                                this.$Message.error({
+                                    content: "该账号暂无任何权限",
+                                    duration: 3
+                                });
                                 this.loginFlag = true;
-                                this.functionJS.queryNavgationTo(this, '/public');
-                                return ;
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/public"
+                                );
+                                return;
                             }
                             // 公用方法
-                            this.functionJS.queryNavgationTo(this, '/index');
+                            this.functionJS.queryNavgationTo(this, "/index");
                             // 清空输入的内容
                             this.resetInput();
                         } else {
@@ -348,24 +356,47 @@ export default {
             }
         },
         // 输入值重置
-        resetInput(){
+        resetInput() {
             // 样式
-            this.noticeClassColor = ""
-            this.iconClass = ""
+            this.noticeClassColor = "";
+            this.iconClass = "";
             // 符号
-            this.iconText = ""
+            this.iconText = "";
             // 弹示框
-            this.alertMsg = ''
+            this.alertMsg = "";
             // 刷新验证码
             this.verifyCode.refresh();
             // 失去焦点
             this.$refs.username.focus();
             this.verify = "";
             // 用户名密码
-            this.username = ''
-            this.password = ''
+            this.username = "";
+            this.password = "";
             // 打开允许登录
-            this.loginFlag = true
+            this.loginFlag = true;
+        },
+        clearData() {
+            let assets_token = window.localStorage.getItem("access_token");
+            if (assets_token) {
+                window.localStorage.removeItem("access_token");
+            }
+            let cookiess = document.cookie.split(";");
+            cookie.delCookie("username");
+            cookie.delCookie("userIcon");
+            cookie.delCookie("randmId");
+            cookie.delCookie("operateUserId");
+            cookie.delCookie("idtt");
+            cookie.delCookie("idttC");
+            cookie.delCookie("access_user");
+            cookie.delCookie("ownArea");
+            window.localStorage.removeItem("top");
+            window.localStorage.removeItem("sun1");
+            window.localStorage.removeItem("sun2");
+            window.localStorage.removeItem("sun3");
+            window.localStorage.removeItem("sun4");
+            window.localStorage.removeItem("sun5");
+            window.localStorage.clear();
+            this.resetInput();
         }
     }
 };

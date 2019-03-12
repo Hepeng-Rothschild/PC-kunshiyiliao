@@ -54,9 +54,6 @@ export default {
     this.username = cookie.getCookie("username");
     this.userIcon = cookie.getCookie("userIcon");
     this.operateUserId = cookie.getCookie("operateUserId");
-    // this.$store.commit("setTopMenuList");
-    // this.lists = this.$store.state.topMenuList;
-    // this.$store.commit("setLeftMenuList",this.topActiveName);
   },
   methods: {
     changeTop(name) {
