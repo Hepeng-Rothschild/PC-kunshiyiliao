@@ -21,7 +21,7 @@
         <!--科室名称-->
         <div class="keshi_name">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
           <Input v-model.trim="title" style="width: 300px" disabled/>
@@ -33,6 +33,14 @@
             <span>科室就诊位置</span>
           </div>
           <Input v-model.trim="keshiname" style="width: 300px" placeholder="门诊楼2楼1-7诊室"/>
+        </div>
+        <!--科室编码-->
+        <div class="keshi_name">
+          <div class="left">
+            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+            <span>科室编码</span>
+          </div>
+          <Input v-model.trim="code" style="width: 300px" placeholder="请输入科室编码"/>
         </div>
         <!--科室图标-->
         <div class="keshi_name_fileImgs">
@@ -96,14 +104,6 @@
             style="margin:0;"
           ></vueEditor>
         </div>
-        <!--科室特色-->
-        <!-- <div class="keshi_name_text">
-					<div class = 'left'>
-						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
-						<span>科室特色</span>
-					</div>
-					<textarea name="" id="" cols="30" rows="10" v-model = 'test2'></textarea>
-        </div>-->
         <!--排序-->
         <div class="keshi_name_text" style="align-items:center;">
           <div class="left">
@@ -145,20 +145,23 @@ export default {
   },
   data() {
     return {
+      // 科室名称
       title: "",
+      // 科室别名
       keshiname: "",
-      test1: "",
-      test2: "",
+      // 是否显示
       switch1: true,
+      // 科室排序
       isort: "",
       defaultList: [],
+      // 科室编码
+      code:"",
       imgName: "",
       visible: false,
       tablsList: [],
       rightDetail: [],
       currentId: -1,
       id: sessionStorage.getItem("hospitalId"),
-      editorText: "请输入要编辑的内容...",
       editorTexts: "请输入要编辑的内容...",
       info: {
         content: ""
@@ -266,7 +269,9 @@ export default {
         deptPosition: this.keshiname,
         display: Number(this.switch1),
         priority: this.isort,
-        id: this.currentId
+        id: this.currentId,
+        // code
+        code:this.code
       };
       if (this.images != "" && this.uploadList.length) {
         params.departmenticon = this.images;
@@ -391,6 +396,9 @@ export default {
             this.switch1 = Boolean(ret.display);
             // 排序
             this.isort = ret.priority || 0;
+            
+            // 科室code
+            this.code = ret.code
           }
         });
     }
