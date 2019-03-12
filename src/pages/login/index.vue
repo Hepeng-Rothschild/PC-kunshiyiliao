@@ -159,17 +159,17 @@ export default {
                             let iv = this.$store.state.iv;
                             let salt = this.$store.state.salt;
                             let menus = resp.data.object.menus;
-                            if(menus.length<=0){
-                                this.$Message.error({content:"该账号暂无任何权限,登陆失败~",duration:3});
-                                this.loginFlag = true;
-                                this.noticeClassColor = "alert-color";
-                                this.iconClass = "alert-icon";
-                                this.iconText = "!";
-                                this.alertMsg = "暂无权限,登陆失败!";
-                                this.verify = "";
-                                this.verifyCode.refresh();
-                                return ;
-                            }
+                            // if(menus.length<=0){
+                            //     this.$Message.error({content:"该账号暂无任何权限,登陆失败~",duration:3});
+                            //     this.loginFlag = true;
+                            //     this.noticeClassColor = "alert-color";
+                            //     this.iconClass = "alert-icon";
+                            //     this.iconText = "!";
+                            //     this.alertMsg = "暂无权限,登陆失败!";
+                            //     this.verify = "";
+                            //     this.verifyCode.refresh();
+                            //     return ;
+                            // }
                             cookie.setCookie("randmId", key, times);
                             cookie.setCookie(
                                 "access_user",
@@ -303,10 +303,16 @@ export default {
                                 "top",
                                 aesUtils.encrypt(salt, iv, key, topMenu)
                             );
+                            if(menus.length<=0){
+                                this.$Message.error({content:"该账号暂无任何权限",duration:3});
+                                this.loginFlag = true;
+                                this.functionJS.queryNavgationTo(this, '/public');
+                                return ;
+                            }
                             // 公用方法
                             this.functionJS.queryNavgationTo(this, '/index');
                             // 清空输入的内容
-                            this.resetInput()
+                            this.resetInput();
                         } else {
                             this.loginFlag = true;
                             this.noticeClassColor = "alert-color";
@@ -318,7 +324,6 @@ export default {
                         }
                     })
                     .catch(err => {
-                        console.log(err)
                         this.loginFlag = true;
                         this.noticeClassColor = "alert-color";
                         this.iconClass = "alert-icon";

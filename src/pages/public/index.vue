@@ -60,6 +60,38 @@ export default {
                 return;
             }
         }
+        let sun1 = window.localStorage.getItem("sun1");
+        let sun2 = window.localStorage.getItem("sun2");
+        let sun3 = window.localStorage.getItem("sun3");
+        let sun4 = window.localStorage.getItem("sun4");
+        if(sun1 || sun2 || sun3 || sun4){
+            this.functionJS.queryNavgationTo(this, '/index');
+            return ;
+        }
+        let tmpTopMenu = [{ id: 5, name: "公共平台", type: "public" }];
+		tmpTopMenu = JSON.stringify(tmpTopMenu);
+        let tmpLeftMenu = [
+            {
+                id: 100001,
+                level: 1,
+                name: "登陆提示",
+                childLists: [
+                    {
+                        id: 100002,
+                        level: 2,
+                        name: "暂无权限",
+                        path: "/public/index"
+                    }
+                ]
+            }
+		];
+		tmpLeftMenu = JSON.stringify(tmpLeftMenu);
+		let iv = this.$store.state.iv;
+		let salt = this.$store.state.salt;
+		let key = cookie.getCookie("randmId");
+		window.localStorage.setItem("top",aesUtils.encrypt(salt, iv, key, tmpTopMenu));
+		window.localStorage.setItem("sun5",aesUtils.encrypt(salt, iv, key, tmpLeftMenu));
+
         this.$store.commit("setTopMenuList");
         let topMenuList = this.$store.state.topMenuList;
         let leftMenuList = this.$store.state.leftMenuList;

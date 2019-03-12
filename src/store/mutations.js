@@ -9,7 +9,6 @@ export default {
 	// 设置显示的顶级菜单
 	setTopMenuList(state){
 		if(state.env == 'dev'){
-			
 			state.topMenuList = menuList.topMenu;
 		}else{
 			let top = window.localStorage.getItem("top");
@@ -23,7 +22,6 @@ export default {
 	setLeftMenuList(state,name){
 		if(state.env != "dev"){
 			let sunList = window.localStorage.getItem("sun"+name);
-			
 			if(sunList)
 				state.leftMenuList = JSON.parse(aesUtils.decrypt(state.salt,state.iv,cookie.getCookie("randmId"),sunList));
 		}else{
