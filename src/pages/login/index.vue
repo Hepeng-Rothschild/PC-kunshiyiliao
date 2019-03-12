@@ -310,7 +310,6 @@ export default {
                                     content: "该账号暂无任何权限",
                                     duration: 3
                                 });
-                                this.loginFlag = true;
                                 this.functionJS.queryNavgationTo(
                                     this,
                                     "/public"

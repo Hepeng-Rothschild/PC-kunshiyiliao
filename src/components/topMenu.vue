@@ -63,6 +63,7 @@ export default {
     },
     logout() {
       window.localStorage.removeItem("access_token");
+      window.localStorage.clear();
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
       cookie.delCookie("randmId");
