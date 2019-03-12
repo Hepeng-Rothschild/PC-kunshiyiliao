@@ -223,17 +223,19 @@ export default new Router({
 		},
 		{
 			path: '/public',
-			name: 'public',
+			name: 'publicmodel',
 			meta: {
 				index: 1,
 				title: "公共平台"
 			},
+			component: ()=> import(/* webpackChunkName: 'rsa' */'@/pages/public/index'),
+			redirect: '/public/index',
 			children:[
 				{
 					path:'index',
-					name:'index',
+					name:'publicIndex',
 					meta: {
-						index: 2,
+						index: 1,
 						title: '提示'
 					},
 					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/public/notice')

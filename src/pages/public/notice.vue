@@ -1,167 +1,37 @@
-
 <template>
-    <div ref="notice" class="notice">
-        <Row>
-            <Col class="top" :xs="24" :md="4">
-                <img class="logo" src="@/assets/images/logo.png">
-                <span class="logo-text">互联网医院平台</span>
-            </Col>
-            <Col :xs="24" :md="20">
-                <top-menu :topMenuLists="topMenuLists" :topActiveName="topActiveName"></top-menu>
-            </Col>
-        </Row>
-        <Row>
-            <Col :xs="24" :md="4">
-                <left-menu
-                    :leftMenuLists="leftMenuLists"
-                    :openList="openList"
-                    :leftActiveName="leftActiveName"
-                    class="left-menu"
-                ></left-menu>
-            </Col>
-            <Col class="content" :xs="24" :md="20">
-                <bread :breadTitle="breadTitle" :breadList="breadList"></bread>
-                <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到互联网医院管理系统</div>
-                <router-view @changeBreadList="changeBreadList"></router-view>
-            </Col>
-        </Row>
+    <div class="notice">
+        <h1>{{msg}}</h1>
     </div>
 </template>
 <script>
-import topMenu from "@/components/topMenu";
-import leftMenu from "@/components/leftMenu";
-import Bread from "@/components/bread";
-import aesUtils from "@/plugins/aes-utils.js";
-import cookie from "@/utils/cookie.js";
 export default {
-    data() {
+    data(){
         return {
-            breadList: [{ path: "", title: "首页" }],
-            breadTitle: "",
-            showWelcome: true,
-            topActiveName: null,
-            leftActiveName: null,
-            openList: [],
-            topMenuLists: []
-        };
-    },
-    components: {
-        topMenu,
-        leftMenu,
-        Bread
-    },
-    created() {
-        let randmId;
-        if (this.$store.state.env != "dev") {
-            randmId = cookie.getCookie("randmId");
-            if (!randmId) {
-                // 公用方法
-                this.functionJS.queryNavgationTo(this, "/login");
-                return;
-            }
+            msg:"该账号暂未开通任何权限，请与上级管理员联系"
         }
-		let tmpTopMenu = [{ id: 5, name: "公共平台", type: "public" }];
-		tmpTopMenu = JSON.stringify(tmpTopMenu);
-        let tmpLeftMenu = [
+    },
+    created(){
+        let breadList = [
+            { path: "", title: "首页" },
             {
-                id: 100001,
-                level: 1,
-                name: "权限提示",
-                childLists: [
-                    {
-                        id: 100002,
-                        level: 2,
-                        name: "暂无权限",
-                        path: "/index/public/notice"
-                    }
-                ]
+                title: "登陆提示"
+            },
+            {
+                title: "暂无权限"
             }
-		];
-		tmpLeftMenu = JSON.stringify(tmpLeftMenu);
-		let iv = this.$store.state.iv;
-		let salt = this.$store.state.salt;
-		let key = cookie.getCookie("randmId");
-		window.localStorage.setItem("top",aesUtils.encrypt(salt, iv, key, tmpTopMenu));
-		window.localStorage.setItem("sun5",aesUtils.encrypt(salt, iv, key, tmpLeftMenu));
-		
-        this.$store.commit("setTopMenuList");
-        let topMenuList = this.$store.state.topMenuList;
-        let leftMenuList = this.$store.state.leftMenuList;
-        if (topMenuList.length > 0) {
-            this.topMenuLists = topMenuList;
-        } else {
-            // 公用方法
-            this.functionJS.queryNavgationTo(this, "/login");
-        }
-        // this.leftMenuLists = this.$store.state.leftMenuList;
-    },
-    mounted() {
-        let fullPath = this.$route.fullPath;
-        for (let item of this.$store.state.topMenuList) {
-            let RegObj = new RegExp(`${item.type}`, "ig");
-            if (RegObj.test(fullPath)) {
-                this.topActiveName = item.id;
-                break;
-            }
-        }
-        if (fullPath == "/index") {
-            this.topActiveName = this.$store.state.topMenuList[0].id;
-        }
-        this.$store.commit("setLeftMenuList", this.topActiveName);
-        for (let keys in this.$store.state.leftMenuList) {
-            for (let key in this.$store.state.leftMenuList[keys].childLists) {
-                if (
-                    this.$store.state.leftMenuList[keys].childLists[key].path ==
-                    fullPath
-                ) {
-                    this.leftActiveName = `${
-                        this.$store.state.leftMenuList[keys].id
-                    }-${
-                        this.$store.state.leftMenuList[keys].childLists[key].id
-                    }`;
-                    this.openList[0] = parseInt(keys);
-                    break;
-                }
-            }
-        }
-        if (fullPath != "/index") this.showWelcome = false;
-    },
-    beforeRouteUpdate(to, from, next) {
-        if (to.fullPath != "/index") this.showWelcome = false;
-        else this.showWelcome = true;
-        for (let keys in this.$store.state.leftMenuList) {
-            for (let key in this.$store.state.leftMenuList[keys].childLists) {
-                if (
-                    this.$store.state.leftMenuList[keys].childLists[key].path ==
-                    to.fullPath
-                ) {
-                    this.leftActiveName = `${
-                        this.$store.state.leftMenuList[keys].id
-                    }-${
-                        this.$store.state.leftMenuList[keys].childLists[key].id
-                    }`;
-                    this.openList[0] = parseInt(keys);
-                    break;
-                }
-            }
-        }
-        next();
-    },
-    computed: {
-        leftMenuLists() {
-            return this.$store.state.leftMenuList;
-        }
-    },
-    methods: {
-        changeBreadList(breadList) {
-            this.breadList = breadList;
-        }
+        ];
+        this.$emit("changeBreadList", breadList);
     }
-};
+}
 </script>
-<style scoped lang='less'>
-.notice {
-    width: 100%;
-    height: 100%;
+<style lang="less" scoped>
+.notice{
+    margin-left: 1%;
+    padding: 10px;
+    width: 98%;
+    background: #ffffff;
+    box-sizing: border-box;
+    color:#495060;
+    text-align: center;
 }
 </style>
