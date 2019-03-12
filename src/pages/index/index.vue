@@ -21,10 +21,7 @@
             <Col class="content" :xs="24" :md="20">
                 <bread :breadTitle="breadTitle" :breadList="breadList"></bread>
                 <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到互联网医院管理系统</div>
-                <keep-alive>
                     <router-view @changeBreadList="changeBreadList"></router-view>
-                </keep-alive>
-                
             </Col>
         </Row>
     </div>
