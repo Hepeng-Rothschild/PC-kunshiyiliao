@@ -307,6 +307,8 @@ export default {
                                 this.$Message.error({content:"该账号暂无任何权限",duration:3});
                                 this.loginFlag = true;
                                 this.functionJS.queryNavgationTo(this, '/public');
+                                // 清空输入的内容
+                                this.resetInput();
                                 return ;
                             }
                             // 公用方法
