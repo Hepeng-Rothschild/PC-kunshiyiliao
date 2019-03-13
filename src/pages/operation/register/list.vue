@@ -1,6 +1,6 @@
 <template>
     <div class="doctorreviewlist">
-        <tempHeader :index="0"></tempHeader>
+        <!-- <tempHeader :index="0"></tempHeader> -->
         <Row>
             <Col :xs="24">
                 <div class="margin-up-down">

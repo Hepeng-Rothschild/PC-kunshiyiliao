@@ -1,6 +1,6 @@
 <template>
     <div class="remoteClinic">
-        <tempHeader :index="1"/>
+        <!-- <tempHeader :index="1"/> -->
         <!-- 头部选择框 -->
         <Row>
             <Col :xs="24">

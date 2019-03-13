@@ -33,7 +33,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>机构名称</span>
         </div>
-        <Input v-model="yname" placeholder="蚌埠中医院" style="width: 360px" disabled/>
+        <Input v-model="yname" placeholder="请选择专家" style="width: 360px" disabled/>
       </div>
       <!--专家科室-->
       <div class="main_expert_experts">
