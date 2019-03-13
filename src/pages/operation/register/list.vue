@@ -285,6 +285,7 @@ export default {
             params.hospitalId = this.hospital ? this.hospital : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log("params:::",params);
             this.$axios
                 .post(api.registerList, params)
                 .then(resp => {
