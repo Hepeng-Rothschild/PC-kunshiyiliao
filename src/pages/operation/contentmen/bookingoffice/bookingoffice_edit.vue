@@ -35,13 +35,13 @@
           <Input v-model.trim="keshiname" style="width: 300px" placeholder="门诊楼2楼1-7诊室"/>
         </div>
         <!--科室编码-->
-        <!-- <div class="keshi_name">
+        <div class="keshi_name">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室编码</span>
           </div>
           <Input v-model.trim="code" style="width: 300px" placeholder="请输入科室编码"/>
-        </div> -->
+        </div>
         <!--科室图标-->
         <div class="keshi_name_fileImgs">
           <div class="left">
@@ -271,7 +271,7 @@ export default {
         priority: this.isort,
         id: this.currentId,
         // code
-        // code:this.code
+        code:this.code
       };
       if (this.images != "" && this.uploadList.length) {
         params.departmenticon = this.images;
@@ -398,7 +398,7 @@ export default {
             this.isort = ret.priority || 0;
             
             // 科室code
-            // this.code = ret.code
+            this.code = ret.code
           }
         });
     }
