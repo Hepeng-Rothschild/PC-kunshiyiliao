@@ -238,7 +238,7 @@ export default {
         return {
             id: null,
             info: null,
-            pageNo: null,
+            lPageNo: null,
             searchKey: "",
             deptKey: "",
             dictType: "",
@@ -672,7 +672,7 @@ export default {
                                 this,
                                 "/index/operation/register/list",
                                 {
-                                    pageNo: this.pageNo,
+                                    pageNo: this.lPageNo,
                                     province: this.province,
                                     city: this.city,
                                     area: this.area,
@@ -700,7 +700,7 @@ export default {
                 this,
                 "/index/operation/register/list",
                 {
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
@@ -764,7 +764,7 @@ export default {
                 "/index/operation/register/normaledit",
                 {
                     id: this.id,
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,

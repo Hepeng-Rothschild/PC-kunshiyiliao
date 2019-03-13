@@ -203,7 +203,7 @@ export default {
         return {
             id: null,
             info: null,
-            pageNo: null,
+            lPageNo: null,
             searchKey: "",
             deptKey: "",
             dictType: "",
@@ -274,7 +274,7 @@ export default {
     },
     created() {
         this.id = this.$route.query.id;
-        this.pageNo = this.$route.query.pageNo
+        this.lPageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
             : 1;
         this.searchKey = this.$route.query.searchKey
@@ -429,7 +429,7 @@ export default {
                                 this,
                                 "/index/operation/register/list",
                                 {
-                                    pageNo: this.pageNo,
+                                    pageNo: this.lPageNo,
                                     province: this.province,
                                     city: this.city,
                                     area: this.area,
@@ -457,7 +457,7 @@ export default {
                 this,
                 "/index/operation/register/list",
                 {
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
@@ -515,7 +515,7 @@ export default {
                 "/index/operation/register/segmentationedit",
                 {
                     id: this.id,
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
