@@ -115,6 +115,7 @@ export default {
       });
   },
   methods: {
+    // 添加 
     add() {
       this.$axios.post(api.versionupdate, this.params).then(res => {
         if (res.data.code) {
@@ -128,6 +129,7 @@ export default {
         }
       });
     },
+    // 后退
     back() {
       let pageNo = this.$route.query.pageNo;
       this.functionJS.queryNavgationTo(this,"/index/operation/versionManagement/home",{
