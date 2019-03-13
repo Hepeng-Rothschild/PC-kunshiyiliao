@@ -26,13 +26,22 @@ export default new Router({
 			component: () => import(/* webpackChunkName: 'index' */'@/pages/index'),
 			children: [
 				{
-					path:'/index/test_rsa',
-					name:'test_rsa',
+					path:'test',
+					name:'test',
 					meta: {
 						index: 1,
-						title: 'RSA加解密TEST'
+						title: 'test'
 					},
 					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa')
+				},
+				{
+					path:'test_jump',
+					name:'test_jump',
+					meta: {
+						index: 2,
+						title: 'test_jump'
+					},
+					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa/jump')
 				},
 				//运营端路由
 				operation.doctorManagement,
@@ -40,8 +49,10 @@ export default new Router({
 				operation.reviewEdit,
 				operation.reviewreview,
 				operation.registerList,
-				operation.registerEdit,
-				operation.registerDetail,
+				operation.registerNormalEdit,
+				operation.registerSegmentationEdit,
+				operation.registerNormalDetail,
+				operation.registerSegmentationDetail,
 				operation.uploaddemo,
 
 				operation.contentmanagementHome,
@@ -211,13 +222,34 @@ export default new Router({
 			component: () => import(/* webpackChunkName: 'login' */'@/pages/login')
 		},
 		{
+			path: '/public',
+			name: 'publicmodel',
+			meta: {
+				index: 1,
+				title: "公共平台"
+			},
+			component: ()=> import(/* webpackChunkName: 'rsa' */'@/pages/public/index'),
+			redirect: '/public/index',
+			children:[
+				{
+					path:'index',
+					name:'publicIndex',
+					meta: {
+						index: 1,
+						title: '提示'
+					},
+					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/public/notice')
+				}
+			]
+		},
+		{
 			path: '*',
 			name: '404',
 			meta: {
 				index: 1,
 				title: "404 NOT FOUND"
 			},
-			component: () => import(/* webpackChunkName: 'not-found' */'@/pages/404')
+			component: () => import(/* webpackChunkName: 'not-found' */'@/pages/public/404')
 		}
 	]
 });

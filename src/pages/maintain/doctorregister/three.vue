@@ -12,7 +12,7 @@
         <span>本次不可导入</span>
         <span>数据:{{ error }}条</span>
       </div>
-      <button class="btn" @click="success">完成</button>
+      <button class="btn" @click="uploadsuccess">完成</button>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    success() {
+    uploadsuccess() {
       this.functionJS.paramsNavgationTo(this, "doctorregisterlist");
     }
   }

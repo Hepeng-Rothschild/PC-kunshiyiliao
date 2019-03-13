@@ -9,9 +9,6 @@
             <Col :xs="24" :md="3">{{hospitalName}}</Col>
             <Col :xs="24" :md="3">{{dept}}</Col>
             <Col :xs="24" :md="2">{{doctorName}}</Col>
-            <!-- <Col :xs="24" :md="3">
-                {{title}}
-            </Col>-->
             <Col :xs="24" :md="5">
                 <Button type="primary" v-if="addBtnFlag" @click="loadPage(1)">添加专家</Button>
                 <span class="expert-msg" :class="{'show-msg': expertMsgStatus}">请添加专家</span>
@@ -27,12 +24,6 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">门诊类型</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <!-- <Input
-                    class="w-input"
-                    :maxlength="20"
-                    v-model="outpatientType"
-                    placeholder="请输入门诊类型"
-                />-->
                 <Select class="w-select" v-model="outpatientType">
                     <Option
                         v-for="(item,index) of typeList"
@@ -40,14 +31,15 @@
                         :value="item.name"
                     >{{item.name}}</Option>
                 </Select>
-                <Button type="primary" @click="jump">分时段设置</Button>
+                <Button type="primary" @click="jump">普通设置</Button>
             </Col>
         </Row>
         <Row class="bordered">
-            <Col class="text-align-c" :xs="24" :md="3">门诊时间</Col>
-            <Col class="padding-l borderLeft" :xs="24" :md="21">
+            <Col class="text-align-c" align="middle" :xs="24" :md="3">门诊时间</Col>
+            <Col class="padding-l padding-b padding-t borderLeft" :xs="24" :md="21">
                 <Row>
                     <Col :xs="2">&nbsp;</Col>
+                    <Col :xs="3">&nbsp;</Col>
                     <Col :xs="2">星期一</Col>
                     <Col :xs="2">星期二</Col>
                     <Col :xs="2">星期三</Col>
@@ -56,52 +48,117 @@
                     <Col :xs="2">星期六</Col>
                     <Col :xs="2">星期日</Col>
                 </Row>
-                <Row>
-                    <Col :xs="2">上午</Col>
+                <Row v-for="(item,index) of upList" :key="index">
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd11"></InputNumber>
+                        <span v-if="index+1 == 1">
+                            <button class="cus-btn" @click="upAdItem" size="small">+</button>上午
+                        </span>
+                        <span v-else>&nbsp;</span>
+                    </Col>
+                    <Col :xs="3">
+                        <TimePicker
+                            :open="item[8]"
+                            :value="item[0]"
+                            format="HH:mm"
+                            type="timerange"
+                            :clearable="false"
+                            :confirm="true"
+                            :editable="false"
+                            :disabled-hours="[0,1,2,3,4,5,6,7,13,14,15,16,17,18,19,20,21,22,23,24]"
+                            @on-change="changeUpTime($event,index)"
+                            @on-ok="upOk(index)">
+                            <a href="javascript:void(0)" @click="upClick(index)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template v-if="item[0][0] === '' || item[0][1] === ''">选择时间段</template>
+                                <template v-else>{{ item[0][0]+'-'+item[0][1] }}</template>
+                            </a>
+                        </TimePicker>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd21"></InputNumber>
+                        <InputNumber :min="1" v-model="item[1]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd31"></InputNumber>
+                        <InputNumber :min="1" v-model="item[2]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd41"></InputNumber>
+                        <InputNumber :min="1" v-model="item[3]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd51"></InputNumber>
+                        <InputNumber :min="1" v-model="item[4]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd61"></InputNumber>
+                        <InputNumber :min="1" v-model="item[5]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd71"></InputNumber>
+                        <InputNumber :min="1" v-model="item[6]"></InputNumber>
+                    </Col>
+                    <Col :xs="2">
+                        <InputNumber :min="1" v-model="item[7]"></InputNumber>
+                    </Col>
+                    <Col :xs="1">
+                        <button
+                            v-if="index==upList.length-1 && upList.length!=1"
+                            @click="rmUpItem"
+                            class="cus-btn"
+                            size="small"
+                        >-</button>
                     </Col>
                 </Row>
-                <Row>
-                    <Col :xs="2">下午</Col>
+                <br>
+                <Row v-for="(item,index) of dnList" :key="index">
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd12"></InputNumber>
+                        <span v-if="index+1 == 1">
+                            <button class="cus-btn" @click="dnAdItem" size="small">+</button>下午
+                        </span>
+                        <span v-else>&nbsp;</span>
+                    </Col>
+                    <Col :xs="3">
+                        <TimePicker
+                            :open="item[8]"
+                            :value="item[0]"
+                            format="HH:mm"
+                            type="timerange"
+                            :clearable="false"
+                            :confirm="true"
+                            :editable="false"
+                            :disabled-hours="[0,1,2,3,4,5,6,7,8,9,10,11,12,18,19,20,21,22,23,24]"
+                            @on-change="changeDnTime($event,index)"
+                            @on-ok="dnOk(index)">
+                            <a href="javascript:void(0)" @click="dnClick(index)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template v-if="item[0][0] === '' || item[0][1] === ''">选择时间段</template>
+                                <template v-else>{{ item[0][0]+'-'+item[0][1] }}</template>
+                            </a>
+                        </TimePicker>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd22"></InputNumber>
+                        <InputNumber :min="1" v-model="item[1]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd32"></InputNumber>
+                        <InputNumber :min="1" v-model="item[2]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd42"></InputNumber>
+                        <InputNumber :min="1" v-model="item[3]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd52"></InputNumber>
+                        <InputNumber :min="1" v-model="item[4]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd62"></InputNumber>
+                        <InputNumber :min="1" v-model="item[5]"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd72"></InputNumber>
+                        <InputNumber :min="1" v-model="item[6]"></InputNumber>
+                    </Col>
+                    <Col :xs="2">
+                        <InputNumber :min="1" v-model="item[7]"></InputNumber>
+                    </Col>
+                    <Col :xs="1">
+                        <button
+                            v-if="index==dnList.length-1 && dnList.length!=1"
+                            @click="rmDnItem"
+                            class="cus-btn"
+                            size="small"
+                        >-</button>
                     </Col>
                 </Row>
             </Col>
@@ -182,7 +239,6 @@ export default {
             id: null,
             info: null,
             pageNo: null,
-            searchType: 1,
             searchKey: "",
             deptKey: "",
             dictType: "",
@@ -191,7 +247,6 @@ export default {
             area: null,
             hospital: null,
             isBack: 2,
-
 
             littleTitle: "编辑",
             addBtnFlag: false,
@@ -208,34 +263,6 @@ export default {
                 // {id:2,name:"社保门诊"}
             ],
             outpatientType: "普通门诊",
-            wd11: null,
-            wd1d: null,
-            wd21: null,
-            wd21d: null,
-            wd31: null,
-            wd31d: null,
-            wd41: null,
-            wd41d: null,
-            wd51: null,
-            wd51d: null,
-            wd61: null,
-            wd61d: null,
-            wd71: null,
-            wd71d: null,
-            wd12: null,
-            wd12d: null,
-            wd22: null,
-            wd22d: null,
-            wd32: null,
-            wd32d: null,
-            wd42: null,
-            wd42d: null,
-            wd52: null,
-            wd52d: null,
-            wd62: null,
-            wd62d: null,
-            wd72: null,
-            wd72d: null,
             term: null,
             cost: null,
             receive: null,
@@ -250,7 +277,23 @@ export default {
             count: 0,
 
             expertMsgStatus: false,
-            icut: 2
+            icut: 2,
+
+            upList: [
+                [["08:00", "09:00"], 0, 0, 0, 0, 0, 0, 0, false],
+                [["09:00", "10:00"], 0, 0, 0, 0, 0, 0, 0, false],
+                [["10:00", "11:00"], 0, 0, 0, 0, 0, 0, 0, false],
+                [["11:00", "12:00"], 0, 0, 0, 0, 0, 0, 0, false]
+            ],
+            dnList: [
+                [["13:00", "14:00"], 0, 0, 0, 0, 0, 0, 0, false],
+                [["14:00", "15:00"], 0, 0, 0, 0, 0, 0, 0, false],
+                [["15:00", "16:00"], 0, 0, 0, 0, 0, 0, 0, false],
+                [["16:00", "17:00"], 0, 0, 0, 0, 0, 0, 0, false]
+            ],
+
+            open: false,
+            value3: ''
         };
     },
     watch: {
@@ -266,9 +309,6 @@ export default {
         this.id = this.$route.query.id;
         this.pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
-            : 1;
-        this.searchType = this.$route.query.searchType
-            ? parseInt(this.$route.query.searchType)
             : 1;
         this.searchKey = this.$route.query.searchKey
             ? this.$route.query.searchKey
@@ -301,22 +341,62 @@ export default {
             this.expertMsgStatus = true;
         }
         if (this.id) {
+            this.upList = [];
+            this.dnList = [];
             this.$axios
                 .post(api.registerDoctorDetail, { registerId: this.id })
                 .then(resp => {
                     this.info = resp.data.object;
-                    for (let i = 0; i < this.info.registerTimes.length; i++) {
-                        let tmpregistertimes = this.info.registerTimes[i];
-                        this[
-                            "wd" + tmpregistertimes.week + tmpregistertimes.day
-                        ] = tmpregistertimes.num;
-                        this[
-                            "wd" +
-                                tmpregistertimes.week +
-                                tmpregistertimes.day +
-                                "d"
-                        ] = tmpregistertimes.id;
-                    }
+                    this.info.registerTimes.map((el, i) => {
+                        if(el.day == 1){
+                            let tmpPiece = [el.timeStart, el.timeEnd];
+                            if(this.upList.length<=0){
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                tmpArr[el.week] = el.num;
+                                this.upList.push(tmpArr);
+                            }else{
+                                let pFlag = true;
+                                let tmpIndex = null;
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                this.upList.map((ele,i)=>{
+                                    if(ele[0].toString() === tmpPiece.toString()){
+                                        pFlag = false;
+                                        tmpIndex = i;
+                                    }
+                                })
+                                if(pFlag){
+                                    tmpArr[el.week] = el.num;
+                                    this.upList.push(tmpArr);
+                                }else{
+                                    this.upList[tmpIndex][el.week] = el.num;
+                                }
+                            }
+                        }else if(el.day == 2){
+                            let tmpPiece = [el.timeStart, el.timeEnd];
+                            if(this.dnList.length<=0){
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                tmpArr[el.week] = el.num;
+                                this.dnList.push(tmpArr);
+                            }else{
+                                let pFlag = true;
+                                let tmpIndex = null;
+                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                this.dnList.map((ele,i)=>{
+                                    if(ele[0].toString() === tmpPiece.toString()){
+                                        pFlag = false;
+                                        tmpIndex = i;
+                                    }
+                                })
+                                if(pFlag){
+                                    tmpArr[el.week] = el.num;
+                                    this.dnList.push(tmpArr);
+                                }else{
+                                    this.dnList[tmpIndex][el.week] = el.num;
+                                }
+                            }
+                        }
+                    });
+                    
                     this.doctorName = this.info.doctorName;
                     this.doctorId = this.info.doctorId;
                     this.hospitalName = this.info.hospitalName;
@@ -350,23 +430,178 @@ export default {
     },
     components: { Avatar, tempHeader },
     methods: {
+        upAdItem() {
+            let time = this.upList[this.upList.length - 1][0][1].toString();
+            let status = time < "12:00"; //js 里面 date类型 11:00 比 12:00 大
+            if (status) {
+                let sliceh = parseInt(time.slice(0, 2));
+                let slicem = time.slice(3);
+                let tmph =
+                    sliceh + 1 > 12 ? "12:00" : sliceh + 1 + ":" + slicem;
+                tmph = tmph > "12:00" ? "12:00" : tmph;
+                let tmpItem = [[time, tmph], 0, 0, 0, 0, 0, 0, 0];
+                this.upList.push(tmpItem);
+            } else {
+                this.infoMsg(
+                    "上午的结束时间不能超过12:00,请先调整时间段时间再添加"
+                );
+            }
+        },
+        dnAdItem() {
+            let time = this.dnList[this.dnList.length - 1][0][1].toString();
+            let status = time < "17:00"; //js 里面 date类型 11:00 比 12:00 大
+            if (status) {
+                let sliceh = parseInt(time.slice(0, 2));
+                let slicem = time.slice(3);
+                let tmph =
+                    sliceh + 1 > 17 ? "17:00" : sliceh + 1 + ":" + slicem;
+                tmph = tmph > "17:00" ? "17:00" : tmph;
+                let tmpItem = [[time, tmph], 0, 0, 0, 0, 0, 0, 0];
+                this.dnList.push(tmpItem);
+            } else {
+                this.infoMsg(
+                    "下午的结束时间不能超过17:00,请先调整时间段时间再添加"
+                );
+            }
+        },
+        rmUpItem() {
+            this.upList.pop();
+        },
+        rmDnItem() {
+            this.dnList.pop();
+        },
+        changeUpTime(time,index) {
+            if(index>0){ //非第一行
+                if(index<this.upList.length-1){ //中间的
+                    let prev = this.upList[index-1][0][1];
+                    let next = this.upList[index+1][0][0];
+                    if(time[0]>next){
+                        time[0] = next;
+                    }
+                    if(time[0]<prev){
+                        time[0] = prev;
+                    }
+                    if(time[1]>next){
+                        time[1] = next;
+                    }
+                    if(time[1]<prev){
+                        time[1] = prev;
+                    }
+                }else{ //最后一行
+                    if(time[0]>'12:00'){
+                        time = ['12:00','12:00'];
+                    }else if(time[1]>'12:00'){
+                        time = [time[0],'12:00'];
+                    }
+                }
+            }else{ //第一行
+                if(this.upList.length>1){
+                    let nextTime = this.upList[index+1][0][0];
+                    if(time[0]>nextTime){
+                        time = [nextTime,nextTime];
+                    }else if(time[1]>nextTime){
+                        time = [time[0],nextTime];
+                    }
+                }else{
+                    if(time[0]>'12:00'){
+                        time = ['12:00','12:00'];
+                    }else if(time[0]<'12:00' && time[1]>'12:00'){
+                        time = [time[0],'12:00'];
+                    }
+                }
+            }
+            this.upList[index][0] = time;
+            this.$forceUpdate();
+        },
+        upClick (index) {
+            this.upList[index][8] = true;
+            this.$forceUpdate();
+        },
+        upOk (index) {
+            this.upList[index][8] = false;
+            this.$forceUpdate();
+        },
+
+        changeDnTime(time,index) {
+            if(index>0){ //非第一行
+                if(index<this.dnList.length-1){ //中间的
+                    let prev = this.dnList[index-1][0][1];
+                    let next = this.dnList[index+1][0][0];
+                    if(time[0]>next){
+                        time[0] = next;
+                    }
+                    if(time[0]<prev){
+                        time[0] = prev;
+                    }
+                    if(time[1]>next){
+                        time[1] = next;
+                    }
+                    if(time[1]<prev){
+                        time[1] = prev;
+                    }
+                }else{ //最后一行
+                    if(time[0]>'17:00'){
+                        time = ['17:00','17:00'];
+                    }else if(time[1]>'17:00'){
+                        time = [time[0],'17:00'];
+                    }
+                }
+            }else{ //第一行
+                if(this.dnList.length>1){
+                    let nextTime = this.dnList[index+1][0][0];
+                    if(time[0]>nextTime){
+                        time = [nextTime,nextTime];
+                    }else if(time[1]>nextTime){
+                        time = [time[0],nextTime];
+                    }
+                }else{
+                    if(time[0]>'17:00'){
+                        time = ['17:00','17:00'];
+                    }else if(time[0]<'17:00' && time[1]>'17:00'){
+                        time = [time[0],'17:00'];
+                    }
+                }
+            }
+            this.dnList[index][0] = time;
+            this.$forceUpdate();
+        },
+        dnClick (index) {
+            this.dnList[index][8] = true;
+            this.$forceUpdate();
+        },
+        dnOk (index) {
+            this.dnList[index][8] = false;
+            this.$forceUpdate();
+        },
+
         submit(name) {
             let tmpRegistertimes = [];
-            for (let i = 1; i <= 7; i++) {
-                for (let j = 1; j <= 2; j++) {
-                    let tmpObj = {};
-                    if (
-                        this["wd" + i + j] > 0 ||
-                        this["wd" + i + j + "d"] != null
-                    ) {
-                        tmpObj.id = this["wd" + i + j + "d"];
-                        tmpObj.num = this["wd" + i + j];
-                        tmpObj.day = j;
+            this.upList.map((el,i)=>{
+                for(let i=1;i<=7;i++){
+                    if(el[i] != '' && el[i]>0){
+                        let tmpObj = {};
+                        tmpObj.timeStart = el[0][0];
+                        tmpObj.timeEnd = el[0][1];
+                        tmpObj.num = el[i];
+                        tmpObj.day = 1;
                         tmpObj.week = i;
                         tmpRegistertimes.push(tmpObj);
                     }
                 }
-            }
+            })
+            this.dnList.map((el,i)=>{
+                for(let i=1;i<=7;i++){
+                    if(el[i] != '' && el[i]>0){
+                        let tmpObj = {};
+                        tmpObj.timeStart = el[0][0];
+                        tmpObj.timeEnd = el[0][1];
+                        tmpObj.num = el[i];
+                        tmpObj.day = 2;
+                        tmpObj.week = i;
+                        tmpRegistertimes.push(tmpObj);
+                    }
+                }
+            })
             let params = {};
             params.address = this.address;
             params.cost = this.cost;
@@ -381,6 +616,7 @@ export default {
             params.remarks = this.remarks;
             params.term = this.term;
             params.registerTimes = tmpRegistertimes;
+            params.icut = this.icut;
             let url = "";
             let msg = "";
             if (this.id) {
@@ -407,7 +643,6 @@ export default {
                                     area: this.area,
                                     hospital: this.hospital,
                                     isBack: 2,
-                                    searchType: this.searchType,
                                     searchKey: this.searchKey,
                                     deptKey: this.deptKey,
                                     dictType: this.dictType
@@ -436,7 +671,6 @@ export default {
                     area: this.area,
                     hospital: this.hospital,
                     isBack: 2,
-                    searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
@@ -483,8 +717,29 @@ export default {
                     console.log(err);
                 });
         },
+        infoMsg(msg) {
+            this.$Message.info({ content: msg, duration: 5 });
+        },
+        errMsg(msg) {
+            this.$Message.error({ content: msg, duration: 5 });
+        },
         jump() {
-            this.$router.push("/index/test_jump");
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/register/normaledit",
+                {
+                    id: this.id,
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack:2,
+                    searchKey: this.searchKey,
+                    deptKey: this.deptKey,
+                    dictType: this.dictType
+                }
+            );
         }
     }
 };
@@ -553,5 +808,25 @@ export default {
     .show-msg {
         display: inline-block;
     }
+    .cus-btn {
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        color: #ffffff;
+        font-size: 30px;
+        border: 0;
+        border-radius: 50%;
+        background: #2d8cf0;
+        &:focus {
+            border: 0;
+            outline: none;
+        }
+    }
 }
+</style>
+<style lang="less">
+    .ivu-btn-ghost{
+        display:none;
+    }
 </style>

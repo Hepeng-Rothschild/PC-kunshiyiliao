@@ -14,6 +14,7 @@
             </div>
             <div class="pwd-box">
                 <input
+                    autocomplete="new-password"
                     type="password"
                     class="password"
                     @change="checkInput"
@@ -69,22 +70,9 @@ export default {
             loginFlag: true
         };
     },
-    beforeCreate() {
-        let assets_token = window.localStorage.getItem("access_token");
-        if (assets_token) {
-            window.localStorage.removeItem("access_token");
-        }
-        cookie.delCookie("username");
-        cookie.delCookie("userIcon");
-        cookie.delCookie("randmId");
-        cookie.delCookie("operateUserId");
-        cookie.delCookie("idtt");
-        cookie.delCookie("idttC");
-        cookie.delCookie("access_user");
-        cookie.delCookie("ownArea");
-    },
-    mounted() {
+    mounted(){
         this.verifyCode = new GVerify("verify");
+        this.clearData();
     },
     methods: {
         checkLogin() {
@@ -119,7 +107,6 @@ export default {
                 axios
                     .post(api.login, params)
                     .then(resp => {
-                        console.log("登陆返回值",resp.data);
                         if (resp.data.success) {
                             let times = 10 * 60 * 60;
                             window.localStorage.setItem(
@@ -132,15 +119,18 @@ export default {
                             let identity = resp.data.object.identity;
                             let identityCoding =
                                 resp.data.object.identityCoding;
-                            let areaCode =
-                                resp.data.object.areaCode;
+                            let areaCode = resp.data.object.areaCode;
                             if (operateUserId) {
                                 let tmpObj;
-                                if(tmpIcon){
+                                if (tmpIcon) {
                                     tmpObj = JSON.parse(tmpIcon);
                                     let userIcon =
                                         this.fileBaseUrl + tmpObj.fileName;
-                                    cookie.setCookie("userIcon", userIcon, times);
+                                    cookie.setCookie(
+                                        "userIcon",
+                                        userIcon,
+                                        times
+                                    );
                                 }
                                 cookie.setCookie("username", username, times);
                                 cookie.setCookie(
@@ -166,6 +156,7 @@ export default {
                                 aesUtils.encrypt(salt, iv, key, access_user),
                                 times
                             );
+
                             //存储当前用户身份对应省市区
                             let province = null,
                                 city = null,
@@ -174,25 +165,46 @@ export default {
                                 case 1: //超级管理员，暂时不管
                                     break;
                                 case 2: //省级
-                                    province = this.$store.getters.getProvinceById( identityCoding );
+                                    province = this.$store.getters.getProvinceById(
+                                        identityCoding
+                                    );
                                     break;
                                 case 3: //市级
-                                    city = this.$store.getters.getCityById( identityCoding );
-                                    province = this.$store.getters.getProvinceByCityId( identityCoding );
+                                    city = this.$store.getters.getCityById(
+                                        identityCoding
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        identityCoding
+                                    );
                                     break;
                                 case 4: //区级
-                                    area = this.$store.getters.getAreaById( identityCoding );
-                                    city = this.$store.getters.getCityByAreaId( identityCoding );
-                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                                    area = this.$store.getters.getAreaById(
+                                        identityCoding
+                                    );
+                                    city = this.$store.getters.getCityByAreaId(
+                                        identityCoding
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        city.id
+                                    );
                                     break;
                                 case 5: //机构
-                                    area = this.$store.getters.getAreaById( areaCode );
-                                    city = this.$store.getters.getCityByAreaId( areaCode );
-                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                                    area = this.$store.getters.getAreaById(
+                                        areaCode
+                                    );
+                                    city = this.$store.getters.getCityByAreaId(
+                                        areaCode
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        city.id
+                                    );
                             }
-                            let ownArea = JSON.stringify({province,city,area});
-                            
-                            cookie.setCookie("ownArea",ownArea,times);
+                            let ownArea = JSON.stringify({
+                                province,
+                                city,
+                                area
+                            });
+                            cookie.setCookie("ownArea", ownArea, times);
                             let topMenu = [],
                                 secondMenu = [],
                                 thirdMenu = [];
@@ -293,9 +305,21 @@ export default {
                                 "top",
                                 aesUtils.encrypt(salt, iv, key, topMenu)
                             );
+                            if (menus.length <= 0) {
+                                this.$Message.error({
+                                    content: "该账号暂无任何权限",
+                                    duration: 3
+                                });
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/public"
+                                );
+                                return;
+                            }
                             // 公用方法
-                            this.functionJS.queryNavgationTo(this, '/index');
-                            
+                            this.functionJS.queryNavgationTo(this, "/index");
+                            // 清空输入的内容
+                            this.resetInput();
                         } else {
                             this.loginFlag = true;
                             this.noticeClassColor = "alert-color";
@@ -307,16 +331,12 @@ export default {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
                         this.loginFlag = true;
-                        if (err) {
-                            this.noticeClassColor = "";
-                            this.iconClass = "";
-                            this.iconText = "";
-                            this.alertMsg = "";
-                            // this.$Message.info("服务器超时");
-                            this.verifyCode.refresh();
-                        }
+                        this.noticeClassColor = "alert-color";
+                        this.iconClass = "alert-icon";
+                        this.iconText = "!";
+                        this.alertMsg = "登陆失败";
+                        this.verifyCode.refresh();
                     });
             }
         },
@@ -333,6 +353,49 @@ export default {
                 this.iconText = "";
                 this.alertMsg = "";
             }
+        },
+        // 输入值重置
+        resetInput() {
+            // 样式
+            this.noticeClassColor = "";
+            this.iconClass = "";
+            // 符号
+            this.iconText = "";
+            // 弹示框
+            this.alertMsg = "";
+            // 刷新验证码
+            this.verifyCode.refresh();
+            // 失去焦点
+            this.$refs.username.focus();
+            this.verify = "";
+            // 用户名密码
+            this.username = "";
+            this.password = "";
+            // 打开允许登录
+            this.loginFlag = true;
+        },
+        clearData() {
+            let assets_token = window.localStorage.getItem("access_token");
+            if (assets_token) {
+                window.localStorage.removeItem("access_token");
+            }
+            let cookiess = document.cookie.split(";");
+            cookie.delCookie("username");
+            cookie.delCookie("userIcon");
+            cookie.delCookie("randmId");
+            cookie.delCookie("operateUserId");
+            cookie.delCookie("idtt");
+            cookie.delCookie("idttC");
+            cookie.delCookie("access_user");
+            cookie.delCookie("ownArea");
+            window.localStorage.removeItem("top");
+            window.localStorage.removeItem("sun1");
+            window.localStorage.removeItem("sun2");
+            window.localStorage.removeItem("sun3");
+            window.localStorage.removeItem("sun4");
+            window.localStorage.removeItem("sun5");
+            window.localStorage.clear();
+            this.resetInput();
         }
     }
 };
