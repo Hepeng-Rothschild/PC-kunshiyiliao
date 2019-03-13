@@ -341,7 +341,7 @@ export default {
             ? this.$route.query.dept
             : null;
         this.deptId = this.$route.query.deptId
-            ? parseInt(this.$route.query.deptId)
+            ? this.$route.query.deptId
             : null;
         this.doctorName = this.$route.query.doctorName
             ? this.$route.query.doctorName
@@ -661,6 +661,7 @@ export default {
                 url = api.registerDoctorInsert;
                 msg = "添加";
             }
+            console.log('params:::',params);
             if (params.doctorId) {
                 this.$axios
                     .post(url, params)
