@@ -510,10 +510,15 @@ export default {
                         time[1] = prev;
                     }
                 }else{ //最后一行
+                    let prev = this.upList[index-1][0][1];
                     if(time[0]>'12:00'){
                         time = ['12:00','12:00'];
                     }else if(time[1]>'12:00'){
                         time = [time[0],'12:00'];
+                    }else if(time[1]<prev){
+                        time = [prev,prev];
+                    }else if(time[0]<prev){
+                        time[0] = prev;
                     }
                 }
             }else{ //第一行
@@ -562,10 +567,18 @@ export default {
                         time[1] = prev;
                     }
                 }else{ //最后一行
+                    console.log(111);
+                    let prev = this.dnList[index-1][0][1];
                     if(time[0]>'17:00'){
                         time = ['17:00','17:00'];
                     }else if(time[1]>'17:00'){
                         time = [time[0],'17:00'];
+                    }else if(time[1]<prev){
+                        console.log(222);
+                        time = [prev,prev];
+                    }else if(time[0]<prev){
+                        console.log(333);
+                        time[0] = prev;
                     }
                 }
             }else{ //第一行
