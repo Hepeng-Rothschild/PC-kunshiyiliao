@@ -22,7 +22,7 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img :src="userIcon || './static/img/heicon.jpg'" @click="edit" style="cursor:pointer;">
+        <img :src="userIcon || './static/img/doctor.jpg'" @click="edit" style="cursor:pointer;">
       </div>
       <div class="info">
         <span>{{username || "喜大普奔"}}</span>
@@ -54,9 +54,6 @@ export default {
     this.username = cookie.getCookie("username");
     this.userIcon = cookie.getCookie("userIcon");
     this.operateUserId = cookie.getCookie("operateUserId");
-    // this.$store.commit("setTopMenuList");
-    // this.lists = this.$store.state.topMenuList;
-    // this.$store.commit("setLeftMenuList",this.topActiveName);
   },
   methods: {
     changeTop(name) {
@@ -66,6 +63,7 @@ export default {
     },
     logout() {
       window.localStorage.removeItem("access_token");
+      window.localStorage.clear();
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
       cookie.delCookie("randmId");

@@ -83,6 +83,7 @@ export default {
             hospitalId: this.id
           })
           .then(res => {
+            console.log(res)
             if (res.data.object.file > 0) {
               this.$Message.info("科室内有专家不可取消");
               e.target.checked = true;
@@ -107,7 +108,9 @@ export default {
         // 选中科室列表
         dictTypes: arr
       };
+      console.log(params);
       this.$axios.post(api.medicineSave, params).then(res => {
+        console.log(res.data)
         if (res.data.code) {
           this.$Message.info("修改成功");
           setTimeout(() => {
@@ -117,6 +120,8 @@ export default {
               pageNo
             }); 
           }, 500);
+        } else {
+          this.$Message.error(res.data.message);
         }
       });
     }

@@ -18,6 +18,7 @@
                     <span>{{ title.length }}/30</span>
                 </div>
             </div>
+            <!-- 副标题 -->
             <div class="main_title">
                 <div class="main_title_info">
                     <span style="color:red;">*&nbsp;&nbsp;</span>

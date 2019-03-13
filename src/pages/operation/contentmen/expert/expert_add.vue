@@ -175,25 +175,26 @@ export default {
     changes() {
       let index = this.keshi;
       let data = this.list[index];
-      // // 显示
+      console.log(data)
+      // 显示
       this.switch1 = Boolean(data.display);
       // 专家
       this.switch2 = Boolean(data.iexpert);
-      // // 名字
+      // 名字
       this.name = data.doctorName;
-      // // 机构名称
+      // 机构名称
 
       this.yname = data.hospitalName;
-      // // 科室
+      // 科室
 
       this.yKeshi = data.deptType;
-      // // 排序
+      // 排序
 
       this.isort = data.priority;
-      // // 特长
+      // 特长
 
       this.expert1 = data.doctorGood;
-      // // 简介
+      // 简介
 
       this.expert2 = data.personalIntroduction;
       //职称

@@ -184,12 +184,12 @@ export default {
             //   预约周期
             cycle: 7,
             cycleList: [
-                { id: 1, name: "一天" },
-                { id: 2, name: "二天" },
-                { id: 3, name: "三天" },
-                { id: 4, name: "四天" },
-                { id: 5, name: "五天" },
-                { id: 6, name: "六天" },
+                // { id: 1, name: "一天" },
+                // { id: 2, name: "二天" },
+                // { id: 3, name: "三天" },
+                // { id: 4, name: "四天" },
+                // { id: 5, name: "五天" },
+                // { id: 6, name: "六天" },
                 { id: 7, name: "七天" },
                 { id: 8, name: "八天" },
                 { id: 9, name: "九天" },

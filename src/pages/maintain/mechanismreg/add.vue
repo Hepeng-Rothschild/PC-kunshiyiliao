@@ -11,26 +11,14 @@
             <span>区域</span>
           </div>
           <!-- 省 -->
-          <!-- <select v-model="regionProv" @change="provChange">
-            <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="(item,index) in provList" :key="index">{{ item.name }}</option>
-          </select> -->
           <Select v-model="regionProv" @on-change="provChange" style="width:80px">
             <Option v-for="item in provList" :value="item.id" :key="item.value">{{ item.name }}</Option>
           </Select>
           <!-- 市 -->
-          <!-- <select v-model="regionCity" @change="cityChange">
-            <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="(item,index) in cityList" :key="index">{{ item.city }}</option>
-          </select> -->
           <Select v-model="regionCity" @on-change="cityChange" style="width:80px;margin:0 10px;">
             <Option v-for="item in cityList" :value="item.id" :key="item.value">{{ item.city }}</Option>
           </Select>
           <!-- 县 -->
-          <!-- <select v-model="regionCounty">
-            <option value="-1">--请选择--</option>
-            <option :value="item.id" v-for="(item,index) in countyList" :key="index">{{ item.area }}</option>
-          </select> -->
           <Select v-model="regionCounty" style="width:100px">
             <Option v-for="item in countyList" :value="item.id" :key="item.value">{{ item.area }}</Option>
           </Select>
@@ -270,6 +258,7 @@ export default {
       } else if (this.mechanismGrade == "-1") {
         this.$Message.error("机构等级不能为空");
       } else {
+        console.log(params)
         this.$axios.post(api.mechanismregAdd, params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");

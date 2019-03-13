@@ -77,15 +77,7 @@ export default {
         }
     },
     created() {
-        console.log("组件内部输出start");
-        console.log(this.province);
-        console.log(this.city);
-        console.log(this.area);
-        console.log(this.hospital);
-        console.log(this.isBack);
-        console.log("组件内部输出end");
         if (this.isBack == 1) {
-            console.log(1);
             this.identity = this.$store.getters.getIdentity;
             this.identityCoding = this.$store.getters.getIdentityCoding;
             this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
@@ -135,7 +127,6 @@ export default {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
                     });
             } else if (this.identity == 5) {
                 this.hospital = parseInt(this.identityCoding);

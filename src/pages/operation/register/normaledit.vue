@@ -9,9 +9,6 @@
             <Col :xs="24" :md="3">{{hospitalName}}</Col>
             <Col :xs="24" :md="3">{{dept}}</Col>
             <Col :xs="24" :md="2">{{doctorName}}</Col>
-            <!-- <Col :xs="24" :md="3">
-                {{title}}
-            </Col>-->
             <Col :xs="24" :md="5">
                 <Button type="primary" v-if="addBtnFlag" @click="loadPage(1)">添加专家</Button>
                 <span class="expert-msg" :class="{'show-msg': expertMsgStatus}">请添加专家</span>
@@ -27,12 +24,14 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">门诊类型</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <Input
-                    class="w-input"
-                    :maxlength="20"
-                    v-model="outpatientType"
-                    placeholder="请输入门诊类型"
-                />
+                <Select class="w-select" v-model="outpatientType">
+                    <Option
+                        v-for="(item,index) of typeList"
+                        :key="item.id"
+                        :value="item.name"
+                    >{{item.name}}</Option>
+                </Select>
+                <Button type="primary" @click="jump">分时段设置</Button>
             </Col>
         </Row>
         <Row class="bordered">
@@ -40,6 +39,7 @@
             <Col class="padding-l borderLeft" :xs="24" :md="21">
                 <Row>
                     <Col :xs="2">&nbsp;</Col>
+                    <Col :xs="3">&nbsp;</Col>
                     <Col :xs="2">星期一</Col>
                     <Col :xs="2">星期二</Col>
                     <Col :xs="2">星期三</Col>
@@ -50,6 +50,21 @@
                 </Row>
                 <Row>
                     <Col :xs="2">上午</Col>
+                    <Col :xs="3">
+                        <TimePicker
+                            :open="false"
+                            :value="upTime"
+                            format="HH:mm"
+                            type="timerange"
+                            :editable="false"
+                            :disabled="true"
+                        >
+                            <a href="javascript:void(0)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template>{{ upTime[0] + '-' + upTime[1] }}</template>
+                            </a>
+                        </TimePicker>
+                    </Col>
                     <Col :xs="2">
                         <InputNumber :min="1" v-model="wd11"></InputNumber>
                     </Col>
@@ -74,6 +89,21 @@
                 </Row>
                 <Row>
                     <Col :xs="2">下午</Col>
+                    <Col :xs="3">
+                        <TimePicker
+                            :open="false"
+                            :value="dnTime"
+                            format="HH:mm"
+                            type="timerange"
+                            :editable="false"
+                            :disabled="true"
+                        >
+                            <a href="javascript:void(0)">
+                                <Icon type="ios-clock-outline"></Icon>
+                                <template>{{ dnTime[0] + '-' + dnTime[1] }}</template>
+                            </a>
+                        </TimePicker>
+                    </Col>
                     <Col :xs="2">
                         <InputNumber :min="1" v-model="wd12"></InputNumber>
                     </Col>
@@ -174,7 +204,6 @@ export default {
             id: null,
             info: null,
             pageNo: null,
-            searchType: 1,
             searchKey: "",
             deptKey: "",
             dictType: "",
@@ -194,35 +223,29 @@ export default {
             dept: null,
             deptId: null,
             address: null,
-            outpatientType: null,
-            wd11: null,
-            wd1d: null,
-            wd21: null,
-            wd21d: null,
-            wd31: null,
-            wd31d: null,
-            wd41: null,
-            wd41d: null,
-            wd51: null,
-            wd51d: null,
-            wd61: null,
-            wd61d: null,
-            wd71: null,
-            wd71d: null,
-            wd12: null,
-            wd12d: null,
-            wd22: null,
-            wd22d: null,
-            wd32: null,
-            wd32d: null,
-            wd42: null,
-            wd42d: null,
-            wd52: null,
-            wd52d: null,
-            wd62: null,
-            wd62d: null,
-            wd72: null,
-            wd72d: null,
+            typeList: [
+                { id: 1, name: "普通门诊" }
+                // {id:2,name:"社保门诊"}
+            ],
+            outpatientType: "普通门诊",
+            upTime: ["08:00", "12:00"],
+            dnTime: ["13:00", "17:00"],
+            wd11: 0,
+            wd21: 0,
+            wd31: 0,
+            wd41: 0,
+            wd51: 0,
+            wd61: 0,
+            wd71: 0,
+
+            wd12: 0,
+            wd22: 0,
+            wd32: 0,
+            wd42: 0,
+            wd52: 0,
+            wd62: 0,
+            wd72: 0,
+
             term: null,
             cost: null,
             receive: null,
@@ -236,69 +259,82 @@ export default {
             pageSize: 10,
             count: 0,
 
-      expertMsgStatus: false
-    };
-  },
-  watch: {
-    doctorId(newId, oldId) {
-      if (newId == null || newId == "" || newId == undefined) {
-        this.expertMsgStatus = true;
-      } else {
-        this.expertMsgStatus = false;
-      }
-    }
-  },
-  created() {
-    this.id = this.$route.query.id;
-    this.pageNo = this.$route.query.pageNo?parseInt(this.$route.query.pageNo):1;
-    this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
-    this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
-    this.deptKey = this.$route.query.deptKey?this.$route.query.deptKey:"";
-    this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
-    this.province = this.$route.query.province?parseInt(this.$route.query.province):null;
-    this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
-    this.area = this.$route.query.area?parseInt(this.$route.query.area):null;
-    this.hospital = this.$route.query.hospital?parseInt(this.$route.query.hospital):null;
+            expertMsgStatus: false,
+            icut: 1
+        };
+    },
+    watch: {
+        doctorId(newId, oldId) {
+            if (newId == null || newId == "" || newId == undefined) {
+                this.expertMsgStatus = true;
+            } else {
+                this.expertMsgStatus = false;
+            }
+        }
+    },
+    created() {
+        this.id = this.$route.query.id;
+        this.pageNo = this.$route.query.pageNo
+            ? parseInt(this.$route.query.pageNo)
+            : 1;
+        this.searchKey = this.$route.query.searchKey
+            ? this.$route.query.searchKey
+            : "";
+        this.deptKey = this.$route.query.deptKey
+            ? this.$route.query.deptKey
+            : "";
+        this.dictType = this.$route.query.dictType
+            ? this.$route.query.dictType
+            : "";
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
 
-    if (this.id) {
-      this.littleTitle = "编辑";
-      this.addBtnFlag = false;
-    } else {
-      this.littleTitle = "添加";
-      this.addBtnFlag = true;
-      this.expertMsgStatus = true;
-    }
-    if (this.id) {
-      this.$axios
-        .post(api.registerDoctorDetail, { registerId: this.id })
-        .then(resp => {
-          this.info = resp.data.object;
-          for (let i = 0; i < this.info.registerTimes.length; i++) {
-            let tmpregistertimes = this.info.registerTimes[i];
-            this["wd" + tmpregistertimes.week + tmpregistertimes.day] =
-              tmpregistertimes.num;
-            this["wd" + tmpregistertimes.week + tmpregistertimes.day + "d"] =
-              tmpregistertimes.id;
-          }
-          this.doctorName = this.info.doctorName;
-          this.doctorId = this.info.doctorId;
-          this.hospitalName = this.info.hospitalName;
-          this.hospitalId = this.info.hospitalId;
-          this.dept = this.info.dept;
-          this.deptId = this.info.deptId;
-          this.address = this.info.address;
-          this.outpatientType = this.info.outpatientType;
-          this.term = this.info.term;
-          this.cost = this.info.cost;
-          this.receive = this.info.receive;
-          this.remarks = this.info.remarks;
-        })
-        .catch(err => {
-          // this.$Message.info("服务器超时，请重新访问");
-        });
-    }
-
-    
+        if (this.id) {
+            this.littleTitle = "编辑";
+            this.addBtnFlag = false;
+        } else {
+            this.littleTitle = "添加";
+            this.addBtnFlag = true;
+            this.expertMsgStatus = true;
+        }
+        if (this.id) {
+            this.$axios
+                .post(api.registerDoctorDetail, { registerId: this.id })
+                .then(resp => {
+                    this.info = resp.data.object;
+                    for (let i = 0; i < this.info.registerTimes.length; i++) {
+                        let tmpregistertimes = this.info.registerTimes[i];
+                        this[
+                            "wd" + tmpregistertimes.week + tmpregistertimes.day
+                        ] = tmpregistertimes.num;
+                    }
+                    this.doctorName = this.info.doctorName;
+                    this.doctorId = this.info.doctorId;
+                    this.hospitalName = this.info.hospitalName;
+                    this.hospitalId = this.info.hospitalId;
+                    this.dept = this.info.dept;
+                    this.deptId = this.info.deptId;
+                    this.address = this.info.address;
+                    this.outpatientType = this.info.outpatientType;
+                    this.term = this.info.term;
+                    this.cost = this.info.cost;
+                    this.receive = this.info.receive;
+                    this.remarks = this.info.remarks;
+                })
+                .catch(err => {
+                    // this.$Message.info("服务器超时，请重新访问");
+                });
+        }
 
         let breadList = [
             { path: "/index", title: "首页" },
@@ -312,7 +348,7 @@ export default {
             }
         ];
         this.$emit("changeBreadList", breadList);
-  },
+    },
     components: { Avatar, tempHeader },
     methods: {
         submit(name) {
@@ -320,11 +356,14 @@ export default {
             for (let i = 1; i <= 7; i++) {
                 for (let j = 1; j <= 2; j++) {
                     let tmpObj = {};
-                    if (
-                        this["wd" + i + j] > 0 ||
-                        this["wd" + i + j + "d"] != null
-                    ) {
-                        tmpObj.id = this["wd" + i + j + "d"];
+                    if(j == 1){
+                        tmpObj.timeStart = this.upTime[0];
+                        tmpObj.timeEnd = this.upTime[1];
+                    }else if(j == 2){
+                        tmpObj.timeStart = this.dnTime[0];
+                        tmpObj.timeEnd = this.dnTime[1];
+                    }
+                    if (this["wd" + i + j] != null && this["wd" + i + j] > 0) {
                         tmpObj.num = this["wd" + i + j];
                         tmpObj.day = j;
                         tmpObj.week = i;
@@ -346,6 +385,7 @@ export default {
             params.remarks = this.remarks;
             params.term = this.term;
             params.registerTimes = tmpRegistertimes;
+            params.icut = this.icut;
             let url = "";
             let msg = "";
             if (this.id) {
@@ -360,8 +400,8 @@ export default {
                     .post(url, params)
                     .then(resp => {
                         if (resp.data.success) {
-                            this.$Message.info(msg+"成功");
-                             //   公用方法
+                            this.$Message.info(msg + "成功");
+                            //   公用方法
                             this.functionJS.queryNavgationTo(
                                 this,
                                 "/index/operation/register/list",
@@ -372,15 +412,13 @@ export default {
                                     area: this.area,
                                     hospital: this.hospital,
                                     isBack:2,
-                                    searchType: this.searchType,
                                     searchKey: this.searchKey,
                                     deptKey: this.deptKey,
                                     dictType: this.dictType
                                 }
                             );
-
                         } else {
-                            this.$Message.info(msg+"失败，请重试");
+                            this.$Message.info(msg + "失败，请重试");
                         }
                     })
                     .catch(err => {
@@ -391,7 +429,7 @@ export default {
             }
         },
         reback() {
-             //   公用方法
+            //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
                 "/index/operation/register/list",
@@ -402,13 +440,11 @@ export default {
                     area: this.area,
                     hospital: this.hospital,
                     isBack:2,
-                    searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
                 }
             );
-
         },
         chooseDoc(
             hospitalName,
@@ -449,6 +485,24 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        jump() {
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/register/segmentationedit",
+                {
+                    id: this.id,
+                    pageNo: this.pageNo,
+                    province: this.province,
+                    city: this.city,
+                    area: this.area,
+                    hospital: this.hospital,
+                    isBack:2,
+                    searchKey: this.searchKey,
+                    deptKey: this.deptKey,
+                    dictType: this.dictType
+                }
+            );
         }
     }
 };
