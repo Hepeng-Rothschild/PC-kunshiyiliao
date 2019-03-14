@@ -238,7 +238,7 @@ export default {
         return {
             id: null,
             info: null,
-            pageNo: null,
+            lPageNo: null,
             searchKey: "",
             deptKey: "",
             dictType: "",
@@ -331,6 +331,28 @@ export default {
         this.hospital = this.$route.query.hospital
             ? parseInt(this.$route.query.hospital)
             : null;
+        this.hospitalName = this.$route.query.hospitalName
+            ? this.$route.query.hospitalName
+            : null;
+        this.hospitalId = this.$route.query.hospitalId
+            ? parseInt(this.$route.query.hospitalId)
+            : null;
+        this.dept = this.$route.query.dept
+            ? this.$route.query.dept
+            : null;
+        this.deptId = this.$route.query.deptId
+            ? this.$route.query.deptId
+            : null;
+        this.doctorName = this.$route.query.doctorName
+            ? this.$route.query.doctorName
+            : null;
+        this.doctorId = this.$route.query.doctorId
+            ? parseInt(this.$route.query.doctorId)
+            : null;
+        this.title = this.$route.query.title
+            ? this.$route.query.title
+            : null;
+        this.docListModal = false;
 
         if (this.id) {
             this.littleTitle = "编辑";
@@ -488,10 +510,15 @@ export default {
                         time[1] = prev;
                     }
                 }else{ //最后一行
+                    let prev = this.upList[index-1][0][1];
                     if(time[0]>'12:00'){
                         time = ['12:00','12:00'];
                     }else if(time[1]>'12:00'){
                         time = [time[0],'12:00'];
+                    }else if(time[1]<prev){
+                        time = [prev,prev];
+                    }else if(time[0]<prev){
+                        time[0] = prev;
                     }
                 }
             }else{ //第一行
@@ -540,10 +567,18 @@ export default {
                         time[1] = prev;
                     }
                 }else{ //最后一行
+                    console.log(111);
+                    let prev = this.dnList[index-1][0][1];
                     if(time[0]>'17:00'){
                         time = ['17:00','17:00'];
                     }else if(time[1]>'17:00'){
                         time = [time[0],'17:00'];
+                    }else if(time[1]<prev){
+                        console.log(222);
+                        time = [prev,prev];
+                    }else if(time[0]<prev){
+                        console.log(333);
+                        time[0] = prev;
                     }
                 }
             }else{ //第一行
@@ -626,6 +661,7 @@ export default {
                 url = api.registerDoctorInsert;
                 msg = "添加";
             }
+            console.log('params:::',params);
             if (params.doctorId) {
                 this.$axios
                     .post(url, params)
@@ -637,7 +673,7 @@ export default {
                                 this,
                                 "/index/operation/register/list",
                                 {
-                                    pageNo: this.pageNo,
+                                    pageNo: this.lPageNo,
                                     province: this.province,
                                     city: this.city,
                                     area: this.area,
@@ -665,7 +701,7 @@ export default {
                 this,
                 "/index/operation/register/list",
                 {
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
@@ -729,7 +765,7 @@ export default {
                 "/index/operation/register/normaledit",
                 {
                     id: this.id,
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
@@ -737,7 +773,14 @@ export default {
                     isBack:2,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
-                    dictType: this.dictType
+                    dictType: this.dictType,
+                    hospitalName: this.hospitalName,
+                    hospitalId: this.hospitalId,
+                    dept: this.dept,
+                    deptId: this.deptId,
+                    doctorName: this.doctorName,
+                    doctorId: this.doctorId,
+                    title: this.title
                 }
             );
         }

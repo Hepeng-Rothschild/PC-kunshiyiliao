@@ -43,15 +43,13 @@
                         <th>{{ item.gender == '0'? '女' :'男' }}</th>
                         <th>{{ item.city }}</th>
                         <th>{{ item.hospitalName }}</th>
+
                         <th>{{ item.deptType }}</th>
                         <th>{{ item.title }}</th>
-                        <th>{{ item.phone }}</th>
 
-                        <!-- <th style = 'max-width:200px;'>{{ item.personalIntroduction }}</th>
-                        <th style = 'max-width:200px;'>{{ item.doctorGood }}</th>-->
+                        <th>{{ item.phone }}</th>
                         <th class="one" @click="simple(item)">{{ item.personalIntroduction }}</th>
                         <th class="one" @click="simples(item)">{{ item.doctorGood }}</th>
-
                         <th>{{ item.createTime }}</th>
                         <th>{{ item.ibatch == '0'? '个人注册' :'批量导入'}}</th>
                     </tr>
@@ -164,6 +162,7 @@ export default {
             this.$axios.post(api.getDoctorInfo, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
+                    console.log(ret)
                     this.doctorregisterSize = ret.count;
                     this.list = ret.list;
                 } else {
