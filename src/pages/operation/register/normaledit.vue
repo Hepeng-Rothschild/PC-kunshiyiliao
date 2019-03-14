@@ -66,25 +66,25 @@
                         </TimePicker>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd11"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd11"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd21"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd21"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd31"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd31"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd41"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd41"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd51"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd51"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd61"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd61"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd71"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd71"></InputNumber>
                     </Col>
                 </Row>
                 <Row>
@@ -105,25 +105,25 @@
                         </TimePicker>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd12"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd12"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd22"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd22"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd32"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd32"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd42"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd42"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd52"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd52"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd62"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd62"></InputNumber>
                     </Col>
                     <Col :xs="2">
-                        <InputNumber :min="1" v-model="wd72"></InputNumber>
+                        <InputNumber min="1" max="99" v-model="wd72"></InputNumber>
                     </Col>
                 </Row>
             </Col>
@@ -131,20 +131,20 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">预约期限</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <InputNumber :min="1" v-model="term"></InputNumber>天
+                <InputNumber min="1" max="99" v-model="term"></InputNumber>天
             </Col>
         </Row>
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">医事服务费</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <InputNumber :min="1" v-model="cost"></InputNumber>元
+                <InputNumber min="1" max="9999" v-model="cost"></InputNumber>元
             </Col>
         </Row>
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">患者什么时候、到哪里找您领取挂号</Col>
             <Col class="padding-l" :xs="24" :md="21">
                 <Input
-                    class="w-input"
+                    class="w-area"
                     v-model="receive"
                     type="textarea"
                     :maxlength="20"
@@ -155,7 +155,7 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">备注</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <Input class="w-input" v-model="remarks" :maxlength="20" placeholder="请输入备注"/>
+                <Input class="w-area" v-model="remarks" :maxlength="20" placeholder="请输入备注"/>
             </Col>
         </Row>
         <br>
@@ -600,6 +600,9 @@ export default {
     }
     .show-msg {
         display: inline-block;
+    }
+    .w-area{
+        width:80%;
     }
 }
 </style>
