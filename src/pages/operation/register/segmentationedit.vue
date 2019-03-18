@@ -311,7 +311,9 @@ export default {
         }
     },
     created() {
-        this.id = this.$route.query.id;
+        this.id = this.$route.query.id
+            ? parseInt(this.$route.query.id)
+            : null;
         this.pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
             : 1;
@@ -357,7 +359,34 @@ export default {
         this.title = this.$route.query.title
             ? this.$route.query.title
             : null;
+        this.address = this.$route.query.address
+            ? this.$route.query.address
+            : null;
+        this.outpatientType = this.$route.query.outpatientType
+            ? this.$route.query.outpatientType
+            : "普通门诊";
+        this.cost = this.$route.query.cost
+            ? parseInt(this.$route.query.cost)
+            : 0;
+        this.term = this.$route.query.term
+            ? parseInt(this.$route.query.term)
+            : 1;
+        this.receive = this.$route.query.receive
+            ? this.$route.query.receive
+            : null;
+        this.remarks = this.$route.query.remarks
+            ? this.$route.query.remarks
+            : null;
         this.docListModal = false;
+        /* 
+        ,
+                    address:this.address,
+                    outpatientType:this.outpatientType,
+                    cost:this.cost,
+                    term:this.term,
+                    receive:this.receive,
+                    remarks:this.remarks
+        */
 
         if (this.id) {
             this.littleTitle = "编辑";
@@ -792,7 +821,13 @@ export default {
                     deptId: this.deptId,
                     doctorName: this.doctorName,
                     doctorId: this.doctorId,
-                    title: this.title
+                    title: this.title,
+                    address:this.address,
+                    outpatientType:this.outpatientType,
+                    cost:this.cost,
+                    term:this.term,
+                    receive:this.receive,
+                    remarks:this.remarks
                 }
             );
         }
