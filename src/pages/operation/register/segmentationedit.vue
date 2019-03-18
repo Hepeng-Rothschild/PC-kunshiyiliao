@@ -166,13 +166,15 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">预约期限</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <InputNumber min="1" max="99" v-model="term"></InputNumber>天
+                <InputNumber min="1" max="99" @on-change="checkInput" v-model="term"></InputNumber>天
+                <span :class="{rdColor:termRd}" class="notice">预约期限不能为空且不能小于1天</span>
             </Col>
         </Row>
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">医事服务费</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <InputNumber min="1" max="9999" v-model="cost"></InputNumber>元
+                <InputNumber min="1" max="9999" @on-change="checkInput" v-model="cost"></InputNumber>元
+                <span :class="{rdColor:costRd}" class="notice">医事服务费不能为空，最小为0元</span>
             </Col>
         </Row>
         <Row class="bordered">
@@ -263,8 +265,8 @@ export default {
                 // {id:2,name:"社保门诊"}
             ],
             outpatientType: "普通门诊",
-            term: null,
-            cost: null,
+            term: 1,
+            cost: 0,
             receive: null,
             remarks: null,
             docListModal: false,
@@ -293,7 +295,10 @@ export default {
             ],
 
             open: false,
-            value3: ''
+            value3: '',
+
+            termRd: false,
+            costRd: false
         };
     },
     watch: {
@@ -610,6 +615,8 @@ export default {
         },
 
         submit(name) {
+            if (this.cost == null) return (this.costRd = true);
+            if (this.term == null) return (this.termRd = true);
             let tmpRegistertimes = [];
             this.upList.map((el,i)=>{
                 for(let i=1;i<=7;i++){
@@ -661,7 +668,6 @@ export default {
                 url = api.registerDoctorInsert;
                 msg = "添加";
             }
-            console.log('params:::',params);
             if (params.doctorId) {
                 this.$axios
                     .post(url, params)
@@ -694,6 +700,12 @@ export default {
             } else {
                 this.expertMsgStatus = true;
             }
+        },
+        checkInput() {
+            if (this.term == null) this.termRd = true;
+            else this.termRd = false;
+            if (this.cost == null) this.costRd = true;
+            else this.costRd = false;
         },
         reback() {
             //   公用方法
@@ -868,6 +880,14 @@ export default {
     }
     .w-area{
         width:80%;
+    }
+    .notice {
+        display: inline-block;
+        margin-left: 15px;
+        color: #aaa;
+    }
+    span.rdColor {
+        color: #ff0000;
     }
 }
 </style>

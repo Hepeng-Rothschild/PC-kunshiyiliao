@@ -131,13 +131,15 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">预约期限</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <InputNumber min="1" max="99" v-model="term"></InputNumber>天
+                <InputNumber min="1" max="99" @on-change="checkInput" v-model="term"></InputNumber>天
+                <span :class="{rdColor:termRd}" class="notice">预约期限不能为空且不能小于1天</span>
             </Col>
         </Row>
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">医事服务费</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <InputNumber min="1" max="9999" v-model="cost"></InputNumber>元
+                <InputNumber min="1" max="9999" @on-change="checkInput" v-model="cost"></InputNumber>元
+                <span :class="{rdColor:costRd}" class="notice">医事服务费不能为空，最小为0元</span>
             </Col>
         </Row>
         <Row class="bordered">
@@ -246,8 +248,8 @@ export default {
             wd62: 0,
             wd72: 0,
 
-            term: null,
-            cost: null,
+            term: 1,
+            cost: 0,
             receive: null,
             remarks: null,
             docListModal: false,
@@ -260,7 +262,9 @@ export default {
             count: 0,
 
             expertMsgStatus: false,
-            icut: 1
+            icut: 1,
+            termRd: false,
+            costRd: false
         };
     },
     watch: {
@@ -304,9 +308,7 @@ export default {
         this.hospitalId = this.$route.query.hospitalId
             ? parseInt(this.$route.query.hospitalId)
             : null;
-        this.dept = this.$route.query.dept
-            ? this.$route.query.dept
-            : null;
+        this.dept = this.$route.query.dept ? this.$route.query.dept : null;
         this.deptId = this.$route.query.deptId
             ? this.$route.query.deptId
             : null;
@@ -316,11 +318,8 @@ export default {
         this.doctorId = this.$route.query.doctorId
             ? parseInt(this.$route.query.doctorId)
             : null;
-        this.title = this.$route.query.title
-            ? this.$route.query.title
-            : null;
+        this.title = this.$route.query.title ? this.$route.query.title : null;
         this.docListModal = false;
-
 
         if (this.id) {
             this.littleTitle = "编辑";
@@ -375,14 +374,17 @@ export default {
     components: { Avatar, tempHeader },
     methods: {
         submit(name) {
+            if (this.cost == null) return (this.costRd = true);
+            if (this.term == null) return (this.termRd = true);
+
             let tmpRegistertimes = [];
             for (let i = 1; i <= 7; i++) {
                 for (let j = 1; j <= 2; j++) {
                     let tmpObj = {};
-                    if(j == 1){
+                    if (j == 1) {
                         tmpObj.timeStart = this.upTime[0];
                         tmpObj.timeEnd = this.upTime[1];
-                    }else if(j == 2){
+                    } else if (j == 2) {
                         tmpObj.timeStart = this.dnTime[0];
                         tmpObj.timeEnd = this.dnTime[1];
                     }
@@ -434,7 +436,7 @@ export default {
                                     city: this.city,
                                     area: this.area,
                                     hospital: this.hospital,
-                                    isBack:2,
+                                    isBack: 2,
                                     searchKey: this.searchKey,
                                     deptKey: this.deptKey,
                                     dictType: this.dictType
@@ -451,6 +453,12 @@ export default {
                 this.expertMsgStatus = true;
             }
         },
+        checkInput() {
+            if (this.term == null) this.termRd = true;
+            else this.termRd = false;
+            if (this.cost == null) this.costRd = true;
+            else this.costRd = false;
+        },
         reback() {
             //   公用方法
             this.functionJS.queryNavgationTo(
@@ -462,7 +470,7 @@ export default {
                     city: this.city,
                     area: this.area,
                     hospital: this.hospital,
-                    isBack:2,
+                    isBack: 2,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType
@@ -520,7 +528,7 @@ export default {
                     city: this.city,
                     area: this.area,
                     hospital: this.hospital,
-                    isBack:2,
+                    isBack: 2,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
                     dictType: this.dictType,
@@ -601,8 +609,16 @@ export default {
     .show-msg {
         display: inline-block;
     }
-    .w-area{
-        width:80%;
+    .w-area {
+        width: 80%;
+    }
+    .notice {
+        display: inline-block;
+        margin-left: 15px;
+        color: #aaa;
+    }
+    span.rdColor {
+        color: #ff0000;
     }
 }
 </style>
