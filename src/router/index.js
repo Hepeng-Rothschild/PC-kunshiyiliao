@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import operation from './operation/operation';
-import maintain from './maintain/maintain';
-import statistics from './statistics/statistics';
-import supervision from './supervision/supervision';
+import operation from './operation';
+import maintain from './maintain';
+import statistics from './statistics';
+import supervision from './supervision';
+import netease from './netease';
 
 export default new Router({
 	mode: 'hash',
@@ -209,6 +210,28 @@ export default new Router({
 				statistics.reviewList,
 				//监管端路由
 				supervision.reviewList,
+
+				//网易云信
+				netease.session,
+				netease.sysmsgs,
+				netease.chat,
+				netease.chathistory,
+				netease.room,
+				netease.roomChat,
+				netease.contacts,
+				netease.namecard,
+				netease.namecardremark,
+				netease.searchuser,
+				netease.teaminvite,
+				netease.general,
+				netease.teamlist,
+				netease.teamcard,
+				netease.teammanage,
+				netease.teamsetting,
+				netease.teammembers,
+				netease.teammembercard,
+				netease.teamSendMsgReceipt,
+				netease.msgReceiptDetail
 
 			]
 		},

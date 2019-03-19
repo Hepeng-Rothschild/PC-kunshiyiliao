@@ -145,7 +145,7 @@
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Tree } from "iview";
 import vueEditor from "@/components/vueEditor";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {

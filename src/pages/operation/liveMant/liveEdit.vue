@@ -155,7 +155,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 import bigUploadFile from "@/components/bigUploadFile";
 export default {
