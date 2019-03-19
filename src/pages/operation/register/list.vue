@@ -1,6 +1,6 @@
 <template>
     <div class="doctorreviewlist">
-        <tempHeader :index="0"></tempHeader>
+        <!-- <tempHeader :index="0"></tempHeader> -->
         <Row>
             <Col :xs="24">
                 <div class="margin-up-down">
@@ -285,6 +285,7 @@ export default {
             params.hospitalId = this.hospital ? this.hospital : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log("params:::",params);
             this.$axios
                 .post(api.registerList, params)
                 .then(resp => {

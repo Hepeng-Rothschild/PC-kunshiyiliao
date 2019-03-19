@@ -203,7 +203,7 @@ export default {
         return {
             id: null,
             info: null,
-            pageNo: null,
+            lPageNo: null,
             searchKey: "",
             deptKey: "",
             dictType: "",
@@ -274,7 +274,7 @@ export default {
     },
     created() {
         this.id = this.$route.query.id;
-        this.pageNo = this.$route.query.pageNo
+        this.lPageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
             : 1;
         this.searchKey = this.$route.query.searchKey
@@ -298,6 +298,29 @@ export default {
         this.hospital = this.$route.query.hospital
             ? parseInt(this.$route.query.hospital)
             : null;
+        this.hospitalName = this.$route.query.hospitalName
+            ? this.$route.query.hospitalName
+            : null;
+        this.hospitalId = this.$route.query.hospitalId
+            ? parseInt(this.$route.query.hospitalId)
+            : null;
+        this.dept = this.$route.query.dept
+            ? this.$route.query.dept
+            : null;
+        this.deptId = this.$route.query.deptId
+            ? this.$route.query.deptId
+            : null;
+        this.doctorName = this.$route.query.doctorName
+            ? this.$route.query.doctorName
+            : null;
+        this.doctorId = this.$route.query.doctorId
+            ? parseInt(this.$route.query.doctorId)
+            : null;
+        this.title = this.$route.query.title
+            ? this.$route.query.title
+            : null;
+        this.docListModal = false;
+
 
         if (this.id) {
             this.littleTitle = "编辑";
@@ -406,7 +429,7 @@ export default {
                                 this,
                                 "/index/operation/register/list",
                                 {
-                                    pageNo: this.pageNo,
+                                    pageNo: this.lPageNo,
                                     province: this.province,
                                     city: this.city,
                                     area: this.area,
@@ -434,7 +457,7 @@ export default {
                 this,
                 "/index/operation/register/list",
                 {
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
@@ -492,7 +515,7 @@ export default {
                 "/index/operation/register/segmentationedit",
                 {
                     id: this.id,
-                    pageNo: this.pageNo,
+                    pageNo: this.lPageNo,
                     province: this.province,
                     city: this.city,
                     area: this.area,
@@ -500,7 +523,14 @@ export default {
                     isBack:2,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
-                    dictType: this.dictType
+                    dictType: this.dictType,
+                    hospitalName: this.hospitalName,
+                    hospitalId: this.hospitalId,
+                    dept: this.dept,
+                    deptId: this.deptId,
+                    doctorName: this.doctorName,
+                    doctorId: this.doctorId,
+                    title: this.title
                 }
             );
         }
