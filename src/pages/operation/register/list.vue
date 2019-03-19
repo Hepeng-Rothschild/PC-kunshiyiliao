@@ -219,13 +219,7 @@ export default {
                     }
                 }
             ],
-            doctorList: [
-                {
-                    iNum: 1,
-                    avatar: require("@/assets/images/header/code_box.png"),
-                    operat: ""
-                }
-            ],
+            doctorList: [],
             doctorTimesList: {},
             timesHtml: "",
             count: 0,
@@ -285,7 +279,6 @@ export default {
             params.hospitalId = this.hospital ? this.hospital : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
-            console.log("params:::",params);
             this.$axios
                 .post(api.registerList, params)
                 .then(resp => {
