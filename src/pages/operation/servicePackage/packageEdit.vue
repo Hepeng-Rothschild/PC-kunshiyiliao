@@ -13,7 +13,7 @@
                         <Input
                             class="w-input"
                             v-model="info.itemName"
-                            :maxlength="20"
+                            :maxlength="60"
                             placeholder="请输入服务包名称"
                         />
                     </FormItem>

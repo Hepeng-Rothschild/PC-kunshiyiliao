@@ -103,8 +103,8 @@
                         <Input
                             class="w-input"
                             v-model="info.serviceName"
-                            :maxlength="20"
-                            placeholder="请输入服务项目名称"
+                            :maxlength="60"
+                            placeholder="请输入服务项目名称1"
                         />
                     </FormItem>
                 </Col>
@@ -119,7 +119,7 @@
                             class="w-input"
                             v-model="info.serviceDes"
                             type="textarea"
-                            :maxlength="20"
+                            :maxlength="100"
                             placeholder="请填写具体操作规范"
                         />
                     </FormItem>
@@ -226,7 +226,6 @@
                             class="w-input"
                             v-model="info.remarks"
                             type="textarea"
-                            :maxlength="20"
                             placeholder="备注"
                         />
                     </FormItem>
