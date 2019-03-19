@@ -414,6 +414,7 @@ export default {
             subMitObj.personalIntroduction = this.info.personalIntroduction;
             subMitObj.gender = parseInt(this.info.gender);
             subMitObj.doctorGood = this.info.doctorGood;
+            subMitObj.idcard = this.info.idcard;
             this.hospitalList.forEach((el, i) => {
                 if (el.id == this.info.hospitalId) {
                     subMitObj.hospitalName = el.orgName;
