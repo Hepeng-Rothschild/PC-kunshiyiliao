@@ -102,6 +102,7 @@ export default new Router({
 				operation.liveMantList,
 				operation.liveMantAdd,
 				operation.liveMantEdit,
+				operation.broadAdd,
 				// 讲堂审核
 				operation.physicianAudit,
 				operation.physicianAuditSee,
