@@ -377,6 +377,7 @@ export default {
                 // 直播
                 this.columns = this.columns1;
                 this.data1 = [];
+                // this.liveData({ pageNo: this.pageNo, pageSize: this.pageSize, searchKey : this.search });
             } else if (Number(newVal) == 2) {
                 // 点播
                 this.columns = this.live;
@@ -387,6 +388,10 @@ export default {
                 this.columns = this.modal;
                 this.modalData();
             }
+        },
+        broad () {
+            this.data1 = []
+            // this.$axios.post()
         },
         // 加载栏目数据
         modalData() {
@@ -462,6 +467,7 @@ export default {
     // 监听status   tab页的变化
     watch: {
         status(newVal, oldVal) {
+            console.log(newVal);
             this.statusChange(newVal);
         }
     }
