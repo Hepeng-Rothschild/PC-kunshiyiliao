@@ -80,6 +80,7 @@ export default {
                 break;
             }
         }
+        if(this.topActiveName == null) this.topActiveName = this.$store.state.topMenuList[0].id;
         if (fullPath == "/index") {
             this.topActiveName = this.$store.state.topMenuList[0].id;
         }

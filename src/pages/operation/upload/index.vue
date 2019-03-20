@@ -46,7 +46,7 @@
 <script>
 import api from "@/api/commonApi";
 import { Avatar, Upload } from "iview";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 export default {
   data() {
     return {

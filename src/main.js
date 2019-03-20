@@ -37,22 +37,22 @@ Vue.prototype.functionJS = functionJS;
 
 //设置title
 router.beforeEach((to, from, next) => {
-	// if(store.state.env == "production" || store.state.env == "test"){
-	// 	if(to.path != "/login"){
-	// 		let access_token = window.localStorage.getItem("access_token");
-	// 		if(access_token != undefined){
-	// 			let title = to.meta.title?to.meta.title:"互联网医院管理系统";
-	// 			document.title = title;
-	// 			next();
-	// 		}else{
-	// 			next("/login");
-	// 		}
-	// 	}else{
-	// 		next();
-	// 	}
-	// }else{
+	if(store.state.env == "production" || store.state.env == "test"){
+		if(to.path != "/login"){
+			let access_token = window.localStorage.getItem("access_token");
+			if(access_token != undefined){
+				let title = to.meta.title?to.meta.title:"互联网医院管理系统";
+				document.title = title;
+				next();
+			}else{
+				next("/login");
+			}
+		}else{
+			next();
+		}
+	}else{
 		next();
-	// }
+	}
 });
 
 // Ajax
@@ -152,6 +152,7 @@ Vue.prototype.tryCatch = function(jsonStr){
 	    return tmpObj;
 	}
 }
+Vue.config.devtools = true;
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',

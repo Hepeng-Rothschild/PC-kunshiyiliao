@@ -18,7 +18,7 @@ import SparkMD5 from "spark-md5";
 import videoPlay from "@/components/videoPlayer";
 import Ajax from "@/plugins/ajax.js";
 import api from "@/api/commonApi.js";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 export default {
     data() {
         return {
