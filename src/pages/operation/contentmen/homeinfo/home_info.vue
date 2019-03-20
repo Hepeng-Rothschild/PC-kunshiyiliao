@@ -159,8 +159,8 @@
       <div class="main_yy">
         <!-- registerPattern -->
         <span class="main_yy_name">预约挂号卡模式</span>
-        <CheckboxGroup v-model="registerPatternValue">
-            <Checkbox :label="item.title" v-for='item,index in registerPatternList' :key='index'></Checkbox>
+        <CheckboxGroup v-model="registerPatternValue" @on-change='checkBoxChange'>
+          <Checkbox v-model='item.status' v-for='item,index in registerPatternList' :key='index' :label='item.name'></Checkbox>
         </CheckboxGroup>
       </div>
 
@@ -331,6 +331,7 @@ export default {
           disabled:false
         }
       ],
+      serviceTypeSelect:[],
       // 模态框显示与否
       registerFlag:false,
       // 添加服务列表
@@ -342,16 +343,24 @@ export default {
       // 预约挂号卡模式
       registerPatternList:[
         {
-          title:"身份证号"
+          id:1,
+          status: false,
+          name:"身份证号"
         },
         {
-          title:"医保卡号"
+          id:2,
+          status: true,
+          name:"医保卡号"
         },
         {
-          title:"医院就诊卡号"
+          id:3,
+          status: false,
+          name:"医院就诊卡号"
         },
         {
-          title:"居民健康卡"
+          id:4,
+          status: false,
+          name:"居民健康卡"
         }
       ],
       serviceList:[],
@@ -419,8 +428,25 @@ export default {
         this.hospitalFlag = true;
       }
     },
+    // 多选框选中时获取ID
+    checkBoxChange (arr) {
+      let id = new Set();
+      this.registerPatternList.forEach((item,index) => {
+          arr.forEach((i,s) => {
+            if(item.name == i) {
+              id.add(item.id);
+            }
+          })
+      })
+      let oldStr = []
+      id.forEach(item => {
+        oldStr.push(item)
+      })
+     this.serviceTypeSelect = oldStr.join(",")
+    },
     // 当服务类型未选择不显示modal
     addManagement(){
+      console.log(this.registerPatternValue);
       if(!Boolean(this.serviceTypeValue)) {
         this.$Message.error('请选择服务类型后再添加服务');
         return ''
