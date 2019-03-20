@@ -51,9 +51,6 @@
       <!--机构等级-->
       <div class="main_type">
         <span>机构等级</span>
-        <!-- <select v-model="y_type">
-          <option :value="item.dictType" v-for="item,index in types">{{ item.dictName }}</option>
-        </select> -->
         <Select v-model="y_type" style="width:100px" clearable>
           <Option v-for="item in types" :value="item.dictType" :key="item.dictType">{{ item.dictName }}</Option>
         </Select>
@@ -84,6 +81,7 @@
             :textHtml="info.content"
             :urlCode="urlCode"
             @valueHandle="afterChange"
+            :height="100"
           ></vueEditor>
         </div>
       </div>
@@ -123,13 +121,6 @@
       <!--医院联盟排序-->
       <div class="main_info">
         <span>医院联盟排序</span>
-        <!-- <input
-          type="text"
-          placeholder="医院联盟排序"
-          style="width:120px;"
-          v-model.trim="hospitalSort"
-          :disabled="hospitalFlag"
-        >-->
         <Input
           placeholder="医院联盟排序"
           style="width:120px;"
@@ -142,6 +133,11 @@
       <div class="main_yy">
         <span class="main_yy_name">是否开通处方流转</span>
         <iSwitch v-model="switch3"/>
+      </div>
+      <!--处方流转平台接口ID-->
+      <div class="main_info">
+        <span>处方流转平台接口ID</span>
+        <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px"/>
       </div>
       <!--是否加入远程门诊-->
       <div class="main_yy">
@@ -158,11 +154,114 @@
         <span class="main_yy_name">预约挂号支付</span>
         <iSwitch v-model="registerPayStatus"/>
       </div>
-      <!--处方流转平台接口ID-->
-      <div class="main_info">
-        <span>处方流转平台接口ID</span>
-        <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px"/>
+
+      <!-- 预约挂号卡模式 -->
+      <div class="main_yy">
+        <!-- registerPattern -->
+        <span class="main_yy_name">预约挂号卡模式</span>
+        <CheckboxGroup v-model="registerPatternValue">
+            <Checkbox :label="item.title" v-for='item,index in registerPatternList' :key='index'></Checkbox>
+        </CheckboxGroup>
       </div>
+
+      <!-- 预约挂号池是否为第三方 -->
+      <div class="main_yy">
+        <span class="main_yy_name">预约挂号池是否为第三方</span>
+        <iSwitch v-model="registerIthirdparty" @on-changne='registerIthirdpartyChange'/>
+      </div>
+
+      <!-- 预约挂号池第三方数据 -->
+      <div v-show='registerIthirdparty'>
+        <!-- 服务类型 -->
+        <div class="main_yy">
+          <span class="main_yy_name">服务类型</span>
+
+          <Select v-model="serviceTypeValue" style="width:120px;margin-right:10px;" >
+            <Option v-for="(item,index) in serviceType" :value="item.value" :key="index" :disabled='item.disabled'>{{ item.key }}</Option>
+          </Select>
+
+          <Button type="primary" @click='addManagement'>添加服务</Button>
+        </div>
+
+        <Modal
+            v-model="registerFlag"
+            title="添加服务"
+            @on-ok="ok"
+            @on-cancel="cancel">
+          <!--  服务名  -->
+         <div class="main_info">
+            <span>服务名</span>
+            <Input v-model="serviceName" style="width: 300px" placeholder="请输入服务名称" />
+          </div>
+        <!-- 服务路径 -->
+        <div class="main_info">
+          <span>服务路径</span>
+          <Input v-model="serviceUrl" style="width: 300px"  placeholder="请输入服务路径" />
+        </div>
+        <!-- 第三方参数 -->
+        <div class="main_info">
+          <span>第三方参数</span>
+          <Input v-model="requestVal" style="width: 300px"  placeholder="请输入第三方参数 " />
+        </div>
+        <!-- 第三方厂家 -->
+        <div class="main_info"> 
+          <span>第三方厂家</span>
+          <Select v-model="y_gzh" style="width:150px;" >
+            <Option v-for="item in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
+          </Select>
+        </div>
+        <!-- 是否开启 -->
+        <div class="main_enable"> 
+          <span style='min-width:100px;'>是否启用</span>
+          <iSwitch  v-model="enable" size="large">
+              <span slot="open">启用</span>
+              <span slot="close">禁用</span>
+          </iSwitch>
+        </div>
+    </Modal>
+    
+    <!-- 添加的服务列表 -->
+    <div v-show='AddserviceList.length' v-for='item,index in AddserviceList' :key='index'>
+       <!--  服务名  -->
+       <div class="main">
+         <h2>
+          <span>服务类型：{{ serviceType[item.serviceType-1].key}}</span>
+          <Button type="primary" @click="deleteItem(item,index)">编辑服务</Button>
+         </h2>
+       </div>
+         <div class="main_info">
+            <span>服务名</span>
+            <span>{{ item.serviceName }}</span>
+          </div>
+        <!-- 服务路径 -->
+        <div class="main_info">
+          <span>服务路径</span>
+          <span>{{ item.serviceUrl }}</span>
+        </div>
+        <!-- 第三方参数 -->
+        <div class="main_info">
+          <span>第三方参数</span>
+          <span>{{ item.requestVal }}</span>
+        </div>
+        <!-- 第三方厂家 -->
+        <div class="main_info"> 
+          <span>第三方厂家</span>
+          <Select v-model="y_gzh" style="width:150px;" :disabled="status" >
+            <Option v-for="item in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
+          </Select>
+        </div>
+        <!-- 是否启用 -->
+        <div class="main_info">
+          <span>是否启用</span>
+          <span>{{ item.enable == 1 ? '启用' :"禁用" }}</span>
+        </div>
+        
+    </div>
+
+      </div>
+
+      
+
       <!--保存-->
       <div class="main_save">
         <Button type="primary" @click="save">保存</Button>
@@ -186,6 +285,7 @@ export default {
   data() {
     return {
       info: {
+        // 机构简介
         content: ""
       },
       height: 300,
@@ -193,24 +293,92 @@ export default {
       defaultList: [],
       types: [],
       imgName: "",
+      // 机构名称
       title: "",
       visible: false,
       uploadList: [],
+      // 是否开通互联网医院
       switch1: false,
+      // 是否加入医院联盟
       switch2: false,
+      // 是否开通处方流转
       switch3: false,
+      // 是否加入远程门诊
       switch4: false,
+      // 强制用卷
       usedCoupon: false,
+      // 预约挂号支付
       registerPayStatus:false,
+      // 预约挂号池是否为第三方
+      registerIthirdparty:false,
+      // 预约挂号卡模式
+      registerPattern:null,
+      // 服务类型列表
+      serviceType:[
+        {
+          value: 1,
+          key:"His",
+          disabled:false
+        },
+        {
+          value: 2,
+          key:"预约挂号池",
+          disabled:false
+        },
+        {
+          value: 3,
+          key:"妇幼",
+          disabled:false
+        }
+      ],
+      // 模态框显示与否
+      registerFlag:false,
+      // 添加服务列表
+      AddserviceList:[], 
+      // 选择中的服务类型
+      serviceTypeValue:null,
+      //  选择中的挂号卡模式
+      registerPatternValue:[],
+      // 预约挂号卡模式
+      registerPatternList:[
+        {
+          title:"身份证号"
+        },
+        {
+          title:"医保卡号"
+        },
+        {
+          title:"医院就诊卡号"
+        },
+        {
+          title:"居民健康卡"
+        }
+      ],
+      serviceList:[],
+      // 服务名
+      serviceName:"",
+      // 服务路径
+      serviceUrl:"",
+      // 第三方参数
+      requestVal:"",
+      // 是否启用
+      enable:false,
       y_name: "",
+      // 机构等级
       y_type: 6001,
+      // 背景模板
       y_module: "2",
+      // 机构路线
       y_luxin: "",
       y_search: "",
+      // 机构电话
       y_phone: "",
+      // 机构地址
       y_dizhi: "",
+      // 互联网医院公众号
       y_gzh: null,
       y_uid: "",
+      // 医联体上级医院
       y_search1: "0",
       gzh: [],
       ylt: [],
@@ -221,15 +389,18 @@ export default {
       images: "",
       id: sessionStorage.getItem("hospitalId"),
       status: false,
+      // 医院联盟排序
       hospitalSort: "",
       hospitalFlag: false,
       urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
     };
   },
   methods: {
+    // 机构简介
     afterChange(val) {
       this.info.content = val;
     },
+    // 是否开通互联网医院关连数据
     change(status) {
       if (status) {
         this.status = false;
@@ -240,6 +411,7 @@ export default {
         this.hospitalFlag = true;
       }
     },
+    // 是否加入医院联盟控制医院排序
     change2(status) {
       if (status) {
         this.hospitalFlag = false;
@@ -247,6 +419,15 @@ export default {
         this.hospitalFlag = true;
       }
     },
+    // 当服务类型未选择不显示modal
+    addManagement(){
+      if(!Boolean(this.serviceTypeValue)) {
+        this.$Message.error('请选择服务类型后再添加服务');
+        return ''
+      }
+      this.registerFlag = true
+    },
+    // 医院修改完成
     save() {
       let images = "";
       if (this.images != "" && this.uploadList.length) {
@@ -322,8 +503,74 @@ export default {
         localStorage.setItem("status", "");
       }
     },
+    // 预约挂号池是否为第三方 
+    registerIthirdpartyChange (flag) {
+      console.log(flag)
+    },
     valueHandle(param) {
       this.tinymceHtml = param;
+    },
+    // 添加服务
+    ok () {
+        
+        if(!this.serviceName || !this.serviceUrl || !this.requestVal){
+          this.$Message.error('请完整填写必填项');
+          return ''
+        }
+        let params = {
+          serviceName:this.serviceName,
+          // 服务路径
+          serviceUrl:this.serviceUrl,
+          // 第三方参数
+          requestVal:this.requestVal,
+          // 医院ID
+          hospitalId: this.id,
+          // 服务类型
+          serviceType : this.serviceTypeValue,
+          // 是否启用
+          enable:Number(this.enable)
+        }
+        // 初始化
+        this.serviceName = ''
+        this.requestVal = ''
+        this.serviceUrl = ''
+        this.enable = false
+        
+        this.serviceType[this.serviceTypeValue-1].disabled = true
+        this.serviceTypeValue = null
+       
+        if(this.AddserviceList.length>0){
+          this.AddserviceList.forEach((item,index) =>{
+            if(item.serviceType == params.serviceType){
+              this.AddserviceList[index] = params
+            }else {
+              this.AddserviceList.push(params)
+            }
+          })
+        } else {
+            this.AddserviceList.push(params)
+        }
+        
+        
+       
+    },
+    // 编辑服务
+    deleteItem (item,index) {
+      this.registerFlag = true
+      this.serviceTypeValue = item.serviceType
+      this.serviceName = item.serviceName
+      this.requestVal = item.requestVal
+      this.serviceUrl = item.serviceUrl
+      this.enable = Boolean(item.enable)
+
+    },
+    cancel () {
+      // 初始化
+        this.serviceName = ''
+        this.requestVal = ''
+        this.serviceUrl = ''
+        this.enable = false
+        this.serviceTypeValue = null
     },
     handleView(name) {
       this.imgName = name;
@@ -467,6 +714,9 @@ export default {
           // 处方流转
           this.switch3 = Boolean(ret.ipres);
           this.y_uid = ret.prescriptionId;
+
+          // 预约挂号卡模式
+          this.registerIthirdparty = Boolean(ret.registerIthirdparty)
         }
       });
   }
@@ -474,6 +724,26 @@ export default {
 </script>
 
 <style scoped lang="less">
+.main_info {
+      display: flex;
+      flex-direction: row;
+      width: 80%;
+      height: 30px;
+      margin: 5px auto;
+      align-items: center;
+      span {
+        display: inline-block;
+        min-width: 100px;
+        line-height: 30px;
+      }
+      input {
+        line-height: 30px;
+        display: inline-block;
+        width: calc(100% - 300px);
+        outline: none;
+        text-indent: 5px;
+      }
+    }
 .demo-upload-list {
   display: inline-block;
   width: 60px;
@@ -510,6 +780,15 @@ export default {
   cursor: pointer;
   margin: 0 2px;
 }
+.main_enable{
+      display: flex;
+      flex-direction: row;
+      width: 80%;
+      height: 30px;
+      margin: 5px auto;
+      align-items: center;
+
+    }
 .Institutional_information {
   width: calc(100% - 20px);
   padding: 10px 30px;
@@ -521,6 +800,7 @@ export default {
     flex-direction: column;
     padding: 30px 0;
     margin: 0 auto;
+    
     .main_info {
       display: flex;
       flex-direction: row;

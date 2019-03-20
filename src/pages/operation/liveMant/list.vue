@@ -81,10 +81,10 @@ export default {
             count: 10,
             // tab列表
             tabList: [
-                {
-                    title: "直播",
-                    value: 1
-                },
+                // {
+                //     title: "直播",
+                //     value: 1
+                // },
                 {
                     title: "点播",
                     value: 2
