@@ -7,7 +7,7 @@
     <div class="m-list">
       <group>
         <cell v-for='team in teamList' :key='team.teamId' :title='team.name' is-link :link='`/chat/team-${team.teamId}`'>
-          <span class="icon icon-team-advanced" slot="icon"></span>
+          <span class="icon icon-team-advanced" slot="icon" @click='toTalk(`/index/chat/team-${team.teamId}`)'>{{team.name}}</span>
         </cell>
       </group>
     </div>
@@ -35,6 +35,11 @@ export default {
     },
     pageTitle: function () {
       return this.teamType === 'advanced' ? '高级群' : '讨论组'
+    }
+  },
+  methods: {
+    toTalk(url){
+      this.$router.push(url)
     }
   }
 }

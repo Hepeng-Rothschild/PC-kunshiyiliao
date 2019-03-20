@@ -1,8 +1,8 @@
 <template>
   <div class="g-inherit m-main p-session">
     <group class="u-list">
-      <cell class="u-list-item" title="消息中心" @click.native="enterSysMsgs">
-        <img class="icon" slot="icon" width="24" :src="noticeIcon">
+      <cell class="u-list-item" title="消息中心">
+        <img class="icon" slot="icon" width="24" @click="enterSysMsgs" :src="noticeIcon">
         <span v-show="sysMsgUnread > 0" class="u-unread">{{sysMsgUnread}}</span>
       </cell>
       <cell class="u-list-item" title="我的手机" @click.native="enterMyChat">
@@ -118,19 +118,20 @@ export default {
   },
   methods: {
     enterSysMsgs () {
+      console.log(111);
       if (this.hideDelBtn())
         return
-      location.href = '#/sysmsgs'
+      location.href = '/index/sysmsgs'
     },
     enterChat (session) {
       if (this.hideDelBtn())
         return
       if (session && session.id)
-        location.href = `#/chat/${session.id}`
+        location.href = `/index/chat/${session.id}`
     },
     enterMyChat () {
       // 我的手机页面
-      location.href = `#/chat/p2p-${this.myPhoneId}`
+      location.href = `/index/chat/p2p-${this.myPhoneId}`
     },
     deleteSession () {
       if (this.delSessionId !== null) {

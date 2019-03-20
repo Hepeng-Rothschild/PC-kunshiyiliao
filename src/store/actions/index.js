@@ -19,8 +19,12 @@ import { delegateTeamFunction, onTeamNotificationMsg, enterSettingPage, getTeamM
 
 function connectNim ({state, commit, dispatch}, obj) {
   let {force} = Object.assign({}, obj)
+  console.log('连接nim');
   // 操作为内容页刷新页面，此时无nim实例
   if (!state.nim || force) {
+    console.log('设置账号密码');
+    cookie.setCookie('uid','a1');
+    cookie.setCookie('sdktoken','000000');
     let loginInfo = {
       uid: cookie.readCookie('uid'),
       sdktoken: cookie.readCookie('sdktoken'),

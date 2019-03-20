@@ -4,7 +4,7 @@
       <h1 class="m-tab-top" @click="enterNameCard">{{sessionName}}</h1>
       <a slot="left"></a>
       <div class="m-tab-right" slot="right">
-        <span class='icon-history' @click='onHistoryClick'></span>
+        <span class='icon-history' @click='onHistoryClick'>历史</span>
         <span v-if="scene==='team'" class='icon-team' @click="onTeamManageClick"></span>
       </div>
     </x-header>
@@ -82,6 +82,7 @@ export default {
   computed: {
     sessionId () {
       let sessionId = this.$route.params.sessionId
+      console.log('sessionId:::',sessionId);
       return sessionId
     },
     sessionName () {
@@ -109,6 +110,7 @@ export default {
       }
     },
     scene () {
+      console.log('util.parseSession(this.sessionId)',util.parseSession(this.sessionId));
       return util.parseSession(this.sessionId).scene
     },
     to () {
@@ -200,7 +202,7 @@ export default {
     },
     onHistoryClick() {
       if (this.scene!=='team' || (this.teamInfo && this.teamInfo.validToCurrentUser)) {
-        location.href = `#/chathistory/${this.sessionId}`
+        location.href = `/index/chathistory/${this.sessionId}`
       } else {
         this.$toast('您已退出该群')
       }

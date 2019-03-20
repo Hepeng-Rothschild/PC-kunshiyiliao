@@ -74,6 +74,7 @@ export default {
           return util.getFriendAlias(userInfo)
         }
       } else if (/^team-/.test(sessionId)) {
+        console.log(111);
         return '历史记录'
       }
     },

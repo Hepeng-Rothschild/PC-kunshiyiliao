@@ -5,7 +5,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 // 状态管理vuex
 Vue.use(Vuex);
-
+Vue.config.devtools = true;
 import state from './state.js'
 import mutations from './mutations';
 import actions from './actions';

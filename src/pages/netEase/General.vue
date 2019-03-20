@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import { Group, Cell } from 'vux'
+// import { Group, Cell } from 'vux'
 
 export default {
   components: {
-    Group,
-    Cell
+    // Group,
+    // Cell
   },
   computed: {
     myInfo () {

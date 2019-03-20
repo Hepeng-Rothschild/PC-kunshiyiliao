@@ -5,6 +5,7 @@ import maintain from './maintain';
 import statistics from './statistics';
 import supervision from './supervision';
 import netease from './netease';
+import chat from './chat';
 
 export default new Router({
 	mode: 'hash',
@@ -231,7 +232,10 @@ export default new Router({
 				netease.teammembers,
 				netease.teammembercard,
 				netease.teamSendMsgReceipt,
-				netease.msgReceiptDetail
+				netease.msgReceiptDetail,
+
+				chat.teamList,
+				chat.teamChat,
 
 			]
 		},

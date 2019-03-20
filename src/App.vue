@@ -21,6 +21,9 @@ export default {
             "setAccessToken",
             window.localStorage.getItem("access_token")
         );
+        // 提交sdk连接请求
+        this.$store.dispatch("connect");
+        this.$store.dispatch("updateRefreshState");
     },
     watch: {
         "$store.state.accessToken"(val) {

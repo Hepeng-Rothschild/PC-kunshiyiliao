@@ -29,8 +29,8 @@
               </div>
               <div class='m-options' slot='default' v-if='deleteIdServer !== msg.idServer'>
                 <template v-if='msg.state === "init"'>
-                  <x-button type="primary" :mini='true' action-type="button" @click.native="handleTeamApply(msg, true)">同意</x-button>
-                  <x-button type="warn" :mini='true' action-type="button" @click.native="handleTeamApply(msg, false)">拒绝</x-button>
+                  <button type="primary" :mini='true' action-type="button" @click="handleTeamApply(msg, true)">同意</button>
+                  <button type="warn" :mini='true' action-type="button" @click="handleTeamApply(msg, false)">拒绝</button>
                 </template>
                 <div v-else class='u-msg-state'>
                   {{msg.state==='error'? '已过期' : msg.state==='rejected'?'已拒绝':'已同意'}}
