@@ -1,6 +1,6 @@
 <template>
   <div class="m-members" :class='{"s-bg-white": advanced && !showAllMode}'>
-    <a v-if='hasInvitePermission && !showAllMode' class='u-member' :href='"#/teaminvite/" + teamId'>
+    <a v-if='hasInvitePermission && !showAllMode' class='u-member' :href='"#/index/teaminvite/" + teamId'>
       <img class='avatar' src="http://yx-web.nos.netease.com/webdoc/h5/im/team_member_add.png" alt="">
       <span>添加</span>
     </a>

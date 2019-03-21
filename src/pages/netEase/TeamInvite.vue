@@ -7,8 +7,8 @@
     <div class="m-list">
       <div v-for="group in friendsGroups" :key="group.letter" class='m-group'>
         <em>{{group.letter}}</em>
-        <cell v-for="friend in group.arr" :title="friend.alias" :key="friend.account" @click.native='itemClick(friend)'>
-          <span ref='checkIcon' class='check-icon' slot='icon'  :class='friend.ingroup ? "checked-grey": (friend.checked ? "checked-blue": "unchecked")'></span>
+        <cell v-for="friend in group.arr" :title="friend.alias" :key="friend.account" @click='itemClick(friend)'>
+          <span ref='checkIcon' style='display:inline-block;width:30px;height:30px;' class='check-icon' slot='icon'  :class='friend.ingroup ? "checked-grey": (friend.checked ? "checked-blue": "unchecked")'></span>
           <img class="icon u-circle" slot="icon" width="25" height="25" :src="userInfos[friend.account].avatar">
         </cell>
       </div>
@@ -18,7 +18,7 @@
         <img class='u-circle' v-for='friend in selected' :key='friend.account' width="30" height="30" :src='userInfos[friend.account].avatar' @click='unSelect(friend)'>
         <img width="30" height="30" src='http://yx-web.nos.netease.com/webdoc/h5/im/team_invite_dot_avatar.png'>
       </div>
-      <x-button class='btn' type="primary" :mini='true' action-type="button" @click.native='onNext'>{{`确认(${selected.length})`}}</x-button>
+      <x-button class='btn' type="primary" :mini='true' action-type="button" @click='onNext'>{{`确认(${selected.length})`}}</x-button>
     </div>
     <action-sheet v-model="showActionSheet" :menus="menus" @on-click-menu="onActionClick" show-cancel></action-sheet>
   </div>
@@ -111,10 +111,10 @@ export default {
       this.$forceUpdate()
     },
     onNext() {
-      if (this.selected.length<1) {
-        this.$toast('未选择成员')
-        return 
-      }
+      // if (this.selected.length<1) {
+      //   this.$Message.warning('未选择成员')
+      //   return 
+      // }
       if (this.teamId==="0") {
         // 创建群模式
         this.showActionSheet = true
@@ -136,10 +136,10 @@ export default {
           done:(error, obj)=>{
             this.$store.dispatch('hideLoading')
             if (error) {
-              this.$toast(error)
+              this.$Message.info(error)
               return
             }
-            this.$toast('邀请成员成功')
+            this.$Message.info('邀请成员成功')
             setTimeout(() => {
               window.history.go(-1)
             }, 200);
@@ -174,7 +174,7 @@ export default {
           accounts: accounts,
           done: (error, obj)=>{
             if (error) {
-              this.$toast('创群失败'+ error)
+              this.$Message.alert('创群失败'+ error)
             }
             if(!error) {
               if(history.replaceState) {
