@@ -569,7 +569,6 @@ export default {
             if (
                 !this.serviceName ||
                 !this.serviceUrl ||
-                !this.requestVal ||
                 !this.thirdValue
             ) {
                 this.$Message.error("请完整填写必填项");
@@ -591,7 +590,7 @@ export default {
                 // 第三方厂家
                 thirdpartyEnum: this.thirdValue
             };
-            
+
             if (this.AddserviceList.length > 0) {
                     let flag = true
                 this.AddserviceList.forEach((item, index) => {
