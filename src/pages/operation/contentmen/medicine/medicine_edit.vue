@@ -221,6 +221,7 @@ export default {
       }
       el.classList.add("active");
     },
+    // 后退
     back() {
       let pageNo = this.$route.params.pageNo;
       this.functionJS.paramsNavgationTo(this, "iKeshi", {
@@ -245,6 +246,7 @@ export default {
         id: this.currentId,
         // 科室开通远程门诊
         iremote: Number(this.switch3),
+        // 科室code
         code:this.medicineCode
       };
       //图片
@@ -276,6 +278,7 @@ export default {
           console.log(err);
         });
     },
+    // 上传图片相关事件
     handleView(name) {
       this.imgName = name;
       this.visible = true;
@@ -319,9 +322,11 @@ export default {
       }
       return check;
     },
+    // 富文本编辑器
     afterChange(val) {
       this.info.content = val;
     },
+    // 获取科室详细数据
     getRightData(id) {
       if (id) {
         this.currentId = id;
@@ -353,6 +358,7 @@ export default {
               this.uploadList = [];
               // 科室Code
               this.medicineCode = ret.code
+              // 科室开通远程门诊s
               this.switch3 = Boolean(ret.iremote);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;
@@ -371,6 +377,7 @@ export default {
           });
       }
     },
+    // 图片兼容
     analysisImages(json) {
       try {
         json = JSON.parse(json);

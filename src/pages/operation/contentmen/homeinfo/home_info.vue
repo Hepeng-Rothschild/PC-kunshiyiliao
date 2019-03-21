@@ -282,7 +282,7 @@
                     <!-- 是否启用 -->
                     <div class="main_info">
                         <span>是否启用</span>
-                        <span>{{ item.enable == 1 ? '启用' : "禁用" }}</span>
+                        <span>{{ item.enable == 1 ? '禁用' : "启用" }}</span>
                     </div>
                 </div>
             </div>
@@ -574,6 +574,10 @@ export default {
                 this.$Message.error("请完整填写必填项");
                 return "";
             }
+            let a = 0;
+            if(!this.enable) {
+                a = 1 
+            }
             let params = {
                 //服务名称
                 serviceName: this.serviceName,
@@ -586,11 +590,11 @@ export default {
                 // 服务类型
                 serviceType: this.serviceTypeValue,
                 // 是否启用
-                enable: Number(this.enable),
+                enable: a,
                 // 第三方厂家
                 thirdpartyEnum: this.thirdValue
             };
-
+                console.log(params)
             if (this.AddserviceList.length > 0) {
                     let flag = true
                 this.AddserviceList.forEach((item, index) => {
@@ -623,7 +627,7 @@ export default {
             this.requestVal = item.requestVal;
             this.serviceUrl = item.serviceUrl;
             this.thirdValue = item.thirdpartyEnum;
-            this.enable = Boolean(item.enable);
+            this.enable = !Boolean(item.enable);
         },
         //
         cancel() {
@@ -722,8 +726,8 @@ export default {
             })
             .then(res => {
                 if (res.data.object) {
-                    let ret = res.data.object;
-
+                    let ret = res.data.object;  
+                    console.log(ret)
                     // 医院图片
                     if (ret.hosIcon) {
                         this.source = ret.hosIcon;
