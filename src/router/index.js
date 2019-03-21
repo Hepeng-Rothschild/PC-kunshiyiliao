@@ -115,6 +115,7 @@ export default new Router({
 				operation.servicePackagePList,
 				operation.servicePackagePAdd,
 				operation.servicePackagePEdit,
+				operation.servicePackagePDetail,
 				operation.servicePackageItemList,
 				operation.servicePackageItemAdd,
 				operation.servicePackageItemEdit,
