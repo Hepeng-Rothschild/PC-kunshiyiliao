@@ -257,7 +257,7 @@
                     <div class="main">
                         <h2>
                             <span>服务类型：{{ serviceType[item.serviceType-1].key}}</span>
-                            <Button type="primary" @click="deleteItem(item,index)">编辑服务</Button>
+                            <Button type="primary" @click="appendItem(item,index)">编辑服务</Button>
                         </h2>
                     </div>
                     <div class="main_info">
@@ -483,7 +483,6 @@ export default {
 
             let selectArr = oldStr.join(",");
 
-            console.log("挂号卡模式的ID", selectArr);
             // 挂号池为第三方时未添加服务类型 无法保存
             if (this.registerIthirdparty) {
                 if (!Boolean(this.AddserviceList.length)) {
@@ -544,12 +543,10 @@ export default {
                 localStorage.setItem("doctor", "");
             }
 
-            console.log("params----------------------", params);
 
             this.$axios
                 .post(api.managementEdit, params)
                 .then(res => {
-                    console.log(res);
                     if (res.data.code) {
                         this.$Message.info("修改成功");
                     } else {
@@ -594,6 +591,21 @@ export default {
                 // 第三方厂家
                 thirdpartyEnum: this.thirdValue
             };
+            
+            if (this.AddserviceList.length > 0) {
+                    let flag = true
+                this.AddserviceList.forEach((item, index) => {
+                    if (Number(item.serviceType) == Number(params.serviceType)) {
+                        flag = false
+                        this.AddserviceList[index] = params
+                    } 
+                });
+                if(flag) {
+                    this.AddserviceList.push(params);
+                }
+            } else {
+                this.AddserviceList.push(params);
+            }
             // 初始化
             this.serviceName = "";
             this.requestVal = "";
@@ -602,24 +614,10 @@ export default {
             this.modalTitle = "添加服务";
             this.serviceType[this.serviceTypeValue - 1].disabled = true;
             this.serviceTypeValue = null;
-            console.log(this.AddserviceList);
-
-            if (this.AddserviceList.length > 0) {
-                this.AddserviceList.forEach((item, index) => {
-                    if (item.serviceType == params.serviceType) {
-                        this.AddserviceList[index] = params;
-                    } else {
-                        this.AddserviceList.push(params);
-                    }
-                });
-            } else {
-                this.AddserviceList.push(params);
-            }
         },
         // 编辑服务
-        deleteItem(item, index) {
+        appendItem(item, index) {
             this.modalTitle = "编辑服务";
-            console.log(item);
             this.registerFlag = true;
             this.serviceTypeValue = item.serviceType;
             this.serviceName = item.serviceName;
@@ -726,7 +724,6 @@ export default {
             .then(res => {
                 if (res.data.object) {
                     let ret = res.data.object;
-                    console.log(ret);
 
                     // 医院图片
                     if (ret.hosIcon) {
