@@ -5,7 +5,7 @@
       <a slot="left"></a>
       <div class="m-tab-right" slot="right">
         <span class='icon-history' @click='onHistoryClick'>历史</span>
-        <span v-if="scene==='team'" class='icon-team' @click="onTeamManageClick"></span>
+        <span v-if="scene==='team'" class='icon-team' @click="onTeamManageClick">成员</span>
       </div>
     </x-header>
     <div class="m-chat-main">
@@ -195,7 +195,7 @@ export default {
     },
     onTeamManageClick() {
       if (this.teamInfo && this.teamInfo.validToCurrentUser) {
-        location.href = `#/teammanage/${this.teamInfo.teamId}`
+        location.href = `/index/teammanage/${this.teamInfo.teamId}`
       } else {
         this.$toast('您已退出该群')
       }

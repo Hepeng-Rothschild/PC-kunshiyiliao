@@ -2,7 +2,7 @@
   <div class='g-inherit m-article p-teammanager'>
     <x-header class="m-tab" :left-options="{backText: ' '}">
       <h1 class="m-tab-top">群设置</h1>
-      <a slot="left"></a>
+      <a slot="left"><</a>
     </x-header>
     <div class='m-body'>
       <template v-if="teamInfo && teamInfo.type==='normal'">
