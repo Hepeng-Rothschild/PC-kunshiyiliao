@@ -147,11 +147,18 @@ export default {
         if (res.data.code) {
           let ret = res.data.object;
           let arr = [];
+          console.log(ret);
+          // console.log(this.selectHospial);
           ret.forEach(item => {
-            arr.push({
-              hospitalName: item.orgName,
-              remote_hospital_id: item.id
-            });
+            let flag = this.selectHospial.some(i=>{
+              return i.remote_hospital_id == item.id
+            })
+            if(!flag){
+              arr.push({
+                hospitalName: item.orgName,
+                remote_hospital_id: item.id
+              })
+            }
           });
           this.hospialList = arr;
         }
