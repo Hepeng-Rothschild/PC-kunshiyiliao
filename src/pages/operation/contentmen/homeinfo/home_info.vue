@@ -167,7 +167,7 @@
       <!-- 预约挂号池是否为第三方 -->
       <div class="main_yy">
         <span class="main_yy_name">预约挂号池是否为第三方</span>
-        <iSwitch v-model="registerIthirdparty" @on-changne='registerIthirdpartyChange'/>
+        <iSwitch v-model="registerIthirdparty"/>
       </div>
 
       <!-- 预约挂号池第三方数据 -->
@@ -185,7 +185,7 @@
 
         <Modal
             v-model="registerFlag"
-            title="添加服务"
+            :title="modalTitle"
             @on-ok="ok"
             @on-cancel="cancel">
           <!--  服务名  -->
@@ -206,8 +206,8 @@
         <!-- 第三方厂家 -->
         <div class="main_info"> 
           <span>第三方厂家</span>
-          <Select v-model="y_gzh" style="width:150px;" >
-            <Option v-for="item in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
+          <Select v-model="thirdValue" style="width:150px;" >
+            <Option v-for="(item,index) in thirdList" :value="item.id" :key="index">{{ item.className }}</Option>
           </Select>
         </div>
         <!-- 是否开启 -->
@@ -246,14 +246,12 @@
         <!-- 第三方厂家 -->
         <div class="main_info"> 
           <span>第三方厂家</span>
-          <Select v-model="y_gzh" style="width:150px;" :disabled="status" >
-            <Option v-for="item in gzh" :value="item.appid" :key="item.appid">{{ item.nick }}</Option>
-          </Select>
+          <span>{{ sumId(item.thirdpartyEnum) }}</span>
         </div>
         <!-- 是否启用 -->
         <div class="main_info">
           <span>是否启用</span>
-          <span>{{ item.enable == 1 ? '启用' :"禁用" }}</span>
+          <span>{{ item.enable == 1 ? '启用' : "禁用" }}</span>
         </div>
         
     </div>
@@ -284,15 +282,13 @@ export default {
   },
   data() {
     return {
+      // modaltitle
+      modalTitle:"添加服务",
       info: {
         // 机构简介
         content: ""
       },
       height: 300,
-      tinymceHtml: "",
-      defaultList: [],
-      types: [],
-      imgName: "",
       // 机构名称
       title: "",
       visible: false,
@@ -340,29 +336,12 @@ export default {
       serviceTypeValue:null,
       //  选择中的挂号卡模式
       registerPatternValue:[],
+      // 选中的第三方厂家
+      thirdValue:"",
+      // 第三方厂家列表
+      thirdList:[],
       // 预约挂号卡模式
-      registerPatternList:[
-        {
-          id:1,
-          status: false,
-          name:"身份证号"
-        },
-        {
-          id:2,
-          status: true,
-          name:"医保卡号"
-        },
-        {
-          id:3,
-          status: false,
-          name:"医院就诊卡号"
-        },
-        {
-          id:4,
-          status: false,
-          name:"居民健康卡"
-        }
-      ],
+      registerPatternList:[],
       serviceList:[],
       // 服务名
       serviceName:"",
@@ -372,25 +351,31 @@ export default {
       requestVal:"",
       // 是否启用
       enable:false,
-      y_name: "",
       // 机构等级
       y_type: 6001,
       // 背景模板
       y_module: "2",
       // 机构路线
       y_luxin: "",
-      y_search: "",
       // 机构电话
       y_phone: "",
       // 机构地址
       y_dizhi: "",
       // 互联网医院公众号
       y_gzh: null,
+      // 处方流转平台ID
       y_uid: "",
       // 医联体上级医院
       y_search1: "0",
+      // 公众号列表
       gzh: [],
+      // 医联体列表
       ylt: [],
+      // 机构等级
+      types: [],
+      // 上传图片相关
+      defaultList: [],
+      imgName: "",
       uploadModal: true,
       uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
@@ -430,23 +415,10 @@ export default {
     },
     // 多选框选中时获取ID
     checkBoxChange (arr) {
-      let id = new Set();
-      this.registerPatternList.forEach((item,index) => {
-          arr.forEach((i,s) => {
-            if(item.name == i) {
-              id.add(item.id);
-            }
-          })
-      })
-      let oldStr = []
-      id.forEach(item => {
-        oldStr.push(item)
-      })
-     this.serviceTypeSelect = oldStr.join(",")
+      this.serviceTypeSelect = arr
     },
     // 当服务类型未选择不显示modal
     addManagement(){
-      console.log(this.registerPatternValue);
       if(!Boolean(this.serviceTypeValue)) {
         this.$Message.error('请选择服务类型后再添加服务');
         return ''
@@ -462,6 +434,33 @@ export default {
         images = this.source;
       } else {
         images = "";
+      }
+
+        // 多选框选中时获取ID
+      let id = new Set();
+      this.registerPatternList.forEach((item,index) => {
+          this.registerPatternValue.forEach((i,s) => {
+            if(item.name == i) {
+              id.add(item.id);
+            }
+          })
+      })
+
+      let oldStr = []
+
+      id.forEach(item => {
+        oldStr.push(item)
+      })
+
+     let selectArr = oldStr.join(",")
+
+     console.log('挂号卡模式的ID',selectArr)
+      // 挂号池为第三方时未添加服务类型 无法保存
+      if(this.registerIthirdparty) {
+        if(!Boolean(this.AddserviceList.length)) {
+          this.$Message.error("请添加服务类型");
+          return ""
+        }
       }
       let params = {
         hospitalId: this.id,
@@ -495,10 +494,16 @@ export default {
         internetHospitalSort: this.hospitalSort,
         // 开启远程门诊
         iremote: Number(this.switch4),
-       // 是否强制用卷
+        // 是否强制用卷
         usedCoupon: Number(this.usedCoupon),
         // 预约挂号支付
-        registerPayStatus:Number(this.registerPayStatus)
+        registerPayStatus:Number(this.registerPayStatus),
+        // 预约挂号卡模式
+        registerPattern : selectArr,
+        // 预约挂号池是否为第三方
+        registerIthirdparty : Number(this.registerIthirdparty),
+        // 预约挂号服务
+        list: this.AddserviceList
       };
       if (!this.switch1) {
         params.appid = null;
@@ -510,9 +515,13 @@ export default {
         localStorage.setItem("doctor", "");
       }
 
+      console.log("params----------------------",params);
+      
+
       this.$axios
         .post(api.managementEdit, params)
         .then(res => {
+          console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
           } else {
@@ -522,6 +531,8 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
+
       // 开通互联网医院状态缓存/动态新闻/预约科室/院内科室
       if (this.switch1) {
         localStorage.setItem("status", "show");
@@ -529,21 +540,15 @@ export default {
         localStorage.setItem("status", "");
       }
     },
-    // 预约挂号池是否为第三方 
-    registerIthirdpartyChange (flag) {
-      console.log(flag)
-    },
-    valueHandle(param) {
-      this.tinymceHtml = param;
-    },
     // 添加服务
     ok () {
         
-        if(!this.serviceName || !this.serviceUrl || !this.requestVal){
+        if(!this.serviceName || !this.serviceUrl || !this.requestVal || !this.thirdValue){
           this.$Message.error('请完整填写必填项');
           return ''
         }
         let params = {
+          //服务名称
           serviceName:this.serviceName,
           // 服务路径
           serviceUrl:this.serviceUrl,
@@ -554,14 +559,16 @@ export default {
           // 服务类型
           serviceType : this.serviceTypeValue,
           // 是否启用
-          enable:Number(this.enable)
+          enable:Number(this.enable),
+          // 第三方厂家
+          thirdpartyEnum:this.thirdValue,
         }
         // 初始化
         this.serviceName = ''
         this.requestVal = ''
         this.serviceUrl = ''
         this.enable = false
-        
+        this.modalTitle = '添加服务'
         this.serviceType[this.serviceTypeValue-1].disabled = true
         this.serviceTypeValue = null
        
@@ -582,6 +589,8 @@ export default {
     },
     // 编辑服务
     deleteItem (item,index) {
+      this.modalTitle = '编辑服务'
+      console.log(item)
       this.registerFlag = true
       this.serviceTypeValue = item.serviceType
       this.serviceName = item.serviceName
@@ -590,6 +599,7 @@ export default {
       this.enable = Boolean(item.enable)
 
     },
+    // 
     cancel () {
       // 初始化
         this.serviceName = ''
@@ -597,6 +607,17 @@ export default {
         this.serviceUrl = ''
         this.enable = false
         this.serviceTypeValue = null
+        this.modalTitle = '添加服务'
+    },
+    // 根据ID查找它的名字
+    sumId(id) {
+      let res = ''
+      this.thirdList.forEach((item,index) =>{
+        if(Number(id) == Number(item.id)) {
+          res = item.className
+        }
+      })
+      return res
     },
     handleView(name) {
       this.imgName = name;
@@ -675,8 +696,7 @@ export default {
         if (res.data.object) {
           let ret = res.data.object;
           console.log(ret);
-          // 医院名字
-          this.y_name = ret.orgName;
+          
           // 医院图片
           if (ret.hosIcon) {
             this.source = ret.hosIcon;
@@ -688,6 +708,7 @@ export default {
               url: this.fileBaseUrl + this.pictureFormat(ret.hosIcon)
             });
           }
+          // 医院名字
           this.title = ret.orgName;
           // 机构等级
           this.y_type = ret.grade;
@@ -742,7 +763,32 @@ export default {
           this.y_uid = ret.prescriptionId;
 
           // 预约挂号卡模式
+          this.serviceTypeSelect = ret.registerPattern
+          
+          if(Boolean(this.serviceTypeSelect)) {
+            let status = this.serviceTypeSelect.split(',')
+            ret.patternListMap.forEach((item,index) => {
+              status.forEach(items => {
+                if(items == item.id) {
+                  item.status = true
+                  this.registerPatternValue.push(item.name)
+                } else {
+                  item.status = false
+                }
+              })
+            })
+          } else {
+            ret.patternListMap.forEach((item,index) => {
+              item.status = false
+            })
+          }
+          
+          this.registerPatternList = ret.patternListMap
+          
+          // 预约挂号池是否为第三方
           this.registerIthirdparty = Boolean(ret.registerIthirdparty)
+          // 第三方厂家
+          this.thirdList = ret.thirdpartyListMap
         }
       });
   }
