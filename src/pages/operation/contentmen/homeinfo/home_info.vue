@@ -596,6 +596,8 @@ export default {
       this.serviceName = item.serviceName
       this.requestVal = item.requestVal
       this.serviceUrl = item.serviceUrl
+
+      this.thirdValue = item.thirdpartyEnum
       this.enable = Boolean(item.enable)
 
     },
@@ -789,6 +791,17 @@ export default {
           this.registerIthirdparty = Boolean(ret.registerIthirdparty)
           // 第三方厂家
           this.thirdList = ret.thirdpartyListMap
+          // 预约挂号池第三方服务回显
+          if(Boolean(ret.listThirdparty)) {
+            ret.listThirdparty.forEach((item,index) => {
+              this.serviceType.forEach((i,s) => {
+                if(i.id == item.thirdpartyEnum) {
+                  item.disabled = true
+                }
+              })
+            })
+          }
+          this.AddserviceList = ret.listThirdparty
         }
       });
   }
