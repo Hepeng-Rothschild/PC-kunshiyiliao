@@ -88,6 +88,7 @@
                             >{{item.orgName}}</Option>
                         </Select>
                         <iSwitch
+                            disabled
                             v-if="info.hospitalId != '' && info.hospitalId != null && info.hospitalId != 0"
                             v-model="info.ascription"
                             :true-value="0"
