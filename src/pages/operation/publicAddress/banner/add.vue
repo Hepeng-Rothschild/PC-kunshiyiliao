@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 import aesUtils from "@/plugins/aes-utils.js";
 import store from "@/store";

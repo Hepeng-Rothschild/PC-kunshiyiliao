@@ -5,8 +5,8 @@
             <Col span="24">
                 <div class="tmpHeader">
                     <span
-                        :class="{active:status == index + 2 }"
-                        @click="status = index + 2"
+                        :class="{active:status == item.value }"
+                        @click="status = item.value"
                         v-for="(item,index) in tabList"
                     >{{ item.title }}</span>
                 </div>
@@ -260,8 +260,8 @@ export default {
                                             "/index/operation/liveMant/liveEdit",
                                             {
                                                 id,
-                                                pageNo:this.pageNo,
-                                                status:this.status
+                                                pageNo: this.pageNo,
+                                                status: this.status
                                             }
                                         );
                                     }
@@ -285,7 +285,7 @@ export default {
             modalContent: "添加栏目"
         };
     },
-    created(){
+    created() {
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -304,25 +304,32 @@ export default {
         this.status = Boolean(this.$route.query.status)
             ? Number(this.$route.query.status)
             : this.tabList[0].value;
-        this.pageNo = Boolean(this.$route.query.pageNo) ? Number(this.$route.query.pageNo) : 1
+        this.pageNo = Boolean(this.$route.query.pageNo)
+            ? Number(this.$route.query.pageNo)
+            : 1;
         this.statusChange(this.status);
     },
     methods: {
         // 新增
         add() {
+            let path = ''
             if (Number(this.status) == 3) {
                 this.modal1 = true;
                 this.modalContent = "添加栏目";
                 return "";
+            } else if (Number(this.status) == 2) {
+                path = '/index/operation/liveMant/liveAdd'
+            } else {
+                path = '/index/operation/liveMant/broadAdd'
             }
             this.functionJS.queryNavgationTo(
-                this,
-                "/index/operation/liveMant/liveAdd",
-                {
-                    status: this.status,
-                    pageNo:this.pageNo
-                }
-            );
+                    this,
+                    path,
+                    {
+                        status: this.status,
+                        pageNo: this.pageNo
+                    }
+                );
         },
         // 栏目模态框的编辑与新增
         ok() {
@@ -377,20 +384,29 @@ export default {
                 // 直播
                 this.columns = this.columns1;
                 this.data1 = [];
+                // this.broadData({ pageNo: this.pageNo, pageSize: this.pageSize, searchKey : this.search });
             } else if (Number(newVal) == 2) {
                 // 点播
                 this.columns = this.live;
                 this.data1 = [];
-                this.liveData({ pageNo: this.pageNo, pageSize: this.pageSize, searchKey : this.search });
+                this.liveData({
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize,
+                    searchKey: this.search
+                });
             } else if (Number(newVal) == 3) {
                 // 栏目
                 this.columns = this.modal;
                 this.modalData();
             }
         },
+        broadData(params) {
+            this.data1 = [];
+            // this.$axios.post()
+        },
         // 加载栏目数据
         modalData() {
-            this.data1 = []
+            this.data1 = [];
             this.$axios.post(api.lecturecolumnlist).then(resp => {
                 if (resp.data.success) {
                     let ret = resp.data.object;
@@ -401,11 +417,11 @@ export default {
                 } else {
                     this.$Message.error("请求失败,请稍候重试");
                 }
-            })
+            });
         },
         // 加载点播数据
         liveData(params) {
-            this.data1 = []
+            this.data1 = [];
             this.$axios
                 .post(api.lecturedemandpage, {
                     pageNo: params.pageNo,
@@ -440,14 +456,14 @@ export default {
                                 ? arr[item.playStatus].content
                                 : arr[1].content;
                             item.videoSource =
-                            item.videoSource == 1 ? "网站地址" : "本地上传";
+                                item.videoSource == 1 ? "网站地址" : "本地上传";
                         });
                         this.count = resp.data.object.count;
                         this.data1 = ret;
                     } else {
                         this.$Message.error("请求失败,请稍候重试");
                     }
-                })
+                });
         },
         // 分页器改变获取数据
         loading(index) {
@@ -456,7 +472,7 @@ export default {
         },
         // 模糊查询
         searchInput() {
-            this.statusChange(this.status)
+            this.statusChange(this.status);
         }
     },
     // 监听status   tab页的变化
@@ -471,10 +487,10 @@ export default {
 .w-modal {
     width: 100%;
     margin: 10px auto;
-    span{
-        display:inline-block;
-        text-align:center;
-        width:100px;
+    span {
+        display: inline-block;
+        text-align: center;
+        width: 100px;
     }
 }
 .livemant {

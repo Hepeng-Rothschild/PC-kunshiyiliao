@@ -335,6 +335,17 @@ const liveMantEdit = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/liveMant/liveEdit")
 }
+const broadAdd = {
+	// 直播管理
+	path: 'operation/liveMant/broadAdd',
+	name: 'liveMantBroadAdd',
+	meta: {
+		index: 3,
+		title: '添加直播'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/liveMant/broadAdd")
+}
 const physicianAudit = {
 	// 讲堂审核
 	path: 'operation/physicianAudit/list',
@@ -1067,6 +1078,8 @@ export default {
 	liveMantList,
 	liveMantAdd,
 	liveMantEdit,
+	// 直播添加
+	broadAdd,
 	// 讲堂审核
 	physicianAudit,
 	physicianAuditSee,

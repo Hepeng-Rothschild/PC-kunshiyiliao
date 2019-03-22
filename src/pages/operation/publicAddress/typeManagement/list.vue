@@ -89,6 +89,7 @@ export default {
         appid: this.appid,
         list: changeList
       };
+      console.log(params)
       this.$axios.post(api.wxMenuListChange, params).then(res => {
         if (res.data.code) {
           this.$Message.info("保存成功");

@@ -255,7 +255,8 @@ const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详�
 const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
 const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
 
-export default {
+
+let productionApi = {
     login,
     //字典
     dictionaryList,
@@ -501,4 +502,9 @@ export default {
     lecturedemandupdate,
     lecturedemandpagebyexaminelist,
     lecturedemandupdateplaystatus,
+};
+import weixin from './weixinApi';
+for(let key in weixin){
+    productionApi[key] = weixin[key]
 }
+export default productionApi;

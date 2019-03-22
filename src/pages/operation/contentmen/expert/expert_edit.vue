@@ -45,7 +45,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>职务</span>
         </div>
-        <Input v-model="post" placeholder="请输入专家职务" style="width: 200px" disabled/>
+        <Input v-model="post" placeholder="" style="width: 200px" disabled/>
       </div>
       <!--专业特长-->
       <div class="main_expert_inputi">
@@ -73,7 +73,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <Input v-model="isort" placeholder="请输入专家职务" style="width: 100px" @keyup="isorts"/>
+        <Input v-model="isort" placeholder="请输入排序" style="width: 100px" @keyup="isorts"/>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--显示-->

@@ -357,7 +357,7 @@
 <script>
 import api from "@/api/commonApi";
 import { Avatar } from "iview";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 export default {
     components: {

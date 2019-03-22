@@ -182,7 +182,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 export default {
   data() {
     return {
