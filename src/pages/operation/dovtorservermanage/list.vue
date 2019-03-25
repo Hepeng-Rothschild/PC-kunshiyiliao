@@ -21,7 +21,14 @@
         </Row>
         <Table class="m-table" stripe :columns="columns" :data="doctorList"></Table>
         <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
-        <Modal v-if="mmInfo!=null" :mask-closable="false" v-model="modalStatus" width="760" :footer-hide="true" :closable="false">
+        <Modal
+            v-if="mmInfo!=null"
+            :mask-closable="false"
+            v-model="modalStatus"
+            width="760"
+            :footer-hide="true"
+            :closable="false"
+        >
             <header class="slot-tt">平台注册医生信息与院内系统对照关联</header>
             <Row>
                 <Col :xs="11">
@@ -29,9 +36,7 @@
                         <Col class="c-tt" :xs="24">互联网平台信息</Col>
                     </Row>
                     <Row class="m-row">
-                        <Col :xs="24">
-                            &nbsp;
-                        </Col>
+                        <Col :xs="24">&nbsp;</Col>
                     </Row>
                     <Row class="m-row m-text">
                         <Col :xs="6">医生姓名:</Col>
@@ -103,7 +108,13 @@
                     </template>
                     <template v-if="!hDetail">
                         <Table size="small" stripe :columns="hColumns" :data="hList"></Table>
-                        <Page size="small" :total="hCount" :current="hPageNo" :page-size="hPageSize" @on-change="hLoadPage"/>
+                        <Page
+                            size="small"
+                            :total="hCount"
+                            :current="hPageNo"
+                            :page-size="hPageSize"
+                            @on-change="hLoadPage"
+                        />
                     </template>
                 </Col>
             </Row>
@@ -121,26 +132,26 @@ import api from "@/api/commonApi";
 export default {
     data() {
         return {
-            modalStatus:false,
-            mmInfo:null,
-            mId:null,
-            mIndex:null,
-            hDetailInfo:null,
-            hDetail:false,
+            modalStatus: false,
+            mmInfo: null,
+            mId: null,
+            mIndex: null,
+            hDetailInfo: null,
+            hDetail: false,
             hColumns: [
                 {
                     title: "医生姓名",
                     key: "doctorName",
                     align: "center",
-                    width:100,
+                    width: 100,
                     render: (h, params) => {
                         let doctorName = params.row.doctorName,
                             _index = params.row._index;
                         return h(
                             "span",
                             {
-                                style:{
-                                    cursor: 'pointer'
+                                style: {
+                                    cursor: "pointer"
                                 },
                                 on: {
                                     click: () => {
@@ -156,20 +167,20 @@ export default {
                     title: "所属医院",
                     key: "hospitalName",
                     align: "center",
-                    width:180
+                    width: 180
                 },
                 {
                     title: "院内编码",
                     key: "hisId",
                     align: "center",
-                    width:100
+                    width: 100
                 }
             ],
-            hList:[],
-            hCount:0,
-            hPageSize:4,
-            hPageNo:1,
-            hSearchKey:null,
+            hList: [],
+            hCount: 0,
+            hPageSize: 4,
+            hPageNo: 1,
+            hSearchKey: null,
 
             province: null,
             city: null,
@@ -184,7 +195,7 @@ export default {
                     title: "医生姓名",
                     key: "doctorName",
                     align: "center",
-                    width: 120
+                    width: 100
                 },
                 {
                     title: "院内编码",
@@ -199,7 +210,7 @@ export default {
                     width: 220
                 },
                 { title: "科室", key: "deptType", align: "center", width: 120 },
-                { title: "职称", key: "title", align: "center", width: 120 },
+                { title: "职称", key: "title", align: "center", width: 100 },
                 {
                     title: "联系电话",
                     key: "phone",
@@ -243,7 +254,7 @@ export default {
                     title: "排序",
                     key: "sort",
                     align: "center",
-                    width: 60,
+                    width: 100,
                     render: (h, params) => {
                         let id = params.row.doctorId,
                             sort = params.row.sort,
@@ -252,8 +263,14 @@ export default {
                         let content = h(
                             "span",
                             {
+                                style: {
+                                    cursor: "pointer"
+                                },
+                                attrs: {
+                                    title: "双击修改"
+                                },
                                 on: {
-                                    click: e => {
+                                    dblclick: e => {
                                         this.closeOther(_index);
                                         let tmpArr = this.doctorList[_index];
                                         tmpArr.sortStatus = true;
@@ -268,27 +285,21 @@ export default {
                             sort
                         );
                         if (sortStatus) {
-                            content = h("Input", {
+                            let tmpVal;
+                            content = h("InputNumber", {
                                 props: {
-                                    type: "text",
                                     value: sort
                                 },
+                                attrs: {
+                                    min: 1,
+                                    max: 999
+                                },
                                 on: {
-                                    "on-blur": e => {
-                                        if (this.controlTimes == 1) {
-                                            this.controlTimes++;
-                                            let val = e.target.value,
-                                                _index = params.row._index;
-                                            this.changeSort(id, val, _index);
-                                        }
+                                    "on-change": (event) => {
+                                        tmpVal = event;
                                     },
-                                    "on-enter": e => {
-                                        if (this.controlTimes == 1) {
-                                            this.controlTimes++;
-                                            let val = e.target.value,
-                                                _index = params.row._index;
-                                            this.changeSort(id, val, _index);
-                                        }
+                                    "on-blur": () => {
+                                        this.changeSort(id, tmpVal, _index);
                                     }
                                 }
                             });
@@ -342,7 +353,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.showModal(id,_index);
+                                            this.showModal(id, _index);
                                         }
                                     }
                                 },
@@ -355,8 +366,7 @@ export default {
             doctorList: [],
             count: 0,
             pageSize: 10,
-            pageNo: 1,
-            controlTimes: 1
+            pageNo: 1
         };
     },
     components: {
@@ -403,67 +413,72 @@ export default {
         this.loadPage(pageNo);
     },
     methods: {
-        hShowDetail(_index){
+        hShowDetail(_index) {
             this.hDetailInfo = this.hList[_index];
             this.hDetail = true;
         },
-        hCloseDetail(){
+        hCloseDetail() {
             this.hDetail = false;
             this.hDetailInfo = null;
         },
-        hLoadPage(pageNo){
+        hLoadPage(pageNo) {
             this.hPageNo = pageNo;
             let params = {};
             params.searchKey = this.hSearchKey;
             params.pageNo = this.hPageNo;
             params.pageSize = this.hPageSize;
-            console.log("params::",params);
             this.$axios
-            .post(api.doctorselecthisdoctorlist, params)
-            .then(resp => {
-                this.hCount = resp.data.object.count;
-                this.hList = resp.data.object.list;
-                console.log(this.hList);
-            })
-            .catch(err => {
-                // this.$Message.info("服务器超时，请重新访问")
-            });
+                .post(api.doctorselecthisdoctorlist, params)
+                .then(resp => {
+                    this.hCount = resp.data.object.count;
+                    this.hList = resp.data.object.list;
+                    console.log(this.hList);
+                })
+                .catch(err => {
+                    // this.$Message.info("服务器超时，请重新访问")
+                });
         },
-        toSaveCode(){
-            if(this.mmInfo.hisId == '' || this.mmInfo.hisId == null) return this.$Message.warning({content:'互联网平台信息院内编码不能为空',duration:3});
+        toSaveCode() {
+            if (this.mmInfo.hisId == "" || this.mmInfo.hisId == null)
+                return this.$Message.warning({
+                    content: "互联网平台信息院内编码不能为空",
+                    duration: 3
+                });
             let params = {};
             params.doctorId = this.mId;
             params.hisId = this.mmInfo.hisId;
             this.$axios
-            .post(api.doctorupdatedoctorhisid, params)
-            .then(resp => {
-                if(resp.data.success){
-                    this.$Message.success('保存成功');
-                    this.doctorList[this.mIndex]['hisId'] = this.mmInfo.hisId;
-                }else{
-                    this.$Message.error('保存失败');
-                }
-                this.closeModal();
-            })
-            .catch(err => {
-                // this.$Message.info("服务器超时，请重新访问")
-            });
+                .post(api.doctorupdatedoctorhisid, params)
+                .then(resp => {
+                    if (resp.data.success) {
+                        this.$Message.success("保存成功");
+                        this.doctorList[this.mIndex][
+                            "hisId"
+                        ] = this.mmInfo.hisId;
+                    } else {
+                        this.$Message.error("保存失败");
+                    }
+                    this.closeModal();
+                })
+                .catch(err => {
+                    // this.$Message.info("服务器超时，请重新访问")
+                });
         },
-        closeModal(){
+        closeModal() {
             this.modalStatus = false;
         },
-        showModal(id,_index){
+        showModal(id, _index) {
             this.mIndex = _index;
             this.$axios
-            .post(api.doctorselectdoctorhisid, { doctorId:id })
-            .then(resp => {
-                this.mId = id;
-                this.mmInfo = resp.data.object;
-                this.modalStatus = true;
-            })
-            .catch(err => {
-                // this.$Message.info("服务器超时，请重新访问")
-            });
+                .post(api.doctorselectdoctorhisid, { doctorId: id })
+                .then(resp => {
+                    this.mId = id;
+                    this.mmInfo = resp.data.object;
+                    this.modalStatus = true;
+                })
+                .catch(err => {
+                    // this.$Message.info("服务器超时，请重新访问")
+                });
         },
         changeProvince(val) {
             this.province = val;
@@ -515,15 +530,15 @@ export default {
                 }
             });
         },
-        changeSort(id, sort, _index) {
-            let tmpArr = this.doctorList[_index];
-            tmpArr.sortStatus = false;
-            this.$set(this.doctorList, _index, tmpArr);
-            sort = Number(sort);
-            if (!Number.isInteger(sort) || sort < 1) {
-                this.$Message.info("排序值只能为大于0的整数");
-                sort = this.doctorList[_index].sort;
+        changeSort(id, val, _index) {
+            if(val == undefined){
+                let tmpArr = this.doctorList[_index];
+                tmpArr.sortStatus = false;
+                this.$set(this.doctorList, _index, tmpArr);
+                this.$Message.warning({content:'修改失败，数字范围1~999，请三思而后改 ^o^!',duration:5})
+                return ;
             }
+            let sort = parseInt(val);
             let params = {};
             params.id = parseInt(id);
             params.sort = parseInt(sort);
@@ -533,8 +548,11 @@ export default {
                     if (resp.data.success) {
                         let tmpArr = this.doctorList[_index];
                         tmpArr.sort = sort;
+                        tmpArr.sortStatus = false;
                         this.$set(this.doctorList, _index, tmpArr);
-                        this.controlTimes = 1;
+                        this.$Message.success('修改成功');
+                    }else{
+                        this.$Message.error('修改失败');
                     }
                 })
                 .catch(err => {
@@ -590,51 +608,51 @@ export default {
 }
 </style>
 <style lang="less">
-    .m-row{
-        line-height:32px;
-        margin:10px 15px;
-    }
-    .m-input{
-        width:220px;
-    }
-    .slot-tt{
-        text-align:center;
-        font-size:22px;
-        font-weight:bold;
-    }
-    .slot-ft{
-        text-align:center;
-    }
-    .c-tt{
-        text-align:center;
-        font-size:18px;
-        font-weight:bold;
-    }
-    .m-text{
-        font-size:14px;
-        font-weight:bold;
-    }
-    .m-btn-l{
-        margin-right:30px;
-    }
-    .m-btn-r{
-        margin-left:30px;
-    }
-    .x-back{
-        display:inline-block;
-        width:30px;
-        height:30px;
-        color:#fff;
-        border:0;
-        border-radius:50%;
-        text-align:center;
-        background:#2d8cf0;
-        font-weight:normal;
-        position:absolute;
-        right:20px;
-    }
-    .x-back:hover{
-        cursor: pointer;
-        background:#57a3f3;
-    }
+.m-row {
+    line-height: 32px;
+    margin: 10px 15px;
+}
+.m-input {
+    width: 220px;
+}
+.slot-tt {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+.slot-ft {
+    text-align: center;
+}
+.c-tt {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+.m-text {
+    font-size: 14px;
+    font-weight: bold;
+}
+.m-btn-l {
+    margin-right: 30px;
+}
+.m-btn-r {
+    margin-left: 30px;
+}
+.x-back {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    border: 0;
+    border-radius: 50%;
+    text-align: center;
+    background: #2d8cf0;
+    font-weight: normal;
+    position: absolute;
+    right: 20px;
+}
+.x-back:hover {
+    cursor: pointer;
+    background: #57a3f3;
+}
 </style>
