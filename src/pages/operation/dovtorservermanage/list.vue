@@ -285,7 +285,7 @@ export default {
                             sort
                         );
                         if (sortStatus) {
-                            let tmpVal;
+                            let tmpVal = sort;
                             content = h("InputNumber", {
                                 props: {
                                     value: sort
