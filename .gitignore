@@ -3,8 +3,6 @@ node_modules/
 /output/
 /config/
 /dist/
-/test-dist/
-/prod-dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
