@@ -171,10 +171,8 @@
                 <span class="main_yy_name">预约挂号支付</span>
                 <iSwitch v-model="registerPayStatus"/>
             </div>
-
             <!-- 预约挂号卡模式 -->
             <div class="main_yy">
-                <!-- registerPattern -->
                 <span class="main_yy_name">预约挂号卡模式</span>
                 <CheckboxGroup v-model="registerPatternValue" @on-change="checkBoxChange">
                     <Checkbox
@@ -185,13 +183,11 @@
                     ></Checkbox>
                 </CheckboxGroup>
             </div>
-
             <!-- 预约挂号池是否为第三方 -->
             <div class="main_yy">
                 <span class="main_yy_name">预约挂号池是否为第三方</span>
                 <iSwitch v-model="registerIthirdparty"/>
             </div>
-
             <!-- 预约挂号池第三方数据 -->
             <div v-show="registerIthirdparty">
                 <!-- 服务类型 -->
@@ -286,7 +282,6 @@
                     </div>
                 </div>
             </div>
-
             <!--保存-->
             <div class="main_save">
                 <Button type="primary" @click="save">保存</Button>
