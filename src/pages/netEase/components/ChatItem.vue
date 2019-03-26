@@ -160,17 +160,20 @@
     },
     watch: {
       rawMsg (newVal, oldVal) {
+        console.log('chatItem rawMsg');
         let newCustom = newVal && newVal.localCustom
         if (!newCustom || !newVal || newVal.type !== 'audio') {
           return
         }
         let oldCustom = oldVal && oldVal.localCustom
         if (newCustom !== oldCustom) {
+          console.log('watch');
           this.computedItem()
         }
       }
     },
     beforeMount () {
+      console.log('beforeMount');
       this.computedItem()
     },
     mounted () {
@@ -215,6 +218,7 @@
             this.$refs.mediaMsg.appendChild(media)
           }
           media.onload = () => {
+            console.log('msg-loaded');
             this.$emit('msg-loaded')
           }
           media.onerror = () => {
@@ -230,6 +234,7 @@
         let item = Object.assign({}, this.rawMsg)
         // 标记用户，区分聊天室、普通消息
         if (this.type === 'session') {
+          console.log('computedItem session:');
           if (item.flow === 'in') {
             if (item.type === 'robot' && item.content && item.content.msgOut) {
               // 机器人下行消息
@@ -248,6 +253,7 @@
             item.avatar = this.myInfo.avatar
           }
         } else {
+          console.log('computedItem no session:');
           // 标记时间，聊天室中
           item.showTime = util.formatDate(item.time)
         }
