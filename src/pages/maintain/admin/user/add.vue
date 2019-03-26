@@ -244,6 +244,7 @@
 import api from "@/api/commonApi";
 import code from "@/configs/base.js";
 import { RadioGroup, Radio } from "iview";
+import cookie from "@/utils/cookie.js";
 export default {
     components: {
         RadioGroup,
@@ -348,9 +349,9 @@ export default {
         ];
         this.$emit("changeBreadList", breadList);
 
-        this.identity = this.$store.getters.getIdentity;
-        this.identityCoding = this.$store.getters.getIdentityCoding;
-        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        this.identity = cookie.getCookie("idtt");
+        this.identityCoding = cookie.getCookie("idttC");
+        this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
         if (this.ownArea.province) {
             this.provinceStatus = true;
             this.provinceList.push(this.ownArea.province);

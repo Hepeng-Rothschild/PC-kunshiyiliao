@@ -388,6 +388,7 @@ export default {
             cookie.delCookie("idttC");
             cookie.delCookie("access_user");
             cookie.delCookie("ownArea");
+            window.localStorage.removeItem("access_token");
             window.localStorage.removeItem("top");
             window.localStorage.removeItem("sun1");
             window.localStorage.removeItem("sun2");

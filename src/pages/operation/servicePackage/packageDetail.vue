@@ -9,14 +9,7 @@
                     <i class="req-icon">*</i>服务包名称：
                 </Col>
                 <Col :xs="21">
-                    <FormItem prop="itemName">
-                        <Input
-                            class="w-input"
-                            v-model="info.itemName"
-                            :maxlength="60"
-                            placeholder="请输入服务包名称"
-                        />
-                    </FormItem>
+                    {{info.itemName}}
                 </Col>
             </Row>
             <Row>
@@ -25,7 +18,7 @@
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="name">
-                        <iSwitch v-model="info.packagestatus" :true-value="1" :false-value="0">
+                        <iSwitch v-model="info.packagestatus" disabled :true-value="1" :false-value="0">
                             <span slot="open">是</span>
                             <span slot="close">否</span>
                         </iSwitch>
@@ -95,6 +88,7 @@
                             >{{item.orgName}}</Option>
                         </Select>
                         <iSwitch
+                            disabled
                             v-if="info.hospitalId != '' && info.hospitalId != null && info.hospitalId != 0"
                             v-model="info.ascription"
                             :true-value="0"
@@ -114,7 +108,7 @@
                 <Col :xs="21">
                     <FormItem prop="searchKey">
                         <Input class="w-input" search v-model="searchKey" placeholder="请输入服务项关键字"/>
-                        <Button type="primary" @click="loadPage(1)">
+                        <Button disabled type="primary" @click="loadPage(1)">
                             <Icon type="ios-search" size="14" style="margin-right:5px;"/>查询
                         </Button>
                     </FormItem>
@@ -139,14 +133,14 @@
             </Row>
             <br>
             <Row>
-                <Col offset="3" :xs="20" class="text-c">
-                    <Button
+                <Col offset="3" :xs="20" class="text-l">
+                    <!-- <Button
                         size="large"
                         class="margin-r"
                         type="primary"
                         @click="submit('formInline')"
-                    >提交</Button>
-                    <Button size="large" class="margin-l" type="default" @click="reback">取消</Button>
+                    >提交</Button> -->
+                    <Button size="large" type="default" @click="reback">返回</Button>
                 </Col>
             </Row>
         </Form>
@@ -274,13 +268,13 @@ export default {
             tmpHospitalList: [],
 
             provinceList: [],
-            provinceStatus: false,
+            provinceStatus: true,
             cityList: [],
-            cityStatus: false,
+            cityStatus: true,
             areaList: [],
-            areaStatus: false,
+            areaStatus: true,
             hospitalList: [],
-            hospitalStatus: false,
+            hospitalStatus: true,
             province: "0",
             city: "0",
             area: "0",
@@ -315,62 +309,62 @@ export default {
                     key: "serviceName",
                     align: "center"
                 },
-                {
-                    title: "操作",
-                    key: "operate",
-                    align: "center",
-                    width: 120,
-                    render: (h, params) => {
-                        let id = params.row.id;
-                        let status = true;
-                        for (let item of this.selData) {
-                            if (item.id == id) {
-                                status = false;
-                            }
-                        }
-                        let selBtn = null;
-                        let spacer = null;
-                        if (status) {
-                            spacer = " | ";
-                            selBtn = h(
-                                "a",
-                                {
-                                    attrs: {
-                                        href: "javascript:void(0);"
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.selThis({
-                                                id: params.row.id,
-                                                serviceName:
-                                                    params.row.serviceName
-                                            });
-                                        }
-                                    }
-                                },
-                                "选择"
-                            );
-                        }
-                        return [
-                            h(
-                                "a",
-                                {
-                                    attrs: {
-                                        href: "javascript:void(0);"
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showDetail(id);
-                                        }
-                                    }
-                                },
-                                "查看"
-                            ),
-                            spacer,
-                            selBtn
-                        ];
-                    }
-                }
+                // {
+                //     title: "操作",
+                //     key: "operate",
+                //     align: "center",
+                //     width: 120,
+                //     render: (h, params) => {
+                //         let id = params.row.id;
+                //         let status = true;
+                //         for (let item of this.selData) {
+                //             if (item.id == id) {
+                //                 status = false;
+                //             }
+                //         }
+                //         let selBtn = null;
+                //         let spacer = null;
+                //         if (status) {
+                //             spacer = " | ";
+                //             selBtn = h(
+                //                 "a",
+                //                 {
+                //                     attrs: {
+                //                         href: "javascript:void(0);"
+                //                     },
+                //                     on: {
+                //                         click: () => {
+                //                             this.selThis({
+                //                                 id: params.row.id,
+                //                                 serviceName:
+                //                                     params.row.serviceName
+                //                             });
+                //                         }
+                //                     }
+                //                 },
+                //                 "选择"
+                //             );
+                //         }
+                //         return [
+                //             h(
+                //                 "a",
+                //                 {
+                //                     attrs: {
+                //                         href: "javascript:void(0);"
+                //                     },
+                //                     on: {
+                //                         click: () => {
+                //                             this.showDetail(id);
+                //                         }
+                //                     }
+                //                 },
+                //                 "查看"
+                //             ),
+                //             spacer,
+                //             selBtn
+                //         ];
+                //     }
+                // }
             ],
             selCol: [
                 {
@@ -378,31 +372,31 @@ export default {
                     key: "serviceName",
                     align: "center"
                 },
-                {
-                    title: "操作",
-                    key: "operate",
-                    align: "center",
-                    width: 100,
-                    render: (h, params) => {
-                        let id = params.row.id;
-                        return [
-                            h(
-                                "a",
-                                {
-                                    attrs: {
-                                        href: "javascript:void(0);"
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.selRemove(params.row._index);
-                                        }
-                                    }
-                                },
-                                "移除"
-                            )
-                        ];
-                    }
-                }
+                // {
+                //     title: "操作",
+                //     key: "operate",
+                //     align: "center",
+                //     width: 100,
+                //     render: (h, params) => {
+                //         let id = params.row.id;
+                //         return [
+                //             h(
+                //                 "a",
+                //                 {
+                //                     attrs: {
+                //                         href: "javascript:void(0);"
+                //                     },
+                //                     on: {
+                //                         click: () => {
+                //                             this.selRemove(params.row._index);
+                //                         }
+                //                     }
+                //                 },
+                //                 "移除"
+                //             )
+                //         ];
+                //     }
+                // }
             ],
             allData: [],
             selData: [],

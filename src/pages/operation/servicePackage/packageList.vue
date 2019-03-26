@@ -156,7 +156,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.goEdit(id);
+                                            this.goEdit(id,1);
                                         }
                                     }
                                 },
@@ -258,11 +258,14 @@ export default {
                 }
             );
         },
-        goEdit(id) {
+        goEdit(id,type) {
+            let url = "/index/operation/servicePackage/pEdit";
+            if(type == 1) url = "/index/operation/servicePackage/pDetail";
+
             //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
-                "/index/operation/servicePackage/pEdit",
+                url,
                 {
                     id,
                     pageNo: this.pageNo,
