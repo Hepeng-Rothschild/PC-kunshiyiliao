@@ -63,6 +63,12 @@ export default {
     },
     logout() {
       window.localStorage.removeItem("access_token");
+      window.localStorage.removeItem("top");
+      window.localStorage.removeItem("sun1");
+      window.localStorage.removeItem("sun2");
+      window.localStorage.removeItem("sun3");
+      window.localStorage.removeItem("sun4");
+      window.localStorage.removeItem("sun5");
       window.localStorage.clear();
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
@@ -73,7 +79,9 @@ export default {
       cookie.delCookie("access_user");
       cookie.delCookie("ownArea");
       // 公用方法
-      this.functionJS.queryNavgationTo(this, '/login');
+      // this.functionJS.queryNavgationTo(this, '/login');
+
+      window.location.href = '#/login';
     },
     edit() {
       // 公用方法
