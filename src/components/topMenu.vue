@@ -82,6 +82,7 @@ export default {
       // this.functionJS.queryNavgationTo(this, '/login');
 
       window.location.href = '#/login';
+      window.close();
     },
     edit() {
       // 公用方法

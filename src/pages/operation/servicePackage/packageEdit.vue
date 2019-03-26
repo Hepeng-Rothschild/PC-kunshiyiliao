@@ -246,6 +246,7 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/config/base.js";
+import cookie from "@/utils/cookie.js";
 import { Avatar } from "iview";
 export default {
     data() {
@@ -437,9 +438,9 @@ export default {
         );
         this.tabList = this.healthEducationSontab;
 
-        this.identity = this.$store.getters.getIdentity;
-        this.identityCoding = this.$store.getters.getIdentityCoding;
-        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        this.identity = cookie.getCookie("idtt");
+        this.identityCoding = cookie.getCookie("idttC");
+        this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
         if (this.ownArea.province) {
             this.provinceStatus = true;
             this.provinceList.push(this.ownArea.province);
