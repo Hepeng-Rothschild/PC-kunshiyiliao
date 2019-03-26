@@ -103,8 +103,8 @@
                         <Input
                             class="w-input"
                             v-model="info.serviceName"
-                            :maxlength="20"
-                            placeholder="请输入服务项目名称"
+                            :maxlength="60"
+                            placeholder="请输入服务项目名称1"
                         />
                     </FormItem>
                 </Col>
@@ -119,7 +119,7 @@
                             class="w-input"
                             v-model="info.serviceDes"
                             type="textarea"
-                            :maxlength="20"
+                            :maxlength="100"
                             placeholder="请填写具体操作规范"
                         />
                     </FormItem>
@@ -226,7 +226,6 @@
                             class="w-input"
                             v-model="info.remarks"
                             type="textarea"
-                            :maxlength="20"
                             placeholder="备注"
                         />
                     </FormItem>
@@ -245,6 +244,7 @@
 <script>
 import api from "@/api/commonApi";
 import code from "@/configs/base.js";
+import cookie from "@/utils/cookie.js";
 import { Avatar } from "iview";
 export default {
     data() {
@@ -401,9 +401,9 @@ export default {
                     console.log(err);
                 });
         }
-        this.identity = this.$store.getters.getIdentity;
-        this.identityCoding = this.$store.getters.getIdentityCoding;
-        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        this.identity = cookie.getCookie("idtt");
+        this.identityCoding = cookie.getCookie("idttC");
+        this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
         if (this.ownArea.province) {
             this.provinceStatus = true;
             this.provinceList.push(this.ownArea.province);

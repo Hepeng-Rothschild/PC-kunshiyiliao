@@ -82,7 +82,6 @@ export default {
   computed: {
     sessionId () {
       let sessionId = this.$route.params.sessionId
-      console.log('sessionId:::',sessionId);
       return sessionId
     },
     sessionName () {
@@ -110,7 +109,6 @@ export default {
       }
     },
     scene () {
-      console.log('util.parseSession(this.sessionId)',util.parseSession(this.sessionId));
       return util.parseSession(this.sessionId).scene
     },
     to () {
@@ -138,6 +136,7 @@ export default {
       return this.$store.state.robotInfos
     },
     msglist () {
+      console.log('chat msglist');
       let msgs = this.$store.state.currSessionMsgs
       return msgs
     },

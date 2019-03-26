@@ -1,18 +1,46 @@
 <template>
     <div class="chatteam">
-        <h1>直播群</h1>
-        <chatEditor :scene="scene" :to="to"></chatEditor>
+        <Row>
+            <Col>
+                <h1>{{sessionName}}</h1>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <Button type="primary" @click="history">历史</Button>
+                <Button type="primary" @click="member">成员</Button>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <chatList
+                    type="session"
+                    :msglist="msglist"
+                    :userInfos="userInfos"
+                    :myInfo="myInfo"
+                    :isRobot="isRobot"
+                    @msgs-loaded="msgsLoaded"
+                ></chatList>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <chatEditor :scene="scene" :to="to"></chatEditor>
+            </Col>
+        </Row>
     </div>
 </template>
 <script>
 import chatEditor from "@/components/chatEditor";
+import chatList from "@/components/chatList";
 import util from "@/utils";
 export default {
     data() {
         return {};
     },
     components: {
-        chatEditor
+        chatEditor,
+        chatList
     },
     mounted() {
         console.log("mounted -----------------------");
@@ -31,7 +59,7 @@ export default {
     },
     computed: {
         sessionId() {
-            let sessionId = 'team-'+this.$route.query.sessionId;
+            let sessionId = "team-" + this.$route.query.sessionId;
             return sessionId;
         },
         sessionName() {
@@ -87,6 +115,14 @@ export default {
                 });
             }
             return undefined;
+        }
+    },
+    methods: {
+        hostory() {
+            console.log("gohistory");
+        },
+        member() {
+            console.log("member");
         }
     }
 };

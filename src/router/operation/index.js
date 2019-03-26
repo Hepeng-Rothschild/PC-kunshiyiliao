@@ -804,6 +804,16 @@ const servicePackagePEdit = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-servicepackagepindex-servicepackage' */"@/pages/operation/servicePackage/packageEdit")
 }
+const servicePackagePDetail = {
+	path: 'operation/servicePackage/pDetail',
+	name: 'servicePackagePDetail',
+	meta: {
+		index: 3,
+		title: '查看服务包'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-servicepackagepindex-servicepackage' */"@/pages/operation/servicePackage/packageDetail")
+}
 const servicePackageItemList = {
 	path: 'operation/servicePackage/itemList',
 	name: 'servicePackageitemList',
@@ -1099,6 +1109,7 @@ export default {
 	servicePackagePList,
 	servicePackagePAdd,
 	servicePackagePEdit,
+	servicePackagePDetail,
 	//服务项目管理
 	servicePackageItemList,
 	servicePackageItemAdd,

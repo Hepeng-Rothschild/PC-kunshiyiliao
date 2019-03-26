@@ -1,7 +1,7 @@
 <template>
     <div class="chatlist">
         <h1>{{pageTitle}}</h1>
-        <p
+        <p class="listItem"
             v-for="team in teamList"
             :key="team.teamId"
             :title="team.name"
@@ -9,7 +9,7 @@
         >
             <span>{{team.name}}</span>
         </p>
-        <p v-if='!teamList || teamList.length<1'>暂无内容</p>
+        <p v-if="!teamList || teamList.length<1">暂无内容</p>
     </div>
 </template>
 <script>
@@ -21,6 +21,7 @@ export default {
         };
     },
     computed: {
+        
         teamList: function() {
             return (
                 this.$store.state.teamlist &&
@@ -34,15 +35,18 @@ export default {
     },
     methods: {
         talking(sessionId) {
-            this.$router.push({path:'/index/teamChat',query:{sessionId}});
+            this.functionJS.queryNavgationTo(this,'/index/teamChat',{sessionId});
         }
     },
-    mounted(){
+    mounted() {
         console.log(this.teamList);
     }
 };
 </script>
 <style lang="less" scoped>
 .chatlist {
+    .listItem{
+        cursor: pointer;
+    }
 }
 </style>
