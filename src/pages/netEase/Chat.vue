@@ -201,7 +201,7 @@ export default {
     },
     onHistoryClick() {
       if (this.scene!=='team' || (this.teamInfo && this.teamInfo.validToCurrentUser)) {
-        location.href = `/index/chathistory/${this.sessionId}`
+        location.href = `#/index/chathistory/${this.sessionId}`
       } else {
         this.$toast('您已退出该群')
       }
