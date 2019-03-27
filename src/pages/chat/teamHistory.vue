@@ -44,7 +44,7 @@ export default {
     },
     computed: {
         sessionId() {
-            return 'team-'+this.$route.params.sessionId;
+            return 'team-'+this.$route.query.sessionId;
         },
         sessionName() {
             return "历史记录";

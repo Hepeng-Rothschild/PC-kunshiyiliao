@@ -16,7 +16,6 @@
                     <img :src="msg.avatar">
                     <span>{{msg.nick}}</span>
                 </a>
-
                 <span v-if="msg.type==='text'" class="msg-text" v-html="msg.text"></span>
                 <span v-if="msg.status==='fail'" class="msg-failed">
                     失败
