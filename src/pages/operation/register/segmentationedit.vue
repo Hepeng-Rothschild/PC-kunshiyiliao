@@ -18,7 +18,7 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">就诊地址</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <Input class="w-input" :maxlength="20" v-model="address" placeholder="请输入就诊地址"/>
+                <Input class="w-input" :maxlength="60" v-model="address" placeholder="请输入就诊地址"/>
             </Col>
         </Row>
         <Row class="bordered">
@@ -184,7 +184,7 @@
                     class="w-area"
                     v-model="receive"
                     type="textarea"
-                    :maxlength="20"
+                    :maxlength="100"
                     placeholder="请输入挂号领取处"
                 />
             </Col>
@@ -192,7 +192,7 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">备注</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <Input class="w-area" v-model="remarks" :maxlength="20" placeholder="请输入备注"/>
+                <Input class="w-area" v-model="remarks" :maxlength="160" placeholder="请输入备注"/>
             </Col>
         </Row>
         <br>

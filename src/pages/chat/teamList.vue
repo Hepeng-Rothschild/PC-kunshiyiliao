@@ -21,7 +21,6 @@ export default {
         };
     },
     computed: {
-        
         teamList: function() {
             return (
                 this.$store.state.teamlist &&

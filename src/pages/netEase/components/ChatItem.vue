@@ -241,10 +241,10 @@
               let robotAccid = item.content.robotAccid
               item.avatar = this.robotInfos[robotAccid].avatar
               item.isRobot = true
-              item.link = `#/namecard/${robotAccid}`
+              item.link = `/index/namecard/${robotAccid}`
             } else if (item.from !== this.$store.state.userUID) {
               item.avatar = (this.userInfos[item.from] && this.userInfos[item.from].avatar) || config.defaultUserIcon
-              item.link = `#/namecard/${item.from}`
+              item.link = `/index/namecard/${item.from}`
               //todo  如果是未加好友的人发了消息，是否能看到名片
             } else {
               item.avatar = this.myInfo.avatar

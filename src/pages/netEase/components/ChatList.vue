@@ -5,6 +5,7 @@
     </li>
     <li class="u-msg item-time" v-else>
       ---- 已无更多记录 ----
+      
     </li>
     <chat-item
       v-for="(msg, index) in msglist"

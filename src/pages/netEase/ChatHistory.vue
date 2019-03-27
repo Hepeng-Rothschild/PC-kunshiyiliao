@@ -31,10 +31,12 @@ export default {
   beforeMount () {
     // 如果是刷新页面，重定向至聊天页面
     if (this.$store.state.isRefresh) {
+      console.log('是刷新历史记录页面');
       location.href = `#/chat/${this.sessionId}`
     }
   },
   mounted () {
+    console.log('netease gethistory');
     this.$store.dispatch('resetNoMoreHistoryMsgs')
     this.getHistoryMsgs()
   },
@@ -98,6 +100,7 @@ export default {
     },
     msglist () {
       let msgs = this.$store.state.currSessionMsgs
+      console.log('netease history msglist',msgs)
       return msgs
     },
     robotInfos () {
