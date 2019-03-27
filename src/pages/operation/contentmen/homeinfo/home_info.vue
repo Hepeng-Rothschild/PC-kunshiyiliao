@@ -144,7 +144,7 @@
                     v-model.trim="hospitalSort"
                     :disabled="hospitalFlag"
                 />
-                <p>备注:只能填写数字,1代表置顶以些类推</p>
+                <p>备注:只能填写数字,1代表置顶以此类推</p>
             </div>
             <!--是否开通处方流转-->
             <div class="main_yy">
