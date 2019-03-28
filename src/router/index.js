@@ -240,6 +240,7 @@ export default new Router({
 				chat.teamList,
 				chat.teamChat,
 				chat.teamHistory,
+				chat.teamManager
 
 			]
 		},

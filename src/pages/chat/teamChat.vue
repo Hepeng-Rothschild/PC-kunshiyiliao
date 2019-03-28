@@ -8,7 +8,7 @@
         <Row>
             <Col>
                 <Button type="primary" @click="toHistory">历史</Button>
-                <Button type="primary" @click="toMember">成员</Button>
+                <Button type="primary" @click="toManager">管理</Button>
             </Col>
         </Row>
         <Row>
@@ -138,8 +138,12 @@ export default {
         toHistory() {
             this.functionJS.queryNavgationTo(this,'/index/teamHistory',{sessionId:this.$route.query.sessionId});
         },
-        toMember() {
-            console.log("member");
+        toManager() {
+            if (this.teamInfo && this.teamInfo.validToCurrentUser) {
+                this.functionJS.queryNavgationTo(this,`/index/teamManager`,{teamId:this.teamInfo.teamId});
+            } else {
+                this.$Message.info('您已退出该群')
+            }
         },
         msgsLoaded() {
             pageUtil.scrollChatListDown();

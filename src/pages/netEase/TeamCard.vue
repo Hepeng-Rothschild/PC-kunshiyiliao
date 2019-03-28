@@ -41,12 +41,12 @@ export default {
       })
       if (team && team.validToCurrentUser) {
         // 查询到该群且该群对自己有效，说明已在群中
-        this.$toast('已在群中')
+        this.$Message.info('已在群中')
         return
       }
       switch (this.teamInfo.joinMode) {
         case 'rejectAll':
-          this.$toast('该群禁止任何人加入')
+          this.$Message.info('该群禁止任何人加入')
           break
         case 'noVerify':
           this.applyTeam()
@@ -68,7 +68,7 @@ export default {
             this.applyTeam(msg)
             this.$vux.confirm.hide()
           }else {
-            this.$toast('请输入验证信息')
+            this.$Message.info('请输入验证信息')
           }
         }
       })
@@ -81,10 +81,10 @@ export default {
           ps: msg || '',
           done: (error, obj) => {
             if(error){
-              this.$toast(error)
+              this.$Message.info(error)
               return
             }
-            this.$toast(msg ? '申请成功 等待验证' : '已加入群')
+            this.$Message.info(msg ? '申请成功 等待验证' : '已加入群')
             history.go(-2)
           }
         }

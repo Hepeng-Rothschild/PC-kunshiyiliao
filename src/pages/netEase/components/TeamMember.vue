@@ -149,7 +149,7 @@ export default {
           teamId: this.teamId,
           accounts: [member.account],
           done: (error, obj)=>{
-            this.$toast('移除成功')
+            this.$Message.info('移除成功')
             this.$store.dispatch('hideLoading')
           }
         }

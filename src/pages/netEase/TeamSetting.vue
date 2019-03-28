@@ -53,7 +53,7 @@ export default {
   methods:{
     update(value){
       if (value===undefined && this.inputModel.length < 1) {
-        this.$toast('请输入内容后提交')
+        this.$Message.info('请输入内容后提交')
         return
       }
       var callback = this.config.confirmCallback
@@ -71,9 +71,9 @@ export default {
           done: (error, team)=>{
             this.$store.dispatch('hideLoading')
             if(error) {
-              this.$toast(error)
+              this.$Message.info(error)
             }else{
-              this.$toast('更改成功')
+              this.$Message.info('更改成功')
               setTimeout(() => {
                 history.go(-1)
               }, 200);

@@ -69,7 +69,7 @@ export function initNimSDK ({ state, commit, dispatch }, loginInfo) {
           }
           let str = error.from
           let errorMsg = `你的帐号于${util.formatDate(new Date())}被${(map[str] || '其他端')}踢出下线，请确定帐号信息安全!`
-          pageUtil.turnPage(errorMsg, 'login')
+          pageUtil.turnPage(errorMsg, '#/index')
           break
         default:
           break
