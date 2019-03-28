@@ -27,6 +27,7 @@
         </cell>
         <group class='m-group'>
           <cell title="群成员" :value="`共${teamMemberNum}人`" is-link :link='`/teammembers/${teamId}`'></cell>
+          共{{teamMemberNum}}人
           <team-member :teamId='teamId' :advanced="true"></team-member>
         </group>
         <group class='m-group'>
@@ -78,6 +79,7 @@ export default {
       return team
     },
     teamMembers() {
+      console.log('this.$store.state.teamMembers',this.$store.state.teamMembers);
       return this.$store.state.teamMembers[this.teamId]
     },
     teamMemberNum(){

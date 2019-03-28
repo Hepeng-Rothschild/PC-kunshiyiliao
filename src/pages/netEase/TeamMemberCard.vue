@@ -10,8 +10,8 @@
         <div>{{member && member.alias}}</div>
       </div>
       <group class='m-group'>
-        <cell title="群昵称" :value="member.nickInTeam||'未设置'" @click.native="()=> hasSetNickPermission? onEditItemClick('修改群昵称', 'text', 'nickInTeam', getUpdateCallBcak()) : $toast('无权限')" is-link></cell>
-        <cell title="身份" :value="memberType"  @click.native="()=> hasSetMemberTypePermission? onEditItemClick('身份', 'select', 'memberType', getUpdateCallBcak()) : $toast('无权限')" is-link></cell>
+        <cell title="群昵称" :value="member.nickInTeam||'未设置'" @click.native="()=> hasSetNickPermission? onEditItemClick('修改群昵称', 'text', 'nickInTeam', getUpdateCallBcak()) : $Message.info('无权限')" is-link></cell>
+        <cell title="身份" :value="memberType"  @click.native="()=> hasSetMemberTypePermission? onEditItemClick('身份', 'select', 'memberType', getUpdateCallBcak()) : $Message.info('无权限')" is-link></cell>
         <x-switch v-if='hasMuteOrRemovePermission' class="u-switch" title="设置禁言" v-model="mute" @on-change="changeMute"></x-switch>
       </group>
       <x-button v-if='hasMuteOrRemovePermission' class='u-btn' mini type="warn" @click.native='remove'>移出本群</x-button>
@@ -106,9 +106,9 @@ export default {
           mute: this.mute,
           done: (error, obj)=>{
             if(error) {
-              this.$toast(error)
+              this.$Message.info(error)
             }else{
-              this.$toast(this.mute? '已禁言':'已取消禁言')
+              this.$Message.info(this.mute? '已禁言':'已取消禁言')
             }
           }
         }
@@ -117,13 +117,12 @@ export default {
     getUpdateCallBcak() {
       var account = this.member.account
       var store = this.$store
-      var toast = this.$toast
       
       var doneCallBack = (error, obj)=>{
         if(error) {
-          this.$toast(error)
+          this.$Message.info(error)
         }else{
-          this.$toast('更改成功')
+          this.$Message.info('更改成功')
           setTimeout(() => {
             history.go(-1)
           }, 200);
@@ -172,7 +171,7 @@ export default {
           teamId: this.teamId,
           accounts: [this.member.account],
           done: (error, obj)=>{
-            this.$toast(error ? error : '移除成功')
+            this.$Message.info(error ? error : '移除成功')
             history.go(-1)
             this.$store.dispatch('hideLoading')
           }

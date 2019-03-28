@@ -192,18 +192,19 @@ export default {
         location.href = `#/namecard/${account}`
       }
     },
+    
     onTeamManageClick() {
       if (this.teamInfo && this.teamInfo.validToCurrentUser) {
-        location.href = `/index/teammanage/${this.teamInfo.teamId}`
+        location.href = `#/index/teammanage/${this.teamInfo.teamId}`
       } else {
-        this.$toast('您已退出该群')
+        this.$Message.info('您已退出该群')
       }
     },
     onHistoryClick() {
       if (this.scene!=='team' || (this.teamInfo && this.teamInfo.validToCurrentUser)) {
         location.href = `#/index/chathistory/${this.sessionId}`
       } else {
-        this.$toast('您已退出该群')
+        this.$Message.info('您已退出该群')
       }
     }
   }

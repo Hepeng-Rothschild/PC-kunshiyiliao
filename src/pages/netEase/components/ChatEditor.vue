@@ -161,7 +161,7 @@ export default {
   methods: {
     sendTextMsg () {
       if (this.invalid) {
-        this.$toast(this.invalidHint)
+        this.$Message.info(this.invalidHint)
         return
       }
       if (/^\s*$/.test(this.msgToSent)) {
@@ -279,7 +279,7 @@ export default {
     },
     sendPlayMsg () {
       if (this.invalid) {
-        this.$toast(this.invalidHint)
+        this.$Message.info(this.invalidHint)
         return
       }
       // 发送猜拳消息
@@ -311,7 +311,7 @@ export default {
     },
     sendFileMsg () {
       if (this.invalid) {
-        this.$toast(this.invalidHint)
+        this.$Message.info(this.invalidHint)
         return
       }
       let ipt = this.$refs.fileToSent
@@ -361,7 +361,7 @@ export default {
     },
     turnToMsgReceipt() {
       if (this.invalid) {
-        this.$toast(this.invalidHint)
+        this.$Message.info(this.invalidHint)
         return
       }
       location = `#/teamSendMsgReceipt/${this.to}`
@@ -376,7 +376,7 @@ export default {
         window.stopPlayAudio()
       }
       if (location.protocol === 'http:') {
-        self.$toast('请使用https协议')
+        self.$Message.info('请使用https协议')
         return
       }
       if (self.recording) {
@@ -386,7 +386,7 @@ export default {
         self.recordDisable = true
       }
       if (self.recordDisable || !self.audioContext || !window.AudioContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        self.$toast('当前浏览器不支持录音')
+        self.$Message.info('当前浏览器不支持录音')
         return
       }
       if (self.recorder) {
@@ -395,7 +395,7 @@ export default {
       } else {
         function failed () {
           self.recordDisable = true
-          self.$toast('当前浏览器不支持录音')
+          self.$Message.info('当前浏览器不支持录音')
         }
         try {
           var value = navigator.mediaDevices.getUserMedia({
@@ -414,7 +414,7 @@ export default {
               failed()
             }
           }).catch(err => {
-            self.$toast('没有权限获取麦克风')
+            self.$Message.info('没有权限获取麦克风')
             self.recordDisable = true
             console.log('No live audio input: ' + err, err.name + ": " + err.message)
           })
@@ -478,7 +478,7 @@ export default {
       if (this.recording) {
         clearTimeout(this.recordTimeout)
         if (this.recordTime < 2) {
-          this.$toast('语音消息最短2s')
+          this.$Message.info('语音消息最短2s')
           this.cancelRecord()
           return
         }
