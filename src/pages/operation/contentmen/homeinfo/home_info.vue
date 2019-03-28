@@ -519,7 +519,7 @@ export default {
                 //处方平台UID
                 prescriptionId: this.y_uid,
                 // 预约挂号排序
-                // appointmentRegistration:String(this.appointmentRegistration),
+                appointmentRegistration:String(this.appointmentRegistration),
                 //互联网医院
                 internetHospital: Number(this.switch1),
                 //医院联盟
@@ -796,7 +796,7 @@ export default {
                     }
                     // 预约挂号排序
                     console.log(ret.appointmentRegistration)
-                    // this.appointmentRegistration = ret.appointmentRegistration
+                    this.appointmentRegistration = ret.appointmentRegistration
                     // 是否强制用卷
                     this.usedCoupon = Boolean(ret.usedCoupon);
                     // 预约挂号支付
