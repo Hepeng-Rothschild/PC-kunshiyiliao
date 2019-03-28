@@ -146,6 +146,15 @@
                 />
                 <p>备注:只能填写数字,1代表置顶以此类推</p>
             </div>
+            <!-- 预约挂号排序 -->
+            <div class="main_info">
+                <span>预约挂号排序</span>
+                <Input
+                    placeholder="预约挂号排序"
+                    style="width:120px;"
+                    v-model.trim="appointmentRegistration"
+                />
+            </div>
             <!--是否开通处方流转-->
             <div class="main_yy">
                 <span class="main_yy_name">是否开通处方流转</span>
@@ -163,7 +172,7 @@
             </div>
             <!-- 是否是否强制用券 -->
             <div class="main_yy">
-                <span class="main_yy_name">是否是否强制用券</span>
+                <span class="main_yy_name">是否强制用券</span>
                 <iSwitch v-model="usedCoupon"/>
             </div>
             <!-- 预约挂号支付 -->
@@ -385,6 +394,8 @@ export default {
             y_dizhi: "",
             // 互联网医院公众号
             y_gzh: null,
+            // 预约挂号排序
+            appointmentRegistration:"",
             // 处方流转平台ID
             y_uid: "",
             // 医联体上级医院
@@ -507,6 +518,8 @@ export default {
                 appid: this.y_gzh,
                 //处方平台UID
                 prescriptionId: this.y_uid,
+                // 预约挂号排序
+                // appointmentRegistration:String(this.appointmentRegistration),
                 //互联网医院
                 internetHospital: Number(this.switch1),
                 //医院联盟
@@ -781,6 +794,9 @@ export default {
                     } else {
                         localStorage.setItem("doctor", "");
                     }
+                    // 预约挂号排序
+                    console.log(ret.appointmentRegistration)
+                    // this.appointmentRegistration = ret.appointmentRegistration
                     // 是否强制用卷
                     this.usedCoupon = Boolean(ret.usedCoupon);
                     // 预约挂号支付
