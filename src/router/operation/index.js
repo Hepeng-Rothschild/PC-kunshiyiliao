@@ -346,6 +346,17 @@ const broadAdd = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/liveMant/broadAdd")
 }
+const broadEdit = {
+	// 直播管理
+	path: 'operation/liveMant/broadEdit',
+	name: 'liveMantBroadEdit',
+	meta: {
+		index: 3,
+		title: '编辑直播'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctormanagement-liveMant' */"@/pages/operation/liveMant/broadEdit")
+}
 const physicianAudit = {
 	// 讲堂审核
 	path: 'operation/physicianAudit/list',
@@ -793,6 +804,16 @@ const servicePackagePEdit = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-servicepackagepindex-servicepackage' */"@/pages/operation/servicePackage/packageEdit")
 }
+const servicePackagePDetail = {
+	path: 'operation/servicePackage/pDetail',
+	name: 'servicePackagePDetail',
+	meta: {
+		index: 3,
+		title: '查看服务包'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-servicepackagepindex-servicepackage' */"@/pages/operation/servicePackage/packageDetail")
+}
 const servicePackageItemList = {
 	path: 'operation/servicePackage/itemList',
 	name: 'servicePackageitemList',
@@ -1080,6 +1101,7 @@ export default {
 	liveMantEdit,
 	// 直播添加
 	broadAdd,
+	broadEdit,
 	// 讲堂审核
 	physicianAudit,
 	physicianAuditSee,
@@ -1087,6 +1109,7 @@ export default {
 	servicePackagePList,
 	servicePackagePAdd,
 	servicePackagePEdit,
+	servicePackagePDetail,
 	//服务项目管理
 	servicePackageItemList,
 	servicePackageItemAdd,

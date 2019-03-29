@@ -321,6 +321,7 @@ export default {
                 path = '/index/operation/liveMant/liveAdd'
             } else {
                 path = '/index/operation/liveMant/broadAdd'
+                // path='/index/operation/liveMant/broadEdit'
             }
             this.functionJS.queryNavgationTo(
                     this,

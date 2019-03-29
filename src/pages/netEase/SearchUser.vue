@@ -112,13 +112,13 @@ export default {
   methods: {
     searchUser () {
       if (!this.searchText) {
-        this.$toast('未输入内容')
+        this.$Message.info('未输入内容')
         return
       }
       this.firstEntry = false
       if (this.searchType === 1) {
         if(!/^(\d){4,9}$/.test(this.searchText)){
-          this.$toast('输入的群号非法')
+          this.$Message.info('输入的群号非法')
           return
         }
         this.$store.dispatch('searchTeam', {

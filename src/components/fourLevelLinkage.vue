@@ -77,24 +77,25 @@ export default {
         }
     },
     created() {
+        console.log('fourLevelLinkage');
         if (this.isBack == 1) {
-            this.identity = this.$store.getters.getIdentity;
-            this.identityCoding = this.$store.getters.getIdentityCoding;
-            this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+            this.identity = cookie.getCookie("idtt");
+            this.identityCoding = cookie.getCookie("idttC");
+            this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
             if (this.ownArea.province) {
-                this.provinceStatus = true;
                 this.provinceList.push(this.ownArea.province);
                 this.province = this.ownArea.province.id;
+                this.provinceStatus = true;
             }
             if (this.ownArea.city) {
-                this.cityStatus = true;
                 this.cityList.push(this.ownArea.city);
                 this.city = this.ownArea.city.id;
+                this.cityStatus = true;
             }
             if (this.ownArea.area) {
-                this.areaStatus = true;
                 this.areaList.push(this.ownArea.area);
                 this.area = this.ownArea.area.id;
+                this.areaStatus = true;
             }
             if (this.identity == 1) {
                 this.provinceList = this.$store.getters.getProvinceList;
@@ -177,7 +178,6 @@ export default {
                 }
             }
         }
-
     },
     methods: {
         changeProvince(val) {

@@ -28,8 +28,8 @@ export default new Router({
 			component: () => import(/* webpackChunkName: 'index' */'@/pages/index'),
 			children: [
 				{
-					path:'test',
-					name:'test',
+					path: 'test',
+					name: 'test',
 					meta: {
 						index: 1,
 						title: 'test'
@@ -37,8 +37,8 @@ export default new Router({
 					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa')
 				},
 				{
-					path:'test_jump',
-					name:'test_jump',
+					path: 'test_jump',
+					name: 'test_jump',
 					meta: {
 						index: 2,
 						title: 'test_jump'
@@ -105,6 +105,7 @@ export default new Router({
 				operation.liveMantAdd,
 				operation.liveMantEdit,
 				operation.broadAdd,
+				operation.broadEdit,
 				// 讲堂审核
 				operation.physicianAudit,
 				operation.physicianAuditSee,
@@ -118,6 +119,7 @@ export default new Router({
 				operation.servicePackagePList,
 				operation.servicePackagePAdd,
 				operation.servicePackagePEdit,
+				operation.servicePackagePDetail,
 				operation.servicePackageItemList,
 				operation.servicePackageItemAdd,
 				operation.servicePackageItemEdit,
@@ -237,6 +239,8 @@ export default new Router({
 
 				chat.teamList,
 				chat.teamChat,
+				chat.teamHistory,
+				chat.teamManager
 
 			]
 		},
@@ -256,12 +260,12 @@ export default new Router({
 				index: 1,
 				title: "公共平台"
 			},
-			component: ()=> import(/* webpackChunkName: 'rsa' */'@/pages/public/index'),
+			component: () => import(/* webpackChunkName: 'rsa' */'@/pages/public/index'),
 			redirect: '/public/index',
-			children:[
+			children: [
 				{
-					path:'index',
-					name:'publicIndex',
+					path: 'index',
+					name: 'publicIndex',
 					meta: {
 						index: 1,
 						title: '提示'

@@ -1,5 +1,5 @@
 <template>
-    <div class="chatteam">
+    <div class="tead-history">
         <Row>
             <Col>
                 <h1>{{sessionName}}</h1>
@@ -7,8 +7,7 @@
         </Row>
         <Row>
             <Col>
-                <Button type="primary" @click="toHistory">历史</Button>
-                <Button type="primary" @click="toManager">管理</Button>
+                <Button type="primary" @click="reback">返回</Button>
             </Col>
         </Row>
         <Row>
@@ -29,71 +28,36 @@
         </Row>
     </div>
 </template>
+
 <script>
-import chatEditor from "@/components/chatEditor";
 import chatList from "@/components/chatList";
-import util from "@/utils";
+import util from '@/utils'
+import pageUtil from '@/utils/page'
 export default {
     data() {
         return {
-
+            currPagePos: 0
         };
     },
     components: {
-        chatEditor,
         chatList
-    },
-    mounted() {
-        // 此时设置当前会话
-        this.$store.dispatch("setCurrSession", this.sessionId);
-
-        // 获取群成员
-
-        var teamMembers = this.$store.state.teamMembers[this.to];
-        if (
-            teamMembers === undefined ||
-            teamMembers.length < this.teamInfo.memberNum
-        ) {
-            this.$store.dispatch("getTeamMembers", this.to);
-        }
     },
     computed: {
         sessionId() {
-            let sessionId = 'team-'+this.$route.query.sessionId;
-            return sessionId;
+            return 'team-'+this.$route.query.sessionId;
         },
         sessionName() {
-            let sessionId = this.sessionId;
-            let user = null;
-            if (this.teamInfo) {
-                // teamInfo中的人数为初始获取的值，在人员增减后不会及时更新，而teamMembers在人员增减后同步维护的人员信息
-                var members =
-                    this.$store.state.teamMembers &&
-                    this.$store.state.teamMembers[this.teamInfo.teamId];
-                var memberCount = members && members.length;
-                return (
-                    this.teamInfo.name + (memberCount ? `(${memberCount})` : "")
-                );
-            } else {
-                return "群";
-            }
-        },
-        scene() {
-            return util.parseSession(this.sessionId).scene;
-        },
-        to() {
-            return util.parseSession(this.sessionId).to;
+            return "历史记录";
         },
         myInfo() {
-            console.log('myInfo:::',this.$store.state.myInfo);
             return this.$store.state.myInfo;
         },
         userInfos() {
-            console.log('userInfos:::',this.$store.state.userInfos);
             return this.$store.state.userInfos;
         },
         msglist() {
             let msgs = this.$store.state.currSessionMsgs;
+            console.log('history msglist:::',msgs);
             let msglist = [];
             for(let i=0;i<msgs.length;i++){
                 let item = Object.assign({},msgs[i]);
@@ -124,34 +88,58 @@ export default {
             };
             return msglist;
         },
-        teamInfo() {
-            if (this.scene === "team") {
-                var teamId = this.sessionId.replace("team-", "");
-                return this.$store.state.teamlist.find(team => {
-                    return team.teamId === teamId;
-                });
-            }
-            return undefined;
+        scene() {
+            return util.parseSession(this.sessionId).scene;
+        },
+        to() {
+            return util.parseSession(this.sessionId).to;
+        },
+        canLoadMore() {
+            return !this.$store.state.noMoreHistoryMsgs;
         }
     },
     methods: {
-        toHistory() {
-            this.functionJS.queryNavgationTo(this,'/index/teamHistory',{sessionId:this.$route.query.sessionId});
-        },
-        toManager() {
-            if (this.teamInfo && this.teamInfo.validToCurrentUser) {
-                this.functionJS.queryNavgationTo(this,`/index/teamManager`,{teamId:this.teamInfo.teamId});
-            } else {
-                this.$Message.info('您已退出该群')
+        getHistoryMsgs() {
+            console.log('获取历史消息');
+            if (this.canLoadMore) {
+                console.log('执行获取历史消息');
+                this.$store.dispatch("getHistoryMsgs", {
+                    scene: this.scene,
+                    to: this.to
+                });
             }
         },
-        msgsLoaded() {
-            pageUtil.scrollChatListDown();
+        loadMore() {
+            if (pageUtil.getChatListScroll() <= 5) {
+                this.getHistoryMsgs();
+            }
+        },
+        onClickBack: function() {
+            // location.href = `#/chat/${this.sessionId}`
+            window.history.go(-1);
+        },
+        reback() {
+            window.history.go(-1);
         }
+    },
+    beforeMount() {
+        // 如果是刷新页面，重定向至聊天页面
+        if (this.$store.state.isRefresh) {
+            this.functionJS.queryNavgationTo(this,'/index/teamChat',{sessionId:this.$route.query.sessionId});
+        }
+    },
+    mounted() {
+        console.log('mounted 获取历史消息');
+        this.$store.dispatch("resetNoMoreHistoryMsgs");
+        this.getHistoryMsgs();
+    },
+    updated() {
+        let tempPagePos = pageUtil.getChatListHeight();
+        pageUtil.scrollChatListDown(tempPagePos - this.currPagePos);
+        this.currPagePos = tempPagePos;
     }
 };
 </script>
-<style lang="less" scoped>
-.chatteam {
-}
+
+<style scoped>
 </style>

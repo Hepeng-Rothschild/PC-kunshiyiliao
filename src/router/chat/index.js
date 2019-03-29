@@ -14,7 +14,23 @@ const teamChat = {
         require(['@/pages/chat/teamChat'], resolve)
     }
 };
+const teamHistory = {
+    path: '/index/teamHistory',
+    name: 'teamHistory',
+    component(resolve) {
+        require(['@/pages/chat/teamHistory'], resolve)
+    }
+};
+const teamManager = {
+    path: '/index/teamManager',
+    name: 'teamManager',
+    component(resolve) {
+        require(['@/pages/chat/teamManager'], resolve)
+    }
+};
 export default {
     teamList,
-    teamChat
+    teamChat,
+    teamHistory,
+    teamManager
 }

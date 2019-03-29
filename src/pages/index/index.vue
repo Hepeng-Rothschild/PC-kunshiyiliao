@@ -124,6 +124,11 @@ export default {
         }
         next();
     },
+    updated(){
+        // 提交sdk连接请求
+        // this.$store.dispatch("connect");
+        // this.$store.dispatch("updateRefreshState");
+    },
     computed: {
         leftMenuLists() {
             return this.$store.state.leftMenuList;

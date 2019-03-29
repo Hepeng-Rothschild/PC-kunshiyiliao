@@ -32,7 +32,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室就诊位置</span>
           </div>
-          <Input v-model.trim="keshiname" style="width: 300px" placeholder="门诊楼2楼1-7诊室"/>
+          <Input v-model.trim="keshiname" style="width: 300px" placeholder="例：门诊楼2楼1-7诊室"/>
         </div>
         <!--科室编码-->
         <!-- <div class="keshi_name">

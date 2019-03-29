@@ -160,17 +160,20 @@
     },
     watch: {
       rawMsg (newVal, oldVal) {
+        console.log('chatItem rawMsg');
         let newCustom = newVal && newVal.localCustom
         if (!newCustom || !newVal || newVal.type !== 'audio') {
           return
         }
         let oldCustom = oldVal && oldVal.localCustom
         if (newCustom !== oldCustom) {
+          console.log('watch');
           this.computedItem()
         }
       }
     },
     beforeMount () {
+      console.log('beforeMount');
       this.computedItem()
     },
     mounted () {
@@ -215,6 +218,7 @@
             this.$refs.mediaMsg.appendChild(media)
           }
           media.onload = () => {
+            console.log('msg-loaded');
             this.$emit('msg-loaded')
           }
           media.onerror = () => {
@@ -230,16 +234,17 @@
         let item = Object.assign({}, this.rawMsg)
         // 标记用户，区分聊天室、普通消息
         if (this.type === 'session') {
+          console.log('computedItem session:');
           if (item.flow === 'in') {
             if (item.type === 'robot' && item.content && item.content.msgOut) {
               // 机器人下行消息
               let robotAccid = item.content.robotAccid
               item.avatar = this.robotInfos[robotAccid].avatar
               item.isRobot = true
-              item.link = `#/namecard/${robotAccid}`
+              item.link = `/index/namecard/${robotAccid}`
             } else if (item.from !== this.$store.state.userUID) {
               item.avatar = (this.userInfos[item.from] && this.userInfos[item.from].avatar) || config.defaultUserIcon
-              item.link = `#/namecard/${item.from}`
+              item.link = `/index/namecard/${item.from}`
               //todo  如果是未加好友的人发了消息，是否能看到名片
             } else {
               item.avatar = this.myInfo.avatar
@@ -248,6 +253,7 @@
             item.avatar = this.myInfo.avatar
           }
         } else {
+          console.log('computedItem no session:');
           // 标记时间，聊天室中
           item.showTime = util.formatDate(item.time)
         }

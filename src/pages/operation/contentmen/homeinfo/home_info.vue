@@ -144,7 +144,16 @@
                     v-model.trim="hospitalSort"
                     :disabled="hospitalFlag"
                 />
-                <p>备注:只能填写数字,1代表置顶以些类推</p>
+                <p>备注:只能填写数字,1代表置顶以此类推</p>
+            </div>
+            <!-- 预约挂号排序 -->
+            <div class="main_info">
+                <span>预约挂号排序</span>
+                <Input
+                    placeholder="预约挂号排序"
+                    style="width:120px;"
+                    v-model.trim="appointmentRegistration"
+                />
             </div>
             <!--是否开通处方流转-->
             <div class="main_yy">
@@ -163,7 +172,7 @@
             </div>
             <!-- 是否是否强制用券 -->
             <div class="main_yy">
-                <span class="main_yy_name">是否是否强制用券</span>
+                <span class="main_yy_name">是否强制用券</span>
                 <iSwitch v-model="usedCoupon"/>
             </div>
             <!-- 预约挂号支付 -->
@@ -171,10 +180,8 @@
                 <span class="main_yy_name">预约挂号支付</span>
                 <iSwitch v-model="registerPayStatus"/>
             </div>
-
             <!-- 预约挂号卡模式 -->
             <div class="main_yy">
-                <!-- registerPattern -->
                 <span class="main_yy_name">预约挂号卡模式</span>
                 <CheckboxGroup v-model="registerPatternValue" @on-change="checkBoxChange">
                     <Checkbox
@@ -185,13 +192,11 @@
                     ></Checkbox>
                 </CheckboxGroup>
             </div>
-
             <!-- 预约挂号池是否为第三方 -->
             <div class="main_yy">
                 <span class="main_yy_name">预约挂号池是否为第三方</span>
                 <iSwitch v-model="registerIthirdparty"/>
             </div>
-
             <!-- 预约挂号池第三方数据 -->
             <div v-show="registerIthirdparty">
                 <!-- 服务类型 -->
@@ -286,7 +291,6 @@
                     </div>
                 </div>
             </div>
-
             <!--保存-->
             <div class="main_save">
                 <Button type="primary" @click="save">保存</Button>
@@ -390,6 +394,8 @@ export default {
             y_dizhi: "",
             // 互联网医院公众号
             y_gzh: null,
+            // 预约挂号排序
+            appointmentRegistration:"",
             // 处方流转平台ID
             y_uid: "",
             // 医联体上级医院
@@ -512,6 +518,8 @@ export default {
                 appid: this.y_gzh,
                 //处方平台UID
                 prescriptionId: this.y_uid,
+                // 预约挂号排序
+                appointmentRegistration:String(this.appointmentRegistration),
                 //互联网医院
                 internetHospital: Number(this.switch1),
                 //医院联盟
@@ -786,6 +794,9 @@ export default {
                     } else {
                         localStorage.setItem("doctor", "");
                     }
+                    // 预约挂号排序
+                    console.log(ret.appointmentRegistration)
+                    this.appointmentRegistration = ret.appointmentRegistration
                     // 是否强制用卷
                     this.usedCoupon = Boolean(ret.usedCoupon);
                     // 预约挂号支付
