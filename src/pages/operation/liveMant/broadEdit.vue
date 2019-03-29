@@ -1,7 +1,7 @@
 <template>
     <div class="broadAdd">
         <div class="val">
-            <h2>添加直播</h2>
+           <h2>编辑直播</h2>
             <!-- 直播标题 -->
             <div class = 'spacing'>直播标题
                 <Input v-model="params.title" placeholder="请输入直播标题" style="width: 300px"/>
@@ -165,7 +165,7 @@
                 
             </div>
             <!-- 创建/取消 -->
-            <Button type="primary" @click="saveLive">创建</Button>
+            <Button type="primary" @click="saveLive">修改</Button>
             <Button @click="back">取消</Button>
         </div>
     </div>

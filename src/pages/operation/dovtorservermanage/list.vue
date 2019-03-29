@@ -503,6 +503,7 @@ export default {
             params.searchKey = this.searchKey;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
+            console.log("params",params)
             this.$axios
                 .post(api.doctorList, params)
                 .then(resp => {
@@ -513,6 +514,7 @@ export default {
                             this.doctorList[i].iNum = i + 1;
                             this.doctorList[i].sortStatus = false;
                         }
+                        
                     } else {
                         this.$Message.info("不允许访问");
                     }
