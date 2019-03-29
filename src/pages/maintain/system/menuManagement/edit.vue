@@ -108,7 +108,7 @@
                   <FormItem class="fullItem" prop="no">
                     <Row>
                       <Col :xs="24">
-                        <Input class="w-input" v-model="searchKey" placeholder="权限/备注"/>
+                        <Input class="w-input" v-model="mSearchKey" placeholder="权限/备注"/>
                         <Button type="primary" @click="loadPermise(1)">
                           <Icon type="ios-search" size="14"/>
                         </Button>
@@ -282,6 +282,7 @@ export default {
       allData: [],
       selData: [],
       ids: [],
+      mSearchKey: null,
       searchKey: null,
       ppageNo: 1,
       ppageSize: 10,
@@ -387,7 +388,7 @@ export default {
       this.ppageNo = pageNo;
       //查询所有接口权限
       let params = {};
-      params.searchKey = this.searchKey;
+      params.searchKey = this.mSearchKey;
       params.pageNo = this.ppageNo;
       params.pageSize = this.ppageSize;
       this.$axios
