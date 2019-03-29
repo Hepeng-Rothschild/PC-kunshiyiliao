@@ -101,7 +101,7 @@
                         <Col :xs="24" :md="12">
                             <i class="req-icon">*</i>科室：
                             <FormItem prop="deptTypeId">
-                                <Select class="w-select" v-model="info.deptTypeId">
+                                <Select class="w-dep-select" v-model="info.deptTypeId">
                                     <Option
                                         :value="item.dictType"
                                         :key="item.dictType"
@@ -125,7 +125,7 @@
                             <i class="req-icon">*</i>医院名称：
                             <FormItem prop="hospitalId">
                                 <Select
-                                    class="w-select"
+                                    class="w-hos-select"
                                     @on-change="changeHospital"
                                     v-model="info.hospitalId"
                                 >
@@ -550,6 +550,12 @@ export default {
     }
     .w-select {
         width: 100px;
+    }
+    .w-hos-select {
+        width: 200px;
+    }
+    .w-dep-select {
+        width: 200px;
     }
     .w-input {
         width: 200px;
