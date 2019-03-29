@@ -129,7 +129,6 @@ if(store.state.env == "production"){
 }
 
 
-Vue.config.productionTip = false;
 Vue.prototype.tryCatch = function(jsonStr){
 	let tmpObj = null;
 	try{
@@ -152,6 +151,8 @@ Vue.prototype.tryCatch = function(jsonStr){
 	    return tmpObj;
 	}
 }
+Vue.config.devtools = true;
+Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',

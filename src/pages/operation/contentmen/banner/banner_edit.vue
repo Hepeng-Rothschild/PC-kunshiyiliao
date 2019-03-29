@@ -99,7 +99,7 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {

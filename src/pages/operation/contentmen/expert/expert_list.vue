@@ -69,7 +69,7 @@ export default {
     }
     this.getExpertData(this.pageNo);
 
-    let breadList = [
+    let breadList = [ 
       { path: "/index", title: "首页" },
       {
         path: "/index/operation/mechanism/index",

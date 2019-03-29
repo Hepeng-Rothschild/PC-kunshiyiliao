@@ -1,7 +1,7 @@
 /**
  * @file getters
  */
-import cookie from "../utils/cookie";
+import cookie from "../../utils/cookie";
 export default {
 	getProvinceList:(state)=>{
 		let tmpProvinceList = [];

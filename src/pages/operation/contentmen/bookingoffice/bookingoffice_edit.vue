@@ -32,7 +32,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室就诊位置</span>
           </div>
-          <Input v-model.trim="keshiname" style="width: 300px" placeholder="门诊楼2楼1-7诊室"/>
+          <Input v-model.trim="keshiname" style="width: 300px" placeholder="例：门诊楼2楼1-7诊室"/>
         </div>
         <!--科室编码-->
         <!-- <div class="keshi_name">
@@ -134,7 +134,7 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Tree } from "iview";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 import api from "@/api/commonApi";
 export default {
@@ -407,7 +407,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
 ::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 4px; /*高宽分别对应横竖滚动条的尺寸*/

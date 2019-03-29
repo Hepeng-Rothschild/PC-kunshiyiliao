@@ -32,7 +32,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>院内名称</span>
           </div>
-          <Input placeholder="内一科" v-model.trim="keshiname" style="width: 300px"/>
+          <Input placeholder="例：内一科" v-model.trim="keshiname" style="width: 300px"/>
         </div>
         <!--科室简介-->
         <div class="keshi_name_text">

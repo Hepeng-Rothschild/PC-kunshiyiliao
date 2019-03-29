@@ -39,6 +39,14 @@
           <Input v-model.trim="keshiname" style="width: 300px" placeholder="空"/>
           <p style="color:rgb(102, 102, 102);">注：只在医院自身互联网平台显示</p>
         </div>
+        <!--科室Code-->
+        <div class="keshi_name">
+          <div class="left">
+            <span style="color:red;">&nbsp;&nbsp;</span>
+            <span>科室Code</span>
+          </div>
+          <Input v-model.trim="medicineCode" style="width: 300px"/>
+        </div>
         <!--科室图标-->
         <div class="keshi_name_fileImgs">
           <div class="left">
@@ -145,7 +153,7 @@
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Tree } from "iview";
 import vueEditor from "@/components/vueEditor";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
@@ -179,7 +187,8 @@ export default {
       currentId: -1,
       source: "",
       urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
-      data1: []
+      data1: [],
+      medicineCode:''
     };
   },
   methods: {
@@ -212,6 +221,7 @@ export default {
       }
       el.classList.add("active");
     },
+    // 后退
     back() {
       let pageNo = this.$route.params.pageNo;
       this.functionJS.paramsNavgationTo(this, "iKeshi", {
@@ -235,7 +245,9 @@ export default {
         specialDept: Number(this.switch2),
         id: this.currentId,
         // 科室开通远程门诊
-        iremote: Number(this.switch3)
+        iremote: Number(this.switch3),
+        // 科室code
+        code:this.medicineCode
       };
       //图片
       if (this.images != "" && this.uploadList.length) {
@@ -266,6 +278,7 @@ export default {
           console.log(err);
         });
     },
+    // 上传图片相关事件
     handleView(name) {
       this.imgName = name;
       this.visible = true;
@@ -309,9 +322,11 @@ export default {
       }
       return check;
     },
+    // 富文本编辑器
     afterChange(val) {
       this.info.content = val;
     },
+    // 获取科室详细数据
     getRightData(id) {
       if (id) {
         this.currentId = id;
@@ -341,7 +356,9 @@ export default {
               this.switch2 = Boolean(ret.specialDept);
               //图片
               this.uploadList = [];
-
+              // 科室Code
+              this.medicineCode = ret.code
+              // 科室开通远程门诊s
               this.switch3 = Boolean(ret.iremote);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;
@@ -360,6 +377,7 @@ export default {
           });
       }
     },
+    // 图片兼容
     analysisImages(json) {
       try {
         json = JSON.parse(json);

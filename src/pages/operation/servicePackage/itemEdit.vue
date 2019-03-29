@@ -243,7 +243,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import cookie from "@/utils/cookie.js";
 import { Avatar } from "iview";
 export default {

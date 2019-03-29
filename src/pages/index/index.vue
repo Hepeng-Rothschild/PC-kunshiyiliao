@@ -80,6 +80,7 @@ export default {
                 break;
             }
         }
+        if(this.topActiveName == null) this.topActiveName = this.$store.state.topMenuList[0].id;
         if (fullPath == "/index") {
             this.topActiveName = this.$store.state.topMenuList[0].id;
         }
@@ -122,6 +123,11 @@ export default {
             }
         }
         next();
+    },
+    updated(){
+        // 提交sdk连接请求
+        // this.$store.dispatch("connect");
+        // this.$store.dispatch("updateRefreshState");
     },
     computed: {
         leftMenuLists() {
