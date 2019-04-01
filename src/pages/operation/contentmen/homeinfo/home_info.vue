@@ -154,6 +154,7 @@
                     style="width:120px;"
                     v-model.trim="appointmentRegistration"
                 />
+                 <p>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!--是否开通处方流转-->
             <div class="main_yy">

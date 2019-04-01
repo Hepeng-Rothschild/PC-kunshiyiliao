@@ -255,6 +255,11 @@ const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详�
 const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
 const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
 
+//院内编码
+const doctorselectdoctorhisid = '/operateapi/doctorselectdoctorhisid'; //查询医生关联信息hisId
+const doctorupdatedoctorhisid = '/operateapi/doctorupdatedoctorhisid'; //修改医生关联信息hisId
+const doctorselecthisdoctorlist = '/operateapi/doctorselecthisdoctorlist'; //模糊查询医生关联信息hisId列表
+
 
 let productionApi = {
     login,
@@ -502,7 +507,12 @@ let productionApi = {
     lecturedemandupdate,
     lecturedemandpagebyexaminelist,
     lecturedemandupdateplaystatus,
-};
+    
+    //院内编码
+    doctorselectdoctorhisid,
+    doctorupdatedoctorhisid,
+    doctorselecthisdoctorlist,
+}
 import weixin from './weixinApi';
 for(let key in weixin){
     productionApi[key] = weixin[key]
