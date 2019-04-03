@@ -196,22 +196,22 @@ export default {
                                 },
                                 "编辑"
                             ),
-                            " | ",
-                            h(
-                                "a",
-                                {
-                                    on: {
-                                        click: () => {
-                                            this.delDoctor(
-                                                params.index,
-                                                params.row.id,
-                                                params.row.name
-                                            );
-                                        }
-                                    }
-                                },
-                                "删除"
-                            )
+                            // " | ",
+                            // h(
+                            //     "a",
+                            //     {
+                            //         on: {
+                            //             click: () => {
+                            //                 this.delDoctor(
+                            //                     params.index,
+                            //                     params.row.id,
+                            //                     params.row.name
+                            //                 );
+                            //             }
+                            //         }
+                            //     },
+                            //     "删除"
+                            // )
                         ];
                     }
                 }
