@@ -52,7 +52,7 @@
           </div>
           <Input
             v-model.trim="mechanismCode"
-            placeholder="医疗组织机构代码"
+            placeholder="请输入医疗组织机构代码"
             clearable
             style="width: 300px"
           />
@@ -96,7 +96,7 @@
           </div>
           <Input
             v-model.trim="mechanismPhone"
-            placeholder="机构电话"
+            placeholder="请输入机构电话"
             clearable
             style="width: 300px"
             :maxlength="12"
@@ -108,7 +108,7 @@
             <span style="color:red;">&nbsp;</span>
             <span>机构联系人:</span>
           </div>
-          <Input v-model.trim="Contacts" placeholder="姓名" clearable style="width: 300px"/>
+          <Input v-model.trim="Contacts" placeholder="请输入机构联系人姓名" clearable style="width: 300px"/>
         </div>
         <!-- 联系人电话 -->
         <div class="address">
@@ -118,7 +118,7 @@
           </div>
           <Input
             v-model.trim="phone"
-            placeholder="电话号码"
+            placeholder="请输入联系人电话号码"
             clearable
             style="width: 300px"
             :maxlength="11"
@@ -240,6 +240,17 @@ export default {
         //联系人电话
         linkmanTelephone: this.phone
       };
+      // 当机构电话输入其他字符时不允许修改
+      if(!Number(params.telephone) && params.telephone != '') {
+        this.$Message.error("请检查机构电话是否输入正确");
+        return ""
+      }
+      // 当联系人电话输入其他字符时不允许修改
+      if(!Number(params.linkmanTelephone) && params.linkmanTelephone != '') {
+        this.$Message.error("请检查联系人电话是否输入正确");
+        return ""
+      }
+        
 
       if (
         this.regionProv == "-1" ||
@@ -259,6 +270,7 @@ export default {
         this.$Message.error("机构等级不能为空");
       } else {
         console.log(params)
+        
         this.$axios.post(api.mechanismregAdd, params).then(res => {
           if (res.data.code) {
             this.$Message.info("添加成功");

@@ -106,7 +106,7 @@
                     </div>
                     <Input
                         v-model.trim="Contacts"
-                        placeholder="请输入姓名"
+                        placeholder="请输入机构联系人姓名"
                         clearable
                         style="width: 300px"
                     />
@@ -119,7 +119,7 @@
                     </div>
                     <Input
                         v-model.trim="phone"
-                        placeholder="请输入电话号码"
+                        placeholder="请输入机构联系人电话号码"
                         clearable
                         style="width: 300px"
                         :maxlength="11"
@@ -267,6 +267,17 @@ export default {
                 // 医院Id
                 id: this.hospitalId
             };
+            // 当机构电话输入其他字符时不允许修改
+                // if(!Number(params.telephone) && params.telephone != '') {
+                //     this.$Message.error("请检查机构电话是否输入正确");
+                //     return ""
+                // }
+            // 当联系人电话输入其他字符时不允许修改
+            if(!Number(params.linkmanTelephone) && params.linkmanTelephone != '') {
+                this.$Message.error("请检查联系人电话是否输入正确");
+                return ""
+            }
+            // 判断修改时新值不为空
             if (this.regionProv == "-1" || this.regionCity == "-1") {
                 this.$Message.error("区域不能为空");
             } else if (this.mechanismName == "") {

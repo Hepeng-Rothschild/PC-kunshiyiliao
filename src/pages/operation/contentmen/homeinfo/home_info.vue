@@ -138,23 +138,28 @@
             <!--医院联盟排序-->
             <div class="main_info">
                 <span>医院联盟排序</span>
-                <Input
+                <!-- <Input
                     placeholder="医院联盟排序"
                     style="width:120px;"
                     v-model.trim="hospitalSort"
                     :disabled="hospitalFlag"
-                />
-                <p>备注:只能填写数字,1代表置顶以此类推</p>
+                /> -->
+                <InputNumber :max="99999" :min="1" v-model="hospitalSort" placeholder="医院联盟排序" :disabled="hospitalFlag"
+                style="width:120px;"
+                ></InputNumber>
+                <p>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!-- 预约挂号排序 -->
             <div class="main_info">
                 <span>预约挂号排序</span>
-                <Input
+                <!-- <Input
                     placeholder="预约挂号排序"
                     style="width:120px;"
                     v-model.trim="appointmentRegistration"
-                />
-                 <p>备注:只能填写数字，1代表置顶以此类推</p>
+                /> -->
+                <InputNumber :max="99999" :min="1" v-model="appointmentRegistration" placeholder="预约挂号排序" 
+                style="width:120px;"></InputNumber>
+                <p>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!--是否开通处方流转-->
             <div class="main_yy">
@@ -483,13 +488,11 @@ export default {
             });
 
             let oldStr = [];
-
             id.forEach(item => {
                 oldStr.push(item);
             });
-
+            // 将选中的id列表用","拼接起来
             let selectArr = oldStr.join(",");
-
             // 挂号池为第三方时未添加服务类型 无法保存
             if (this.registerIthirdparty) {
                 if (!Boolean(this.AddserviceList.length)) {
@@ -497,6 +500,12 @@ export default {
                     return "";
                 }
             }
+            // 当机构电话输入其他字符时不允许修改
+            if(!Number(this.y_phone) && this.y_phone != '') {
+                this.$Message.error("请检查机构电话是否输入正确");
+                return ""
+            }
+            // 全部参数
             let params = {
                 hospitalId: this.id,
                 //上级编码
@@ -542,6 +551,7 @@ export default {
                 // 预约挂号服务
                 list: this.AddserviceList
             };
+            // 当医院关闭互联网医院时把appid清空
             if (!this.switch1) {
                 params.appid = null;
             }
@@ -551,7 +561,6 @@ export default {
             } else {
                 localStorage.setItem("doctor", "");
             }
-
 
             this.$axios
                 .post(api.managementEdit, params)
@@ -797,7 +806,11 @@ export default {
                     }
                     // 预约挂号排序
                     console.log(ret.appointmentRegistration)
-                    this.appointmentRegistration = ret.appointmentRegistration
+                    let appointmentRegistration = ret.appointmentRegistration;
+                    if(!Number(appointmentRegistration)) {
+                        appointmentRegistration = ''
+                    }
+                    this.appointmentRegistration = appointmentRegistration
                     // 是否强制用卷
                     this.usedCoupon = Boolean(ret.usedCoupon);
                     // 预约挂号支付

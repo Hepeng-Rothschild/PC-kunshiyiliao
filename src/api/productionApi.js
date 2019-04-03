@@ -260,8 +260,7 @@ const doctorselectdoctorhisid = '/operateapi/doctorselectdoctorhisid'; //查询�
 const doctorupdatedoctorhisid = '/operateapi/doctorupdatedoctorhisid'; //修改医生关联信息hisId
 const doctorselecthisdoctorlist = '/operateapi/doctorselecthisdoctorlist'; //模糊查询医生关联信息hisId列表
 
-
-let productionApi = {
+let testApi = {
     login,
     //字典
     dictionaryList,
@@ -515,6 +514,7 @@ let productionApi = {
 }
 import weixin from './weixinApi';
 for(let key in weixin){
-    productionApi[key] = weixin[key]
+    testApi[key] = weixin[key]
 }
-export default productionApi;
+
+export default testApi;

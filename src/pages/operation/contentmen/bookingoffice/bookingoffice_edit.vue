@@ -190,6 +190,7 @@ export default {
       }
     ];
     this.$emit("changeBreadList", breadList);
+    this.status();
   },
   mounted() {
     let id = this.$route.params;
@@ -229,6 +230,19 @@ export default {
   methods: {
     afterChange(val) {
       this.info.content = val;
+    },
+    status() {
+      let flag = localStorage.getItem("status");
+      if (!Boolean(flag)) {
+        this.$Message.info("您还没有开通互联网医院,去开通");
+        this.flag = true;
+        localStorage.setItem("homeIndex", 0);
+        setTimeout(() => {
+          this.functionJS.paramsNavgationTo(this, "homeInfo", {
+            // 公用方法
+          }); 
+        }, 600);
+      }
     },
     tab(e) {
       let el = e.target;

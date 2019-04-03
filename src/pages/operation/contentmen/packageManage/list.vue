@@ -178,6 +178,7 @@ export default {
                 height: 40px;
                 th {
                     text-align: center;
+                    min-width: 80px;
                 }
             }
         }

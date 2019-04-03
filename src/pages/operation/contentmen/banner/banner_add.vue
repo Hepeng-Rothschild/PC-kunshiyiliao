@@ -3,7 +3,6 @@
   <div class="i_addBanner">
     <tmpHeader/>
     <div class="i_addBanner_main">
-      <!-- <h3>banner信息</h3> -->
       <!--banner名称-->
       <div class="main_title">
         <div class="main_title_info">
@@ -78,7 +77,8 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <Input v-model.trim="isort" placeholder style="width: 100px"/>
+          <!-- <Input v-model.trim="isort" placeholder style="width: 100px"/> -->
+          <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px"></InputNumber>
         </div>
       </div>
       <!--是否显示-->
@@ -87,7 +87,7 @@
           <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
           <span>显示</span>
         </div>
-        <iSwitch v-model.trim="switch1" @on-change="change"/>
+        <iSwitch v-model.trim="switch1" />
       </div>
       <!--保存-->
       <div class="save">
@@ -140,9 +140,6 @@ export default {
     this.$emit("changeBreadList", breadList);
   },
   methods: {
-    change(status) {
-      //              this.$Message.info('开关状态：' + status);
-    },
     back() {
       let pageNo = this.$route.params.pageNo;
       //functionJS公用跳转方法
@@ -163,6 +160,7 @@ export default {
         enable: Number(this.switch1),
         imageUrl: images
       };
+      console.log(params)
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
