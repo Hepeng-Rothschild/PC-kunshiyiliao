@@ -1,7 +1,39 @@
 <template>
     <div class="broadAdd">
+        <!-- 头部数据 -->
+        <header>
+            <div class = 'headerTitle'>
+                <h2>直播数据</h2>
+                <span>直播完成回来查看具体数据</span>
+            </div>
+            <div class = 'liveList'>
+                <div class = 'liveTime'>
+                    <img src="http://pic3.nipic.com/20090527/1242397_102231006_2.jpg" alt="">
+                    <div class = 'liveDate'>
+                        <span>直播时长</span>
+                        <span>暂无数据</span>
+                    </div>
+                </div>
+                <div class = 'liveTime'>
+                    <img src="http://pic3.nipic.com/20090527/1242397_102231006_2.jpg" alt="">
+                    <div class = 'liveDate'>
+                        <span>观看人次</span>
+                        <span>暂无数据</span>
+                    </div>
+                </div>
+                <div class = 'liveTime'>
+                    <img src="http://pic3.nipic.com/20090527/1242397_102231006_2.jpg" alt="">
+                    <div class = 'liveDate'>
+                        <span>关注人次</span>
+                        <span>暂无数据</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <h2 style='border-bottom:1px solid #ddd;padding:10px 30px;background:#fff;'>直播信息</h2>
+        <!-- 直播信息 -->
         <div class="val">
-           <h2>编辑直播</h2>
+          
             <!-- 直播标题 -->
             <div class = 'spacing'>直播标题
                 <Input v-model="params.title" placeholder="请输入直播标题" style="width: 300px"/>
@@ -422,10 +454,49 @@ export default {
 }
 .broadAdd {
     width: calc(100% - 20px);
-    padding: 10px 30px;
     margin: 0 auto;
-    background: #fff;
+    header{
+        display:flex;
+        flex-direction:column;
+        padding: 10px 30px;
+        margin:10px 0;
+        background: #fff;
+        .headerTitle{
+            display:flex;
+            flex-direction: row;
+            align-items:center;
+            user-select:none;
+            span{
+                margin-left:30px;
+            }
+        }
+        .liveList{
+            display:flex;
+            flex-direction:row;
+            .liveTime{
+                display:flex;
+                max-width:300px;
+                flex-direction:row;
+                align-items:center;
+                padding:10px;
+                margin:0 20px;
+                img{
+                    border-radius:50%;
+                    width:75px;
+                    height: 75px;
+                }
+                .liveDate{
+                    display:flex;
+                    flex-direction: column;
+                    margin-left:14px;
+                    align-items:center;
+                }
+            }
+        }
+    }
     .val {
+        padding: 10px 30px;
+        background:#fff;
         .spacing {
             margin: 6px 0;
         }

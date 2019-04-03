@@ -87,7 +87,8 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <Input v-model.trim="isort" style="width: 100px"/>
+        <!-- <Input v-model.trim="isort" style="width: 100px"/> -->
+        <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--是否显示-->

@@ -77,7 +77,8 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <Input v-model.trim="isort" placeholder="无" style="width: 100px"/>
+          <!-- <Input v-model.trim="isort" placeholder="无" style="width: 100px"/> -->
+          <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         </div>
       </div>
       <!--是否显示-->
@@ -171,6 +172,7 @@ export default {
         enable: Number(this.switch1),
         imageUrl: images
       };
+      console.log(params)
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {
