@@ -77,7 +77,6 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <!-- <Input v-model.trim="isort" placeholder style="width: 100px"/> -->
           <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px"></InputNumber>
         </div>
       </div>
@@ -99,6 +98,7 @@
 </template>
 
 <script>
+// 机构banner管理
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import code from "@/configs/base.js";
 import api from "@/api/commonApi";
@@ -154,7 +154,7 @@ export default {
       }
       let params = {
         hospitalId: this.id,
-        bannerName: this.title,
+        bannerName: this.title.trim(),
         bannerUrl: this.lianjie,
         priority: this.isort,
         enable: Number(this.switch1),

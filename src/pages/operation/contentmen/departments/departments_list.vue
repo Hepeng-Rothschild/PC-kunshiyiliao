@@ -122,7 +122,7 @@ export default {
           pageSize: 10
         }
         if (val != '') {
-          params.searchKey = val
+          params.searchKey = val.trim()
         }
       this.$axios
         .post(api.tesekeshi, params)

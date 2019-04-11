@@ -4,15 +4,6 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <!-- <ul class="allList" @click="tab" v-for="item in tablsList">
-          <li>
-            <span>+</span>
-            {{ item.name }}
-          </li>
-          <ul class="oneList">
-            <li v-for="items in item.child" @click="changes(items)">{{ items.childDept }}</li>
-          </ul>
-        </ul>-->
         <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
@@ -34,15 +25,6 @@
           </div>
           <Input v-model.trim="keshiname" style="width: 300px" placeholder="例：门诊楼2楼1-7诊室"/>
         </div>
-        <!--科室编码-->
-        <!-- <div class="keshi_name">
-          <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-            <span>科室编码</span>
-          </div>
-          <Input v-model.trim="code" style="width: 300px" placeholder="请输入科室编码"/>
-        </div> -->
-        <!--科室图标-->
         <div class="keshi_name_fileImgs">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
@@ -132,6 +114,7 @@
 </template>
 
 <script>
+// 预约科室
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Tree } from "iview";
 import code from "@/configs/base.js";
@@ -228,6 +211,7 @@ export default {
       });
   },
   methods: {
+    // 富文本编辑器
     afterChange(val) {
       this.info.content = val;
     },
@@ -243,28 +227,6 @@ export default {
           }); 
         }, 600);
       }
-    },
-    tab(e) {
-      let el = e.target;
-      let chilrens = el.parentNode.getElementsByTagName("ul");
-      let ref = this.$refs.oneList;
-      if (chilrens.length > 0) {
-        let flag = chilrens[0].style.display;
-        if (flag == "" || flag == "none") {
-          chilrens[0].style.display = "block";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "-";
-        } else {
-          chilrens[0].style.display = "none";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "+";
-        }
-      }
-      let ichildren = ref.getElementsByTagName("li");
-      for (let i = 0; i < ichildren.length; i++) {
-        ichildren[i].classList.remove("active");
-        if (ichildren[i].localName) {
-        }
-      }
-      el.classList.add("active");
     },
     back() {
       let pageNo = this.$route.params.pageNo;
@@ -411,8 +373,6 @@ export default {
             // 排序
             this.isort = ret.priority || 0;
             
-            // 科室code
-            // this.code = ret.code
           }
         });
     }

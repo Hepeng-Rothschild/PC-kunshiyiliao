@@ -271,7 +271,7 @@ export default {
             var params = {};
             params.dept = this.deptKey;
             params.title = this.dictType;
-            params.doctorName = this.searchKey;
+            params.doctorName = this.searchKey.trim();
             params.hospitalName = "";
             params.provinceCode = this.province ? this.province : null;
             params.cityCode = this.city ? this.city : null;

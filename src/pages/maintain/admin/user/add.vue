@@ -488,11 +488,11 @@ export default {
             }
             let params = {
                 // 账号
-                userName: this.text,
+                userName: this.text.trim(),
                 //密码
-                passWord: this.pass,
+                passWord: this.pass.trim(),
                 // 用户昵称
-                nickName: this.niceName,
+                nickName: this.niceName.trim(),
                 status: Number(this.switch1),
                 // 用户头像
                 userIcon: images,

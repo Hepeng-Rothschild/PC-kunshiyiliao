@@ -4,19 +4,6 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <!-- <ul class="allList" @click.stop="tab" v-for="item,index in list">
-          <li>
-            <span>+</span>
-            {{ item.parent.name }}
-          </li>
-          <ul class="oneList">
-            <li
-              v-for="items,index in item.sub"
-              @click.stop="tab"
-              :data-id="items.id"
-            >{{ items.childDept }}</li>
-          </ul>
-        </ul>-->
         <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
@@ -192,35 +179,6 @@ export default {
     };
   },
   methods: {
-    // 树
-    tab(e) {
-      let el = e.target;
-      let chilrens = el.parentNode.getElementsByTagName("ul");
-      let ref = this.$refs.oneList;
-      if (chilrens.length > 0) {
-        let flag = chilrens[0].style.display;
-        if (flag == "" || flag == "none") {
-          chilrens[0].style.display = "block";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "-";
-        } else {
-          chilrens[0].style.display = "none";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "+";
-        }
-      }
-
-      let ichildren = ref.getElementsByTagName("li");
-      for (let i = 0; i < ichildren.length; i++) {
-        ichildren[i].classList.remove("active");
-        if (ichildren[i].localName) {
-        }
-      }
-      let id = el.getAttribute("data-id");
-      if (id) {
-        this.currentId = id;
-        this.getRightData(this.currentId);
-      }
-      el.classList.add("active");
-    },
     // 后退
     back() {
       let pageNo = this.$route.params.pageNo;

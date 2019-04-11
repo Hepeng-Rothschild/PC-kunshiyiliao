@@ -298,7 +298,7 @@ export default {
             params.areaId = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
 
-            params.searchKey = this.searchKey == "" ? null : this.searchKey;
+            params.searchKey = this.searchKey.trim() == "" ? null : this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log("服务项 params", params);

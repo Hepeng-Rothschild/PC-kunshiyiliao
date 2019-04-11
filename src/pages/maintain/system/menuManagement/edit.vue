@@ -388,7 +388,7 @@ export default {
       this.ppageNo = pageNo;
       //查询所有接口权限
       let params = {};
-      params.searchKey = this.mSearchKey;
+      params.searchKey = this.mSearchKey.trim();
       params.pageNo = this.ppageNo;
       params.pageSize = this.ppageSize;
       this.$axios
@@ -443,8 +443,8 @@ export default {
           }
           subMitObj.id = this.info.id ? parseInt(this.info.id) : null;
           subMitObj.ids = this.ids;
-          subMitObj.menuName = this.info.menuName;
-          subMitObj.remark = this.info.remark;
+          subMitObj.menuName = this.info.menuName.trim();
+          subMitObj.remark = this.info.remark.trim();
           subMitObj.function = this.info.function;
           subMitObj.path = this.info.path;
           subMitObj.level = this.info.level;

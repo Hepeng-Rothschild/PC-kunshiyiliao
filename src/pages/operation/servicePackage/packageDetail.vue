@@ -688,7 +688,7 @@ export default {
             } else {
                 params.hospitalId = null;
             }
-            params.searchKey = this.searchKey == "" ? null : this.searchKey;
+            params.searchKey = this.searchKey.trim() == "" ? null : this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios
@@ -759,7 +759,7 @@ export default {
                     let msg = this.id ? "修改" : "添加";
                     let params = {};
                     params.id = this.id ? this.id : null;
-                    params.itemName = this.info.itemName;
+                    params.itemName = this.info.itemName.trim();
                     params.packagestatus = parseInt(this.info.packagestatus);
                     params.ascription = parseInt(this.info.ascription);
                     params.hospitalId =

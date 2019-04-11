@@ -28,31 +28,30 @@ axios.defaults.withCredentials = false;
 axios.interceptors.request.use(
 	config => {
 		if (store.state.env == "production" || store.state.env == "test") {
-			let RegObj = new RegExp('(operate/login)|(filemd5)','ig');
+			let RegObj = new RegExp('(operate/login)|(filemd5)', 'ig');
 
-			let fileObj = new RegExp("uploadfiles",'ig')
+			let fileObj = new RegExp("uploadfiles", 'ig')
 
-			if(!RegObj.test(config.url)){
-				
-				if(!fileObj.test(config.url)) {
+			if (!RegObj.test(config.url)) {
+				if (!fileObj.test(config.url)) {
 					let iv = store.state.iv;
 					let salt = store.state.salt;
 					let key = cookie.getCookie("randmId");
-					let access_user = aesUtils.decrypt(salt,iv,key,cookie.getCookie("access_user"));
+					let access_user = aesUtils.decrypt(salt, iv, key, cookie.getCookie("access_user"));
 					config.headers["OPERATE-USER"] = access_user;
 					config.headers["FORM-ENCODE"] = 1;
 					let tdata = JSON.stringify(config.data);
-					tdata = aesUtils.encrypt(salt,iv,key,tdata);
-					config.data = {data:tdata};
+					tdata = aesUtils.encrypt(salt, iv, key, tdata);
+					config.data = { data: tdata };
 				}
-				
+
 			}
-			
+
 			let access_token = window.localStorage.getItem('access_token');
 			if (access_token != undefined)
 				config.headers.Authorization = "Bearer " + access_token;
-			}
-			// console.log("发送的所有数据",config);
+		}
+		// console.log("发送的所有数据",config);
 		return config;
 	},
 	err => {
@@ -71,11 +70,11 @@ axios.interceptors.response.use(
 		let salt = store.state.salt;
 		let key = cookie.getCookie("randmId");
 		let url = response.config.url;
-		let RegObj = new RegExp('operate/login','ig');
-		if(!RegObj.test(url) && response.data.encryption){
+		let RegObj = new RegExp('operate/login', 'ig');
+		if (!RegObj.test(url) && response.data.encryption) {
 			let tmpData = response.data.object;
-			if(tmpData){
-				response.data.object = JSON.parse(aesUtils.decrypt(salt,iv,key,tmpData));
+			if (tmpData) {
+				response.data.object = JSON.parse(aesUtils.decrypt(salt, iv, key, tmpData));
 			}
 		}
 		// console.log("返回的数据:::",response);

@@ -87,7 +87,7 @@ export default {
                 this.verifyCode.refresh();
                 return;
             }
-            if (!this.username || !this.password) {
+            if (!this.username.trim() || !this.password.trim()) {
                 this.noticeClassColor = "alert-color";
                 this.iconClass = "alert-icon";
                 this.iconText = "!";
@@ -100,7 +100,7 @@ export default {
                 this.alertMsg = "输入正确，登陆中...";
             }
             let params =
-                "username=" + this.username + "&password=" + this.password;
+                "username=" + this.username.trim() + "&password=" + this.password.trim();
 
             if (this.loginFlag) {
                 this.loginFlag = false;

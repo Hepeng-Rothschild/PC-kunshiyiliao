@@ -121,7 +121,7 @@ export default {
         appid: this.appid
       };
       if (val != "") {
-        params.searchKey = val;
+        params.searchKey = val.trim();
       }
       this.$axios.post(api.wxBannerList, params).then(res => {
         if (res.data.code) {
