@@ -4,15 +4,6 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <!-- <ul class="allList" @click="tab" v-for="item,index in departmentsList">
-          <li>
-            <span>+</span>
-            {{ item.name}}
-          </li>
-          <ul class="oneList">
-            <li v-for="items,indexs in item.child" :data-id="items.id">{{ items.childDept }}</li>
-          </ul>
-        </ul> -->
         <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
@@ -21,7 +12,7 @@
         <!--科室名称-->
         <div class="keshi_name">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
           <Input disabled v-model.trim="title" style="width: 300px"/>
@@ -40,7 +31,6 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
-          <!-- <textarea name rows cols v-model="test1"></textarea> -->
           <Input v-model="test1" type="textarea" :rows="6" placeholder="请输入科室简介" style='width:350px;'/>
         </div>
         <!--排序-->
@@ -145,30 +135,7 @@ export default {
       });
   },
   methods: {
-    tab(e) {
-      let el = e.target;
-      let chilrens = el.parentNode.getElementsByTagName("ul");
-      let ref = this.$refs.oneList;
-      if (chilrens.length > 0) {
-        let flag = chilrens[0].style.display;
-        if (flag == "" || flag == "none") {
-          chilrens[0].style.display = "block";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "-";
-        } else {
-          chilrens[0].style.display = "none";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "+";
-        }
-      }
-      let ichildren = ref.getElementsByTagName("li");
-      for (let i = 0; i < ichildren.length; i++) {
-        ichildren[i].classList.remove("active");
-      }
-      el.classList.add("active");
-      let dataId = el.getAttribute("data-id");
-      if (dataId) {
-        this.getDepartmentsData(dataId);
-      }
-    },
+    // 返回
     back() {
       let pageNo = this.$route.params.pageNo;
       this.functionJS.paramsNavgationTo(this, "tKeshi", {
@@ -176,6 +143,7 @@ export default {
         pageNo
       });
     },
+    // 保存
     save() {
       let params = {
         //   别名
@@ -209,6 +177,7 @@ export default {
           console.log(err);
         });
     },
+    // 获取科室信息
     getDepartmentsData(id) {
       this.currentId = id;
       this.$axios

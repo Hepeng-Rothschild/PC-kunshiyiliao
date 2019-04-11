@@ -116,6 +116,7 @@ export default {
         border-top: 1px solid #ddd;
         height: 40px;
         th {
+          min-width:100px;
           text-align: center;
         }
       }

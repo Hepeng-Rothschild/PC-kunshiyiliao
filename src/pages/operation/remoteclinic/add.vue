@@ -54,7 +54,7 @@
             <!-- 医事服务费 -->
             <div class="item">
                 <div class="item-text">
-                    <span style="color:red;"></span>
+                    <span style="color:red;">&nbsp;</span>
                     <p>医事服务费</p>
                 </div>
                 <p>{{ money }}元</p>
@@ -591,14 +591,11 @@ export default {
             table {
                 width: 100%;
                 border: 1px solid #ddd;
-                tr:nth-child(odd) {
-                    background: #f8f8f9;
-                }
-                tr:nth-child(even) {
-                    background: #fff;
-                }
                 tr:not(:first-child):hover {
                     background: #ebf7ff;
+                }
+                tr:first-child{
+                    background: #f8f8f9;
                 }
                 tr {
                     border-top: 1px solid #ddd;
