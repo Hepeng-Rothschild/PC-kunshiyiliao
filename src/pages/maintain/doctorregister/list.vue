@@ -137,11 +137,19 @@ export default {
         },
         // 显示简介
         simple(item) {
+            if(!Boolean(item.personalIntroduction)){
+                this.$Message.info("暂无医生简介")
+                return ""
+            }
             this.modal1 = true;
             this.path = item.personalIntroduction;
         },
         // 显示特长
         simples(item) {
+            if(!Boolean(item.doctorGood)){
+                this.$Message.info("暂无医生特长")
+                return ""
+            }
             this.modal1 = true;
             this.path = item.doctorGood;
         },
@@ -220,6 +228,7 @@ export default {
                     border-top: 1px solid #ddd;
                     height: 40px;
                     th {
+                        min-width:60px;
                         text-align: center;
                     }
                     th.one {

@@ -669,6 +669,7 @@ export default {
             // console.log('thirdList::',this.thirdList);
             return res;
         },
+        // 上传图片相关事件
         handleView(name) {
             this.imgName = name;
             this.visible = true;

@@ -37,7 +37,7 @@
                 <th>操作</th>
             </tr>
             <tr v-for="(item,index) in tableList" :key="index" v-show="tableList.length">
-                <th>{{ addZero(index) }}</th>
+                <th>{{ addZeros(index) }}</th>
                 <th>{{ item.provinceName }}</th>
                 <th>{{ item.orgName }}</th>
                 <th>{{ item.linkman }}</th>
@@ -114,6 +114,7 @@ export default {
         changeHospital(val) {
             this.hospital = val;
         },
+        // 获取医院列表
         getDate(pageNo, val) {
             let params = {
                 pageNo,
@@ -163,13 +164,6 @@ export default {
         },
         search() {
             this.getDate(1, this.val);
-        },
-        addZero(num) {
-            num = num + 1;
-            if (num < 10) {
-                return "0" + num;
-            }
-            return num;
         }
     }
 };
@@ -209,6 +203,7 @@ export default {
             border-top: 1px solid #ddd;
             height: 40px;
             th {
+                min-width:40px;
                 text-align: center;
                 span {
                     cursor: pointer;
