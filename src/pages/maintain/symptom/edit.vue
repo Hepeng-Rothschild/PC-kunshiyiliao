@@ -99,7 +99,7 @@ export default {
                       operateApi = api.insertSymptom;
                     }
                     subMitObj.id = parseInt(this.info.id);
-                    subMitObj.symptom = this.info.symptom;
+                    subMitObj.symptom = this.info.symptom.trim();
                     subMitObj.gender = this.info.gender;
                     this.$axios
                         .post(operateApi, subMitObj)

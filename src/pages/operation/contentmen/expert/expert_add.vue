@@ -225,7 +225,7 @@ export default {
       this.$axios
         .post(api.expertadd, {
           hospitalId: this.id,
-          doctorName: this.name,
+          doctorName: this.name.trim(),
           pageNo: 1,
           pageSize: 10
         })

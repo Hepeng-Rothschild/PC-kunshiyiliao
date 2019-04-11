@@ -154,7 +154,7 @@ export default {
       }
       let params = {
         hospitalId: this.id,
-        bannerName: this.title,
+        bannerName: this.title.trim(),
         bannerUrl: this.lianjie,
         priority: this.isort,
         enable: Number(this.switch1),

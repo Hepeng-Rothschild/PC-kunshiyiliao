@@ -252,7 +252,7 @@ export default {
             params.startTime = startDate;
             // params.startTime = "2018-11-01";
             params.endTime = endDate;
-            params.searchKey = this.searchKey ? this.searchKey : null;
+            params.searchKey = this.searchKey.trim() ? this.searchKey.trim() : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log("预约挂号订单 params", params);

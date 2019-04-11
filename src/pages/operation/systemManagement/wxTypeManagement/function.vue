@@ -94,7 +94,7 @@ export default {
     add() {
       let params = this.params;
       if (
-        !params.menuName ||
+        !params.menuName.trim() ||
         !params.function ||
         !params.priority ||
         !params.menuicon

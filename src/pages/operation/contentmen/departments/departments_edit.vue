@@ -179,9 +179,9 @@ export default {
     save() {
       let params = {
         //   别名
-        deptNickname: this.keshiname,
+        deptNickname: this.keshiname.trim(),
         //详情
-        departmentdes: this.test1,
+        departmentdes: this.test1.trim(),
         //排序
         priority: this.isort,
         //显示

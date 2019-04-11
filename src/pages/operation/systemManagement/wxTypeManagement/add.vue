@@ -87,7 +87,7 @@ export default {
     add() {
       let params = this.params;
       params.shortcut = Number(this.shortcut);
-      if (!params.menuName || !params.function) {
+      if (!params.menuName.trim() || !params.function) {
         this.$Message.info("请完整填写必填项");
       } else {
         this.$axios.post(api.systemManagementAdd, params).then(res => {

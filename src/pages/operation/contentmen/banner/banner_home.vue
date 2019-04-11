@@ -120,7 +120,7 @@ export default {
         pageSize: 10
       };
       if (val != "") {
-        params.bannerName = val;
+        params.bannerName = val.trim();
       }
       this.$axios.post(api.bannerHome, params).then(res => {
         if (res.data.code) {

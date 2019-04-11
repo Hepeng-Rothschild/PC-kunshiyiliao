@@ -309,9 +309,9 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            params.title = this.dictType;
+            params.title = this.dictType.trim();
             params.authStatus = this.authStatus;
-            params.name = this.searchKey;
+            params.name = this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log(params);

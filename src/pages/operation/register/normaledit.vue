@@ -518,7 +518,7 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.searchKey = this.doctorKey;
+            params.searchKey = this.doctorKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios

@@ -529,7 +529,7 @@ export default {
                 .post(api.doctorRomteclinicSearchExpert, {
                     pageNo: this.expertNo,
                     pageSize: 10,
-                    searchKey: this.searchName,
+                    searchKey: this.searchName.trim(),
                     iremote: 1
                 })
                 .then(res => {

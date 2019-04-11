@@ -251,19 +251,19 @@ export default {
                 //县
                 // districtCode: this.regionCounty,
                 //机构全称
-                orgName: this.mechanismName,
+                orgName: this.mechanismName.trim(),
                 //机构代码
-                orgCode: this.mechanismCode,
+                orgCode: this.mechanismCode.trim(),
                 //机构类型
                 hospitalType: this.mechanismType1,
                 //机构等级
                 grade: this.mechanismGrade,
                 //联系人
-                linkman: this.Contacts,
+                linkman: this.Contacts.trim(),
                 //联系人电话
-                linkmanTelephone: this.phone,
+                linkmanTelephone: this.phone.trim(),
                 // 地址
-                hosAddr: this.hosAddr,
+                hosAddr: this.hosAddr.trim(),
                 // 医院Id
                 id: this.hospitalId
             };

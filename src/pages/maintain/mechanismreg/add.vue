@@ -221,11 +221,11 @@ export default {
         //县
         districtCode: this.regionCounty,
         //详细地址
-        hosAddr: this.address,
+        hosAddr: this.address.trim(),
         //机构名称
-        orgName: this.mechanismName,
+        orgName: this.mechanismName.trim(),
         //机构组织代码
-        orgCode: this.mechanismCode,
+        orgCode: this.mechanismCode.trim(),
         // appid: this.mechanismCode,
         //机构类型
         hospitalType: this.mechanismType1,
@@ -234,11 +234,11 @@ export default {
         //机构等级
         grade: this.mechanismGrade,
         //机构电话
-        telephone: this.mechanismPhone,
+        telephone: this.mechanismPhone.trim(),
         //联系人
-        linkman: this.Contacts,
+        linkman: this.Contacts.trim(),
         //联系人电话
-        linkmanTelephone: this.phone
+        linkmanTelephone: this.phone.trim()
       };
       // 当机构电话输入其他字符时不允许修改
       if(!Number(params.telephone) && params.telephone != '') {

@@ -335,8 +335,8 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            if (searchKey != "") {
-                params.searchKey = searchKey;
+            if (searchKey.trim() != "") {
+                params.searchKey = searchKey.trim();
             }
             console.log("家庭医生签约 params", params);
             this.$axios.post(api.doctorRomteclinicList, params).then(res => {

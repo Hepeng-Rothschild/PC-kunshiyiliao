@@ -256,7 +256,7 @@ export default {
         hospitalId: this.id,
         priority: this.isort,
         source: this.isource,
-        title: this.title,
+        title: this.title.trim(),
         id: this.$route.params.id
       };
       params.newsHeadlines = images;

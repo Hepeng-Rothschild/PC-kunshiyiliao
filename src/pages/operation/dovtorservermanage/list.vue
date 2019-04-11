@@ -424,7 +424,7 @@ export default {
         hLoadPage(pageNo) {
             this.hPageNo = pageNo;
             let params = {};
-            params.searchKey = this.hSearchKey;
+            params.searchKey = this.hSearchKey.trim();
             params.pageNo = this.hPageNo;
             params.pageSize = this.hPageSize;
             this.$axios
@@ -500,7 +500,7 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            params.searchKey = this.searchKey;
+            params.searchKey = this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log("params",params)

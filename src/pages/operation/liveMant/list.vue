@@ -427,7 +427,7 @@ export default {
                 .post(api.lecturedemandpage, {
                     pageNo: params.pageNo,
                     pageSize: params.pageSize,
-                    searchKey: params.searchKey
+                    searchKey: params.searchKey.trim()
                 })
                 .then(resp => {
                     if (resp.data.success) {

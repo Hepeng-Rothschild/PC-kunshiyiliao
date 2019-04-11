@@ -13,8 +13,9 @@ module.exports = {
     proxyTable: {
       '/operateapi': {
         changeOrigin: true,
-        target: 'http://172.18.2.37:8711', //后台反向代理到的地址比如swigger地址
+        // target: 'http://172.18.2.37:8711', //后台反向代理到的地址比如swigger地址
         // target: 'https://www.gohealth.com.cn', //后台反向代理到的地址
+        target: 'http://test.gohealth.com.cn', //后台反向代理到的地址
         pathRewrite: {
           '^operateapi': ''
         }
@@ -22,7 +23,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: '172.18.1.250', // can be overwritten by process.env.HOST
+    host: '172.18.2.199', // can be overwritten by process.env.HOST
 //		host:'localhost',
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,

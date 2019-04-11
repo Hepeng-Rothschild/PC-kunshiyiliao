@@ -293,7 +293,7 @@ export default {
             params.areaId = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
 
-            params.itemName = this.itemName ? this.itemName : null;
+            params.itemName = this.itemName.trim() ? this.itemName.trim() : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log("服务包 params", params);

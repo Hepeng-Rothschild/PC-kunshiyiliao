@@ -403,11 +403,11 @@ export default {
       let params = {
         id,
         // 账号
-        userName: this.text,
+        userName: this.text.trim(),
         //密码
-        passWord: this.pass,
+        passWord: this.pass.trim(),
         // 用户昵称
-        nickName: this.niceName,
+        nickName: this.niceName.trim(),
         // 状态
         status: Number(this.switch1),
         // 用户头像

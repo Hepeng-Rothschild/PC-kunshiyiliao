@@ -316,7 +316,7 @@ export default {
             // 医生id
             params.doctorId = this.selectExpert.doctorId;
             // 医生姓名
-            params.doctorName = this.selectExpert.deptName;
+            params.doctorName = this.selectExpert.deptName.trim();
             // 医生科室
             params.deptName = this.selectExpert.deptName;
             // 医院ID

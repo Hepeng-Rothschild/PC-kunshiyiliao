@@ -152,7 +152,7 @@ export default {
                 pageSize: 10
             };
             if (this.Name != "") {
-                params.searchKey = this.Name;
+                params.searchKey = this.Name.trim();
             }
             params.provinceCode = this.province ? this.province : null;
             params.cityCode = this.city ? this.city : null;

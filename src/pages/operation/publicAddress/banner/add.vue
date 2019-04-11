@@ -164,7 +164,7 @@ export default {
       }
       let params = {
         appid: this.id,
-        bannerName: this.title,
+        bannerName: this.title.trim(),
         bannerUrl: this.lianjie,
         priority: this.isort,
         enable: Number(this.switch1),

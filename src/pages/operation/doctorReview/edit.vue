@@ -405,11 +405,11 @@ export default {
             this.checkStatus = false;
             let subMitObj = {};
             subMitObj.id = parseInt(this.info.id);
-            subMitObj.name = this.info.name;
+            subMitObj.name = this.info.name.trim();
             subMitObj.hospitalId = String(this.info.hospitalId);
             subMitObj.phone = this.info.phone;
             subMitObj.deptType = this.info.deptTypeId;
-            subMitObj.title = this.info.titleType;
+            subMitObj.title = this.info.titleType.trim();
             subMitObj.docIcon = this.info.docIcon;
             subMitObj.personalIntroduction = this.info.personalIntroduction;
             subMitObj.gender = parseInt(this.info.gender);

@@ -170,7 +170,7 @@ export default {
 
       let params = {
         appid: this.id,
-        bannerName: this.title,
+        bannerName: this.title.trim(),
         bannerUrl: this.lianjie,
         priority: this.isort,
         id: this.$route.query.id,

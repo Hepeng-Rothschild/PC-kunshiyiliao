@@ -133,7 +133,7 @@ export default {
         pageSize: 10
       };
       if (val != "") {
-        params.doctorName = val;
+        params.doctorName = val.trim();
       }
       this.$axios
         .post(api.zj, params)
