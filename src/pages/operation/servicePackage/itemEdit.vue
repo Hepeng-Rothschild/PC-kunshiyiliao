@@ -363,7 +363,7 @@ export default {
                 },
                 {
                     value:1,
-                    title:"慢病管理"
+                    title:"随访表单"
                 },
                 {
                     value:2,
