@@ -186,16 +186,37 @@
                 <span class="main_yy_name">预约挂号支付</span>
                 <iSwitch v-model="registerPayStatus"/>
             </div>
+            <!-- lis数据查询 -->
+            <div class="main_yy">
+                <span class="main_yy_name">lis数据查询</span>
+                <CheckboxGroup v-model="lisPattern" @on-change='lisPatternChange'>
+                    <Checkbox
+                        v-for="item,index in lisPatternList"
+                        :key="index"
+                        :label="item.id"
+                    >{{item.name}}</Checkbox>
+                </CheckboxGroup>
+            </div>
+            <!-- pace数据查询 pacePattern-->
+            <div class="main_yy">
+                <span class="main_yy_name">pacs数据查询</span>
+                <CheckboxGroup v-model="pacePattern" >
+                     <Checkbox
+                        v-for="item,index in pacePatternList"
+                        :key="index"
+                        :label="item.id"
+                    >{{item.name}}</Checkbox>
+                </CheckboxGroup>
+            </div>
             <!-- 预约挂号卡模式 -->
             <div class="main_yy">
                 <span class="main_yy_name">预约挂号卡模式</span>
-                <CheckboxGroup v-model="registerPatternValue" @on-change="checkBoxChange">
+                <CheckboxGroup v-model="registerPatternValue" >
                     <Checkbox
-                        v-model="item.status"
                         v-for="item,index in registerPatternList"
                         :key="index"
-                        :label="item.name"
-                    ></Checkbox>
+                        :label="item.id"
+                    >{{item.name}}</Checkbox>
                 </CheckboxGroup>
             </div>
             <!-- 预约挂号池是否为第三方 -->
@@ -297,6 +318,7 @@
                     </div>
                 </div>
             </div>
+            
             <!--保存-->
             <div class="main_save">
                 <Button type="primary" @click="save">保存</Button>
@@ -364,7 +386,6 @@ export default {
                     disabled: false
                 }
             ],
-            serviceTypeSelect: [],
             // 模态框显示与否
             registerFlag: false,
             // 添加服务列表
@@ -388,6 +409,12 @@ export default {
             requestVal: "",
             // 是否启用
             enable: false,
+            // lis数据查询
+            lisPattern:[],
+            lisPatternList:[],
+            // pace数据查询
+            pacePattern:[],
+            pacePatternList:[],
             // 机构等级
             y_type: 6001,
             // 背景模板
@@ -431,6 +458,9 @@ export default {
         };
     },
     methods: {
+        lisPatternChange (arr) {
+            console.log(arr)
+        },
         // 机构简介
         afterChange(val) {
             this.info.content = val;
@@ -454,10 +484,6 @@ export default {
                 this.hospitalFlag = true;
             }
         },
-        // 多选框选中时获取ID
-        checkBoxChange(arr) {
-            this.serviceTypeSelect = arr;
-        },
         // 当服务类型未选择不显示modal
         addManagement() {
             if (!Boolean(this.serviceTypeValue)) {
@@ -465,6 +491,13 @@ export default {
                 return "";
             }
             this.registerFlag = true;
+        },
+        // 计算数组中数据不为空时返回空字符串
+        computedLis (arr) {
+            if (arr.length != 0) {
+               return arr.join(",")
+            }
+            return ""
         },
         // 医院修改完成
         save() {
@@ -476,23 +509,13 @@ export default {
             } else {
                 images = "";
             }
+            // lisPattern数据查询
+            let lisPattern = this.computedLis(this.lisPattern);
+            // pacsPattern数据查询
+            let pacsPattern = this.computedLis(this.pacePattern);
 
-            // 多选框选中时获取ID
-            let id = new Set();
-            this.registerPatternList.forEach((item, index) => {
-                this.registerPatternValue.forEach((i, s) => {
-                    if (item.name == i) {
-                        id.add(item.id);
-                    }
-                });
-            });
-
-            let oldStr = [];
-            id.forEach(item => {
-                oldStr.push(item);
-            });
-            // 将选中的id列表用","拼接起来
-            let selectArr = oldStr.join(",");
+            // registerPatternValue预约挂号卡模式
+            let selectArr = this.computedLis(this.registerPatternValue);
             // 挂号池为第三方时未添加服务类型 无法保存
             if (this.registerIthirdparty) {
                 if (!Boolean(this.AddserviceList.length)) {
@@ -549,8 +572,13 @@ export default {
                 // 预约挂号池是否为第三方
                 registerIthirdparty: Number(this.registerIthirdparty),
                 // 预约挂号服务
-                list: this.AddserviceList
+                list: this.AddserviceList,
+                // lisPattern数据查询
+                lisPattern,
+                // pacsPattern数据查询
+                pacsPattern
             };
+            console.log(params);
             // 当医院关闭互联网医院时把appid清空
             if (!this.switch1) {
                 params.appid = null;
@@ -806,7 +834,6 @@ export default {
                         localStorage.setItem("doctor", "");
                     }
                     // 预约挂号排序
-                    console.log(ret.appointmentRegistration)
                     let appointmentRegistration = ret.appointmentRegistration;
                     if(!Number(appointmentRegistration)) {
                         appointmentRegistration = ''
@@ -822,30 +849,24 @@ export default {
                     this.y_uid = ret.prescriptionId;
 
                     // 预约挂号卡模式
-                    this.serviceTypeSelect = ret.registerPattern;
+                    // registerPatternValue  选中值
+                    this.registerPatternValue = ret.registerPattern ? ret.registerPattern.split(",") : [];
+                    // registerPatternList  所有值
+                    this.registerPatternList = ret.listMap;
 
-                    if (Boolean(this.serviceTypeSelect)) {
-                        let status = this.serviceTypeSelect.split(",");
-                        ret.patternListMap.forEach((item, index) => {
-                            status.forEach(items => {
-                                if (items == item.id) {
-                                    item.status = true;
-                                    this.registerPatternValue.push(item.name);
-                                } else {
-                                    item.status = false;
-                                }
-                            });
-                        });
-                    } else {
-                        ret.patternListMap.forEach((item, index) => {
-                            item.status = false;
-                        });
-                    }
+                    // lisPatternList列表查询
+                    this.lisPatternList = ret.listMap
+                    // lisPattern选中查询
+                    this.lisPattern = ret.lisPattern ? ret.lisPattern.split(",") : []
 
-                    this.registerPatternList = ret.patternListMap;
+                    // pacePatternList列表查询
+                    this.pacePatternList = ret.listMap
+                    // pacePattern选中查询
+                    this.pacePattern = ret.pacsPattern ? ret.pacsPattern.split(",") : []
 
                     // 预约挂号池是否为第三方
                     this.registerIthirdparty = Boolean(ret.registerIthirdparty);
+
                     // 第三方厂家
                     this.thirdList = ret.thirdpartyListMap;
                     this.thirdList.map((el)=>{
