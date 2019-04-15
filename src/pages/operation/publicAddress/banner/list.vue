@@ -120,7 +120,7 @@ export default {
         pageSize: this.pageSize,
         appid: this.appid
       };
-      if (val != "") {
+      if (Boolean(val)) {
         params.searchKey = val.trim();
       }
       this.$axios.post(api.wxBannerList, params).then(res => {

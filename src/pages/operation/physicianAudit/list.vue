@@ -151,7 +151,7 @@ export default {
                 .post(api.lecturedemandpagebyexaminelist, {
                     pageNo: params.pageNo,
                     pageSize: params.pageSize,
-                    searchKey: params.searchKey.trim()
+                    searchKey: params.searchKey ? params.searchKey.trim() : params.searchKey
                 })
                 .then(resp => {
                     if (resp.data.success) {

@@ -132,7 +132,7 @@ export default {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
+      if (Boolean(val)) {
         params.doctorName = val.trim();
       }
       this.$axios

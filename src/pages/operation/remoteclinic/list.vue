@@ -335,7 +335,7 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            if (searchKey.trim() != "") {
+            if (Boolean(searchKey)) {
                 params.searchKey = searchKey.trim();
             }
             console.log("家庭医生签约 params", params);

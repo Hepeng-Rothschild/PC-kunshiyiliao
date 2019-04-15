@@ -119,7 +119,7 @@ export default {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
+      if (Boolean(val)) {
         params.bannerName = val.trim();
       }
       this.$axios.post(api.bannerHome, params).then(res => {
