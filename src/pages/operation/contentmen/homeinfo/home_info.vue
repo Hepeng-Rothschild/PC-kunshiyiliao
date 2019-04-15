@@ -189,7 +189,7 @@
             <!-- lis数据查询 -->
             <div class="main_yy">
                 <span class="main_yy_name">lis数据查询</span>
-                <CheckboxGroup v-model="lisPattern" @on-change='lisPatternChange'>
+                <CheckboxGroup v-model="lisPattern" >
                     <Checkbox
                         v-for="item,index in lisPatternList"
                         :key="index"
@@ -318,7 +318,6 @@
                     </div>
                 </div>
             </div>
-            
             <!--保存-->
             <div class="main_save">
                 <Button type="primary" @click="save">保存</Button>
@@ -458,9 +457,6 @@ export default {
         };
     },
     methods: {
-        lisPatternChange (arr) {
-            console.log(arr)
-        },
         // 机构简介
         afterChange(val) {
             this.info.content = val;
