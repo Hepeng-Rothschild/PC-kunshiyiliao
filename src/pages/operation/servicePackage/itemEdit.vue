@@ -216,6 +216,23 @@
                     </FormItem>
                 </Col>
             </Row>
+            <!--  服务关联表单 -->
+            <Row>
+                <Col :xs="3" class="text-r">
+                    <i class="req-icon"></i>服务项关联表单：
+                </Col>
+                <Col :xs="21">
+                    <FormItem prop="numberYear">
+                        <Select class="w-select" v-model="info.formType">
+                            <Option
+                                v-for="(item,index) of formTypeList"
+                                :value="item.value"
+                                :key="index"
+                            >{{item.title}}</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>
             <Row>
                 <Col :xs="3" class="text-r">
                     <i class="req-icon"></i>备注：
@@ -265,7 +282,8 @@ export default {
                 remarks: null,
                 numberYear: 1,
                 executingAgency: 1,
-                nature: 1
+                nature: 1,
+                formType:null
                 // amountReceived: null
             },
             pageNo: null,
@@ -336,7 +354,22 @@ export default {
             city: null,
             area: null,
             hospital: null,
-            isBack: 2
+            isBack: 2,
+            // 服务关联表单
+            formTypeList:[
+                {
+                    value:0,
+                    title:"暂不关联"
+                },
+                {
+                    value:1,
+                    title:"慢病管理"
+                },
+                {
+                    value:2,
+                    title:"健康宣教"
+                }
+            ]
         };
     },
     created() {
@@ -550,6 +583,8 @@ export default {
                         this.info.executingAgency
                     );
                     params.nature = parseInt(this.info.nature);
+                    // 服务 关联表单
+                    params.formType = this.info.formType;
                     // params.amountReceived = this.info.amountReceived;
                     this.$axios
                         .post(subApi, params)
