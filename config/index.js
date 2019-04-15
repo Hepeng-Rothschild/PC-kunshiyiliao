@@ -13,9 +13,9 @@ module.exports = {
     proxyTable: {
       '/operateapi': {
         changeOrigin: true,
-        // target: 'http://172.18.2.37:8711', //后台反向代理到的地址比如swigger地址
+        target: 'http://172.18.2.37:8711', //后台反向代理到的地址比如swigger地址
         // target: 'https://www.gohealth.com.cn', //后台反向代理到的地址
-        target: 'http://test.gohealth.com.cn', //后台反向代理到的地址
+        // target: 'http://test.gohealth.com.cn', //后台反向代理到的地址
         pathRewrite: {
           '^operateapi': ''
         }
