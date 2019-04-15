@@ -120,7 +120,7 @@ export default {
                 pageNo,
                 pageSize: 10
             };
-            if (val != "") {
+            if (Boolean(val)) {
                 params.orgName = val.trim();
             }
             params.provinceCode = this.province ? this.province : null;

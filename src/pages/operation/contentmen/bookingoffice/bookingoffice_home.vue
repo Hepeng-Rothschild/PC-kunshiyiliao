@@ -102,7 +102,7 @@ export default {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
+      if (Boolean(val)) {
         params.searchKey = val.trim();
       }
       this.$axios.post(api.kDepartment, params).then(res => {

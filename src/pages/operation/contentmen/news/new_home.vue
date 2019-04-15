@@ -137,7 +137,7 @@ export default {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
+      if (Boolean(val)) {
         params.searchKey = val;
       }
       axios

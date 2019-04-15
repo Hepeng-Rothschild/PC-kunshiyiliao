@@ -115,7 +115,8 @@ export default {
                 pageNo,
                 pageSize: this.pageSize
             };
-            if (val != "") {
+            
+            if (Boolean(val)) {
                 params.searchKey = val.trim();
             }
             this.$axios.post(api.wxList, params).then(res => {

@@ -230,9 +230,10 @@ export default {
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
             // 医院名
-            params.hospitalName = hospitalName.trim();
+            console.log(params);
+            params.hospitalName = hospitalName ? hospitalName.trim() : hospitalName;
             // 患者
-            params.memberName = memberName.trim();
+            params.memberName = memberName ? memberName.trim() :  memberName;
             // 医院名
             params.idcard = fdsOrderId;
             console.log("家庭医生签约 params", params);

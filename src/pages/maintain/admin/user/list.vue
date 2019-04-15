@@ -208,7 +208,7 @@ export default {
                 pageNo: this.pageNo,
                 pageSize: this.pageSize
             };
-            if (val != "") {
+            if (Boolean(val)) {
                 params.searchKey = val.trim();
             }
             this.$axios.post(api.adminList, params).then(res => {
