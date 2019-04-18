@@ -58,8 +58,7 @@
                         <th>{{ item.enable == '0'? '关闭' :'入驻'}}</th>
                         <th>{{ item.createTime }}</th>
                         <th>
-                            <span style="cursor:pointer" @click="edit(item)">编辑</span>
-                            <!-- <span style = 'cursor:pointer'>删除</span> -->
+                            <span style="cursor:pointer;color:#2d8cf0;" @click="edit(item)">编辑</span>
                             <span
                                 style="cursor:pointer"
                                 @click="enable(item)"
@@ -275,11 +274,6 @@ export default {
         }
         header {
             width: 100%;
-            // height: 40px;
-            // display: flex;
-            // flex-direction: row;
-            // align-items: center;
-            // justify-content: space-between;
             .btn{
                 margin-top:10px;
             }
@@ -303,6 +297,7 @@ export default {
                     border-top: 1px solid #ddd;
                     height: 40px;
                     th {
+                        min-width:80px;
                         text-align: center;
                     }
                 }

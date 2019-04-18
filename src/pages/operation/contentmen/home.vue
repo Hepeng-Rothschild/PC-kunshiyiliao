@@ -52,7 +52,7 @@
                 <th>{{ item.hospitalCount }}</th>
                 <th>{{ item.internetHospitalSort }}</th>
                 <th>
-                    <span @click="navto(item)">编辑</span>
+                    <span @click="navto(item)" style='color:#2d8cf0;'>编辑</span>
                 </th>
             </tr>
         </table>
@@ -203,7 +203,8 @@ export default {
             border-top: 1px solid #ddd;
             height: 40px;
             th {
-                min-width:40px;
+                min-width:60px;
+                padding:0 4px;
                 text-align: center;
                 span {
                     cursor: pointer;

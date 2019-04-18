@@ -41,12 +41,18 @@
                         <th>{{ item.nickname }}</th>
                         <th>{{ item.telephone }}</th>
                         <th>{{ item.appNick }}</th>
-                        <th>{{ item.appMechanism }}</th>
+                        <th class ='one' @click='simples(item.appMechanism)'>{{ item.appMechanism }}</th>
                         <th>{{ item.createTime }}</th>
                     </tr>
                 </table>
                 <div class="notData" v-show="!list.length">暂无更多数据</div>
             </div>
+            <Modal
+                v-model="modal1"
+                title="查看机构名称"
+                footer-hide>
+                <p>{{ content }}</p>
+            </Modal>
         </div>
         <!--分页器-->
         <div class="paging">
@@ -68,7 +74,8 @@ export default {
             hospital: null,
             residentregisterSize: 10,
             list: [],
-            Name: ""
+            Name: "",
+            modal1:false
         };
     },
     created() {
@@ -107,6 +114,10 @@ export default {
             } else {
                 this.getData(index);
             }
+        },
+        simples (content){
+            this.content = content;
+            this.modal1 = true
         },
         getData(pageNo) {
             let params = {
@@ -178,7 +189,17 @@ export default {
                     border-top: 1px solid #ddd;
                     height: 40px;
                     th {
+                        min-width:70px;
                         text-align: center;
+                    }
+                    th.one {
+                        max-width: 150px;
+                        padding: 0 6px;
+                        text-align: center;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        cursor: pointer;
                     }
                 }
                 tr:nth-child(odd) {

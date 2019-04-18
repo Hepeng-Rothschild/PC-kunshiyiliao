@@ -219,6 +219,7 @@
                     >{{item.name}}</Checkbox>
                 </CheckboxGroup>
             </div>
+            <!-- <mycheckbox :list='registerPatternList' :checkList='registerPatternValue' title='预约挂号卡模式'></mycheckbox> -->
             <!-- 预约挂号池是否为第三方 -->
             <div class="main_yy">
                 <span class="main_yy_name">预约挂号池是否为第三方</span>
@@ -336,7 +337,43 @@ import api from "@/api/commonApi";
 export default {
     components: {
         tmpHeader,
-        vueEditor
+        vueEditor,
+        "mycheckbox": {
+            template:"<div class='main_yy'>"+
+            "<span class='main_yy_name' style='margin-right:10px;'>{{ title }}</span>"+
+            "<CheckboxGroup v-model='arr' @on-change='checkAllGroupChange'>"+
+                "<Checkbox v-for='item,index in list' :key='index' :label='item.id'>{{ item.name }}</Checkbox>"+
+            "</CheckboxGroup>"+
+            "</div>",
+            props: {
+                list: {
+                    type:Array,
+                    default:[]
+                },
+                checkList: {
+                    type:Array,
+                    default:[]
+                },
+                title:{
+                    type:String,
+                    default:""
+                }
+            },
+            data () {
+                return {
+                    arr:[]
+                }
+            },
+            mounted () {
+                console.log(this.checkList)
+                this.arr = this.checkList
+            },
+            methods: {
+                checkAllGroupChange(i) {
+                    this.$emit("selectChange",i)
+                }
+            }
+        }
     },
     data() {
         return {
@@ -770,7 +807,7 @@ export default {
             .then(res => {
                 if (res.data.object) {
                     let ret = res.data.object;  
-                    console.log(ret)
+                    // console.log(ret)
                     // 医院图片
                     if (ret.hosIcon) {
                         this.source = ret.hosIcon;
@@ -847,6 +884,7 @@ export default {
                     // 预约挂号卡模式
                     // registerPatternValue  选中值
                     this.registerPatternValue = ret.registerPattern ? ret.registerPattern.split(",") : [];
+                    console.log(this.registerPatternValue);
                     // registerPatternList  所有值
                     this.registerPatternList = ret.listMap;
 

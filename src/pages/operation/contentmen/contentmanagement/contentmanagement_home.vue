@@ -67,7 +67,7 @@
                 <th style="color:red;" v-show="item.enable == 0">未发布</th>
                 <th v-show="item.enable == 1">已发布</th>
                 <th class="modi">
-                    <span style="color: black;cursor:pointer" @click="edit(item)">修改</span>
+                    <span style="color:#2d8cf0;cursor:pointer" @click="edit(item)">修改</span>
                     <span
                         v-show="item.idelete == 0"
                         style="color: black;cursor:pointer"

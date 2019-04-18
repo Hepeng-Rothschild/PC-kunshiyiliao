@@ -21,7 +21,7 @@
           <th>
             <span v-for="(items,index) in item.result" :key='index'>{{ items }}<span v-show='item.result.length != index+1'>、</span></span>
           </th>
-          <th @click="navto(item)" style="cursor:pointer;">编辑</th>
+          <th @click="navto(item)" style="cursor:pointer;color:#2d8cf0;">编辑</th>
         </tr>
       </table>
       <div class="footer" v-show="!tablesList.length">暂无更多数据</div>

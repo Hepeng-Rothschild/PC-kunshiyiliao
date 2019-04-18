@@ -33,7 +33,7 @@
           <th>{{ item.post }}</th>
           <th>{{ item.display ? '是' :'否' }}</th>
           <th>{{ item.priority }}</th>
-          <th @click="edit(item)" style="cursor:pointer">编辑</th>
+          <th @click="edit(item)" style="cursor:pointer;color:#2d8cf0;">编辑</th>
         </tr>
       </table>
       <div class="footer" v-show="!tablesList.length">暂无更多数据</div>

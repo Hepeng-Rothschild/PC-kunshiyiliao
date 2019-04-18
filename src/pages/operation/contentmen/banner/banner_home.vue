@@ -40,7 +40,7 @@
             <td>{{ item.bannerUrl }}</td>
             <td>{{ item.enable == 1? "是" :"否" }}</td>
             <td>{{ item.priority }}</td>
-            <td @click="editBanner(item)" style="cursor:pointer;">编辑</td>
+            <td @click="editBanner(item)" style="cursor:pointer;color:#2d8cf0;">编辑</td>
           </tr>
         </table>
         <div class="footer" v-show="!tbleList.length">暂无更多数据</div>
