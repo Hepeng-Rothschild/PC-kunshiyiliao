@@ -195,7 +195,8 @@ export default {
                     title: "医生姓名",
                     key: "doctorName",
                     align: "center",
-                    width: 100
+                    width: 100,
+                    // fixed: 'left',
                 },
                 {
                     title: "院内编码",
@@ -312,6 +313,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 180,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.doctorId,
                             _index = params.row._index;

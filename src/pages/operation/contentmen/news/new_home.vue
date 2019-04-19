@@ -38,7 +38,7 @@
           <!--是否置顶-->
           <th>{{ item.priority ==1 ? '是' : '否' }}</th>
           <th :data-id="item.id" :date-id="tablesList.length">
-            <span style="cursor:pointer;" :data-id="item.id" @click="navto(item)">编辑</span>
+            <span style="cursor:pointer;color:#2d8cf0;" :data-id="item.id" @click="navto(item)">编辑</span>
           </th>
         </tr>
       </table>
