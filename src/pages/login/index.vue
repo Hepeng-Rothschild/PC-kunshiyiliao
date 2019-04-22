@@ -108,6 +108,7 @@ export default {
                     .post(api.login, params)
                     .then(resp => {
                         if (resp.data.success) {
+                            console.log(resp);
                             let times = 10 * 60 * 60;
                             window.localStorage.setItem(
                                 "access_token",

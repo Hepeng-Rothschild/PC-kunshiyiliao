@@ -30,7 +30,7 @@
             <td>{{ changeshow(item.display) }}</td>
             <td>{{ item.priority }}</td>
             <td >
-              <span @click="edit(item)" style="cursor:pointer;">编辑</span>
+              <span @click="edit(item)" style="cursor:pointer;color:#2d8cf0;">编辑</span>
             </td>
           </tr>
         </table>

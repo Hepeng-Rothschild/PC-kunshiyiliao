@@ -22,7 +22,8 @@
             </header>
             <!-- 列表 -->
             <div class="list">
-                <table border="0" cellspacing="0" cellpadding="0">
+                <Table stripe :columns="columns1" :data="list"></Table>
+                <!-- <table border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <th>编号</th>
                         <th>医生姓名</th>
@@ -53,8 +54,8 @@
                         <th>{{ item.createTime }}</th>
                         <th>{{ item.ibatch == '0'? '个人注册' :'批量导入'}}</th>
                     </tr>
-                </table>
-                <div class="notData" v-show="!list.length">暂无更多数据</div>
+                </table> -->
+                <!-- <div class="notData" v-show="!list.length">暂无更多数据</div> -->
             </div>
         </div>
         <!--分页器-->
@@ -83,7 +84,124 @@ export default {
             Name: "",
             pageNo: 1,
             modal1: false,
-            path: ""
+            path: "",
+            columns1: [
+                {
+                    title: '编号',
+                    key: 'sum',
+                    align:"center",
+                    width:100,
+                    // fixed:'left'
+                },
+                {
+                    title: '医生姓名',
+                    key: 'doctorName',
+                    align:"center",
+                    width:100,
+                    fixed:'left'
+                },
+                {
+                    title: '性别',
+                    key: 'gender',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '城市',
+                    key: 'city',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '医院名称',
+                    key: 'hospitalName',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '就诊科室',
+                    key: 'deptType',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '职称',
+                    key: 'title',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '医生手机号',
+                    key: 'phone',
+                    align:"center",
+                    width:120
+                },
+                {
+                    title: '医生简介',
+                    key: 'personalIntroduction',
+                    align:"center",
+                    width:120,
+                    ellipsis:true,
+                    render:(h,params) => {
+                        let avatar = params.row;
+                        return [
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.simple(avatar)
+                                        }
+                                    }
+                                },
+                                params.row.personalIntroduction
+                            )
+                        ]
+                    }
+                },
+                {
+                    title: '擅长',
+                    key: 'doctorGood',
+                    align:"center",
+                    width:120,
+                    ellipsis:true,
+                    render:(h,params) => {
+                        let avatar = params.row;
+                        return [
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.simple(avatar)
+                                        }
+                                    }
+                                },
+                                params.row.doctorGood
+                            )
+                        ]
+                    }                    
+                },
+                {
+                    title: '注册时间',
+                    key: 'createTime',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '数据来源',
+                    key: 'ibatch',
+                    align:"center",
+                    width:100
+                }
+            ],
+            data1: []
         };
     },
     created() {
@@ -171,6 +289,11 @@ export default {
                 if (res.data.code) {
                     let ret = res.data.object;
                     console.log(ret)
+                    ret.list.forEach((item,index) =>{
+                        item.sum = this.addZero(index);
+                        item.gender = item.gender == '0'? '女' :'男'
+                        item.ibatch = item.ibatch == '0'? '个人注册' :'批量导入'
+                    })
                     this.doctorregisterSize = ret.count;
                     this.list = ret.list;
                 } else {
@@ -228,13 +351,14 @@ export default {
                     border-top: 1px solid #ddd;
                     height: 40px;
                     th {
-                        min-width:60px;
+                        min-width:70px;
+                        padding: 0 6px;
                         text-align: center;
                     }
                     th.one {
-                        max-width: 150px;
-                        padding: 0 6px;
-                        text-align: center;
+                        max-width: 100px;
+                        // padding: 0 6px;
+                        // text-align: center;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;

@@ -38,7 +38,7 @@
             <td>{{ item.registeredReservation == '1'? '是':"否" }}</td>
             <td>{{ item.specialDept == '1'? '是':"否" }}</td>
             <td >
-              <span @click="edit(item)" style="cursor:pointer;">编辑</span>
+              <span @click="edit(item)" style="cursor:pointer;color:#2d8cf0;">编辑</span>
               <!-- <span>删除</span> -->
             </td>
           </tr>

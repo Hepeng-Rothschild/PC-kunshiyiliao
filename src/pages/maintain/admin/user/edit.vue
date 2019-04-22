@@ -5,38 +5,46 @@
         <div>编辑账号</div>
       </header>
       <div class="main">
-        <!-- 登录账号 -->
-        <div class="item">
-          <div class="item-left">
-            <span style="color:red;">*</span>
-            <span>登录账号</span>
+        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+          <!-- 登录账号 -->
+          <div class="formItem">
+            <div class="item-left">
+              <span style="color:red;">*</span>
+              <span>登录账号</span>
+            </div>
+            <FormItem  prop="userName">
+              <Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" autocomplete="off"  id='userName' />
+            </FormItem>
           </div>
-          <Input v-model.trim="text" placeholder="请输入登录账号" style="width: 300px" autocomplete="off"/>
-        </div>
-        <!-- 更改密码 -->
-        <div class="item">
-          <div class="item-left">
-            <span style="color:red;">&nbsp;</span>
-            <span>更改密码</span>
+          <!-- 更改密码 -->
+          <div class="item">
+            <div class="item-left">
+              <span style="color:red;">&nbsp;</span>
+              <span>更改密码</span>
+            </div>
+            <Input
+              v-model.trim="pass"
+              placeholder="请输入登录密码"
+              style="width: 300px"
+              type="password"
+              :maxlength="16"
+              autocomplete="new-password"
+              id='passWord'
+            />
           </div>
-          <Input
-            v-model.trim="pass"
-            placeholder="请输入登录密码"
-            style="width: 300px"
-            type="password"
-            :maxlength="16"
-            autocomplete="off"
-          />
-        </div>
-        <p class="info">未填写更改密码时,不修改密码</p>
-        <!-- 用户昵称 -->
-        <div class="item">
-          <div class="item-left">
-            <span style="color:red;">&nbsp;</span>
-            <span>用户昵称</span>
+          <p class="info">未填写更改密码时,不修改密码</p>
+          <!-- 用户昵称 -->
+          <div class="formItem">
+            <div class="item-left">
+              <span style="color:red;">&nbsp;</span>
+              <span>用户昵称</span>
+            </div>
+            <FormItem prop="niceName">
+              <Input v-model.trim="formValidate.niceName" placeholder="请填写用户昵称" style="width: 300px" />
+            </FormItem>
           </div>
-          <Input v-model.trim="niceName" placeholder="请填写用户昵称" style="width: 300px"/>
-        </div>
+          </Form>
+        
         <!-- 用户头像 -->
         <div class="main_imgs">
           <div class="main_title_info">
@@ -186,6 +194,34 @@ import code from "@/configs/base.js";
 export default {
   data() {
     return {
+      // 
+      formValidate:{
+        userName:"",
+        niceName:""
+      },
+      // 验证条件
+      ruleValidate:{
+        userName:[
+          {
+            // 是否校验
+            required: true,
+            // 提示文字
+            message: "请输入登录账号",
+            // 触发事件
+            trigger: "change"
+          }
+        ],
+        niceName:[
+          {
+            // 是否校验
+            required: true,
+            // 提示文字
+            message: "请输入用户昵称",
+            // 触发事件
+            trigger: "blur"
+          }
+        ]
+      },
       switch1: true,
       // 账号
       text: "",
@@ -265,12 +301,11 @@ export default {
       .then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          console.log(ret);
-          let a = false;
-          if (ret.status == 1) {
-            a = true;
-          }
-          this.switch1 = a;
+          
+          this.formValidate.userName = ret.userName;
+          this.formValidate.niceName = ret.nickName;
+
+          this.switch1 = Boolean(Number(ret.status));
           this.text = ret.userName;
           this.pass = ret.passWord;
           this.niceName = ret.nickName;
@@ -325,11 +360,7 @@ export default {
           this.$Message.info("信息查询失败,请稍候重试");
         }
       });
-    // 关闭input框的自动填充
-    setTimeout(() => {
-      this.text = "";
-      this.pass = "";
-    });
+    
   },
   created() {
     this.province = this.$route.query.province
@@ -403,21 +434,19 @@ export default {
       let params = {
         id,
         // 账号
-        userName: this.text.trim(),
+        userName: this.formValidate.userName.trim(),
         //密码
-        passWord: this.pass.trim(),
+        passWord: this.pass,
         // 用户昵称
-        nickName: this.niceName.trim(),
+        nickName: this.formValidate.niceName.trim(),
         // 状态
         status: Number(this.switch1),
         // 用户头像
         userIcon: images
       };
-      if (this.text == "") {
-        this.$Message.info("账号不能为空");
-      } else if (this.pass == "") {
-        this.$Message.info("密码不能为空");
-      } else {
+      console.log(params)
+      // return ""
+        
         this.$axios.post(api.adminDetail, params).then(res => {
           if (res.data.code) {
             let pageNo = this.$route.query.pageNo;
@@ -426,18 +455,18 @@ export default {
             if (pageNo) {
               setTimeout(() => {
                 //   公用方法
-                this.functionJS.queryNavgationTo(
-                  this,
-                  "/index/maintain/admin/user/list",
-                  {
-                    pageNo,
-                    province: this.province,
-                    city: this.city,
-                    area: this.area,
-                    hospital: this.hospital,
-                    isBack: 2
-                  }
-                );
+                // this.functionJS.queryNavgationTo(
+                //   this,
+                //   "/index/maintain/admin/user/list",
+                //   {
+                //     pageNo,
+                //     province: this.province,
+                //     city: this.city,
+                //     area: this.area,
+                //     hospital: this.hospital,
+                //     isBack: 2
+                //   }
+                // );
               }, 800);
             } else {
               //   公用方法
@@ -451,7 +480,7 @@ export default {
             this.$Message.info("修改失败,请稍候重试");
           }
         });
-      }
+      
     },
     back() {
       let pageNo = this.$route.query.pageNo;
@@ -591,6 +620,17 @@ input:-webkit-autofill {
       margin: 20px auto;
       display: flex;
       flex-direction: column;
+      .formItem{
+        display:flex;
+        flex-direction:row;
+        width:500px;
+        margin:10px auto;
+        .item-left{
+          width:100px;
+          line-height:32px;
+        }
+        
+      }
       .item {
         width: 500px;
         display: flex;
@@ -599,6 +639,7 @@ input:-webkit-autofill {
         margin: 10px auto;
         .item-left {
           width: 100px;
+          margin-right:80px;
           span {
             width: 30px;
           }
@@ -635,10 +676,12 @@ input:-webkit-autofill {
         margin: 10px auto;
         align-items: center;
         .main_title_info {
+          margin-right:80px;
           min-width: 100px;
         }
       }
       .info {
+        
         width: 300px;
         margin: 0 auto;
         color: #999;

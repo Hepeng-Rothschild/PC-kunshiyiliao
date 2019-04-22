@@ -18,45 +18,8 @@
             />
             <Button type="primary" icon="ios-search" @click="search">查询</Button>
         </header>
-        <table border="0" cellspacing="0" cellpadding="0">
-            <tr>
-                <th>编号</th>
-                <th>区域</th>
-                <th>机构名称</th>
-                <th>联系人</th>
-                <th>联系电话</th>
-                <th>机构类型</th>
-                <th>动态新闻</th>
-                <th>专家介绍</th>
-                <th>特色科室</th>
-                <th>预约科室</th>
-                <th>线上服务</th>
-                <th>门诊服务</th>
-                <th>住院服务</th>
-                <th>联盟排序</th>
-                <th>操作</th>
-            </tr>
-            <tr v-for="(item,index) in tableList" :key="index" v-show="tableList.length">
-                <th>{{ addZeros(index) }}</th>
-                <th>{{ item.provinceName }}</th>
-                <th>{{ item.orgName }}</th>
-                <th>{{ item.linkman }}</th>
-                <th>{{ item.linkmanTelephone }}</th>
-                <th v-show="item.hospitalType==1">医院</th>
-                <th>{{ item.newsCount }}</th>
-                <th>{{ item.doctorCount }}</th>
-                <th>{{ item.specialDeptCount }}</th>
-                <th>{{ item.reservationCount }}</th>
-                <th>{{ item.onlineCount }}</th>
-                <th>{{ item.inqCount }}</th>
-                <th>{{ item.hospitalCount }}</th>
-                <th>{{ item.internetHospitalSort }}</th>
-                <th>
-                    <span @click="navto(item)">编辑</span>
-                </th>
-            </tr>
-        </table>
-        <div class="footer" v-show="!tableList.length">暂无更多数据</div>
+
+        <Table stripe :columns="columns1" :data="tableList"></Table>
         <div style="text-align:center;margin:10px 0;">
             <Page :total="homeSize" @on-change="pageChange"/>
         </div>
@@ -81,7 +44,112 @@ export default {
 
             tableList: [],
             val: "",
-            homeSize: 10
+            homeSize: 10,
+            columns1:[
+                {
+                    title: '排序',
+                    key: 'sum',
+                    align: 'center',
+                    width: 60,
+                },
+                {
+                    title: '区域',
+                    key: 'provinceName',
+                    align: 'center',
+                    width: 80,
+                },
+                {
+                    title: '机构名称',
+                    key: 'orgName',
+                    align: 'center',
+                    width: 150,
+                },
+                {
+                    title: '联系人',
+                    key: 'linkman',
+                    align: 'center',
+                    width: 80,
+                },
+                {
+                    title:"联系人电话",
+                    key:"linkmanTelephone",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"机构类型",
+                    key:"hospitalType",
+                    align: 'center',
+                    width: 100,
+                },
+                {
+                    title:"动态新闻",
+                    key:"newsCount",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"专家介绍",
+                    key:"doctorCount",
+                    align: 'center',
+                    width: 120,
+                },   
+                {
+                    title:"特色科室",
+                    key:"specialDeptCount",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"预约科室",
+                    key:"reservationCount",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"线上服务",
+                    key:"onlineCount",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"门诊服务",
+                    key:"inqCount",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"住院服务",
+                    key:"hospitalCount",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"联盟排序",
+                    key:"internetHospitalSort",
+                    align: 'center',
+                    width: 120,
+                },
+                {
+                    title:"操作",
+                    align: 'center',
+                    width: 120,
+                    fixed:'right',
+                    render: (h,params) => {
+                        let a = params.row
+                        return h('div', [
+                            h('a', {
+                                on: {
+                                    click: () => {
+                                        this.navto(a)
+                                    }
+                                }
+                            }, '编辑')
+                        ])
+                    }
+
+                }
+            ]
         };
     },
     created() {
@@ -134,6 +202,10 @@ export default {
                     if (res.data.code) {
                         let ret = res.data.object.list;
                         this.homeSize = res.data.object.count;
+                        ret.forEach((item,index) =>{
+                            item.sum = this.addZeros(index)
+                            item.hospitalType = item.hospitalType == 1 ? '医院' :""
+                        })
                         this.tableList = ret;
                     } else {
                         this.$Message.error("没有访问权限");
@@ -185,41 +257,6 @@ export default {
             line-height: 30px;
             margin-right: 10px;
         }
-    }
-    table {
-        width: 100%;
-        margin: 0 auto;
-        border: 1px solid #ddd;
-        tr:nth-child(odd) {
-            background: #f8f8f9;
-        }
-        tr:nth-child(even) {
-            background: #fff;
-        }
-        tr:not(:first-child):hover {
-            background: #ebf7ff;
-        }
-        tr {
-            border-top: 1px solid #ddd;
-            height: 40px;
-            th {
-                min-width:40px;
-                text-align: center;
-                span {
-                    cursor: pointer;
-                    user-select: none;
-                }
-            }
-        }
-    }
-    .footer {
-        width: 100%;
-        text-align: center;
-        border: 1px solid #dddddd;
-        height: 40px;
-        line-height: 40px;
-        background: #fff;
-        border-top: none;
     }
 }
 </style>

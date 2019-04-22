@@ -352,6 +352,7 @@ export default {
         this.$axios
             .post(api.hospitalList)
             .then(resp => {
+                console.log(resp)
                 this.hospitalList = resp.data.object;
             })
             .catch(err => {

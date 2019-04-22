@@ -65,7 +65,7 @@
                     <td>{{ item.cycleDay }}</td>
                     <td v-if = "item.iremote == 1">启用</td>
                     <td style="color:red;" v-else>停用</td>
-                    <td style="cursor:pointer;" @click="edit(item)">编辑</td>
+                    <td style="cursor:pointer;color:#2d8cf0;" @click="edit(item)">编辑</td>
                 </tr>
             </table>
             <div class="nodata" v-show="!list.length">暂无更多数据</div>
@@ -391,6 +391,7 @@ export default {
         table {
             width: 100%;
             border: 1px solid #ddd;
+            font-size: 12px;
             tr:nth-child(odd) {
                 background: #f8f8f9;
             }
