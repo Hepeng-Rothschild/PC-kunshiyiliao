@@ -197,7 +197,7 @@
                     >{{item.name}}</Checkbox>
                 </CheckboxGroup>
             </div> -->
-            <checkboxs :listMap='lisPatternList' :checkList='lisPattern' title='预约挂号卡模式' v-if='title' @selectChange='lisPatternChange'></checkboxs>
+            <checkboxs :listMap='lisPatternList' :checkList='lisPattern' title='lis数据查询' v-if='title' @selectChange='lisPatternChange'></checkboxs>
             <!-- pace数据查询 pacePattern-->
             <!-- <div class="main_yy">
                 <span class="main_yy_name">pacs数据查询</span>
