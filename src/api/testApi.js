@@ -43,6 +43,7 @@ const managementAll = '/operateapi/hospitalqueryhospitallevellist' //医院等�
 const managementGzh = '/operateapi/hospitalquerywxappnamelist'   //查询医院公众号
 const managementYlt = '/operateapi/hospitalqueryhospitalnamelist' //查询医院医联体
 const managementEdit = '/operateapi/hospitalupdatehospitaloperatedtobyid' //保存医院详情
+const hospitalgetenummap = '/operateapi/hospitalgetenummap'  //查询第三方服务
 
 //动态新闻
 const getNews = '/operateapi/organizationselectnew' //获取动态新闻详情信息
@@ -281,6 +282,7 @@ let testApi = {
     managementGzh,
     managementYlt,
     managementEdit,
+    hospitalgetenummap,
 
     //动态新闻
     news,

@@ -181,7 +181,7 @@
         </div>-->
         <!-- 保存 -->
         <div class="save">
-          <Button type="primary" @click="save">保存</Button>
+          <Button type="primary" @click="save('formValidate')">保存</Button>
           <Button @click="back">取消</Button>
         </div>
       </div>
@@ -419,7 +419,7 @@ export default {
       //         console.log(err);
       //     });
     },
-    save() {
+    save(name) {
       let images = "";
       // 上传
       if (this.images != "") {
@@ -430,57 +430,62 @@ export default {
       } else {
         images = "";
       }
-      let id = this.$route.query.id;
-      let params = {
-        id,
-        // 账号
-        userName: this.formValidate.userName.trim(),
-        //密码
-        passWord: this.pass,
-        // 用户昵称
-        nickName: this.formValidate.niceName.trim(),
-        // 状态
-        status: Number(this.switch1),
-        // 用户头像
-        userIcon: images
-      };
-      console.log(params)
-      // return ""
-        
-        this.$axios.post(api.adminDetail, params).then(res => {
-          if (res.data.code) {
-            let pageNo = this.$route.query.pageNo;
-            this.$Message.info("修改成功");
-            // 当pageNo有值时它是从列表跳转过来的,需要跳回列表,值为空时,是从头像跳转过来的,跳转到主页面
-            if (pageNo) {
-              setTimeout(() => {
-                //   公用方法
-                // this.functionJS.queryNavgationTo(
-                //   this,
-                //   "/index/maintain/admin/user/list",
-                //   {
-                //     pageNo,
-                //     province: this.province,
-                //     city: this.city,
-                //     area: this.area,
-                //     hospital: this.hospital,
-                //     isBack: 2
-                //   }
-                // );
-              }, 800);
-            } else {
-              //   公用方法
-              this.functionJS.queryNavgationTo(this, "/index", {
-                pageNo
-              });
-              //   公用方法
-              this.functionJS.queryNavgationTo(this, "/index");
-            }
-          } else {
-            this.$Message.info("修改失败,请稍候重试");
-          }
+      this.$refs[name].validate(valid => {
+				if (valid) {
+					// 必填项填写完成
+          let id = this.$route.query.id;
+          let params = {
+            id,
+            // 账号
+            userName: this.formValidate.userName.trim(),
+            //密码
+            passWord: this.pass,
+            // 用户昵称
+            nickName: this.formValidate.niceName.trim(),
+            // 状态
+            status: Number(this.switch1),
+            // 用户头像
+            userIcon: images
+          };
+            // 修改用户数据
+            this.$axios.post(api.adminDetail, params).then(res => {
+              if (res.data.code) {
+                  let pageNo = this.$route.query.pageNo;
+                  this.$Message.info("修改成功");
+                  // 当pageNo有值时它是从列表跳转过来的,需要跳回列表,值为空时,是从头像跳转过来的,跳转到主页面
+                  if (pageNo) {
+                    setTimeout(() => {
+                        // 公用方法
+                      this.functionJS.queryNavgationTo(
+                        this,
+                        "/index/maintain/admin/user/list",
+                        {
+                          pageNo,
+                          province: this.province,
+                          city: this.city,
+                          area: this.area,
+                          hospital: this.hospital,
+                          isBack: 2
+                        }
+                      );
+                    }, 800);
+                  } else {
+                    //   公用方法
+                    this.functionJS.queryNavgationTo(this, "/index", {
+                      pageNo
+                    });
+                    //   公用方法
+                    this.functionJS.queryNavgationTo(this, "/index");
+                  }
+                } else {
+                  this.$Message.info("修改失败,请稍候重试");
+                }
         });
-      
+				} else {
+					// 必填项填写失败
+					this.$Message.error("请检查必填荐是否填写完整！");
+				}
+			})
     },
     back() {
       let pageNo = this.$route.query.pageNo;
