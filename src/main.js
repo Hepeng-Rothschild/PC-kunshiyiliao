@@ -153,7 +153,7 @@ Vue.prototype.tryCatch = function(jsonStr){
 	    return tmpObj;
 	}
 }
-Vue.config.devtools = true;
+Vue.config.devtools = false;
 Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({

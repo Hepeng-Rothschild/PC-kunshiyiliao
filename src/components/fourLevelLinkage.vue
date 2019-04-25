@@ -79,6 +79,7 @@ export default {
     created() {
         console.log('fourLevelLinkage');
         if (this.isBack == 1) {
+            console.log('isBack = 1');
             this.identity = cookie.getCookie("idtt");
             this.identityCoding = cookie.getCookie("idttC");
             this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
@@ -149,9 +150,10 @@ export default {
                     .catch(err => {});
             }
         }else if(this.isBack == 2){
+            console.log('isBack = 2');
         //设置从其他页面返回后默认值
+            this.provinceList = this.$store.getters.getProvinceList;
             if (this.province) {
-                this.provinceList = this.$store.getters.getProvinceList;
                 this.cityList = this.$store.getters.getCityList(this.province);
                 if (this.city) {
                     this.areaList = this.$store.getters.getAreaList(this.city);
