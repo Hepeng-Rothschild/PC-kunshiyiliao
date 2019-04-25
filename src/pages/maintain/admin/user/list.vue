@@ -18,7 +18,7 @@
             </header>
             <!-- 列表 -->
             <div class="list">
-                <Table size="small" :columns="list" :data="data1"></Table>
+                <Table size="small" :columns="list" :data="data1" stripe></Table>
             </div>
             <!-- 分页 -->
             <Page
