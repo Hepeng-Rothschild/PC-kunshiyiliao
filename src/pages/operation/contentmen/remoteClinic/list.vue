@@ -37,7 +37,6 @@
           </Select>
         </div>
       </div>
-
       <!-- 检索 -->
       <div class="inputContent">
         <div class="search">
@@ -49,20 +48,11 @@
           />
           <Button type="primary" @click="searchContent">查询</Button>
         </div>
-        <!-- <p>已选择远程门诊合作机构</p> -->
       </div>
 
       <div class="transfer">
         <div class="left" ref="scrollBoxL">
           <h3>可选择远程门诊合作机构</h3>
-          <!-- <p @dblclick="leftHospial(item,index,$event)" v-for="item,index in hospialList">
-            {{ item.hospitalName }}
-            <img
-              src="../../../../assets/images/back/gengduo.png"
-              alt
-              v-show="item.hospitalName"
-            >
-          </p> -->
           <table border="0" cellspacing="0" cellpadding="0">
             <tr>
               <th>医院</th>
@@ -78,10 +68,6 @@
 
         <div class="right" ref="scrollBoxR">
           <h3>已选择远程门诊合作机构</h3>
-          <!-- <p @dblclick="rightHospial(item,index,$event)" v-for="item,index in selectHospial">
-            <img src="../../../../assets/images/back/fanhui.png" alt v-show="item.hospitalName">
-            {{ item.hospitalName }}
-          </p> -->
           <table border="0" cellspacing="0" cellpadding="0">
             <tr>
               <th>医院</th>

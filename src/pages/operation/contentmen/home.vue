@@ -18,7 +18,6 @@
             />
             <Button type="primary" icon="ios-search" @click="search">查询</Button>
         </header>
-
         <Table stripe :columns="columns1" :data="tableList"></Table>
         <div style="text-align:center;margin:10px 0;">
             <Page :total="homeSize" @on-change="pageChange"/>
