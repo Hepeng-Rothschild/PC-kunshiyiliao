@@ -68,3 +68,12 @@ export let functionJS = {
     });
   }
 }
+export function getStyle(obj,attr){
+  if(obj.currentStyle){
+      //IE,OPER
+      return obj.currentStyle[attr];
+  }else{
+      //chrome、safari、FireFox
+      return window.getComputedStyle(obj)[attr];
+  }
+}

@@ -419,8 +419,10 @@ export default {
         div {
             margin: 15px 0;
             width: 100%;
+            height:40px;
             input {
                 width: 80%;
+                height:40px;
                 box-sizing: border-box;
                 padding: 0 15px;
                 margin: 0 0;
