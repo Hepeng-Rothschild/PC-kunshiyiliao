@@ -83,7 +83,6 @@ export default {
             hospitalId: this.id
           })
           .then(res => {
-            console.log(res)
             if (res.data.object.file > 0) {
               this.$Message.info("科室内有专家不可取消");
               e.target.checked = true;
