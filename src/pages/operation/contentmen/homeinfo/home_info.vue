@@ -690,7 +690,9 @@ export default {
                 //关联的多个公众号的appid
             let appid = []
             this.appidList.forEach(item=>{
-                appid.push(item.value);
+                if(Boolean(item.value)) {
+                    appid.push(item.value);
+                }
             })
 
             // 当选择数据查询未添加服务时不允许保存
