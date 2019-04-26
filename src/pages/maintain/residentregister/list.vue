@@ -81,7 +81,7 @@ export default {
                     title:"联系方式（手机）",
                     key:"telephone",
                     align:"center",
-                    width:120
+                    width:150
                 },
                 {
                     title:"注册微信公众号",

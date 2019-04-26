@@ -103,6 +103,7 @@ export default {
     table {
       width: 100%;
       border: 1px solid #ddd;
+      font-size:12px;
       tr:nth-child(odd) {
         background: #f8f8f9;
       }

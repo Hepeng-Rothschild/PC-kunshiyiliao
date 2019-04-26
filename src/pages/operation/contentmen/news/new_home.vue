@@ -186,6 +186,7 @@ export default {
     table {
       width: 100%;
       border: 1px solid #ddd;
+      font-size:12px;
       tr {
         border-top: 1px solid #ddd;
         height: 40px;

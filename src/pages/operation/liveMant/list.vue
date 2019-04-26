@@ -21,7 +21,7 @@
                     style="width: 200px"
                     v-model="search"
                     clearable
-                    v-show="status!=3"
+                    v-show="status != 3"
                 />
                 <Button type="primary" @click="searchInput" v-show="status!=3">查询</Button>
                 <Button @click="add">新增</Button>
@@ -200,7 +200,20 @@ export default {
                 {
                     title: "标题",
                     key: "title",
-                    align: "center"
+                    align: "center",
+                    width:200,
+                    render:(h,params) => {
+                        let title = params.row.title
+                        return h('span', {
+                            style:{
+                                display: 'inline-block',
+                　　　　　　　　width: params.column._width*0.8+'px',
+                　　　　　　　　overflow: 'hidden',
+                　　　　　　　　textOverflow: 'ellipsis',
+                　　　　　　　　whiteSpace: 'nowrap',
+                            }
+                        }, title)
+                    }
                 },
                 {
                     title: "首页图片",
