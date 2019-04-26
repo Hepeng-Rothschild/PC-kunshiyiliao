@@ -115,15 +115,14 @@
             </div>
             <!--是否开通互联网医院-->
             <div class="main_yy">
-                <span class="main_yy_name">是否开通互联网医院</span>
+                <span class="main_yy_name">开通互联网医院</span>
                 <iSwitch v-model="switch1" @on-change="change"/>
             </div>
-            <!--互联网医院公众号-->
+            <!--医院关联公众号-->
             <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
-                <span>互联网医院公众号</span>
+                <span>医院关联公众号</span>
                 <div v-for='item,index in appidList' :key = 'index'>
-                    <Select v-model="item.value" style="width:150px;margin:0 4px;" :disabled="status" @on-change='relationwx' clearable @on-clear='relationwx'>
-                        <!-- @on-clear='relationwx' -->
+                    <Select v-model="item.value" style="width:150px;margin-right:4px;" :disabled="status" @on-change='relationwx' clearable @on-clear='relationwx'>
                         <Option
                             v-for ="item in gzh"
                             :value="item.appid"
@@ -147,7 +146,7 @@
             </div>
             <!--是否加入医院联盟-->
             <div class="main_yy">
-                <span class="main_yy_name">是否加入医院联盟</span>
+                <span class="main_yy_name">加入医院联盟</span>
                 <iSwitch v-model="switch2" :disabled="status" @on-change="change2"/>
             </div>
             <!--医院联盟排序-->
@@ -156,18 +155,18 @@
                 <InputNumber :max="99999" :min="1" v-model="hospitalSort" placeholder="医院联盟排序" :disabled="hospitalFlag"
                 style="width:120px;"
                 ></InputNumber>
-                <p>备注:只能填写数字，1代表置顶以此类推</p>
+                <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!-- 预约挂号排序 -->
             <div class="main_info">
                 <span>预约挂号排序</span>
                 <InputNumber :max="99999" :min="1" v-model="appointmentRegistration" placeholder="预约挂号排序" 
                 style="width:120px;"></InputNumber>
-                <p>备注:只能填写数字，1代表置顶以此类推</p>
+                <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!--是否开通处方流转-->
             <div class="main_yy">
-                <span class="main_yy_name">是否开通处方流转</span>
+                <span class="main_yy_name">开通处方流转</span>
                 <iSwitch v-model="switch3"/>
             </div>
             <!--处方流转平台接口ID-->
@@ -176,7 +175,7 @@
                 <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px"/>
             </div>
             <!--是否加入远程门诊-->
-            <imyswitch :status='switch4' title='是否加入远程门诊' @statuschange='switch4Change' v-if='title'></imyswitch>
+            <imyswitch :status='switch4' title='加入远程门诊' @statuschange='switch4Change' v-if='title'></imyswitch>
             <!-- 是否是否强制用券 -->
             <imyswitch :status='usedCoupon' title='是否强制用券' @statuschange='usedCouponChange' v-if='title'></imyswitch>
             <!-- 预约挂号支付 -->
@@ -1211,7 +1210,6 @@ export default {
         flex-direction: column;
         padding: 30px 0;
         margin: 0 auto;
-
         .main_info {
             display: flex;
             flex-direction: row;
