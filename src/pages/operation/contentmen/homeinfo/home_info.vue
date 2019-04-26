@@ -122,7 +122,8 @@
             <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
                 <span>互联网医院公众号</span>
                 <div v-for='item,index in appidList' :key = 'index'>
-                    <Select v-model="item.value" style="width:150px;margin:0 4px;" :disabled="status" @on-change='relationwx()' clearable>
+                    <Select v-model="item.value" style="width:150px;margin:0 4px;" :disabled="status" @on-change='relationwx' clearable @on-clear='relationwx'>
+                        <!-- @on-clear='relationwx' -->
                         <Option
                             v-for ="item in gzh"
                             :value="item.appid"
@@ -136,7 +137,7 @@
             <!-- 医院公众号支付 -->
             <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
                 <span>医院公众号支付</span>
-                <Select v-model="y_gzh" style="width:150px;" :disabled="status">
+                <Select v-model="y_gzh" style="width:150px;" :disabled="status" clearable>
                     <Option
                         v-for="item in selectGzh"
                         :value="item.appid"
@@ -611,31 +612,20 @@ export default {
         // 已关联公众号列表
         relationwx () {
             let list = []
+            // 初始化
+            this.gzh.forEach((i,m) => {
+                i.status = false
+            })
             // 新选择的公众号
             this.appidList.forEach(item => {
-                this.gzh.forEach(i => {
-                   if(item.value == i.appid) {
+                this.gzh.forEach((i,m) => {
+                    if (item.value == i.appid) {
                         list.push(i)
+                        i.status = true
                     }
                 })
             })
-            list.forEach(items => {
-                // let a = this.gzh.filter((m,index) =>{
-                //     return items.appid == m.appid
-                // })
-                // console.log(a);
-                this.gzh.forEach(s => {
-                    if(items.appid == s.appid) {
-                        s.status = true
-                    } else {
-                        s.status = false
-                    }
-                })
-            })
-            if(list.length == 0) {
-                this.y_gzh = ''
-            }
-            console.log(this.gzh);
+            this.y_gzh = ''
             this.selectGzh = list
         },
         // 是否开通互联网医院关联数据
@@ -1054,11 +1044,11 @@ export default {
                                 value : i,
                                 status : true,
                             })
-                            this.gzh.forEach(items =>{
-                                if(i == items.appid){
-                                    items.status = true
-                                }
-                            })
+                            // this.gzh.forEach(items =>{
+                            //     if(i == items.appid){
+                            //         items.status = true
+                            //     }
+                            // })
                         })
                     } else {
                         this.appidList.push({
