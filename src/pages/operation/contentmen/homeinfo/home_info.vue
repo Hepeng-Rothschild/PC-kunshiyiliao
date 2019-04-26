@@ -587,6 +587,10 @@ export default {
         },
         // 公众号列表限制
         addAppid () {
+            if (this.status) {
+                this.$Message.error("请开通互联网医院")
+                return ""
+            }
             // 所有公众号列表
             let gzhlen = this.gzh.length;
             // 添加的公众号列表
@@ -689,9 +693,13 @@ export default {
 
                 //关联的多个公众号的appid
             let appid = []
-            this.appidList.forEach(item=>{
-                appid.push(item.value);
-            })
+            if(this.switch1) {
+                this.appidList.forEach(item => {
+                    if(Boolean(item.value)) {
+                        appid.push(item.value);
+                    }
+                })
+            }
 
             // 当选择数据查询未添加服务时不允许保存
             if(Boolean(this.lisPattern.length)) {
@@ -712,7 +720,6 @@ export default {
                     return ""
                 }
             }
-            console.log(this.y_gzh);
             // 全部参数
             let params = {
                 hospitalId: this.id,
@@ -768,7 +775,13 @@ export default {
             console.log(params);
             // 当医院关闭互联网医院时把appid清空
             if (!this.switch1) {
-                params.appid = null;
+                params.wxappPay = '';
+                params.appidList = []
+            } else if(this.switch1) {
+                if(!Boolean(params.wxappPay) || params.appidList.length == 0){
+                    this.$Message.error("请选择医院关联公众号与医院公众号支付")
+                    return ""
+                }
             }
             // 远程门诊状态缓存
             if (this.switch4) {
@@ -1032,38 +1045,39 @@ export default {
                     // 地址
                     this.y_dizhi = ret.hosAddr;
                     
-                    // wxappPay公众号支付
-                    this.y_gzh = ret.wxappPay
+                    
                     // appidList关联公众号列表
                     let appidList = ret.appidList || []
-                    // 医院关联公众号回显
-                    if (Boolean(appidList.length)) {
-                        appidList.forEach(i => {
-                            this.appidList.push({
-                                value : i,
-                                status : true,
-                            })
-                            // this.gzh.forEach(items =>{
-                            //     if(i == items.appid){
-                            //         items.status = true
-                            //     }
-                            // })
-                        })
-                    } else {
-                        this.appidList.push({
-                            value : '',
-                            status : false
-                        })
-                    }
-                        
+                   
+                    
                     //互联网医院
                     this.switch1 = Boolean(ret.internetHospital);
                     if (this.switch1) {
                         this.status = false;
                         localStorage.setItem("status", "show");
+                        // wxappPay公众号支付
+                        this.y_gzh = ret.wxappPay
+                         // 医院关联公众号回显
+                        if (Boolean(appidList.length)) {
+                            appidList.forEach(i => {
+                                this.appidList.push({
+                                    value : i,
+                                    status : true,
+                                })
+                            })
+                        } else {
+                            this.appidList.push({
+                                value : '',
+                                status : false
+                            })
+                        }
                     } else {
                         this.status = true;
                         localStorage.setItem("status", "");
+                        this.appidList.push({
+                            value : '',
+                            status : false
+                        })
                     }
                     // 医院联盟
                     this.switch2 = Boolean(ret.unionHospital);
