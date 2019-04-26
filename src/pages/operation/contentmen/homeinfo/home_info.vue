@@ -132,6 +132,7 @@
                     </Select>
                 </div>
                 <button class="cus-btn" @click='addAppid'>+</button>
+                <button class="cus-btn" @click='unAppid'>-</button>
             </div>
             <!-- 医院公众号支付 -->
             <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
@@ -611,6 +612,18 @@ export default {
                 status : false
             })
             this.relationwx();
+        },
+        unAppid () {
+            if (this.status) {
+                this.$Message.error("请开通互联网医院")
+                return ""
+            }
+            if(this.appidList.length != 1) {
+                this.appidList.splice(this.appidList.length-1,1);
+            } else {
+                this.$Message.error("请至少关联一个公众号")
+            }
+             this.relationwx();
         },
         // 已关联公众号列表
         relationwx () {
