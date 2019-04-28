@@ -77,8 +77,8 @@ export default {
         }
     },
     created() {
-        console.log('fourLevelLinkage');
-        if (this.isBack == 1) {
+        //实际上不管是那种分类的账号，都要先将省级列表查询出来
+        if (this.isBack == 1) { // 首次加载页面而不是从其他页面返回的页面
             this.identity = cookie.getCookie("idtt");
             this.identityCoding = cookie.getCookie("idttC");
             this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
@@ -148,10 +148,10 @@ export default {
                     })
                     .catch(err => {});
             }
-        }else if(this.isBack == 2){
-        //设置从其他页面返回后默认值
+        }else if(this.isBack == 2){ //这是从其他页面返回的话，携带有默认值
+            //设置从其他页面返回后默认值
+            this.provinceList = this.$store.getters.getProvinceList;
             if (this.province) {
-                this.provinceList = this.$store.getters.getProvinceList;
                 this.cityList = this.$store.getters.getCityList(this.province);
                 if (this.city) {
                     this.areaList = this.$store.getters.getAreaList(this.city);
@@ -181,7 +181,6 @@ export default {
     },
     methods: {
         changeProvince(val) {
-            console.log("changeProvince");
             val = val ? val : null;
             this.$emit("changeProvince", val);
             this.$emit("changeCity", null);
@@ -194,7 +193,6 @@ export default {
             this.cityList = this.$store.getters.getCityList(val);
         },
         changeCity(val) {
-            console.log("changeCity");
             val = val ? val : null;
             this.$emit("changeCity", val);
             this.$emit("changeArea", null);
@@ -205,7 +203,6 @@ export default {
             this.areaList = this.$store.getters.getAreaList(val);
         },
         changeArea(val) {
-            console.log("changeArea");
             val = val ? val : null;
             this.$emit("changeArea", val);
             this.$emit("changeHospital", null);
@@ -233,7 +230,6 @@ export default {
             }
         },
         changeHospital(val) {
-            console.log("changeHospital");
             val = val ? val : null;
             this.$emit("changeHospital", val);
         }

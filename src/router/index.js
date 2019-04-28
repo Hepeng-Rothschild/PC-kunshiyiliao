@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
 import operation from './operation';
 import maintain from './maintain';
 import statistics from './statistics';
@@ -7,7 +7,7 @@ import supervision from './supervision';
 import netease from './netease';
 import chat from './chat';
 
-export default new Router({
+export default new VueRouter({
 	mode: 'hash',
 	routes: [
 		{
@@ -236,11 +236,14 @@ export default new Router({
 				netease.teammembercard,
 				netease.teamSendMsgReceipt,
 				netease.msgReceiptDetail,
-
+				
 				chat.teamList,
 				chat.teamChat,
 				chat.teamHistory,
-				chat.teamManager
+				chat.teamManager,
+				chat.neVideo,
+				chat.nePublish,
+				chat.setPermission
 
 			]
 		},

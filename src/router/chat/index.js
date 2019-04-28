@@ -28,9 +28,33 @@ const teamManager = {
         require(['@/pages/chat/teamManager'], resolve)
     }
 };
+const neVideo = {
+    path: '/index/video',
+    name: 'neVideo',
+    component(resolve) {
+        require(['@/pages/video'], resolve)
+    }
+};
+const nePublish = {
+    path: '/index/video/publish',
+    name: 'nePublish',
+    component(resolve) {
+        require(['@/pages/video/publish'], resolve)
+    }
+};
+const setPermission = {
+    path: '/index/video/setPerm',
+    name: 'setPermission',
+    component(resolve) {
+        require(['@/pages/video/setPermission'], resolve)
+    }
+};
 export default {
     teamList,
     teamChat,
     teamHistory,
-    teamManager
+    teamManager,
+    neVideo,
+    nePublish,
+    setPermission
 }
