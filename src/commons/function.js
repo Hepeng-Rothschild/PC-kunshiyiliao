@@ -77,3 +77,28 @@ export function getStyle(obj,attr){
       return window.getComputedStyle(obj)[attr];
   }
 }
+export function checkFlash() {  
+  let hasFlash = false,flashVersion;　　　　 //是否安装了flash/flash版本    
+  
+  if(document.all) {  
+    var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');  
+    if(swf) {  
+      hasFlash = true;  
+      SwfVersion = swf.GetVariable("$version");
+      flashVersion = parseInt(SwfVersion.split(" ")[1].split(",")[0]);  
+    }  
+  } else {  
+    if(navigator.plugins && navigator.plugins.length > 0) {  
+      var swf = navigator.plugins["Shockwave Flash"];  
+      if(swf) {  
+        hasFlash = true;  
+        var codes = swf.description.split(" ");  
+        for(var i = 0; i < codes.length; ++i) {  
+          if(isNaN(parseInt(codes[i]))) continue;  
+          flashVersion = parseInt(codes[i]);  
+        }  
+      }  
+    }  
+  }  
+  return { f: hasFlash, v: flashVersion };  
+}

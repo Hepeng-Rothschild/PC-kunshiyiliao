@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { getStyle } from "./../../commons/function";
+import { checkFlash } from "./../../commons/function";
 export default {
     data() {
         return {
@@ -80,30 +80,49 @@ export default {
             streamer: null,
 
             //navigator
-            getUserMediaFunc: null
+            getUserMediaFunc: null,
+
+            goFlag:true
         };
     },
     created(){
+        let protocol = window.location.protocol;
+        let regx = /^https/i;
+        if(!regx.test(protocol)){
+            this.goFlag = false;
+            this.error({title:"访问方式",desc:"直播间只能以https://*协议访问",duration:5});
+            return ;
+        }
+        let flv = checkFlash();
+        if(!flv.f){
+            this.goFlag = false;
+            this.error({title:"flash相关",desc:"flash未安装或访问flash被拒绝",duration:10});
+            return ;
+        }
         if(!this.$route.params.url){
-            this.error({content:"直播间初始化失败，请重新进入直播间",duration:5});
+            this.goFlag = false;
+            this.error({title:"未选择直播间",desc:"请选择要进入的直播间",duration:5});
             return ;
         }
         this.url = this.$route.params.url;
     },
     mounted() {
-        //初始化直播SDK
-        this.init();
-        console.log(this.myPublisher);
-        this.cameraList = this.myPublisher.getCameraList();
-        this.microPhoneList = this.myPublisher.getMicroPhoneList();
-        if(this.cameraList.length <=0 || this.microPhoneList.length<=0){
-            this.error({content:"请将浏览器的摄像头、麦克风和flash权限打开",duration:5});
-            return ;
+        if(this.goFlag){
+            //初始化直播SDK
+            this.init();
+            // setTimeout(()=>{
+                // this.cameraList = this.myPublisher.getCameraList();
+                // this.microPhoneList = this.myPublisher.getMicroPhoneList();
+                // if(this.cameraList.length <=0 || this.microPhoneList.length<=0){
+                //     this.error({title:"权限问题",desc:"直播服务必须以https://*访问，并且浏览器需允许摄像头、麦克风和flash权限",duration:0});
+                //     return ;
+                // }
+            // },200)
         }
     },
     methods: {
+
         init() {
-            console.log('开始初始化');
             this.myPublisher = new nePublisher(
                 this.viewId,
                 this.viewOptions,
@@ -117,6 +136,7 @@ export default {
                 navigator.webkitGetUserMedia ||
                 navigator.mozGetUserMedia ||
                 navigator.msGetUserMedia; //获取媒体对象（这里指摄像头）
+            this.videoStart();
         },
         onSuccess() {
             /*
@@ -127,16 +147,11 @@ export default {
             */
             console.log("初始化成功");
             this.cameraList = this.myPublisher.getCameraList();
-            console.log("cameraList",this.cameraList);
             this.microPhoneList = this.myPublisher.getMicroPhoneList();
-            console.log("microPhoneList",this.microPhoneList);
             this.viewObj = document.getElementById("my-publisher");
             this.viewObj.style.position = "fixed";
             this.viewObj.style.zIndex = "-999";
             this.viewObj.style.visibility = "hidden";
-            // setTimeout(()=>{
-                this.videoStart();
-            // },100);
         },
         onError(code, desc) {
             /*
@@ -148,7 +163,7 @@ export default {
             */
             console.log("初始化失败");
             console.log(code, desc);
-            this.error({content:"直播网络错误，请重新进入直播间",duration:5});
+            this.error({title:"网络错误，请重新进入直播间",duration:5});
         },
         startPubsish() {
             this.myPublisher.setCamera(0);
@@ -163,7 +178,7 @@ export default {
         },
         startPublishError(code,desc){
             console.log(code,desc);
-            // this.error({content:"采集摄像头失败，请提供摄像头、麦克风、flash获取权限",duration:5})
+            this.error({title:"网络错误，请重新进入直播间",duration:5})
         },
         stopPublish() {
             this.myPublisher.stopPublish();
@@ -197,7 +212,7 @@ export default {
             }
         },
         videoError(error) {
-            this.error({content:"播放器初始化失败，请重新进入直播间",duration:5});
+            this.error({title:"权限问题",desc:"直播间需浏览器享有“摄像头/相机、麦克风权限”",duration:10});
             console.log("播放出了问题", error);
         },
         error(msg){
@@ -206,7 +221,7 @@ export default {
                 this.releaseResource();
                 this.videoStop();
             }
-            this.$Message.error(msg);
+            this.$Notice.warning(msg);
             this.$router.push({name:"neVideo"});
         }
     },
@@ -216,7 +231,9 @@ export default {
             this.releaseResource();
             this.videoStop();
         }
-        next();
+        if(to.path != from.path){
+            next();
+        }
     }
 };
 </script>

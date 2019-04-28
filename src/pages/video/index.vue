@@ -2,6 +2,13 @@
     <div class="video-list">
         <Row>
             <Col :xs="24">
+                <Card>
+                    查看权限设置<router-link :to="{path:'/index/video/setPerm'}">GO</router-link>
+                </Card>
+            </Col>
+            <Col :xs="24">
+            </Col>
+            <Col :xs="24">
                 <Card title="选择直播间" padding="10px" shadow>
                     <CellGroup>
                         <Cell v-for="(item,index) of liveList" :key="index">

@@ -42,11 +42,19 @@ const nePublish = {
         require(['@/pages/video/publish'], resolve)
     }
 };
+const setPermission = {
+    path: '/index/video/setPerm',
+    name: 'setPermission',
+    component(resolve) {
+        require(['@/pages/video/setPermission'], resolve)
+    }
+};
 export default {
     teamList,
     teamChat,
     teamHistory,
     teamManager,
     neVideo,
-    nePublish
+    nePublish,
+    setPermission
 }

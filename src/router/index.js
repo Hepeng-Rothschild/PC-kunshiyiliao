@@ -236,13 +236,14 @@ export default new VueRouter({
 				netease.teammembercard,
 				netease.teamSendMsgReceipt,
 				netease.msgReceiptDetail,
-
+				
 				chat.teamList,
 				chat.teamChat,
 				chat.teamHistory,
 				chat.teamManager,
 				chat.neVideo,
-				chat.nePublish
+				chat.nePublish,
+				chat.setPermission
 
 			]
 		},
