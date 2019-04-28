@@ -11,21 +11,21 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/operateapi': {
-      //   changeOrigin: true,
-      //   // target: 'http://172.18.2.37:8711', //后台反向代理到的地址比如swigger地址
-      //   // target: 'https://www.gohealth.com.cn', //后台反向代理到的地址
-      //   target: 'http://test.gohealth.com.cn/', //后台反向代理到的地址
-      //   pathRewrite: {
-      //     '^operateapi': ''
-      //   }
-      // }
-    } ,
+      '/operateapi': {
+        changeOrigin: true,
+        // target: 'http://172.18.2.37:8711', //后台反向代理到的地址比如swigger地址
+        // target: 'https://www.gohealth.com.cn', //后台反向代理到的地址
+        target: 'http://test.gohealth.com.cn', //后台反向代理到的地址
+        pathRewrite: {
+          '^operateapi': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     // host: '172.18.1.250', // can be overwritten by process.env.HOST
     // host:'localhost',
-    host:"192.168.77.132",
+    host:"192.168.43.46",
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
