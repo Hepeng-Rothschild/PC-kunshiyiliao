@@ -18,7 +18,7 @@
             </header>
             <!-- 列表 -->
             <div class="list">
-                <Table size="small" :columns="list" :data="data1"></Table>
+                <Table size="small" :columns="list" :data="data1" stripe></Table>
             </div>
             <!-- 分页 -->
             <Page
@@ -102,7 +102,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 220,
+                    fixed:"right",
+                    width: 150,
                     render: (h, params) => {
                         let id = params.row.id;
                         return [

@@ -21,31 +21,7 @@
             </header>
             <!-- 列表 -->
             <div class="list">
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>编号</th>
-                        <th>openID</th>
-                        <th>居民姓名</th>
-                        <th>注册昵称</th>
-                        <th>联系方式（手机）</th>
-                        <th>注册微信公众号</th>
-                        <th>微信号
-                            <br>绑定机构名称
-                        </th>
-                        <th>注册时间</th>
-                    </tr>
-                    <tr v-for="(item,index) in list" :key="index">
-                        <th>{{ addZero(index) }}</th>
-                        <th>{{ item.openid }}</th>
-                        <th>{{ item.userName }}</th>
-                        <th>{{ item.nickname }}</th>
-                        <th>{{ item.telephone }}</th>
-                        <th>{{ item.appNick }}</th>
-                        <th class ='one' @click='simples(item.appMechanism)'>{{ item.appMechanism }}</th>
-                        <th>{{ item.createTime }}</th>
-                    </tr>
-                </table>
-                <div class="notData" v-show="!list.length">暂无更多数据</div>
+                <Table  :columns="columns5" :data="list"></Table>
             </div>
             <Modal
                 v-model="modal1"
@@ -75,7 +51,78 @@ export default {
             residentregisterSize: 10,
             list: [],
             Name: "",
-            modal1:false
+            modal1:false,
+            columns5:[
+                {
+                    title:"编号",
+                    key:"sum",
+                    align:"center",
+                    width:60,
+                },
+                {
+                    title:"openID",
+                    key:"openid",
+                    align:"center",
+                    width:260,
+                },
+                {
+                    title:"居民姓名",
+                    key:"userName",
+                    align:"center",
+                    width:100,
+                },
+                {
+                    title:"注册昵称",
+                    key:"nickname",
+                    align:"center",
+                    width:140
+                },
+                {
+                    title:"联系方式（手机）",
+                    key:"telephone",
+                    align:"center",
+                    width:150
+                },
+                {
+                    title:"注册微信公众号",
+                    key:"appNick",
+                    align:"center",
+                    width:200
+                },
+                {
+                    title:"微信号绑定机构名称",
+                    key:"appMechanism",
+                    align:"center",
+                    width:200,
+                    render: (h,params) => {
+                        let a = params.row.appMechanism;
+                        return h('div', [
+                    　　　　[
+                    　　　　h('a', {
+                    　　　　　　style: {
+                    　　　　　　　　display: 'inline-block',
+                    　　　　　　　　width: params.column._width*0.8+'px',
+                    　　　　　　　　overflow: 'hidden',
+                    　　　　　　　　textOverflow: 'ellipsis',
+                    　　　　　　　　whiteSpace: 'nowrap',
+                    　　　　　　},
+                                on:{
+                                    click :() => {
+                                        this.simples(a)
+                                    }
+                                }
+                    　　　　　　}, a)
+                    　　　　]
+                    　　])
+                    }
+                },
+                {
+                    title:"注册时间",
+                    key:"createTime",
+                    align:"center",
+                    width:160
+                }
+            ]
         };
     },
     created() {
@@ -137,6 +184,9 @@ export default {
                     let ret = res.data.object;
                     if (ret.list) {
                         this.residentregisterSize = ret.count;
+                        ret.list.forEach((item,index) =>{
+                            item.sum = this.addZero(index)
+                        })
                         this.list = ret.list;
                     } else {
                         this.residentregisterSize = 10;
@@ -182,43 +232,6 @@ export default {
         .list {
             width: 100%;
             margin: 10px 0;
-            table {
-                width: 100%;
-                border: 1px solid #ddd;
-                tr {
-                    border-top: 1px solid #ddd;
-                    height: 40px;
-                    th {
-                        min-width:70px;
-                        text-align: center;
-                    }
-                    th.one {
-                        max-width: 150px;
-                        padding: 0 6px;
-                        text-align: center;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        cursor: pointer;
-                    }
-                }
-                tr:nth-child(odd) {
-                    background: #f8f8f9;
-                }
-                tr:nth-child(even) {
-                    background: #fff;
-                }
-                tr:not(:first-child):hover {
-                    background: #ebf7ff;
-                }
-            }
-            .notData {
-                width: 100%;
-                text-align: center;
-                border: 1px solid #ddd;
-                border-top: none;
-                line-height: 40px;
-            }
         }
     }
     .paging {
