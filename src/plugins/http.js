@@ -27,6 +27,7 @@ axios.defaults.withCredentials = false;
 // http request 拦截器
 axios.interceptors.request.use(
 	config => {
+		// console.log("请求的config::",config);
 		if (store.state.env == "production" || store.state.env == "test") {
 			let RegObj = new RegExp('(operate/login)|(filemd5)', 'ig');
 
@@ -81,10 +82,7 @@ axios.interceptors.response.use(
 		return response;
 	},
 	error => {
-		if (error.response) {
-			switch (error.response.status) { }
-		}
-		return Promise.reject(error.response.data);
+		return Promise.reject(error);
 	}
 )
 export default axios;
