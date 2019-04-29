@@ -540,7 +540,7 @@ export default {
         lisPatternHome (id) {
             this.serviceTypeValue = id;
             this.registerFlag = true;
-            
+            console.log('触发了+++++')
             let items = {}
             this.AddserviceList.forEach(item => {
                 if(Number(item.serviceType) == Number(id)) {
@@ -785,6 +785,10 @@ export default {
                 // pacsPattern数据查询
                 pacsPattern
             };
+            if(params.hospitalId == '') {
+                console.log(111);
+                return ""
+            }
             console.log(params);
             // 当医院关闭互联网医院时把appid清空
             if (!this.switch1) {
@@ -802,7 +806,7 @@ export default {
             } else {
                 localStorage.setItem("doctor", "");
             }
-
+return ""
             this.$axios
                 .post(api.managementEdit, params)
                 .then(res => {
@@ -983,14 +987,14 @@ export default {
                     ret.forEach(item => {
                         item.status = false
                     })
-                    console.log(ret)
                     this.gzh = ret;
                 }
             });
             // 医院关联公众号
-            this.$axios.post(api.hospitalwxapplist,{
+            this.$axios.post(api.hospitalwxapplist, {
                 hospitalId:this.id
             }).then(res => {
+                console.log(res);
                 if(res.data.message) {
                     let ret = res.data.object;
                     console.log(ret);
@@ -1040,7 +1044,6 @@ export default {
                             this.lisSearch = item.id
                         }
                     })
-                    // ret.serviceTypeMap
                     // 医院名字
                     this.title = ret.orgName;
                     // 机构等级
@@ -1058,11 +1061,9 @@ export default {
                     // 地址
                     this.y_dizhi = ret.hosAddr;
                     
-                    
                     // appidList关联公众号列表
                     let appidList = ret.appidList || []
                    
-                    
                     //互联网医院
                     this.switch1 = Boolean(ret.internetHospital);
                     if (this.switch1) {
