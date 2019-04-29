@@ -540,7 +540,6 @@ export default {
         lisPatternHome (id) {
             this.serviceTypeValue = id;
             this.registerFlag = true;
-            console.log('触发了+++++')
             let items = {}
             this.AddserviceList.forEach(item => {
                 if(Number(item.serviceType) == Number(id)) {
@@ -785,8 +784,7 @@ export default {
                 // pacsPattern数据查询
                 pacsPattern
             };
-            if(params.hospitalId == '') {
-                console.log(111);
+            if(this.title == '') {
                 return ""
             }
             console.log(params);
@@ -806,7 +804,6 @@ export default {
             } else {
                 localStorage.setItem("doctor", "");
             }
-return ""
             this.$axios
                 .post(api.managementEdit, params)
                 .then(res => {
