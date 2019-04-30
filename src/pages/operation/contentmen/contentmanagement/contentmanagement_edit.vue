@@ -306,9 +306,9 @@ export default {
                 ids: [this.select],
                 operateArticle: {
                     //标题
-                    title: this.title,
+                    title: this.title.trim(),
                     // 副标题
-                    synopsis: this.titles,
+                    synopsis: this.titles.trim(),
                     //图片
                     cover: images,
                     //排序

@@ -18,7 +18,8 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">就诊地址</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <Input class="w-input" :maxlength="60" v-model="address" placeholder="请输入就诊地址"/>
+                <Input class="w-input" @on-change="checkInput" :maxlength="60" v-model="address" placeholder="请输入就诊地址"/>
+                <span class="rdColor" v-if="addressFlag">就诊地址不能为空</span>
             </Col>
         </Row>
         <Row class="bordered">
@@ -232,21 +233,21 @@ export default {
             outpatientType: "普通门诊",
             upTime: ["08:00", "12:00"],
             dnTime: ["13:00", "17:00"],
-            wd11: 0,
-            wd21: 0,
-            wd31: 0,
-            wd41: 0,
-            wd51: 0,
-            wd61: 0,
-            wd71: 0,
+            wd11: null,
+            wd21: null,
+            wd31: null,
+            wd41: null,
+            wd51: null,
+            wd61: null,
+            wd71: null,
 
-            wd12: 0,
-            wd22: 0,
-            wd32: 0,
-            wd42: 0,
-            wd52: 0,
-            wd62: 0,
-            wd72: 0,
+            wd12: null,
+            wd22: null,
+            wd32: null,
+            wd42: null,
+            wd52: null,
+            wd62: null,
+            wd72: null,
 
             term: 1,
             cost: 0,
@@ -264,7 +265,9 @@ export default {
             expertMsgStatus: false,
             icut: 1,
             termRd: false,
-            costRd: false
+            costRd: false,
+
+            addressFlag:false
         };
     },
     watch: {
@@ -394,6 +397,7 @@ export default {
     components: { Avatar, tempHeader },
     methods: {
         submit(name) {
+            let flag = true;
             if (this.cost == null) return (this.costRd = true);
             if (this.term == null) return (this.termRd = true);
 
@@ -415,6 +419,14 @@ export default {
                         tmpRegistertimes.push(tmpObj);
                     }
                 }
+            }
+            if(!this.address){
+                this.addressFlag = true;
+                flag = false;
+            }
+            if(tmpRegistertimes.length<=0){
+                flag = false;
+                this.$Message.error({content:"请至少有一个号源有号再保存，谢谢",duration:5});
             }
             let params = {};
             params.address = this.address;
@@ -441,34 +453,36 @@ export default {
                 msg = "添加";
             }
             if (params.doctorId) {
-                this.$axios
-                    .post(url, params)
-                    .then(resp => {
-                        if (resp.data.success) {
-                            this.$Message.info(msg + "成功");
-                            //   公用方法
-                            this.functionJS.queryNavgationTo(
-                                this,
-                                "/index/operation/register/list",
-                                {
-                                    pageNo: this.lPageNo,
-                                    province: this.province,
-                                    city: this.city,
-                                    area: this.area,
-                                    hospital: this.hospital,
-                                    isBack: 2,
-                                    searchKey: this.searchKey,
-                                    deptKey: this.deptKey,
-                                    dictType: this.dictType
-                                }
-                            );
-                        } else {
-                            this.$Message.info(msg + "失败，请重试");
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                if(flag){
+                    this.$axios
+                        .post(url, params)
+                        .then(resp => {
+                            if (resp.data.success) {
+                                this.$Message.info(msg + "成功");
+                                //   公用方法
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/index/operation/register/list",
+                                    {
+                                        pageNo: this.lPageNo,
+                                        province: this.province,
+                                        city: this.city,
+                                        area: this.area,
+                                        hospital: this.hospital,
+                                        isBack: 2,
+                                        searchKey: this.searchKey,
+                                        deptKey: this.deptKey,
+                                        dictType: this.dictType
+                                    }
+                                );
+                            } else {
+                                this.$Message.info(msg + "失败，请重试");
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
             } else {
                 this.expertMsgStatus = true;
             }
@@ -478,6 +492,8 @@ export default {
             else this.termRd = false;
             if (this.cost == null) this.costRd = true;
             else this.costRd = false;
+            if (!this.address) this.addressFlag = true;
+            else this.addressFlag = false;
         },
         reback() {
             //   公用方法
@@ -518,7 +534,7 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
-            params.searchKey = this.doctorKey;
+            params.searchKey = this.doctorKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios
@@ -646,5 +662,6 @@ export default {
     span.rdColor {
         color: #ff0000;
     }
+    
 }
 </style>

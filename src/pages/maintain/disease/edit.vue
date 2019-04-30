@@ -103,7 +103,7 @@ export default {
                       operateApi = api.insertDisease;
                     }
                     subMitObj.id = parseInt(this.info.id);
-                    subMitObj.disease = this.info.disease;
+                    subMitObj.disease = this.info.disease.trim();
                     subMitObj.gender = this.info.gender;
                     this.$axios
                         .post(operateApi, subMitObj)

@@ -517,7 +517,7 @@ export default {
             //   : null;
             params.enable = this.publicationStatus;
 
-            params.searchKey = this.articleText;
+            params.searchKey = this.articleText.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
 

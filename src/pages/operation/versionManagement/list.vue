@@ -144,8 +144,8 @@ export default {
                 pageNo,
                 pageSize: this.pageSize
             };
-            if (val != "") {
-                params.searchKey = val;
+            if (Boolean(val)) {
+                params.searchKey = val.trim();
             }
             this.$axios.post(api.versionlist, params).then(res => {
                 if (res.data.code) {

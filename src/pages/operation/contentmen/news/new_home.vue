@@ -5,14 +5,13 @@
     <!--搜索/创建-->
     <div class="headeri" v-show="!flag">
       <div>
-        <span></span>
-        <Input v-model.trim="search" placeholder="请输入新闻标题查询" style="width: 200px" @on-keyup.enter="press" clearable/>
+        <Input v-model.trim="search" placeholder="请输入新闻标题查询" style="width: 200px" @on-keyup.enter="press" clearable />
        <Button type="primary" @click="press"  icon="ios-search">查询</Button>
       </div>
       <Button type="primary" @click="add">创建新闻</Button>
     </div>
     <!--表格列表-->
-    <div class="main" v-show="tablesList.length">
+    <div class="main">
       <table border="0" cellspacing="0" cellpadding="0" v-show="!flag">
         <tr>
           <th>编号</th>
@@ -23,15 +22,10 @@
           <th>是否置顶</th>
           <th>操作</th>
         </tr>
-        <tr v-for="(item,index) in tablesList" :key="index">
+        <tr v-for="(item,index) in tablesList" :key="index" v-show="tablesList.length">
           <th>{{ addZeros(index) }}</th>
           <th>{{ item.title }}</th>
           <th>
-            <!-- <img
-              :src="(item.newsHeadlines=='' || item.newsHeadlines == null)? '' :fileBaseUrl + item.newsHeadlines"
-              alt
-              style="margin:10px 0;width:100px;height:50px;"
-            >-->
             <img
               :src="analysisImages(item.newsHeadlines)"
               alt=''
@@ -44,33 +38,17 @@
           <!--是否置顶-->
           <th>{{ item.priority ==1 ? '是' : '否' }}</th>
           <th :data-id="item.id" :date-id="tablesList.length">
-            <span style="cursor:pointer;" :data-id="item.id" @click="navto(item)">编辑</span>
+            <span style="cursor:pointer;color:#2d8cf0;" :data-id="item.id" @click="navto(item)">编辑</span>
           </th>
         </tr>
       </table>
+      <div class="fooDiv" v-show="!tablesList.length">没有更多数据</div>
     </div>
-    <!--底部空表格-->
-    <footer v-show="!tablesList.length">
-      <table border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <th>编号</th>
-          <th>新闻标题</th>
-          <th>首图</th>
-          <th>新闻内容</th>
-          <th>新闻来源</th>
-          <th>是否显示</th>
-          <th>是否置顶</th>
-          <th>操作</th>
-        </tr>
-      </table>
-      <div class="fooDiv">没有更多数据</div>
-    </footer>
     <div style="text-align:center;margin:10px 0;" v-show="!flag">
       <Page :total="newsSize" @on-change="pageChange" :current="pageNo"/>
     </div>
   </div>
 </template>
-
 <script>
 // 动态新闻
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
@@ -159,7 +137,7 @@ export default {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
+      if (Boolean(val)) {
         params.searchKey = val;
       }
       axios
@@ -208,31 +186,7 @@ export default {
     table {
       width: 100%;
       border: 1px solid #ddd;
-      tr {
-        border-top: 1px solid #ddd;
-        height: 40px;
-        th {
-          text-align: center;
-        }
-      }
-      tr:nth-child(odd) {
-        background: #f8f8f9;
-      }
-      tr:nth-child(even) {
-        background: #fff;
-      }
-      tr:not(:first-child):hover {
-        background: #ebf7ff;
-      }
-    }
-  }
-  footer {
-    width: calc(100% - 40px);
-    margin: 10px auto;
-    padding: 0 20px;
-    table {
-      width: 100%;
-      border: 1px solid #ddd;
+      font-size:12px;
       tr {
         border-top: 1px solid #ddd;
         height: 40px;
@@ -251,13 +205,13 @@ export default {
       }
     }
     .fooDiv {
-      width: 100%;
-      height: 40px;
-      line-height: 40px;
-      border: 1px solid #ddd;
-      border-top-color: transparent;
-      text-align: center;
-    }
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid #ddd;
+        border-top-color: transparent;
+        text-align: center;
+      }
   }
 }
 </style>

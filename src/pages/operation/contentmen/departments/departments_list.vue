@@ -30,7 +30,7 @@
             <td>{{ changeshow(item.display) }}</td>
             <td>{{ item.priority }}</td>
             <td >
-              <span @click="edit(item)" style="cursor:pointer;">编辑</span>
+              <span @click="edit(item)" style="cursor:pointer;color:#2d8cf0;">编辑</span>
             </td>
           </tr>
         </table>
@@ -121,8 +121,8 @@ export default {
           pageNo,
           pageSize: 10
         }
-        if (val != '') {
-          params.searchKey = val
+        if (Boolean(val)) {
+          params.searchKey = val.trim()
         }
       this.$axios
         .post(api.tesekeshi, params)
@@ -177,6 +177,7 @@ export default {
       table {
         width: 100%;
         border: 1px solid #ddd;
+        font-size:12px;
         tr:nth-child(odd) {
           background: #f8f8f9;
         }

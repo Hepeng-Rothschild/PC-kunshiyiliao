@@ -1,4 +1,3 @@
-
 const login = "/operateapi/operate/login"; //登陆接口
 
 //字典
@@ -43,6 +42,8 @@ const managementAll = '/operateapi/hospitalqueryhospitallevellist' //医院等�
 const managementGzh = '/operateapi/hospitalquerywxappnamelist'   //查询医院公众号
 const managementYlt = '/operateapi/hospitalqueryhospitalnamelist' //查询医院医联体
 const managementEdit = '/operateapi/hospitalupdatehospitaloperatedtobyid' //保存医院详情
+const hospitalgetenummap = '/operateapi/hospitalgetenummap'  //查询第三方服务
+const hospitalwxapplist = '/operateapi/hospitalhospitalwxapplist' //查询医院关联的公众号
 
 //动态新闻
 const getNews = '/operateapi/organizationselectnew' //获取动态新闻详情信息
@@ -205,8 +206,14 @@ const wxTemplateSave = '/operateapi/wxapptemplateupdatetemplate' //公众号模�
 
 const wxMenuList = '/operateapi/wxappmenuquerymenulist' // 公众号菜单管理列表
 const wxMenuListChange = '/operateapi/wxappmenuupdatebatchorinsertbatch' //公众号菜单管理列表修改
-const wxMangent = '/operateapi/wxappmanageupdateocrstatus'  //公众号功能管理
+
+
+const wxMangent = '/operateapi/wxappmanageupdatestatus'  //公众号功能管理
 const wxMangentSearch = '/operateapi/wxappmanageselectbyappid' //公众号功能管理查询
+
+
+
+
 
 // 系统管理//公众号菜单管理
 const systemManagement = '/operateapi/wxappmenuselectmenulist' //系统管理菜单列表
@@ -275,6 +282,8 @@ let testApi = {
     managementGzh,
     managementYlt,
     managementEdit,
+    hospitalgetenummap,
+    hospitalwxapplist,
 
     //动态新闻
     news,

@@ -120,8 +120,8 @@ export default {
                         operateApi = api.operateauthinsert;
                     }
                     subMitObj.id = this.info.id ? parseInt(this.info.id) : null;
-                    subMitObj.name = this.info.name;
-                    subMitObj.remark = this.info.remark;
+                    subMitObj.name = this.info.name.trim();
+                    subMitObj.remark = this.info.remark.trim();
                     this.$axios
                         .post(operateApi, subMitObj)
                         .then(resp => {

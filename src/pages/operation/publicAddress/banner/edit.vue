@@ -75,7 +75,8 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <Input v-model.trim="isort" placeholder="无" style="width: 100px"/>
+          <!-- <Input v-model.trim="isort" placeholder="无" style="width: 100px"/> -->
+          <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px"></InputNumber>
         </div>
       </div>
       <!--是否显示-->
@@ -169,7 +170,7 @@ export default {
 
       let params = {
         appid: this.id,
-        bannerName: this.title,
+        bannerName: this.title.trim(),
         bannerUrl: this.lianjie,
         priority: this.isort,
         id: this.$route.query.id,

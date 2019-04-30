@@ -95,7 +95,8 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <Input v-model="isort" style="width: 100px" @keyup="isorts"/>
+        <!-- <Input v-model="isort" style="width: 100px" @keyup="isorts"/> -->
+        <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--显示-->
@@ -165,7 +166,23 @@ export default {
     ];
     this.$emit("changeBreadList", breadList);
   },
+  mounted(){
+    this.status()
+  },
   methods: {
+    status() {
+      let flag = localStorage.getItem("status");
+      if (!Boolean(flag)) {
+        this.$Message.info("您还没有开通互联网医院,去开通");
+        this.flag = true;
+        localStorage.setItem("homeIndex", 0);
+        setTimeout(() => {
+          this.functionJS.paramsNavgationTo(this, "homeInfo", {
+            // 公用方法
+          }); 
+        }, 600);
+      }
+    },
     isorts() {
       if (this.isort <= 0) {
         this.isort = "";
@@ -208,7 +225,7 @@ export default {
       this.$axios
         .post(api.expertadd, {
           hospitalId: this.id,
-          doctorName: this.name,
+          doctorName: this.name.trim(),
           pageNo: 1,
           pageSize: 10
         })
