@@ -18,7 +18,8 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">就诊地址</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <Input class="w-input" :maxlength="60" v-model="address" placeholder="请输入就诊地址"/>
+                <Input class="w-input" :maxlength="60" @on-change="checkInput" v-model="address" placeholder="请输入就诊地址"/>
+                <span class="rdColor" v-if="addressFlag">就诊地址不能为空</span>
             </Col>
         </Row>
         <Row class="bordered">
@@ -282,23 +283,25 @@ export default {
             icut: 2,
 
             upList: [
-                [["08:00", "09:00"], 0, 0, 0, 0, 0, 0, 0, false],
-                [["09:00", "10:00"], 0, 0, 0, 0, 0, 0, 0, false],
-                [["10:00", "11:00"], 0, 0, 0, 0, 0, 0, 0, false],
-                [["11:00", "12:00"], 0, 0, 0, 0, 0, 0, 0, false]
+                [["08:00", "09:00"], null, null, null, null, null, null, null, false],
+                [["09:00", "10:00"], null, null, null, null, null, null, null, false],
+                [["10:00", "11:00"], null, null, null, null, null, null, null, false],
+                [["11:00", "12:00"], null, null, null, null, null, null, null, false]
             ],
             dnList: [
-                [["13:00", "14:00"], 0, 0, 0, 0, 0, 0, 0, false],
-                [["14:00", "15:00"], 0, 0, 0, 0, 0, 0, 0, false],
-                [["15:00", "16:00"], 0, 0, 0, 0, 0, 0, 0, false],
-                [["16:00", "17:00"], 0, 0, 0, 0, 0, 0, 0, false]
+                [["13:00", "14:00"], null, null, null, null, null, null, null, false],
+                [["14:00", "15:00"], null, null, null, null, null, null, null, false],
+                [["15:00", "16:00"], null, null, null, null, null, null, null, false],
+                [["16:00", "17:00"], null, null, null, null, null, null, null, false]
             ],
 
             open: false,
             value3: '',
 
             termRd: false,
-            costRd: false
+            costRd: false,
+
+            addressFlag:false
         };
     },
     watch: {
@@ -407,13 +410,13 @@ export default {
                         if(el.day == 1){
                             let tmpPiece = [el.timeStart, el.timeEnd];
                             if(this.upList.length<=0){
-                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                let tmpArr = [tmpPiece,null,null,null,null,null,null,null];
                                 tmpArr[el.week] = el.num;
                                 this.upList.push(tmpArr);
                             }else{
                                 let pFlag = true;
                                 let tmpIndex = null;
-                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                let tmpArr = [tmpPiece,null,null,null,null,null,null,null];
                                 this.upList.map((ele,i)=>{
                                     if(ele[0].toString() === tmpPiece.toString()){
                                         pFlag = false;
@@ -430,13 +433,13 @@ export default {
                         }else if(el.day == 2){
                             let tmpPiece = [el.timeStart, el.timeEnd];
                             if(this.dnList.length<=0){
-                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                let tmpArr = [tmpPiece,null,null,null,null,null,null,null];
                                 tmpArr[el.week] = el.num;
                                 this.dnList.push(tmpArr);
                             }else{
                                 let pFlag = true;
                                 let tmpIndex = null;
-                                let tmpArr = [tmpPiece,0,0,0,0,0,0,0];
+                                let tmpArr = [tmpPiece,null,null,null,null,null,null,null];
                                 this.dnList.map((ele,i)=>{
                                     if(ele[0].toString() === tmpPiece.toString()){
                                         pFlag = false;
@@ -495,7 +498,7 @@ export default {
                 let tmph =
                     sliceh + 1 > 12 ? "12:00" : sliceh + 1 + ":" + slicem;
                 tmph = tmph > "12:00" ? "12:00" : tmph;
-                let tmpItem = [[time, tmph], 0, 0, 0, 0, 0, 0, 0];
+                let tmpItem = [[time, tmph], null, null, null, null, null, null, null];
                 this.upList.push(tmpItem);
             } else {
                 this.infoMsg(
@@ -512,7 +515,7 @@ export default {
                 let tmph =
                     sliceh + 1 > 17 ? "17:00" : sliceh + 1 + ":" + slicem;
                 tmph = tmph > "17:00" ? "17:00" : tmph;
-                let tmpItem = [[time, tmph], 0, 0, 0, 0, 0, 0, 0];
+                let tmpItem = [[time, tmph], null, null, null, null, null, null, null];
                 this.dnList.push(tmpItem);
             } else {
                 this.infoMsg(
@@ -644,6 +647,7 @@ export default {
         },
 
         submit(name) {
+            let flag = true;
             if (this.cost == null) return (this.costRd = true);
             if (this.term == null) return (this.termRd = true);
             let tmpRegistertimes = [];
@@ -673,6 +677,14 @@ export default {
                     }
                 }
             })
+            if(!this.address){
+                this.addressFlag = true;
+                flag = false;
+            }
+            if(tmpRegistertimes.length<=0){
+                flag = false;
+                this.$Message.error({content:"请至少有一个号源有号再保存，谢谢",duration:5});
+            }
             let params = {};
             params.address = this.address;
             params.cost = this.cost;
@@ -698,34 +710,36 @@ export default {
                 msg = "添加";
             }
             if (params.doctorId) {
-                this.$axios
-                    .post(url, params)
-                    .then(resp => {
-                        if (resp.data.success) {
-                            this.$Message.info(msg + "成功");
-                            //   公用方法
-                            this.functionJS.queryNavgationTo(
-                                this,
-                                "/index/operation/register/list",
-                                {
-                                    pageNo: this.lPageNo,
-                                    province: this.province,
-                                    city: this.city,
-                                    area: this.area,
-                                    hospital: this.hospital,
-                                    isBack: 2,
-                                    searchKey: this.searchKey,
-                                    deptKey: this.deptKey,
-                                    dictType: this.dictType
-                                }
-                            );
-                        } else {
-                            this.$Message.info(msg + "失败，请重试");
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                if(flag){
+                    this.$axios
+                        .post(url, params)
+                        .then(resp => {
+                            if (resp.data.success) {
+                                this.$Message.info(msg + "成功");
+                                //   公用方法
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/index/operation/register/list",
+                                    {
+                                        pageNo: this.lPageNo,
+                                        province: this.province,
+                                        city: this.city,
+                                        area: this.area,
+                                        hospital: this.hospital,
+                                        isBack: 2,
+                                        searchKey: this.searchKey,
+                                        deptKey: this.deptKey,
+                                        dictType: this.dictType
+                                    }
+                                );
+                            } else {
+                                this.$Message.info(msg + "失败，请重试");
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
             } else {
                 this.expertMsgStatus = true;
             }
@@ -735,6 +749,8 @@ export default {
             else this.termRd = false;
             if (this.cost == null) this.costRd = true;
             else this.costRd = false;
+            if (!this.address) this.addressFlag = true;
+            else this.addressFlag = false;
         },
         reback() {
             //   公用方法

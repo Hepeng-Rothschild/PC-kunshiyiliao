@@ -191,29 +191,10 @@
             <!-- pace数据查询 pacePattern-->
             <checkboxs :listMap='pacePatternList' :checkList='pacePattern' title='pacs数据查询' v-if='title' @selectChange='pacePatternChange' :id = 'pacsSearch' @selectHome='lisPatternHome'></checkboxs>
             <div>
-                <!-- 服务类型 -->
-                <div class="main_yy">
-                    <span class="main_yy_name">服务类型</span>
-                    <Select v-model="serviceTypeValue" style="width:120px;margin-right:10px;">
-                        <Option
-                            v-for="(item,index) in serviceType"
-                            :value="item.id"
-                            :key="index"
-                            :disabled="item.disabled"
-                        >{{ item.name }}</Option>
-                    </Select>
-                    <Button type="primary" @click="addManagement">添加服务</Button>
-                </div>
 
                 <!-- 服务类型添加框 -->
                 <Modal v-model="registerFlag" :title="modalTitle" @on-ok="ok('formValidate')" @on-cancel="cancel" :mask-closable="false">
                     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="120">
-                        <!--  服务名  -->
-                        <!-- <div class="main_info">
-                            <FormItem label="服务名称" prop="serviceName">
-                                <Input v-model="formValidate.serviceName" placeholder="请输入服务名称" style='width:230px;'></Input>
-                            </FormItem>
-                        </div> -->
                         <!-- 服务路径 -->
                         <div class="main_info">
                             <FormItem label="服务路径" prop="serviceUrl">
@@ -540,7 +521,6 @@ export default {
         lisPatternHome (id) {
             this.serviceTypeValue = id;
             this.registerFlag = true;
-            
             let items = {}
             this.AddserviceList.forEach(item => {
                 if(Number(item.serviceType) == Number(id)) {
@@ -555,6 +535,7 @@ export default {
                 this.formValidate.thirdValue = String(items.thirdpartyEnum);
                 this.formValidate.enable = !Boolean(items.enable);
             }
+
             // 请求第三方厂家列表
             this.$axios.post(api.hospitalgetenummap, {
                 parent:parseInt(id),
@@ -562,9 +543,6 @@ export default {
                 if (res.data.success) {
                     let ret = res.data.object;
                     this.thirdList = ret
-                    this.thirdList.map((el) => {
-                        el.id = String(el.id);
-                    })
                 } else {
                     this.$Message.error("加载第三方厂家失败")
                 }
@@ -785,6 +763,9 @@ export default {
                 // pacsPattern数据查询
                 pacsPattern
             };
+            if(this.title == '') {
+                return ""
+            }
             console.log(params);
             // 当医院关闭互联网医院时把appid清空
             if (!this.switch1) {
@@ -802,7 +783,6 @@ export default {
             } else {
                 localStorage.setItem("doctor", "");
             }
-
             this.$axios
                 .post(api.managementEdit, params)
                 .then(res => {
@@ -983,14 +963,14 @@ export default {
                     ret.forEach(item => {
                         item.status = false
                     })
-                    console.log(ret)
                     this.gzh = ret;
                 }
             });
             // 医院关联公众号
-            this.$axios.post(api.hospitalwxapplist,{
+            this.$axios.post(api.hospitalwxapplist, {
                 hospitalId:this.id
             }).then(res => {
+                console.log(res);
                 if(res.data.message) {
                     let ret = res.data.object;
                     console.log(ret);
@@ -1040,7 +1020,6 @@ export default {
                             this.lisSearch = item.id
                         }
                     })
-                    // ret.serviceTypeMap
                     // 医院名字
                     this.title = ret.orgName;
                     // 机构等级
@@ -1058,11 +1037,9 @@ export default {
                     // 地址
                     this.y_dizhi = ret.hosAddr;
                     
-                    
                     // appidList关联公众号列表
                     let appidList = ret.appidList || []
                    
-                    
                     //互联网医院
                     this.switch1 = Boolean(ret.internetHospital);
                     if (this.switch1) {
