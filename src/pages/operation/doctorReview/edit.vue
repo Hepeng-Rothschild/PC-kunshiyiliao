@@ -444,7 +444,11 @@ export default {
                         );
 
                     } else {
-                        this.$Message.error("修改失败，请重试");
+                        if(resp.data.object.same){
+                            this.$Message.error({content:resp.data.object.same,duration:5});
+                        }else{
+                            this.$Message.error("修改失败，请重试");
+                        }
                     }
                 })
                 .catch(err => {
