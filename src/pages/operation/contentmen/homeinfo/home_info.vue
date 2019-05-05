@@ -185,13 +185,12 @@
             <imyswitch :status='registerIthirdparty' title='预约挂号池是否为第三方' @statuschange='registerIthirdpartyChange' v-if='title'></imyswitch>
             <!-- 预约挂号卡模式 -->
             <!-- 预约挂号池第三方数据 -->
-            <checkboxs :listMap='registerPatternList' :checkList='registerPatternValue' title='预约挂号卡模式' v-if='title' @selectChange='registerPatternChange'  :id = 'makeSearch' @selectHome='lisPatternHome'></checkboxs>
+            <!-- <checkboxs :listMap='registerPatternList' :checkList='registerPatternValue' title='预约挂号卡模式' v-if='title' @selectChange='registerPatternChange'  :id = 'makeSearch' @selectHome='lisPatternHome'></checkboxs> -->
             <!-- lis数据查询 -->
-            <checkboxs :listMap='lisPatternList' :checkList='lisPattern' title='lis数据查询' v-if='title' @selectChange='lisPatternChange' :id = 'lisSearch' @selectHome='lisPatternHome'></checkboxs>
+            <!-- <checkboxs :listMap='lisPatternList' :checkList='lisPattern' title='lis数据查询' v-if='title' @selectChange='lisPatternChange' :id = 'lisSearch' @selectHome='lisPatternHome'></checkboxs> -->
             <!-- pace数据查询 pacePattern-->
-            <checkboxs :listMap='pacePatternList' :checkList='pacePattern' title='pacs数据查询' v-if='title' @selectChange='pacePatternChange' :id = 'pacsSearch' @selectHome='lisPatternHome'></checkboxs>
-            <div>
-
+            <!-- <checkboxs :listMap='pacePatternList' :checkList='pacePattern' title='pacs数据查询' v-if='title' @selectChange='pacePatternChange' :id = 'pacsSearch' @selectHome='lisPatternHome'></checkboxs> -->
+            <div style='display:none;'>
                 <!-- 服务类型添加框 -->
                 <Modal v-model="registerFlag" :title="modalTitle" @on-ok="ok('formValidate')" @on-cancel="cancel" :mask-closable="false">
                     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="120">
@@ -246,12 +245,12 @@
                     <!-- 服务路径 -->
                     <div class="main_info">
                         <span>服务路径</span>
-                        <span>{{ item.serviceUrl }}</span>
+                        <span style='overflow: hidden; white-space: nowrap; text-overflow: ellipsis;'>{{ item.serviceUrl }}</span>
                     </div>
                     <!-- 第三方参数 -->
                     <div class="main_info">
                         <span>第三方参数</span>
-                        <span>{{ item.requestVal }}</span>
+                        <span style='overflow: hidden; white-space: nowrap; text-overflow: ellipsis;'>{{ item.requestVal }}</span>
                     </div>
                     <!-- 第三方厂家 -->
                     <div class="main_info">

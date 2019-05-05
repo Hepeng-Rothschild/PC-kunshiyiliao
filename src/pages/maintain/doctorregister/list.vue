@@ -23,39 +23,6 @@
             <!-- 列表 -->
             <div class="list">
                 <Table stripe :columns="columns1" :data="list"></Table>
-                <!-- <table border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>编号</th>
-                        <th>医生姓名</th>
-                        <th>性别</th>
-                        <th>城市</th>
-                        <th>医院名称</th>
-                        <th>就诊科室</th>
-                        <th>职称</th>
-                        <th>医生手机号</th>
-                        <th>医生简介</th>
-                        <th>擅长</th>
-                        <th>注册时间</th>
-                        <th>数据来源</th>
-                    </tr>
-                    <tr v-for="(item,index) in list" :key='index'>
-                        <th>{{ addZero(index) }}</th>
-                        <th>{{ item.doctorName }}</th>
-                        <th>{{ item.gender == '0'? '女' :'男' }}</th>
-                        <th>{{ item.city }}</th>
-                        <th>{{ item.hospitalName }}</th>
-
-                        <th>{{ item.deptType }}</th>
-                        <th>{{ item.title }}</th>
-
-                        <th>{{ item.phone }}</th>
-                        <th class="one" @click="simple(item)">{{ item.personalIntroduction }}</th>
-                        <th class="one" @click="simples(item)">{{ item.doctorGood }}</th>
-                        <th>{{ item.createTime }}</th>
-                        <th>{{ item.ibatch == '0'? '个人注册' :'批量导入'}}</th>
-                    </tr>
-                </table> -->
-                <!-- <div class="notData" v-show="!list.length">暂无更多数据</div> -->
             </div>
         </div>
         <!--分页器-->
@@ -149,7 +116,8 @@ export default {
                                 "a",
                                 {
                                     attrs: {
-                                        href: "javascript:void(0);"
+                                        href: "javascript:void(0);",
+                                        title: "点击医生简介"
                                     },
                                     on: {
                                         click: () => {
@@ -175,7 +143,8 @@ export default {
                                 "a",
                                 {
                                     attrs: {
-                                        href: "javascript:void(0);"
+                                        href: "javascript:void(0);",
+                                        title: "点击医生擅长"
                                     },
                                     on: {
                                         click: () => {
@@ -335,44 +304,6 @@ export default {
         .list {
             width: 100%;
             margin: 10px 0;
-            table {
-                width: 100%;
-                border: 1px solid #ddd;
-                tr:nth-child(odd) {
-                    background: #f8f8f9;
-                }
-                tr:nth-child(even) {
-                    background: #fff;
-                }
-                tr:not(:first-child):hover {
-                    background: #ebf7ff;
-                }
-                tr {
-                    border-top: 1px solid #ddd;
-                    height: 40px;
-                    th {
-                        min-width:70px;
-                        padding: 0 6px;
-                        text-align: center;
-                    }
-                    th.one {
-                        max-width: 100px;
-                        // padding: 0 6px;
-                        // text-align: center;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        cursor: pointer;
-                    }
-                }
-            }
-            .notData {
-                width: 100%;
-                text-align: center;
-                border: 1px solid #ddd;
-                border-top: none;
-                line-height: 40px;
-            }
         }
     }
     .paging {

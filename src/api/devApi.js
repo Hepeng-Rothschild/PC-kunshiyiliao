@@ -113,6 +113,10 @@ const DoctorRemoteClinicTypeEdit = '/operateapi/outpatientupdate'   //修改远�
 const remotedoctorupdateremotestatus = '/operateapi/remotedoctorupdateremotestatus'   //修改医生是否开启远程门诊
 const doctorupdatedoctorsort = '/operateapi/doctorupdatedoctorsort'   //修改医生排序
 
+// 第三方厂家服务
+const thirdparty = '/operateapi/hospitalthirdpartyselecthospitalthirdparty' //查询第三方厂家
+const updatethirdparty = '/operateapi/hospitalthirdpartyupdatehospitalthirdparty'//修改第三方厂家
+
 const DoctorListEdit = '/operateapi/remotedoctorupdateremotestatus' // 医生排班列表修改 
 
 //运维端!!!
@@ -373,6 +377,9 @@ let devApi = {
     searchCurrentRoom,
     remotedoctorupdateremotestatus,
     doctorupdatedoctorsort,
+    // 第三方厂家
+    thirdparty,
+    updatethirdparty,
     // 远程门诊类型
     DoctorRemoteClinicTypeList,
     DoctorRemoteClinicTypeAdd,

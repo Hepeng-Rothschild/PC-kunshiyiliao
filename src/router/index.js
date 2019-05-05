@@ -85,6 +85,7 @@ export default new VueRouter({
 				operation.createNews,
 				operation.d_createdNews,
 				operation.expert_edit,
+				operation.thirdParty,
 				// 远程门诊
 				operation.remoteClinic,
 				operation.remoteClinicEdit,
