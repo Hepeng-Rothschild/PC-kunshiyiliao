@@ -12,7 +12,6 @@
                 v-for='item,index in HospitalThirdpartyEnum'
                 :key='index'
             ></checkboxs>
-
             <!-- 服务类型添加框 -->
             <Modal
                 v-model="registerFlag"
