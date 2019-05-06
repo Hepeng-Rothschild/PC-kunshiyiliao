@@ -5,7 +5,7 @@
             <!--机构名称 -->
             <div class="main_info">
                 <span>机构名称</span>
-                <Input :value="title" style="width: 300px" disabled/>
+                <Input :value="info.title" style="width: 300px" disabled/>
             </div>
             <!--机构首图-->
             <div class="main_imgs">
@@ -51,7 +51,7 @@
             <!--机构等级-->
             <div class="main_type">
                 <span>机构等级</span>
-                <Select v-model="y_type" style="width:100px" clearable>
+                <Select v-model="info.grade" style="width:100px" clearable>
                     <Option
                         v-for="item in types"
                         :value="item.dictType"
@@ -62,7 +62,7 @@
             <!--医联体上级医院-->
             <div class="main_info">
                 <span>医联体上级医院</span>
-                <Select v-model="y_search1" style="width:200px;">
+                <Select v-model="info.orgParentCode" style="width:200px;">
                     <Option value="0">请选择</Option>
                     <Option
                         :value="item.orgCode"
@@ -74,8 +74,7 @@
             <!--背景模板-->
             <div class="main_moban">
                 <span>背景模板</span>
-
-                <Select v-model="y_module" style="width:100px;" clearable>
+                <Select v-model="info.cssTemplate" style="width:100px;" clearable>
                     <Option :value="2">默认模板</Option>
                     <Option :value="1">中医院模板</Option>
                 </Select>
@@ -96,13 +95,13 @@
             <!--机构路线-->
             <div class="main_info">
                 <span>机构路线</span>
-                <Input v-model="y_luxin" placeholder="请输入机构乘车路线" style="width: 370px"/>
+                <Input v-model.trim="info.route" placeholder="请输入机构乘车路线" style="width: 370px"/>
             </div>
             <!--机构电话-->
             <div class="main_info">
                 <span>机构电话</span>
                 <Input
-                    v-model="y_phone"
+                    v-model="info.telephone"
                     placeholder="请输入机构电话"
                     style="width: 370px"
                     :maxlength="12"
@@ -111,17 +110,17 @@
             <!--机构地址-->
             <div class="main_info">
                 <span>机构地址</span>
-                <Input v-model="y_dizhi" placeholder="请输入机构地址" style="width: 370px"/>
+                <Input v-model="info.hosAddr" placeholder="请输入机构地址" style="width: 370px"/>
             </div>
             <!--是否开通互联网医院-->
             <div class="main_yy">
                 <span class="main_yy_name">开通互联网医院</span>
-                <iSwitch v-model="switch1" @on-change="change"/>
+                <iSwitch v-model="info.internetHospital" @on-change="change"/>
             </div>
             <!--医院关联公众号-->
             <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
                 <span>医院关联公众号</span>
-                <div v-for='item,index in appidList' :key = 'index'>
+                <div v-for='item,index in info.appidList' :key = 'index'>
                     <Select v-model="item.value" style="width:150px;margin-right:4px;" :disabled="status" @on-change='relationwx' clearable @on-clear='relationwx'>
                         <Option
                             v-for ="item in gzh"
@@ -137,7 +136,7 @@
             <!-- 医院公众号支付 -->
             <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
                 <span>医院公众号支付</span>
-                <Select v-model="y_gzh" style="width:150px;" :disabled="status" clearable>
+                <Select v-model="info.wxappPay" style="width:150px;" :disabled="status" clearable>
                     <Option
                         v-for="item in selectGzh"
                         :value="item.appid"
@@ -148,12 +147,12 @@
             <!--是否加入医院联盟-->
             <div class="main_yy">
                 <span class="main_yy_name">加入医院联盟</span>
-                <iSwitch v-model="switch2" :disabled="status" @on-change="change2"/>
+                <iSwitch v-model="info.unionHospital" :disabled="status" @on-change="change2"/>
             </div>
             <!--医院联盟排序-->
             <div class="main_info">
                 <span>医院联盟排序</span>
-                <InputNumber :max="99999" :min="1" v-model="hospitalSort" placeholder="医院联盟排序" :disabled="hospitalFlag"
+                <InputNumber :max="99999" :min="1" v-model="info.internetHospitalSort" placeholder="医院联盟排序" :disabled="hospitalFlag"
                 style="width:120px;"
                 ></InputNumber>
                 <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
@@ -161,37 +160,36 @@
             <!-- 预约挂号排序 -->
             <div class="main_info">
                 <span>预约挂号排序</span>
-                <InputNumber :max="99999" :min="1" v-model="appointmentRegistration" placeholder="预约挂号排序" 
+                <InputNumber :max="99999" :min="1" v-model="info.appointmentRegistration" placeholder="预约挂号排序" 
                 style="width:120px;"></InputNumber>
                 <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!--是否开通处方流转-->
             <div class="main_yy">
                 <span class="main_yy_name">开通处方流转</span>
-                <iSwitch v-model="switch3"/>
+                <iSwitch v-model="info.ipres"/>
             </div>
             <!--处方流转平台接口ID-->
             <div class="main_info">
                 <span>处方流转平台接口ID</span>
-                <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px"/>
+                <Input v-model="info.prescriptionId" placeholder="请输入Id" style="width: 370px"/>
             </div>
             <!--是否加入远程门诊-->
-            <imyswitch :status='switch4' title='加入远程门诊' @statuschange='switch4Change' v-if='title'></imyswitch>
+            <imyswitch :status='info.iremote' title='加入远程门诊' @statuschange='switch4Change' v-if='info.title'></imyswitch>
             <!-- 是否是否强制用券 -->
-            <imyswitch :status='usedCoupon' title='是否强制用券' @statuschange='usedCouponChange' v-if='title'></imyswitch>
+            <imyswitch :status='info.usedCoupon' title='是否强制用券' @statuschange='usedCouponChange' v-if='info.title'></imyswitch>
             <!-- 预约挂号支付 -->
-            <imyswitch :status='registerPayStatus' title='预约挂号支付' @statuschange='registerPayStatusChange' v-if='title'></imyswitch>
+            <imyswitch :status='info.registerPayStatus' title='预约挂号支付' @statuschange='registerPayStatusChange' v-if='info.title'></imyswitch>
             <!-- 预约挂号池是否为第三方 -->
-            <imyswitch :status='registerIthirdparty' title='预约挂号池是否为第三方' @statuschange='registerIthirdpartyChange' v-if='title'></imyswitch>
+            <imyswitch :status='info.registerIthirdparty' title='预约挂号池是否为第三方' @statuschange='registerIthirdpartyChange' v-if='info.title'></imyswitch>
             <!-- 预约挂号卡模式 -->
             <!-- 预约挂号池第三方数据 -->
-            <checkboxs :listMap='registerPatternList' :checkList='registerPatternValue' title='预约挂号卡模式' v-if='title' @selectChange='registerPatternChange'  :id = 'makeSearch' @selectHome='lisPatternHome'></checkboxs>
+            <!-- <checkboxs :listMap='registerPatternList' :checkList='registerPatternValue' title='预约挂号卡模式' v-if='info.title' @selectChange='registerPatternChange'  :id = 'makeSearch' @selectHome='lisPatternHome'></checkboxs> -->
             <!-- lis数据查询 -->
-            <checkboxs :listMap='lisPatternList' :checkList='lisPattern' title='lis数据查询' v-if='title' @selectChange='lisPatternChange' :id = 'lisSearch' @selectHome='lisPatternHome'></checkboxs>
+            <!-- <checkboxs :listMap='lisPatternList' :checkList='lisPattern' title='lis数据查询' v-if='info.title' @selectChange='lisPatternChange' :id = 'lisSearch' @selectHome='lisPatternHome'></checkboxs> -->
             <!-- pace数据查询 pacePattern-->
-            <checkboxs :listMap='pacePatternList' :checkList='pacePattern' title='pacs数据查询' v-if='title' @selectChange='pacePatternChange' :id = 'pacsSearch' @selectHome='lisPatternHome'></checkboxs>
-            <div>
-
+            <!-- <checkboxs :listMap='pacePatternList' :checkList='pacePattern' title='pacs数据查询' v-if='info.title' @selectChange='pacePatternChange' :id = 'pacsSearch' @selectHome='lisPatternHome'></checkboxs> -->
+            <div v-if="true">
                 <!-- 服务类型添加框 -->
                 <Modal v-model="registerFlag" :title="modalTitle" @on-ok="ok('formValidate')" @on-cancel="cancel" :mask-closable="false">
                     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="120">
@@ -354,30 +352,47 @@ export default {
         return {
             modalTitle: "添加服务",
             info: {
+                // 机构名称
+                title:"",
+                // 机构等级
+                grade:"",
+                // 医联体上级医院
+                orgParentCode:"",
+                // 背景模板
+                cssTemplate:"",
                 // 机构简介
-                content: ""
+                content: "",
+                // 乘车路线
+                route:"",
+                // 机构电话
+                telephone:"",
+                // 机构地址
+                hosAddr:"",
+                // 互联网医院
+                internetHospital:false,
+                // 医院关联公众号
+                appidList:[],
+                // 支付公众号
+                wxappPay:"",
+                // 医院聪明
+                unionHospital:false,
+                // 联盟排序
+                internetHospitalSort:"",
+                // 预约挂号排序
+                appointmentRegistration:"",
+                // 是否开通处方流转
+                ipres:false,
+                // 处方流转平台接口ID
+                prescriptionId:"",
+                // 远程门诊
+                iremote:false,
+                // 强制用卷
+                usedCoupon:false,
+                // 预约挂号支付
+                registerPayStatus: false,
+                // 预约挂号池是否为第三方
+                registerIthirdparty: false,
             },
-            // 医院关联 的公众号
-            selectThis:'',
-            height: 300,
-            // 机构名称
-            title: "",
-            visible: false,
-            uploadList: [],
-            // 是否开通互联网医院
-            switch1: false,
-            // 是否加入医院联盟
-            switch2: false,
-            // 是否开通处方流转
-            switch3: false,
-            // 是否加入远程门诊
-            switch4: false,
-            // 强制用卷
-            usedCoupon: false,
-            // 预约挂号支付
-            registerPayStatus: false,
-            // 预约挂号池是否为第三方
-            registerIthirdparty: false,
             // 预约挂号卡模式
             registerPattern: null,
             // 服务类型列表
@@ -411,37 +426,15 @@ export default {
             // pace数据查询
             pacePattern:[],
             pacePatternList:[],
-            // 机构等级
-            y_type: 6001,
-            // 背景模板
-            y_module: "2",
-            // 机构路线
-            y_luxin: "",
-            // 机构电话
-            y_phone: "",
-            // 机构地址
-            y_dizhi: "",
-            // 互联网医院公众号
-            appidList: [
-                // {
-                //     value : "",
-                //     status : false,
-                // }
-            ],
-            y_gzh: null,
-            // 预约挂号排序
-            appointmentRegistration:"",
-            // 处方流转平台ID
-            y_uid: "",
-            // 医联体上级医院
-            y_search1: "0",
             // 公众号列表
             gzh: [],
             // 医联体列表
             ylt: [],
-            // 机构等级
+            // 机构等级列表
             types: [],
             // 上传图片相关
+            uploadList: [],
+            visible: false,
             defaultList: [],
             imgName: "",
             uploadModal: true,
@@ -453,8 +446,6 @@ export default {
             images: "",
             id: sessionStorage.getItem("hospitalId"),
             status: false,
-            // 医院联盟排序
-            hospitalSort: "",
             hospitalFlag: false,
             urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
             formValidate:{
@@ -550,19 +541,19 @@ export default {
         },
         // 强制用卷
         usedCouponChange (status) {
-            this.usedCoupon = status
+            this.info.usedCoupon = status
         },
         // 预约挂号支付
         registerPayStatusChange (status) {
-            this.registerPayStatus = status
+            this.info.registerPayStatus = status
         },
         // 是否加入远程门诊
         switch4Change (status) {
-            this.switch4 = status
+            this.info.iremote = status
         },
         // 预约挂号池是否为第三方
         registerIthirdpartyChange (status) {
-            this.registerIthirdparty = status
+            this.info.registerIthirdparty = status
         },
         // 公众号列表限制
         addAppid () {
@@ -573,19 +564,19 @@ export default {
             // 所有公众号列表
             let gzhlen = this.gzh.length;
             // 添加的公众号列表
-            let applen = this.appidList.length
+            let applen = this.info.appidList.length
             if (gzhlen <= applen) {
                 this.$Message.error('当前仅有'+gzhlen+'个公众号可选择')
                 return ""
             }
-            this.appidList.forEach(item => {
+            this.info.appidList.forEach(item => {
                 this.gzh.forEach(i => {
                     if(i.appid == item.value) {
                         i.status = true;
                     }
                 })
             })
-            this.appidList.push({
+            this.info.appidList.push({
                 value : "",
                 status : false
             })
@@ -596,8 +587,8 @@ export default {
                 this.$Message.error("请开通互联网医院")
                 return ""
             }
-            if(this.appidList.length != 1) {
-                this.appidList.splice(this.appidList.length-1,1);
+            if(this.info.appidList.length != 1) {
+                this.info.appidList.splice(this.info.appidList.length-1,1);
             } else {
                 this.$Message.error("请至少关联一个公众号")
             }
@@ -611,7 +602,7 @@ export default {
                 i.status = false
             })
             // 新选择的公众号
-            this.appidList.forEach(item => {
+            this.info.appidList.forEach(item => {
                 this.gzh.forEach((i,m) => {
                     if (item.value == i.appid) {
                         list.push(i)
@@ -619,7 +610,7 @@ export default {
                     }
                 })
             })
-            this.y_gzh = ''
+            this.info.wxappPay = ''
             this.selectGzh = list
         },
         // 是否开通互联网医院关联数据
@@ -628,12 +619,12 @@ export default {
                 this.status = false;
 
             } else {
-                this.appidList.forEach(item => {
+                this.info.appidList.forEach(item => {
                     item.value = ''
                 })
                 this.status = true;
-                this.y_gzh = null;
-                this.switch2 = false;
+                this.info.wxappPay = null;
+                this.info.unionHospital = false;
                 this.hospitalFlag = true;
             }
         },
@@ -676,16 +667,16 @@ export default {
                 images = "";
             }
             // lisPattern数据查询
-            let lisPattern = this.computedLis(this.lisPattern);
+            // let lisPattern = this.computedLis(this.lisPattern);
             // pacsPattern数据查询
-            let pacsPattern = this.computedLis(this.pacePattern);
+            // let pacsPattern = this.computedLis(this.pacePattern);
             // registerPatternValue预约挂号卡模式
-            let selectArr = this.computedLis(this.registerPatternValue);
+            // let selectArr = this.computedLis(this.registerPatternValue);
 
-                //关联的多个公众号的appid
+              //关联的多个公众号的appid
             let appid = []
-            if(this.switch1) {
-                this.appidList.forEach(item => {
+            if(this.info.internetHospital) {
+                this.info.appidList.forEach(item => {
                     if(Boolean(item.value)) {
                         appid.push(item.value);
                     }
@@ -693,92 +684,93 @@ export default {
             }
 
             // 当选择数据查询未添加服务时不允许保存
-            if(Boolean(this.lisPattern.length)) {
-                if(!this.flagPattern(this.lisSearch, this.AddserviceList)) {
-                    this.$Message.error("请选择lis数据查询第三方厂家")
-                    return ""
-                }
-            }   
-            if(Boolean(this.pacePattern.length)) {
-                if(!this.flagPattern(this.pacsSearch, this.AddserviceList)) {
-                    this.$Message.error("请选择pacs数据查询第三方厂家")
-                    return ""
-                }
-            }
-            if(Boolean(this.registerPatternValue.length)) {
-                if(!this.flagPattern(this.makeSearch, this.AddserviceList)) {
-                    this.$Message.error("请选择预约挂号数据查询第三方厂家")
-                    return ""
-                }
-            }
+            // if(Boolean(this.lisPattern.length)) {
+            //     if(!this.flagPattern(this.lisSearch, this.AddserviceList)) {
+            //         this.$Message.error("请选择lis数据查询第三方厂家")
+            //         return ""
+            //     }
+            // }   
+            // if(Boolean(this.pacePattern.length)) {
+            //     if(!this.flagPattern(this.pacsSearch, this.AddserviceList)) {
+            //         this.$Message.error("请选择pacs数据查询第三方厂家")
+            //         return ""
+            //     }
+            // }
+            // if(Boolean(this.registerPatternValue.length)) {
+            //     if(!this.flagPattern(this.makeSearch, this.AddserviceList)) {
+            //         this.$Message.error("请选择预约挂号数据查询第三方厂家")
+            //         return ""
+            //     }
+            // }
             // 全部参数
             let params = {
                 hospitalId: this.id,
                 //上级编码
-                orgParentCode: this.y_search1,
+                orgParentCode: this.info.orgParentCode,
                 // 医院图标
                 hosIcon: images,
                 //机构等级
-                grade: this.y_type,
+                grade: this.info.grade,
                 //模板
-                cssTemplate: this.y_module,
+                cssTemplate: this.info.cssTemplate,
                 //路线
-                route: this.y_luxin,
+                route: this.info.route,
                 //电话
-                telephone: this.y_phone,
+                telephone: this.info.telephone,
                 //简介
                 hosIntroduction: this.info.content,
                 //地址
-                hosAddr: this.y_dizhi,
-                //公众号支付
-                wxappPay: this.y_gzh,
+                hosAddr: this.info.hosAddr,
+                //互联网医院
+                internetHospital: Number(this.info.internetHospital),
                 // 关联公众号列表
                 appidList: appid,
-                //处方平台UID
-                prescriptionId: this.y_uid,
-                // 预约挂号排序
-                appointmentRegistration:String(this.appointmentRegistration),
-                //互联网医院
-                internetHospital: Number(this.switch1),
+                //公众号支付
+                wxappPay: this.info.wxappPay,
                 //医院联盟
-                unionHospital: Number(this.switch2),
+                unionHospital: Number(this.info.unionHospital),
+                //处方平台UID
+                prescriptionId: this.info.prescriptionId,
+                // 预约挂号排序
+                appointmentRegistration:String(this.info.appointmentRegistration),
                 //处方流转
-                ipres: Number(this.switch3),
+                ipres: Number(this.info.ipres),
                 // 医院排序
-                internetHospitalSort: this.hospitalSort,
+                internetHospitalSort: this.info.internetHospitalSort,
                 // 开启远程门诊
-                iremote: Number(this.switch4),
+                iremote: Number(this.info.iremote),
                 // 是否强制用卷
-                usedCoupon: Number(this.usedCoupon),
+                usedCoupon: Number(this.info.usedCoupon),
                 // 预约挂号支付
-                registerPayStatus: Number(this.registerPayStatus),
-                // 预约挂号卡模式
-                registerPattern: selectArr,
+                registerPayStatus: Number(this.info.registerPayStatus),
                 // 预约挂号池是否为第三方
-                registerIthirdparty: Number(this.registerIthirdparty),
+                registerIthirdparty: Number(this.info.registerIthirdparty),
                 // 预约挂号服务类型
-                list: this.AddserviceList,
+                // list: this.AddserviceList,
                 // lisPattern数据查询
-                lisPattern,
+                // lisPattern,
                 // pacsPattern数据查询
-                pacsPattern
+                // pacsPattern
+                // 预约挂号卡模式
+                // registerPattern: selectArr,
             };
             if(this.title == '') {
+                this.$Message.error("医院数据加载失败，请重试")
                 return ""
             }
-            console.log(params);
+            console.log("参数+++++++",params);
             // 当医院关闭互联网医院时把appid清空
-            if (!this.switch1) {
+            if (!this.info.internetHospital) {
                 params.wxappPay = '';
                 params.appidList = []
-            } else if(this.switch1) {
+            } else if(this.info.internetHospital) {
                 if(!Boolean(params.wxappPay) || params.appidList.length == 0){
                     this.$Message.error("请选择医院关联公众号与医院公众号支付")
                     return ""
                 }
             }
             // 远程门诊状态缓存
-            if (this.switch4) {
+            if (this.info.iremote) {
                 localStorage.setItem("doctor", "show");
             } else {
                 localStorage.setItem("doctor", "");
@@ -786,6 +778,7 @@ export default {
             this.$axios
                 .post(api.managementEdit, params)
                 .then(res => {
+                    console.log(res);
                     if (res.data.code) {
                         this.$Message.info("修改成功");
                     } else {
@@ -797,7 +790,7 @@ export default {
                 });
 
             // 开通互联网医院状态缓存/动态新闻/预约科室/院内科室
-            if (this.switch1) {
+            if (this.info.internetHospital) {
                 localStorage.setItem("status", "show");
             } else {
                 localStorage.setItem("status", "");
@@ -970,10 +963,8 @@ export default {
             this.$axios.post(api.hospitalwxapplist, {
                 hospitalId:this.id
             }).then(res => {
-                console.log(res);
                 if(res.data.message) {
                     let ret = res.data.object;
-                    console.log(ret);
                     this.selectGzh = ret;
                 }
             })
@@ -1008,55 +999,54 @@ export default {
                                 this.pictureFormat(ret.hosIcon)
                         });
                     }
-                    this.serviceType = ret.serviceTypeMap
-                    this.serviceType.forEach(item => {
-                        if(item.name == '预约挂号') {
-                            this.makeSearch = item.id
-                        }
-                        if(item.name == 'pacs查询') {
-                            this.pacsSearch = item.id
-                        }
-                        if(item.name == 'lis查询') {
-                            this.lisSearch = item.id
-                        }
-                    })
+                    // this.serviceType = ret.serviceTypeMap
+                    // this.serviceType.forEach(item => {
+                    //     if(item.name == '预约挂号') {
+                    //         this.makeSearch = item.id
+                    //     }
+                    //     if(item.name == 'pacs查询') {
+                    //         this.pacsSearch = item.id
+                    //     }
+                    //     if(item.name == 'lis查询') {
+                    //         this.lisSearch = item.id
+                    //     }
+                    // })
                     // 医院名字
-                    this.title = ret.orgName;
+                    this.info.title = ret.orgName
                     // 机构等级
-                    this.y_type = ret.grade;
+                    this.info.grade = ret.grade
                     // 医联体上级医院
-                    this.y_search1 = ret.orgParentCode;
+                    this.info.orgParentCode = ret.orgParentCode
                     // 背景模板
-                    this.y_module = ret.cssTemplate;
+                    this.info.cssTemplate = ret.cssTemplate
                     // 简介
                     this.info.content = ret.hosIntroduction;
                     //路线
-                    this.y_luxin = ret.route;
+                    this.info.route = ret.route
                     //电话
-                    this.y_phone = ret.telephone;
+                    this.info.telephone = ret.telephone
                     // 地址
-                    this.y_dizhi = ret.hosAddr;
-                    
+                    this.info.hosAddr = ret.hosAddr
                     // appidList关联公众号列表
                     let appidList = ret.appidList || []
                    
                     //互联网医院
-                    this.switch1 = Boolean(ret.internetHospital);
-                    if (this.switch1) {
+                    this.info.internetHospital = Boolean(ret.internetHospital)
+                    if (Boolean(ret.internetHospital)) {
                         this.status = false;
                         localStorage.setItem("status", "show");
                         // wxappPay公众号支付
-                        this.y_gzh = ret.wxappPay
+                        this.info.wxappPay = ret.wxappPay
                          // 医院关联公众号回显
                         if (Boolean(appidList.length)) {
                             appidList.forEach(i => {
-                                this.appidList.push({
+                                this.info.appidList.push({
                                     value : i,
                                     status : true,
                                 })
                             })
                         } else {
-                            this.appidList.push({
+                            this.info.appidList.push({
                                 value : '',
                                 status : false
                             })
@@ -1064,23 +1054,28 @@ export default {
                     } else {
                         this.status = true;
                         localStorage.setItem("status", "");
-                        this.appidList.push({
+                        this.info.appidList.push({
                             value : '',
                             status : false
                         })
                     }
                     // 医院联盟
-                    this.switch2 = Boolean(ret.unionHospital);
-                    this.hospitalSort = ret.internetHospitalSort;
+                    this.info.unionHospital = Boolean(ret.unionHospital);
+                    // 排序
+                    this.info.internetHospitalSort = ret.internetHospitalSort;
                     // hospitalFlag
-                    if (this.switch2) {
+                    if (Boolean(ret.unionHospital)) {
                         this.hospitalFlag = false;
                     } else {
                         this.hospitalFlag = true;
                     }
+                    // 处方流转
+                    this.info.ipres = Boolean(ret.ipres);
+                    // 流转平台id
+                    this.info.prescriptionId = ret.prescriptionId
                     // 开启远程门诊
-                    this.switch4 = Boolean(ret.iremote);
-                    if (this.switch4) {
+                    this.info.iremote = Boolean(ret.iremote);
+                    if (Boolean(ret.iremote)) {
                         localStorage.setItem("doctor", "show");
                     } else {
                         localStorage.setItem("doctor", "");
@@ -1091,20 +1086,18 @@ export default {
                         appointmentRegistration = ''
                     }
                     this.appointmentRegistration = appointmentRegistration
-                    // 是否强制用卷
-                    this.usedCoupon = Boolean(ret.usedCoupon);
-                    // 预约挂号支付
-                    this.registerPayStatus = Boolean(ret.registerPayStatus);
-                    //医联体上级医院
-                    // 处方流转
-                    this.switch3 = Boolean(ret.ipres);
-                    this.y_uid = ret.prescriptionId;
+                    this.info.appointmentRegistration = appointmentRegistration;
 
+                    // 是否强制用卷
+                    this.info.usedCoupon = Boolean(ret.usedCoupon);
+                    // 预约挂号支付
+                    this.info.registerPayStatus = Boolean(ret.registerPayStatus);
+                    
                     // 预约挂号卡模式
                     // registerPatternValue  选中值
                     this.registerPatternValue = ret.registerPattern ? ret.registerPattern.split(",") : [];
                     // registerPatternList  所有值
-                    this.registerPatternList = ret.listMap;
+                    // this.registerPatternList = ret.listMap;
 
                     // lisPatternList列表查询
                     this.lisPatternList = ret.listMap
@@ -1117,21 +1110,21 @@ export default {
                     this.pacePattern = ret.pacsPattern ? ret.pacsPattern.split(",") : []
 
                     // 预约挂号池是否为第三方
-                    this.registerIthirdparty = Boolean(ret.registerIthirdparty);
+                    this.info.registerIthirdparty = Boolean(ret.registerIthirdparty);
                     
             
                     //添加的服务列表
-                    this.AddserviceList = ret.listThirdparty || [];
-                        if(Boolean(this.AddserviceList)) {
-                            this.AddserviceList.forEach(item => {
-                                this.serviceType.forEach(i => {
-                                    if(Number(item.serviceType) == Number(i.id)) {
-                                        i.disabled = true
-                                        item.serverTypeName = i.name
-                                    }
-                                })
-                            })
-                        }
+                    // this.AddserviceList = ret.listThirdparty || [];
+                    //     if(Boolean(this.AddserviceList)) {
+                    //         this.AddserviceList.forEach(item => {
+                    //             this.serviceType.forEach(i => {
+                    //                 if(Number(item.serviceType) == Number(i.id)) {
+                    //                     i.disabled = true
+                    //                     item.serverTypeName = i.name
+                    //                 }
+                    //             })
+                    //         })
+                    //     }
                 }
             });
     }

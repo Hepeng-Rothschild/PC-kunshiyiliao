@@ -106,6 +106,9 @@ export default {
                     　　　　　　　　textOverflow: 'ellipsis',
                     　　　　　　　　whiteSpace: 'nowrap',
                     　　　　　　},
+                                attrs:{
+                                    title: "点击查看绑定机构名称"
+                                },
                                 on:{
                                     click :() => {
                                         this.simples(a)

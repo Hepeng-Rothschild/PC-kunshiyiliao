@@ -282,7 +282,7 @@ export default {
       allData: [],
       selData: [],
       ids: [],
-      mSearchKey: null,
+      mSearchKey: '',
       searchKey: null,
       ppageNo: 1,
       ppageSize: 10,

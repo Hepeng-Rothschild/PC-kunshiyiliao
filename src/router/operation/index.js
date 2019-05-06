@@ -699,6 +699,17 @@ const remoteClinic = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-mechanism-remoteclinic' */"@/pages/operation/contentmen/remoteClinic/list")
 }
+// 第三方厂家
+const thirdParty = {
+	path: 'operation/thirdParty',
+	name: 'thirdParty',
+	meta: {
+		index: 3,
+		title: '远程门诊'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-mechanism-thirdPart' */"@/pages/operation/contentmen/thirdparty/index")
+}
 const remoteClinicEdit = {
 	path: 'operation/remoteClinic_edit',
 	name: 'remoteClinicEdit',
@@ -1066,6 +1077,8 @@ export default {
 	remoteClinic,
 	remoteClinicEdit,
 	remoteClinicRoom,
+	//第三方 厂家
+	thirdParty,
 	// 远程门诊类型维护
 	doctorremoteClinicTypeList,
 	// 医生远程门诊列表
