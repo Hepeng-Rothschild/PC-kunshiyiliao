@@ -62,6 +62,7 @@
                             :value="item[0]"
                             format="HH:mm"
                             type="timerange"
+                            :steps="[1,5]"
                             :clearable="false"
                             :confirm="true"
                             :editable="false"
@@ -119,6 +120,7 @@
                             :value="item[0]"
                             format="HH:mm"
                             type="timerange"
+                            :steps="[1,5]"
                             :clearable="false"
                             :confirm="true"
                             :editable="false"
@@ -197,7 +199,7 @@
             </Col>
         </Row>
         <br>
-        <Button type="primary" @click="submit">保存</Button>
+        <Button type="primary" @click="sure">保存</Button>
         <Button type="primary" @click="reback">返回</Button>
         <Modal v-model="docListModal">
             <p slot="header" style="text-align:center">
@@ -229,6 +231,14 @@
                 <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
             </div>
             <div slot="footer"></div>
+        </Modal>
+        <Modal @on-ok="submit" v-model="subModal" title="请确认时间段是否有误？如需更改请点击取消~">
+            <ul style="display:inline-block;width:48%;vertical-align:middle;text-align:center;">
+                <li v-for="(item,index) of upList" :key="index">{{ item[0][0]+'-'+item[0][1] }}</li>
+            </ul>
+            <ul style="display:inline-block;width:48%;vertical-align:middle;text-align:center;">
+                <li v-for="(item,index) of dnList" :key="index">{{ item[0][0]+'-'+item[0][1] }}</li>
+            </ul>
         </Modal>
     </div>
 </template>
@@ -301,7 +311,9 @@ export default {
             termRd: false,
             costRd: false,
 
-            addressFlag:false
+            addressFlag:false,
+
+            subModal:false
         };
     },
     watch: {
@@ -400,12 +412,19 @@ export default {
             this.expertMsgStatus = true;
         }
         if (this.id) {
-            this.upList = [];
-            this.dnList = [];
             this.$axios
                 .post(api.registerDoctorDetail, { registerId: this.id })
                 .then(resp => {
                     this.info = resp.data.object;
+                    this.info.registerTimes.map((el, i) => {
+                        if(el.day == 1){
+                            this.upList = [];
+                            return ;
+                        }else if(el.day == 2){
+                            this.dnList = [];
+                            return ;
+                        }
+                    });
                     this.info.registerTimes.map((el, i) => {
                         if(el.day == 1){
                             let tmpPiece = [el.timeStart, el.timeEnd];
@@ -494,10 +513,11 @@ export default {
             let status = time < "12:00"; //js 里面 date类型 11:00 比 12:00 大
             if (status) {
                 let sliceh = parseInt(time.slice(0, 2));
+                let afterh = sliceh+1;
                 let slicem = time.slice(3);
-                let tmph =
-                    sliceh + 1 > 12 ? "12:00" : sliceh + 1 + ":" + slicem;
-                tmph = tmph > "12:00" ? "12:00" : tmph;
+                slicem = afterh>=12?'00':slicem;
+                afterh = afterh<10?'0'+afterh:afterh>12?'12':afterh;
+                let tmph = afterh + ":" + slicem;
                 let tmpItem = [[time, tmph], null, null, null, null, null, null, null];
                 this.upList.push(tmpItem);
             } else {
@@ -511,10 +531,11 @@ export default {
             let status = time < "17:00"; //js 里面 date类型 11:00 比 12:00 大
             if (status) {
                 let sliceh = parseInt(time.slice(0, 2));
+                let afterh = sliceh+1;
                 let slicem = time.slice(3);
-                let tmph =
-                    sliceh + 1 > 17 ? "17:00" : sliceh + 1 + ":" + slicem;
-                tmph = tmph > "17:00" ? "17:00" : tmph;
+                slicem = afterh>=17?'00':slicem;
+                afterh = afterh<10?'0'+afterh:afterh>17?'17':afterh;
+                let tmph = afterh + ':' + slicem;
                 let tmpItem = [[time, tmph], null, null, null, null, null, null, null];
                 this.dnList.push(tmpItem);
             } else {
@@ -529,49 +550,62 @@ export default {
         rmDnItem() {
             this.dnList.pop();
         },
+        backTime(minTime,maxTime,startTime,endTime){
+            let min = startTime,max = endTime;
+            let tmpMinArr = minTime.split(":");
+            let tmpMaxArr = maxTime.split(":");
+            let tmpStartArr = startTime.split(":");
+            if(min<=minTime){
+                min = minTime;
+                if(max<=minTime){
+                    tmpMinArr[1] = parseInt(tmpMinArr[1])+5;
+                    tmpMinArr[0] = tmpMinArr[1]>55?parseInt(tmpMinArr[0])+1:parseInt(tmpMinArr[0]);
+                    tmpMinArr[0] = tmpMinArr[0]<10?'0'+tmpMinArr[0]:tmpMinArr[0];
+                    tmpMinArr[1] = tmpMinArr[1]>55?0:tmpMinArr[1];
+                    tmpMinArr[1] = tmpMinArr[1]<10?'0'+tmpMinArr[1]:tmpMinArr[1];
+                    max = tmpMinArr[0]+':'+tmpMinArr[1];
+                }
+            }
+            if(max>=maxTime){
+                max = maxTime;
+                if(min>=maxTime){
+                    tmpMaxArr[1] = parseInt(tmpMaxArr[1])-5;
+                    tmpMaxArr[0] = tmpMaxArr[1]<0?parseInt(tmpMaxArr[0])-1:parseInt(tmpMaxArr[0]);
+                    tmpMaxArr[0] = tmpMaxArr[0]<10?'0'+tmpMaxArr[0]:tmpMaxArr[0];
+                    tmpMaxArr[1] = tmpMaxArr[1]<0?55:tmpMaxArr[1];
+                    tmpMaxArr[1] = tmpMaxArr[1]<10?'0'+tmpMaxArr[1]:tmpMaxArr[1];
+                    min = tmpMaxArr[0]+':'+tmpMaxArr[1];
+                }
+            }
+            if(min == max){
+                let minute1 = parseInt(tmpStartArr[1])+5;
+                tmpStartArr[0] = minute1>55?parseInt(tmpStartArr[0])+1:parseInt(tmpStartArr[0]);
+                tmpStartArr[0] = tmpStartArr[0]<10?'0'+tmpStartArr[0]:tmpStartArr[0];
+                minute1 = minute1<10?'0'+minute1:minute1>55?'00':minute1;
+                max = tmpStartArr[0]+":"+minute1;
+            }
+            return [min,max];
+        },
         changeUpTime(time,index) {
             if(index>0){ //非第一行
                 if(index<this.upList.length-1){ //中间的
-                    let prev = this.upList[index-1][0][1];
-                    let next = this.upList[index+1][0][0];
-                    if(time[0]>next){
-                        time[0] = next;
-                    }
-                    if(time[0]<prev){
-                        time[0] = prev;
-                    }
-                    if(time[1]>next){
-                        time[1] = next;
-                    }
-                    if(time[1]<prev){
-                        time[1] = prev;
-                    }
+                    let prev = this.upList[index-1][0][1]; //最低时间
+                    let next = this.upList[index+1][0][0]; //最高时间
+                    time = this.backTime(prev,next,time[0],time[1]);
                 }else{ //最后一行
-                    let prev = this.upList[index-1][0][1];
-                    if(time[0]>'12:00'){
-                        time = ['12:00','12:00'];
-                    }else if(time[1]>'12:00'){
-                        time = [time[0],'12:00'];
-                    }else if(time[1]<prev){
-                        time = [prev,prev];
-                    }else if(time[0]<prev){
-                        time[0] = prev;
-                    }
+                    let prev = this.upList[index-1][0][1]; //最小时间
+                    let next = '12:00';
+                    time = this.backTime(prev,next,time[0],time[1]);
                 }
             }else{ //第一行
-                if(this.upList.length>1){
-                    let nextTime = this.upList[index+1][0][0];
-                    if(time[0]>nextTime){
-                        time = [nextTime,nextTime];
-                    }else if(time[1]>nextTime){
-                        time = [time[0],nextTime];
-                    }
-                }else{
-                    if(time[0]>'12:00'){
-                        time = ['12:00','12:00'];
-                    }else if(time[0]<'12:00' && time[1]>'12:00'){
-                        time = [time[0],'12:00'];
-                    }
+                if(this.upList.length>1){ //多行第一行
+                    let nextTime = this.upList[index+1][0][0];//最高时间
+                    let prev = '08:00';
+                    time = this.backTime(prev,nextTime,time[0],time[1]);
+                }else{  //就剩一行
+                    let prev = '08:00';
+                    let next = '12:00';
+                    time = this.backTime(prev,next,time[0],time[1]);
                 }
             }
             this.upList[index][0] = time;
@@ -591,47 +625,21 @@ export default {
                 if(index<this.dnList.length-1){ //中间的
                     let prev = this.dnList[index-1][0][1];
                     let next = this.dnList[index+1][0][0];
-                    if(time[0]>next){
-                        time[0] = next;
-                    }
-                    if(time[0]<prev){
-                        time[0] = prev;
-                    }
-                    if(time[1]>next){
-                        time[1] = next;
-                    }
-                    if(time[1]<prev){
-                        time[1] = prev;
-                    }
+                    time = this.backTime(prev,next,time[0],time[1]);
                 }else{ //最后一行
-                    console.log(111);
                     let prev = this.dnList[index-1][0][1];
-                    if(time[0]>'17:00'){
-                        time = ['17:00','17:00'];
-                    }else if(time[1]>'17:00'){
-                        time = [time[0],'17:00'];
-                    }else if(time[1]<prev){
-                        console.log(222);
-                        time = [prev,prev];
-                    }else if(time[0]<prev){
-                        console.log(333);
-                        time[0] = prev;
-                    }
+                    let next = '17:00';
+                    time = this.backTime(prev,next,time[0],time[1]);
                 }
             }else{ //第一行
                 if(this.dnList.length>1){
+                    let prev = '13:00';
                     let nextTime = this.dnList[index+1][0][0];
-                    if(time[0]>nextTime){
-                        time = [nextTime,nextTime];
-                    }else if(time[1]>nextTime){
-                        time = [time[0],nextTime];
-                    }
+                    time = this.backTime(prev,nextTime,time[0],time[1]);
                 }else{
-                    if(time[0]>'17:00'){
-                        time = ['17:00','17:00'];
-                    }else if(time[0]<'17:00' && time[1]>'17:00'){
-                        time = [time[0],'17:00'];
-                    }
+                    let prev = '13:00';
+                    let next = '17:00';
+                    time = this.backTime(prev,next,time[0],time[1]);
                 }
             }
             this.dnList[index][0] = time;
@@ -645,7 +653,9 @@ export default {
             this.dnList[index][8] = false;
             this.$forceUpdate();
         },
-
+        sure(){
+            this.subModal = true;
+        },
         submit(name) {
             let flag = true;
             if (this.cost == null) return (this.costRd = true);
@@ -744,6 +754,7 @@ export default {
                 this.expertMsgStatus = true;
             }
         },
+
         checkInput() {
             if (this.term == null) this.termRd = true;
             else this.termRd = false;
