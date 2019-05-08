@@ -152,7 +152,7 @@ export default {
                     let ret = res.data.object;
                     this.count = ret.count;
                     ret.list.forEach((item, index) => {
-                        item.sum = index + 1;
+                        item.sum = this.addZeros(index);
                         if (item.type == 1) {
                             item.type1 = "IOS";
                         } else {

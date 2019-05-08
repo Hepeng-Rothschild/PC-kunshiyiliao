@@ -65,6 +65,7 @@ const maintainLeftMenu = [
         // {id:44,level:2,name:"权限管理",path:"/index/maintain/admin/jurisdiction/list"},
         {id:44,level:2,name:"权限管理",path:"/index/maintain/system/iface_permise/lt"},
         {id:49,level:2,name:"菜单管理",path:"/index/maintain/system/m_manage/lt"},
+        {id:50,level:2,name:"支付方式",path:"/index/maintain/payment/index"},
     ]}
 ];
 const statisticsLeftMenu = [

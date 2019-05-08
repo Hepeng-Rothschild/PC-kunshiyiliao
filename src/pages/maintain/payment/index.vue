@@ -7,6 +7,11 @@
                     @changeCity="changeCity"
                     @changeArea="changeArea"
                     @changeHospital="changeHospital"
+                    :province="province"
+                    :city="city"
+                    :area="area"
+                    :hospital="hospital"
+                    :isBack="isBack"
                 ></fourLevelLinkage>
             </div>
             <span>机构名称：</span>
@@ -20,7 +25,7 @@
         </header>
         <Table stripe :columns="columns1" :data="tableList"></Table>
         <div style="text-align:center;margin:10px 0;">
-            <Page :total="homeSize" @on-change="pageChange"/>
+            <Page :current ='pageNo' :total="homeSize" @on-change="pageChange"/>
         </div>
     </div>
 </template>
@@ -40,6 +45,7 @@ export default {
             city: null,
             area: null,
             hospital: null,
+            isBack:1,
 
             tableList: [],
             val: "",
@@ -49,123 +55,69 @@ export default {
                     title: '排序',
                     key: 'sum',
                     align: 'center',
-                    width: 60,
-                },
-                {
-                    title: '区域',
-                    key: 'provinceName',
-                    align: 'center',
-                    width: 80,
                 },
                 {
                     title: '机构名称',
-                    key: 'orgName',
+                    key: 'org_name',
                     align: 'center',
-                    width: 150,
-                },
-                {
-                    title: '联系人',
-                    key: 'linkman',
-                    align: 'center',
-                    width: 80,
-                },
-                {
-                    title:"联系人电话",
-                    key:"linkmanTelephone",
-                    align: 'center',
-                    width: 120,
-                },
-                {
-                    title:"机构类型",
-                    key:"hospitalType",
-                    align: 'center',
-                    width: 100,
-                },
-                {
-                    title:"动态新闻",
-                    key:"newsCount",
-                    align: 'center',
-                    width: 120,
-                },
-                {
-                    title:"专家介绍",
-                    key:"doctorCount",
-                    align: 'center',
-                    width: 120,
-                },   
-                {
-                    title:"特色科室",
-                    key:"specialDeptCount",
-                    align: 'center',
-                    width: 120,
-                },
-                {
-                    title:"预约科室",
-                    key:"reservationCount",
-                    align: 'center',
-                    width: 120,
-                },
-                {
-                    title:"线上服务",
-                    key:"onlineCount",
-                    align: 'center',
-                    width: 120,
-                },
-                {
-                    title:"门诊服务",
-                    key:"inqCount",
-                    align: 'center',
-                    width: 120,
-                },
-                {
-                    title:"住院服务",
-                    key:"hospitalCount",
-                    align: 'center',
-                    width: 120,
-                },
-                {
-                    title:"联盟排序",
-                    key:"internetHospitalSort",
-                    align: 'center',
-                    width: 120,
                 },
                 {
                     title:"操作",
                     align: 'center',
-                    width: 120,
-                    fixed:'right',
                     render: (h,params) => {
                         let a = params.row
                         return h('div', [
                             h('a', {
                                 on: {
                                     click: () => {
-                                        this.navto(a)
+                                        this.paymentSelect(a)
                                     }
                                 }
-                            }, '编辑')
+                            }, '选择支付方式')
                         ])
                     }
                 }
-            ]
+            ],
+            pageNo:1
         };
     },
     created() {
+        this.province = this.$route.query.provinceCode
+            ? parseInt(this.$route.query.provinceCode)
+            : null;
+        this.city = this.$route.query.cityCode
+            ? parseInt(this.$route.query.cityCode)
+            : null;
+        this.area = this.$route.query.areaCode
+            ? parseInt(this.$route.query.areaCode)
+            : null;
+        this.hospital = this.$route.query.hospitalId
+            ? parseInt(this.$route.query.hospitalId)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
+        
         let breadList = [
             { path: "/index", title: "首页" },
             {
-                path: "/index/operation/mechanism/index",
-                title: "机构运营"
+                path: "/index/maintain/systemManagement/index",
+                title: "系统管理"
             },
             {
-                path: "/index/operation/home",
-                title: "支付方式"
+                path: "/index/maintain/payment/index",
+                title: "支付方式-列表"
             }
         ];
         this.$emit("changeBreadList", breadList);
     },
     mounted() {
-        this.getDate(1);
+        let pageNo = this.$route.query.pageNo
+        
+        if (Boolean(pageNo)) {
+            this.pageNo = Number(pageNo);
+        }
+        this.getDate(this.pageNo);
     },
     methods: {
         changeProvince(val) {
@@ -193,18 +145,16 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            // console.log("机构管理列表 params",params);
             this.$axios
-                .post(api.management, params)
+                .post(api.hospitalquerynamelist, params)
                 .then(res => {
                     if (res.data.code) {
-                        let ret = res.data.object.list;
-                        this.homeSize = res.data.object.count;
-                        ret.forEach((item,index) =>{
+                        let ret = res.data.object;
+                        this.homeSize = ret.count;
+                        ret.list.forEach((item,index) =>{
                             item.sum = this.addZeros(index)
-                            item.hospitalType = item.hospitalType == 1 ? '医院' :""
                         })
-                        this.tableList = ret;
+                        this.tableList = ret.list
                     } else {
                         this.$Message.error("没有访问权限");
                     }
@@ -214,26 +164,33 @@ export default {
                 });
         },
         pageChange(index) {
+            this.pageNo = index
             if (this.val != "") {
                 this.getDate(index, this.val);
             } else {
                 this.getDate(index);
             }
         },
-        navto(item) {
-            let iv = store.state.iv;
-            let salt = store.state.salt;
-            sessionStorage.setItem("hospitalId", item.hospitalId);
-            localStorage.setItem(
-                "hospitalName",
-                aesUtils.encrypt(salt, iv, "Doctortoservice", item.orgName)
-            );
-            this.$router.push({
-                name: "homeInfo"
-            });
-        },
+        // 查询
         search() {
             this.getDate(1, this.val);
+        },
+        paymentSelect (item) {
+            let params = {
+                pageNo: this.pageNo,
+                id:item.id,
+                name:item.org_name
+            }
+            params.provinceCode = this.province ? this.province : null;
+            params.cityCode = this.city ? this.city : null;
+            params.areaCode = this.area ? this.area : null;
+            params.hospitalId = this.hospital ? this.hospital : null;
+            params.isBack = 2
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/maintain/payment/select",
+                params
+            );
         }
     }
 };

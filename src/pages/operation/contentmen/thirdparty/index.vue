@@ -17,7 +17,7 @@
                 v-model="registerFlag"
                 :title="modalTitle"
                 @on-ok="ok('formValidate')"
-                @on-cancel="cancel"
+                @on-cancel="cancel('formValidate')"
                 :mask-closable="false"
             >
                 <Form
@@ -71,6 +71,7 @@
             </Modal>
             <Table stripe :columns="columns1" :data="HospitalThirdpartyList"></Table>
         </div>
+        <Button type="primary" @click='saveChage'>保存</Button>
     </div>
 </template>
 <script>
@@ -136,11 +137,15 @@ export default {
     },
     data() {
         return {
-            // 总列表
+            //  左侧服务类型
+            HospitalThirdpartyEnum:{},
+            //  选中的服务
+            iSelection:[],
+            // 右侧服务列表
             list: [],
             // modal数据
             registerFlag: false,
-            modalTitle: "添加厂家",
+            modalTitle: "添加服务",
             formValidate: {
                 serviceName: "",
                 serviceUrl: "",
@@ -174,10 +179,13 @@ export default {
                 // 第三方厂家
                 thirdValue: [
                     {
+                        // 是否校验
                         required: true,
+                        // 提示文字
                         message: "请选择第三方厂家",
-                        trigger: "change",
-                    }
+                        // 触发事件
+                        trigger: "blur"
+                    },
                 ]
             },
             serviceTypeValue: "",
@@ -187,6 +195,7 @@ export default {
             thirdList: [],
             // 医院Id
             id: sessionStorage.getItem("hospitalId"),
+            // 表头数据
             columns1: [
                 {
                     title: "服务名称",
@@ -242,26 +251,7 @@ export default {
                     title: "第三方参数",
                     align: "center",
                     width: 150,
-                    key:"requestVal",
-                    render: (h, params) => {
-                        let name = params.row;
-                        return h("div", [
-                            h(
-                                "span",
-                                {
-                                    style: {
-                                        display: "inline-block",
-                                        width:
-                                            params.column._width * 0.8 + "px",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        whiteSpace: "nowrap"
-                                    }
-                                },
-                                name.requestVal
-                            )
-                        ]);
-                    }
+                    key:"requestVal"
                 },
                 {
                     title:"第三方厂家",
@@ -324,10 +314,8 @@ export default {
                     }
                 }
             ],
-            //   左侧服务类型
-            HospitalThirdpartyEnum:{},
-            //   选中的服务
-            iSelection:[]
+            HospitalThirdpartyList: []
+            
         };
     },
     created () {
@@ -374,6 +362,7 @@ export default {
             if (Boolean(id)) {
                 this.serviceTypeValue = id;
                 this.registerFlag = true;
+                this.modalTitle = '编辑服务'
                 let items = {};
                 // 循环已有的列表  查看是否已经添加过
                 this.HospitalThirdpartyList.forEach(item => {
@@ -404,12 +393,61 @@ export default {
                     });
             }
         },
+        // 保存按钮
+        saveChage () {
+
+            // 做勾选,但未选择厂家的限制
+            let params = {
+                hospitalId: this.id,
+                // 服务列表
+                thirdpartyList: this.HospitalThirdpartyList,
+                // 勾选列表
+                thirdpartyServiceList: this.iSelection
+            }
+            let name = '第三方'
+            let someStatus = false;
+            
+            params.thirdpartyServiceList.forEach(item => {
+                let flag = true
+                params.thirdpartyList.forEach((m,index) => {
+                    // 当添加完第三方厂家,但未勾选时将本条第三方厂家数据变为禁用
+                    if(!(parseInt(m.serviceType) == parseInt(item.serviceType))){
+                        // 将数据状态变更为禁用
+                        params.thirdpartyList[index].enable = 1
+                    } else {
+                        flag = false
+                    }
+                })
+                if (!flag) {
+                    someStatus = true
+                    this.HospitalThirdpartyEnum.forEach(s => {
+                        if (parseInt(s.id) == parseInt(item.serviceType)) {
+                            name = s.name
+                        }
+                    })
+                }
+            })
+            
+            if(someStatus) {
+                this.$Message.error("请填写"+name+"数据查询厂家信息");
+                return ""
+            }
+            this.$axios.post(api.updatethirdparty, params).then(res => {
+                if (res.data.success) {
+                    this.$Message.success('操作成功')
+                    // 重新请求页面数据
+                    this.loadingData();
+                } else {
+                    this.$Message.error("操作失败")
+                }
+            })
+        }, 
         // 确定添加服务
         ok(name) {
             this.$refs[name].validate(valid => {
                 if (valid) {
                     // 必填项填写完成
-                    // 禁用状态
+                    // 当前服务状态
                     let a = 0;
                     if(!this.formValidate.enable) {
                         a = 1 
@@ -443,7 +481,7 @@ export default {
                         this.HospitalThirdpartyList.forEach((item, index) => {
                             if (Number(item.serviceType) == Number(params.serviceType)) {
                                 flag = false
-                                this.HospitalThirdpartyList[index] = params
+                                this.HospitalThirdpartyList.splice(index,1,params)
                             }
                         });
                         if(flag) {
@@ -457,38 +495,29 @@ export default {
                         thirdpartyList: this.HospitalThirdpartyList,
                         thirdpartyServiceList: this.iSelection
                     }
-                    console.log(arr);
-
-                    this.$axios.post(api.updatethirdparty, arr).then(res => {
-                        console.log(res)
-                        if (res.data.success) {
-                            this.$Message.info('操作成功')
-                            // 重新请求页面数据
-                            this.loadingData();
-                            // 清空输入值
-                            this.cancel();
-                        } else {
-                            this.$Message.error("操作失败")
-                        }
-                    })
+                    this.cancel('formValidate');
                 } else {
+                    // 清空输入值
+                    this.cancel('formValidate')
                     // 必填项填写失败
                     this.$Message.error("请完整填写数据项");
                     return "";
                 }
             });
+            
         },
         // 取消
-        cancel() {
+        cancel(name) { 
             this.formValidate.serviceName = "";
             this.formValidate.requestVal = "";
             this.formValidate.serviceUrl = "";
             this.formValidate.enable = false;
-            this.modalTitle = "添加服务";
+            this.modalTitle = '添加服务'
             this.thirdList = [];
+            this.$refs[name].resetFields();
             // 初始化
             this.serviceTypeValue = null;
-            this.formValidate.thirdValue = "";
+            this.formValidate.thirdValue = null;
         },
         // 加载数据
         loadingData(){
@@ -497,7 +526,6 @@ export default {
                 }).then(res => {
                     if(res.data.success) {
                         let ret = res.data.object;
-                        console.log(ret)
                         //   左侧服务类型
                         this.HospitalThirdpartyEnum = ret.HospitalThirdpartyEnum;
                         //   右侧服务列表
@@ -506,6 +534,7 @@ export default {
                         this.iSelection = ret.iSelection || []
                         //   已经添加的服务列表
                         this.HospitalThirdpartyList = ret.HospitalThirdpartyList || []
+                        console.log("加载数据",ret);
                     } else {
                         this.$Message.error("加载第三方服务失败！")
                     }

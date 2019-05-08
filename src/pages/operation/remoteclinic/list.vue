@@ -176,10 +176,12 @@ export default {
                         let top = '上午：' + row.intervalTimeAmStart + '-' + row.intervalTimeAmEnd;
                         let bot = '下午：' + row.intervalTimePmStart + '-' + row.intervalTimeAmEnd;
                         return h('div', [
-                            
                             h('p', {
                                 style: {
                                     cursor:"pointer"
+                                },
+                                attrs:{
+                                    title:"点击查看"
                                 },
                                 on: {
                                     click : () => {

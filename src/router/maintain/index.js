@@ -226,6 +226,24 @@ const menuManagementEdit = {
     component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-menumanagement' */"@/pages/maintain/system/menuManagement/edit")
 }
 
+const paymentHome = {
+    path:'maintain/payment/index',
+    name:'paymentHome',
+    meta:{
+        index:3,
+        title:'支付方式-列表'
+    },
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-menumanagement' */"@/pages/maintain/payment/index")
+}
+const paymentSelect = {
+    path:'maintain/payment/select',
+    name:'paymentSelect',
+    meta:{
+        index:3,
+        title:'支付方式-选择'
+    },
+    component:()=>import(/* webpackChunkName: 'maintain-adminmanagement-menumanagement' */"@/pages/maintain/payment/select")
+}
 
 //配置仓
 const configurationWarehouseIndex = {
@@ -333,6 +351,9 @@ export default {
     //菜单管理
     menuManagementList,
     menuManagementEdit,
+    // 支付方式
+    paymentHome,
+    paymentSelect,
     //配置仓
     configurationWarehouseIndex,
     //字典管理
