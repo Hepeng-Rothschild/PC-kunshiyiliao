@@ -25,7 +25,7 @@ function connectNim ({state, commit, dispatch}, obj) {
     console.log('设置账号密码');
     cookie.setCookie('uid','a1');
     cookie.setCookie('sdktoken','000000');
-     // cookie.setCookie('uid','zhaohu@gohealth.com.');
+    //  cookie.setCookie('uid','zhaohu@gohealth.com.');
     // cookie.setCookie('sdktoken','zhaohu@gohealth.com')
     let loginInfo = {
       uid: cookie.readCookie('uid'),
