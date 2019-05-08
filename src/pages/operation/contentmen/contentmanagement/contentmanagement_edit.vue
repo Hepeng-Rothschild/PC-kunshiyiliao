@@ -85,14 +85,14 @@
                     <span style="color:red;">*&nbsp;&nbsp;</span>
                     <span>栏目</span>
                 </div>
-                <select v-model="select">
-                    <option value="1">头条</option>
-                    <option value="2">今日热点</option>
-                    <option value="3">医学前沿</option>
-                    <option value="4">宝宝喂养</option>
-                    <option value="5">科普</option>
-                    <option value="6">决策者说</option>
-                </select>
+                <Select v-model="select" style="width:120px" >
+                    <Option :value="1" :key="1">头条</Option>
+                    <Option :value="2" :key="2">今日热点</Option>
+                    <Option :value="3" :key="3">医学前沿</Option>
+                    <Option :value="4" :key="4">宝宝喂养</Option>
+                    <Option :value="5" :key="5">科普</Option>
+                    <Option :value="6" :key="6">决策者说</Option>
+                </Select>
             </div>
             <!--新闻内容-->
             <div class="main_content">
@@ -481,10 +481,6 @@ export default {
             .listImgTitle {
                 width: 100px;
                 margin-right: 10px;
-            }
-            select {
-                width: 120px;
-                outline: none;
             }
         }
         .main_source {

@@ -197,6 +197,8 @@ export default new VueRouter({
 				// 菜单管理
 				maintain.menuManagementList,
 				maintain.menuManagementEdit,
+				maintain.paymentHome,
+				maintain.paymentSelect,
 				//疾病/症状管理
 				maintain.diseaseList,
 				maintain.diseaseEdit,

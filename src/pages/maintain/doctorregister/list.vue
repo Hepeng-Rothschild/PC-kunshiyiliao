@@ -117,7 +117,7 @@ export default {
                                 {
                                     attrs: {
                                         href: "javascript:void(0);",
-                                        title: "点击医生简介"
+                                        title: "点击查看医生简介"
                                     },
                                     on: {
                                         click: () => {
@@ -144,7 +144,7 @@ export default {
                                 {
                                     attrs: {
                                         href: "javascript:void(0);",
-                                        title: "点击医生擅长"
+                                        title: "点击查看医生擅长"
                                     },
                                     on: {
                                         click: () => {

@@ -250,6 +250,15 @@ const adminManageChange = '/operateapi/operateuserupdateusermenu' //修改用户
 //敏感词
 const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
 const sensitiveUpdate='/operateapi/sensitive/update' //修改
+// 支付方式
+const paymentchannelmap = '/operateapi/channeldisbursementqueryhospitalpaymentchannelmap' // 查询所有支付类型和显示端
+const channelenummap = '/operateapi/channeldisbursementgetpaymentchannelenummap' //根据支付类型查询支付渠道
+const wxappnamelist = '/operateapi/hospitalquerywxappnamelist' //查询支付账号
+const insertpaymentchannel = '/operateapi/channeldisbursementinserthospitalpaymentchannel'  //添加支付方式
+const querylist = '/operateapi/channeldisbursementquerylist' //通过医院查询医院支付方式列表
+const querybyid = '/operateapi/channeldisbursementquerybyid' //查询医院支付方式
+const updatepaymentchannel = '/operateapi/channeldisbursementupdatehospitalpaymentchannel'//修改医院支付方式
+
 //大文件分片上传接口
 const lecturedemanduploadfilemd5='/operateapi/lecturedemanduploadfilemd5' //大文件分片上传断点续传
 const lecturedemanduploadfile='/operateapi/lecturedemanduploadfile' //大文件分片上传接口
@@ -270,7 +279,9 @@ const doctorselectdoctorhisid = '/operateapi/doctorselectdoctorhisid'; //查询�
 const doctorupdatedoctorhisid = '/operateapi/doctorupdatedoctorhisid'; //修改医生关联信息hisId
 const doctorselecthisdoctorlist = '/operateapi/doctorselecthisdoctorlist'; //模糊查询医生关联信息hisId列表
 
-let testApi = {
+const hospitalquerynamelist = '/operateapi/hospitalquerynamelist' //查询支付渠道医院列表
+
+let production = {
     login,
     //字典
     dictionaryList,
@@ -495,6 +506,16 @@ let testApi = {
     operatemenuquerybymenuid,
     operatemenuupdate,
     operatemenuprentlist,
+    // 支付方式列表
+    hospitalquerynamelist,
+    // 所有支付类型和显示端
+    paymentchannelmap,
+    channelenummap,
+    wxappnamelist,
+    insertpaymentchannel,
+    querylist,
+    querybyid,
+    updatepaymentchannel,
 
     // 运维端-账号管理
     adminList,
@@ -526,10 +547,11 @@ let testApi = {
     doctorselectdoctorhisid,
     doctorupdatedoctorhisid,
     doctorselecthisdoctorlist,
+    
 }
 import weixin from './weixinApi';
 for(let key in weixin){
-    testApi[key] = weixin[key]
+    production[key] = weixin[key]
 }
 
-export default testApi;
+export default production;
