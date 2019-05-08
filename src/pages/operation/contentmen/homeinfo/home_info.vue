@@ -115,16 +115,31 @@
             </div>
             <!--是否开通互联网医院-->
             <div class="main_yy">
-                <span class="main_yy_name">是否开通互联网医院</span>
+                <span class="main_yy_name">开通互联网医院</span>
                 <iSwitch v-model="switch1" @on-change="change"/>
             </div>
-            <!--互联网医院公众号-->
-            <div class="main_moban">
-                <span>互联网医院公众号</span>
-                <Select v-model="y_gzh" style="width:150px;" :disabled="status">
-                    <Option :value="0">请选择</Option>
+            <!--医院关联公众号-->
+            <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
+                <span>医院关联公众号</span>
+                <div v-for='item,index in appidList' :key = 'index'>
+                    <Select v-model="item.value" style="width:150px;margin-right:4px;" :disabled="status" @on-change='relationwx' clearable @on-clear='relationwx'>
+                        <Option
+                            v-for ="item in gzh"
+                            :value="item.appid"
+                            :key="item.appid"
+                            :disabled='item.status'
+                        >{{ item.nick }}</Option>
+                    </Select>
+                </div>
+                <button class="cus-btn" @click='addAppid'>+</button>
+                <button class="cus-btn" @click='unAppid'>-</button>
+            </div>
+            <!-- 医院公众号支付 -->
+            <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
+                <span>医院公众号支付</span>
+                <Select v-model="y_gzh" style="width:150px;" :disabled="status" clearable>
                     <Option
-                        v-for="item in gzh"
+                        v-for="item in selectGzh"
                         :value="item.appid"
                         :key="item.appid"
                     >{{ item.nick }}</Option>
@@ -132,32 +147,27 @@
             </div>
             <!--是否加入医院联盟-->
             <div class="main_yy">
-                <span class="main_yy_name">是否加入医院联盟</span>
+                <span class="main_yy_name">加入医院联盟</span>
                 <iSwitch v-model="switch2" :disabled="status" @on-change="change2"/>
             </div>
             <!--医院联盟排序-->
             <div class="main_info">
                 <span>医院联盟排序</span>
-                <Input
-                    placeholder="医院联盟排序"
-                    style="width:120px;"
-                    v-model.trim="hospitalSort"
-                    :disabled="hospitalFlag"
-                />
-                <p>备注:只能填写数字,1代表置顶以此类推</p>
+                <InputNumber :max="99999" :min="1" v-model="hospitalSort" placeholder="医院联盟排序" :disabled="hospitalFlag"
+                style="width:120px;"
+                ></InputNumber>
+                <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!-- 预约挂号排序 -->
             <div class="main_info">
                 <span>预约挂号排序</span>
-                <Input
-                    placeholder="预约挂号排序"
-                    style="width:120px;"
-                    v-model.trim="appointmentRegistration"
-                />
+                <InputNumber :max="99999" :min="1" v-model="appointmentRegistration" placeholder="预约挂号排序" 
+                style="width:120px;"></InputNumber>
+                <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!--是否开通处方流转-->
             <div class="main_yy">
-                <span class="main_yy_name">是否开通处方流转</span>
+                <span class="main_yy_name">开通处方流转</span>
                 <iSwitch v-model="switch3"/>
             </div>
             <!--处方流转平台接口ID-->
@@ -166,107 +176,71 @@
                 <Input v-model="y_uid" placeholder="请输入Id" style="width: 370px"/>
             </div>
             <!--是否加入远程门诊-->
-            <div class="main_yy">
-                <span class="main_yy_name">是否加入远程门诊</span>
-                <iSwitch v-model="switch4"/>
-            </div>
+            <imyswitch :status='switch4' title='加入远程门诊' @statuschange='switch4Change' v-if='title'></imyswitch>
             <!-- 是否是否强制用券 -->
-            <div class="main_yy">
-                <span class="main_yy_name">是否强制用券</span>
-                <iSwitch v-model="usedCoupon"/>
-            </div>
+            <imyswitch :status='usedCoupon' title='是否强制用券' @statuschange='usedCouponChange' v-if='title'></imyswitch>
             <!-- 预约挂号支付 -->
-            <div class="main_yy">
-                <span class="main_yy_name">预约挂号支付</span>
-                <iSwitch v-model="registerPayStatus"/>
-            </div>
-            <!-- 预约挂号卡模式 -->
-            <div class="main_yy">
-                <span class="main_yy_name">预约挂号卡模式</span>
-                <CheckboxGroup v-model="registerPatternValue" @on-change="checkBoxChange">
-                    <Checkbox
-                        v-model="item.status"
-                        v-for="item,index in registerPatternList"
-                        :key="index"
-                        :label="item.name"
-                    ></Checkbox>
-                </CheckboxGroup>
-            </div>
+            <imyswitch :status='registerPayStatus' title='预约挂号支付' @statuschange='registerPayStatusChange' v-if='title'></imyswitch>
             <!-- 预约挂号池是否为第三方 -->
-            <div class="main_yy">
-                <span class="main_yy_name">预约挂号池是否为第三方</span>
-                <iSwitch v-model="registerIthirdparty"/>
-            </div>
+            <imyswitch :status='registerIthirdparty' title='预约挂号池是否为第三方' @statuschange='registerIthirdpartyChange' v-if='title'></imyswitch>
+            <!-- 预约挂号卡模式 -->
             <!-- 预约挂号池第三方数据 -->
-            <div v-show="registerIthirdparty">
-                <!-- 服务类型 -->
-                <div class="main_yy">
-                    <span class="main_yy_name">服务类型</span>
+            <checkboxs :listMap='registerPatternList' :checkList='registerPatternValue' title='预约挂号卡模式' v-if='title' @selectChange='registerPatternChange'  :id = 'makeSearch' @selectHome='lisPatternHome'></checkboxs>
+            <!-- lis数据查询 -->
+            <checkboxs :listMap='lisPatternList' :checkList='lisPattern' title='lis数据查询' v-if='title' @selectChange='lisPatternChange' :id = 'lisSearch' @selectHome='lisPatternHome'></checkboxs>
+            <!-- pace数据查询 pacePattern-->
+            <checkboxs :listMap='pacePatternList' :checkList='pacePattern' title='pacs数据查询' v-if='title' @selectChange='pacePatternChange' :id = 'pacsSearch' @selectHome='lisPatternHome'></checkboxs>
+            <div>
 
-                    <Select v-model="serviceTypeValue" style="width:120px;margin-right:10px;">
-                        <Option
-                            v-for="(item,index) in serviceType"
-                            :value="item.value"
-                            :key="index"
-                            :disabled="item.disabled"
-                        >{{ item.key }}</Option>
-                    </Select>
-
-                    <Button type="primary" @click="addManagement">添加服务</Button>
-                </div>
-
-                <Modal v-model="registerFlag" :title="modalTitle" @on-ok="ok" @on-cancel="cancel">
-                    <!--  服务名  -->
-                    <div class="main_info">
-                        <span>服务名</span>
-                        <Input v-model="serviceName" style="width: 300px" placeholder="请输入服务名称"/>
-                    </div>
-                    <!-- 服务路径 -->
-                    <div class="main_info">
-                        <span>服务路径</span>
-                        <Input v-model="serviceUrl" style="width: 300px" placeholder="请输入服务路径"/>
-                    </div>
-                    <!-- 第三方参数 -->
-                    <div class="main_info">
-                        <span>第三方参数</span>
-                        <Input v-model="requestVal" style="width: 300px" placeholder="请输入第三方参数 "/>
-                    </div>
-                    <!-- 第三方厂家 -->
-                    <div class="main_info">
-                        <span>第三方厂家</span>
-                        <Select v-model="thirdValue" style="width:150px;">
-                            <Option
-                                v-for="(item,index) in thirdList"
-                                :value="item.id"
-                                :key="index"
-                            >{{ item.className }}</Option>
-                        </Select>
-                    </div>
-                    <!-- 是否开启 -->
-                    <div class="main_enable">
-                        <span style="min-width:100px;">是否启用</span>
-                        <iSwitch v-model="enable" size="large">
-                            <span slot="open">启用</span>
-                            <span slot="close">禁用</span>
-                        </iSwitch>
-                    </div>
+                <!-- 服务类型添加框 -->
+                <Modal v-model="registerFlag" :title="modalTitle" @on-ok="ok('formValidate')" @on-cancel="cancel" :mask-closable="false">
+                    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="120">
+                        <!-- 服务路径 -->
+                        <div class="main_info">
+                            <FormItem label="服务路径" prop="serviceUrl">
+                                <Input v-model="formValidate.serviceUrl" placeholder="请输入服务路径" style='width:230px;'></Input>
+                            </FormItem>
+                        </div>
+                        <!-- 第三方参数 -->
+                        <div class="main_info">
+                            <FormItem label="第三方参数">
+                                <Input v-model="formValidate.requestVal" placeholder="请输入第三方参数" style='width:230px;'></Input>
+                            </FormItem>
+                        </div>
+                        <!-- 第三方厂家 -->
+                        <div class="main_info">
+                            <FormItem label="第三方厂家" prop='thirdValue'>
+                                <Select v-model="formValidate.thirdValue" style='width:230px;'>
+                                    <Option
+                                        v-for="(item,index) in thirdList"
+                                        :value="item.code"
+                                        :key="index"
+                                    >{{ item.className }}</Option>
+                                </Select>
+                            </FormItem>
+                        </div>
+                        <!-- 是否开启 -->
+                        <div class="main_enable">
+                             <FormItem label="是否启用">
+                                <iSwitch v-model="formValidate.enable" size="large">
+                                    <span slot="open">启用</span>
+                                    <span slot="close">禁用</span>
+                                </iSwitch>
+                            </FormItem>
+                        </div>
+                    </Form>
                 </Modal>
-
                 <!-- 添加的服务列表 -->
-                <div
-                    v-show="AddserviceList.length"
-                    v-for="item,index in AddserviceList"
-                    :key="index"
-                >
+                <div v-show="AddserviceList.length" v-for="item,index in AddserviceList" :key="index">
                     <!--  服务名  -->
                     <div class="main">
                         <h2>
-                            <span>服务类型：{{ serviceType[item.serviceType-1].key}}</span>
+                            <span>服务类型：{{ item.serverTypeName  }}</span>
                             <Button type="primary" @click="appendItem(item,index)">编辑服务</Button>
                         </h2>
                     </div>
                     <div class="main_info">
-                        <span>服务名</span>
+                        <span>服务名称</span>
                         <span>{{ item.serviceName }}</span>
                     </div>
                     <!-- 服务路径 -->
@@ -282,7 +256,7 @@
                     <!-- 第三方厂家 -->
                     <div class="main_info">
                         <span>第三方厂家</span>
-                        <span>{{ sumId(item.thirdpartyEnum) }}</span>
+                        <span>{{ item.className }}</span>
                     </div>
                     <!-- 是否启用 -->
                     <div class="main_info">
@@ -309,16 +283,82 @@ import api from "@/api/commonApi";
 export default {
     components: {
         tmpHeader,
-        vueEditor
+        vueEditor,
+        "checkboxs": {
+            template:
+            "<div class = 'main_yy' style='align-items:center;'>" +
+                "<span class = 'main_yy_name' style='margin-right:10px;min-width:100px;' v-show='title'>{{ title }}</span>"+
+                "<CheckboxGroup v-model='arr' @on-change='checkAllGroupChange' >" +
+                    "<Checkbox v-for='item,index in listMap' :key='index' :label='item.id'>{{ item.name }}</Checkbox>" +
+                "</CheckboxGroup>" +
+                "<Button type='primary' style='margin-left:30px;' @click='selectHome' v-show='arr.length'>选择厂家</Button>"+
+            "</div>",
+            props: {
+                listMap: {
+                    type: Array,
+                    default: []
+                },
+                checkList: {
+                    type: Array,
+                    default: []
+                },
+                title: {
+                    type:String,
+                    default:""
+                },
+                id: {
+                    type:String,
+                    default:""
+                }
+            },
+            data() {
+                return {
+                    arr:[]
+                }
+            },
+            created(){
+                this.arr = this.checkList
+            },
+            methods: {
+                checkAllGroupChange(i) {
+                    this.$emit("selectChange",i)
+                },
+                // 选择厂家
+                selectHome () {
+                    this.$emit("selectHome",this.id)
+                }
+            }
+        },
+        "imyswitch": {
+            template: '<div class="main_yy">'+
+                            '<span class="main_yy_name" style="margin-right:10px;min-width:100px;">{{ title }}</span>'+
+                            '<iSwitch v-model="flag" @on-change="Change"/>'+
+                    '</div>',
+            props: ['status','title'],
+            data () {
+                return {
+                    flag:false
+                }
+            },
+            created () {
+                this.flag = Boolean(this.status)
+            },
+            methods: {
+                Change (status) {
+                    this.$emit("statuschange",status)
+                }
+            }
+        }
     },
     data() {
         return {
-            // modaltitle
             modalTitle: "添加服务",
             info: {
                 // 机构简介
                 content: ""
             },
+            // 医院关联 的公众号
+            selectThis:'',
             height: 300,
             // 机构名称
             title: "",
@@ -341,24 +381,7 @@ export default {
             // 预约挂号卡模式
             registerPattern: null,
             // 服务类型列表
-            serviceType: [
-                {
-                    value: 1,
-                    key: "His",
-                    disabled: false
-                },
-                {
-                    value: 2,
-                    key: "预约挂号池",
-                    disabled: false
-                },
-                {
-                    value: 3,
-                    key: "妇幼",
-                    disabled: false
-                }
-            ],
-            serviceTypeSelect: [],
+            serviceType: [],
             // 模态框显示与否
             registerFlag: false,
             // 添加服务列表
@@ -382,6 +405,12 @@ export default {
             requestVal: "",
             // 是否启用
             enable: false,
+            // lis数据查询
+            lisPattern:[],
+            lisPatternList:[],
+            // pace数据查询
+            pacePattern:[],
+            pacePatternList:[],
             // 机构等级
             y_type: 6001,
             // 背景模板
@@ -393,6 +422,12 @@ export default {
             // 机构地址
             y_dizhi: "",
             // 互联网医院公众号
+            appidList: [
+                // {
+                //     value : "",
+                //     status : false,
+                // }
+            ],
             y_gzh: null,
             // 预约挂号排序
             appointmentRegistration:"",
@@ -421,7 +456,48 @@ export default {
             // 医院联盟排序
             hospitalSort: "",
             hospitalFlag: false,
-            urlCode: '{"urlCode":"' + code.urlCode.richText + '"}'
+            urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
+            formValidate:{
+                serviceName:"",
+                serviceUrl:"",
+                requestVal:"",
+                thirdValue:"",
+                enable:""
+            },
+            ruleValidate:{
+                serviceName: [
+                    {
+                        // 是否校验
+                        required: true,
+                        // 提示文字
+                        message: "请输入服务名称",
+                        // 触发事件
+                        trigger: "blur"
+                    }
+                ],
+                // e服务路径 
+                serviceUrl: [
+                    {
+                        // 是否校验
+                        required: true,
+                        // 提示文字
+                        message: "请输入服务路径",
+                        // 触发事件
+                        trigger: "blur"
+                    }
+                ],
+                // 第三方厂家
+                thirdValue: [
+                    {
+                        required: true,
+                        message: "请选择第三方厂家",
+                        trigger: "change"
+                    }
+                ]
+            },
+            lisSearch:"",
+            pacsSearch:"",
+            makeSearch:""
         };
     },
     methods: {
@@ -429,11 +505,132 @@ export default {
         afterChange(val) {
             this.info.content = val;
         },
-        // 是否开通互联网医院关连数据
+        // 预约挂号卡模式
+        registerPatternChange (list) {
+            this.registerPatternValue = list
+        },
+        // pace数据查询
+        pacePatternChange (list) {
+            this.pacePattern = list
+        },
+        // lis数据查询
+        lisPatternChange (list) {
+            this.lisPattern = list
+        },
+        // 添加厂家
+        lisPatternHome (id) {
+            this.serviceTypeValue = id;
+            this.registerFlag = true;
+            let items = {}
+            this.AddserviceList.forEach(item => {
+                if(Number(item.serviceType) == Number(id)) {
+                    items = item
+                }
+            })
+            if(items.serviceName) {
+                this.serviceTypeValue = items.serviceType;
+                this.formValidate.serviceName = items.serviceName;
+                this.formValidate.requestVal = items.requestVal;
+                this.formValidate.serviceUrl = items.serviceUrl;
+                this.formValidate.thirdValue = String(items.thirdpartyEnum);
+                this.formValidate.enable = !Boolean(items.enable);
+            }
+
+            // 请求第三方厂家列表
+            this.$axios.post(api.hospitalgetenummap, {
+                parent:parseInt(id),
+            }).then(res => {
+                if (res.data.success) {
+                    let ret = res.data.object;
+                    this.thirdList = ret
+                } else {
+                    this.$Message.error("加载第三方厂家失败")
+                }
+            })
+        },
+        // 强制用卷
+        usedCouponChange (status) {
+            this.usedCoupon = status
+        },
+        // 预约挂号支付
+        registerPayStatusChange (status) {
+            this.registerPayStatus = status
+        },
+        // 是否加入远程门诊
+        switch4Change (status) {
+            this.switch4 = status
+        },
+        // 预约挂号池是否为第三方
+        registerIthirdpartyChange (status) {
+            this.registerIthirdparty = status
+        },
+        // 公众号列表限制
+        addAppid () {
+            if (this.status) {
+                this.$Message.error("请开通互联网医院")
+                return ""
+            }
+            // 所有公众号列表
+            let gzhlen = this.gzh.length;
+            // 添加的公众号列表
+            let applen = this.appidList.length
+            if (gzhlen <= applen) {
+                this.$Message.error('当前仅有'+gzhlen+'个公众号可选择')
+                return ""
+            }
+            this.appidList.forEach(item => {
+                this.gzh.forEach(i => {
+                    if(i.appid == item.value) {
+                        i.status = true;
+                    }
+                })
+            })
+            this.appidList.push({
+                value : "",
+                status : false
+            })
+            this.relationwx();
+        },
+        unAppid () {
+            if (this.status) {
+                this.$Message.error("请开通互联网医院")
+                return ""
+            }
+            if(this.appidList.length != 1) {
+                this.appidList.splice(this.appidList.length-1,1);
+            } else {
+                this.$Message.error("请至少关联一个公众号")
+            }
+             this.relationwx();
+        },
+        // 已关联公众号列表
+        relationwx () {
+            let list = []
+            // 初始化
+            this.gzh.forEach((i,m) => {
+                i.status = false
+            })
+            // 新选择的公众号
+            this.appidList.forEach(item => {
+                this.gzh.forEach((i,m) => {
+                    if (item.value == i.appid) {
+                        list.push(i)
+                        i.status = true
+                    }
+                })
+            })
+            this.y_gzh = ''
+            this.selectGzh = list
+        },
+        // 是否开通互联网医院关联数据
         change(status) {
             if (status) {
                 this.status = false;
+
             } else {
+                this.appidList.forEach(item => {
+                    item.value = ''
+                })
                 this.status = true;
                 this.y_gzh = null;
                 this.switch2 = false;
@@ -448,17 +645,25 @@ export default {
                 this.hospitalFlag = true;
             }
         },
-        // 多选框选中时获取ID
-        checkBoxChange(arr) {
-            this.serviceTypeSelect = arr;
-        },
         // 当服务类型未选择不显示modal
         addManagement() {
             if (!Boolean(this.serviceTypeValue)) {
                 this.$Message.error("请选择服务类型后再添加服务");
                 return "";
             }
-            this.registerFlag = true;
+            this.lisPatternHome(this.serviceTypeValue)
+        },
+        // 计算数组中数据不为空时返回空字符串
+        computedLis (arr) {
+            if (arr.length != 0) {
+               return arr.join(",")
+            }
+            return ""
+        },
+        flagPattern (id,data) {
+            return data.some(item => {
+                return item.serviceType == id
+            })
         },
         // 医院修改完成
         save() {
@@ -470,32 +675,43 @@ export default {
             } else {
                 images = "";
             }
+            // lisPattern数据查询
+            let lisPattern = this.computedLis(this.lisPattern);
+            // pacsPattern数据查询
+            let pacsPattern = this.computedLis(this.pacePattern);
+            // registerPatternValue预约挂号卡模式
+            let selectArr = this.computedLis(this.registerPatternValue);
 
-            // 多选框选中时获取ID
-            let id = new Set();
-            this.registerPatternList.forEach((item, index) => {
-                this.registerPatternValue.forEach((i, s) => {
-                    if (item.name == i) {
-                        id.add(item.id);
+                //关联的多个公众号的appid
+            let appid = []
+            if(this.switch1) {
+                this.appidList.forEach(item => {
+                    if(Boolean(item.value)) {
+                        appid.push(item.value);
                     }
-                });
-            });
+                })
+            }
 
-            let oldStr = [];
-
-            id.forEach(item => {
-                oldStr.push(item);
-            });
-
-            let selectArr = oldStr.join(",");
-
-            // 挂号池为第三方时未添加服务类型 无法保存
-            if (this.registerIthirdparty) {
-                if (!Boolean(this.AddserviceList.length)) {
-                    this.$Message.error("请添加服务类型");
-                    return "";
+            // 当选择数据查询未添加服务时不允许保存
+            if(Boolean(this.lisPattern.length)) {
+                if(!this.flagPattern(this.lisSearch, this.AddserviceList)) {
+                    this.$Message.error("请选择lis数据查询第三方厂家")
+                    return ""
+                }
+            }   
+            if(Boolean(this.pacePattern.length)) {
+                if(!this.flagPattern(this.pacsSearch, this.AddserviceList)) {
+                    this.$Message.error("请选择pacs数据查询第三方厂家")
+                    return ""
                 }
             }
+            if(Boolean(this.registerPatternValue.length)) {
+                if(!this.flagPattern(this.makeSearch, this.AddserviceList)) {
+                    this.$Message.error("请选择预约挂号数据查询第三方厂家")
+                    return ""
+                }
+            }
+            // 全部参数
             let params = {
                 hospitalId: this.id,
                 //上级编码
@@ -514,8 +730,10 @@ export default {
                 hosIntroduction: this.info.content,
                 //地址
                 hosAddr: this.y_dizhi,
-                //公众号
-                appid: this.y_gzh,
+                //公众号支付
+                wxappPay: this.y_gzh,
+                // 关联公众号列表
+                appidList: appid,
                 //处方平台UID
                 prescriptionId: this.y_uid,
                 // 预约挂号排序
@@ -538,11 +756,26 @@ export default {
                 registerPattern: selectArr,
                 // 预约挂号池是否为第三方
                 registerIthirdparty: Number(this.registerIthirdparty),
-                // 预约挂号服务
-                list: this.AddserviceList
+                // 预约挂号服务类型
+                list: this.AddserviceList,
+                // lisPattern数据查询
+                lisPattern,
+                // pacsPattern数据查询
+                pacsPattern
             };
+            if(this.title == '') {
+                return ""
+            }
+            console.log(params);
+            // 当医院关闭互联网医院时把appid清空
             if (!this.switch1) {
-                params.appid = null;
+                params.wxappPay = '';
+                params.appidList = []
+            } else if(this.switch1) {
+                if(!Boolean(params.wxappPay) || params.appidList.length == 0){
+                    this.$Message.error("请选择医院关联公众号与医院公众号支付")
+                    return ""
+                }
             }
             // 远程门诊状态缓存
             if (this.switch4) {
@@ -550,8 +783,6 @@ export default {
             } else {
                 localStorage.setItem("doctor", "");
             }
-
-
             this.$axios
                 .post(api.managementEdit, params)
                 .then(res => {
@@ -573,92 +804,106 @@ export default {
             }
         },
         // 添加服务
-        ok() {
-            if (
-                !this.serviceName ||
-                !this.serviceUrl ||
-                !this.thirdValue
-            ) {
-                this.$Message.error("请完整填写必填项");
-                return "";
-            }
-            let a = 0;
-            if(!this.enable) {
-                a = 1 
-            }
-            let params = {
-                //服务名称
-                serviceName: this.serviceName,
-                // 服务路径
-                serviceUrl: this.serviceUrl,
-                // 第三方参数
-                requestVal: this.requestVal,
-                // 医院ID
-                hospitalId: this.id,
-                // 服务类型
-                serviceType: this.serviceTypeValue,
-                // 是否启用
-                enable: a,
-                // 第三方厂家
-                thirdpartyEnum: this.thirdValue
-            };
-                console.log(params)
-            if (this.AddserviceList.length > 0) {
-                    let flag = true
-                this.AddserviceList.forEach((item, index) => {
-                    if (Number(item.serviceType) == Number(params.serviceType)) {
-                        flag = false
-                        this.AddserviceList[index] = params
-                    } 
-                });
-                if(flag) {
-                    this.AddserviceList.push(params);
+        ok(name) {
+            this.$refs[name].validate(valid => {
+                if (valid) {
+                // 必填项填写完成
+                    let a = 0;
+                    if(!this.formValidate.enable) {
+                        a = 1 
+                    }
+                    let res = ''
+                    this.serviceType.forEach((item, index) => {
+                        if (Number(this.serviceTypeValue) == Number(item.id)) {
+                            res = item.name;
+                        }
+                    });
+                    let className = ''
+                    this.thirdList.forEach(item => {
+                        if(Number(this.formValidate.thirdValue) == Number(item.code)) {
+                            className = item.className
+                        }
+                    })
+                    let params = {
+                        //服务名称
+                        serviceName: className,
+                        // 服务路径
+                        serviceUrl: this.formValidate.serviceUrl,
+                        // 第三方参数
+                        requestVal: this.formValidate.requestVal,
+                        // 医院ID
+                        hospitalId: this.id,
+                        // 服务类型
+                        serviceType: this.serviceTypeValue,
+                        // 是否启用
+                        enable: a,
+                        // 第三方厂家
+                        thirdpartyEnum: Number(this.formValidate.thirdValue),
+                        // 服务类型名称
+                        serverTypeName: res,
+                        className
+                    };
+                        // 添加进数据组中
+                    if (this.AddserviceList.length > 0) {
+                            let flag = true
+                        this.AddserviceList.forEach((item, index) => {
+                            if (Number(item.serviceType) == Number(params.serviceType)) {
+                                flag = false
+                                this.AddserviceList[index] = params
+                            } 
+                        });
+                        if(flag) {
+                            this.AddserviceList.push(params);
+                        }
+                    } else {
+                        this.AddserviceList.push(params);
+                    }
+                    // 初始化
+                    this.formValidate.serviceName = "";
+                    this.formValidate.requestVal = "";
+                    this.formValidate.serviceUrl = "";
+                    this.formValidate.enable = false;
+                    this.modalTitle = "添加服务";
+                    this.thirdList = []
+                    this.formValidate.thirdValue = ''
+                    this.serviceType.forEach(item => {
+                        if(Number(item.id) == Number(this.serviceTypeValue)) {
+                            item.disabled = true;
+                        }
+                    })
+                    this.serviceTypeValue = null;
+                } else {
+                // 必填项填写失败
+                    this.$Message.error("请完整填写表单");
+                    return ""
                 }
-            } else {
-                this.AddserviceList.push(params);
-            }
-            // 初始化
-            this.serviceName = "";
-            this.requestVal = "";
-            this.serviceUrl = "";
-            this.enable = false;
-            this.modalTitle = "添加服务";
-            this.serviceType[this.serviceTypeValue - 1].disabled = true;
-            this.serviceTypeValue = null;
+            })
+            
         },
         // 编辑服务
         appendItem(item, index) {
             this.modalTitle = "编辑服务";
-            this.registerFlag = true;
+            // 服务类型
             this.serviceTypeValue = item.serviceType;
-            this.serviceName = item.serviceName;
-            this.requestVal = item.requestVal;
-            this.serviceUrl = item.serviceUrl;
-            this.thirdValue = item.thirdpartyEnum;
-            this.enable = !Boolean(item.enable);
+            this.formValidate.serviceName = item.serviceName;
+            this.formValidate.requestVal = item.requestVal;
+            this.formValidate.serviceUrl = item.serviceUrl;
+            this.formValidate.thirdValue = String(item.thirdpartyEnum);
+            this.formValidate.enable = !Boolean(item.enable);
+            this.lisPatternHome(this.serviceTypeValue)
         },
-        //
         cancel() {
-            // 初始化
-            this.serviceName = "";
-            this.requestVal = "";
-            this.serviceUrl = "";
-            this.enable = false;
-            this.serviceTypeValue = null;
+            this.formValidate.serviceName = "";
+            this.formValidate.requestVal = "";
+            this.formValidate.serviceUrl = "";
+            this.formValidate.enable = false;
             this.modalTitle = "添加服务";
-            this.thirdValue = ''
+            this.thirdList = []
+            // 初始化
+            this.serviceTypeValue = null;
+            this.formValidate.thirdValue = ''
         },
-        // 根据ID查找它的名字
-        sumId(id) {
-            let res = "";
-            this.thirdList.forEach((item, index) => {
-                if (Number(id) == Number(item.id)) {
-                    res = item.className;
-                }
-            });
-            // console.log('thirdList::',this.thirdList);
-            return res;
-        },
+        // 上传图片相关事件
         handleView(name) {
             this.imgName = name;
             this.visible = true;
@@ -715,9 +960,23 @@ export default {
             this.$axios.post(api.managementGzh).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
+                    ret.forEach(item => {
+                        item.status = false
+                    })
                     this.gzh = ret;
                 }
             });
+            // 医院关联公众号
+            this.$axios.post(api.hospitalwxapplist, {
+                hospitalId:this.id
+            }).then(res => {
+                console.log(res);
+                if(res.data.message) {
+                    let ret = res.data.object;
+                    console.log(ret);
+                    this.selectGzh = ret;
+                }
+            })
         }
     },
     created() {
@@ -735,7 +994,7 @@ export default {
             .then(res => {
                 if (res.data.object) {
                     let ret = res.data.object;  
-                    console.log(ret)
+                    console.log("ret+++++++++++++++++++++++++++++++",ret)
                     // 医院图片
                     if (ret.hosIcon) {
                         this.source = ret.hosIcon;
@@ -749,6 +1008,18 @@ export default {
                                 this.pictureFormat(ret.hosIcon)
                         });
                     }
+                    this.serviceType = ret.serviceTypeMap
+                    this.serviceType.forEach(item => {
+                        if(item.name == '预约挂号') {
+                            this.makeSearch = item.id
+                        }
+                        if(item.name == 'pacs查询') {
+                            this.pacsSearch = item.id
+                        }
+                        if(item.name == 'lis查询') {
+                            this.lisSearch = item.id
+                        }
+                    })
                     // 医院名字
                     this.title = ret.orgName;
                     // 机构等级
@@ -765,17 +1036,38 @@ export default {
                     this.y_phone = ret.telephone;
                     // 地址
                     this.y_dizhi = ret.hosAddr;
-                    // 公众号
-                    this.y_gzh = ret.appid;
-                    //uid
+                    
+                    // appidList关联公众号列表
+                    let appidList = ret.appidList || []
+                   
                     //互联网医院
                     this.switch1 = Boolean(ret.internetHospital);
                     if (this.switch1) {
                         this.status = false;
                         localStorage.setItem("status", "show");
+                        // wxappPay公众号支付
+                        this.y_gzh = ret.wxappPay
+                         // 医院关联公众号回显
+                        if (Boolean(appidList.length)) {
+                            appidList.forEach(i => {
+                                this.appidList.push({
+                                    value : i,
+                                    status : true,
+                                })
+                            })
+                        } else {
+                            this.appidList.push({
+                                value : '',
+                                status : false
+                            })
+                        }
                     } else {
                         this.status = true;
                         localStorage.setItem("status", "");
+                        this.appidList.push({
+                            value : '',
+                            status : false
+                        })
                     }
                     // 医院联盟
                     this.switch2 = Boolean(ret.unionHospital);
@@ -786,7 +1078,6 @@ export default {
                     } else {
                         this.hospitalFlag = true;
                     }
-
                     // 开启远程门诊
                     this.switch4 = Boolean(ret.iremote);
                     if (this.switch4) {
@@ -795,8 +1086,11 @@ export default {
                         localStorage.setItem("doctor", "");
                     }
                     // 预约挂号排序
-                    console.log(ret.appointmentRegistration)
-                    this.appointmentRegistration = ret.appointmentRegistration
+                    let appointmentRegistration = ret.appointmentRegistration;
+                    if(!Number(appointmentRegistration)) {
+                        appointmentRegistration = ''
+                    }
+                    this.appointmentRegistration = appointmentRegistration
                     // 是否强制用卷
                     this.usedCoupon = Boolean(ret.usedCoupon);
                     // 预约挂号支付
@@ -807,46 +1101,37 @@ export default {
                     this.y_uid = ret.prescriptionId;
 
                     // 预约挂号卡模式
-                    this.serviceTypeSelect = ret.registerPattern;
+                    // registerPatternValue  选中值
+                    this.registerPatternValue = ret.registerPattern ? ret.registerPattern.split(",") : [];
+                    // registerPatternList  所有值
+                    this.registerPatternList = ret.listMap;
 
-                    if (Boolean(this.serviceTypeSelect)) {
-                        let status = this.serviceTypeSelect.split(",");
-                        ret.patternListMap.forEach((item, index) => {
-                            status.forEach(items => {
-                                if (items == item.id) {
-                                    item.status = true;
-                                    this.registerPatternValue.push(item.name);
-                                } else {
-                                    item.status = false;
-                                }
-                            });
-                        });
-                    } else {
-                        ret.patternListMap.forEach((item, index) => {
-                            item.status = false;
-                        });
-                    }
+                    // lisPatternList列表查询
+                    this.lisPatternList = ret.listMap
+                    // lisPattern选中查询
+                    this.lisPattern = ret.lisPattern ? ret.lisPattern.split(",") : []
 
-                    this.registerPatternList = ret.patternListMap;
+                    // pacePatternList列表查询
+                    this.pacePatternList = ret.listMap
+                    // pacePattern选中查询
+                    this.pacePattern = ret.pacsPattern ? ret.pacsPattern.split(",") : []
 
                     // 预约挂号池是否为第三方
                     this.registerIthirdparty = Boolean(ret.registerIthirdparty);
-                    // 第三方厂家
-                    this.thirdList = ret.thirdpartyListMap;
-                    this.thirdList.map((el)=>{
-                      el.id = parseInt(el.id);
-                    })
+                    
+            
                     //添加的服务列表
                     this.AddserviceList = ret.listThirdparty || [];
-                      if(Boolean(this.AddserviceList)) {
-                        this.AddserviceList.forEach(item => {
-                          this.serviceType.forEach(i => {
-                              if(Number(item.serviceType) == Number(i.value)) {
-                                  i.disabled = true
-                              }
-                          })
-                        })
-                      }
+                        if(Boolean(this.AddserviceList)) {
+                            this.AddserviceList.forEach(item => {
+                                this.serviceType.forEach(i => {
+                                    if(Number(item.serviceType) == Number(i.id)) {
+                                        i.disabled = true
+                                        item.serverTypeName = i.name
+                                    }
+                                })
+                            })
+                        }
                 }
             });
     }
@@ -858,7 +1143,7 @@ export default {
     display: flex;
     flex-direction: row;
     width: 80%;
-    height: 30px;
+    height: 50px;
     margin: 5px auto;
     align-items: center;
     span {
@@ -929,7 +1214,6 @@ export default {
         flex-direction: column;
         padding: 30px 0;
         margin: 0 auto;
-
         .main_info {
             display: flex;
             flex-direction: row;
@@ -970,9 +1254,23 @@ export default {
             width: 80%;
             height: 30px;
             margin: 5px auto;
+            align-items:center;
             span {
                 display: inline-block;
                 min-width: 100px;
+            }
+            .cus-btn{
+                width:30px;
+                height:30px;
+                line-height: 30px;
+                color: #ffffff;
+                font-size: 30px;
+                border: 0;
+                border-radius: 50%;
+                background: #2d8cf0;
+                border:none;
+                outline:none;
+                margin-left:10px;
             }
         }
         .main_imgs {

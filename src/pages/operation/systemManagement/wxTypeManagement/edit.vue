@@ -89,7 +89,7 @@ export default {
   mounted() {
     let params = this.$route.params.item;
     this.title = this.$route.params.name;
-    this.params.menuName = params.menuName;
+    this.params.menuName = params.menuName.trim();
     this.params.path = params.path;
     this.params.priority = params.priority;
 

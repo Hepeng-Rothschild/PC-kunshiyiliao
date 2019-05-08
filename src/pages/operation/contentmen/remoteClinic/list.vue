@@ -37,7 +37,6 @@
           </Select>
         </div>
       </div>
-
       <!-- 检索 -->
       <div class="inputContent">
         <div class="search">
@@ -49,24 +48,37 @@
           />
           <Button type="primary" @click="searchContent">查询</Button>
         </div>
-        <p>已选择远程远程门诊合作机构</p>
       </div>
+
       <div class="transfer">
         <div class="left" ref="scrollBoxL">
-          <p @dblclick="leftHospial(item,index,$event)" v-for="item,index in hospialList">
-            {{ item.hospitalName }}
-            <img
-              src="../../../../assets/images/back/gengduo.png"
-              alt
-              v-show="item.hospitalName"
-            >
-          </p>
+          <h3>可选择远程门诊合作机构</h3>
+          <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <th>医院</th>
+              <th>操作</th>
+            </tr>
+            <tr v-for="(item,index) in hospialList" :key="index"  v-show='hospialList.length'>
+              <th>{{ item.hospitalName }}</th>
+              <th><span style='color:#2d8cf0;cursor:pointer;user-select:none;' @click='leftHospial(item,index,$event)'>选择</span></th>
+            </tr>
+          </table>
+          <div class="fooDiv" v-show='!hospialList.length'>没有更多数据</div>
         </div>
+
         <div class="right" ref="scrollBoxR">
-          <p @dblclick="rightHospial(item,index,$event)" v-for="item,index in selectHospial">
-            <img src="../../../../assets/images/back/fanhui.png" alt v-show="item.hospitalName">
-            {{ item.hospitalName }}
-          </p>
+          <h3>已选择远程门诊合作机构</h3>
+          <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <th>医院</th>
+              <th>操作</th>
+            </tr>
+            <tr v-for="(item,index) in selectHospial" :key="index" v-show='selectHospial.length'>
+              <th>{{ item.hospitalName }}</th>
+              <th><span style='color:#2d8cf0;cursor:pointer;user-select:none;' @click='rightHospial(item,index,$event)'>移除</span></th>
+            </tr>
+          </table>
+          <div class="fooDiv" v-show='!selectHospial.length'>没有更多数据</div>
         </div>
       </div>
       <!-- 保存 -->
@@ -85,23 +97,20 @@ export default {
   },
   data() {
     return {
-      remoteClinicSize: 10,
-      listStyle: {
-        width: "45%",
-        height: "450px",
-        margin: "20px 0"
-      },
-      pageNo: 1,
+      // 地区列表
       provinceList: [],
       cityList: [],
       countyList: [],
+      // 选择的地区
       model: {
         provinceCode: "",
         cityCode: "",
         districtCode: "",
         orgName: ""
       },
+      // 医院列表
       hospialList: [],
+      // 合作医院列表
       selectHospial: []
     };
   },
@@ -148,7 +157,6 @@ export default {
           let ret = res.data.object;
           let arr = [];
           console.log(ret);
-          // console.log(this.selectHospial);
           ret.forEach(item => {
             let flag = this.selectHospial.some(i=>{
               return i.remote_hospital_id == item.id
@@ -160,7 +168,10 @@ export default {
               })
             }
           });
+          this.$Message.success("查询成功")
           this.hospialList = arr;
+        } else {
+          this.$Message.error("查询失败")
         }
       });
     },
@@ -177,16 +188,17 @@ export default {
       };
       if (arr.length == 0) {
         this.$Message.info("请至少选择一个关联医院");
+        return ""
       } else {
         this.$axios
           .post(api.searchRoomSelectAdd, params)
           .then(res => {
             if (res.data.code) {
-              this.$Message.info("保存成功");
+              this.$Message.success("保存成功");
             }
           })
           .catch(err => {
-            this.$Message.info("保存失败,请稍候重试");
+            this.$Message.error("保存失败,请稍候重试");
           });
       }
     },
@@ -358,7 +370,10 @@ export default {
         height: 500px;
         border: 1px solid #ddd;
         overflow: auto;
-
+        h3{
+          text-align:center;
+          padding:6px 0;
+        }
         p {
           padding: 0 10px;
           user-select: none;
@@ -374,6 +389,33 @@ export default {
           color: #fff;
           background: #ccc;
         }
+        table {
+          width: 100%;
+          border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          tr {
+            border-top: 1px solid #ddd;
+            height: 40px;
+            th {
+              min-width:80px;
+              text-align: center;
+            }
+          }
+          tr:first-child{
+            background: #f8f8f9;
+          }
+          tr:not(:first-child):hover {
+            background: #ebf7ff;
+          }
+        }
+        .fooDiv {
+            width: 100%;
+            line-height: 35px;
+            height:40px;
+            border:none;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+          }
       }
     }
     .save {

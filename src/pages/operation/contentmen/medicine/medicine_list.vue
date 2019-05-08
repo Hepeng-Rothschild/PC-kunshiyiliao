@@ -38,7 +38,7 @@
             <td>{{ item.registeredReservation == '1'? '是':"否" }}</td>
             <td>{{ item.specialDept == '1'? '是':"否" }}</td>
             <td >
-              <span @click="edit(item)" style="cursor:pointer;">编辑</span>
+              <span @click="edit(item)" style="cursor:pointer;color:#2d8cf0;">编辑</span>
               <!-- <span>删除</span> -->
             </td>
           </tr>
@@ -125,8 +125,8 @@ export default {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
-        params.searchKey = val;
+      if (Boolean(val)) {
+        params.searchKey = val.trim();
       }
       this.$axios
         .post(api.medicine, params)
@@ -181,6 +181,7 @@ export default {
       table {
         width: 100%;
         border: 1px solid #ddd;
+        font-size:12px;
         tr:nth-child(odd) {
           background: #f8f8f9;
         }

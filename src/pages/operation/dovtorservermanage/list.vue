@@ -195,7 +195,8 @@ export default {
                     title: "医生姓名",
                     key: "doctorName",
                     align: "center",
-                    width: 100
+                    width: 100,
+                    // fixed: 'left',
                 },
                 {
                     title: "院内编码",
@@ -312,6 +313,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 180,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.doctorId,
                             _index = params.row._index;
@@ -424,7 +426,7 @@ export default {
         hLoadPage(pageNo) {
             this.hPageNo = pageNo;
             let params = {};
-            params.searchKey = this.hSearchKey;
+            params.searchKey = this.hSearchKey.trim();
             params.pageNo = this.hPageNo;
             params.pageSize = this.hPageSize;
             this.$axios
@@ -500,7 +502,7 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            params.searchKey = this.searchKey;
+            params.searchKey = this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log("params",params)

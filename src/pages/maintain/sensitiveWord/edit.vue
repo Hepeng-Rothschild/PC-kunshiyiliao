@@ -196,7 +196,7 @@ export default {
                     let params = {};
                     operateApi = api.sensitiveUpdate;
                     params.id = parseInt(this.info.id);
-                    params.sensitives = this.info.sensitives;
+                    params.sensitives = this.info.sensitives.trim();
                     params.start = this.info.start;
                     params.score1 = parseFloat(this.info.score1);
                     params.score2 = parseFloat(this.info.score2);

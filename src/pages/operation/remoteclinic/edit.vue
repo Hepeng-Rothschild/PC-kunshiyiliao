@@ -27,7 +27,7 @@
             <!-- 医事服务费 -->
             <div class="item">
                 <div class="item-text">
-                    <span style="color:red;"></span>
+                    <span style="color:red;">&nbsp;</span>
                     <p>医事服务费</p>
                 </div>
                 <p>{{ money }}元</p>
@@ -316,7 +316,7 @@ export default {
             // 医生id
             params.doctorId = this.selectExpert.doctorId;
             // 医生姓名
-            params.doctorName = this.selectExpert.deptName;
+            params.doctorName = this.selectExpert.deptName.trim();
             // 医生科室
             params.deptName = this.selectExpert.deptName;
             // 医院ID
@@ -601,11 +601,8 @@ export default {
             table {
                 width: 100%;
                 border: 1px solid #ddd;
-                tr:nth-child(odd) {
+                tr:first-child{
                     background: #f8f8f9;
-                }
-                tr:nth-child(even) {
-                    background: #fff;
                 }
                 tr:not(:first-child):hover {
                     background: #ebf7ff;

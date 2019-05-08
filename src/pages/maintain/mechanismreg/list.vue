@@ -32,42 +32,7 @@
             </header>
             <!-- 列表 -->
             <div class="list">
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>编号</th>
-                        <th>城市</th>
-                        <th>机构名称</th>
-                        <th>机构类型</th>
-                        <th>机构编码</th>
-                        <th>机构等级</th>
-                        <th>联系人姓名</th>
-                        <th>联系电话</th>
-                        <th>状态</th>
-                        <th>注册时间</th>
-                        <th>操作</th>
-                    </tr>
-                    <tr v-for="(item,index) in list" :key="index">
-                        <th>{{ addZero(index) }}</th>
-                        <th>{{ item.city }}</th>
-                        <th>{{ item.hospitalName }}</th>
-                        <th>{{ item.internetHospital == '0'? '企业' :'医院' }}</th>
-                        <th>{{ item.orgCode }}</th>
-                        <th>{{ item.grade }}</th>
-                        <th>{{ item.linkman }}</th>
-                        <th>{{ item.linkmanTelephone }}</th>
-                        <th>{{ item.enable == '0'? '关闭' :'入驻'}}</th>
-                        <th>{{ item.createTime }}</th>
-                        <th>
-                            <span style="cursor:pointer" @click="edit(item)">编辑</span>
-                            <!-- <span style = 'cursor:pointer'>删除</span> -->
-                            <span
-                                style="cursor:pointer"
-                                @click="enable(item)"
-                            >{{ item.enable == '0'? '启用' :'停用' }}</span>
-                        </th>
-                    </tr>
-                </table>
-                <div class="notData" v-show="!list.length">暂无更多数据</div>
+                <Table :columns="column" :data="list" stripe></Table>
             </div>
             <!--分页器-->
             <div class="paging">
@@ -93,7 +58,122 @@ export default {
             doctorregisterSize: 10,
             list: [],
             Name: "",
-            pageNo: 1
+            pageNo: 1,
+            column:[
+                {
+                    title:"序号",
+                    key:"sum",
+                    align:"center",
+                    width:60
+                },
+                {
+                    title:"城市",
+                    key:"city",
+                    align:"center",
+                    width:100
+                },
+                {
+                    title:"机构名称",
+                    key:"hospitalName",
+                    align:"center",
+                    width:200,
+                    render: (h, params) => {
+                        let name = params.row.hospitalName;
+                        return h('p',{
+                            style: {
+                    　　　　　　　　display: 'inline-block',
+                    　　　　　　　　width: params.column._width*0.8+'px',
+                    　　　　　　　　overflow: 'hidden',
+                    　　　　　　　　textOverflow: 'ellipsis',
+                    　　　　　　　　whiteSpace: 'nowrap',
+                    　　　　　　},
+                        },name)
+                    }
+                },
+                {
+                    title:"机构类型",
+                    key:"internetHospital",
+                    align:"center",
+                    width:100,
+                    render : (h, params) =>{
+                        let row = params.row;
+                        let name = row.internetHospital == '0' ? '企业' :'医院'
+                        return h('span',{
+
+                        },name)
+                    }
+                },
+                {
+                    title:"机构编码",
+                    key:"orgCode",
+                    align:"center",
+                    width:150
+                },
+                {
+                    title:"机构等级",
+                    key:"grade",
+                    align:"center",
+                    width:120
+                },
+                {
+                    title:"联系人姓名",
+                    key:"linkman",
+                    align:"center",
+                    width:150
+                },
+                {
+                    title:"联系电话",
+                    key:"linkmanTelephone",
+                    align:"center",
+                    width:150
+                },
+                {
+                    title:"状态",
+                    key:"enable",
+                    align:"center",
+                    width:80,
+                    render:(h, params) => {
+                        let name = params.row.enable == 0 ? '关闭' : '入驻'
+                        return h('span',{
+
+                        }, name)
+                    }
+                },
+                {
+                    title:"注册时间",
+                    key:"createTime",
+                    align:"center",
+                    width:150
+                },
+                {
+                    title:"操作",
+                    align:"center",
+                    width:140,
+                    fixed:"right",
+                    render:(h, params) =>{
+                        let row = params.row;
+                        let name = row.enable == '0'? '启用' :'停用'
+                        return h('div', [
+                            h('a', {
+                                on:{
+                                    click: () => {
+                                        this.edit(row)
+                                    }
+                                }
+                            }, '编辑'),
+                            " | ",
+                            h('a', {
+                                on:{
+                                    click: () => {
+                                        this.enable(row)
+                                    }
+                                }
+                            }, name)
+                        ])
+                    }
+                },
+
+            ]
         };
     },
     created() {
@@ -227,7 +307,7 @@ export default {
                 pageSize: 10
             };
             if (this.Name != "") {
-                params.searchKey = this.Name;
+                params.searchKey = this.Name.trim();
             }
             params.provinceCode = this.province ? this.province : null;
             params.cityCode = this.city ? this.city : null;
@@ -238,18 +318,14 @@ export default {
                 if (res.data.code) {
                     let ret = res.data.object;
                     this.doctorregisterSize = ret.count;
+                    ret.list.forEach((item,index) => {
+                        item.sum = this.addZeros(index)
+                    })
                     this.list = ret.list;
                 } else {
                     this.$Message.info("不允许访问");
                 }
             });
-        },
-        addZero(num) {
-            num = num + 1;
-            if (num < 10) {
-                return "0" + num;
-            }
-            return num;
         }
     },
     components: {
@@ -275,11 +351,6 @@ export default {
         }
         header {
             width: 100%;
-            // height: 40px;
-            // display: flex;
-            // flex-direction: row;
-            // align-items: center;
-            // justify-content: space-between;
             .btn{
                 margin-top:10px;
             }
@@ -287,33 +358,6 @@ export default {
         .list {
             width: 100%;
             margin: 10px 0;
-            table {
-                width: 100%;
-                border: 1px solid #ddd;
-                tr:nth-child(odd) {
-                    background: #f8f8f9;
-                }
-                tr:nth-child(even) {
-                    background: #fff;
-                }
-                tr:not(:first-child):hover {
-                    background: #ebf7ff;
-                }
-                tr {
-                    border-top: 1px solid #ddd;
-                    height: 40px;
-                    th {
-                        text-align: center;
-                    }
-                }
-            }
-            .notData {
-                width: 100%;
-                text-align: center;
-                border: 1px solid #ddd;
-                line-height: 40px;
-                border-top: none;
-            }
         }
     }
 }

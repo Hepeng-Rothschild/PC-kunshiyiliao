@@ -21,7 +21,7 @@
           <th>
             <span v-for="(items,index) in item.result" :key='index'>{{ items }}<span v-show='item.result.length != index+1'>、</span></span>
           </th>
-          <th @click="navto(item)" style="cursor:pointer;">编辑</th>
+          <th @click="navto(item)" style="cursor:pointer;color:#2d8cf0;">编辑</th>
         </tr>
       </table>
       <div class="footer" v-show="!tablesList.length">暂无更多数据</div>
@@ -103,6 +103,7 @@ export default {
     table {
       width: 100%;
       border: 1px solid #ddd;
+      font-size:12px;
       tr:nth-child(odd) {
         background: #f8f8f9;
       }
@@ -116,6 +117,7 @@ export default {
         border-top: 1px solid #ddd;
         height: 40px;
         th {
+          min-width:100px;
           text-align: center;
         }
       }

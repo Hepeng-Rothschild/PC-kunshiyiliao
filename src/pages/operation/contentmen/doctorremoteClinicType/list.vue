@@ -15,7 +15,7 @@
             <td>{{ index+1 }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.cost }}</td>
-            <td style="cursor:pointer;" @click="edit(item)">编辑</td>
+            <td style="cursor:pointer;color:#2d8cf0;" @click="edit(item)">编辑</td>
           </tr>
         </table>
         <div class="footer" v-show="!list.length">暂无更多数据</div>
@@ -244,6 +244,7 @@ export default {
       table {
         width: 100%;
         border: 1px solid #ddd;
+        font-size:12px;
         tr:nth-child(odd) {
           background: #f8f8f9;
         }

@@ -298,7 +298,7 @@ export default {
             endDate = endDate.toLocaleDateString().replace(/\//g, "-");
             params.remoteDateStrar = startDate;
             params.remoteDateEnd = endDate;
-            params.searchKey = this.searchKey ? this.searchKey : null;
+            params.searchKey = this.searchKey.trim() ? this.searchKey.trim() : null;
             params.provinceCode = this.province ? this.province : null;
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;

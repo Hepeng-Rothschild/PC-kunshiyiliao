@@ -97,37 +97,38 @@ export default {
                     title: "认证状态",
                     key: "authStatus",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "图文问诊",
                     key: "imginquiry",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "电话问诊",
                     key: "phoneinquiry",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "视频问诊",
                     key: "videoinquiry",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "家庭医生",
                     key: "homedoctor",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
                     width: 140,
+                    fixed:"right",
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";
@@ -196,22 +197,22 @@ export default {
                                 },
                                 "编辑"
                             ),
-                            " | ",
-                            h(
-                                "a",
-                                {
-                                    on: {
-                                        click: () => {
-                                            this.delDoctor(
-                                                params.index,
-                                                params.row.id,
-                                                params.row.name
-                                            );
-                                        }
-                                    }
-                                },
-                                "删除"
-                            )
+                            // " | ",
+                            // h(
+                            //     "a",
+                            //     {
+                            //         on: {
+                            //             click: () => {
+                            //                 this.delDoctor(
+                            //                     params.index,
+                            //                     params.row.id,
+                            //                     params.row.name
+                            //                 );
+                            //             }
+                            //         }
+                            //     },
+                            //     "删除"
+                            // )
                         ];
                     }
                 }
@@ -309,9 +310,9 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            params.title = this.dictType;
+            params.title = this.dictType.trim();
             params.authStatus = this.authStatus;
-            params.name = this.searchKey;
+            params.name = this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log(params);

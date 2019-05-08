@@ -142,7 +142,7 @@ export default {
             this.liveData({
                 pageNo: this.pageNo,
                 pageSize: this.pageSize,
-                searchKey: this.search
+                searchKey: this.search.trim()
             });
         },
         // 加载点播数据
@@ -151,7 +151,7 @@ export default {
                 .post(api.lecturedemandpagebyexaminelist, {
                     pageNo: params.pageNo,
                     pageSize: params.pageSize,
-                    searchKey: params.searchKey
+                    searchKey: params.searchKey ? params.searchKey.trim() : params.searchKey
                 })
                 .then(resp => {
                     if (resp.data.success) {

@@ -284,8 +284,8 @@ export default {
         let params = {
           ids: [this.select],
           operateArticle: {
-            title: this.title,
-            synopsis: this.ftitle,
+            title: this.title.trim(),
+            synopsis: this.ftitle.trim(),
             priority: this.num,
             content: this.editorText,
             source: this.source,

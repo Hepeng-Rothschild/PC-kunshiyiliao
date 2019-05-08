@@ -288,7 +288,7 @@ export default {
             }
             this.$axios
                 .post(api.doctorList, {
-                    searchKey: this.live.search,
+                    searchKey: this.live.search.trim(),
                     pageNo: 1,
                     pageSize: 10
                 })
@@ -326,10 +326,10 @@ export default {
             }
             let params = {
                 // 医生姓名及ID
-                doctorName: this.live.doctorName,
+                doctorName: this.live.doctorName.trim(),
                 doctorId: this.live.doctorId,
                 // 点播标题
-                title: this.live.title,
+                title: this.live.title.trim(),
                 // 原始价格与折后价格
                 originalPrice: this.live.originPrice,
                 discountPrice: this.live.discountPrice,
