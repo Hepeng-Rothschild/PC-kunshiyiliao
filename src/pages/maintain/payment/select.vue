@@ -457,9 +457,7 @@ export default {
                         hospitalId: this.hospitalId
                     }
                     // 有id代表它是编辑的状态
-                    // (Boolean(this.formValidate.id) ? this.updateList : this.saveChange)(params)
                     if (Boolean(this.formValidate.id)) {
-                        params.id = this.formValidate.id
                         this.updateList(params)
                     } else {
                         this.saveChange(params);
@@ -507,7 +505,6 @@ export default {
                         this.$Message.error("查询详情失败")
                     }
                 })
-                
             }
         },
         // 选择支付类型后加载支付渠道
@@ -620,7 +617,7 @@ export default {
         // 修改支付类型
         updateList (params) {
             console.log('updateList');
-            
+            params.id = this.formValidate.id
             this.$axios.post(api.updatepaymentchannel, params).then(res => {
                 if(Boolean(res.data.code)) {
                     this.$Message.success("修改成功")
