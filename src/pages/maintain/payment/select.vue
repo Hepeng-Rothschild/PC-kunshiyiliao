@@ -63,6 +63,20 @@
                         >{{item.nick}}</Option>
                     </Select>
                 </FormItem>
+                <FormItem label="交易类型" prop="paymentAccount">
+                    <Select
+                        class="w-select-hos"
+                        placeholder="请选择交易类型"
+                        v-model="formValidate.transactionType"
+                        style='width:180px;'
+                    >
+                        <Option
+                            v-for="item in transactionTypeList"
+                            :value="item.id"
+                            :key="item.id"
+                        >{{ item.name }}</Option>
+                    </Select>
+                </FormItem>
                 <!-- 显示端 -->
                 <FormItem label="显示端" prop="displayType">
                     <Select
@@ -112,6 +126,8 @@ export default {
                 paymentChannel:"",
                 // 支付账号
                 paymentAccount:"",
+                // 交易类型
+                transactionType:"",
                 // 显示端
                 displayType:"",
                 // 商户号
@@ -152,6 +168,17 @@ export default {
 						required: true,
 						// 提示文字
 						message: "请选择支付账号",
+						// 触发事件
+						trigger: "change"
+					}
+                ],
+                // 交易类型
+                transactionType:[
+                    {
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请选择支付方式",
 						// 触发事件
 						trigger: "change"
 					}
@@ -402,8 +429,11 @@ export default {
             paymentChannelList: [],
             // 支付账号列表
             paymentAccountList: [],
+            // 交易类型列表
+            transactionTypeList: [],
             // 显示端列表
-            displayTypeList: []
+            displayTypeList: [],
+           
         };
     },
     created() {
@@ -455,6 +485,7 @@ export default {
                         merchantIdentification: this.formValidate.merchantIdentification,
                         parameterConfig: JSON.stringify(mchKey),
                         startType: Number(this.formValidate.startType),
+                        transactionType:this.formValidate.transactionType,
                         hospitalId: this.hospitalId
                     }
                     // 有id代表它是编辑的状态
@@ -493,6 +524,8 @@ export default {
                         this.formValidate.paymentChannel = String(ret.paymentChannel)
                         // 支付账号
                         this.formValidate.paymentAccount = ret.paymentAccount
+                        // 交易类型
+                        this.formValidate.transactionType = ret.transactionType
                         // 显示端
                         this.formValidate.displayType = String(ret.displayType)
                         // 商户号
@@ -532,6 +565,7 @@ export default {
             this.formValidate.paymentType = ''
             this.formValidate.paymentChannel = ''
             this.formValidate.paymentAccount = ''
+            this.formValidate.transactionType = ''
             this.formValidate.displayType = ''
             this.formValidate.merchantIdentification = ''
             this.formValidate.parameterConfig = ''
@@ -541,7 +575,7 @@ export default {
             this.paymentChannelList = []
 
         },
-        // 请求医院支付
+        // 请求支付类型,显示端,医院账号,交易类型
         loadingData () {
             // 请求医院账号
             this.$axios.post(api.wxappnamelist, {
@@ -563,6 +597,7 @@ export default {
                     let ret = res.data.object;
                     this.displayTypeList = ret.displayEnum || []
                     this.paymentTypeList = ret.paymentEnum || []
+                    this.transactionTypeList = ret.transaction || []
                     this.paymentTypeList.forEach(item => {
                         item.disabled = false
                     })
@@ -573,7 +608,7 @@ export default {
                 }
             })
         },
-        // 禁用已选择的支付类型
+        // 禁用已选择的支付渠道
         onListLoading() {
             this.paymentChannelList.forEach(item => {
                 item.disabled = false
@@ -604,6 +639,7 @@ export default {
         saveChange (params) {
             console.log('saveChange');
             this.$axios.post(api.insertpaymentchannel, params).then(res => {
+                console.log(res);
                 if(Boolean(res.data.code)) {
                     let ret = res.data.object
                     this.$Message.success(ret.success)
@@ -611,7 +647,8 @@ export default {
                     this.loadingHospitalId();
                     this.$refs['formValidate'].resetFields();
                 } else {
-                    this.$Message.error(res.data.object.same)
+                    let message = res.data.object.same || "添加失败,请重试"
+                    this.$Message.error(message)
                 }
             })
         },
