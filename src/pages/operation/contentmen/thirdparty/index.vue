@@ -251,7 +251,26 @@ export default {
                     title: "第三方参数",
                     align: "center",
                     width: 150,
-                    key:"requestVal"
+                    key:"requestVal",
+                    render: (h, params) => {
+                        let name = params.row;
+                        return h("div", [
+                            h(
+                                "span",
+                                {
+                                    style: {
+                                        display: "inline-block",
+                                        width:
+                                            params.column._width * 0.8 + "px",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: "nowrap"
+                                    }
+                                },
+                                name.requestVal
+                            )
+                        ]);
+                    }
                 },
                 {
                     title:"第三方厂家",
@@ -395,7 +414,6 @@ export default {
         },
         // 保存按钮
         saveChage () {
-
             // 做勾选,但未选择厂家的限制
             let params = {
                 hospitalId: this.id,
@@ -405,34 +423,32 @@ export default {
                 thirdpartyServiceList: this.iSelection
             }
             let name = '第三方'
-            let someStatus = false;
-            
+            // 禁用未勾选服务的状态
+            params.thirdpartyList.forEach(thirdList => {
+                thirdList.enable = 1
+            })
+            console.log(params);
+            let flag = true
             params.thirdpartyServiceList.forEach(item => {
-                let flag = true
-                params.thirdpartyList.forEach((m,index) => {
-                    // 当添加完第三方厂家,但未勾选时将本条第三方厂家数据变为禁用
-                    if(!(parseInt(m.serviceType) == parseInt(item.serviceType))){
-                        // 将数据状态变更为禁用
-                        params.thirdpartyList[index].enable = 1
-                    } else {
-                        flag = false
-                    }
-                })
-                if (!flag) {
-                    someStatus = true
-                    this.HospitalThirdpartyEnum.forEach(s => {
-                        if (parseInt(s.id) == parseInt(item.serviceType)) {
-                            name = s.name
+                if(flag){
+                    flag = true
+                    // 将已经勾选的服务状态改为启用
+                    params.thirdpartyList.forEach(thirdList => {
+                        if (Number(thirdList.serviceType) == Number(item.serviceType)) {
+                            thirdList.enable = 0
                         }
+                    })
+                    flag = params.thirdpartyList.some(s => {
+                        return Number(s.serviceType) == Number(item.serviceType)
                     })
                 }
             })
-            
-            if(someStatus) {
-                this.$Message.error("请填写"+name+"数据查询厂家信息");
+            if (!flag) {
+                this.$Message.error("请完整填写数据查询厂家信息");
                 return ""
             }
             this.$axios.post(api.updatethirdparty, params).then(res => {
+                console.log(res);
                 if (res.data.success) {
                     this.$Message.success('操作成功')
                     // 重新请求页面数据
@@ -475,6 +491,7 @@ export default {
                         thirdpartyEnum: Number(this.formValidate.thirdValue),
                         className
                     };
+                    console.log(params);
                         // 添加进数据组中
                     if (this.HospitalThirdpartyList.length > 0) {
                         let flag = true

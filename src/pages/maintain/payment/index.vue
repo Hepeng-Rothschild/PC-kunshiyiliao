@@ -113,7 +113,6 @@ export default {
     },
     mounted() {
         let pageNo = this.$route.query.pageNo
-        
         if (Boolean(pageNo)) {
             this.pageNo = Number(pageNo);
         }
@@ -145,6 +144,7 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
+            console.log(params);
             this.$axios
                 .post(api.hospitalquerynamelist, params)
                 .then(res => {

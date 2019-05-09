@@ -28,7 +28,7 @@
                             v-for="item in paymentTypeList"
                             :value="item.id"
                             :key="item.id"
-                            :disabled='item.disabled'
+                            
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>
@@ -44,6 +44,7 @@
                             v-for="item in paymentChannelList"
                             :value="item.code"
                             :key="item.code"
+                            :disabled='item.disabled'
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>
@@ -60,6 +61,20 @@
                             :value="item.appid"
                             :key="item.appid"
                         >{{item.nick}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="交易类型" prop="paymentAccount">
+                    <Select
+                        class="w-select-hos"
+                        placeholder="请选择交易类型"
+                        v-model="formValidate.transactionType"
+                        style='width:180px;'
+                    >
+                        <Option
+                            v-for="item in transactionTypeList"
+                            :value="item.id"
+                            :key="item.id"
+                        >{{ item.name }}</Option>
                     </Select>
                 </FormItem>
                 <!-- 显示端 -->
@@ -111,6 +126,8 @@ export default {
                 paymentChannel:"",
                 // 支付账号
                 paymentAccount:"",
+                // 交易类型
+                transactionType:"",
                 // 显示端
                 displayType:"",
                 // 商户号
@@ -151,6 +168,17 @@ export default {
 						required: true,
 						// 提示文字
 						message: "请选择支付账号",
+						// 触发事件
+						trigger: "change"
+					}
+                ],
+                // 交易类型
+                transactionType:[
+                    {
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请选择支付方式",
 						// 触发事件
 						trigger: "change"
 					}
@@ -401,8 +429,11 @@ export default {
             paymentChannelList: [],
             // 支付账号列表
             paymentAccountList: [],
+            // 交易类型列表
+            transactionTypeList: [],
             // 显示端列表
-            displayTypeList: []
+            displayTypeList: [],
+           
         };
     },
     created() {
@@ -454,12 +485,11 @@ export default {
                         merchantIdentification: this.formValidate.merchantIdentification,
                         parameterConfig: JSON.stringify(mchKey),
                         startType: Number(this.formValidate.startType),
+                        transactionType:this.formValidate.transactionType,
                         hospitalId: this.hospitalId
                     }
                     // 有id代表它是编辑的状态
-                    // (Boolean(this.formValidate.id) ? this.updateList : this.saveChange)(params)
                     if (Boolean(this.formValidate.id)) {
-                        params.id = this.formValidate.id
                         this.updateList(params)
                     } else {
                         this.saveChange(params);
@@ -494,6 +524,8 @@ export default {
                         this.formValidate.paymentChannel = String(ret.paymentChannel)
                         // 支付账号
                         this.formValidate.paymentAccount = ret.paymentAccount
+                        // 交易类型
+                        this.formValidate.transactionType = ret.transactionType
                         // 显示端
                         this.formValidate.displayType = String(ret.displayType)
                         // 商户号
@@ -507,7 +539,6 @@ export default {
                         this.$Message.error("查询详情失败")
                     }
                 })
-                
             }
         },
         // 选择支付类型后加载支付渠道
@@ -520,6 +551,7 @@ export default {
                     if (res.data.success) {
                         let ret = res.data.object
                         this.paymentChannelList = ret
+                        this.onListLoading();
                         console.log("fc支付渠道",ret);
                     } else {
                         this.$Message.error('通过支付类型加载支付渠道失败')
@@ -533,6 +565,7 @@ export default {
             this.formValidate.paymentType = ''
             this.formValidate.paymentChannel = ''
             this.formValidate.paymentAccount = ''
+            this.formValidate.transactionType = ''
             this.formValidate.displayType = ''
             this.formValidate.merchantIdentification = ''
             this.formValidate.parameterConfig = ''
@@ -542,7 +575,7 @@ export default {
             this.paymentChannelList = []
 
         },
-        // 请求医院支付
+        // 请求支付类型,显示端,医院账号,交易类型
         loadingData () {
             // 请求医院账号
             this.$axios.post(api.wxappnamelist, {
@@ -564,24 +597,25 @@ export default {
                     let ret = res.data.object;
                     this.displayTypeList = ret.displayEnum || []
                     this.paymentTypeList = ret.paymentEnum || []
+                    this.transactionTypeList = ret.transaction || []
                     this.paymentTypeList.forEach(item => {
                         item.disabled = false
                     })
+                    this.onListLoading()
                     console.log("支付类型",ret);
-                    this.onListLoading();
                 } else {
                     this.$Message.error("加载支付类型与显示端失败,请重试")
                 }
             })
         },
-        // 禁用已选择的支付类型
+        // 禁用已选择的支付渠道
         onListLoading() {
-            this.paymentTypeList.forEach(item => {
+            this.paymentChannelList.forEach(item => {
                 item.disabled = false
             })
             this.list.forEach(item => {
-                this.paymentTypeList.forEach(s => {
-                    if (Number(item.paymentType) == Number(s.id)) {
+                this.paymentChannelList.forEach(s => {
+                    if (Number(item.paymentChannel) == Number(s.code)) {
                         s.disabled = true
                     }
                 })
@@ -596,7 +630,6 @@ export default {
                     let ret = res.data.object;
                     this.list = ret || []
                     console.log('支付方式列表',ret);
-                    this.onListLoading();
                 } else {
                     this.$Message.error("加载医院支付方式列表失败,请重试")
                 }
@@ -606,6 +639,7 @@ export default {
         saveChange (params) {
             console.log('saveChange');
             this.$axios.post(api.insertpaymentchannel, params).then(res => {
+                console.log(res);
                 if(Boolean(res.data.code)) {
                     let ret = res.data.object
                     this.$Message.success(ret.success)
@@ -613,14 +647,15 @@ export default {
                     this.loadingHospitalId();
                     this.$refs['formValidate'].resetFields();
                 } else {
-                    this.$Message.error(res.data.object.same)
+                    let message = res.data.object.same || "添加失败,请重试"
+                    this.$Message.error(message)
                 }
             })
         },
         // 修改支付类型
         updateList (params) {
             console.log('updateList');
-            
+            params.id = this.formValidate.id
             this.$axios.post(api.updatepaymentchannel, params).then(res => {
                 if(Boolean(res.data.code)) {
                     this.$Message.success("修改成功")
