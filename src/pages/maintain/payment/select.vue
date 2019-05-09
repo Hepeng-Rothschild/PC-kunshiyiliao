@@ -28,7 +28,7 @@
                             v-for="item in paymentTypeList"
                             :value="item.id"
                             :key="item.id"
-                            :disabled='item.disabled'
+                            
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>
@@ -44,6 +44,7 @@
                             v-for="item in paymentChannelList"
                             :value="item.code"
                             :key="item.code"
+                            :disabled='item.disabled'
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>
@@ -517,6 +518,7 @@ export default {
                     if (res.data.success) {
                         let ret = res.data.object
                         this.paymentChannelList = ret
+                        this.onListLoading();
                         console.log("fc支付渠道",ret);
                     } else {
                         this.$Message.error('通过支付类型加载支付渠道失败')
@@ -564,8 +566,8 @@ export default {
                     this.paymentTypeList.forEach(item => {
                         item.disabled = false
                     })
+                    this.onListLoading()
                     console.log("支付类型",ret);
-                    this.onListLoading();
                 } else {
                     this.$Message.error("加载支付类型与显示端失败,请重试")
                 }
@@ -573,12 +575,12 @@ export default {
         },
         // 禁用已选择的支付类型
         onListLoading() {
-            this.paymentTypeList.forEach(item => {
+            this.paymentChannelList.forEach(item => {
                 item.disabled = false
             })
             this.list.forEach(item => {
-                this.paymentTypeList.forEach(s => {
-                    if (Number(item.paymentType) == Number(s.id)) {
+                this.paymentChannelList.forEach(s => {
+                    if (Number(item.paymentChannel) == Number(s.code)) {
                         s.disabled = true
                     }
                 })
@@ -593,7 +595,6 @@ export default {
                     let ret = res.data.object;
                     this.list = ret || []
                     console.log('支付方式列表',ret);
-                    this.onListLoading();
                 } else {
                     this.$Message.error("加载医院支付方式列表失败,请重试")
                 }
