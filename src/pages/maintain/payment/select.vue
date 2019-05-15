@@ -5,7 +5,6 @@
             <Button type="primary" @click='addPayment("formValidate")'>添加支付方式</Button>
             <Button @click='back'>返回医院列表</Button>
         </h2>
-
         <Modal
             v-model="modalStatus"
             :title="modalTitle"
@@ -445,7 +444,7 @@ export default {
             },
             {
                 path: "/index/maintain/payment/select",
-                title: "支付方式-选择"
+                title: "支付管理"
             }
         ];
         this.$emit("changeBreadList", breadList);

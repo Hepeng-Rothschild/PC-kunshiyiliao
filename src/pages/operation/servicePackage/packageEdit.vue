@@ -94,6 +94,20 @@
                                 :key="item.id"
                             >{{item.orgName}}</Option>
                         </Select>
+
+                        <!-- <AutoComplete
+                            v-model="info.depantmentName"
+                            :data="departmentList"
+                            @on-search="handleSearch1"
+                            @on-select='handleSelect1'
+                            placeholder="查询院内科室"
+                            style="width:200px">
+                            <Option
+                                v-for="item in departmentList"
+                                :value="item.childDept"
+                                :key="item.id"
+                            >{{item.childDept}}</Option>
+                            </AutoComplete> -->
                         <iSwitch
                             v-if="info.hospitalId != '' && info.hospitalId != null && info.hospitalId != 0"
                             v-model="info.ascription"
@@ -261,7 +275,9 @@ export default {
                 packageItemsIds: null,
                 provinceId: null,
                 packagestatus: 1,
-                ascription: 1
+                ascription: 1,
+                depantment:'',
+                departmentName:""
             },
 
             detail: {},
@@ -272,6 +288,7 @@ export default {
             tmpCityList: [],
             tmpAreaList: [],
             tmpHospitalList: [],
+            departmentList:[],
 
             provinceList: [],
             provinceStatus: false,
@@ -296,7 +313,7 @@ export default {
                 ]
             },
             switch1: false,
-            searchKey: null,
+            searchKey: "",
 
             identity: null,
             identityCoding: null,
@@ -306,6 +323,7 @@ export default {
             pageSize: 10,
             pageNo: 1,
             listPageNo: null,
+            DepartmentCount:0,
 
             modalStatus: false,
 
@@ -755,8 +773,43 @@ export default {
             this.allData = [];
             this.selData = [];
             this.loadPage(1);
+            
+        },
+        handleSearch1 (val) {
+            this.departmentList = []
+            if(Boolean(val)){
+                let params = {
+                    hospitalId: this.info.hospitalId,
+                    pageNo:1,
+                    pageSize: 10,
+                    searchKey:val.trim()
+                };
+                this.$axios
+                    .post(api.medicine, params)
+                    .then(res => {
+                    if (res.data.code) {
+                        let ret = res.data.object;
+                        this.departmentList = ret.list
+                        console.log(ret);
+                        }
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
+            
+        },
+        handleSelect1 (val) {
+            console.log(this.info);
+            console.log(val);
+            this.departmentList.forEach(item => {
+                if(val == item.childDept) {
+                    this.info.depantment = item.id
+                }
+            })
         },
         submit(name) {
+            console.log(this.info);
+            return ""
             this.$refs[name].validate(valid => {
                 if (valid) {
                     if (this.selData.length <= 0) {

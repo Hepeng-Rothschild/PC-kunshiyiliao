@@ -750,7 +750,51 @@ const doctorList = {
 		title: '医生远程门诊列表'
 	},
 	component: () =>
-		import(/* webpackChunkName: 'operation-mechanism-remoteclinictype' */"@/pages/operation/contentmen/doctorList/list")
+		import(/* webpackChunkName: 'operation-mechanism-doctorList' */"@/pages/operation/contentmen/doctorList/list")
+}
+// 医生小组列表
+const doctorGroup = {
+	path: 'operation/doctorGroup',
+	name: 'doctorGroup',
+	meta: {
+		index: 2,
+		title: '医生工作组列表'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-mechanism-remoteclinictype' */"@/pages/operation/doctorGroup/list")
+}
+// 新增医生工作组
+const doctorAdd = {
+	path: 'operation/doctorAdd',
+	name: 'doctorAdd',
+	meta: {
+		index: 3,
+		title: '新增医生工作组'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-mechanism-remoteclinictype' */"@/pages/operation/doctorGroup/add")
+}
+// 查看医生工作组
+const doctorReview = {
+	path: 'operation/doctorReview',
+	name: 'doctorReview',
+	meta: {
+		index: 3,
+		title: '查看医生工作组'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-mechanism-remoteclinictype' */"@/pages/operation/doctorGroup/review")
+}
+// 编辑医生工作组
+const doctorEdit = {
+	path: 'operation/doctorEdit',
+	name: 'doctorEdit',
+	meta: {
+		index: 3,
+		title: '编辑医生工作组'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-mechanism-remoteclinictype' */"@/pages/operation/doctorGroup/edit")
 }
 // 服务包管理
 const servicePackageList = {
@@ -1157,4 +1201,9 @@ export default {
 	patientOperation,
 	//机构运营
 	mechanismOperation,
+	// 医生端医生小组
+	doctorGroup,
+	doctorAdd,
+	doctorReview,
+	doctorEdit,
 }

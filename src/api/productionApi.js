@@ -281,6 +281,10 @@ const doctorselecthisdoctorlist = '/operateapi/doctorselecthisdoctorlist'; //模
 
 const hospitalquerynamelist = '/operateapi/hospitalquerynamelist' //查询支付渠道医院列表
 
+const teaminsert = '/operateapi/teaminsertfdsteam'  //医疗小组添加
+const teamupdate = '/operateapi/teamupdatefdsteam' //医疗小组编辑
+const teamquery = '/operateapi/teamqueryteam'  //医疗小组查询
+const teamlist = '/operateapi/teamqueryteamlist'  //医疗小组列表
 let production = {
     login,
     //字典
@@ -547,6 +551,11 @@ let production = {
     doctorselectdoctorhisid,
     doctorupdatedoctorhisid,
     doctorselecthisdoctorlist,
+    // 医疗小组
+    teaminsert,
+    teamupdate,
+    teamquery,
+    teamlist
     
 }
 import weixin from './weixinApi';
