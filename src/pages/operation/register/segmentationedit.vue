@@ -69,7 +69,7 @@
                             :disabled-hours="[0,1,2,3,4,5,6,7,13,14,15,16,17,18,19,20,21,22,23,24]"
                             @on-change="changeUpTime($event,index)"
                             @on-ok="upOk(index)">
-                            <a href="javascript:void(0)" @click="upClick(index)">
+                            <a href="javascript:void(0)" @click="upClick($event,index)">
                                 <Icon type="ios-clock-outline"></Icon>
                                 <template v-if="item[0][0] === '' || item[0][1] === ''">选择时间段</template>
                                 <template v-else>{{ item[0][0]+'-'+item[0][1] }}</template>
@@ -127,7 +127,7 @@
                             :disabled-hours="[0,1,2,3,4,5,6,7,8,9,10,11,12,18,19,20,21,22,23,24]"
                             @on-change="changeDnTime($event,index)"
                             @on-ok="dnOk(index)">
-                            <a href="javascript:void(0)" @click="dnClick(index)">
+                            <a href="javascript:void(0)" @click="dnClick($event,index)">
                                 <Icon type="ios-clock-outline"></Icon>
                                 <template v-if="item[0][0] === '' || item[0][1] === ''">选择时间段</template>
                                 <template v-else>{{ item[0][0]+'-'+item[0][1] }}</template>
@@ -505,9 +505,20 @@ export default {
             }
         ];
         this.$emit("changeBreadList", breadList);
+
+        window.document.body.addEventListener("click",this.closeTimePicker);
     },
     components: { Avatar, tempHeader },
     methods: {
+        closeTimePicker(){
+            this.upList.map((el,i)=>{
+                el[8] = false;
+            })
+            this.dnList.map((el,i)=>{
+                el[8] = false;
+            })
+            this.$forceUpdate();
+        },
         upAdItem() {
             let time = this.upList[this.upList.length - 1][0][1].toString();
             let status = time < "12:00"; //js 里面 date类型 11:00 比 12:00 大
@@ -611,7 +622,9 @@ export default {
             this.upList[index][0] = time;
             this.$forceUpdate();
         },
-        upClick (index) {
+        upClick (e,index) {
+            e.stopPropagation();
+            this.closeTimePicker();
             this.upList[index][8] = true;
             this.$forceUpdate();
         },
@@ -645,7 +658,9 @@ export default {
             this.dnList[index][0] = time;
             this.$forceUpdate();
         },
-        dnClick (index) {
+        dnClick (e,index) {
+            e.stopPropagation();
+            this.closeTimePicker();
             this.dnList[index][8] = true;
             this.$forceUpdate();
         },
@@ -858,6 +873,9 @@ export default {
                 }
             );
         }
+    },
+    beforeDestroy(){
+        window.document.body.removeEventListener('click',this.closeTimePicker);
     }
 };
 </script>
