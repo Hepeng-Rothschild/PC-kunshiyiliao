@@ -285,7 +285,6 @@ const teaminsert = '/operateapi/teaminsertfdsteam'  //医疗小组添加
 const teamupdate = '/operateapi/teamupdatefdsteam' //医疗小组编辑
 const teamquery = '/operateapi/teamqueryteam'  //医疗小组查询
 const teamlist = '/operateapi/teamqueryteamlist'  //医疗小组列表
-// teaminsert,teamupdate,teamquery,teamlist
 let testApi = {
     login,
     //字典
