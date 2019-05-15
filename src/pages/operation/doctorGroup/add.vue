@@ -462,22 +462,33 @@ export default {
         save (name) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
+                    // 医院id
+                    if(!Boolean(this.hospital)) {
+                        this.$Message.error("请选择医院后再操作")
+                        return ""
+                    }
                     // 小组成员非空
                     if(!Boolean(this.addMemberDate.length)) {
                         this.$Message.error("请添加小组成员");
                         return ""
                     }
-                    // 只能有一个组长
-                    let sum = 0
-                    this.addMemberDate.forEach(item => {
-                        if(Number(item.role) == 1) {
-                            sum ++;
-                        }
+                    // 有且只能有一个队长
+                    let team = this.addMemberDate.some(item =>{
+                        return parseInt(item.role) == 1
                     })
-                    if(sum >1) {
-                        this.$Message.error("小组内只能有一个组长")
+                    if(!team) {
+                        this.$Message.error("团队内有且只能有一个队长")
                         return ""
                     }
+                    // 成员角色必须分配
+                    let teams = this.addMemberDate.every(item =>{
+                        return Boolean(item.role)
+                    })
+                    if(!teams) {
+                        this.$Message.error("请选择团队的成员的角色")
+                        return ""
+                    }
+                    // 成员列表
                     let detailList = []
                     this.addMemberDate.forEach(item =>{
                         detailList.push({
@@ -542,6 +553,7 @@ export default {
         },
         // 查询医生列表
         loadDoctorPage(pageNo) {
+            this.memberDate = []
             this.pageNo = pageNo;
             var params = {};
             params.provinceCode = this.province ? this.province : null;
@@ -557,14 +569,19 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.count = resp.data.object.count;
-                        resp.data.object.list.forEach((item,index)=>{
+                        resp.data.object.list.forEach((item,index) => {
                             item.sum = this.addZeros(index)
+                            let flag = this.addMemberDate.some(items =>{
+                                return parseInt(item.doctorId) == items.doctorId
+                            })
+                            if (!flag) {
+                                this.memberDate.push(item)
+                            }
                         })
-                        this.memberDate = resp.data.object.list;
                         if(!Boolean(this.memberDate.length)) {
-                            this.$Message.error("未查询到该医生")
+                            this.$Message.error("未查询到该医生或已经添加到小组内")
                         }
-                        console.log('this.memberDate: ', this.memberDate);
+                        console.log('this.memberDate: ', resp.data.object);
                     } else {
                         this.$Message.info("不允许访问");
                     }
