@@ -7,14 +7,17 @@
         <div class="all">
           <div class="item" v-for="(items,index) in item.child" :key='index'>
               <Checkbox v-model="items.flag" style='min-width:100px;'>{{ items.menuName }}</Checkbox>
+              <!-- 排序 -->
               <div class="sort">
                 <span>排序</span>
                 <InputNumber :min="1" :max='999' v-model="items.priority" style="width:100px;"></InputNumber>
               </div>
+              <!-- 快捷菜单 -->
               <div class="sort">
                 <span>快捷菜单</span>
                 <iSwitch v-model='items.shortcutFlag' />
               </div>
+              <!-- 是否支付 -->
               <div class="sort">
                 <span>是否支付</span>
                 <iSwitch v-model='items.ipayFlag' />

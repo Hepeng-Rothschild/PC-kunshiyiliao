@@ -464,6 +464,7 @@ export default {
         },
         handleSuccess(res, file) {
             res = this.uploadFileDecrypt(res);  
+            console.log(res);
             if (res.success) {
                 this.info.docIcon = JSON.stringify(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;
