@@ -9,7 +9,7 @@ form,fieldset,legend,input,button,textarea,menu{
 }
 *{
 	box-sizing: border-box;
-	font-family: 'STXingkai','KaiTi','KaiTi_GB2312','STKaiti','SimSun','FangSong','FangSong_GB2312','Microsoft YaHei','SimHei';
+	font-family: 'SimSun','NSimSun','FangSong','FangSong_GB2312','STSong','STFangsong','STZhongsong','Microsoft YaHei','SimHei';
 }
 header,footer,section,article,aside,nav,hgroup,address,
 figure,figcaption,menu,details{
