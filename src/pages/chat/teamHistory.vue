@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import chatList from "@/components/chatList";
+import chatList from "@/components/teamChatList";
 import util from '@/utils'
 import pageUtil from '@/utils/page'
 export default {
@@ -57,7 +57,6 @@ export default {
         },
         msglist() {
             let msgs = this.$store.state.currSessionMsgs;
-            console.log('history msglist:::',msgs);
             let msglist = [];
             for(let i=0;i<msgs.length;i++){
                 let item = Object.assign({},msgs[i]);
@@ -100,7 +99,6 @@ export default {
     },
     methods: {
         getHistoryMsgs() {
-            console.log('获取历史消息');
             if (this.canLoadMore) {
                 console.log('执行获取历史消息');
                 this.$store.dispatch("getHistoryMsgs", {
@@ -141,5 +139,5 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 </style>

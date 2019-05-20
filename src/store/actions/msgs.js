@@ -174,7 +174,7 @@ export function sendMsg ({state, commit}, obj) {
 // 发送文件消息
 export function sendFileMsg ({state, commit}, obj) {
   const nim = state.nim
-  let { type } = obj
+  let { type, fileInput } = obj
   if (!type) {
     type = 'file'
     if (/\.(png|jpg|bmp|jpeg|gif)$/i.test(fileInput.value)) {
