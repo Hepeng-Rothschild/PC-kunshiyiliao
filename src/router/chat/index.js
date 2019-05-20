@@ -49,6 +49,13 @@ const setPermission = {
         require(['@/pages/video/setPermission'], resolve)
     }
 };
+const p2pChat = {
+    path: '/index/p2pchat',
+    name: 'p2pChat',
+    component(resolve) {
+        require(['@/pages/chat/p2pchat'], resolve)
+    }
+}
 export default {
     teamList,
     teamChat,
@@ -56,5 +63,6 @@ export default {
     teamManager,
     neVideo,
     nePublish,
-    setPermission
+    setPermission,
+    p2pChat
 }

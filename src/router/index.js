@@ -246,7 +246,8 @@ export default new VueRouter({
 				chat.teamManager,
 				chat.neVideo,
 				chat.nePublish,
-				chat.setPermission
+				chat.setPermission,
+				chat.p2pChat,
 
 			]
 		},
