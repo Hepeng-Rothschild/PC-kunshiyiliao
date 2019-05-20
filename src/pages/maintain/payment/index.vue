@@ -106,7 +106,7 @@ export default {
             },
             {
                 path: "/index/maintain/payment/index",
-                title: "支付方式-列表"
+                title: "支付管理"
             }
         ];
         this.$emit("changeBreadList", breadList);

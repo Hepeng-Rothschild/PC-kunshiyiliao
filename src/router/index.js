@@ -160,6 +160,11 @@ export default new VueRouter({
 				operation.wxSystemManagementAdd,
 				operation.wxSystemManagementEdit,
 				operation.wxSystemManagementAddFn,
+				// 医生小组
+				operation.doctorGroup,
+				operation.doctorAdd,
+				operation.doctorReview,
+				operation.doctorEdit,
 
 				//患者端运营
 				operation.patientOperation,
