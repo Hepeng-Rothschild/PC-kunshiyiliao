@@ -1,7 +1,7 @@
 <template>
     <div class="management1">
         <h2 style='margin-bottom:10px;' >
-            <span>医院名称：{{ name }}</span>
+            <span style='font-weight:bold;'>医院名称：{{ name }}</span>
             <Button type="primary" @click='addPayment("formValidate")'>添加支付方式</Button>
             <Button @click='back'>返回医院列表</Button>
         </h2>
@@ -443,7 +443,7 @@ export default {
                 title: "系统管理"
             },
             {
-                path: "/index/maintain/payment/select",
+                path: "/index/maintain/payment/index",
                 title: "支付管理"
             }
         ];

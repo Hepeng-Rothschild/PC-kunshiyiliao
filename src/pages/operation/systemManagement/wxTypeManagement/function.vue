@@ -89,6 +89,20 @@ export default {
     this.params.prentId = this.$route.query.id;
     this.title = this.$route.query.name;
   },
+  created () {
+    let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "系统管理"
+          },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "菜单管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
+  },
   methods: {
     // 添加新功能
     add() {

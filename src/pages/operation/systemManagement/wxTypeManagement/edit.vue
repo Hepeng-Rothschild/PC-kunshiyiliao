@@ -103,6 +103,20 @@ export default {
     this.params.parentId = params.parentId;
     this.params.id = params.id;
   },
+  created () {
+    let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "系统管理"
+          },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "菜单管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
+  },
   methods: {
     // 编辑
     add() {

@@ -74,6 +74,7 @@ export default {
                     key: "iOperate",
                     align: "center",
                     width: 120,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         return [

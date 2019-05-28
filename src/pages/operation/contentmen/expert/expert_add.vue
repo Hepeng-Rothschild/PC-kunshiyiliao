@@ -9,16 +9,28 @@
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>专家姓名</span>
         </div>
-        <Input
+        <!-- <Input
           v-model="name"
           placeholder="请输入专家姓名查询"
           style="width: 360px"
           @on-keyup.enter="search"
-        />
-        <Button type="primary" @click="search">查询</Button>
+        /> -->
+        <AutoComplete
+          v-model="name"
+          @on-search="search"
+          :data='list'
+          placeholder="请输入专家姓名查询"
+          @on-change= 'autoChange'
+          style="width:360px">
+            <Option v-for="option,index in list" :value="option.doctorName" :key="option.doctorId">
+                <span class="demo-auto-complete-title">{{ option.doctorName }}</span>
+            </Option>
+          </AutoComplete>
+
+        <!-- <Button type="primary"  icon="ios-search" @click="search">查询</Button> -->
       </div>
       <!-- 选择专家 -->
-      <div class="main_expert_item">
+      <!-- <div class="main_expert_item">
         <div class="main_expert_title">
           <span style="color:red;">*&nbsp;&nbsp;</span>
           <span>选择专家</span>
@@ -26,14 +38,14 @@
         <Select v-model="keshi" style="width:100px" @on-change="changes">
           <Option v-for="(item,index) in list" :value="index" :key="index">{{ item.doctorName }}</Option>
         </Select>
-      </div>
+      </div> -->
       <!--机构名称-->
       <div class="main_expert_item">
         <div class="main_expert_title">
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>机构名称</span>
         </div>
-        <Input v-model="yname" placeholder="请选择专家" style="width: 360px" disabled/>
+        <Input v-model="yname" placeholder="该专家所在机构名称" style="width: 360px" disabled/>
       </div>
       <!--专家科室-->
       <div class="main_expert_experts">
@@ -95,7 +107,6 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <!-- <Input v-model="isort" style="width: 100px" @keyup="isorts"/> -->
         <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
@@ -105,7 +116,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch v-model="switch1" @on-change="change"/>
+        <iSwitch v-model="switch1"/>
       </div>
       <!--是否为专家-->
       <div class="main_expert_item">
@@ -126,9 +137,11 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
+import {AutoComplete} from 'iview'
 export default {
   components: {
-    tmpHeader
+    tmpHeader,
+    AutoComplete
   },
   data() {
     return {
@@ -189,10 +202,13 @@ export default {
         this.$Message.info("排序置顶为1");
       }
     },
+    // 加载医生详情
     changes() {
+      if(!Boolean(this.keshi)){
+          return ''
+      }
       let index = this.keshi;
-      let data = this.list[index];
-      console.log(data)
+      let data = this.list[index-1];
       // 显示
       this.switch1 = Boolean(data.display);
       // 专家
@@ -221,7 +237,20 @@ export default {
 
       this.currentId = data.doctorId;
     },
+    // 找出选择的医生
+    autoChange (val) {
+      for(let i=0;i<this.list.length;i++) {
+        if(this.name == this.list[i].doctorName) {
+          this.keshi = i+1;
+        }
+      }
+      this.changes()
+    },
+    // 查询医生列表
     search() {
+      if(!Boolean(this.name)){
+          return ''
+      }
       this.$axios
         .post(api.expertadd, {
           hospitalId: this.id,
@@ -236,17 +265,16 @@ export default {
             } else {
               this.$Message.info("查询成功，请选择专家");
               this.keshi = ''
+              this.deloldDate();
             }
+            
             this.list = res.data.object.list;
+            console.log(this.list);
           }
         })
         .catch(err => {
           console.log(err);
         });
-    },
-    //显示按钮
-    change(status) {
-      // this.$Message.info('开关状态：' + status);
     },
     back() {
       let pageNo = this.$route.params.pageNo;
@@ -292,6 +320,30 @@ export default {
             console.log(err);
           });
       }
+    },
+    // 重新搜索医生时清空医生信息
+    deloldDate(){
+      // 显示
+      this.switch1 = false;
+      // 专家
+      this.switch2 = false
+      // 名字
+      // 机构名称
+      this.yname = ''
+      // 科室
+      this.yKeshi = ''
+      // 排序
+      this.isort =''
+      // 特长
+      this.expert1 = ''
+      // 简介
+      this.expert2 = ''
+      //职称
+      this.zhiwu = ''
+      //  职务
+      this.post =''
+
+      this.currentId = ''
     }
   }
 };

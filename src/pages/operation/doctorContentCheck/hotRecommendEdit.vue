@@ -252,7 +252,7 @@ export default {
             },
             {
                 path: "/index/operation/doctorContentCheck/list",
-                title: "健康宣教"
+                title: "内容管理"
             }
         ];
         this.$emit("changeBreadList", breadList);

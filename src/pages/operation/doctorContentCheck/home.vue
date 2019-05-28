@@ -125,6 +125,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 140,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let text = "";
@@ -232,6 +233,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
+                    width:120,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let text = "";
@@ -426,7 +429,7 @@ export default {
             },
             {
                 path: "/index/operation/doctorContentCheck/list",
-                title: "健康宣教"
+                title: "内容管理"
             }
         ];
         this.$emit("changeBreadList", breadList);

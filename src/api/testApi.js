@@ -274,6 +274,12 @@ const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详�
 const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
 const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
 
+const insertlive = '/operateapi/lecturedemandinsertlive'  //添加直播
+const updatelive = '/operateapi/lecturedemandupdatelive' //修改直播
+const livestatus = '/operateapi/lecturedemandupdatelivestatus' //修改直播状态
+const livebyid = '/operateapi/lecturedemandquerylivebyid' //查询直播
+const livelist = '/operateapi/lecturedemandquerylivelist' //查询直播列表
+
 //院内编码
 const doctorselectdoctorhisid = '/operateapi/doctorselectdoctorhisid'; //查询医生关联信息hisId
 const doctorupdatedoctorhisid = '/operateapi/doctorupdatedoctorhisid'; //修改医生关联信息hisId
@@ -546,6 +552,12 @@ let testApi = {
     lecturedemandupdate,
     lecturedemandpagebyexaminelist,
     lecturedemandupdateplaystatus,
+    // 直播
+    insertlive,
+    updatelive,
+    livestatus,
+    livebyid,
+    livelist,
     
     //院内编码
     doctorselectdoctorhisid,

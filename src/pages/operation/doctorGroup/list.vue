@@ -104,7 +104,7 @@ export default {
                     title:"操作",
                     align:"center",
                     fixed:"right",
-                    width:100,
+                    width:120,
                     render: (h, params) => {
                         let id = params.row.id;
                         return [

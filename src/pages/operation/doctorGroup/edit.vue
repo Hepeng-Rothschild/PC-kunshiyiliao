@@ -483,7 +483,7 @@ export default {
                         return parseInt(item.role) == 1
                     })
                     if(!team) {
-                        this.$Message.error("请选择团队的队长")
+                        this.$Message.error("请检查团队内是否有队长或存在多个队长")
                         return ""
                     }
                     let teams = this.addMemberDate.every(item =>{

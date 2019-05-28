@@ -69,13 +69,14 @@
                     :min="1"
                     v-model="live.originPrice"
                     style="width:100px"
+                    @on-change='computedMaxPrice'
                 ></InputNumber>
             </div>
             <!-- 折后价格 -->
             <div class="live">
                 <span class="i">折后价格：</span>
                 <InputNumber
-                    :max="999999"
+                    :max="oldMoney"
                     :min="1"
                     v-model="live.discountPrice"
                     style="width:100px"
@@ -238,7 +239,10 @@ export default {
             src:"",
             poster: "",
             videoStyle: { width: "400px", height: "300px" },
-            videoStatus:false
+            videoStatus:false,
+            hospitalId:'',
+            // 折后价格最大限制
+            oldMoney:0
         };
     },
     created(){
@@ -274,6 +278,7 @@ export default {
                 this.live.doctorName = ret.doctorName
                 this.live.doctorId = ret.doctorId
                 // // 价格
+                this.oldMoney = ret.originalPrice
                 this.live.originPrice = ret.originalPrice
                 this.live.discountPrice = ret.discountPrice;
                 // // 路径
@@ -293,6 +298,7 @@ export default {
                 this.live.modalDataVal = ret.type
                 // // 审核未通过原因
                 this.live.reason = ret.reason
+                this.hospitalId=ret.hospitalId
                 // 图片
                 if (ret.headImg) {
                     this.images = ret.headImg;
@@ -320,8 +326,13 @@ export default {
                 if (item.doctorId == val) {
                     this.live.doctorName = item.doctorName;
                     this.live.doctorId = item.doctorId;
+                    this.hospitalId = item.hospitalId
                 }
             });
+        },
+        // 折后价格不得大于原始价格
+        computedMaxPrice (val) {
+            this.oldMoney = val
         },
         // 查询主讲人
         InputSearch() {
@@ -391,7 +402,8 @@ export default {
                 // 课堂介绍
                 introduce:this.live.introduce,
                 // 点播状态
-                playStatus:this.live.playStatus
+                playStatus:this.live.playStatus,
+                hospitalId:this.hospitalId
             };
             this.$axios.post(api.lecturedemandupdate, params).then(res => {
                 if (res.data.success) {

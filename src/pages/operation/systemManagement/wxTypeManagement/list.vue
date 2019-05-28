@@ -4,8 +4,10 @@
       <Button type="primary" @click="add" size='large'>添加新服务</Button>
     </header>
     <div class="main" v-for="(item,index) in list" v-show="list.length" :key='index'>
-      <h2>{{ item.name.menuName }}</h2>
-      <Button type="success" @click="fn(item)">添加新功能</Button>
+      <div class = 'flex_title'>
+        <h1 style='font-weight:bold;margin-right:10px;'>{{ item.name.menuName }}</h1>
+        <Button type="success" @click="fn(item)">添加新功能</Button>
+      </div>
       <div class="tabList">
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -19,15 +21,16 @@
           <tr v-for="(items,index) in item.child" v-show="item.child.length" :key='index'>
             <td>{{ addZeros(index) }}</td>
             <td>{{ items.menuName }}</td>
-            <td @click="instance(items)" style="cursor:pointer;" class="flowr">{{ items.path }}</td>
+            <td @click="instance(items)" style="cursor:pointer;color:#2d8cf0;" class="flowr" >
+              <a href="javascript:void(0);" title="点击查看完整路径">{{ items.path }}</a>
+            </td>
             <td>{{ items.priority }}</td>
             <td>{{ items.shortcut===1? '是':"否" }}</td>
-            <td @click="edit(items,item.name.menuName)" style="cursor:pointer;">编辑</td>
+            <td @click="edit(items,item.name.menuName)" style="cursor:pointer;color:#2d8cf0;">编辑</td>
           </tr>
         </table>
         <div class="footer" v-show="!item.child.length">暂无更多数据</div>
       </div>
-      <hr/>
     </div>
     <div class="main" v-show="!list.length">暂无数据</div>
     <Modal v-model="modal1" title="预览跳转路径" footer-hide>
@@ -48,6 +51,20 @@ export default {
       path: "",
       valueCustomText: 3
     };
+  },
+  created () {
+    let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "系统管理"
+          },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "菜单管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
   },
   // 页面初始化
   mounted() {
@@ -93,7 +110,7 @@ export default {
         this.modal1 = true;
         this.path = item.path;
       } else {
-        this.$Message.info("暂无跳转路径");
+        this.$Message.warning("暂无跳转路径");
       }
     }
   }
@@ -108,9 +125,15 @@ export default {
   padding: 10px 30px;
   margin: 0 auto;
   background: #fff;
+  font-size:12px;
   .main {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 20px;
+    .flex_title{
+      display:flex;
+      flex-direction:row;
+      align-items:center;
+    }
     .tabList {
       width: 100%;
       margin: 20px auto;

@@ -2,23 +2,11 @@
   <div class="remoteClinicList">
     <tmpHeader/>
     <div class="main">
-      <!-- 预约天数 -->
-      <!-- <div class="order">
-        <p>远程门诊可预约天数：</p>
-        <span>7</span>
-      </div>-->
-      <!-- 云诊室个数 -->
-      <!-- <div class="order">
-        <p>本院开通云诊室个数：</p>
-        <span>5</span>
-        <span class="roomList" @click = 'roomListTo'>列表</span>
-      </div>-->
       <!-- 区域 -->
       <div class="headers">
         <div class="city">
           <!-- 省 -->
           <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange">
-            <Option value>请选择</Option>
             <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
           </Select>
           <!-- 市 -->
@@ -27,12 +15,10 @@
             style="width:150px;margin:0 10px;"
             @on-change="cityChange"
           >
-            <Option value>请选择</Option>
             <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
           </Select>
           <!-- 区 -->
           <Select v-model="model.districtCode" style="width:200px">
-            <Option value>请选择</Option>
             <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
           </Select>
         </div>
@@ -142,21 +128,19 @@ export default {
     this.getHospialRoom();
   },
   methods: {
-    // 跳转云诊室列表
-    roomListTo() {
-       // 公用方法
-      this.functionJS.paramsNavgationTo(this, "remoteClinicRoomList");
-    },
     // 输入值检索搜索内容
     searchContent() {
       let id = sessionStorage.getItem("hospitalId");
       let params = this.model;
       params.id = id;
+      if(!this.model.provinceCode) {
+        this.$Message.error("请选择地区后再查询")
+        return ""
+      }
       this.$axios.post(api.searchRoomList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
           let arr = [];
-          console.log(ret);
           ret.forEach(item => {
             let flag = this.selectHospial.some(i=>{
               return i.remote_hospital_id == item.id
@@ -168,8 +152,12 @@ export default {
               })
             }
           });
-          this.$Message.success("查询成功")
           this.hospialList = arr;
+          if(this.hospialList.length == 0) {
+            this.$Message.error("暂未查询到医院信息")
+          }else {
+            this.$Message.success("查询成功")
+          }
         } else {
           this.$Message.error("查询失败")
         }
@@ -298,23 +286,6 @@ export default {
   .main {
     width: 80%;
     margin: 10px auto;
-    .order {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-top: 10px;
-      .roomList {
-        cursor: pointer;
-        border: 1px solid gray;
-        border-radius: 4px;
-        padding: 0 8px;
-      }
-      span {
-        padding: 0 18px;
-        border: 1px solid gray;
-        margin: 0 20px;
-      }
-    }
     .headers {
       width: 100%;
       display: flex;

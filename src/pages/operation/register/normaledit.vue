@@ -443,6 +443,7 @@ export default {
             params.term = this.term;
             params.registerTimes = tmpRegistertimes;
             params.icut = this.icut;
+            console.log(params);
             let url = "";
             let msg = "";
             if (this.id) {
@@ -522,6 +523,7 @@ export default {
             doctorId,
             title
         ) {
+            console.log(this.doctorList);
             this.hospitalName = hospitalName;
             this.hospitalId = hospitalId;
             this.dept = dept;

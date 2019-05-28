@@ -16,7 +16,7 @@
                         style="width: 260px"
                         clearable
                     />
-                    <Button type="primary" @click="getDoctorData(1)">查询</Button>
+                    <Button type="primary" icon="ios-search" @click="getDoctorData(1)">查询</Button>
                 </div>
                 <Button type="primary" @click="branch">批量导入</Button>
             </header>

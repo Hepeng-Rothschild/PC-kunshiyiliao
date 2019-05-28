@@ -7,31 +7,56 @@
         </Row>
         <!-- 点播 -->
         <div>
-            <!-- 检索 -->
-            <Row type="flex" justify="space-around" class="code-row-bg" style="margin:10px 0;">
-                <Col span="24">
-                    <Input
-                        suffix="ios-search"
-                        placeholder="输入讲课人进行查询"
-                        style="width: 200px"
-                        v-model.trim="live.search"
-                        clearable
-                    />
-                    <Button type="primary" @click="InputSearch">查询</Button>
-                </Col>
-            </Row>
+            <Modal
+                v-model="modal1"
+                title="请选择主讲人"
+                width="1000" 
+                :styles="{top: '0px'}"
+                footer-hide>
+                <div>
+                    <Row>
+                        <Col span="24">
+                        <fourLevelLinkage
+                            @changeProvince="changeProvince"
+                            @changeCity="changeCity"
+                            @changeArea="changeArea"
+                            @changeHospital="changeHospital"
+                        ></fourLevelLinkage>
+                            <Input
+                                v-model.trim="live.search"
+                                placeholder="搜索主播医生"
+                                style="width: 200px"
+                            />
+                            <Button type="primary" icon="ios-search" @click='InputSearch'>查询</Button>
+                        </Col>
+                    </Row>
+                    <Row
+                        type="flex"
+                        justify="space-around"
+                        class="code-row-bg"
+                        style="margin-top:20px;"
+                    >
+                        <Col span="24">
+                            <Table stripe :columns="columns" :data="data1"></Table>
+                            <Page
+                                :total="count"
+                                size="small"
+                                :current="pageNo"
+                                :page-size="pageSize"
+                                @on-change="loading"
+                                style='margin-top:10px;text-align:center;'
+                            />
+                        </Col>
+                    </Row>
+                </div>
+            </Modal>
             <!-- 主讲人 -->
             <div class="live">
                 <span class="i">
                     <b style="color:red;"></b>主讲人：
                 </span>
-                <Select v-model="live.doctorId" style="width:100px" @on-change="changeItem">
-                    <Option
-                        v-for="item in doctorList"
-                        :value="item.doctorId"
-                        :key="item.doctorId"
-                    >{{ item.doctorName }}</Option>
-                </Select>
+                <span v-show='live.doctorName'>{{ live.doctorName }}</span>
+                <Button type="primary" @click="InputSearch" >添加主讲人</Button>
             </div>
             <!-- 标题 -->
             <div class="live">
@@ -88,18 +113,20 @@
                     :min="1"
                     v-model="live.originPrice"
                     style="width:100px"
+                    @on-change='computedMaxPrice'
                 ></InputNumber>
+                 <span>折后价格需要小于原始价格</span>
             </div>
             <!-- 折后价格 -->
             <div class="live">
                 <span class="i">折后价格：</span>
                 <InputNumber
-                    :max="999999"
+                    :max="oldMoney"
                     :min="1"
                     v-model="live.discountPrice"
                     style="width:100px"
                 ></InputNumber>
-                <b style='margin-left:10px;'>折后价格必须大于原始价格</b>
+                <span>请先输入原始价格再选择折后价格</span>
             </div>
             <!-- 推广力度 -->
             <div class="live">
@@ -171,13 +198,25 @@ import api from "@/api/commonApi";
 import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 import bigUploadFile from "@/components/bigUploadFile";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 export default {
     components:{
         vueEditor,
-        bigUploadFile
+        bigUploadFile,
+        fourLevelLinkage
     },
     data() {
         return {
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+
+            doctorhospitaid:"",
+            doctorId:"",
+            doctorName:"",
+            doctorhospitaName:"",
+
             // 新增直播/点播
             status: "",
             tabList: [
@@ -190,8 +229,6 @@ export default {
                     value: 2
                 }
             ],
-            // 检索医生列表
-            doctorList: [],
             // 上传图片相关
             defaultList: [],
             visible: false,
@@ -229,6 +266,8 @@ export default {
                 // 课堂类型
                 modalDataVal: ""
             },
+            // 医院ID
+            hospitalId:"",
             // 栏目数据
             liveType: [],
             // 视频上传方式
@@ -243,8 +282,75 @@ export default {
                 }
             ],
             src:"",
-            poster: "",
-            videoStyle: { width: "400px", height: "300px" }
+            videoStyle: { width: "400px", height: "300px" },
+            // 弹出层
+            modal1: false,
+            // 医生列表相关
+            // 添加医生列表数据
+            data1: [],
+            // 页码
+            pageNo: 1,
+            // 页数
+            pageSize: 10,
+            // 添加医生总数
+            count:10,
+            // 医生表头数据
+            columns: [
+                {
+                    title: "序号",
+                    key: "sum",
+                    align: "center"
+                },
+                {
+                    title: "姓名",
+                    key: "doctorName",
+                    align: "center"
+                },
+                {
+                    title: "所在医院",
+                    key: "hospitalName",
+                    align: "center"
+                },
+                {
+                    title: "科室",
+                    key: "deptType",
+                    align: "center"
+                },
+                {
+                    title: "职称",
+                    key: "title",
+                    align: "center"
+                },
+                {
+                    title: "操作",
+                    key: "operate",
+                    align: "center",
+                    width: 60,
+                    render: (h, params) => {
+                        let row = params.row
+                        return h(
+                            "a",
+                            {
+                                attrs: {
+                                    href: "javascript:void(0);"
+                                },
+                                on: {
+                                    click: () => {
+                                        this.live.doctorName = row.doctorName;
+                                        this.live.doctorId = row.doctorId;
+                                        this.hospitalId = row.hospitalId
+                                        this.modal1 = false
+                                        console.log(this.live.doctorName);
+                                    }
+                                }
+                            },
+                            "添加"
+                        );
+                    }
+                }
+            ],
+            // 折后价格最大限制
+            oldMoney:0
         };
     },
     created(){  
@@ -268,38 +374,45 @@ export default {
         this.modalData();
     },
     methods: {
+        changeProvince(val) {
+            this.province = val;
+        },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
+        },
         afterChange(val) {
             this.live.introduce = val;
         },
-        // 根据选择的主讲人获得主讲人信息
-        changeItem(val) {
-            this.doctorList.forEach((item, index) => {
-                if (item.doctorId == val) {
-                    this.live.doctorName = item.doctorName;
-                    this.live.doctorId = item.doctorId;
-                }
-            });
+        // 折后价格不得大于原始价格
+        computedMaxPrice (val) {
+            this.oldMoney = val
         },
         // 查询主讲人
         InputSearch() {
-            if (!Boolean(this.live.search)) {
-                this.$Message.error("查询失败,请输入主讲人姓名");
-                return "";
-            }
+            this.modal1 = true;
             this.$axios
                 .post(api.doctorList, {
                     searchKey: this.live.search.trim(),
-                    pageNo: 1,
-                    pageSize: 10
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize,
+                    provinceCode: this.province,
+                    cityCode: this.city,
+                    areaCode: this.area,
+                    hospitalId: this.hospital,
                 })
                 .then(resp => {
                     if (resp.data.success) {
                         let ret = resp.data.object.list;
-                        if (ret.length > 0) {
-                            this.$Message.info("查询成功请选择主讲人");
-                        } else {
-                            this.$Message.error("未查询到该医生");
-                        }
+                        ret.forEach((item,index)=>{
+                            item.sum = this.addZeros(index);
+                        })
+                        this.data1 = ret
                         this.doctorList = ret;
                     } else {
                         this.$Message.error("不允许访问");
@@ -308,6 +421,10 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        loading (index)  {
+            this.pageNo = index;
+            this.InputSearch()
         },
         // 保存
         saveLive() {
@@ -346,7 +463,9 @@ export default {
                 // 播放来源
                 videoSource:this.live.videoSource,
                 // 课堂介绍
-                introduce:this.live.introduce
+                introduce:this.live.introduce,
+                // 医院
+                hospitalId:this.hospitalId
             };
 
             this.$axios.post(api.lecturedemandinsert, params).then(res => {

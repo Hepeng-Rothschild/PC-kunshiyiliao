@@ -290,7 +290,7 @@ export default {
                 ]
             },
             switch1: false,
-            searchKey: null,
+            searchKey: '',
 
             identity: null,
             identityCoding: null,

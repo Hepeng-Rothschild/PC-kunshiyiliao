@@ -152,8 +152,8 @@ export default {
         .logo-text {
             text-align: center;
             display: inline-block;
-            width: 150px;
-            font-size:20px;
+            // width: 150px;
+            font-size:18px;
             vertical-align: middle;
         }
     }

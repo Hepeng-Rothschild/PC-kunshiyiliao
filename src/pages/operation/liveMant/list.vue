@@ -14,7 +14,19 @@
         </Row>
         <!-- 查询内容 -->
         <Row type="flex" justify="space-around" class="code-row-bg" style="margin-top:20px;">
-            <Col span="8">
+            <Col span="24">
+                <fourLevelLinkage
+                    @changeProvince="changeProvince"
+                    @changeCity="changeCity"
+                    @changeArea="changeArea"
+                    @changeHospital="changeHospital"
+                    :province="province"
+                    :city="city"
+                    :area="area"
+                    :hospital="hospital"
+                    :isBack="isBack"
+                    v-show="status!=3"
+                ></fourLevelLinkage>
                 <Input
                     suffix="ios-search"
                     placeholder="输入主讲人或标题进行查询"
@@ -23,10 +35,16 @@
                     clearable
                     v-show="status != 3"
                 />
-                <Button type="primary" @click="searchInput" v-show="status!=3">查询</Button>
+                <Select v-model="liveStatus" style="width:160px" v-show="status ==1">
+                    <Option
+                        v-for="item in livexsList"
+                        :value="item.id"
+                        :key="item.id"
+                    >{{ item.name }}</Option>
+                </Select>
+                <Button type="primary" icon="ios-search" @click="searchInput" v-show="status!=3">查询</Button>
                 <Button @click="add">新增</Button>
             </Col>
-            <Col span="14">&nbsp;</Col>
         </Row>
         <!-- 表格列表 -->
         <Row type="flex" justify="space-around" class="code-row-bg" style="margin-top:20px;">
@@ -69,11 +87,59 @@
 </template>
 <script>
 import api from "@/api/commonApi";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 export default {
+    components:{
+        fourLevelLinkage
+    },
     data() {
         return {
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            isBack: 1,
+
             // 查询内容
             search: "",
+            
+            // 直播状态
+            liveStatus:"",
+            // 状态列表
+            livexsList:[
+                {
+                    id:"1",
+                    name:"待审核"
+                },
+                {
+                    id:"2",
+                    name:"审核通过"
+                },
+                {
+                    id:"3",
+                    name:"审核未通过"
+                },
+                {
+                    id:"4",
+                    name:"下架"
+                },
+                {
+                    id:"5",
+                    name:"正在直播"
+                },
+                {
+                    id:"6",
+                    name:"已完成"
+                },
+                {
+                    id:"7",
+                    name:"已撤回"
+                },
+                {
+                    id:"8",
+                    name:"已关闭"
+                }
+            ],
             // tab状态
             status: 1,
             pageNo: 1,
@@ -81,36 +147,64 @@ export default {
             count: 10,
             // tab列表
             tabList: [
-                // {
-                //     title: "直播",
-                //     value: 1
-                // },
                 {
                     title: "点播",
                     value: 2
                 },
                 {
+                    title: "直播",
+                    value: 1
+                },
+                {
                     title: "栏目",
                     value: 3
-                }
+                },
+                
             ],
             // 表头信息
             columns: [],
             // 直播列表
             columns1: [
                 {
-                    title: "Name",
-                    key: "name",
+                    title: "编号",
+                    key: "iSum",
                     align: "center"
                 },
                 {
-                    title: "Age",
-                    key: "age",
+                    title: "直播标题",
+                    key: "title",
                     align: "center"
                 },
                 {
-                    title: "Address",
-                    key: "address",
+                    title: "主播医生",
+                    key: "doctorName",
+                    align: "center"
+                },
+                {
+                    title: "所在医院",
+                    key: "hospitalName",
+                    align: "center"
+                },
+                {
+                    title: "直播状态",
+                    key: "playStatus",
+                    align: "center",
+                    render:(h,params)=>{
+                        let status = params.row.playStatus
+                        let content = ""
+                        this.livexsList.forEach(item=>{
+                            if(Number(item.id)==Number(status)) {
+                                content=item.name
+                            }
+                        })
+                        return h('span',{
+
+                        },content)
+                    }
+                },
+                {
+                    title: "直播时间",
+                    key: "aboutStartTime",
                     align: "center"
                 },
                 {
@@ -119,7 +213,7 @@ export default {
                     align: "center",
                     width: 60,
                     render: (h, params) => {
-                        // let id = params.row.remoteClinicId;
+                        let id = params.row.id;
                         return h(
                             "a",
                             {
@@ -129,16 +223,24 @@ export default {
                                 on: {
                                     click: () => {
                                         //   公用方法
-                                        // this.functionJS.queryNavgationTo(
-                                        //     this,
-                                        //     "/index/operation/orders/remoteClinic/detail",
-                                        //     {
-                                        //     }
-                                        // );
+                                        this.functionJS.queryNavgationTo(
+                                            this,
+                                            "/index/operation/liveMant/broadReview",
+                                            {
+                                                province: this.province,
+                                                city: this.city,
+                                                area: this.area,
+                                                hospital: this.hospital,
+                                                isBack:2,
+                                                id,
+                                                pageNo: this.pageNo,
+                                                status: this.status,
+                                            }
+                                        );
                                     }
                                 }
                             },
-                            "编辑"
+                            "查看"
                         );
                     }
                 }
@@ -274,7 +376,12 @@ export default {
                                             {
                                                 id,
                                                 pageNo: this.pageNo,
-                                                status: this.status
+                                                status: this.status,
+                                                province: this.province,
+                                                city: this.city,
+                                                area: this.area,
+                                                hospital: this.hospital,
+                                                isBack:2,
                                             }
                                         );
                                     }
@@ -285,7 +392,7 @@ export default {
                     }
                 }
             ],
-            // 列表数据
+            // 直播列表数据
             data1: [],
             // 模态框
             modal1: false,
@@ -299,6 +406,21 @@ export default {
         };
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -323,6 +445,18 @@ export default {
         this.statusChange(this.status);
     },
     methods: {
+        changeProvince(val) {
+            this.province = val;
+        },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
+        },
         // 新增
         add() {
             let path = ''
@@ -341,7 +475,12 @@ export default {
                     path,
                     {
                         status: this.status,
-                        pageNo: this.pageNo
+                        pageNo: this.pageNo,
+                        province: this.province,
+                        city: this.city,
+                        area: this.area,
+                        hospital: this.hospital,
+                        isBack:2,
                     }
                 );
         },
@@ -394,29 +533,55 @@ export default {
         },
         // 根据tabs状态的不同加载不同的数据
         statusChange(newVal) {
+            let params = {
+                province: this.province,
+                city: this.city,
+                area: this.area,
+                hospital: this.hospital,
+                isBack:2,
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+                searchKey: this.search
+            }
+            this.data1 = [];
+            this.count = 10
+            
             if (Number(newVal) == 1) {
                 // 直播
                 this.columns = this.columns1;
-                this.data1 = [];
-                // this.broadData({ pageNo: this.pageNo, pageSize: this.pageSize, searchKey : this.search });
+                this.broadData();
             } else if (Number(newVal) == 2) {
                 // 点播
                 this.columns = this.live;
-                this.data1 = [];
-                this.liveData({
-                    pageNo: this.pageNo,
-                    pageSize: this.pageSize,
-                    searchKey: this.search
-                });
+                this.liveData(params);
             } else if (Number(newVal) == 3) {
                 // 栏目
                 this.columns = this.modal;
                 this.modalData();
             }
         },
+        // 加载直播列表
         broadData(params) {
-            this.data1 = [];
-            // this.$axios.post()
+            this.$axios.post(api.livelist, {
+                provinceCode: this.province,
+                cityCode: this.city,
+                areaCode: this.area,
+                hospitalId: this.hospital,
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+                searchKey: this.search,
+                playStatus:this.liveStatus
+            }).then(res => {
+                if(res.data.success) {
+                    let ret = res.data.object
+                    ret.list.forEach((item, index) => {
+                        item.iSum = this.addZeros(index);
+                    });
+                    this.count = ret.count
+                    console.log(ret);
+                    this.data1 = ret.list
+                }
+            })
         },
         // 加载栏目数据
         modalData() {
@@ -438,6 +603,10 @@ export default {
             this.data1 = [];
             this.$axios
                 .post(api.lecturedemandpage, {
+                    provinceCode: this.province,
+                    cityCode: this.city,
+                    areaCode: this.area,
+                    hospitalId: this.hospital,
                     pageNo: params.pageNo,
                     pageSize: params.pageSize,
                     searchKey: params.searchKey.trim()
@@ -492,6 +661,7 @@ export default {
     // 监听status   tab页的变化
     watch: {
         status(newVal, oldVal) {
+            this.pageNo = 1
             this.statusChange(newVal);
         }
     }
