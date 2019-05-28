@@ -165,7 +165,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 60,
+                    width: 80,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         return [

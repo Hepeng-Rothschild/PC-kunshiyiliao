@@ -67,7 +67,7 @@ export default {
                     title: '联系人',
                     key: 'linkman',
                     align: 'center',
-                    width: 80,
+                    width: 120,
                 },
                 {
                     title:"联系人电话",
@@ -159,7 +159,7 @@ export default {
             },
             {
                 path: "/index/operation/home",
-                title: "支付方式"
+                title: "机构管理"
             }
         ];
         this.$emit("changeBreadList", breadList);

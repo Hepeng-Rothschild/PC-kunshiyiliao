@@ -385,7 +385,7 @@ export default {
             },
             {
                 path: "/index/operation/docrorGroup",
-                title: "医生工作组"
+                title: "医疗小组"
             }
         ];
         this.$emit("changeBreadList", breadList);
@@ -477,7 +477,7 @@ export default {
                         return parseInt(item.role) == 1
                     })
                     if(!team) {
-                        this.$Message.error("团队内有且只能有一个队长")
+                        this.$Message.error("请检查团队内是否有队长或存在多个队长")
                         return ""
                     }
                     // 成员角色必须分配

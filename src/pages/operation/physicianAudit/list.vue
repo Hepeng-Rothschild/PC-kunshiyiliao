@@ -1,8 +1,38 @@
 <template>
     <div class="physicianAudit">
         <!-- 查询内容 -->
+        <Row type="flex" justify="space-around" class="code-row-bg">
+            <Col span="24">
+                <div class="tmpHeader">
+                    <span
+                        :class="{active:status == item.value }"
+                        @click="status = item.value"
+                        v-for="(item,index) in tabList"
+                    >{{ item.title }}</span>
+                </div>
+            </Col>
+        </Row>
         <Row type="flex" justify="space-around" class="code-row-bg" style="margin:20px 0;">
-            <Col span="8">
+            <Col span="24">
+            <fourLevelLinkage
+                    @changeProvince="changeProvince"
+                    @changeCity="changeCity"
+                    @changeArea="changeArea"
+                    @changeHospital="changeHospital"
+                    :province="province"
+                    :city="city"
+                    :area="area"
+                    :hospital="hospital"
+                    :isBack="isBack"
+                ></fourLevelLinkage>
+                <Select v-model="liveStatus" style="width:160px" v-show='status==1' clearable>
+                    <Option
+                        v-for="item in livexsList"
+                        :value="item.id"
+                        :key="item.id"
+                        
+                    >{{ item.name }}</Option>
+                </Select>
                 <Input
                     suffix="ios-search"
                     placeholder="输入主讲人审核人或标题进行查询"
@@ -10,20 +40,30 @@
                     v-model="search"
                     clearable
                 />
-                <Button type="primary" @click="searchInput">查询</Button>
+                <Button type="primary" icon="ios-search" @click="searchInput">查询</Button>
             </Col>
-            <Col span="14">&nbsp;</Col>
         </Row>
-        <Table stripe :columns="live" :data="data1"></Table>
+        <Table stripe :columns="columns" :data="data1"></Table>
         <Page :total="count" :current="pageNo" :page-size="pageSize" style="margin-top:10px;"/>
     </div>
 </template>
 <script>
 import api from "@/api/commonApi";
+import fourLevelLinkage from "@/components/fourLevelLinkage";
 export default {
+    components:{
+        fourLevelLinkage
+    },
     data() {
         return {
+            province: null,
+            city: null,
+            area: null,
+            hospital: null,
+            isBack:1,
+
             search: "",
+            columns:[],
             live: [
                 {
                     title: "编号",
@@ -103,6 +143,12 @@ export default {
                                                 playStatus,
                                                 columnName,
                                                 pageNo: this.pageNo,
+                                                province: this.province,
+                                                city: this.city,
+                                                area: this.area,
+                                                hospital: this.hospital,
+                                                isBack:2,
+                                                status:this.status
                                             }
                                         );
                                     }
@@ -113,13 +159,156 @@ export default {
                     }
                 }
             ],
+            status: 2,
+            tabList: [
+                 {
+                    title: "点播",
+                    value: 2
+                },
+                {
+                    title: "直播",
+                    value: 1
+                },
+            ],
             data1: [],
             count: 10,
             pageNo: 1,
-            pageSize: 10
+            pageSize: 10,
+            // 状态列表
+            livexsList:[
+                {
+                    id:"1",
+                    name:"待审核"
+                },
+                {
+                    id:"2",
+                    name:"审核通过"
+                },
+                {
+                    id:"3",
+                    name:"审核未通过"
+                },
+                {
+                    id:"4",
+                    name:"下架"
+                },
+                {
+                    id:"5",
+                    name:"正在直播"
+                },
+                {
+                    id:"6",
+                    name:"已完成"
+                },
+                {
+                    id:"7",
+                    name:"已撤回"
+                },
+                {
+                    id:"8",
+                    name:"已关闭"
+                }
+            ],
+            liveStatus:"",
+            verify: [
+                {
+                    title: "编号",
+                    key: "iSum",
+                    align: "center"
+                },
+                {
+                    title: "直播标题",
+                    key: "title",
+                    align: "center"
+                },
+                {
+                    title: "主播医生",
+                    key: "doctorName",
+                    align: "center"
+                },
+                {
+                    title: "所在医院",
+                    key: "hospitalName",
+                    align: "center"
+                },
+                {
+                    title: "直播状态",
+                    key: "playStatus",
+                    align: "center",
+                    render:(h,params)=>{
+                        let status = params.row.playStatus
+                        let content = ""
+                        this.livexsList.forEach(item=>{
+                            if(Number(item.id)==Number(status)) {
+                                content=item.name
+                            }
+                        })
+                        return h('span',{
+
+                        },content)
+                    }
+                },
+                {
+                    title: "预计直播时间",
+                    key: "aboutStartTime",
+                    align: "center"
+                },
+                {
+                    title: "操作",
+                    key: "operate",
+                    align: "center",
+                    width: 60,
+                    render: (h, params) => {
+                        let id = params.row.id;
+                        return h(
+                            "a",
+                            {
+                                attrs: {
+                                    href: "javascript:void(0);"
+                                },
+                                on: {
+                                    click: () => {
+                                        //   公用方法
+                                        this.functionJS.queryNavgationTo(
+                                            this,
+                                            "/index/operation/physicianAudit/liveReview",
+                                            {
+                                                province: this.province,
+                                                city: this.city,
+                                                area: this.area,
+                                                hospital: this.hospital,
+                                                isBack:2,
+                                                id,
+                                                pageNo: this.pageNo,
+                                                status: this.status,
+                                            }
+                                        );
+                                    }
+                                }
+                            },
+                            "查看"
+                        );
+                    }
+                }
+            ],
         };
     },
     created() {
+        this.province = this.$route.query.province
+            ? parseInt(this.$route.query.province)
+            : null;
+        this.city = this.$route.query.city
+            ? parseInt(this.$route.query.city)
+            : null;
+        this.area = this.$route.query.area
+            ? parseInt(this.$route.query.area)
+            : null;
+        this.hospital = this.$route.query.hospital
+            ? parseInt(this.$route.query.hospital)
+            : null;
+        this.isBack = this.$route.query.isBack
+            ? parseInt(this.$route.query.isBack)
+            : 1;
         let breadList = [
             { path: "/index", title: "首页" },
             {
@@ -135,23 +324,37 @@ export default {
     },
     mounted () {
         let query = this.$route.query;
-        this.liveData({ pageNo: this.pageNo, pageSize: this.pageSize });
+        this.status = query.status ? query.status : 2
+        this.statusChange(this.status);
     },
     methods: {
+        changeProvince(val) {
+            this.province = val;
+        },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
+        changeHospital(val) {
+            this.hospital = val;
+        },
         searchInput() {
-            this.liveData({
-                pageNo: this.pageNo,
-                pageSize: this.pageSize,
-                searchKey: this.search.trim()
-            });
+            this.statusChange(this.status);
         },
         // 加载点播数据
         liveData(params) {
             this.$axios
                 .post(api.lecturedemandpagebyexaminelist, {
-                    pageNo: params.pageNo,
-                    pageSize: params.pageSize,
-                    searchKey: params.searchKey ? params.searchKey.trim() : params.searchKey
+                    provinceCode: this.province,
+                    cityCode: this.city,
+                    areaCode: this.area,
+                    hospitalId: this.hospital,
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize,
+                    searchKey: params.searchKey ? params.searchKey.trim() : params.searchKey,
+
                 })
                 .then(resp => {
                     if (resp.data.success) {
@@ -190,6 +393,47 @@ export default {
                         this.$Message.error("请求失败,请稍候重试");
                     }
                 });
+        },
+        // 加载直播数据
+        verifyData (params) {
+            this.data1 = [{}]
+             // 加载直播列表
+            this.$axios.post(api.livelist, {
+                provinceCode: this.province,
+                cityCode: this.city,
+                areaCode: this.area,
+                hospitalId: this.hospital,
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+                searchKey: this.search,
+                playStatus:this.liveStatus
+            }).then(res => {
+                if(res.data.success) {
+                    let ret = res.data.object
+                    ret.list.forEach((item, index) => {
+                        item.iSum = this.addZeros(index);
+                    });
+                    this.count = ret.count
+                    this.data1 = ret.list
+                }
+            })
+        },
+        statusChange (newVal) {
+            this.data1 = []
+            if(newVal==2) {
+                this.columns = this.live
+                this.liveData({ pageNo: this.pageNo, pageSize: this.pageSize });
+            } else if(newVal==1) {
+                this.columns = this.verify
+                this.verifyData({ pageNo: this.pageNo, pageSize: this.pageSize })
+            }
+
+        }
+    },
+    // 监听status   tab页的变化
+    watch: {
+        status(newVal, oldVal) {
+            this.statusChange(newVal);
         }
     }
 };
@@ -200,5 +444,26 @@ export default {
     padding: 10px 30px;
     margin: 0 auto;
     background: #fff;
+    .tmpHeader {
+        width: 100%;
+        height: 40px;
+        border-bottom: 2px solid #f2f2f2;
+        span {
+            display: inline-block;
+            line-height: 38px;
+            padding: 0 15px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.5s;
+        }
+        span.active {
+            color: skyblue;
+            border-bottom: 2px solid skyblue;
+        }
+        span:hover {
+            border-bottom: 2px solid skyblue;
+            color: skyblue;
+        }
+    }
 }
 </style>

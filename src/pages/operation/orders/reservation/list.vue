@@ -267,6 +267,7 @@ export default {
                         this.shuangyue = parseInt(shuangyue * 100) + "%";
                         this.count = tmpObj.count;
                         this.orderList = tmpObj.list;
+                        console.log(resp);
                         for (let i = 0; i < this.orderList.length; i++) {
                             this.orderList[i].iNum = i + 1;
                             this.orderList[i].dept =
@@ -281,6 +282,7 @@ export default {
                                 "  " +
                                 (this.orderList[i].day == 1 ? "上午" : "下午");
                         }
+                        console.log(this.orderList);
                     } else {
                         this.$Message.info("网络错误，请刷新重试");
                     }

@@ -30,8 +30,8 @@
     </div>
 </template>
 <script>
-import chatEditor from "@/components/chatEditor";
-import chatList from "@/components/chatList";
+import chatEditor from "@/components/teamChatEditor";
+import chatList from "@/components/teamChatList";
 import util from "@/utils";
 export default {
     data() {

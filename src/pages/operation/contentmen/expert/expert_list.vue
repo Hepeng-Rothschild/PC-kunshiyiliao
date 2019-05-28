@@ -8,7 +8,7 @@
         <div class="boxs">
           <Input v-model.trim="val" placeholder="请输入专家姓名查询" style="width: 200px" @on-keyup.enter="valChange" clearable/>
         </div>
-        <Button type="primary" @click="valChange" style="margin-left:20px;">查询</Button>
+        <Button type="primary"  icon="ios-search" @click="valChange" style="margin-left:20px;">查询</Button>
       </div>
       <Button type="primary" @click="navto">添加专家</Button>
     </div>

@@ -39,13 +39,13 @@ export default {
             count: 10,
             columns1: [
                 { title: "编号", key: "sum", align: "center", width: 100 },
-                { title: "公众号", key: "nick", align: "center", width: 250 },
+                { title: "公众号", key: "nick", align: "center"},
                 { title: "Appid", key: "appid", align: "center", width: 500 },
                 {
                     title: "操作",
                     key: "iOperate",
                     align: "center",
-                    width: 300,
+                    width: 120,
                     render: (h, params) => {
                         let id = params.row.appid;
                         return [
@@ -89,7 +89,7 @@ export default {
         let breadList = [
             { path: "/index", title: "首页" },
             {
-                path: "/index/operation/publicHosting/index",
+                path: "/index/operation/publicAddress/list",
                 title: "公众号托管"
             },
             {

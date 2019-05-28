@@ -146,12 +146,15 @@ export default {
     .top {
         .logo {
             width: 60px;
-            margin: 5px;
+            vertical-align: middle;
+            margin:5px 0 0 25px;
         }
         .logo-text {
             text-align: center;
             display: inline-block;
-            width: 60%;
+            // width: 150px;
+            font-size:18px;
+            vertical-align: middle;
         }
     }
     .left-menu {

@@ -44,13 +44,13 @@ export default {
                     title:"序号",
                     align:"center",
                     key:"sum",
-                    width:100
+                    width:60
                 },
                 {
                     title:"所在医院",
                     align:"center",
                     key:"hospitalName",
-                    width:120
+                    width:150
                 },
                 {
                     title:"科室",
@@ -62,13 +62,13 @@ export default {
                     title:"医疗团队名称",
                     align:"center",
                     key:"teamName",
-                    width:120
+                    width:150
                 },
                 {
                     title:"团队类型",
                     align:"center",
                     key:"teamType",
-                    width:120
+                    width:150
                 },
                 {
                     title:"团队负责人",
@@ -92,19 +92,19 @@ export default {
                     title:"团队签约数",
                     align:"center",
                     key:"teamSigningNum",
-                    width:100
+                    width:110
                 },
                 {
                     title:"排序",
                     align:"center",
                     key:"priority",
-                    width:100
+                    width:60
                 },
                 {
                     title:"操作",
                     align:"center",
                     fixed:"right",
-                    width:100,
+                    width:120,
                     render: (h, params) => {
                         let id = params.row.id;
                         return [
@@ -193,7 +193,7 @@ export default {
             },
             {
                 path: "/index/operation/docrorGroup",
-                title: "医生工作组"
+                title: "医疗小组"
             }
         ];
         this.$emit("changeBreadList", breadList);

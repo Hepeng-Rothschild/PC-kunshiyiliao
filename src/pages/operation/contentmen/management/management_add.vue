@@ -7,7 +7,7 @@
       <div class="fuwu">
         <!--线上服务-->
         <div class="xsfw" v-for="(item,index) in allMenuList" :key='index'>
-          <h2>{{ item.menuName }}</h2>
+          <h2 style='font-weight:bold;'>{{ item.menuName }}</h2>
           <!--第一行-->
           <div class="select_wufu" ref="all">
             <div v-for="(items,index) in item.dtoList" :key='index'>

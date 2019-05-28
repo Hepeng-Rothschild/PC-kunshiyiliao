@@ -107,7 +107,8 @@ export default {
                     title: "患者姓名",
                     key: "memberName",
                     align: "center",
-                    width: 180
+                    width: 180,
+                    fixed:"left"
                 },
                 { title: "性别", key: "gender", align: "center", width: 80 },
                 {

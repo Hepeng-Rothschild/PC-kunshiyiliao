@@ -53,7 +53,16 @@ export default {
         // 	this.$router.push("/login")
         // }
     },
-    components: {}
+    components: {},
+    updated() {
+        let imgs = [].slice.call(document.getElementsByTagName("img"), 0);
+        imgs.forEach(el => {
+            el.onmousedown = e => {
+                e.preventDefault();
+                return false;
+            };
+        });
+    }
 };
 </script>
 <style lang="less" scoped>

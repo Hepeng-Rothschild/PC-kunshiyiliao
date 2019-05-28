@@ -135,6 +135,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 140,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let icut = params.row.icut;

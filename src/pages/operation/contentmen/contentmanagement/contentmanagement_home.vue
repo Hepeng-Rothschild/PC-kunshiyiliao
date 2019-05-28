@@ -191,6 +191,7 @@ export default {
                                 },
                                 "编辑"
                             ),
+                            "|",
                             h(
                                 "a",
                                 {
@@ -212,6 +213,7 @@ export default {
                                 },
                                 name
                             ),
+                            "|",
                             h(
                                 "a",
                                 {

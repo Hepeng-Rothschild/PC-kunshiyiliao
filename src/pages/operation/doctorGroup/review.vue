@@ -105,7 +105,7 @@ export default {
             },
             {
                 path: "/index/operation/docrorGroup",
-                title: "医生工作组"
+                title: "医疗小组"
             }
         ];
         this.$emit("changeBreadList", breadList);

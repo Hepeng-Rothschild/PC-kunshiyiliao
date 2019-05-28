@@ -107,9 +107,11 @@ export default new VueRouter({
 				operation.liveMantEdit,
 				operation.broadAdd,
 				operation.broadEdit,
+				operation.broadReview,
 				// 讲堂审核
 				operation.physicianAudit,
 				operation.physicianAuditSee,
+				operation.physicianReview,
 				//订单管理
 				operation.ordersManagement,
 				operation.reservationOrders,
@@ -251,7 +253,8 @@ export default new VueRouter({
 				chat.teamManager,
 				chat.neVideo,
 				chat.nePublish,
-				chat.setPermission
+				chat.setPermission,
+				chat.p2pChat,
 
 			]
 		},
