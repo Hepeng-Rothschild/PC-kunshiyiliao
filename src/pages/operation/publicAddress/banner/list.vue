@@ -157,7 +157,6 @@ export default {
   padding: 10px 30px;
   margin: 0 auto;
   background: #fff;
-  font-size:12px;
   .ibanner_main {
     display: flex;
     flex-direction: column;
@@ -174,6 +173,7 @@ export default {
       table {
         width: 100%;
         border: 1px solid #ddd;
+        font-size:12px;
         tr:nth-child(odd) {
           background: #f8f8f9;
         }

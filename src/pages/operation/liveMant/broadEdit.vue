@@ -4,7 +4,6 @@
             <h1 class="createdTitle">编辑直播</h1>
             <!-- 直播标题 -->
             <Form ref="params" :model="params" :rules="ruleValidate" :label-width="80">
-                <!--  -->
                 <h2>基本信息</h2>
                 <FormItem label="直播标题" prop="title">
                     <Input v-model.trim="params.title" placeholder="请输入直播标题" style="width: 300px" maxlength='60'></Input>
@@ -184,16 +183,6 @@
                         >{{ item.name }}</Option>
                     </Select>
                 </FormItem>
-                <!-- 直播对象 -->
-                <FormItem label="直播对象" prop="liveObj">
-                    <Select v-model="params.liveObj" style="width:160px">
-                        <Option
-                            v-for="item in liveObjList"
-                            :value="item.id"
-                            :key="item.id"
-                        >{{ item.name }}</Option>
-                    </Select>
-                </FormItem>
                 <!-- 课堂类型 -->
                 <FormItem label="课堂类型" prop="type">
                     <Select v-model="params.type" style="width:160px">
@@ -301,8 +290,6 @@ export default {
                 liveType:"",
                 // 课堂类型
                 type: "",
-                // 直播对象
-                liveObj:"",
                 // 医生
                 doctor: "",
                 // 价格
@@ -369,13 +356,6 @@ export default {
                     {
                         required: true,
                         message: "请选择直播类型",
-                        trigger: "change"
-                    }
-                ],
-                liveObj: [
-                    {
-                        required: true,
-                        message: "请选择直播对象",
                         trigger: "change"
                     }
                 ],
@@ -597,7 +577,7 @@ export default {
                 this.startdisabledHours = []
             }
             this.disabledHours = []
-            let disTime = val.split(":")[0]
+            let disTime = this.params.startTimers.split(":")[0]
             if(this.getData(this.params.startTime) == this.getData(this.params.endTime)) {
                 for(let i=0;i <= disTime;i++){
                     this.disabledHours.push(i)
@@ -637,7 +617,7 @@ export default {
                         // 开始时间
                         aboutStartTime:this.getData(this.params.startTime) +' '+this.params.startTimers,
                         // 直播类型
-                        liveType: this.params.liveObj,
+                        liveType: this.params.liveType,
                         // 原始价格
                         originalPrice:this.params.oldPrice,
                         // 标题
@@ -650,7 +630,6 @@ export default {
                         params.discountPrice = 0;
                         params.originalPrice = 0;
                     }
-                    
                     console.log("发送参数",params);
                     this.$axios.post(api.updatelive, params).then(res =>{
                         if (res.data.success) {
@@ -662,7 +641,6 @@ export default {
                             this.$Message.error("修改失败!")
                         }
                     })
-                    
                 } else {
                     this.$Message.error("请完整填写必填项!");
                 }
@@ -786,6 +764,7 @@ export default {
                             url: this.fileBaseUrl + this.pictureFormat(ret.headImg)
                         });
                     }
+                    console.log(ret);
                         // 医院ID
                     this.doctorhospitaid = ret.hospitalId
                         // 是否付费
@@ -797,7 +776,7 @@ export default {
                         // 直播类型
                     this.params.liveType = String(ret.liveType)
                     // 直播对象
-                    this.params.liveObj = String(ret.liveType)
+                    // this.params.liveObj = String(ret.liveType)
                         // 课堂类型
                     this.params.type = String(ret.type)
                         // 原始价格

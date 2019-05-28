@@ -559,6 +559,7 @@ export default {
                 this.columns = this.modal;
                 this.modalData();
             }
+            
         },
         // 加载直播列表
         broadData(params) {

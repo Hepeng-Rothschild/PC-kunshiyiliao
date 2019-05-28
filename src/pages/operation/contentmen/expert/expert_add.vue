@@ -6,7 +6,7 @@
       <!--专家姓名-->
       <div class="main_expert_item">
         <div class="main_expert_title">
-          <span style="color:red;">*&nbsp;&nbsp;</span>
+          <span style="color:red;">&nbsp;&nbsp;*</span>
           <span>专家姓名</span>
         </div>
         <!-- <Input

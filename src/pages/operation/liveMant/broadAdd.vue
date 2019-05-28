@@ -186,16 +186,6 @@
                         >{{ item.name }}</Option>
                     </Select>
                 </FormItem>
-                <!-- 直播对象 -->
-                <FormItem label="直播对象" prop="liveObj">
-                    <Select v-model="params.liveObj" style="width:160px">
-                        <Option
-                            v-for="item in liveObjList"
-                            :value="item.id"
-                            :key="item.id"
-                        >{{ item.name }}</Option>
-                    </Select>
-                </FormItem>
                 <!-- 课堂类型 -->
                 <FormItem label="课堂类型" prop="type">
                     <Select v-model="params.type" style="width:160px">
@@ -303,8 +293,6 @@ export default {
                 liveType:"",
                 // 课堂类型
                 type: "",
-                // 直播对象
-                liveObj:"",
                 // 医生
                 doctor: "",
                 // 价格
@@ -370,13 +358,6 @@ export default {
                     {
                         required: true,
                         message: "请选择直播类型",
-                        trigger: "change"
-                    }
-                ],
-                liveObj: [
-                    {
-                        required: true,
-                        message: "请选择直播对象",
                         trigger: "change"
                     }
                 ],
@@ -609,7 +590,7 @@ export default {
                         // 开始时间
                         aboutStartTime:this.getData(this.params.startTime) +' '+this.params.startTimers,
                         // 直播类型
-                        liveType: this.params.liveObj,
+                        liveType: this.params.liveType,
                         // 原始价格
                         originalPrice:this.params.oldPrice,
                         // 标题
@@ -697,14 +678,17 @@ export default {
                 this.startdisabledHours = []
             }
             
-            let disTime = val.split(":")[0]
+            let disTime = this.params.startTimers.split(":")[0]
             
             if(this.getData(this.params.startTime) == this.getData(this.params.endTime)) {
+                console.log("触发了");
                 this.disabledHours = []
+                console.log(disTime);
                 for(let i=0;i <= disTime;i++){
                     this.disabledHours.push(i)
                 }
             }
+            console.log(this.disabledHours);
         },
         // 返回
         back() {
