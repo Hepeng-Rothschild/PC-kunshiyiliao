@@ -15,6 +15,7 @@
                                 v-for="item of natureList"
                                 :key="item.id"
                                 :value="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                     </FormItem>
@@ -38,6 +39,7 @@
                                 v-for="item in provinceList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -52,6 +54,7 @@
                                 v-for="item in cityList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -66,6 +69,7 @@
                                 v-for="item in areaList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -79,6 +83,7 @@
                                 v-for="item in hospitalList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.orgName}}</Option>
                         </Select>
                         <iSwitch
@@ -136,6 +141,7 @@
                                 v-for="(item,index) of numberYear"
                                 :value="item"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item}}/次</Option>
                         </Select>
                     </FormItem>
@@ -152,6 +158,7 @@
                                 v-for="item of executingAgencyList"
                                 :key="item.id"
                                 :value="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                     </FormItem>
@@ -228,6 +235,7 @@
                                 v-for="(item,index) of formTypeList"
                                 :value="item.value"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item.title}}</Option>
                         </Select>
                     </FormItem>

@@ -56,6 +56,7 @@
                         v-for="item in types"
                         :value="item.dictType"
                         :key="item.dictType"
+                        style='text-align:center;'
                     >{{ item.dictName }}</Option>
                 </Select>
             </div>
@@ -68,6 +69,7 @@
                         :value="item.orgCode"
                         v-for="(item) in ylt"
                         :key="item.orgCode"
+                        style='text-align:center;'
                     >{{ item.orgName }}</Option>
                 </Select>
             </div>
@@ -127,6 +129,7 @@
                             :value="item.appid"
                             :key="item.appid"
                             :disabled='item.status'
+                            style='text-align:center;'
                         >{{ item.nick }}</Option>
                     </Select>
                 </div>
@@ -141,6 +144,7 @@
                         v-for="item in selectGzh"
                         :value="item.appid"
                         :key="item.appid"
+                        style='text-align:center;'
                     >{{ item.nick }}</Option>
                 </Select>
             </div>

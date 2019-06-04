@@ -28,6 +28,7 @@
                             v-for="item in titleList"
                             :value="item.dictType"
                             :key="item.dictType"
+                            style='text-align:center;'
                         >{{item.dictName}}</Option>
                     </Select>
                 </div>
@@ -37,7 +38,7 @@
                     </Button>
                 </div>
                 <div class="margin-up-down">
-                    <Button type="primary" @click="addDoc">添加排班信息</Button>
+                    <Button type="info" @click="addDoc">添加排班信息</Button>
                 </div>
             </Col>
         </Row>

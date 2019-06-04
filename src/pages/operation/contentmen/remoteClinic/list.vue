@@ -7,7 +7,7 @@
         <div class="city">
           <!-- 省 -->
           <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange">
-            <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            <Option v-for="item in provinceList" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.name }}</Option>
           </Select>
           <!-- 市 -->
           <Select
@@ -15,11 +15,11 @@
             style="width:150px;margin:0 10px;"
             @on-change="cityChange"
           >
-            <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
+            <Option v-for="item in cityList" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.city }}</Option>
           </Select>
           <!-- 区 -->
           <Select v-model="model.districtCode" style="width:200px">
-            <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
+            <Option v-for="item in countyList" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.area }}</Option>
           </Select>
         </div>
       </div>

@@ -17,11 +17,12 @@
                 </div>
                 <div class="margin-up-down">
                     <span>状态:</span>
-                    <Select class="w-select" clearable v-model="status">
+                    <Select class="w-select" clearable v-model="status" style='width:130px;'>
                         <Option
                             v-for="(item,index) in statusList"
                             :value="index"
                             :key="index"
+                            style='text-align:center'
                         >{{item}}</Option>
                     </Select>
                 </div>

@@ -12,9 +12,9 @@
                 :hospital="hospital"
                 :isBack="isBack"
             ></fourLevelLinkage>
-            <Input v-model="searchKey" placeholder="请输入医疗团队名称" style="width: 300px;margin:0 10px;"/>
-            <Button type="default" @click='search'>查询</Button>
-            <Button type="warning" @click="goAdd" style='margin-left:10px;'>新增医生工作组</Button>
+            <Input v-model="searchKey" placeholder="请输入医疗团队名称" style="width: 200px;margin:0 10px;"/>
+            <Button type="primary" icon="ios-search" @click='search'>查询</Button>
+            <Button type="info" @click="goAdd" style='margin-left:10px;'>新增医生工作组</Button>
         </header>
         <Table stripe :columns="columns1" :data="doctorList"></Table>
         <Page :total="count" :current="pageNo" :pageSize="pageSize" @on-change='pageChange' style='margin-top:10px;text-align:center;'/>

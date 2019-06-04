@@ -99,7 +99,7 @@
           <div>
             <Select class="w-select-identity" placeholder="用户身份" v-model="identity" disabled>
               <!-- <Option value="0">全国</Option> -->
-              <Option v-for="item in identityList" :value="item.id" :key="item.id">{{item.name}}</Option>
+              <Option v-for="item in identityList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
             </Select>
           </div>
         </div>
@@ -118,7 +118,7 @@
               v-if="identity >= 2 && identity != 5"
             >
               <!-- <Option value="0">全国</Option> -->
-              <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{item.name}}</Option>
+              <Option v-for="item in provinceList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
             </Select>
             <Select
               class="w-select"
@@ -128,7 +128,7 @@
               disabled
               v-if="identity >= 3 && identity != 5"
             >
-              <Option v-for="(item) in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
+              <Option v-for="(item) in cityList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
             </Select>
             <Select
               class="w-select"
@@ -147,7 +147,7 @@
               disabled
               v-if="identity == 5"
             >
-              <Option v-for="item in hospitalList" :value="item.id" :key="item.id">{{item.orgName}}</Option>
+              <Option v-for="item in hospitalList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.orgName}}</Option>
             </Select>
           </div>
         </div>

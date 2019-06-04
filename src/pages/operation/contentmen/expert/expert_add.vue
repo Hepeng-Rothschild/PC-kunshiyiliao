@@ -263,7 +263,7 @@ export default {
             if (res.data.object.list.length == 0) {
               this.$Message.error("查询失败，未查询到该专家");
             } else {
-              this.$Message.info("查询成功，请选择专家");
+              this.$Message.success("查询成功，请选择专家");
               this.keshi = ''
               this.deloldDate();
             }

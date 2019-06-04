@@ -35,15 +35,16 @@
                     clearable
                     v-show="status != 3"
                 />
-                <Select v-model="liveStatus" style="width:160px" v-show="status ==1">
+                <Select v-model="liveStatus" style="width:130px" v-show="status ==1">
                     <Option
                         v-for="item in livexsList"
                         :value="item.id"
                         :key="item.id"
+                        style='text-align:center'
                     >{{ item.name }}</Option>
                 </Select>
                 <Button type="primary" icon="ios-search" @click="searchInput" v-show="status!=3">查询</Button>
-                <Button @click="add">新增</Button>
+                <Button type='info' @click="add">新增</Button>
             </Col>
         </Row>
         <!-- 表格列表 -->

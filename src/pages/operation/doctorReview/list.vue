@@ -14,15 +14,16 @@
                     :isBack="isBack"
                 ></fourLevelLinkage>
                 <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
-                <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
+                <Select class="w-select" clearable v-model="dictType" placeholder="职称级别" style='width:130px;'>
                     <Option
                         v-for="item in titleList"
                         :value="item.dictType"
                         :key="item.dictType"
+                        style='text-align:center'
                     >{{item.dictName}}</Option>
                 </Select>
                 <Select class="w-select" clearable v-model="authStatus" placeholder="认证状态">
-                    <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
+                    <Option v-for="(item,index) in statusList" :value="index" :key="index" style='text-align:center'>{{item}}</Option>
                 </Select>
                 <Button type="primary" @click="loadPage(1)">
                     <Icon type="ios-search" size="14"/>查询

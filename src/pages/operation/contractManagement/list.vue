@@ -22,6 +22,7 @@
                             v-for="(item,index) in statusList"
                             :value="index"
                             :key="index"
+                            style='text-align:center'
                         >{{item}}</Option>
                     </Select>
                 </div>

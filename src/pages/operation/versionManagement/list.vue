@@ -10,7 +10,7 @@
                 clearable
             />
             <Button type="primary" icon="ios-search" @click="search">查询</Button>
-            <Button type="primary" @click="add" style="margin-left:20px;">添加新版本</Button>
+            <Button type="info" @click="add" style="margin-left:20px;">添加新版本</Button>
         </header>
         <!-- 列表 -->
         <div class="table">

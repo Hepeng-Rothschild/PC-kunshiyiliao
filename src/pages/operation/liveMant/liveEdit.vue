@@ -96,7 +96,7 @@
             <div class="live">
                 <span class="i">课堂类型：</span>
                 <Select v-model="live.modalDataVal" style="width:100px">
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    <Option v-for="item in liveType" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.name }}</Option>
                 </Select>
             </div>
             <!-- 播放来源 -->
@@ -107,6 +107,7 @@
                         v-for="item in videoList"
                         :value="item.id"
                         :key="item.id"
+                        style='text-align:center;'
                     >{{ item.name }}</Option>
                 </Select>
             </div>

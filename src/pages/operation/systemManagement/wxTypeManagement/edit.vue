@@ -15,7 +15,7 @@
           <span style="color:red;">*</span>类型
         </span>
         <Select v-model="params.function" style="width:80px">
-          <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Option v-for="item in cityList" :value="item.value" :key="item.value" style='text-align:center;'>{{ item.label }}</Option>
         </Select>
       </div>
       <!-- 服务图标 -->

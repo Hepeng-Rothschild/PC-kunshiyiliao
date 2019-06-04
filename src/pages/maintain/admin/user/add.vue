@@ -104,6 +104,7 @@
 										v-for="item in identityList"
 										:value="item.id"
 										:key="item.id"
+                                        style='text-align:center;'
 									>{{item.name}}</Option>
 								</Select>
 							</div>
@@ -129,6 +130,7 @@
 									v-for="item in provinceList"
 									:value="item.id"
 									:key="item.id"
+                                    style='text-align:center;'
 								>{{item.name}}</Option>
 							</Select>
 							<Select
@@ -144,6 +146,7 @@
 									v-for="(item) in cityList"
 									:value="item.id"
 									:key="item.id"
+                                    style='text-align:center;'
 								>{{item.name}}</Option>
 							</Select>
 							<Select
@@ -159,6 +162,7 @@
 									v-for="item in areaList"
 									:value="item.id"
 									:key="item.id"
+                                    style='text-align:center;'
 								>{{item.name}}</Option>
 							</Select>
 							<Select
@@ -173,6 +177,7 @@
 									v-for="item in hospitalList"
 									:value="item.id"
 									:key="item.id"
+                                    style='text-align:center;'
 								>{{item.orgName}}</Option>
 							</Select>
 						</div>

@@ -92,6 +92,7 @@
                                         :value="item.dictType"
                                         :key="item.dictType"
                                         v-for="item of titleList"
+                                        style='text-align:center;'
                                     >{{item.dictName}}</Option>
                                 </Select>
                             </FormItem>
@@ -106,6 +107,7 @@
                                         :value="item.dictType"
                                         :key="item.dictType"
                                         v-for="(item,index) of deptList"
+                                        style='text-align:center;'
                                     >{{item.dictName}}</Option>
                                 </Select>
                             </FormItem>
@@ -133,6 +135,7 @@
                                         :value="item.id"
                                         :key="index"
                                         v-for="(item,index) of hospitalList"
+                                        style='text-align:center;'
                                     >{{item.orgName}}</Option>
                                 </Select>
                             </FormItem>

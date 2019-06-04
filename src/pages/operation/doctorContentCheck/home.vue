@@ -10,6 +10,7 @@
                                 v-for="item in sonTabList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>&nbsp;&nbsp;&nbsp;&nbsp;
                         状态：
@@ -18,6 +19,7 @@
                                 v-for="item in publicationStatusList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>&nbsp;&nbsp;&nbsp;&nbsp;
                         文章：
@@ -25,7 +27,7 @@
                         <Button type="primary" @click="loadPage(1)">
                             <Icon type="ios-search" size="14"/>查询
                         </Button>
-                        <Button class="abs-right" type="primary" @click="toAdd">新增</Button>
+                        <Button class="abs-right" type="info" @click="toAdd">新增</Button>
                     </Col>
                 </Row>
                 <Table class="list-table" stripe :columns="columns" :data="datas"></Table>

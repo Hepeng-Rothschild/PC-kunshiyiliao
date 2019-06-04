@@ -100,25 +100,11 @@
             </div>
             <h3>课堂介绍</h3>
             <div class='information'>
-                <span style="display:inline-block;width:72px;">讲堂介绍：</span>
-                    <Input
-                        v-model="params.introduce"
-                        type="textarea"
-                        disabled
-                        :rows="4"
-                        style='width:60%;'
-                    />
+                <span style="display:inline-block;width:72px;">讲堂介绍：{{ params.introduce ? params.introduce :"无"  }}</span>
             </div>
             <!-- 不通过原因 -->
             <div class='information' v-if='playStatus == 3 || playStatus == 4 || playStatus == 8'>
-                <span>&nbsp;审核原因：</span>
-                    <Input
-                        v-model="params.reason"
-                        type="textarea"
-                        placeholder="请填写本次审核不通过的原因"
-                        :rows="4"
-                        style='width:60%;'
-                    />
+                <h3 style='color:red;'><span style='color:black'>审核原因：</span>{{ params.reason }}</h3>
             </div>
             <Button type="primary" @click='reback(2)' v-if='playStatus==1'>审核通过</Button>
             <Button @click='reback(3)' v-if='playStatus==1'>审核不通过</Button>

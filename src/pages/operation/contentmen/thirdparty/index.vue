@@ -54,6 +54,7 @@
                                     v-for="(item,index) in thirdList"
                                     :value="item.code"
                                     :key="index"
+                                    style='text-align:center;'
                                 >{{ item.className }}</Option>
                             </Select>
                         </FormItem>

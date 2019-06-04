@@ -47,6 +47,7 @@
                         v-for="(item,index) in searchTypeList"
                         :value="item.id"
                         :key="item.id"
+                        style='text-align:center;'
                     >{{item.name}}</Option>
                 </Select>
                 <p style="margin-left:20px;color:gray;">！请先选择专家后，再选择远程门诊类型。</p>
@@ -66,7 +67,7 @@
                     <p>远程门诊时长</p>
                 </div>
                 <Select class="w-select" v-model="time" @on-change="remoteData">
-                    <Option v-for="item in timeList" :value="item.id" :key="item.id">{{item.name}}</Option>
+                    <Option v-for="item in timeList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
                 </Select>
             </div>
             <!--  预约周期 -->
@@ -76,7 +77,7 @@
                     <p>预约周期</p>
                 </div>
                 <Select class="w-select" v-model="cycle">
-                    <Option v-for="item in cycleList" :value="item.id" :key="item.id">{{item.name}}</Option>
+                    <Option v-for="item in cycleList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
                 </Select>
             </div>
             <!-- 是否启用 -->

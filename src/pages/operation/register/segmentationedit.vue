@@ -30,6 +30,7 @@
                         v-for="(item,index) of typeList"
                         :key="item.id"
                         :value="item.name"
+                        style='text-align:center;'
                     >{{item.name}}</Option>
                 </Select>
                 <Button type="primary" @click="jump">普通设置</Button>

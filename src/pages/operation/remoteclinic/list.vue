@@ -21,7 +21,8 @@
                     <Input
                         class="w-input"
                         v-model="searchKey"
-                        :placeholder="'请输入职称/医院名称/医生名称'"
+                        placeholder="请输入职称/医院名称/医生名称"
+                        style='width:200px;'
                         clearable
                     />
                 </div>
@@ -33,7 +34,7 @@
                 </div>
                 <div class="margin-up-down">
                     <!-- 添加接诊医生排班 -->
-                    <Button type="primary" class="primary" @click="add">添加接诊医生排班</Button>
+                    <Button type="info" class="primary" @click="add">添加接诊医生排班</Button>
                 </div>
             </Col>
         </Row>

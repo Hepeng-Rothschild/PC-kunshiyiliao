@@ -43,6 +43,7 @@
                         v-for="(item,index) in functionList"
                         :value="item.id"
                         :key="index"
+                        style='text-align:center;'
                       >{{item.name}}</Option>
                     </Select>
                   </FormItem>
@@ -61,6 +62,7 @@
                         v-for="(item,index) in levelList"
                         :value="item.id"
                         :key="index"
+                        style='text-align:center;'
                       >{{item.val}}</Option>
                     </Select>
                   </FormItem>
@@ -85,6 +87,7 @@
                           v-for="(item,index) in topList"
                           :value="item.id"
                           :key="index"
+                          style='text-align:center;'
                         >{{item.menuName}}</Option>
                       </Select>
                       <Select class="w-select" v-if="info.level == 2" v-model="info.secondMenu">
@@ -92,6 +95,7 @@
                           v-for="(item,index) in secondList"
                           :value="item.id"
                           :key="index"
+                          style='text-align:center;'
                         >{{item.menuName}}</Option>
                       </Select>
                     </FormItem>

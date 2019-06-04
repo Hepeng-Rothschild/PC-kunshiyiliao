@@ -29,8 +29,9 @@
                             style="width: 168px"
                             v-model="params.startTimers"
                             @on-change ='pickerChange'
-                             :disabled-hours="startdisabledHours"
+                            :disabled-hours="startdisabledHours"
                             hide-disabled-options
+                            format="HH:mm"
                         ></TimePicker>
                     </FormItem>
                 </div>
@@ -42,9 +43,9 @@
                             placeholder="选择年月日"
                             style="width: 200px"
                             v-model="params.endTime"
-                            format='yyyy-MM-dd'
+                            format='yyyy年MM月dd日'
                             :options="options4"
-                            @on-change ='pickerChange'
+                            @on-change ='endTimeLargeStart'
                         ></DatePicker>
                     </FormItem>
                     <FormItem prop="endTimers">
@@ -55,6 +56,7 @@
                             v-model="params.endTimers"
                             :disabled-hours="disabledHours"
                             hide-disabled-options
+                            format="HH:mm"
                         ></TimePicker>
                     </FormItem>
                 </div>
@@ -173,6 +175,7 @@
                             v-for="item in livexsList"
                             :value="item.id"
                             :key="item.id"
+                            style='text-align:center;'
                         >{{ item.name }}</Option>
                     </Select>
                 </FormItem>
@@ -183,6 +186,7 @@
                             v-for="item in liveTypeList"
                             :value="item.id"
                             :key="item.id"
+                            style='text-align:center;'
                         >{{ item.name }}</Option>
                     </Select>
                 </FormItem>
@@ -193,6 +197,7 @@
                             v-for="item in columnList"
                             :value="item.id"
                             :key="item.id"
+                            style='text-align:center;'
                         >{{ item.name }}</Option>
                     </Select>
                 </FormItem>
@@ -664,6 +669,27 @@ export default {
                     console.log(err);
                 });
         },
+        // 结束日期不能小于开始日期
+        endTimeLargeStart(){
+            // 开始时间
+            let startTime = new Date(this.params.startTime);
+            let startDay = startTime.getDate();
+            let startMonth = startTime.getMonth() + 1;
+
+            // 结束时间
+            let endTime = new Date(this.params.endTime);
+            let endDay = endTime.getDate();
+            let endMonth = endTime.getMonth() + 1;
+            // console.log(startTime,startDay,startMonth);
+            // console.log(endTime,endDay,endMonth);
+            if(startMonth == endMonth){
+                if(endDay < startDay) {
+                    this.$Message.error("请选择开始时间之后的日期")
+                    this.params.endTime = ''
+                }
+            }
+            this.pickerChange();
+        },
         // 通过开始时间限制结束时间
         pickerChange (val){
             this.startdisabledHours = []
@@ -688,7 +714,7 @@ export default {
                     this.disabledHours.push(i)
                 }
             }
-            console.log(this.disabledHours);
+            // console.log(this.disabledHours);
         },
         // 返回
         back() {

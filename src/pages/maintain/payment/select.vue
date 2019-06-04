@@ -27,7 +27,7 @@
                             v-for="item in paymentTypeList"
                             :value="item.id"
                             :key="item.id"
-                            
+                            style='text-align:center;'
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>
@@ -44,6 +44,7 @@
                             :value="item.code"
                             :key="item.code"
                             :disabled='item.disabled'
+                            style='text-align:center;'
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>
@@ -59,6 +60,7 @@
                             v-for="item in paymentAccountList"
                             :value="item.appid"
                             :key="item.appid"
+                            style='text-align:center;'
                         >{{item.nick}}</Option>
                     </Select>
                 </FormItem>
@@ -73,6 +75,7 @@
                             v-for="item in transactionTypeList"
                             :value="item.id"
                             :key="item.id"
+                            style='text-align:center;'
                         >{{ item.name }}</Option>
                     </Select>
                 </FormItem>
@@ -88,6 +91,7 @@
                             v-for="item in displayTypeList"
                             :value="item.id"
                             :key="item.id"
+                            style='text-align:center;'
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>

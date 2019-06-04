@@ -111,6 +111,7 @@
                                 :value="item.id"
                                 v-for="item of tabList"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                     </FormItem>

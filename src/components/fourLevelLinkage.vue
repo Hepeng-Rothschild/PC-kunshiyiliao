@@ -8,7 +8,7 @@
             placeholder="省"
             @on-change="changeProvince"
         >
-            <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in provinceList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
         <Select
             class="w-select"
@@ -18,7 +18,7 @@
             placeholder="市"
             @on-change="changeCity"
         >
-            <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in cityList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
         <Select
             class="w-select"
@@ -28,7 +28,7 @@
             placeholder="区"
             @on-change="changeArea"
         >
-            <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in areaList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
         <Select
             class="w-select-hos"
@@ -38,7 +38,7 @@
             placeholder="机构"
             @on-change="changeHospital"
         >
-            <Option v-for="item in hospitalList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in hospitalList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
     </div>
 </template>

@@ -39,6 +39,7 @@
                             v-for="item in medicalList"
                             :value="item.id"
                             :key="item.id"
+                            style='text-align:center;'
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>

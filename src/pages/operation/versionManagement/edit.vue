@@ -35,6 +35,7 @@
                             v-for="item in cityList"
                             :value="item.value"
                             :key="item.value"
+                            style='text-align:center;'
                         >{{ item.label }}</Option>
                     </Select>
                 </FormItem>

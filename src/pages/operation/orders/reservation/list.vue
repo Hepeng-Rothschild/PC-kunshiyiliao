@@ -22,6 +22,7 @@
                             v-for="(item,index) in statusList"
                             :value="index"
                             :key="index"
+                            style='text-align:center'
                         >{{item}}</Option>
                     </Select>
                 </div>
@@ -57,7 +58,7 @@
                 <div class="margin-up-down">
                     <Input class="w-input" v-model="searchKey" placeholder="订单号、医院、科室、医生、就诊人"/>
                     <Select v-model="deptmentValue" clearable style="width:155px" placeholder="请选择科室" >
-                        <Option v-for="item in deptmentList" :value="item.dictName" :key="item.dictType">{{ item.dictName }}</Option>
+                        <Option v-for="item in deptmentList" :value="item.dictName" :key="item.dictType" style='text-align:center'>{{ item.dictName }}</Option>
                     </Select>
                     <Button type="primary" @click="loadPage(1)">
                         <Icon type="ios-search" size="14"/>查询
@@ -104,9 +105,10 @@
                         <Select class="w-select" @on-change='Selectdepartment' v-model="departmentVal" style='width:130px;'>
                             <Option
                                 v-for="(item,index) in departmentList"
-                                :value="item.id"
+                                :value="item.dicId"
                                 :key="index"
-                            >{{item.childDept}}</Option>
+                                style='text-align:center;'
+                            >{{ item.childDept }}</Option>
                         </Select>
                     </h2>
                     <h2 style='margin-top:10px;'>选择替诊医生：
@@ -115,6 +117,7 @@
                                 v-for="(item,index) in doctorList"
                                 :value="item.doctor_id"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item.doctor_name}}</Option>
                         </Select>
                     </h2>
@@ -127,6 +130,7 @@
                                 v-for="(item,index) in closeReason"
                                 :value="index+1"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item}}</Option>
                         </Select>
                         <Input v-model="orderParams.closeReasonInput" type="textarea" :autosize="{minRows: 2,maxRows: 5 }" placeholder="请输入其他原因" maxlength='70' v-show='orderParams.closeReasonSelect == 4'/>
@@ -142,6 +146,7 @@
                                 v-for="(item,index) in departmentList"
                                 :value="item.id"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item.childDept}}</Option>
                         </Select>
                     </h2>
@@ -151,6 +156,7 @@
                                 v-for="(item,index) in doctorList"
                                 :value="item.doctor_id"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item.doctor_name}}</Option>
                         </Select>
                     </h2>
@@ -165,6 +171,7 @@
                                 v-for="(item,index) in closeReason"
                                 :value="index+1"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item}}</Option>
                         </Select>
                         <Input v-model="orderParams.closeReasonInput" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入其他原因" maxlength='70' v-show='orderParams.closeReasonSelect == 4'/>
@@ -443,8 +450,8 @@ export default {
         this.isBack = this.$route.query.isBack
             ? parseInt(this.$route.query.isBack)
             : 1;
-        this.startDate = this.GetDate(-2);
-        // this.startDate='2019-02-07'
+        // this.startDate = this.GetDate(-2);
+        this.startDate='2019-02-07'
         this.endDate = this.GetDate(0);
         let breadList = [
             { path: "/index", title: "首页" },
@@ -552,9 +559,18 @@ export default {
                 this.orderModalTitle = '预约挂号批量替诊变更'
                 this.buttonName = '确认替诊'
                 this.ButtonStyle = 'primary'
+                let flag = this.SelectList.some(item => {
+                    return item.status == 1
+                })
+                
                 if (this.SelectList.length <= 0) {
                     // 当未选中数据不显示弹层
                     this.$Message.error("请选择批量数据")
+                    return ""
+                }
+                if(!flag) {
+                    // 当未选中数据包含无法替诊的数据
+                    this.$Message.error("选择中包含无法批量替诊的数据,请重新选择")
                     return ""
                 }
                 this.Hospitaldepartment(this.hospitalId)
@@ -562,9 +578,18 @@ export default {
                 this.orderModalTitle = '预约挂号批量停诊操作'
                 this.buttonName = '确认停诊'
                 this.ButtonStyle = 'error'
+                let flag = this.SelectList.some(item => {
+                    return item.status == 1
+                })
+                
                 if (this.SelectList.length <= 0) {
                     // 当未选中数据不显示弹层
                     this.$Message.error("请选择批量数据")
+                    return ""
+                }
+                if(!flag) {
+                    // 当未选中数据包含无法替诊的数据
+                    this.$Message.error("选择中包含无法批量停诊的数据,请重新选择")
                     return ""
                 }
             }
@@ -630,15 +655,15 @@ export default {
                 }
                 // 医生信息
                 date.afterDoctorId = this.doctorVal
-                for(let i=0;i<this.doctorList.length;i++) {
-                    if(Number(this.doctorList[i].doctor_id)==Number(this.doctorVal)) {
+                for(let i = 0;i < this.doctorList.length;i++) {
+                    if(Number(this.doctorList[i].doctor_id) == Number(this.doctorVal)) {
                         date.afterDoctorName = this.doctorList[i].doctor_name
                     }
                 }
                 // 科室ID
                 date.departmentId = this.departmentVal;
-                for(let i=0;i<this.departmentList.length;i++) {
-                    if(Number(this.departmentList[i].id)==Number(this.departmentVal)) {
+                for(let i = 0;i < this.departmentList.length;i++) {
+                    if(this.departmentList[i].dicId==this.departmentVal) {
                         date.afterDeptName = this.departmentList[i].childDept
                     }
                 }
@@ -688,7 +713,7 @@ export default {
                 let afterDoctorId = this.doctorVal
                 // 
                 let afterDoctorName = ''
-                for(let s=0;s<this.doctorList.length;s++) {
+                for(let s = 0;s < this.doctorList.length;s++) {
                     if(Number(this.doctorList[s].doctor_id)==Number(this.doctorVal)) {
                         afterDoctorName = this.doctorList[s].doctor_name
                     }
@@ -696,12 +721,12 @@ export default {
                 // 科室信息
                 let departmentId = this.departmentVal;
                 let afterDeptName = ''
-                for(let j=0;j<this.departmentList.length;j++) {
-                    if(Number(this.departmentList[j].id)==Number(this.departmentVal)) {
+                for(let j = 0;j < this.departmentList.length;j++) {
+                    if(this.departmentList[j].dicId == this.departmentVal) {
                         afterDeptName = this.departmentList[j].childDept
                     }
                 }
-                for(let i=0;i<this.SelectList.length;i++) {
+                for(let i = 0;i < this.SelectList.length;i++) {
                     params.push({
                         status:"2",
                         afterDoctorId,

@@ -11,6 +11,7 @@
                         v-for="item in cityList"
                         :value="item.id"
                         :key="item.id"
+                        style='text-align:center'
                     >{{ item.label }}</Option>
                 </Select>
             </div>
@@ -22,6 +23,7 @@
                         v-for="(item,index) in cityLists"
                         :value="item.id"
                         :key="index"
+                        style='text-align:center'
                     >{{ item.label }}</Option>
                 </Select>
             </div>
@@ -31,7 +33,7 @@
             </div>
             <!--搜索按钮-->
             <Button type="primary" icon="ios-search" @click="search">搜索</Button>
-            <Button type="primary" @click="add">新增</Button>
+            <Button type="info" @click="add">新增</Button>
         </div>
         <div class="main">
             <Table stripe :columns="column" :data="tableList" ></Table>

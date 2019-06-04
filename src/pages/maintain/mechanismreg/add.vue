@@ -27,6 +27,7 @@
                                     v-for="item in provList"
                                     :value="item.id"
                                     :key="item.value"
+                                    style='text-align:center;'
                                 >{{ item.name }}</Option>
                             </Select>
                         </FormItem>
@@ -41,6 +42,7 @@
                                     v-for="item in cityList"
                                     :value="item.id"
                                     :key="item.value"
+                                    style='text-align:center;'
                                 >{{ item.city }}</Option>
                             </Select>
                         </FormItem>

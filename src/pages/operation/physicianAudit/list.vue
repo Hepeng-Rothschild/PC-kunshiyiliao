@@ -30,7 +30,7 @@
                         v-for="item in livexsList"
                         :value="item.id"
                         :key="item.id"
-                        
+                        style='text-align:center;'
                     >{{ item.name }}</Option>
                 </Select>
                 <Input
