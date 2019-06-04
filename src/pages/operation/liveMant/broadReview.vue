@@ -60,7 +60,8 @@
                 </div>
                 <div class = 'information_item'>
                     <span>直播封面：</span>
-                    <img :src="params.headImg" alt="">
+                   <img :src="params.headImg" title="点击查看大图" alt="暂无图片" style='cursor:pointer;' @click='modal2=true' v-if='params.headImg'>
+                    <span v-if='!params.headImg'>暂无封面</span>
                 </div>
                 <div class = 'information_item'>
                     <span>预计直播时间：{{params.aboutStartTime}}</span>
@@ -93,23 +94,23 @@
                     <span>折后价格：{{params.discountPrice}}</span>
                 </div>
                 <div class = 'information_item'>
-                    <span>推广力度：{{params.fictitiousNum}}</span>
+                    <span>推广力度：{{params.fictitiousNum ? params.fictitiousNum : '无'}}</span>
                 </div>
             </div>
             <h3>课堂介绍</h3>
             <div class='information'>
                 <span style="display:inline-block;width:72px;">讲堂介绍：</span>
                     <Input
+                    disabled
                         v-model="params.introduce"
                         type="textarea"
-                        placeholder="请简要描述本次直播课堂介绍"
                         :rows="4"
                         style='width:60%;'
                     />
             </div>
             <!-- 不通过原因 -->
             <div class='information' v-if='playStatus == 3 || playStatus == 4 || playStatus == 8'>
-                <span>&nbsp;&nbsp;&nbsp;原因：</span>
+                <span>&nbsp;审核原因：</span>
                     <Input
                         v-model="params.reason"
                         type="textarea"
@@ -127,6 +128,9 @@
             
             <Button @click='reback'>返回</Button>
         </div>
+        <Modal v-model="modal2" width="400" footer-hide>
+            <img :src="params.headImg" alt="" style='display:block;margin:0 auto;'>
+        </Modal>
     </div>
 </template>
 <script>
@@ -134,6 +138,7 @@ import api from "@/api/commonApi";
 export default {
     data () {
         return {
+            modal2:false,
             examineName:"",
             sdate:"",
             sdateName:"00天00小时00分钟00秒",
@@ -189,12 +194,16 @@ export default {
             liveListForm:[
                 {
                     id:"0",
-                    name:"图文直播"
+                    name:"轻直播"
                 },
                 {
                     id:"1",
+                    name:"语音直播"
+                },
+                {
+                    id:"2",
                     name:"视频直播"
-                }
+                },
             ],
             // 课堂类型
             columnList:[],
@@ -374,13 +383,15 @@ export default {
                     this.params.liveType = liveType
                     let type = ''
                     this.columnList.forEach(item =>{
-                        if(Number(item.id) == Number(ret.type)) {
+                        if(Number(item.id) == Number(ret.columnId)) {
                             type = item.name
                         }
                     })
                     this.params.type = type
 
                     this.examineName = ret.auditorName
+                } else {
+                    this.$Message.error("加载详情失败");
                 }
             })
         },

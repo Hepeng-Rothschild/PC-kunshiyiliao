@@ -465,12 +465,16 @@ export default {
             livexsList:[
                 {
                     id:"0",
-                    name:"图文直播"
+                    name:"轻直播"
                 },
                 {
                     id:"1",
+                    name:"语音直播"
+                },
+                {
+                    id:"2",
                     name:"视频直播"
-                }
+                },
             ],
             // 直播对象
             liveObjList:[
@@ -596,7 +600,7 @@ export default {
                         // 标题
                         title: this.params.title,
                         // 课堂类型
-                        type: this.params.type,
+                        columnId: this.params.type,
                         playStatus:"1"
                     }
                     if (params.icharge == 0) {
@@ -660,7 +664,7 @@ export default {
                     console.log(err);
                 });
         },
-        // 结束时间与开始时间不能相同
+        // 通过开始时间限制结束时间
         pickerChange (val){
             this.startdisabledHours = []
             this.disabledHours = []
@@ -677,13 +681,9 @@ export default {
             } else {
                 this.startdisabledHours = []
             }
-            
             let disTime = this.params.startTimers.split(":")[0]
-            
+            this.disabledHours = []
             if(this.getData(this.params.startTime) == this.getData(this.params.endTime)) {
-                console.log("触发了");
-                this.disabledHours = []
-                console.log(disTime);
                 for(let i=0;i <= disTime;i++){
                     this.disabledHours.push(i)
                 }

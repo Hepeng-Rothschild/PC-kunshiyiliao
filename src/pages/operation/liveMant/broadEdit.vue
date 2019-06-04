@@ -29,6 +29,7 @@
                             @on-change ='pickerChange'
                              :disabled-hours="startdisabledHours"
                             hide-disabled-options
+                            format="HH:mm"
                         ></TimePicker>
                     </FormItem>
                 </div>
@@ -52,6 +53,7 @@
                             v-model="params.endTimers"
                             :disabled-hours="disabledHours"
                             hide-disabled-options
+                            format="HH:mm"
                         ></TimePicker>
                     </FormItem>
                 </div>
@@ -463,12 +465,16 @@ export default {
             livexsList:[
                 {
                     id:"0",
-                    name:"图文直播"
+                    name:"轻直播"
                 },
                 {
                     id:"1",
+                    name:"语音直播"
+                },
+                {
+                    id:"2",
                     name:"视频直播"
-                }
+                },
             ],
             // 直播对象
             liveObjList:[
@@ -559,7 +565,7 @@ export default {
                 this.disabledHours.push(i)
             }
         },
-        // 结束时间与开始时间不能相同
+        /// 通过开始时间限制结束时间
         pickerChange (val){
             this.startdisabledHours = []
             this.disabledHours = []
@@ -623,7 +629,7 @@ export default {
                         // 标题
                         title: this.params.title,
                         // 课堂类型
-                        type: this.params.type,
+                        columnId: this.params.type,
                         playStatus:"3"
                     }
                     if (params.icharge == 0) {
@@ -736,6 +742,8 @@ export default {
 
                     let aboutEndTime = ret.aboutStartTime.split(" ");
                     let liveStartTime = ret.aboutEndTime.split(" ")
+                    console.log(aboutEndTime);
+                    console.log(liveStartTime);
                         // 结束时间
                     this.params.endTime = liveStartTime[0];
                     this.params.endTimers = liveStartTime[1];
@@ -764,7 +772,7 @@ export default {
                             url: this.fileBaseUrl + this.pictureFormat(ret.headImg)
                         });
                     }
-                    console.log(ret);
+                    console.log(this.params);
                         // 医院ID
                     this.doctorhospitaid = ret.hospitalId
                         // 是否付费
@@ -778,7 +786,7 @@ export default {
                     // 直播对象
                     // this.params.liveObj = String(ret.liveType)
                         // 课堂类型
-                    this.params.type = String(ret.type)
+                    this.params.type = String(ret.columnId)
                         // 原始价格
                     this.params.oldPrice = ret.originalPrice
                     

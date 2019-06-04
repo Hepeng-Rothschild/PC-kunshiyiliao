@@ -178,6 +178,14 @@ const downloadTxt = '/operateapi/organizationdownloadtemplate';  //批量上传�
 const orderManageAppointRegistList = '/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
 const ordermanagementlistbyremoteorder = '/operateapi/ordermanagementlistbyremoteorder';  //远程问诊订单管理
 const ordermanagementselectbyremoteclinicid = '/operateapi/ordermanagementselectbyremoteclinicid';  //远程问诊订单详情
+const querybyorderid = '/operateapi/appointmentrecordquerybyorderid'  //预约挂号详情
+const cordreport  = '/operateapi/appointmentrecordreport' //预约挂号报到
+const replacedoctor = '/operateapi/appointmentrecordreplacedoctor' //预约挂号替诊
+const closeappointment = '/operateapi/appointmentrecordcloseappointment' //预约挂号停诊
+const hospitalidanddepartmentid = '/operateapi/appointmentrecordquerydoctorbyhospitalidanddepartmentid'  //预约挂号通过科室查询医生
+const querydeptname = '/operateapi/appointmentrecordquerydeptname' //查询所有的科室
+const cordwriteexcel= '/operateapi/appointmentrecordwriteexcel'  //导出数据
+
 
 //服务项目管理
 const fdspackageitempage = '/operateapi/fdspackageitempage';  //服务项目列表
@@ -491,6 +499,13 @@ let production = {
     orderManageAppointRegistList,
     ordermanagementlistbyremoteorder,
     ordermanagementselectbyremoteclinicid,
+    querybyorderid,
+    cordreport,
+    replacedoctor,
+    closeappointment,
+    hospitalidanddepartmentid,
+    querydeptname,
+    cordwriteexcel,
 
     //服务项目管理
     fdspackageitempage,

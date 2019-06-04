@@ -1,45 +1,17 @@
 <template>
     <div class="addNews">
-        <!--<tmpHeader />-->
-        <div class="main">
-            <!--新闻标题-->
-            <div class="main_title">
-                <div class="main_title_info">
-                    <span style="color:red;">*&nbsp;&nbsp;</span>
-                    <span>新闻标题</span>
-                </div>
-                <div class="input">
-                    <Input
-                        v-model.trim="title"
-                        placeholder="请输入新闻标题"
-                        style="width: 350px"
-                        :maxlength="30"
-                    />
-                    <span>{{ title.length }}/30</span>
-                </div>
-            </div>
-            <!-- 副标题 -->
-            <div class="main_title">
-                <div class="main_title_info">
-                    <span style="color:red;">*&nbsp;&nbsp;</span>
-                    <span>副标题</span>
-                </div>
-                <div class="input">
-                    <Input
-                        v-model.trim="titles"
-                        placeholder="请输入新闻副标题"
-                        style="width: 350px"
-                        :maxlength="30"
-                    />
-                    <span>{{ titles.length }}/30</span>
-                </div>
-            </div>
-            <!--添加大图-->
-            <div class="main_imgs">
-                <div class="main_title_info">
-                    <span style="color:red;">&nbsp;&nbsp;</span>
-                    <span>添加首图</span>
-                </div>
+        <h2 style='margin:20px 0;font-weight:bold;'>修改内容管理</h2>
+        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" >
+            <!-- 新闻标题 -->
+            <FormItem label="新闻标题" prop="title">
+                <Input v-model.trim="formValidate.title" placeholder="请输入新闻标题" style="width: 350px" :maxlength="30"/>
+            </FormItem>
+            <!-- 副酷暑 -->
+            <FormItem label="副标题" prop="synopsis">
+                <Input v-model.trim="formValidate.synopsis" placeholder="请输入新闻副标题" style="width: 350px" :maxlength="30"/>
+            </FormItem>
+            <!-- 小图 -->
+            <FormItem label="列表小图" >
                 <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
                     <div v-if="item.status === 'finished'">
                         <img :src="fileBaseUrl + item.url">
@@ -77,15 +49,10 @@
                 <Modal title="预览图片" v-model="visible" footer-hide>
                     <img :src="preview" v-if="visible" style="width: 100%">
                 </Modal>
-                <p>添加标题首图</p>
-            </div>
-            <!--栏目-->
-            <div class="lanmu">
-                <div class="listImgTitle">
-                    <span style="color:red;">*&nbsp;&nbsp;</span>
-                    <span>栏目</span>
-                </div>
-                <Select v-model="select" style="width:120px" >
+            </FormItem>
+            <!-- 栏目 -->
+            <FormItem label="栏目" prop="ids">
+                <Select v-model="formValidate.ids" style="width:100px">
                     <Option :value="1" :key="1">头条</Option>
                     <Option :value="2" :key="2">今日热点</Option>
                     <Option :value="3" :key="3">医学前沿</Option>
@@ -93,55 +60,38 @@
                     <Option :value="5" :key="5">科普</Option>
                     <Option :value="6" :key="6">决策者说</Option>
                 </Select>
-            </div>
-            <!--新闻内容-->
-            <div class="main_content">
-                <div class="main_title_info">
-                    <span style="color:red;">*&nbsp;&nbsp;</span>
-                    <span>新闻内容</span>
+            </FormItem>
+            <!-- 排序 -->
+            <FormItem label="排序" prop="priority">
+                <Input v-model.trim="formValidate.priority" style="width: 100px"/>
+                <span>备注：只能填写数字，1代表置顶以此类推</span>
+            </FormItem>
+            <!-- 新闻内容 -->
+            <FormItem label="新闻内容" >
+                <div class="articletext">
+                <vueEditor
+                    id="analysis"
+                    :textHtml="info.content"
+                    :urlCode="urlCode"
+                    @valueHandle="afterChange"
+                    :height='100'
+                    style='margin:0;'
+                ></vueEditor>
                 </div>
-                <div class="shuru">
-                    <vueEditor
-                        id="contentEdit"
-                        :textHtml="info.content"
-                        :urlCode="urlCode"
-                        @valueHandle="afterChange"
-                    ></vueEditor>
-                </div>
-            </div>
-            <!--新闻来源-->
-            <div class="main_source">
-                <div class="main_title_info">
-                    <span style="color:red;">&nbsp;&nbsp;</span>
-                    <span>新闻来源</span>
-                </div>
-                <Input v-model.trim="isource" placeholder="请输入新闻的来源,未填写显示未知" style="width: 400px"/>
-            </div>
-            <!--排序-->
-            <div class="main_sort">
-                <div class="main_title_info">
-                    <span style="color:red;">&nbsp;&nbsp;</span>
-                    <span>排序</span>
-                </div>
-                <Input v-model.trim="isort" style="width: 100px"/>
-                <p>备注:只能填写数字,1代表置顶以此类推</p>
-            </div>
-            <!--是否显示-->
-            <div class="main_ishow">
-                <div class="main_title_info">
-                    <span style="color:red;">&nbsp;&nbsp;</span>
-                    <span>是否发布</span>
-                </div>
-                <iSwitch v-model="switch1" size="large">
+            </FormItem>
+            <FormItem label="新闻来源">
+                <Input v-model.trim="formValidate.source" style="width: 100px"/>
+            </FormItem>
+            <FormItem label="是否发布">
+                <iSwitch v-model="formValidate.enable" size="large">
                     <span slot="open">开启</span>
                     <span slot="close">关闭</span>
                 </iSwitch>
-            </div>
-            <!--保存-->
-            <div class="save">
-                <Button type="primary" @click="save">保存</Button>
-                <Button @click="back">取消</Button>
-            </div>
+            </FormItem>
+        </Form>
+        <div class="save">
+            <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
+            <Button @click="back">取消</Button>
         </div>
     </div>
 </template>
@@ -158,34 +108,38 @@ export default {
     },
     data() {
         return {
-            title: "",
-            isort: "",
-            isource: "",
-            id: "tinymce-editor",
-            height: 200,
-            defaultList: [],
             imgName: "",
             id: sessionStorage.getItem("hospitalId"),
             info: {
                 content: ""
             },
-            select: "-1",
-
+            formValidate:{
+                title: "",
+                synopsis: "",
+                ids:"",
+                priority: "",
+                source: "",
+                enable: false,
+            },
+            ruleValidate:{
+                title: [{ required: true, message: '请输入新闻标题', trigger: 'blur' }],
+                synopsis: [{ required: true, message: '请输入新闻副标题', trigger: 'blur' }],
+                ids: [{ required: true, message: '请选择新闻栏目', trigger: 'change', type:"number" }],
+                priority: [{ required: true, message: '请输入新闻排序', trigger: 'blur' }],
+            },
+            // 上传图片相关
             visible: false,
             uploadList: [],
             switch1: false,
-
+            defaultList: [],
             uploadData: {
                 json: '{"urlCode":"' + code.urlCode.patientNews + '"}'
             },
             activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
             uploadUrl: api.fileAll,
-
             urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
-
             images: "",
             source: "",
-            titles: "",
             preview: ""
         };
     },
@@ -215,7 +169,6 @@ export default {
                     if (res.data.code) {
                         let ret = res.data.object;
                         let detail = ret.operateArticle;
-
                         if (detail.cover) {
                             this.uploadList = [];
                             this.source = detail.cover;
@@ -231,15 +184,15 @@ export default {
                                 this.fileBaseUrl +
                                 this.analysisImages(detail.cover);
                         }
-                        this.select = ret.columnId;
-                        //标题
-                        this.title = detail.title;
-                        this.titles = detail.synopsis || "";
-                        this.isource = detail.source;
-                        this.num = detail.priority;
-                        this.switch1 = Boolean(detail.enable);
-                        this.isort = detail.priority;
+
                         this.info.content = detail.content;
+                        this.formValidate.ids = ret.columnId;
+                        this.formValidate.title = detail.title;
+                        this.formValidate.synopsis = detail.synopsis;
+                        this.formValidate.priority = detail.priority.toString();
+                        this.formValidate.content = detail.content;
+                        this.formValidate.source = detail.source;
+                        this.formValidate.enable = Boolean(detail.enable);
                     }
                 });
         }
@@ -259,6 +212,9 @@ export default {
             file.url = res.object[0].fileName;
             this.images = JSON.stringify(res.object[0]);
             file.name = res.object[0].fileName;
+            if(this.uploadList.length > 0) {
+                return ""
+            }
             this.uploadList.push({
                 name: "a42bdcc1178e62b4694c830f028db5c0",
                 percentage: 100,
@@ -290,71 +246,65 @@ export default {
             );
         },
         // 保存
-        save() {
-            let query = this.$route.query;
-            let images = "";
-            if (this.images && this.uploadList.length) {
-                images = this.images;
-            } else if (this.uploadList.length) {
-                images = this.source;
-            } else {
-                images = "";
-            }
+        handleSubmit(name) {
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    let query = this.$route.query;
+                    let images = "";
+                    if (this.images && this.uploadList.length) {
+                        images = this.images;
+                    } else if (this.uploadList.length) {
+                        images = this.source;
+                    } else {
+                        images = "";
+                    }
 
-            let params = {
-                //栏目
-                ids: [this.select],
-                operateArticle: {
-                    //标题
-                    title: this.title.trim(),
-                    // 副标题
-                    synopsis: this.titles.trim(),
-                    //图片
-                    cover: images,
-                    //排序
-                    priority: this.isort,
-                    //内容
-                    content: this.info.content,
-                    //来源
-                    source: this.isource,
-                    //显示
-                    enable: Number(this.switch1),
-                    //新闻资讯ID
-                    id: this.$route.query.id
-                }
-            };
-            if (this.title == "") {
-                this.$Message.error("新闻标题不能为空");
-            } else if (this.titles == "") {
-                this.$Message.error("新闻副标题不能为空");
-            } else if (this.select == "") {
-                this.$Message.error("栏目不能为空");
-            } else if (this.isort == "") {
-                this.$Message.error("排序不能为空");
-            } else if (this.info.content == "") {
-                this.$Message.info("新闻内容不能为空");
-            } else {
-                this.$axios
-                    .post(api.changeWrap, params)
-                    .then(res => {
-                        if (res.data.code) {
-                            this.$Message.info("修改成功");
-                            let pageNo = this.$route.query.pageNo;
-                            setTimeout(() => {
-                                this.functionJS.queryNavgationTo(
-                                    this,
-                                    "/index/operation/contentmanagement_home",
-                                    query
-                                );
-                            }, 800);
-                        } else {
-                            this.$Message.info("修改失败请重试");
+                    let params = {
+                        //栏目
+                        ids: [this.formValidate.ids],
+                        operateArticle: {
+                            //标题
+                            title: this.formValidate.title.trim(),
+                            // 副标题
+                            synopsis: this.formValidate.synopsis.trim(),
+                            //图片
+                            cover: images,
+                            //排序
+                            priority: this.formValidate.priority,
+                            //内容
+                            content: this.info.content,
+                            //来源
+                            source: this.formValidate.source,
+                            //显示
+                            enable: Number(this.formValidate.enable),
+                            //新闻资讯ID
+                            id: this.$route.query.id
                         }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }
+                    };
+                    if (this.info.content == "") {
+                        this.$Message.info("新闻内容不能为空");
+                    } else {
+                        this.$axios
+                            .post(api.changeWrap, params)
+                            .then(res => {
+                                if (res.data.code) {
+                                    this.$Message.info("修改成功");
+                                    setTimeout(() => {
+                                        this.back()
+                                    }, 800);
+                                } else {
+                                    this.$Message.info("修改失败请重试");
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    }
+                } else {
+                    this.$Message.error('请完整必款项!');
+                }
+            })
+            
         },
         afterChange(val) {
             this.info.content = val;
@@ -413,134 +363,5 @@ export default {
     padding: 10px 30px;
     margin: 0 auto;
     background: #fff;
-    .main {
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        margin: 10px auto;
-        padding: 30px 0;
-        .main_title {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            margin: 10px auto;
-            height: 30px;
-            line-height: 30px;
-            .main_title_info {
-                min-width: 100px;
-            }
-            .input {
-                position: relative;
-                width: 400px;
-                input {
-                    display: inline-block;
-                    width: 100%;
-                    outline: none;
-                }
-                span {
-                    position: absolute;
-                    right: 10px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
-            }
-        }
-        .main_imgs {
-            display: flex;
-            flex-direction: row;
-            margin: 10px auto;
-            height: 100px;
-            align-items: center;
-            width: 100%;
-            .main_title_info {
-                min-width: 100px;
-            }
-            p {
-                margin-left: 15px;
-            }
-        }
-        .main_content {
-            display: flex;
-            flex-direction: row;
-            margin: 10px auto;
-            width: 100%;
-            .main_title_info {
-                min-width: 100px;
-            }
-            .shuru {
-                div {
-                    margin: 0;
-                }
-            }
-        }
-        .lanmu {
-            margin: 10px 0;
-            display: flex;
-            flex-direction: row;
-            line-height: 30px;
-            .listImgTitle {
-                width: 100px;
-                margin-right: 10px;
-            }
-        }
-        .main_source {
-            display: flex;
-            flex-direction: row;
-            margin: 10px auto;
-            width: 100%;
-            .main_title_info {
-                min-width: 100px;
-            }
-            input {
-                width: 400px;
-                outline: none;
-            }
-        }
-        .main_sort {
-            display: flex;
-            flex-direction: row;
-            margin: 10px auto;
-            width: 100%;
-            .main_title_info {
-                min-width: 100px;
-            }
-            input {
-                width: 100px;
-                outline: none;
-            }
-            p {
-                margin: 0 15px;
-            }
-        }
-        .main_ishow {
-            display: flex;
-            flex-direction: row;
-            margin: 10px auto;
-            width: 100%;
-            .main_title_info {
-                min-width: 100px;
-            }
-        }
-        .save {
-            width: 200px;
-            height: 30px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            margin: 0 auto;
-            div:first-child {
-                background: #359aff;
-            }
-            div {
-                width: 80px;
-                height: 30px;
-                background: #c9c9c9;
-                border-radius: 20px;
-                text-align: center;
-                line-height: 30px;
-                color: #fff;
-            }
-        }
-    }
 }
 </style>

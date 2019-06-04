@@ -89,7 +89,7 @@
 					<div class="region">
 						<div class="left">
 							<span style="color:red;">*</span>
-							<span>机构类型</span>
+							<span>机构类型：</span>
 						</div>
 						<!-- 医院 -->
 						<FormItem prop="hospitalType">
@@ -109,7 +109,7 @@
 					<div class="region">
 						<div class="left">
 							<span style="color:red;">*</span>
-							<span>机构等级</span>
+							<span>机构等级：</span>
 						</div>
 						<!-- 医院等级 -->
 						<FormItem prop="grade">
@@ -125,8 +125,8 @@
 					<!-- 机构电话 -->
 					<div class="address">
 						<div class="left">
-							<span style="color:red;">&nbsp;</span>
-							<span>机构电话:</span>
+							<span style="color:red;"></span>
+							<span  style='margin-left:15px;'>机构电话：</span>
 						</div>
 						<FormItem prop="telephone">
 							<Input
@@ -141,8 +141,8 @@
 					<!-- 机构联系人 -->
 					<div class="address">
 						<div class="left">
-							<span style="color:red;">&nbsp;</span>
-							<span>机构联系人:</span>
+							<span style="color:red;"></span>
+							<span style='margin-left:15px;'>机构联系人：</span>
 						</div>
 						<FormItem prop="linkman">
 							<Input v-model.trim="formValidate.linkman" placeholder="请输入机构联系人姓名" clearable style="width: 300px"/>
@@ -151,8 +151,8 @@
 					<!-- 联系人电话 -->
 					<div class="address">
 						<div class="left">
-							<span style="color:red;">&nbsp;</span>
-							<span>联系人电话:</span>
+							<span style="color:red;"></span>
+							<span  style='margin-left:15px;'>联系人电话：</span>
 						</div>
 						<FormItem prop="linkmanTelephone">
 							<Input

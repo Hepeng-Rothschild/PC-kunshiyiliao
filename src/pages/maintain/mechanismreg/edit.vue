@@ -13,7 +13,7 @@
                     <div class="region">
                         <div class="left">
                             <span style="color:red;">*</span>
-                            <span>区域</span>
+                            <span>区域：</span>
                         </div>
                         <!-- 省 -->
                         <FormItem prop="provinceCode">
@@ -48,7 +48,7 @@
 					<div class="address">
 						<div class="left">
 							<span style="color:red;">*</span>
-							<span>机构名称:</span>
+							<span>机构名称：</span>
 						</div>
 						<FormItem prop="orgName" >
 							<Input v-model.trim="formValidate.orgName" placeholder="请输入机构名称" clearable style="width: 300px"></Input>
@@ -58,7 +58,7 @@
 					<div class="address">
 						<div class="left">
 							<span style="color:red;">*</span>
-							<span>详细地址:</span>
+							<span>详细地址：</span>
 						</div>
 						<FormItem prop="hosAddr" >
 							<Input v-model.trim="formValidate.hosAddr" placeholder="请填写详细的地址:省、市、区" clearable style="width: 300px"></Input>
@@ -68,7 +68,7 @@
 					<div class="address">
 						<div class="left">
 							<span style="color:red;">*</span>
-							<span>机构组织编码:</span>
+							<span>机构组织编码：</span>
 						</div>
 						<FormItem  prop="orgCode" >
 							<Input v-model.trim="formValidate.orgCode" placeholder="请输入医疗组织机构代码" clearable style="width: 300px"></Input>
@@ -78,7 +78,7 @@
 					<div class="region">
 						<div class="left">
 							<span style="color:red;">*</span>
-							<span>机构类型</span>
+							<span>机构类型：</span>
 						</div>
 						<!-- 医院 -->
 						<FormItem prop="hospitalType">
@@ -91,7 +91,7 @@
 					<div class="region">
 						<div class="left">
 							<span style="color:red;">*</span>
-							<span>机构等级</span>
+							<span>机构等级：</span>
 						</div>
 						<!-- 医院等级 -->
 						<FormItem prop="grade">
@@ -107,8 +107,8 @@
 					<!-- 机构联系人 -->
 					<div class="address">
 						<div class="left">
-							<span style="color:red;">&nbsp;</span>
-							<span>机构联系人:</span>
+							<span style="color:red;"></span>
+							<span style='margin-left:15px;'>机构联系人：</span>
 						</div>
 						<FormItem prop="linkman">
 							<Input v-model.trim="formValidate.linkman" placeholder="请输入机构联系人姓名" clearable style="width: 300px"/>
@@ -117,8 +117,8 @@
 					<!-- 联系人电话 -->
 					<div class="address">
 						<div class="left">
-							<span style="color:red;">&nbsp;</span>
-							<span>联系人电话:</span>
+							<span style="color:red;"></span>
+							<span style='margin-left:15px;'>联系人电话：</span>
 						</div>
 						<FormItem prop="linkmanTelephone">
 							<Input

@@ -1,54 +1,69 @@
 <template>
     <div class="login">
-        <div class="box">
-            <div class="title">互联网医院管理系统V{{$store.state.version}}</div>
-            <div class="uname-box">
-                <input
-                    type="text"
-                    class="username"
-                    @change="checkInput"
-                    v-model="username"
-                    placeholder="用户账号"
-                    ref="username"
-                >
-            </div>
-            <div class="pwd-box">
-                <input
-                    autocomplete="new-password"
-                    type="password"
-                    class="password"
-                    @change="checkInput"
-                    v-model="password"
-                    placeholder="登陆密码"
-                >
-            </div>
-            <div class="verify-box">
-                <div class="verify-in-box">
+        <div class="wrapper">
+            <div class="box">
+                <div class="title">互联网医院管理系统V{{$store.state.version}}</div>
+                <div class="uname-box">
                     <input
                         type="text"
-                        class="verify"
-                        v-model="verify"
-                        placeholder="验证码"
-                        @keyup.enter="checkLogin"
+                        class="username"
+                        @change="checkInput"
+                        v-model="username"
+                        placeholder="请输入用户账号"
+                        ref="username"
                     >
-                    <div id="verify">
-                        <canvas id="verifyCanvas" style="cursor: pointer;"></canvas>
+                </div>
+                <div class="pwd-box">
+                    <input
+                        autocomplete="new-password"
+                        type="password"
+                        class="password"
+                        @change="checkInput"
+                        v-model="password"
+                        placeholder="请输入登陆密码"
+                    >
+                </div>
+                <div class="verify-box">
+                    <div class="verify-in-box">
+                        <input
+                            type="text"
+                            class="verify"
+                            v-model="verify"
+                            placeholder="验证码"
+                            @keyup.enter="checkLogin"
+                        >
+                        <div id="verify">
+                            <canvas id="verifyCanvas" style="cursor: pointer;"></canvas>
+                        </div>
                     </div>
                 </div>
+                <div class="notice-box" :class="noticeClassColor">
+                    <i :class="iconClass">{{iconText}}</i>
+                    &nbsp;&nbsp;{{alertMsg}}
+                    <!-- <i class="success-icon">ok</i>&nbsp;&nbsp;登陆成功 -->
+                </div>
+                <div class="btn-box">
+                    <button class="login-btn" @click="checkLogin">登陆</button>
+                </div>
             </div>
-            <div class="notice-box" :class="noticeClassColor">
-                <i :class="iconClass">{{iconText}}</i>
-                &nbsp;&nbsp;{{alertMsg}}
-                <!-- <i class="success-icon">ok</i>&nbsp;&nbsp;登陆成功 -->
-            </div>
-            <div class="btn-box">
-                <button class="login-btn" @click="checkLogin">登陆</button>
-            </div>
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
         </div>
     </div>
 </template>
 <script>
 require("@/plugins/gVerify.js");
+require ("@/plugins/jquery-2.1.1.min.js")
 import api from "@/api/commonApi";
 import axios from "axios";
 import cookie from "../../utils/cookie.js";
@@ -403,32 +418,67 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import url('../../assets/css/loginBg.css');
 .login {
     width: 100%;
     height: 100%;
-    background: #f5f5f5;
+    // background: #50a3a2;
     position: absolute;
     .box {
         width: 480px;
         height: 380px;
-        margin: 10% auto;
-        background: rgba(102, 102, 102, 1);
+        margin: 0 auto;
+        // background: rgba(102, 102, 102, .4);
+        background:gray;
         border-radius: 5px;
         padding: 20px;
         text-align: center;
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-left:-240px;
+        transform: translateY(-50%);
+        z-index:99;
         line-height: 40px;
+        // border:1px solid #fff;
         div {
             margin: 15px 0;
             width: 100%;
             height:40px;
+            // input {
+            //     width: 80%;
+            //     height:40px;
+            //     box-sizing: border-box;
+            //     padding: 0 15px;
+            //     margin: 0 0;
+            //     outline: none;
+            //     border: 0;
+            // }
             input {
-                width: 80%;
-                height:40px;
-                box-sizing: border-box;
-                padding: 0 15px;
-                margin: 0 0;
-                outline: none;
-                border: 0;
+                -webkit-appearance: none;
+                    -moz-appearance: none;
+                        appearance: none;
+                outline: 0;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                background-color: rgba(255, 255, 255, 0.2);
+                width: 250px;
+                border-radius: 3px;
+                margin: 0 auto 10px auto;
+                display: block;
+                text-align: center;
+                font-size: 18px;
+                color: white;
+                -webkit-transition-duration: 0.25s;
+                        transition-duration: 0.25s;
+                font-weight: 300;
+                }
+            input:hover {
+                background-color: rgba(255, 255, 255, 0.4);
+            }
+            input:focus {
+                background-color: white;
+                width: 300px;
+                color: red;
             }
         }
         .title {
@@ -442,7 +492,8 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 .verify {
-                    width: 55%;
+                    width: 31%;
+                    height:40px;
                 }
                 #verify {
                     width: 40%;
@@ -490,15 +541,16 @@ export default {
         .btn-box {
             text-align: center;
             .login-btn {
-                width: 80%;
+                width: 50%;
                 font-size: 22px;
-                color: #fff;
+                // color: #fff;
                 outline: none;
                 border: 0;
-                background: #689aff;
+                background: #fff;
                 border-radius: 5px;
             }
         }
     }
 }
+
 </style>

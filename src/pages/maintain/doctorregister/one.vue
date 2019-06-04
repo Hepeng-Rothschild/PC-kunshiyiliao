@@ -64,6 +64,7 @@ export default {
         .then(res => {
           if (res.data.code) {
             let ret = res.data;
+            console.log(ret);
             window.open(ret.message);
           }
         });

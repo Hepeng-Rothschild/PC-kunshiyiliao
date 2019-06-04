@@ -1,6 +1,7 @@
 import store from '@/store';
 import cookie from '@/utils/cookie.js';
 import aesUtils from '@/plugins/aes-utils.js';
+import Vue from 'vue'
 //生成AddDayCount天之前/之后的年月日
 export function GetDate(AddDayCount = 0) {
   var dd = new Date();
@@ -101,4 +102,13 @@ export function checkFlash() {
     }  
   }  
   return { f: hasFlash, v: flashVersion };  
+}
+
+export function packageAxios(_this,url,params,callback,fileback){
+  
+  _this.$axios.post(url,params).then(res =>{
+      callback(res)
+  }).catch(err=>{
+    fileback(err)
+  })
 }

@@ -83,25 +83,25 @@
                             ></TimePicker>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.oneAm"></InputNumber>
+                            <InputNumber :max="topLength" :min="0" v-model="params.oneAm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.twoAm"></InputNumber>
+                            <InputNumber :max="topLength" :min="0" v-model="params.twoAm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.threeAm"></InputNumber>
+                            <InputNumber :max="topLength" :min="0" v-model="params.threeAm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.fourAm"></InputNumber>
+                            <InputNumber :max="topLength" :min="0" v-model="params.fourAm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.fiveAm"></InputNumber>
+                            <InputNumber :max="topLength" :min="0" v-model="params.fiveAm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.sixAm"></InputNumber>
+                            <InputNumber :max="topLength" :min="0" v-model="params.sixAm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.sevenAm"></InputNumber>
+                            <InputNumber :max="topLength" :min="0" v-model="params.sevenAm"></InputNumber>
                         </td>
                     </tr>
                     <tr>
@@ -120,25 +120,25 @@
                             ></TimePicker>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.onePm"></InputNumber>
+                            <InputNumber :max="botLength" :min="0" v-model="params.onePm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.twoPm"></InputNumber>
+                            <InputNumber :max="botLength" :min="0" v-model="params.twoPm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.threePm"></InputNumber>
+                            <InputNumber :max="botLength" :min="0" v-model="params.threePm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.fourPm"></InputNumber>
+                            <InputNumber :max="botLength" :min="0" v-model="params.fourPm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.fivePm"></InputNumber>
+                            <InputNumber :max="botLength" :min="0" v-model="params.fivePm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.sixPm"></InputNumber>
+                            <InputNumber :max="botLength" :min="0" v-model="params.sixPm"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber :max="8" :min="0" v-model="params.sevenPm"></InputNumber>
+                            <InputNumber :max="botLength" :min="0" v-model="params.sevenPm"></InputNumber>
                         </td>
                     </tr>
                 </table>
@@ -181,6 +181,8 @@ export default {
                 { id: 15, name: "15分钟" },
                 { id: 10, name: "10分钟" }
             ],
+            topLength: 8,
+            botLength: 8,
             //   预约周期
             cycle: 7,
             cycleList: [
@@ -384,6 +386,7 @@ export default {
                 } else {
                     this.topLength = null;
                 }
+                
                 this.params.oneAm = this.topLength;
                 this.params.twoAm = this.topLength;
                 this.params.threeAm = this.topLength;
@@ -404,27 +407,28 @@ export default {
                     return "";
                 }
                 if (Boolean(count)) {
-                    this.topLength = parseInt(count / this.time);
+                    this.botLength = parseInt(count / this.time);
                 } else {
-                    this.topLength = null;
+                    this.botLength = null;
                 }
-                this.params.onePm = this.topLength;
-                this.params.twoPm = this.topLength;
-                this.params.threePm = this.topLength;
-                this.params.fourPm = this.topLength;
-                this.params.fivePm = this.topLength;
-                this.params.sixPm = this.topLength;
-                this.params.sevenPm = this.topLength;
+                this.params.onePm = this.botLength;
+                this.params.twoPm = this.botLength;
+                this.params.threePm = this.botLength;
+                this.params.fourPm = this.botLength;
+                this.params.fivePm = this.botLength;
+                this.params.sixPm = this.botLength;
+                this.params.sevenPm = this.botLength;
+                console.log(this.topLength,this.botLength);
             }
         },
         // 选择上午时间
         changeTime(val) {
             this.value2 = val;
             if (Boolean(this.value2)) {
-                let m1 = Number(this.value2[0].split(":")[1]);
-                let s1 = this.value2[0].split(":")[0] * 60 + m1;
-                let m2 = Number(this.value2[1].split(":")[1]);
-                let s2 = this.value2[1].split(":")[0] * 60 + m2;
+                let m1 = Number(val[0].split(":")[1]);
+                let s1 = val[0].split(":")[0] * 60 + m1;
+                let m2 = Number(val[1].split(":")[1]);
+                let s2 = val[1].split(":")[0] * 60 + m2;
                 let count = s2 - s1;
                 if (count < this.time) {
                     this.$Message.info("开始时间与结束时间不能相同");
@@ -448,27 +452,26 @@ export default {
         changeTime1(val) {
             this.value3 = val;
             if (Boolean(this.value3)) {
-                let m1 = Number(this.value3[0].split(":")[1]);
-                let s1 = this.value3[0].split(":")[0] * 60 + m1;
-                let m2 = Number(this.value3[1].split(":")[1]);
-                let s2 = this.value3[1].split(":")[0] * 60 + m2;
-                let count = s2 - s1;
+                let m1 = Number(val[0].split(":")[1]);
+                let s1 = val[0].split(":")[0] * 60 + m1;
+                let m2 = Number(val[1].split(":")[1]);
+                let s2 = val[1].split(":")[0] * 60 + m2;
                 if (count < this.time) {
                     this.$Message.info("开始时间与结束时间不能相同");
                     return "";
                 }
                 if (Boolean(count)) {
-                    this.topLength = parseInt(count / this.time);
+                    this.botLength = parseInt(count / this.time);
                 } else {
-                    this.topLength = null;
+                    this.botLength = null;
                 }
-                this.params.onePm = this.topLength;
-                this.params.twoPm = this.topLength;
-                this.params.threePm = this.topLength;
-                this.params.fourPm = this.topLength;
-                this.params.fivePm = this.topLength;
-                this.params.sixPm = this.topLength;
-                this.params.sevenPm = this.topLength;
+                this.params.onePm = this.botLength;
+                this.params.twoPm = this.botLength;
+                this.params.threePm = this.botLength;
+                this.params.fourPm = this.botLength;
+                this.params.fivePm = this.botLength;
+                this.params.sixPm = this.botLength;
+                this.params.sevenPm = this.botLength;
             }
         },
         // 远程门诊类型

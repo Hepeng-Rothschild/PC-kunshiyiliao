@@ -9,7 +9,7 @@
             <div class="fuwu">
                 <!--线上服务-->
                 <div class="xsfw" v-for="(item,index) of allServerList" :key='index'>
-                    <p>{{ item.name }}</p>
+                    <h2 style='font-weight:bold;'>{{ item.name }}</h2>
                     <!--第一行-->
                     <div class="select_wufu" ref="all">
                         <template v-if="editFlag">

@@ -46,6 +46,17 @@ export default new VueRouter({
 					component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa/jump')
 				},
 				//运营端路由
+				//订单管理
+				operation.ordersManagement,
+				// 预约挂号订单
+				operation.reservationOrders,
+				// 家医签约管理
+				operation.contractManagement,
+				// 远程门诊订单
+				operation.remoteClinicOrders,
+				// 远程门诊订单详情
+				operation.remoteClinicOrdersDetail,
+				// 医生端运营
 				operation.doctorManagement,
 				operation.reviewList,
 				operation.reviewEdit,
@@ -56,6 +67,10 @@ export default new VueRouter({
 				operation.registerNormalDetail,
 				operation.registerSegmentationDetail,
 				operation.uploaddemo,
+				operation.doctorGroup,
+				operation.doctorAdd,
+				operation.doctorReview,
+				operation.doctorEdit,
 
 				operation.contentmanagementHome,
 				operation.contentmanagementAdd,
@@ -112,12 +127,7 @@ export default new VueRouter({
 				operation.physicianAudit,
 				operation.physicianAuditSee,
 				operation.physicianReview,
-				//订单管理
-				operation.ordersManagement,
-				operation.reservationOrders,
-				operation.contractManagement,
-				operation.remoteClinicOrders,
-				operation.remoteClinicOrdersDetail,
+				
 				//服务包管理
 				operation.servicePackagePList,
 				operation.servicePackagePAdd,
@@ -162,11 +172,7 @@ export default new VueRouter({
 				operation.wxSystemManagementAdd,
 				operation.wxSystemManagementEdit,
 				operation.wxSystemManagementAddFn,
-				// 医生小组
-				operation.doctorGroup,
-				operation.doctorAdd,
-				operation.doctorReview,
-				operation.doctorEdit,
+				
 
 				//患者端运营
 				operation.patientOperation,

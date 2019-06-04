@@ -261,7 +261,7 @@ export default {
         .then(res => {
           if (res.data.code) {
             if (res.data.object.list.length == 0) {
-              this.$Message.info("查询失败，该分类下没有专家");
+              this.$Message.error("查询失败，未查询到该专家");
             } else {
               this.$Message.info("查询成功，请选择专家");
               this.keshi = ''
