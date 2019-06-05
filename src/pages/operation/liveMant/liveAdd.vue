@@ -468,7 +468,7 @@ export default {
                 // 医院
                 hospitalId:this.hospitalId
             };
-                console.log(params);
+            console.log(params);
             this.$axios.post(api.lecturedemandinsert, params).then(res => {
                 console.log(res);
                 if (res.data.success) {

@@ -75,7 +75,7 @@
                     <!-- <Button>扫码报到</Button> -->
                     <Button @click='soureStatus(5)'>批量替诊</Button>
                     <Button @click='soureStatus(6)'>批量停诊</Button>
-                    <Button @click='fileDownload'>导出所有数据</Button>
+                    <Button @click='fileDownload' icon="ios-download-outline" type="primary">导出所有数据</Button>
                 </div>
             </Col>
         </Row>
@@ -562,9 +562,13 @@ export default {
                 this.orderModalTitle = '预约挂号批量替诊变更'
                 this.buttonName = '确认替诊'
                 this.ButtonStyle = 'primary'
-                let flag = this.SelectList.some(item => {
-                    return item.status == 1
-                })
+
+                let flag = true;
+                for(let i = 0;i<this.SelectList.length;i++) {
+                    if(Number(this.SelectList[i].status) != 1) {
+                        flag = false
+                    }
+                }
                 
                 if (this.SelectList.length <= 0) {
                     // 当未选中数据不显示弹层
@@ -581,15 +585,18 @@ export default {
                 this.orderModalTitle = '预约挂号批量停诊操作'
                 this.buttonName = '确认停诊'
                 this.ButtonStyle = 'error'
-                let flag = this.SelectList.some(item => {
-                    return item.status == 1
-                })
-                
+                let flag = true;
+                for(let i = 0;i<this.SelectList.length;i++) {
+                    if(Number(this.SelectList[i].status) != 1) {
+                        flag = false
+                    }
+                }
                 if (this.SelectList.length <= 0) {
                     // 当未选中数据不显示弹层
                     this.$Message.error("请选择批量数据")
                     return ""
                 }
+                console.log(flag);
                 if(!flag) {
                     // 当未选中数据包含无法替诊的数据
                     this.$Message.error("选择中包含无法批量停诊的数据,请重新选择")

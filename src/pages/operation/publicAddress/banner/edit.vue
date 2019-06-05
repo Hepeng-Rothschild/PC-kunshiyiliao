@@ -118,12 +118,12 @@ export default {
       isort: "",
       switch1: true,
       switch2: true,
-      defaultList: [],
       imgName: "",
       visible: false,
-      uploadList: [],
       id: "",
-
+      
+      defaultList: [],
+      uploadList: [],
       uploadModal: true,
       uploadData: { json: '{"urlCode":"' + code.urlCode.wxBanner + '"}' },
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",

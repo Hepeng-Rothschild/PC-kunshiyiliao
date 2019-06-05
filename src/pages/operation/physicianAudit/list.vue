@@ -83,13 +83,19 @@ export default {
                         let avatar = this.pictureFormat(params.row.headImg);
                         if (Boolean(avatar)) {
                             avatar = this.fileBaseUrl + avatar;
+                            return h("img", {
+                                attrs: {
+                                    src: avatar || "",
+                                    style: "width:40px;height:40px;"
+                                }
+                            })
+                        } else {
+                            return h("span", {
+                                attrs:{
+                                    style:"color:gray;"
+                                }
+                            },'暂无图片')
                         }
-                        return h("img", {
-                            attrs: {
-                                src: avatar || "",
-                                style: "width:40px;height:40px;"
-                            }
-                        });
                     }
                 },
                 {
