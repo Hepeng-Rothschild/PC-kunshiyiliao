@@ -15,22 +15,13 @@
                 <span>{{ selectExpert.doctorName }}</span>
             </div>
             <!-- 选择专家 -->
-            <Modal v-model="modal1" title="选择专家" :footer-hide="true">
+            <Modal v-model="modal1" title="选择专家" :footer-hide="true" width="800" :styles="{top: '20px'}">
                 <div class="modelExpert">
                     <div class="searchExpertList">
                         <input type="text" placeholder="输入医生姓名、医院、科室" v-model.trim="searchName">
                         <Button type="primary" icon="ios-search" @click="searchExpert">查询</Button>
                     </div>
-                    <div
-                        class="modelExpert_list"
-                        @click="expert(item)"
-                        v-for="item,index in expertList"
-                    >
-                        <span>{{ item.hospitalName }}</span>
-                        <span>{{ item.deptType }}</span>
-                        <span>{{ item.doctorName }}</span>
-                        <span>{{ item.title }}</span>
-                    </div>
+                    <Table stripe :columns="columns" :data="expertList"style='width:100%;'></Table>
                     <div class="total">
                         <Page :total="expertSize" :current="expertNo" @on-change="change1"/>
                     </div>
@@ -80,14 +71,6 @@
                     <Option v-for="item in cycleList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
                 </Select>
             </div>
-            <!-- 是否启用 -->
-            <!-- <div class="item">
-        <div class="item-text">
-          <span style="color:red;">*</span>
-          <p>是否启用</p>
-        </div>
-        <iSwitch v-model="switch1"/>
-            </div>-->
             <!-- 列表 -->
             <div class="table">
                 <p>远程门诊接诊数量</p>
@@ -282,6 +265,46 @@ export default {
                     host: "主任医师"
                 }
             ],
+            // 医生表头信息
+            columns:[
+                {
+                    title:"医院名称",
+                    key:"hospitalName",
+                    align:"center"
+                },
+                {
+                    title:"科室名称",
+                    key:"deptType",
+                    align:"center"
+                },
+                {
+                    title:"医生名称",
+                    key:"doctorName",
+                    align:"center"
+                },
+                {
+                    title:"职称",
+                    key:"title",
+                    align:"center"
+                },
+                {
+                    title:"选择",
+                    align:"center",
+                    render:(h,params) =>{
+                        let row = params.row;
+                        
+                        return [
+                            h('a',{
+                                on:{
+                                    click: () => {
+                                        this.expert(row)
+                                    }
+                                }
+                            },"选择")
+                        ]
+                    }
+                }
+            ],
             searchName: "",
             province: null,
             city: null,
@@ -442,18 +465,19 @@ export default {
                     this.$Message.info("开始时间与结束时间不能相同");
                     return "";
                 }
+                console.log(count);
                 if (Boolean(count)) {
-                    this.topLength = parseInt(count / this.time);
+                    this.botLength = parseInt(count / this.time);
                 } else {
-                    this.topLength = null;
+                    this.botLength = null;
                 }
-                this.params.onePm = this.topLength;
-                this.params.twoPm = this.topLength;
-                this.params.threePm = this.topLength;
-                this.params.fourPm = this.topLength;
-                this.params.fivePm = this.topLength;
-                this.params.sixPm = this.topLength;
-                this.params.sevenPm = this.topLength;
+                this.params.onePm = this.botLength;
+                this.params.twoPm = this.botLength;
+                this.params.threePm = this.botLength;
+                this.params.fourPm = this.botLength;
+                this.params.fivePm = this.botLength;
+                this.params.sixPm = this.botLength;
+                this.params.sevenPm = this.botLength;
             }
         },
         // 选择时间/上午
@@ -498,17 +522,17 @@ export default {
                     return "";
                 }
                 if (Boolean(count)) {
-                    this.topLength = parseInt(count / this.time);
+                    this.botLength = parseInt(count / this.time);
                 } else {
-                    this.topLength = null;
+                    this.botLength = null;
                 }
-                this.params.onePm = this.topLength;
-                this.params.twoPm = this.topLength;
-                this.params.threePm = this.topLength;
-                this.params.fourPm = this.topLength;
-                this.params.fivePm = this.topLength;
-                this.params.sixPm = this.topLength;
-                this.params.sevenPm = this.topLength;
+                this.params.onePm = this.botLength;
+                this.params.twoPm = this.botLength;
+                this.params.threePm = this.botLength;
+                this.params.fourPm = this.botLength;
+                this.params.fivePm = this.botLength;
+                this.params.sixPm = this.botLength;
+                this.params.sevenPm = this.botLength;
             }
         },
         // 远程门诊类型

@@ -11,6 +11,7 @@ export default {
      residentRegisterList: indexInfomation.residentRegisterList,
      //医生注册信息
      doctorRegisterList: indexInfomation.doctorRegisterList,
+     doctorRegisterAdd: indexInfomation.doctorRegisterAdd,
      doctorRegisterBatchOne: indexInfomation.doctorRegisterBatchOne,
      doctorRegisterBatchTwo: indexInfomation.doctorRegisterBatchTwo,
      doctorRegisterBatchThree: indexInfomation.doctorRegisterBatchThree,

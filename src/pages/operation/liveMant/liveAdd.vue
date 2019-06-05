@@ -458,7 +458,7 @@ export default {
                 // 播放地址
                 playbackAddress: this.live.playbackAddress,
                 // 点播类型
-                type: this.live.modalDataVal,
+                columnId: this.live.modalDataVal,
                 // 标题图片
                 headImg: this.images,
                 // 播放来源
@@ -468,8 +468,9 @@ export default {
                 // 医院
                 hospitalId:this.hospitalId
             };
-
+                console.log(params);
             this.$axios.post(api.lecturedemandinsert, params).then(res => {
+                console.log(res);
                 if (res.data.success) {
                     let ret = res.data.object;
                     this.$Message.info("添加成功");

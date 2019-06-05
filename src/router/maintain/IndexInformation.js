@@ -26,6 +26,15 @@ const doctorRegisterList = {
     },
     component:()=>import(/* webpackChunkName: 'maintain-residentregister-doctor' */"@/pages/maintain/doctorregister/list")
 }
+const doctorRegisterAdd = {
+    path:'maintain/doctorregister/addDoctor',
+    name:'doctorregisterAdd',
+    meta:{
+        index:3,
+        title:'添加医生'
+    },
+    component:()=>import(/* webpackChunkName: 'maintain-residentregister-doctor' */"@/pages/maintain/doctorregister/addDoctor")
+}
 const doctorRegisterBatchOne = {
     path:'maintain/doctorregister/batchone',
     name:'doctorregisterbatchone',
@@ -122,6 +131,8 @@ export default {
     doctorRegisterBatchThree,
     doctorRegisterBatchTwo,
     doctorRegisterBatchOne,
+    // 单个添加医生
+    doctorRegisterAdd,
     // 医生注册信息
     doctorRegisterList,
     // 居民注册信息/

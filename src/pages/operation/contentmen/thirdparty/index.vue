@@ -84,7 +84,7 @@ export default {
         checkboxs: {
             template:
                 "<div class = 'main_yy' style='align-items:center;'>" +
-                "<span class = 'main_yy_name' style='margin-right:10px;min-width:100px;' v-show='title'>{{ title }}</span>" +
+                "<span class = 'main_yy_name' style='margin-right:10px;min-width:100px;text-align:right;' v-show='title'>{{ title }}</span>" +
                 "<CheckboxGroup v-model='arr' @on-change='checkAllGroupChange' >" +
                 "<Checkbox v-for='item,index in listMap' :key='index' :label='item.id'>{{ item.name }}</Checkbox>" +
                 "</CheckboxGroup>" +
@@ -407,6 +407,7 @@ export default {
                         if (res.data.success) {
                             let ret = res.data.object;
                             this.thirdList = ret;
+                            console.log('第三方厂家列表',ret);
                         } else {
                             this.$Message.error("加载第三方厂家失败");
                         }

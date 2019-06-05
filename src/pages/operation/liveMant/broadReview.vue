@@ -99,7 +99,7 @@
             </div>
             <h3>课堂介绍</h3>
             <div class='information'>
-                <span style="display:inline-block;width:72px;">讲堂介绍：{{ params.introduce ? params.introduce :"无"  }}</span>
+                <p style="display:block;margin:10px 0;">讲堂介绍：{{ params.introduce ? params.introduce :"无"  }}</p>
             </div>
             <!-- 不通过原因 -->
             <div class='information' v-if='playStatus == 3 || playStatus == 4 || playStatus == 8'>

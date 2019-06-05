@@ -184,6 +184,7 @@ export default new VueRouter({
 				//运维端路由
 				maintain.residentRegisterList,
 				maintain.doctorRegisterList,
+				maintain.doctorRegisterAdd,
 				maintain.doctorRegisterBatchOne,
 				maintain.doctorRegisterBatchTwo,
 				maintain.doctorRegisterBatchThree,

@@ -299,6 +299,8 @@ const teaminsert = '/operateapi/teaminsertfdsteam'  //医疗小组添加
 const teamupdate = '/operateapi/teamupdatefdsteam' //医疗小组编辑
 const teamquery = '/operateapi/teamqueryteam'  //医疗小组查询
 const teamlist = '/operateapi/teamqueryteamlist'  //医疗小组列表
+
+const insertdoctor = '/operateapi/authenticationinsertdoctor' //添加医生
 let devApi = {
     login,
     //字典
@@ -582,8 +584,9 @@ let devApi = {
     teaminsert,
     teamupdate,
     teamquery,
-    teamlist
+    teamlist,
     
+    insertdoctor,
 }
 import weixin from './weixinApi';
 for(let key in weixin){

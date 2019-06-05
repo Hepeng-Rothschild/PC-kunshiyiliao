@@ -66,7 +66,6 @@ export default {
             listApi: null,
             healthEducation: [
                 { title: "序号", key: "iNum", align: "center", width: 60 },
-                { title: "排序", key: "priority", align: "center", width: 80 },
                 { title: "标题", key: "title", align: "center", width: 140 },
                 { title: "概要", key: "synopsis", align: "center", width: 220 },
                 { title: "来源", key: "source", align: "center", width: 120 },
@@ -122,6 +121,7 @@ export default {
                         });
                     }
                 },
+                { title: "排序", key: "priority", align: "center", width: 80 },
                 {
                     title: "操作",
                     key: "operate",

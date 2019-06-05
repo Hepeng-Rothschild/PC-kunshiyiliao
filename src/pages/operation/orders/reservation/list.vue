@@ -17,7 +17,7 @@
                 </div>
                 <div class="margin-up-down">
                     <span>状态:</span>
-                    <Select class="w-select" clearable v-model="status">
+                    <Select class="w-select" clearable v-model="status" >
                         <Option
                             v-for="(item,index) in statusList"
                             :value="index"
@@ -144,7 +144,7 @@
                         <Select class="w-select" @on-change='Selectdepartment' v-model="departmentVal" style='width:130px;'>
                             <Option
                                 v-for="(item,index) in departmentList"
-                                :value="item.id"
+                                :value="item.dicId"
                                 :key="index"
                                 style='text-align:center;'
                             >{{item.childDept}}</Option>
@@ -450,8 +450,8 @@ export default {
         this.isBack = this.$route.query.isBack
             ? parseInt(this.$route.query.isBack)
             : 1;
-        // this.startDate = this.GetDate(-2);
-        this.startDate='2019-02-07'
+        this.startDate = this.GetDate(-2);
+        // this.startDate='2019-02-07'
         this.endDate = this.GetDate(0);
         let breadList = [
             { path: "/index", title: "首页" },
@@ -521,8 +521,11 @@ export default {
                         this.orderParams.department = ret.department
                         // 就诊医生
                         this.orderParams.doctorName = ret.doctorName
+                        console.log(ret);
                         // 就诊时间
-                        this.orderParams.appointmentTime = ret.appointmentTime +''+ret.timeStart+'-'+ret.timeEnd
+                        let timeStart = ret.timeStart ? ret.timeStart : "";
+                        let timeEnd = ret.timeEnd ? ret.timeEnd : "";
+                        this.orderParams.appointmentTime = ret.appointmentTime +'  '+ timeStart + ' ' + timeEnd
                         // 服务费
                         this.orderParams.registrationFee = ret.registrationFee
                         // 就诊卡号
@@ -538,15 +541,15 @@ export default {
             this.timeStatus = val;
             if(Number(val) == 1) {
                 // 根据不同的状态让按钮显示不同的文字
-                if(Number(this.orderParams.status) == 5) {
+                if(Number(this.orderParams.status) == 6) {
                     this.buttonName = '确认撤回'
                     this.ButtonStyle = 'warning'
-                } else if (Number(this.orderParams.status == 0)) {
+                } else if (Number(this.orderParams.status == 1)) {
                     this.buttonName = '确认报到'
                     this.ButtonStyle = 'primary'
                 }
                 this.orderModalTitle = '预约报到信息确认'
-                
+                console.log(val);
             } else if(Number(val) == 2) {
                 this.orderModalTitle = '预约挂号替诊变更'
                 this.buttonName = '确认替诊'
@@ -805,10 +808,14 @@ export default {
                 departmentId:this.departmentVal,
                 hospitalId:this.hospitalId,
             }
+            if(Boolean(params.departmentVal)) {
+                return ""
+            }
             this.packageAxios(this,api.hospitalidanddepartmentid,params,(res)=>{
                 if (res.data.success) {
                     let ret = res.data.object;
                     this.doctorList = ret;
+                    console.log('加载科室的参数',ret);
                 } else {
                     this.$Message.error("加载医生数据失败!")
                 }
@@ -885,14 +892,14 @@ export default {
             let endDate = new Date(this.endDate);
             startDate = startDate.toLocaleDateString().replace(/\//g, "-");
             endDate = endDate.toLocaleDateString().replace(/\//g, "-");
-            params.startTime = startDate;
+            // params.startTime = startDate;
             // params.startTime = "2018-11-01";
-            params.endTime = endDate;
+            // params.endTime = endDate;
             params.searchKey = this.searchKey.trim() ? this.searchKey.trim() : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
 
-            if(Number(this.selectTimeStatus) == 1) {
+            if(Number(this.selectTimeStatus) == 2) {
                 params.startTime = startDate;
                 params.endTime = endDate;
             } else {
@@ -909,7 +916,7 @@ export default {
                         let shuangyue = resp.data.object.shuangyue;
                         this.lvyue = parseInt(lvyue * 100) + "%";
                         this.shuangyue = parseInt(shuangyue * 100) + "%";
-                        console.log(resp);
+                        // console.log(resp);
                         this.count = tmpObj.count;
                         this.orderList = tmpObj.list;
                         for (let i = 0; i < this.orderList.length; i++) {
@@ -926,7 +933,7 @@ export default {
                                 "  " +
                                 (this.orderList[i].day == 1 ? "上午" : "下午");
                         }
-                        console.log(this.orderList);
+                        // console.log(this.orderList);
                     } else {
                         this.$Message.info("网络错误，请刷新重试");
                     }

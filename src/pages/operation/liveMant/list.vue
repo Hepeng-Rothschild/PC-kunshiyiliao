@@ -195,12 +195,12 @@ export default {
                         let content = ""
                         this.livexsList.forEach(item=>{
                             if(Number(item.id)==Number(status)) {
-                                content=item.name
+                                content = item.name
                             }
                         })
-                        return h('span',{
+                        return h('span', {
 
-                        },content)
+                        }, content)
                     }
                 },
                 {
@@ -326,13 +326,20 @@ export default {
                         let avatar = this.pictureFormat(params.row.headImg);
                         if (Boolean(avatar)) {
                             avatar = this.fileBaseUrl + avatar;
+                            return h("img", {
+                                attrs: {
+                                    src: avatar || "",
+                                    style: "width:40px;height:40px;"
+                                }
+                            })
+                        } else {
+                            return h("span", {
+                                attrs:{
+                                    style:"color:gray;"
+                                }
+                            },'暂无图片')
                         }
-                        return h("img", {
-                            attrs: {
-                                src: avatar || "",
-                                style: "width:40px;height:40px;"
-                            }
-                        });
+                        
                     }
                 },
                 {
@@ -603,16 +610,17 @@ export default {
         // 加载点播数据
         liveData(params) {
             this.data1 = [];
+            let date = {
+                provinceCode: this.province,
+                cityCode: this.city,
+                areaCode: this.area,
+                hospitalId: this.hospital,
+                pageNo: params.pageNo,
+                pageSize: params.pageSize,
+                searchKey: params.searchKey.trim()
+            }
             this.$axios
-                .post(api.lecturedemandpage, {
-                    provinceCode: this.province,
-                    cityCode: this.city,
-                    areaCode: this.area,
-                    hospitalId: this.hospital,
-                    pageNo: params.pageNo,
-                    pageSize: params.pageSize,
-                    searchKey: params.searchKey.trim()
-                })
+                .post(api.lecturedemandpage, date)
                 .then(resp => {
                     if (resp.data.success) {
                         let ret = resp.data.object.list;

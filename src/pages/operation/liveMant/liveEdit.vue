@@ -296,7 +296,7 @@ export default {
                 // // 推广力度
                 this.live.fictitiousNum = ret.fictitiousNum
                 // // 课堂类型
-                this.live.modalDataVal = ret.type
+                this.live.modalDataVal = ret.columnId
                 // // 审核未通过原因
                 this.live.reason = ret.reason
                 this.hospitalId=ret.hospitalId
@@ -395,7 +395,7 @@ export default {
                 // 播放地址
                 playbackAddress: this.live.playbackAddress,
                 // 点播类型
-                type: this.live.modalDataVal,
+                columnId: this.live.modalDataVal,
                 // 标题图片
                 headImg: this.images,
                 // 播放来源

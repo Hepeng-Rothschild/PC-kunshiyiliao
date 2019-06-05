@@ -18,6 +18,7 @@
                             v-model="params.startTime"
                             format='yyyy年MM月dd日'
                             @on-change ='pickerChange'
+                            :options="options3"
                         ></DatePicker>
                     </FormItem>
                     <FormItem prop="startTimers">
@@ -41,8 +42,9 @@
                             placeholder="选择年月日"
                             style="width: 200px"
                             v-model="params.endTime"
-                            format='yyyy-MM-dd'
-                            @on-change ='pickerChange'
+                            format='yyyy年MM月dd日'
+                            @on-change ='endTimeLargeStart'
+                            :options="options4"
                         ></DatePicker>
                     </FormItem>
                     <FormItem prop="endTimers">
@@ -494,16 +496,16 @@ export default {
             startdisabledHours:[],
             // 折后价格最大限制
             oldMoney:0,
-            // options3: {
-            //     disabledDate (date) {
-            //         return date && date.valueOf() < Date.now() - 86400000;
-            //     }
-            // },
-            // options4: {
-            //     disabledDate (date) {
-            //         return date && date.valueOf() < Date.now() - 86400000;
-            //     }
-            // },
+            options3: {
+                disabledDate (date) {
+                    return date && date.valueOf() < Date.now() - 86400000;
+                }
+            },
+            options4: {
+                disabledDate (date) {
+                    return date && date.valueOf() < Date.now() - 86400000;
+                }
+            },
 
         };
     },
@@ -688,6 +690,24 @@ export default {
                     console.log(err);
                 });
         },
+        // 结束日期不能小于开始日期
+        endTimeLargeStart(){
+            // 开始时间
+            let startTime = new Date(this.params.startTime);
+            let startDay = startTime.getDate();
+            let startMonth = startTime.getMonth() + 1;
+            // 结束时间
+            let endTime = new Date(this.params.endTime);
+            let endDay = endTime.getDate();
+            let endMonth = endTime.getMonth() + 1;
+            if(startMonth == endMonth){
+                if(endDay < startDay) {
+                    this.$Message.error("请选择开始时间之后的日期")
+                    this.params.endTime = ''
+                }
+            }
+            this.pickerChange();
+        },
         // 返回
         back() {
             let query = this.$route.query;
@@ -748,11 +768,12 @@ export default {
                     console.log(aboutEndTime);
                     console.log(liveStartTime);
                         // 结束时间
-                    this.params.endTime = liveStartTime[0];
-                    this.params.endTimers = liveStartTime[1];
+                    // this.params.endTime = liveStartTime[0];
+                    // this.params.endTimers = liveStartTime[1];
                         // 开始时间
-                    this.params.startTime = aboutEndTime[0];
-                    this.params.startTimers = aboutEndTime[1];
+                    // this.params.startTime = aboutEndTime[0];
+                    // this.params.startTimers = aboutEndTime[1];
+                    this.$Message.info("请重新选择直播时间")
                         // 折后价格
                     this.params.newPrice = ret.discountPrice
                         // 医生ID

@@ -9,6 +9,7 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        style='margin-bottom:10px;'
                     ></fourLevelLinkage>
                     <Input
                         v-model.trim="Name"
@@ -17,8 +18,9 @@
                         clearable
                     />
                     <Button type="primary" icon="ios-search" @click="getDoctorData(1)">查询</Button>
+                    <Button type="primary" @click="branch">批量导入</Button>
+                    <Button type="info" @click='addDoctor'>新增医生</Button>
                 </div>
-                <Button type="primary" @click="branch">批量导入</Button>
             </header>
             <!-- 列表 -->
             <div class="list">
@@ -58,7 +60,7 @@ export default {
                     key: 'sum',
                     align:"center",
                     width:100,
-                    // fixed:'left'
+                    fixed:'left'
                 },
                 {
                     title: '医生姓名',
@@ -148,7 +150,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.simple(avatar)
+                                            this.simples(avatar)
                                         }
                                     }
                                 },
@@ -213,6 +215,11 @@ export default {
                 pageNo: this.pageNo
             });
         },
+        addDoctor () {
+            this.functionJS.queryNavgationTo(this, "/index/maintain/doctorregister/addDoctor", {
+                pageNo: this.pageNo
+            });
+        },
         // 分页
         pageChange(index) {
             this.pageNo = index;
@@ -257,12 +264,14 @@ export default {
             this.$axios.post(api.getDoctorInfo, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
-                    console.log(ret)
+                    
+                    let arr = ['个人注册','批量导入','平台注册']
                     ret.list.forEach((item,index) =>{
                         item.sum = this.addZero(index);
                         item.gender = item.gender == '0'? '女' :'男'
-                        item.ibatch = item.ibatch == '0'? '个人注册' :'批量导入'
+                        item.ibatch = arr[item.ibatch];
                     })
+                    console.log(ret)
                     this.doctorregisterSize = ret.count;
                     this.list = ret.list;
                 } else {
@@ -295,9 +304,9 @@ export default {
         margin: 0 auto;
         header {
             width: 100%;
-            height: 40px;
             display: flex;
             flex-direction: row;
+            flex-wrap:wrap;
             align-items: center;
             justify-content: space-between;
         }
