@@ -201,7 +201,7 @@ export default {
                 {
                     title: "服务名称",
                     align: "center",
-                    key:"className",
+                    key:"serviceName",
                     width: 150,
                     render: (h, params) => {
                         let name = params.row;
@@ -218,7 +218,7 @@ export default {
                                         whiteSpace: "nowrap"
                                     }
                                 },
-                                name.className
+                                name.serviceName
                             )
                         ]);
                     }
@@ -276,7 +276,7 @@ export default {
                 {
                     title:"第三方厂家",
                     align:'center',
-                    key:"serviceName",
+                    key:"className",
                     width: 150,
                     render: (h, params) => {
                         let name = params.row;
@@ -293,7 +293,7 @@ export default {
                                         whiteSpace: "nowrap"
                                     }
                                 },
-                                name.serviceName
+                                name.className
                             )
                         ]);
                     }
@@ -470,15 +470,19 @@ export default {
                     if(!this.formValidate.enable) {
                         a = 1 
                     }
+                    // 循环出厂家名称
                     let className = ''
                     this.thirdList.forEach(item => {
                         if(Number(this.formValidate.thirdValue) == Number(item.code)) {
                             className = item.className
                         }
                     })
+                    // 找出服务名称
+                    let serviceIndex = this.serviceTypeValue - 1
+                    let serviceName = this.HospitalThirdpartyEnum[serviceIndex].name
                     let params = {
                         //服务名称
-                        serviceName: className,
+                        serviceName,
                         // 服务路径
                         serviceUrl: this.formValidate.serviceUrl,
                         // 第三方参数
