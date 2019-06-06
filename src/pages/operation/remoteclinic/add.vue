@@ -41,7 +41,7 @@
                         style='text-align:center;'
                     >{{item.name}}</Option>
                 </Select>
-                <p style="margin-left:20px;color:gray;">！请先选择专家后，再选择远程门诊类型。</p>
+                <p style="margin-left:20px;color:red;">！请先选择专家后，再选择远程门诊类型。</p>
             </div>
             <!-- 医事服务费 -->
             <div class="item">
@@ -161,7 +161,6 @@
                         </td>
                     </tr>
                 </table>
-                <!-- <p>注：数量不能超过时间段/远程门诊时长数量（如上午8:00至12:00，时长30分钟，最多可设置8次）</p> -->
             </div>
             <!-- 预约备注 -->
             <div class="text">
@@ -233,26 +232,26 @@ export default {
             // 一周号源
             params: {
                 // 周一
-                oneAm: null,
-                onePm: null,
+                oneAm: 8,
+                onePm: 8,
                 // 周二
-                twoAm: null,
-                twoPm: null,
+                twoAm: 8,
+                twoPm: 8,
                 // 周三
-                threeAm: null,
-                threePm: null,
+                threeAm: 8,
+                threePm: 8,
                 // 周四
-                fourAm: null,
-                fourPm: null,
+                fourAm: 8,
+                fourPm: 8,
                 // 周五
-                fiveAm: null,
-                fivePm: null,
+                fiveAm: 8,
+                fivePm: 8,
                 // 周六
-                sixAm: null,
-                sixPm: null,
+                sixAm: 8,
+                sixPm: 8,
                 // 周天
-                sevenAm: null,
-                sevenPm: null
+                sevenAm: 8,
+                sevenPm: 8
             },
             // 医院ID
             id: 82,

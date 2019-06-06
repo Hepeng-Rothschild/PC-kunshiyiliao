@@ -30,7 +30,9 @@
               :src="analysisImages(item.newsHeadlines)"
               alt=''
               style="display:inline-block;margin:10px 0;width:100px;height:50px;"
+              v-show='item.newsHeadlines'
             >
+            <span style='color:gray;'>暂无图片</span>
           </th>
           <th>{{ item.source}}</th>
           <!--是否显示-->
@@ -146,6 +148,7 @@ export default {
           if (res.data.code) {
             let ret = res.data.object.list;
             this.tablesList = ret;
+            console.log(ret);
             this.newsSize = res.data.object.count;
           }
         })

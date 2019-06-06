@@ -13,7 +13,7 @@
 							<span>登录账号</span>
 						</div>
 						<FormItem prop="userName">
-							<Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px"></Input>
+							<Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" @on-keyup="formValidate.userName = formValidate.userName.replace(/[^\w_]/g,'');" maxlength="64"></Input>
 						</FormItem>
 					</div>
 					<!-- 登录密码 -->
@@ -86,7 +86,7 @@
 									<Icon type="ios-camera" size="20"></Icon>
 								</div>
 							</Upload>
-							<Modal title="预览图片" v-model="visible" footer-hide>
+							<Modal title="预览图片" v-model="visible" footer-hide :styles="{top: '20px'}">
 								<img :src="uploadList[0].url " v-if="visible" style="width: 100%">
 							</Modal>
 						</div>
@@ -453,90 +453,86 @@ export default {
                 });
         },
         save(name) {
-			let flag = false;
 			this.$refs[name].validate(valid => {
 				if (valid) {
 					// 必填项填写完成
-					// this.$Message.success("Success!");
+                    let images = "";
+                    // 上传
+                    if (this.images != "") {
+                        images = this.images;
+                    } else if (this.sourceImages != "" && this.uploadList.length) {
+                        images = this.sourceImages;
+                        // 默认
+                    } else {
+                        images = "";
+                    }
+                    
+                    if (this.formValidate.identityAdd == 1) {
+
+                    } else if (this.formValidate.identityAdd == 2) {
+                        if (this.provinceId == null) {
+                            this.$Message.info("请选择所属省");
+                            return ;
+                        }
+                        this.formValidate.identityAddCoding = this.provinceId;
+                    } else if (this.formValidate.identityAdd == 3) {
+                        if (this.cityId == null) {
+                            this.$Message.info("请选择所属市");
+                            return ;
+                        }
+                        this.formValidate.identityAddCoding = this.cityId;
+                    } else if (this.formValidate.identityAdd == 4) {
+                        if (this.areaId == null) {
+                            this.$Message.info("请选择所属区/县");
+                            return ;
+                        }
+                        this.formValidate.identityAddCoding = this.areaId;
+                    } else if (this.formValidate.identityAdd == 5) {
+                        if (this.hospitalId == null) {
+                            this.$Message.info("请选择所属机构");
+                            return ;
+                        }
+                        this.formValidate.identityAddCoding = this.hospitalId;
+                    }
+                    let params = {
+                        // 账号
+                        userName: this.formValidate.userName,
+                        // 密码
+                        passWord: this.formValidate.passWord,
+                        // 用户昵称
+                        nickName: this.formValidate.nickName,
+                        // 是否启用
+                        status: Number(this.switch1),
+                        // 用户头像
+                        userIcon: images,
+                        // 用户身份
+                        identity: parseInt(this.formValidate.identityAdd),
+                        // 所属机构
+                        identityCoding: parseInt(this.formValidate.identityAddCoding)
+                    };
+                    this.$axios.post(api.adminAdd, params).then(res => {
+                            if (res.data.code) {
+                                let a = res.data.object.fail || res.data.object.success;
+                                this.$Message.info(a);
+                                let pageNo = this.$route.query.pageNo;
+                                if (!res.data.object.fail) {
+                                    setTimeout(() => {
+                                        this.functionJS.queryNavgationTo(this, '/index/maintain/admin/user/list',{
+                                            pageNo
+                                        });
+                                    }, 800);
+                                }
+                            } else {
+                                this.$Message.info("不允许访问");
+                            }
+                        })
 				} else {
 					// 必填项填写失败
 					this.$Message.error("请检查必填荐是否填写完整！");
 					flag = true;
 				}
 			})
-			if(flag) {
-				return ""
-			}
-            let images = "";
-            // 上传
-            if (this.images != "") {
-                images = this.images;
-            } else if (this.sourceImages != "" && this.uploadList.length) {
-                images = this.sourceImages;
-                // 默认
-            } else {
-                images = "";
-			}
-			
-            if (this.formValidate.identityAdd == 1) {
-
-            } else if (this.formValidate.identityAdd == 2) {
-                if (this.provinceId == null) {
-                    this.$Message.info("请选择所属省");
-                    return ;
-                }
-                this.formValidate.identityAddCoding = this.provinceId;
-            } else if (this.formValidate.identityAdd == 3) {
-                if (this.cityId == null) {
-                    this.$Message.info("请选择所属市");
-                    return ;
-                }
-                this.formValidate.identityAddCoding = this.cityId;
-            } else if (this.formValidate.identityAdd == 4) {
-                if (this.areaId == null) {
-                    this.$Message.info("请选择所属区/县");
-                    return ;
-                }
-                this.formValidate.identityAddCoding = this.areaId;
-            } else if (this.formValidate.identityAdd == 5) {
-                if (this.hospitalId == null) {
-                    this.$Message.info("请选择所属机构");
-                    return ;
-                }
-                this.formValidate.identityAddCoding = this.hospitalId;
-            }
-            let params = {
-                // 账号
-                userName: this.formValidate.userName,
-                // 密码
-                passWord: this.formValidate.passWord,
-                // 用户昵称
-				nickName: this.formValidate.nickName,
-				// 是否启用
-                status: Number(this.switch1),
-                // 用户头像
-				userIcon: images,
-				// 用户身份
-				identity: parseInt(this.formValidate.identityAdd),
-				// 所属机构
-                identityCoding: parseInt(this.formValidate.identityAddCoding)
-			};
-			this.$axios.post(api.adminAdd, params).then(res => {
-                    if (res.data.code) {
-                        let a = res.data.object.fail || res.data.object.success;
-                        this.$Message.info(a);
-                        let pageNo = this.$route.query.pageNo;
-                        if (!res.data.object.fail) {
-                            setTimeout(() => {
-                                 this.functionJS.queryNavgationTo(this, '/index/maintain/admin/user/list',{
-                                    pageNo
-                                 });
-                            }, 800);
-                        }
-                    } else {
-                        this.$Message.info("不允许访问");
-                    }
-                })
+            
         },
         back() {
             let pageNo = this.$route.query.pageNo;

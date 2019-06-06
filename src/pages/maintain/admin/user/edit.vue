@@ -13,7 +13,7 @@
               <span>登录账号</span>
             </div>
             <FormItem  prop="userName">
-              <Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" autocomplete="off"  id='userName' />
+              <Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" autocomplete="off"  id='userName' @on-keyup="formValidate.userName = formValidate.userName.replace(/[^\w_]/g,'');" maxlength="64"/>
             </FormItem>
           </div>
           <!-- 更改密码 -->
@@ -85,7 +85,7 @@
                 <Icon type="ios-camera" size="20"></Icon>
               </div>
             </Upload>
-            <Modal title="预览图片" v-model="visible" footer-hide>
+            <Modal title="预览图片" v-model="visible" footer-hide :styles="{top: '20px'}">
               <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
             </Modal>
           </div>
@@ -98,7 +98,6 @@
           </div>
           <div>
             <Select class="w-select-identity" placeholder="用户身份" v-model="identity" disabled>
-              <!-- <Option value="0">全国</Option> -->
               <Option v-for="item in identityList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
             </Select>
           </div>
