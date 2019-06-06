@@ -165,7 +165,8 @@
         <br>
         <Button type="primary" @click="submit">保存</Button>
         <Button type="primary" @click="reback">返回</Button>
-        <Modal v-model="docListModal">
+
+        <Modal v-model="docListModal" width="800">
             <p slot="header" style="text-align:center">
                 <span>选择专家</span>
             </p>
@@ -181,16 +182,10 @@
                         />
                     </Col>
                 </Row>
-                <Row
-                    @click.native="chooseDoc(item.hospitalName,item.hospitalId,item.dept,item.deptId,item.doctorName,item.doctorId,item.title)"
-                    style="cursor:pointer;margin:15px 0;"
-                    v-for="(item,index) of doctorList"
-                    :key="index"
-                >
-                    <Col :xs="6">{{item.hospitalName}}</Col>
-                    <Col :xs="6">{{item.dept}}</Col>
-                    <Col :xs="6">{{item.doctorName}}</Col>
-                    <Col :xs="6">{{item.title}}</Col>
+                <Row style="margin:15px 0;">
+                    <Col :xs="24">
+                        <Table stripe :columns="columns" :data="doctorList"style='width:100%;'></Table>
+                    </Col>
                 </Row>
                 <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
             </div>
@@ -268,7 +263,47 @@ export default {
             termRd: false,
             costRd: false,
 
-            addressFlag:false
+            addressFlag:false,
+            // 医生表头信息
+            columns:[
+                {
+                    title:"医院名称",
+                    key:"hospitalName",
+                    align:"center"
+                },
+                {
+                    title:"科室名称",
+                    key:"dept",
+                    align:"center"
+                },
+                {
+                    title:"医生名称",
+                    key:"doctorName",
+                    align:"center"
+                },
+                {
+                    title:"职称",
+                    key:"title",
+                    align:"center"
+                },
+                {
+                    title:"选择",
+                    align:"center",
+                    render:(h,params) =>{
+                        let item = params.row;
+                        return [
+                            h('a',{
+                                on:{
+                                    click: () => {
+                                       this.chooseDoc(item.hospitalName,item.hospitalId,item.dept,item.deptId,item.doctorName,item.doctorId,item.title)
+                                        // this.expert(row)
+                                    }
+                                }
+                            },"选择")
+                        ]
+                    }
+                }
+            ],
         };
     },
     watch: {

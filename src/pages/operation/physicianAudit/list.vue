@@ -44,7 +44,7 @@
             </Col>
         </Row>
         <Table stripe :columns="columns" :data="data1"></Table>
-        <Page :total="count" :current="pageNo" :page-size="pageSize" style="margin-top:10px;"/>
+        <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change='loadingDate' style="margin-top:10px;"/>
     </div>
 </template>
 <script>
@@ -434,11 +434,17 @@ export default {
                 this.verifyData({ pageNo: this.pageNo, pageSize: this.pageSize })
             }
 
-        }
+        },
+        // 分页器改变加载数据
+        loadingDate (index) {
+            this.pageNo = index;
+            this.statusChange(this.status);
+        },
     },
     // 监听status   tab页的变化
     watch: {
         status(newVal, oldVal) {
+            this.pageNo = 1
             this.statusChange(newVal);
         }
     }

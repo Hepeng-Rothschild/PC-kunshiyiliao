@@ -585,7 +585,7 @@ let devApi = {
     teamupdate,
     teamquery,
     teamlist,
-    
+
     insertdoctor,
 }
 import weixin from './weixinApi';

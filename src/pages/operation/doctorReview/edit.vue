@@ -145,7 +145,7 @@
                         <Col :xs="24">
                             <i class="req-icon">*</i>联系方式：
                             <FormItem prop="phone">
-                                <Input class="w-input" v-model="info.phone" placeholder="请输入联系方式"/>
+                                <Input class="w-input" v-model.trim = "info.phone" placeholder="请输入联系方式" maxlength="11"/>
                             </FormItem>
                         </Col>
                     </Row>
@@ -153,7 +153,7 @@
                         <Col :xs="24">
                             <i class="req-icon">*</i>身份证号：
                             <FormItem prop="idcard">
-                                <Input class="w-input" v-model="info.idcard" placeholder="请输入身份证号"/>
+                                <Input class="w-input" v-model.trim = "info.idcard" placeholder="请输入身份证号" maxlength="18"/>
                             </FormItem>
                         </Col>
                     </Row>

@@ -177,8 +177,6 @@ export default {
                 }
             ],
             healthEducationSontab: [
-                // {id:1,name:"常用"},
-                // 修改了这里
                 { id: 1, name: "最新" },
                 { id: 2, name: "医生忠告" },
                 { id: 3, name: "用药" },
@@ -516,10 +514,6 @@ export default {
             var params = {};
             params.type = this.sonTab ? parseInt(this.sonTab) : null;
 
-            // 修改了这里的三目运算符
-            // params.enable = this.publicationStatus
-            //   ? parseInt(this.publicationStatus)
-            //   : null;
             params.enable = this.publicationStatus;
 
             params.searchKey = this.articleText.trim();

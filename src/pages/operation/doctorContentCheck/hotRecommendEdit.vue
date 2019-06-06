@@ -145,7 +145,7 @@
         </Form>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button type="primary" @click="submit('formInline')">提交</Button>
         <Button type="primary" @click="reback">返回</Button>
-        <Modal title="大图预览" :footer-hide="true" v-model="visible">
+        <Modal title="大图预览" :footer-hide="true" v-model="visible" :styles="{top: '20px'}">
             <img :src="imgName" v-if="visible" style="width: 100%">
         </Modal>
     </div>

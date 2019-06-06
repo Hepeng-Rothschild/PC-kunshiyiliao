@@ -227,9 +227,9 @@ export default {
             expertNo: 1,
             expertSize: 10,
             // 上午时间
-            value2: [],
+            value2: ["08:00", "12:00"],
             // 下午时间
-            value3: [],
+            value3: ["13:00", "17:00"],
             // 一周号源
             params: {
                 // 周一
@@ -388,6 +388,7 @@ export default {
             params.doctorId = this.selectExpert.doctorId;
             // 医院ID
             params.hospitalId = this.selectExpert.hospitalId;
+            console.log(params);
             if (this.searchType == -1) {
                 this.$Message.info("请选择远程门诊类型");
             } else if (this.time < 0) {

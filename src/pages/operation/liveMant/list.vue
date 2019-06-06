@@ -571,7 +571,7 @@ export default {
         },
         // 加载直播列表
         broadData(params) {
-            this.$axios.post(api.livelist, {
+            let date = {
                 provinceCode: this.province,
                 cityCode: this.city,
                 areaCode: this.area,
@@ -580,7 +580,8 @@ export default {
                 pageSize: this.pageSize,
                 searchKey: this.search,
                 playStatus:this.liveStatus
-            }).then(res => {
+            }
+            this.$axios.post(api.livelist, date).then(res => {
                 if(res.data.success) {
                     let ret = res.data.object
                     ret.list.forEach((item, index) => {

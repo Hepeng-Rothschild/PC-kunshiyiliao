@@ -23,7 +23,7 @@
                     <Input class="w-input" v-model="deptKey" placeholder="请输入科室关键字"/>
                 </div>
                 <div class="margin-up-down">
-                    <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
+                    <Select class="w-select" clearable v-model="dictType" placeholder="职称级别" style='width:130px;'>
                         <Option
                             v-for="item in titleList"
                             :value="item.dictType"

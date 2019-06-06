@@ -49,7 +49,8 @@
                     </Select>
                 </FormItem>
                 <!-- 支付账号 -->
-                <FormItem label="支付账号" prop="paymentAccount">
+                <!-- formValidate.paymentType) == 3 -->
+                <FormItem label="支付账号" prop="paymentAccount" v-show='formValidate.paymentType != 3'>
                     <Select
                         class="w-select-hos"
                         placeholder="请选择支付账号"
@@ -64,7 +65,22 @@
                         >{{item.nick}}</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="交易类型" prop="paymentAccount">
+                <FormItem label="支付账号"  v-show='formValidate.paymentType == 3'>
+                    <Select
+                        class="w-select-hos"
+                        placeholder="请选择支付账号"
+                        v-model="formValidate.paymentAccount"
+                        style='width:180px;'
+                    >
+                        <Option
+                            v-for="item in paymentAccountList"
+                            :value="item.appid"
+                            :key="item.appid"
+                            style='text-align:center;'
+                        >{{item.nick}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="交易类型" prop="transactionType">
                     <Select
                         class="w-select-hos"
                         placeholder="请选择交易类型"
@@ -96,11 +112,17 @@
                     </Select>
                 </FormItem>
                 <!-- 商户号 -->
-                <FormItem label="商户号" prop="merchantIdentification">
+                <FormItem label="商户号" prop="merchantIdentification" v-show='formValidate.paymentType != 3'>
+                    <Input v-model="formValidate.merchantIdentification" placeholder="请输入商户号" style="width: 300px" />
+                </FormItem>
+                <FormItem label="商户号" v-show='formValidate.paymentType == 3'>
                     <Input v-model="formValidate.merchantIdentification" placeholder="请输入商户号" style="width: 300px" />
                 </FormItem>
                 <!-- 支付参数 -->
-                <FormItem label="支付参数" prop="parameterConfig">
+                <FormItem label="支付参数" prop="parameterConfig" v-show='formValidate.paymentType != 3'>
+                    <Input v-model="formValidate.parameterConfig" placeholder="请输入支付参数" style="width: 300px" />
+                </FormItem>
+                <FormItem label="支付参数" v-show='formValidate.paymentType == 3'>
                     <Input v-model="formValidate.parameterConfig" placeholder="请输入支付参数" style="width: 300px" />
                 </FormItem>
                 <FormItem label="状态" prop="startType">
@@ -124,21 +146,21 @@ export default {
             // 数据
             formValidate: {
                 // 支付类型
-                paymentType:"",
+                paymentType: "",
                 // 支付渠道
-                paymentChannel:"",
+                paymentChannel: "",
                 // 支付账号
-                paymentAccount:"",
+                paymentAccount: "",
                 // 交易类型
-                transactionType:"",
+                transactionType: "",
                 // 显示端
-                displayType:"",
+                displayType: "",
                 // 商户号
-                merchantIdentification:"",
+                merchantIdentification: "",
                 // 支付参数
-                parameterConfig:"",
+                parameterConfig: "",
                 // 状态
-                startType:false
+                startType: true
             },
             // 验证
             ruleValidate: {
@@ -176,7 +198,7 @@ export default {
 					}
                 ],
                 // 交易类型
-                transactionType:[
+                transactionType: [
                     {
 						// 是否校验
 						required: true,
@@ -436,6 +458,105 @@ export default {
             transactionTypeList: [],
             // 显示端列表
             displayTypeList: [],
+            // 就诊卡表单
+            cart : {
+                paymentType: [ { required: true, message: "请选择支付类型", trigger : "change"} ],
+                paymentChannel: [ { required: true, message: "请选择支付渠道", trigger: "change"} ],
+                displayType: [ {required: true, message: "请选择显示端", trigger: "change"} ],
+                transactionType: [ { required: true, message: "请选择交易类型", trigger: "change" } ],
+            },
+            // 全部表单
+            stop : {
+                //支付类型
+                paymentType: [
+					{
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请选择支付类型",
+						// 触发事件
+						trigger: "change"
+					}
+                ],
+                // 支付渠道
+                paymentChannel: [
+					{
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请选择支付渠道",
+						// 触发事件
+						trigger: "change"
+					}
+                ],
+                // 支付账号
+                paymentAccount: [
+					{
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请选择支付账号",
+						// 触发事件
+						trigger: "change"
+					}
+                ],
+                // 交易类型
+                transactionType:[
+                    {
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请选择支付方式",
+						// 触发事件
+						trigger: "change"
+					}
+                ],
+                // 显示端
+                displayType: [
+					{
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请选择显示端",
+						// 触发事件
+						trigger: "change"
+					}
+                ],
+                // 商户号
+                merchantIdentification: [
+					{
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请输入商户号",
+						// 触发事件
+						trigger: "blur"
+					}
+                ],
+                // 支付参数
+                parameterConfig: [
+					{
+						// 是否校验
+						required: true,
+						// 提示文字
+						message: "请输入支付参数",
+						// 触发事件
+						trigger: "blur"
+					}
+                ],
+                // 状态
+                startType: [
+					{
+						// 是否校验
+						required: false,
+						// 提示文字
+						message: "请选择状态",
+						// 触发事件
+                        trigger: "change",
+                        type:'boolean'
+					}
+				]
+            }
            
         };
     },
@@ -491,13 +612,13 @@ export default {
                         transactionType:this.formValidate.transactionType,
                         hospitalId: this.hospitalId
                     }
+                    console.log(params);
                     // 有id代表它是编辑的状态
                     if (Boolean(this.formValidate.id)) {
                         this.updateList(params)
                     } else {
                         this.saveChange(params);
                     }
-                    console.log(params);
                 } else {
                     this.$Message.error('请检查必填项是否填写正确');
                 }
@@ -546,6 +667,12 @@ export default {
         },
         // 选择支付类型后加载支付渠道
         paymentChannelChange() {
+            // 当选择就诊卡的表单验证选择
+            if(Number(this.formValidate.paymentType) == 3) {
+                this.ruleValidate = this.cart
+            } else {
+                this.ruleValidate = this.stop
+            }
             this.paymentChannelList = []
             if(this.formValidate.paymentType) {
                 this.$axios.post(api.channelenummap, {
@@ -555,7 +682,7 @@ export default {
                         let ret = res.data.object
                         this.paymentChannelList = ret
                         this.onListLoading();
-                        console.log("fc支付渠道",ret);
+                        // console.log("fc支付渠道",ret);
                     } else {
                         this.$Message.error('通过支付类型加载支付渠道失败')
                     }
@@ -598,6 +725,7 @@ export default {
             }).then(res => {
                 if(res.data.success) {
                     let ret = res.data.object;
+                    console.log(ret);
                     this.displayTypeList = ret.displayEnum || []
                     this.paymentTypeList = ret.paymentEnum || []
                     this.transactionTypeList = ret.transaction || []
@@ -640,7 +768,6 @@ export default {
         },
         // 新增支付类型
         saveChange (params) {
-            console.log('saveChange');
             this.$axios.post(api.insertpaymentchannel, params).then(res => {
                 console.log(res);
                 if(Boolean(res.data.code)) {
@@ -649,6 +776,7 @@ export default {
                     // 重新加载医院数据
                     this.loadingHospitalId();
                     this.$refs['formValidate'].resetFields();
+                    this.ruleValidate = this.stop
                 } else {
                     let message = res.data.object.same || "添加失败,请重试"
                     this.$Message.error(message)
@@ -665,6 +793,7 @@ export default {
                     // 重新加载医院数据
                     this.loadingHospitalId();
                     this.$refs['formValidate'].resetFields();
+                    this.ruleValidate = this.stop
                 } else {
                     this.$Message.error("修改失败")
                 }
