@@ -18,7 +18,7 @@
                         clearable
                     />
                     <Button type="primary" icon="ios-search" @click="getDoctorData(1)">查询</Button>
-                    <Button type="primary" @click="branch">批量导入</Button>
+                    <Button @click="branch">批量导入</Button>
                     <Button type="info" @click='addDoctor'>新增医生</Button>
                 </div>
             </header>

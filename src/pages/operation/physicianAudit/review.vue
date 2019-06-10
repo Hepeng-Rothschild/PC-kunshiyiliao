@@ -11,21 +11,21 @@
                     <img src="@/assets/images/time.png" alt="">
                     <div class = 'liveDate'>
                         <span>直播时长</span>
-                        <span>暂无数据</span>
+                        <span>{{ liveBroadDate.time }}</span>
                     </div>
                 </div>
                 <div class = 'liveTime'>
                     <img src="@/assets/images/eye.png" alt="">
                     <div class = 'liveDate'>
                         <span>观看人次</span>
-                        <span>暂无数据</span>
+                        <span>{{ liveBroadDate.Visitors }}</span>
                     </div>
                 </div>
                 <div class = 'liveTime'>
                     <img src="@/assets/images/xin.png" alt="">
                     <div class = 'liveDate'>
                         <span>关注人次</span>
-                        <span>暂无数据</span>
+                        <span>{{ liveBroadDate.manTime }}</span>
                     </div>
                 </div>
                  <Button type="primary" style='height:40px;' @click='refreshHeadDate'>刷新</Button>
@@ -131,8 +131,8 @@
                     />
             </div>
         </Modal>
-        <Modal v-model="modal2" width="400" footer-hide>
-            <img :src="params.headImg" alt="" style='display:block;margin:0 auto;'>
+        <Modal v-model="modal2" width="600" footer-hide>
+            <img :src="params.headImg" alt="" style='display:block;width:100%;'>
         </Modal>
     </div>
 </template>
@@ -215,7 +215,7 @@ export default {
             columnList:[],
             playStatus:"",
             // 状态列表
-            livexsList:[
+            livexsList: [
                 {
                     id:"1",
                     name:"待审核"
@@ -249,9 +249,15 @@ export default {
                     name:"已关闭"
                 }
             ],
-            statueName:'',
-            liveTime:"",
-            currentStatus:''
+            statueName: '',
+            liveTime: "",
+            currentStatus: '',
+            liveBroadDate: {
+                time: "暂无数据" ,
+                Visitors: "暂无数据",
+                manTime:"暂无数据"
+
+            }
         }
     },
     created () {
@@ -318,7 +324,20 @@ export default {
         },
         // 加载头部直播数据
         refreshHeadDate () {
-
+            let query = this.$route.query;
+            let url = api.countlivedata;
+            let params = {
+                id : query.id
+            }
+            this.$axios.post(url, params).then(res => {
+                if(res.data.success) {
+                    let ret = res.data.object;
+                    console.log(ret);
+                    this.liveBroadDate.time = this.formatSeconds(ret.liveTime);
+                    this.liveBroadDate.Visitors = ret.countWatch;
+                    this.liveBroadDate.manTime = ret.countFollow;
+                }
+            })
         },
         // 加载直播详情
         getLiveData(){
@@ -328,7 +347,12 @@ export default {
             }).then(resp => {
                 if(resp.data.success) {
                     let ret = resp.data.object;
-                    this.playStatus = ret.playStatus
+                    this.playStatus = Number(ret.playStatus)
+                    // 通过直播状态加载直播数据
+                    if(this.playStatus == 2 || this.playStatus == 5 || this.playStatus == 6) {
+                        // console.log('加载直播数据');
+                        this.refreshHeadDate ()
+                    }
                     this.livexsList.forEach(item =>{
                         if(Number(item.id) == Number(ret.playStatus)) {
                             this.statueName = item.name
@@ -358,7 +382,7 @@ export default {
                         this.params.headImg = this.fileBaseUrl + this.pictureFormat(ret.headImg)
                     }
                     // // 是否收费
-                    this.params.icharge = ret.icharge ==0 ? "免费" : "收费"
+                    this.params.icharge = ret.icharge == 0 ? "免费" : "收费"
                     // 原始价格
                     this.params.originalPrice = ret.originalPrice || 0
                     //折后价格
@@ -479,6 +503,21 @@ export default {
                 }
             });
         },
+        // 转换秒数
+        formatSeconds (value) {
+            var theTime = Number(value);// 秒  
+            var theTime2 = 0;// 小时  
+            var oldTheTime2 = theTime - parseInt(theTime / 3600)
+
+            var theTime1 = 0;// 分  
+            var oldTheTime1 = parseInt(oldTheTime2 / 60)
+            var oldSection = parseInt(oldTheTime1 % 60)
+            theTime2 = parseInt(theTime / 3600);
+            theTime1 = parseInt(oldTheTime2 / 60);
+            let result = theTime2 + '小时' + theTime1 + "分钟" + oldSection +"秒";
+
+            return result;  
+        }
     }
 }
 </script>

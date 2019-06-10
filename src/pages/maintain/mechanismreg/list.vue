@@ -26,8 +26,8 @@
                     </Button>
                 </div>
                 <div class="btn">
-                    <Button type="primary" @click="batch">批量导入</Button>
-                    <Button type="primary" @click="add">新增机构</Button>
+                    <Button  @click="batch">批量导入</Button>
+                    <Button type="info" @click="add">新增机构</Button>
                 </div>
             </header>
             <!-- 列表 -->

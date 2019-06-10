@@ -2,7 +2,7 @@
   <div class="list">
     <tmpHeader/>
     <div class="main">
-      <Button type="primary" class="primary" @click="add">新增远程门诊类型</Button>
+      <Button type="info" class="primary" @click="add">新增远程门诊类型</Button>
       <div class="tabList">
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>

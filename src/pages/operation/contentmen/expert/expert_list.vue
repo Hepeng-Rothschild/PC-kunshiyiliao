@@ -10,7 +10,7 @@
         </div>
         <Button type="primary"  icon="ios-search" @click="valChange" style="margin-left:20px;">查询</Button>
       </div>
-      <Button type="primary" @click="navto">添加专家</Button>
+      <Button type="info" @click="navto">添加专家</Button>
     </div>
     <!--表格列表-->
     <div class="main" v-show="!flag">

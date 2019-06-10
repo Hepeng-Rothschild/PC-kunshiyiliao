@@ -402,7 +402,7 @@ export default {
         },
         // 加载直播数据
         verifyData (params) {
-            this.data1 = [{}]
+            this.data1 = []
              // 加载直播列表
             this.$axios.post(api.livelist, {
                 provinceCode: this.province,

@@ -6,7 +6,7 @@
                 <Button type="primary" @click="loadPage(1)">
                     <Icon type="ios-search" size="14"/>查询
                 </Button>
-                <Button @click="add">添加</Button>
+                <Button @click="add" type='info'>添加</Button>
             </Col>
         </Row>
         <Table class="m-table" stripe :columns="columns" :data="dataList"></Table>

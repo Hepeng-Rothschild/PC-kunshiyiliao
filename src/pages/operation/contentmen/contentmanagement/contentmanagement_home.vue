@@ -29,10 +29,10 @@
             </div>
             <!--搜索输入-->
             <div class="search">
-                <Input v-model.trim="val" placeholder="请输入文章名称进行检索" style="width: 200px" clearable/>
+                <Input v-model.trim="val" placeholder="请输入文章名称进行检索" style="width: 200px;" clearable/>
             </div>
             <!--搜索按钮-->
-            <Button type="primary" icon="ios-search" @click="search">搜索</Button>
+            <Button type="primary" icon="ios-search" @click="search" style='margin:0 10px;'>搜索</Button>
             <Button type="info" @click="add">新增</Button>
         </div>
         <div class="main">
@@ -441,10 +441,11 @@ export default {
         height: 50px;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        /* justify-content: space-around; */
         align-items: center;
         .selectType {
             width: 200px;
+            margin:0 10px;
             select {
                 width: 80px;
             }

@@ -7,7 +7,13 @@
     :theme="theme1"
     :active-name="topActiveName"
   >
-    <MenuItem v-for="item in topMenuLists" :key="item.id" :name="item.id">{{item.name}}</MenuItem>
+    <MenuItem v-for="item,index in topMenuLists" :key="item.id" :name="item.id">
+      <Icon type="ios-navigate" v-if='index == 0'></Icon>
+      <Icon type="ios-keypad" v-if='index == 1'></Icon>
+      <Icon type="ios-analytics" v-if='index == 2'></Icon>
+      <Icon type="ios-paper" v-if='index == 3'></Icon>
+    {{item.name}}
+    </MenuItem>
     <!-- <MenuItem name="1">
             运营平台
         </MenuItem>

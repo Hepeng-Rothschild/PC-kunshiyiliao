@@ -112,3 +112,18 @@ export function packageAxios(_this,url,params,callback,fileback){
     fileback(err)
   })
 }
+// 将秒数转换为时分秒
+export function formatSeconds (value) {
+    var theTime = Number(value);// 秒  
+    var theTime2 = 0;// 小时  
+    var oldTheTime2 = theTime - parseInt(theTime / 3600)
+
+    var theTime1 = 0;// 分  
+    var oldTheTime1 = parseInt(oldTheTime2 / 60)
+    var oldSection = parseInt(oldTheTime1 % 60)
+    theTime2 = parseInt(theTime / 3600);
+    theTime1 = parseInt(oldTheTime2 / 60);
+    let result = theTime2 + '小时' + theTime1 + "分钟" + oldSection +"秒";
+
+    return result;  
+}

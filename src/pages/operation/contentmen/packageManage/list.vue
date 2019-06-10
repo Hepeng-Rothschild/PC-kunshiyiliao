@@ -4,7 +4,7 @@
         <tmpHeader/>
         <!--添加专家/搜索-->
         <div class="iheader">
-            <Button type="primary" @click="navtoAdd">添加服务包</Button>
+            <Button type="info" @click="navtoAdd">添加服务包</Button>
         </div>
         <!--表格列表-->
         <div class="main">

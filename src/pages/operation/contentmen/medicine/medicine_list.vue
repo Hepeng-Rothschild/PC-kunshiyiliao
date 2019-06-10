@@ -16,7 +16,7 @@
           </div>
           <Button type="primary" icon="ios-search" @click="change">查询</Button>
         </div>
-        <Button type="primary" @click="navto">添加科室</Button>
+        <Button type="info" @click="navto">添加科室</Button>
       </div>
       <!--列表-->
       <div class="tabList">

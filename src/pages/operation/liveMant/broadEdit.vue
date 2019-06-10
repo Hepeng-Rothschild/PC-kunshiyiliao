@@ -517,8 +517,8 @@ export default {
                 title: "患者端运营"
             },
             {
-                path: "/index/operation/liveMant/broadAdd",
-                title: "添加直播"
+                path: "/index/operation/liveMant/list",
+                title: "医师讲堂"
             }
         ];
         this.$emit("changeBreadList", breadList);

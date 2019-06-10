@@ -11,21 +11,21 @@
                     <img src="@/assets/images/time.png" alt="">
                     <div class = 'liveDate'>
                         <span>直播时长</span>
-                        <span>暂无数据</span>
+                        <span>{{ liveBroadDate.time }}</span>
                     </div>
                 </div>
                 <div class = 'liveTime'>
                     <img src="@/assets/images/eye.png" alt="">
                     <div class = 'liveDate'>
                         <span>观看人次</span>
-                        <span>暂无数据</span>
+                        <span>{{ liveBroadDate.Visitors }}</span>
                     </div>
                 </div>
                 <div class = 'liveTime'>
                     <img src="@/assets/images/xin.png" alt="">
                     <div class = 'liveDate'>
                         <span>关注人次</span>
-                        <span>暂无数据</span>
+                        <span>{{ liveBroadDate.manTime }}</span>
                     </div>
                 </div>
                 <Button type="primary" style='height:40px;' @click='refreshHeadDate'>刷新</Button>
@@ -114,8 +114,8 @@
             
             <Button @click='reback'>返回</Button>
         </div>
-        <Modal v-model="modal2" width="400" footer-hide>
-            <img :src="params.headImg" alt="" style='display:block;margin:0 auto;'>
+        <Modal v-model="modal2" width="600" footer-hide>
+            <img :src="params.headImg" alt="" style='display:block;width:100%'>
         </Modal>
     </div>
 </template>
@@ -124,11 +124,11 @@ import api from "@/api/commonApi";
 export default {
     data () {
         return {
-            modal2:false,
-            examineName:"",
-            sdate:"",
-            sdateName:"00天00小时00分钟00秒",
-            date:"00天00小时00分钟00秒",
+            modal2: false,
+            examineName: "",
+            sdate: "",
+            sdateName: "00天00小时00分钟00秒",
+            date: "00天00小时00分钟00秒",
             params: {
                 // 标题
                 title:"",
@@ -170,14 +170,14 @@ export default {
                 
             },
             // 直播类型
-            liveTypeList:[
+            liveTypeList: [
                 {
                     id:"0",
                     name:"医师讲堂"
                 }
             ],
             // 直播形式
-            liveListForm:[
+            liveListForm: [
                 {
                     id:"0",
                     name:"轻直播"
@@ -192,10 +192,10 @@ export default {
                 },
             ],
             // 课堂类型
-            columnList:[],
-            playStatus:"",
+            columnList: [],
+            playStatus: "",
             // 状态列表
-            livexsList:[
+            livexsList: [
                 {
                     id:"1",
                     name:"待审核"
@@ -229,8 +229,14 @@ export default {
                     name:"已关闭"
                 }
             ],
-            statueName:'',
-            liveTime:"",
+            statueName: '',
+            liveTime: "",
+            liveBroadDate:{
+                time: "暂无数据" ,
+                Visitors: "暂无数据",
+                manTime:"暂无数据"
+
+            }
         }
     },
     created () {
@@ -241,8 +247,8 @@ export default {
                 title: "患者端运营"
             },
             {
-                path: "/index/operation/liveMant/broadAdd",
-                title: "添加直播"
+                path: "/index/operation/liveMant/list",
+                title: "医师讲堂"
             }
         ];
         this.$emit("changeBreadList", breadList);
@@ -301,7 +307,20 @@ export default {
         },
         // 加载头部直播数据
         refreshHeadDate () {
-
+            let query = this.$route.query;
+            let url = api.countlivedata;
+            let params = {
+                id : query.id
+            }
+            this.$axios.post(url, params).then(res => {
+                console.log(res);
+                if(res.data.success) {
+                    let ret = res.data.object
+                    this.liveBroadDate.time = this.formatSeconds(ret.liveTime);
+                    this.liveBroadDate.Visitors = ret.countWatch;
+                    this.liveBroadDate.manTime = ret.countFollow;
+                }
+            })
         },
         // 加载直播详情数据
         getLiveData(){
@@ -313,6 +332,11 @@ export default {
                     let ret = resp.data.object;
                     console.log(ret);
                     this.playStatus = ret.playStatus
+                    // 通过直播状态加载直播数据
+                    if(this.playStatus == 2 || this.playStatus == 5 || this.playStatus == 6) {
+                        // console.log('加载直播数据');
+                        this.refreshHeadDate ()
+                    }
                     this.livexsList.forEach(item =>{
                         if(Number(item.id) == Number(ret.playStatus)) {
                             this.statueName = item.name
@@ -455,6 +479,21 @@ export default {
         // 进入直播间
         enterLive () {
 
+        },
+        // 转换秒数
+        formatSeconds (value) {
+            var theTime = Number(value);// 秒  
+            var theTime2 = 0;// 小时  
+            var oldTheTime2 = theTime - parseInt(theTime / 3600)
+
+            var theTime1 = 0;// 分  
+            var oldTheTime1 = parseInt(oldTheTime2 / 60)
+            var oldSection = parseInt(oldTheTime1 % 60)
+            theTime2 = parseInt(theTime / 3600);
+            theTime1 = parseInt(oldTheTime2 / 60);
+            let result = theTime2 + '小时' + theTime1 + "分钟" + oldSection +"秒";
+
+            return result;  
         }
     }
 }

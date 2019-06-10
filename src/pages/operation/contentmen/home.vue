@@ -9,7 +9,7 @@
                     @changeHospital="changeHospital"
                 ></fourLevelLinkage>
             </div>
-            <span>机构名称：</span>
+            <span style='margin-left:10px;'>机构名称：</span>
             <Input
                 v-model.trim="val"
                 placeholder="请输入医疗机构名称检索"

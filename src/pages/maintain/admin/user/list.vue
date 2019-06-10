@@ -13,7 +13,7 @@
                     />
                     <Button type="primary" icon="ios-search" @click="vagueSearch">查询</Button>
                     <!-- 添加账号 -->
-                    <Button @click="add">添加账号</Button>
+                    <Button @click="add" type='info'>添加账号</Button>
                 </div>
             </header>
             <!-- 列表 -->

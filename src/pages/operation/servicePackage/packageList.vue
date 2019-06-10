@@ -25,7 +25,7 @@
                     </Button>
                 </div>
                 <div class="margin-up-down">
-                    <Button type="warning" @click="goAdd">添加服务包</Button>
+                    <Button type="info" @click="goAdd">添加服务包</Button>
                 </div>
                 <!-- <Button type="default" @click="goImport">批量导入</Button> -->
             </Col>

@@ -8,7 +8,7 @@
         <Input v-model.trim="search" placeholder="请输入新闻标题查询" style="width: 200px" @on-keyup.enter="press" clearable />
        <Button type="primary" @click="press"  icon="ios-search">查询</Button>
       </div>
-      <Button type="primary" @click="add">创建新闻</Button>
+      <Button type="info" @click="add">创建新闻</Button>
     </div>
     <!--表格列表-->
     <div class="main">

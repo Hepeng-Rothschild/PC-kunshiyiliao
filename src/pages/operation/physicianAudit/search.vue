@@ -74,9 +74,8 @@
                 </div>
             </div>
             <!-- 原因 -->
-            <div class="live">
-                <span class="i">原因</span>
-                <Input v-model="reason" type="textarea" :rows="4" placeholder="请输入审核不通过原因"/>
+            <div class="live" v-if="playStatus == 3">
+                <p style='color:red;margin:10px 0;'><span style='color:black;'>审核未通过原因：</span>{{ reason }}</p>
             </div>
         </div>
         <!-- 保存 -->
@@ -86,11 +85,20 @@
             4下架 -->
         <div style="margin-top:20px;">
             <Button type="primary" @click="saveLive" v-if="playStatus == 1">审核通过</Button>
-            <Button @click="backLive(3)" v-if="playStatus == 1">审核不通过</Button>
+            <Button @click="modal1 = true" v-if="playStatus == 1">审核不通过</Button>
             <Button @click="backLive(4)" type="primary" v-if="playStatus == 2">下架</Button>
             <Button @click="back">返回</Button>
         </div>
-        
+
+        <Modal
+            v-model="modal1"
+            title="审核不通过原因"
+            @on-ok="backLive(3)">
+            <div class="live">
+                <span class="i">原因</span>
+                <Input v-model="reason" type="textarea" :rows="4" placeholder="请输入审核不通过原因" />
+            </div>
+        </Modal>
         
     </div>
 </template>
@@ -157,7 +165,8 @@ export default {
             reason: "",
             playStatus: "",
             poster: "",
-            videoStyle: { width: "400px", height: "300px" }
+            videoStyle: { width: "400px", height: "300px" },
+            modal1: false,
         };
     },
     created() {
@@ -270,6 +279,7 @@ export default {
                     if (res.data.success) {
                         let ret = res.data.object;
                         this.$Message.info("操作成功");
+                        console.log(ret);
                         setTimeout(() => {
                             let query = this.$route.query;
                             this.functionJS.queryNavgationTo(
@@ -295,6 +305,18 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.live {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 10px 0;
+        span {
+            display: inline-block;
+            min-width: 30px;
+            margin-right: 30px;
+        }
+    }
 .shuru {
     div {
         margin: 0;

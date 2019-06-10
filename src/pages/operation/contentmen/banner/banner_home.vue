@@ -13,7 +13,7 @@
           <Input v-model.trim="search" placeholder="输入名称进行检索" style="width: 200px" clearable/>
           <Button type="primary" @click="searchInput" icon="ios-search">查询</Button>
         </div>
-        <Button @click="addBanner" type="primary">添加Banner</Button>
+        <Button @click="addBanner" type="info">添加Banner</Button>
       </div>
       <!--表格列表-->
       <div class="tabList">

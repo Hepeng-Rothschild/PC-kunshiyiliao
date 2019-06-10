@@ -4,7 +4,7 @@
     <tmpHeader/>
     <!--添加专家/搜索-->
     <div class="iheader">
-      <Button type="primary" @click="navto" icon="ios-search">添加服务</Button>
+      <Button type="info" @click="navto" icon="ios-search">添加服务</Button>
     </div>
     <!--表格列表-->
     <div class="main">

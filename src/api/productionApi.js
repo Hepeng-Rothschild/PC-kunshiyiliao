@@ -301,6 +301,7 @@ const teamquery = '/operateapi/teamqueryteam'  //医疗小组查询
 const teamlist = '/operateapi/teamqueryteamlist'  //医疗小组列表
 
 const insertdoctor = '/operateapi/authenticationinsertdoctor' //添加医生
+const countlivedata = '/operateapi/lecturedemandcountlivedata' //加载直播数据
 let production = {
     login,
     //字典
@@ -587,6 +588,7 @@ let production = {
     teamlist,
 
     insertdoctor,
+    countlivedata,
 }
 import weixin from './weixinApi';
 for(let key in weixin){
