@@ -247,8 +247,47 @@ const doctorEdit = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-doctorOperation-doctorGroup' */"@/pages/operation/doctorGroup/edit")
 }
+// 互联网排班
+const interScheduling = {
+	path: 'operation/interScheduling',
+	name: 'interScheduling',
+	meta: {
+		index: 2,
+		title: '互联网排班列表'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctorOperation-interScheduling' */"@/pages/operation/interScheduling/list")
+}
+// 新增互联网排班
+const interSchedulingAdd = {
+	path: 'operation/interSchedulingAdd',
+	name: 'interSchedulingAdd',
+	meta: {
+		index: 3,
+		title: '新增互联网排班'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctorOperation-interScheduling' */"@/pages/operation/interScheduling/add")
+}
+// 修改互联网排班
+const interSchedulingEdit = {
+	path: 'operation/interSchedulingEdit',
+	name: 'interSchedulingEdit',
+	meta: {
+		index: 3,
+		title: '修改互联网排班'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-doctorOperation-interScheduling' */"@/pages/operation/interScheduling/edit")
+}
 //医生端运营
 export default{
+	// 修改互联网排班
+	interSchedulingEdit,
+	// 新增互联网排班
+	interSchedulingAdd,
+	// 互联网排班
+	interScheduling,
     // 医生端运营
     doctorManagement,
     // 医生认证

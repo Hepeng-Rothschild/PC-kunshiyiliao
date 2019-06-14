@@ -365,34 +365,17 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         let ret = resp.data.object.list;
-                        let arr = [
-                            {},
-                            {
-                                val: 1,
-                                content: "待审核"
-                            },
-                            {
-                                val: 2,
-                                content: "审核通过"
-                            },
-                            {
-                                val: 3,
-                                content: "审核未通过"
-                            },
-                            {
-                                val: 4,
-                                content: "下架"
-                            }
-                        ];
                         ret.forEach((item, index) => {
                             item.iSum = this.addZeros(index);
-                            item.status = Boolean(item.playStatus)
-                                ? arr[item.playStatus].content
-                                : arr[1].content;
+                            this.livexsList.forEach(s => {
+                                if(s.id == item.playStatus) {
+                                    item.status = s.name
+                                }
+                            })
                             item.videoSource =
                                 item.videoSource == 1 ? "网站地址" : "本地上传";
                         });
-                        ret;
+                        console.log(ret);
                         this.count = resp.data.object.count;
                         this.data1 = ret;
                     } else {

@@ -258,7 +258,7 @@ export default {
         // 加载直播详情
         this.getLiveData();
     },
-    methods:{
+    methods: {
         // 返回
         reback(){
             let query = this.$route.query;
@@ -312,15 +312,20 @@ export default {
             let params = {
                 id : query.id
             }
-            this.$axios.post(url, params).then(res => {
-                console.log(res);
-                if(res.data.success) {
-                    let ret = res.data.object
-                    this.liveBroadDate.time = this.formatSeconds(ret.liveTime);
-                    this.liveBroadDate.Visitors = ret.countWatch;
-                    this.liveBroadDate.manTime = ret.countFollow;
-                }
-            })
+            if(this.playStatus == 2 || this.playStatus == 5 || this.playStatus == 6) {
+                // console.log('加载直播数据');
+                this.$axios.post(url, params).then(res => {
+                    if(res.data.success) {
+                        let ret = res.data.object;
+                        console.log(ret);
+                        this.liveBroadDate.time = this.formatSeconds(ret.liveTime);
+                        this.liveBroadDate.Visitors = ret.countWatch;
+                        this.liveBroadDate.manTime = ret.countFollow;
+                    }
+                })
+            } else {
+                this.$Message.error("请检查直播状态")
+            }
         },
         // 加载直播详情数据
         getLiveData(){

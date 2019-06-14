@@ -460,6 +460,7 @@ export default {
                             return ;
                         }
                     });
+                    console.log(resp);
                     this.info.registerTimes.map((el, i) => {
                         if(el.day == 1){
                             let tmpPiece = [el.timeStart, el.timeEnd];

@@ -181,8 +181,8 @@ export default {
       func: null,
       level: null,
       info: {
-        menuName: null,
-        remark: null,
+        menuName: "",
+        remark: "",
         function: "2",
         level: 2,
         topMenu: null,
@@ -434,7 +434,7 @@ export default {
     },
     submit(name) {
       this.$refs[name].validate(valid => {
-        if (valid) {
+        if (Boolean(valid)) {
           let operateApi = "";
           let subMitObj = {};
           let noticeMsg = "";
@@ -445,6 +445,7 @@ export default {
             noticeMsg = "添加";
             operateApi = api.operatemenuinsert;
           }
+          
           subMitObj.id = this.info.id ? parseInt(this.info.id) : null;
           subMitObj.ids = this.ids;
           subMitObj.menuName = this.info.menuName.trim();
@@ -461,6 +462,7 @@ export default {
             .post(operateApi, subMitObj)
             .then(resp => {
               if (resp.data.code == 1) {
+                console.log(resp);
                 //   公用方法
                 this.functionJS.queryNavgationTo(
                   this,

@@ -757,7 +757,7 @@ export default {
             this.$axios.post(api.querylist, {
                 hospitalId:this.hospitalId
             }).then(res => {
-                if(res.data.message) {
+                if(res.data.success) {
                     let ret = res.data.object;
                     this.list = ret || []
                     console.log('支付方式列表',ret);

@@ -12,6 +12,8 @@ import servicePackage from './servicePackage'
 import publicManagement from './publicManagement'
 // 系统管理
 import systemManagement from './systemManagement'
+// 互联网医院
+import InternetHospital from './internetHospital'
 
 export default {
 	//订单管理
@@ -47,6 +49,9 @@ export default {
 	DoctorRemoteclinicList: doctorOperation.DoctorRemoteclinicList,
 	DoctorRemoteclinicEdit: doctorOperation.DoctorRemoteclinicEdit,
 	DoctorRemoteclinicAdd: doctorOperation.DoctorRemoteclinicAdd,
+	interSchedulingEdit: doctorOperation.interSchedulingEdit,
+	interSchedulingAdd: doctorOperation.interSchedulingAdd,
+	interScheduling: doctorOperation.interScheduling,
 
 
 	//患者端运营
@@ -106,6 +111,7 @@ export default {
 	doctorremoteClinicTypeList: InstitutionalOperation.doctorremoteClinicTypeList,
 	thirdParty: InstitutionalOperation.thirdParty,
 	doctorList: InstitutionalOperation.doctorList,
+	feeStandard:InstitutionalOperation.feeStandard,
 
 
 	//服务包管理
@@ -140,5 +146,11 @@ export default {
 	wxSystemManagementAdd: systemManagement.wxSystemManagementAdd,
 	wxSystemManagementEdit: systemManagement.wxSystemManagementEdit,
 	wxSystemManagementAddFn: systemManagement.wxSystemManagementAddFn,
+
+
+	// 互联网医院
+    CardRecharge: InternetHospital.CardRecharge,
+    renewalDeposit: InternetHospital.renewalDeposit,
+    clinicPayment: InternetHospital.clinicPayment,
 
 }

@@ -302,6 +302,21 @@ const teamlist = '/operateapi/teamqueryteamlist'  //医疗小组列表
 
 const insertdoctor = '/operateapi/authenticationinsertdoctor' //添加医生
 const countlivedata = '/operateapi/lecturedemandcountlivedata' //加载直播数据
+
+const chargeinsert = '/operateapi/itemchargeinsert'  // 添加互联网收费标准
+const chargepage = '/operateapi/itemchargepage' // 互联网收费标准列表
+const chargequerybyid = '/operateapi/itemchargequerybyid' // 互联网收费标准详情
+const chargeupdate = '/operateapi/itemchargeupdate' // 修改互联网收费标准
+const feeunitenum = '/operateapi/itemchargequeryitemfeeunitenum' //查询互联网收费标准收费单位
+
+const selectdoctorlist = '/operateapi/doctorschedulingselectdoctorlist' //查询门诊医生未排班列表
+const querydoctormenulist = '/operateapi/doctorschedulingquerydoctormenulist' //查询医生开通的服务列表并查询费用
+const insertdoctorscheduling = '/operateapi/doctorschedulinginsertdoctorscheduling' //新增医生排班
+const updatedoctorscheduling = '/operateapi/doctorschedulingupdatedoctorscheduling' //修改医生排班
+const doctorschedulingquerybyid = '/operateapi/doctorschedulingquerybyid' //查询医生排班详情
+const doctorschedulingpage = '/operateapi/doctorschedulingpage' // 查询医生排班列表
+const doctoridandservicetype = '/operateapi/doctorschedulingquerybydoctoridandservicetype'  //查询医生具体排班时间段与列表
+const querydoctorschedulinglist = '/operateapi/doctorschedulingquerydoctorschedulinglist' //查询医生开通服务
 let devApi = {
     login,
     //字典
@@ -589,6 +604,20 @@ let devApi = {
 
     insertdoctor,
     countlivedata,
+
+    chargeinsert,
+    chargepage,
+    chargequerybyid,
+    chargeupdate,
+    feeunitenum,
+    selectdoctorlist,
+    querydoctormenulist,
+    insertdoctorscheduling,
+    updatedoctorscheduling,
+    doctorschedulingquerybyid,
+    doctorschedulingpage,
+    doctoridandservicetype,
+    querydoctorschedulinglist,
 }
 import weixin from './weixinApi';
 for(let key in weixin){

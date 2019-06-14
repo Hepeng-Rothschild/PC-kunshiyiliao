@@ -18,10 +18,10 @@
                 <iSwitch v-model='items.shortcutFlag' />
               </div>
               <!-- 是否支付 -->
-              <div class="sort">
+              <!-- <div class="sort">
                 <span>是否支付</span>
                 <iSwitch v-model='items.ipayFlag' />
-              </div>
+              </div> -->
           </div>
         </div>
       </div>

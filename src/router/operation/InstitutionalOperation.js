@@ -301,9 +301,21 @@ const doctorList = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-InstitutionalOperation' */"@/pages/operation/contentmen/doctorList/list")
 }
+const feeStandard = {
+	path: 'operation/feeStandard',
+	name: 'feeStandard',
+	meta: {
+		index: 3,
+		title: '互联网收费标准'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-InstitutionalOperation' */"@/pages/operation/contentmen/feeStandard/index")
+}
 
 
 export default {
+	// 互联网收费标准
+	feeStandard,
     // 医生远程门诊列表
     doctorList,
     // 第三方厂家

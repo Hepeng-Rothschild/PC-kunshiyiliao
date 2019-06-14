@@ -11,6 +11,7 @@
                         v-model="username"
                         placeholder="请输入用户账号"
                         ref="username"
+                        @keyup="username = username.replace(/[^\w_]/g,'');"
                     >
                 </div>
                 <div class="pwd-box">

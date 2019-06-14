@@ -812,8 +812,6 @@ export default {
             })
         },
         submit(name) {
-            console.log(this.info);
-            return ""
             this.$refs[name].validate(valid => {
                 if (valid) {
                     if (this.selData.length <= 0) {

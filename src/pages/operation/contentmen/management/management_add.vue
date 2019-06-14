@@ -9,24 +9,20 @@
         <div class="xsfw" v-for="(item,index) in allMenuList" :key='index'>
           <h2 style='font-weight:bold;'>{{ item.menuName }}</h2>
           <!--第一行-->
-          <div class="select_wufu" ref="all">
-            <div v-for="(items,index) in item.dtoList" :key='index'>
-             <input
-                type="checkbox"
-                :value="items.id"
-                v-if="!items.selected"
-                :data-id="items.id"
-                :id="'a' + items.id"
-              >
-              <input
-                type="checkbox"
-                :value="items.id"
-                v-if="items.selected"
-                checked
-                :data-id="items.id"
-                :id="'a' + items.id"
-              >
-              <label :for="'a' + items.id">{{ items.menuName }}</label>
+          <div class="select_wufu" >
+            <div v-for="(items,index) in item.dtoList" :key='index' style='margin:5px 0;'>
+                <Checkbox v-model="items.flag" style='width:90px;' @on-change='flagChange(items)'>{{ items.menuName }}</Checkbox>
+                <div>
+                  <span style='min-width:80px;'>是否支付：</span>
+                  <iSwitch v-model="items.ipay" @on-change='ipayChange(items)'/>
+                </div>
+                <div v-show='items.flag'>
+                  <span style='min-width:80px;'>支付方式：</span>
+                  <CheckboxGroup v-model="items.paytype">
+                    <Checkbox v-for="item in paymentList" :label='item.id' :key='item.id'>{{ item.paymentTypeName +' ' + item.paymentChannelName }}</Checkbox>
+                  </CheckboxGroup>
+                </div>
+                
             </div>
           </div>
         </div>
@@ -46,10 +42,10 @@ import api from "@/api/commonApi";
 export default {
   data() {
     return {
-      arr: [],
       allMenuList: [],
-      checkedNames: [],
-      id: sessionStorage.getItem("hospitalId")
+      id: sessionStorage.getItem("hospitalId"),
+      // 支付方式列表
+      paymentList: [],
     };
   },
   components: {
@@ -68,24 +64,45 @@ export default {
       }
     ];
     this.$emit("changeBreadList", breadList);
+    this.loadingHospitalId();
   },
   methods: {
     save() {
-      let wrap = document.getElementsByClassName("addManag")[0];
-      let el = wrap.getElementsByTagName("input");
-      let len = el.length;
-      let arr = [];
-      for (let i = 0; i < len; i++) {
-        if (el[i].checked) {
-          arr.push(el[i].getAttribute("data-id"));
+      let menuList = []
+      // 循环出已经选择的服务
+      this.allMenuList.forEach(item => {
+        item.dtoList.forEach(i => {
+          if(Boolean(i.flag)) {
+            let obj = {
+              menuId: i.id,
+              ipay: Number(i.ipay).toString(),
+              paytype: ""
+            }
+            if(i.ipay) {
+              obj.paytype = i.paytype.join(",")
+            }
+            menuList.push(obj);
+          }
+        })
+      })
+      console.log("请求参数",menuList);
+      let flag = false;
+      menuList.forEach(items => {
+        if (!Boolean(items.paytype) && Boolean(Number(items.ipay))) {
+          flag = true
         }
+      })
+      if(flag) {
+        this.$Message.error('请选择勾选服务的支付方式')
+        return ""
       }
       this.$axios
         .post(api.setserver, {
           hospitalId: this.id,
-          ids: arr
+          menuList
         })
         .then(res => {
+          console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
             setTimeout(() => {
@@ -97,35 +114,67 @@ export default {
             this.$Message.error("修改失败,请重试");
           }
         })
-    }
-  },
-  mounted() {
-    this.$axios
+    },
+    ipayChange (row) {
+      if(!row.ipay) {
+        row.paytype = []
+        row.ipay = false
+      }
+    },
+    flagChange (row) {
+      if(!row.flag) {
+        row.paytype = []
+      }
+    },
+    // 加载医院支付方式列表
+    loadingHospitalId () {
+        this.$axios.post(api.querylist, {
+            hospitalId:this.id
+        }).then(res => {
+            if(res.data.success) {
+                let ret = res.data.object;
+                ret.forEach(item => {
+                  item.id = String(item.id)
+                })
+                this.paymentList = ret || []
+                
+                console.log('支付方式列表',ret);
+            } else {
+                this.$Message.error("加载医院支付方式列表失败,请重试")
+            }
+        })
+    },
+    // 加载服务列表
+    loadingManagementList (){
+      this.$axios
       .post(api.getServer, {
         hospitalId: this.id
       })
       .then(res => {
         if (res.data) {
           let ret = res.data.object;
+          // 循环出已经选中的服务
+          ret.forEach(item => {
+            item.dtoList.forEach(i => {
+              i.flag = Boolean(i.selected);
+              i.ipay = Boolean(Number(i.ipay))
+              i.paytype = Boolean(i.paytype) ? i.paytype.split(',') : []
+            })
+          })
+          console.log(ret);
           this.allMenuList = ret;
+        } else {
+          this.$Message.error("加载医院服务失败")
         }
       })
       .catch(err => {
         console.log(err);
       });
-  },
-  // 数据更新后的DOM结构
-  updated() {
-    let wrap = document.getElementsByClassName("addManag")[0];
-    let el = wrap.getElementsByTagName("input");
-    let len = el.length;
-    let arr = [];
-    for (let i = 0; i < len; i++) {
-      if (el[i].checked) {
-        arr.push(el[i]);
-      }
     }
-  }
+  },
+  mounted() {
+    this.loadingManagementList(); 
+  },
 };
 </script>
 
@@ -149,25 +198,15 @@ export default {
       .xsfw {
         margin: 10px 0;
         .select_wufu {
-          margin: 0 30px;
-          display: flex;
-          flex-direction: row;
+          margin: 5px 30px;
           padding: 14px 20px;
-          align-items: center;
-          flex-wrap: wrap;
+          font-size:12px;
           div {
-            width: 20%;
-            margin: 10px 20px;
+            // width: 100%;
+            margin:0 10px;
             display: flex;
             flex-direction: row;
             align-items: center;
-            input {
-              outline: none;
-              border: none;
-            }
-            label {
-              user-select: none;
-            }
           }
         }
       }

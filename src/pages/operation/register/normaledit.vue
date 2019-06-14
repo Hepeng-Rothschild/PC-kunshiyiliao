@@ -411,6 +411,7 @@ export default {
                     this.cost = this.info.cost;
                     this.receive = this.info.receive;
                     this.remarks = this.info.remarks;
+                    
                 })
                 .catch(err => {
                     // this.$Message.info("服务器超时，请重新访问");
@@ -583,6 +584,7 @@ export default {
                         this.count = resp.data.object.count;
                         this.pageNo = pageNo;
                         this.docListModal = true;
+                        
                     } else {
                         this.$Message.info("查询失败，请重试");
                     }

@@ -101,6 +101,7 @@ export default new VueRouter({
 				operation.d_createdNews,
 				operation.expert_edit,
 				operation.thirdParty,
+				operation.feeStandard,
 				// 远程门诊
 				operation.remoteClinic,
 				operation.remoteClinicEdit,
@@ -127,6 +128,10 @@ export default new VueRouter({
 				operation.physicianAudit,
 				operation.physicianAuditSee,
 				operation.physicianReview,
+				// 医生端互联网排班
+				operation.interSchedulingEdit,
+				operation.interSchedulingAdd,
+				operation.interScheduling,
 				
 				//服务包管理
 				operation.servicePackagePList,
@@ -172,6 +177,10 @@ export default new VueRouter({
 				operation.wxSystemManagementAdd,
 				operation.wxSystemManagementEdit,
 				operation.wxSystemManagementAddFn,
+				// 互联网医院
+				operation.CardRecharge,
+				operation.renewalDeposit,
+				operation.clinicPayment,
 				
 
 				//患者端运营
