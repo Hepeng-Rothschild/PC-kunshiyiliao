@@ -83,7 +83,7 @@
         <!--科室简介-->
         <div class="keshi_name_text">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
           <Input v-model="test2" type="textarea" :rows="6" placeholder="请输入科室简介" />
@@ -91,7 +91,7 @@
         <!--科室特色-->
         <div class="keshi_name_text">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室特色</span>
           </div>
           <vueEditor

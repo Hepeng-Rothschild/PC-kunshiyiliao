@@ -24,7 +24,7 @@
                     <Row>
                         <Col span="12">
                             <FormItem prop="projectCategory" label="选择项目">
-                                <Select v-model="formValidate.projectCategory" style='width:150px;'>
+                                <Select v-model="formValidate.projectCategory" style='width:150px;' @on-change='projectCategoryChange'>
                                     <Option style='text-align:center;' :value="item.id" v-for='item in projectCategoryList' :key='item.id'>{{ item.name }}</Option>
                                 </Select>
                             </FormItem>
@@ -79,7 +79,7 @@
                     </FormItem>
                     <FormItem label="使用业务模块" prop="modular">
                         <Select v-model="formValidate.modular" style='width:150px;'>
-                            <Option  style='text-align:center;' :value="index" v-for='item,index in modular' :key='index'>{{ item }}</Option>
+                            <Option  style='text-align:center;' :value="item.id" v-for='item,index in modular' :key='index'>{{ item.name }}</Option>
                         </Select>
                     </FormItem>
                     <FormItem label="启用标识">
@@ -264,6 +264,34 @@ export default {
             chargingUnit: [],
             // 业务模块
             modular: ["咨询","问诊","复诊","续方","药品咨询"],
+            Allmodular: ["咨询","问诊","复诊","续方","药品咨询"],
+            // 咨询列表
+            consultList: [
+                {
+                    name: "咨询",
+                    id: 0
+                },
+                {
+                    name: "药品咨询",
+                    id: 4
+                }
+            ],
+            // 问诊列表
+            inquiryList: [
+                {
+                    name: "问诊",
+                    id: 1
+                },
+                {
+                    name: "复诊",
+                    id: 2
+                },
+                {
+                    name: "续方",
+                    id: 3
+                },
+                
+            ],
             buttonName: "确认添加"
 
         };
@@ -414,7 +442,7 @@ export default {
                             }
                         })
                         // 选择模块
-                        this.modular.forEach((m,f) => {
+                        this.Allmodular.forEach((m,f) => {
                             if(Number(item.serviceType) == Number(f)) {
                                 item.serviceType = m
                             }
@@ -426,6 +454,17 @@ export default {
                 }
             })
             
+        },
+        // 根据项目类型切换不同的业务模块
+        projectCategoryChange () {
+            this.formValidate.modular = ''
+            if(Number(this.formValidate.projectCategory) == 1) {
+                this.modular = this.consultList
+            } else if (Number(this.formValidate.projectCategory) == 2) {
+                this.modular = this.inquiryList
+            } else {
+                
+            }
         }
     }
 };

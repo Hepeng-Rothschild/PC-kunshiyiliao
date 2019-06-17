@@ -317,6 +317,11 @@ const doctorschedulingquerybyid = '/operateapi/doctorschedulingquerybyid' //查�
 const doctorschedulingpage = '/operateapi/doctorschedulingpage' // 查询医生排班列表
 const doctoridandservicetype = '/operateapi/doctorschedulingquerybydoctoridandservicetype'  //查询医生具体排班时间段与列表
 const querydoctorschedulinglist = '/operateapi/doctorschedulingquerydoctorschedulinglist' //查询医生开通服务
+
+const apiserviceinsert = '/operateapi/apiserviceinsert' //添加接口管理
+const apiserviceupdate = '/operateapi/apiserviceupdate' // 修改接口管理 
+const apiservicequerybyid = '/operateapi/apiservicequerybyid' // 查询接口详情
+const apiservicepage = '/operateapi/apiservicepage' //查询接口管理列表
 let testApi = {
     login,
     //字典
@@ -618,6 +623,11 @@ let testApi = {
     doctorschedulingpage,
     doctoridandservicetype,
     querydoctorschedulinglist,
+
+    apiserviceinsert,
+    apiserviceupdate,
+    apiservicequerybyid,
+    apiservicepage,
 }
 import weixin from './weixinApi';
 for(let key in weixin){

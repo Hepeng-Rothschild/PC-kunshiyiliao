@@ -136,7 +136,41 @@ const sensitiveWordEdit = {
     component:()=>import(/* webpackChunkName: 'maintain-disposed-starclass' */"@/pages/maintain/sensitiveWord/edit")
 }
 
+const  interfaceManagementList = {
+    path:'maintain/nterfaceManagement/list',
+    name:'interfaceManagementList',
+    meta:{
+        index: 2,
+        title:'接口管理-列表'
+    },
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-interfaceManagement' */"@/pages/maintain/interfaceManagement/list")
+}
+const  interfaceManagementAdd = {
+    path:'maintain/nterfaceManagement/add',
+    name:'interfaceManagementAdd',
+    meta:{
+        index: 2,
+        title:'接口管理-新增'
+    },
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-interfaceManagement' */"@/pages/maintain/interfaceManagement/add")
+}
+const  interfaceManagementEdit = {
+    path:'maintain/nterfaceManagement/edit',
+    name:'interfaceManagementEdit',
+    meta:{
+        index: 2,
+        title:'接口管理-编辑'
+    },
+    component:()=>import(/* webpackChunkName: 'maintain-disposed-interfaceManagement' */"@/pages/maintain/interfaceManagement/edit")
+}
+
 export default {
+    // 接口管理-编辑
+    interfaceManagementEdit,
+    // 接口管理-新增
+    interfaceManagementAdd,
+    // 接口管理-列表
+    interfaceManagementList,
     // 敏感词汇
     sensitiveWordEdit,
     // 支付方式-选择

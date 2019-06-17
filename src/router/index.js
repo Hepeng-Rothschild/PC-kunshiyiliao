@@ -6,7 +6,6 @@ import statistics from './statistics';
 import supervision from './supervision';
 import netease from './netease';
 import chat from './chat';
-
 export default new VueRouter({
 	mode: 'hash',
 	routes: [
@@ -188,6 +187,8 @@ export default new VueRouter({
 				//机构运营
 				operation.mechanismOperation,
 
+				// childrenPath,
+
 				//索引管理
 				maintain.indexManagementIndex,
 				//运维端路由
@@ -222,6 +223,12 @@ export default new VueRouter({
 				maintain.menuManagementEdit,
 				maintain.paymentHome,
 				maintain.paymentSelect,
+				// 接口管理-编辑
+				maintain.interfaceManagementEdit,
+				// 接口管理-新增
+				maintain.interfaceManagementAdd,
+				// 接口管理-列表
+				maintain.interfaceManagementList,
 				//疾病/症状管理
 				maintain.diseaseList,
 				maintain.diseaseEdit,

@@ -31,6 +31,11 @@ axios.interceptors.request.use(
 		if (store.state.env == "production" || store.state.env == "test") {
 			let RegObj = new RegExp('(operate/login)|(filemd5)', 'ig');
 
+			Vue.prototype.fromData = {
+				'ContentType':'multipart/form-data',
+				'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
+			}
+			
 			let fileObj = new RegExp("uploadfiles", 'ig')
 
 			if (!RegObj.test(config.url)) {
@@ -47,10 +52,13 @@ axios.interceptors.request.use(
 				}
 
 			}
-
+			
 			let access_token = window.localStorage.getItem('access_token');
+			
 			if (access_token != undefined)
 				config.headers.Authorization = "Bearer " + access_token;
+				
+
 		}
 		// console.log("发送的所有数据",config);
 		return config;

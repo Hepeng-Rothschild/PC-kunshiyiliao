@@ -332,7 +332,7 @@ export default {
         height: 50px;
         align-items: center;
         .left {
-          min-width: 100px;
+          min-width: 130px;
         }
         input {
           outline: none;
@@ -344,7 +344,7 @@ export default {
         display: flex;
         flex-direction: row;
         .left {
-          min-width: 100px;
+          min-width: 130px;
         }
         p {
           margin-left: 20px;
@@ -355,7 +355,7 @@ export default {
         flex-direction: row;
         margin-top: 20px;
         .left {
-          min-width: 100px;
+          min-width: 130px;
         }
         textarea {
           outline: none;

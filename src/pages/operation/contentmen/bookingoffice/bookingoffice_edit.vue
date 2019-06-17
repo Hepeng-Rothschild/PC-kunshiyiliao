@@ -496,7 +496,7 @@ export default {
         height: 50px;
         align-items: center;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
         input {
           display: inline-block;
@@ -510,7 +510,7 @@ export default {
         display: flex;
         flex-direction: row;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
 
         p {
@@ -522,7 +522,7 @@ export default {
         flex-direction: row;
         margin-top: 20px;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
         textarea {
           outline: none;

@@ -344,8 +344,12 @@ export default {
             } else {
                 params.typeList = [this.currentDate.serviceType]
             }
-            console.log("请求地址", url);
-            console.log("传递参数", params);
+            // console.log("请求地址", url);
+            // console.log("传递参数", params);
+            if(params.timesList.length == 0) {
+                this.$Message.error("请选择号源")
+                return ""
+            }
             if (!this.value2[1] || !this.value3[1] || !this.value5[1]) {
                 this.$Message.error("请检查是否有时间段未填写完整!");
                 return ""

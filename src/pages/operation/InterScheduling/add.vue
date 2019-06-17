@@ -386,6 +386,10 @@ export default {
                 timesList: timsList,
                 typeList,
             }
+            if(params.timesList.length == 0) {
+                this.$Message.error("请选择号源")
+                return ""
+            }
             if(!Boolean(params.doctorId)) {
                 this.$Message.error("请选择医生!");
                 return ""
