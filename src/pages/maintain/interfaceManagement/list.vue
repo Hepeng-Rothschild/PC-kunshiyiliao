@@ -3,7 +3,7 @@
         <header style='margin:5px 0;'>
             <Input
                 v-model.trim="searchKey"
-                placeholder="输入名称进行查询"
+                placeholder="输入公司名称进行查询"
                 style="width: 260px"
                 clearable
             />
@@ -161,19 +161,6 @@ export default {
         this.getTabList(this.pageNo)
     },
     methods: {
-        // 生成访问随机码
-        generationCode(num) {
-            let arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
-            let result = [];
-            for (let i = 0; i < num; i++) {
-                let random = Math.floor(Math.random()*62)
-                if(result.length < num) {
-                    result.push(arr[random])
-                }
-            }
-            return result.join('')
-            // console.log('result', result);
-        },
         // 分页器改变
         loadPage (index) {
             this.pageNo = index;

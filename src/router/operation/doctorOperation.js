@@ -8,7 +8,7 @@ const doctorManagement = {
 	},
 	redirect:'/index/operation/doctorreview/list'
 }
-const reviewList = {
+const operationReviewList = {
 	path: 'operation/doctorreview/list',
 	name: 'reviewlist',
 	meta: {
@@ -291,7 +291,7 @@ export default{
     // 医生端运营
     doctorManagement,
     // 医生认证
-    reviewList,
+    operationReviewList,
     // 医生信息编辑
     reviewEdit,
     // 医生认证审核

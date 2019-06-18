@@ -13,7 +13,7 @@
                     <TimePicker type="time" v-model="getParams.endTime" format='HH:mm' style='width:120px;'></TimePicker>
                 </Col>
                 <Col span='5'>
-                    <Input v-model.trim="getParams.searchKey" placeholder = "输入流水号/发票号/姓名"  />
+                    <Input v-model.trim="getParams.searchKey" placeholder = "输入流水号/发票号/姓名"/>
                 </Col>
                 <Col span='8' style='padding-top:10px;'>
                     <Checkbox v-model="getParams.single">只显示异常</Checkbox >
@@ -56,7 +56,7 @@
                 flex-direction:row;justify-content:space-around;'>
                     <Card style='width:200px;'>
                         <p slot="title" style='text-align:center;'>支付平台状态：</p>
-                        <p style='text-align:center;'>已支付</p>
+                        <p style='text-align:center;'>{{ PlatformStatus }}</p>
                     </Card>
                     <Card style='width:200px;margin:0 10px;'>
                         <p slot="title" style='text-align:center;'>互联网平台状态：</p>
@@ -235,7 +235,7 @@ export default {
                 },
             ],
             // 平台状态
-            PlatformStatus: '',
+            PlatformStatus: '已支付',
             // 互联网平台状态
             interPlatformStatus: "",
             // HIS状态

@@ -175,7 +175,7 @@ export default {
                     render:(h,params) => {
                         let row = params.row
                         let top = '上午：' + row.intervalTimeAmStart + '-' + row.intervalTimeAmEnd;
-                        let bot = '下午：' + row.intervalTimePmStart + '-' + row.intervalTimeAmEnd;
+                        let bot = '下午：' + row.intervalTimePmStart + '-' + row.intervalTimePmEnd;
                         return h('div', [
                             h('p', {
                                 style: {

@@ -345,6 +345,7 @@ export default {
                             this.alertMsg = "用户名或密码错误，请重新输入";
                             this.verifyCode.refresh();
                             this.$refs.username.focus();
+                            this.verify = "";
                         }
                     })
                     .catch(err => {

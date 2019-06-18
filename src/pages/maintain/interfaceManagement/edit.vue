@@ -81,18 +81,6 @@ export default {
         this.getDefault(id)
     },
     methods: {
-        // 生成访问随机码
-        generationCode(num) {
-            let arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
-            let result = [];
-            for (let i = 0; i < num; i++) {
-                let random = Math.floor(Math.random()*62)
-                if(result.length < num) {
-                    result.push(arr[random])
-                }
-            }
-            return result.join('')
-        },
         // 确认添加接口
         handleSubmit (name) {
             this.$refs[name].validate((valid) => {

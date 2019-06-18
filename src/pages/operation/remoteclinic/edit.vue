@@ -482,9 +482,11 @@ export default {
                     hospitalId
                 })
                 .then(res => {
+                    console.log('远程门诊类型',res);
                     if (res.data.code) {
                         let ret = res.data.object;
                         this.searchTypeList = ret;
+
                         this.searchTypeList.forEach(item => {
                             if (item.id == id) {
                                 this.money = item.cost;

@@ -95,7 +95,7 @@ export default {
                     align:"center",
                     width:200,
                     render: (h,params) => {
-                        let a = params.row.appMechanism;
+                        let a = Boolean(params.row.appMechanism) ? params.row.appMechanism : "暂无";
                         return h('div', [
                     　　　　[
                     　　　　h('a', {
@@ -111,7 +111,11 @@ export default {
                                 },
                                 on:{
                                     click :() => {
-                                        this.simples(a)
+                                        if(Boolean(params.row.appMechanism)) {
+                                            this.simples(a)
+                                        } else {
+                                            this.$Message.info("暂无微信号绑定机构名称")
+                                        }
                                     }
                                 }
                     　　　　　　}, a)

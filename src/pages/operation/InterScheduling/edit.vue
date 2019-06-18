@@ -17,9 +17,7 @@
                 <div style='margin-right:8px;' v-for='(item,index) in leftList'>
                     <RadioGroup v-model="serviceType"  @on-change='checkedChange(item, index)'>
                         <Card style="width:110px;">
-
                             <Checkbox :disabled='item.inUsed == 1' v-model="item.flag" v-if='item.inUsed==1'>{{ item.menuName }}</Checkbox>
-
                             <Radio :label='item.serviceType' v-if='item.inUsed != 1'>{{ item.menuName }}</Radio>
                             <div style="text-align:center">
                                 <h3>{{ item.itemFeePrice }}元</h3>
@@ -346,10 +344,13 @@ export default {
             }
             // console.log("请求地址", url);
             // console.log("传递参数", params);
-            if(params.timesList.length == 0) {
-                this.$Message.error("请选择号源")
-                return ""
+            if(this.inClassTime){
+                if(params.timesList.length == 0) {
+                    this.$Message.error("请选择号源")
+                    return ""
+                }
             }
+           
             if (!this.value2[1] || !this.value3[1] || !this.value5[1]) {
                 this.$Message.error("请检查是否有时间段未填写完整!");
                 return ""
@@ -357,7 +358,7 @@ export default {
             this.$axios.post(url, params).then(res => {
                 console.log(res);
                 if (res.data.success) {
-                    this.$Message.info(res.data.object.success);
+                    this.$Message.info(res.data.object.same || res.data.object.success);
                     setTimeout(() => {
                         this.back()
                     }, 800);
@@ -448,7 +449,7 @@ export default {
             this.$axios.post(url, params).then(res => {
                 if(res.data.success) {
                     let ret = res.data.object;
-                    console.log(ret);
+                    console.log('开通的服务',ret);
 
                     this.leftList = []
                     
@@ -456,23 +457,23 @@ export default {
                         this.leftList.push({
                             doctorId: item.doctorId,
                             inUsed: item.status,
-                            itemFeePrice: 10,
+                            itemFeePrice: item.itemFeePrice,
                             menuName: item.menuName,
                             schedulingId: item.schedulingId,
                             serviceType: item.serviceType,
                             flag : Boolean(Number(item.status)),
-                            status:item.status
+                            status: item.status
                         })
                         if(Boolean(Number(item.status))){
                             this.selectList.push({
                                 doctorId: item.doctorId,
                                 inUsed: item.status,
-                                itemFeePrice: 10,
+                                itemFeePrice: item.itemFeePrice,
                                 menuName: item.menuName,
                                 schedulingId: item.schedulingId,
                                 serviceType: item.serviceType,
                                 flag : Boolean(Number(item.status)),
-                                status:item.status
+                                status: item.status
                             })
                         }
                     })

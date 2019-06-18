@@ -1,138 +1,38 @@
 <template>
-  <div class="f_calssify">
-    <div class="main">
-      <!--头部-->
-      <header>
-        <button @click="navto">添加新分类</button>
-      </header>
-      <!--表布局-->
-      <div class="tabList">
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td>编号</td>
-            <td>功能模块</td>
-            <td>显示</td>
-            <td>支持类型</td>
-            <td>操作</td>
-          </tr>
-          <tr v-for="(item,index) in list" v-show="list.length" :key='index'>
-            <td>{{ addZeros(1)}}</td>
-            <td>功能模块</td>
-            <td>显示</td>
-            <td>支持类型</td>
-            <td @click="change(item)" style="cursor:pointer;">编辑</td>
-          </tr>
-        </table>
-        <div class="footer" v-show="!list.length">暂无更多数据</div>
-      </div>
-      <!--分页器-->
-      <div style = 'text-align:center;margin:10px 0;'>
-			<Page :total="classifySize"  @on-change = 'pageChange'/>
-		</div>
+    <div class="f_calssify">
+      <uploadImages :uploadCode='uploadCode' :img='img' @imgFn='imgFn'></uploadImages>
     </div>
-  </div>
 </template>
 
 <script>
+import code from "@/configs/base.js";
+import api from "@/api/commonApi";
+import uploadImages from '@/components/uploadIMage'
 export default {
-  created() {
+  components : {
+    uploadImages,
   },
-  data() {
-    return {
-      classifySize: 10,
-      list: [
-		  {
-          id: "01",
-          module: "最新资讯",
-          ishow: "是",
-          type: "文章",
-          c: "编辑"
-        }
-	  ]
-    };
-  },
-  methods: {
-    navto() {
-       //   公用方法
-      this.functionJS.queryNavgationTo(
-          this,
-          "/index/operation/newClassify"
-      );
-
+    data() {
+        return {
+          list: [],
+          img: '{"fileName":"operate/lecture/head/img/20190605150410646555863.jpg","smallFileName":"operate/lecture/head/img/s_20190605150410646555863.jpg"}',
+          uploadCode: code.urlCode.hospitalBanner
+        };
     },
-    pageChange (index) {
-	  
-	},
-	change () {
-    //   公用方法
-      this.functionJS.paramsNavgationTo(
-          this,
-          "addClassify"
-      );
-	}
-  }
+    methods : {
+      imgFn (file) {
+        this.img = file
+        console.log(file);
+      }
+    }
 };
 </script>
 
 <style scoped lang="less">
 .f_calssify {
-  width: 100%;
-  .main {
-    width: 80%;
+    width: calc(100% - 20px);
+    padding: 10px 30px;
     margin: 0 auto;
-    header {
-      width: 100%;
-      height: 30px;
-      margin: 10px 0;
-      button {
-        width: 100px;
-        height: 25px;
-        outline: none;
-        border: none;
-        color: #fff;
-        background: #256ba9;
-        border-radius: 6px;
-      }
-    }
-    .tabList {
-      width: 80%;
-      margin: 20px auto;
-      table {
-        width: 100%;
-          border: 1px solid #dddee1;
-
-         tr:nth-child(odd) {
-          background: #f8f8f9;
-        }
-        tr:nth-child(even) {
-          background: #fff;
-        }
-        tr:not(:first-child):hover {
-          background: #ebf7ff;
-        }
-        tr {
-            border: 1px solid #dddee1;
-            height:40px;
-
-          td {
-            text-align: center;
-          }
-          td.none {
-            display: none;
-          }
-        }
-      }
-      .footer {
-        width: 100%;
-        text-align: center;
-        border: 1px solid black;
-        border-top: none;
-      }
-    }
-
-    .pages {
-      text-align: center;
-    }
-  }
+    background: #fff;
 }
 </style>

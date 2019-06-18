@@ -119,13 +119,43 @@ export default {
                     title:"联系人姓名",
                     key:"linkman",
                     align:"center",
-                    width:150
+                    width:150,
+                    render : (h, params) =>{
+                        let row = params.row;
+                        let name = '';
+                        let style = {}
+                        if(Boolean(row.linkman)) {
+                            name = row.linkman
+                        } else {
+                            name = '暂无'
+                            style.color = 'gray'
+                        }
+                        
+                        return h('span',{
+                                style
+                        }, name)
+                    }
                 },
                 {
                     title:"联系电话",
                     key:"linkmanTelephone",
                     align:"center",
-                    width:150
+                    width:150,
+                    render : (h, params) =>{
+                        let row = params.row;
+                        let name = '';
+                        let style = {}
+                        if(Boolean(row.linkmanTelephone)) {
+                            name = row.linkmanTelephone
+                        } else {
+                            name = '暂无'
+                            style.color = 'gray'
+                        }
+                        
+                        return h('span',{
+                            style
+                        }, name)
+                    }
                 },
                 {
                     title:"状态",

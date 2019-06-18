@@ -1,4 +1,4 @@
-const reviewList = {
+const statisticsReviewList = {
     path:'statistics/index1',
     name:'reviewlist2',
     meta:{
@@ -8,5 +8,5 @@ const reviewList = {
     component:()=>import(/* webpackChunkName: 'statistics' */"@/pages/statistics/doctorReview/list")
 }
 export default {
-    reviewList,
+    statisticsReviewList,
 }

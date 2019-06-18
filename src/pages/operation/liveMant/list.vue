@@ -660,6 +660,7 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         let ret = resp.data.object.list;
+                        console.log(ret);
                         ret.forEach((item, index) => {
                             item.iSum = this.addZeros(index);
                             this.livexsList.forEach(s => {
