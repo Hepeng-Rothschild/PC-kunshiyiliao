@@ -77,20 +77,24 @@
                     <FormItem label="备注说明" >
                         <Input v-model="formValidate.reason" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
                     </FormItem>
-                    <FormItem label="使用业务模块" prop="modular">
-                        <!-- 咨询列表 -->
-                        <Select v-model="formValidate.modular" style='width:150px;' v-show='formValidate.projectCategory == 1'>
-                            <Option  style='text-align:center;' :value="item.id" v-for='item,index in consultList' :key='index'>{{ item.name }}</Option>
-                        </Select>
-                        <!-- 问诊列表 -->
-                        <Select v-model="formValidate.modular" style='width:150px;' v-show='formValidate.projectCategory==2'>
-                            <Option  style='text-align:center;' :value="item.id" v-for='item,index in inquiryList' :key='index'>{{ item.name }}</Option>
-                        </Select>
-                        <!-- 未选择时的列表 -->
-                        <Select v-model="formValidate.modular" style='width:150px;' v-if='!formValidate.projectCategory'>
-                            <Option  style='text-align:center;' :value="index" v-for='item,index in modular' :key='index'>{{ item }}</Option>
-                        </Select>
-                    </FormItem>
+                    <Row>
+                        <Col span="8">
+                            <FormItem label="使用业务模块" prop="modular">
+                                <!-- 咨询列表 -->
+                                <Select v-model="formValidate.modular" style='width:150px;' v-show='formValidate.projectCategory == 1'>
+                                    <Option  style='text-align:center;' :value="item.id" v-for='item,index in consultList' :key='index'>{{ item.name }}</Option>
+                                </Select>
+                                <!-- 问诊列表 -->
+                                <Select v-model="formValidate.modular" style='width:150px;' v-show='formValidate.projectCategory==2'>
+                                    <Option  style='text-align:center;' :value="item.id" v-for='item,index in inquiryList' :key='index'>{{ item.name }}</Option>
+                                </Select>
+                                <!-- 未选择时的列表 -->
+                                <Select v-model="formValidate.modular" style='width:150px;' v-if='!formValidate.projectCategory'>
+                                    <Option  style='text-align:center;' :value="index" v-for='item,index in modular' :key='index'>{{ item }}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                    </Row>
                     <FormItem label="是否启用">
                         <iSwitch v-model="formValidate.status" />
                         <span style='margin-left:10px;color:#FF9800;'>每个职称对应每个业务模块有且只有一个收费项目启用，停用后可能会导致业务模块不能检索到医生。</span>
@@ -202,11 +206,6 @@ export default {
                                                 this.formValidate.title = ret.title
                                                 this.formValidate.id = ret.id
 
-                                                if(Number(ret.itemType) == 1) {
-                                                    this.modular = this.consultList
-                                                } else if (Number(ret.itemType) == 2) {
-                                                    this.modular = this.inquiryList
-                                                }
                                             } else {
                                                 this.$Message.error("加载项目详情失败")
                                             }
@@ -281,7 +280,7 @@ export default {
             // 收费单位列表
             chargingUnit: [],
             // 业务模块
-            modular: ["咨询","问诊","复诊","续方","药品咨询"],
+            modular: [],
             Allmodular: ["咨询","问诊","复诊","续方","药品咨询"],
             // 咨询列表
             consultList: [
@@ -310,7 +309,22 @@ export default {
                 },
                 
             ],
-            buttonName: "确认添加"
+            buttonName: "确认添加",
+            // 咨询类型
+            consultList: [
+                {
+                    id:"1",
+                    name:"图文咨询"
+                },
+                {
+                    id:"2",
+                    name:"视频咨询"
+                },
+                {
+                    id:"3",
+                    name:"语音咨询"
+                }
+            ]
 
         };
     },
@@ -367,7 +381,6 @@ export default {
                     if(Boolean(this.formValidate.id)) {
                         params.id = this.formValidate.id
                         url = api.chargeupdate
-                        
                     }
                     console.log(params);
                     this.$axios.post(url, params).then(res => {

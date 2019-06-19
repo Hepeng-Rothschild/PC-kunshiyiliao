@@ -232,8 +232,6 @@ export default {
             selectList: [],
             // 当前选择中的单选
             serviceType: '',
-            //限制第一次加载时
-            sum: 1,
             // 当前选择的数据
             currentDate: {},
 
@@ -418,10 +416,11 @@ export default {
         },  
         // 单选
         checkedChange (row,index) {
-            if(this.sum != 1) {
-                this.selectList.shift()
-            }
-            this.sum++;
+            row.add = 1;
+            // 选择出医生已有的服务列表,再添加新的服务
+            this.selectList = this.selectList.filter(item =>{
+                return !item.add
+            })
             this.selectList.push(row)
             this.currentDate = row
             if(row.flag) {
