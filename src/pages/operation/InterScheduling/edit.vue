@@ -1,7 +1,7 @@
 <template>
     <div class="edit">
         <!-- 主体 -->
-        <div class="main">
+        <div class="main" v-if='selectList.length'>
             <!-- 接诊医生显示 -->
             <div class="doctor">
                 <!-- 医院 -->
@@ -129,6 +129,10 @@
                 <Button @click="back">取消</Button>
             </div>
             
+        </div>
+        <div class="entry" v-if='!selectList.length'>
+            <h2>该医生暂无排班详情</h2>
+            <Button @click="back">返回</Button>
         </div>
     </div>
 </template>
@@ -448,7 +452,7 @@ export default {
             this.$axios.post(url, params).then(res => {
                 if(res.data.success) {
                     let ret = res.data.object;
-                    console.log('开通的服务',ret);
+                    console.log('已经开通的服务', ret);
 
                     this.leftList = []
                     
@@ -476,12 +480,22 @@ export default {
                             })
                         }
                     })
+
+                    // console.log('所有服务列表',this.leftList);
+                    // console.log('选中的服务列表',this.selectList);
+
+                    if(this.selectList.length == 0) {
+                        this.$Notice.warning({
+                            title: '通知信息',
+                            desc: '该医生未开启服务或医院已关闭服务'
+                        });
+                    }
+
                     if(this.selectList.length > 0) {
                         this.getServiceTime(this.selectList[0].schedulingId)
                         this.serviceType = this.selectList[0].serviceType
                         this.currentDate = this.selectList[0]
                     }
-                    console.log('leftList',this.leftList);
                 }
             })
         },

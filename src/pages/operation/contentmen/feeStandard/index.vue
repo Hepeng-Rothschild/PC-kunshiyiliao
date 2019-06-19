@@ -64,13 +64,13 @@
                         <Col span="12">
                             <FormItem prop="chargingUnit" label="收费单位">
                                 <Select v-model="formValidate.chargingUnit" style='width:150px;'>
-                                    <Option  style='text-align:center;' :value="item.id" :key='item.id' v-for='item in chargingUnit'>{{ item.name }}</Option>
+                                    <Option style='text-align:center;' :value="item.id" :key='item.id' v-for='item in chargingUnit'>{{ item.name }}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col span="12">
                             <FormItem prop="priceBasis" label="收费单价(元)">
-                                <InputNumber :max="9999" :min="1" v-model="formValidate.priceBasis" placeholder="0.00" style='width:80px;'></InputNumber>
+                                <InputNumber :max="9999" :min="0.01" v-model="formValidate.priceBasis" placeholder="0.00" style='width:80px;'></InputNumber>
                             </FormItem>
                         </Col>
                     </Row>
@@ -193,6 +193,7 @@ export default {
                                         }).then(res => {
                                             if(res.data.success) {
                                                 let ret = res.data.object;
+                                                console.log("加载详情", ret);
                                                 this.formValidate.priceCode = ret.itemCode;
                                                 this.formValidate.charge = ret.itemFeeBasis;
                                                 this.formValidate.priceBasis = ret.itemFeePrice
@@ -311,7 +312,7 @@ export default {
             ],
             buttonName: "确认添加",
             // 咨询类型
-            consultList: [
+            consultTypeList: [
                 {
                     id:"1",
                     name:"图文咨询"
@@ -382,7 +383,7 @@ export default {
                         params.id = this.formValidate.id
                         url = api.chargeupdate
                     }
-                    console.log(params);
+                    console.log("修改参数",params);
                     this.$axios.post(url, params).then(res => {
                         if(res.data.success) {
                             this.$Message.success(res.data.object.success)
@@ -456,6 +457,7 @@ export default {
             this.$axios.post(url, params).then(res => {
                 if (res.data.success) {
                     let ret = res.data.object;
+                    console.log("列表数据",ret);
                     ret.list.forEach((item,index) => {
                         // 序号
                         item.sum = this.addZeros(index)

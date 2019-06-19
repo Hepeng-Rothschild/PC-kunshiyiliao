@@ -53,7 +53,7 @@
     </div>
 </template>
 <script>
-// 医生端远程门诊
+// 医生端互联网排班
 import tempHeader from "@/components/tmpHeader";
 import fourLevelLinkage from "@/components/fourLevelLinkage";
 import api from "@/api/commonApi";
@@ -221,6 +221,7 @@ export default {
             // console.log("互联网排班 params", params);
             
             this.$axios.post(url, params).then(res => {
+                console.log(res);
                 if (res.data.code) {
                     let ret = res.data.object;
                     this.remoteClinicLength = ret.count;
