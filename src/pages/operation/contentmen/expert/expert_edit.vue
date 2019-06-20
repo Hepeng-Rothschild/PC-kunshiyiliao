@@ -73,7 +73,6 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <!-- <Input v-model="isort" placeholder="请输入排序" style="width: 100px" @keyup="isorts"/> -->
         <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
@@ -220,7 +219,7 @@ export default {
         this.$Message.error("专家姓名不能为空");
       } else {
         this.$axios.post(api.expertedit, params).then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             let pageNo = this.$route.params.pageNo;
             this.$Message.info("修改成功");
             setTimeout(() => {

@@ -109,7 +109,7 @@ export default {
         hospitalId: this.id
       })
       .then(res => {
-        if (res.data) {
+        if (res.data.success) {
           let ret = res.data.object;
           let data1 = [];
            let id = this.$route.params.id;
@@ -147,9 +147,9 @@ export default {
     save() {
       let params = {
         //   别名
-        deptNickname: this.keshiname.trim(),
+        deptNickname: this.keshiname,
         //详情
-        departmentdes: this.test1.trim(),
+        departmentdes: this.test1,
         //排序
         priority: this.isort,
         //显示
@@ -160,7 +160,7 @@ export default {
       this.$axios
         .post(api.departmentChange, params)
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
@@ -185,7 +185,7 @@ export default {
           id
         })
         .then(res => {
-          if (res.data) {
+          if (res.data.success) {
             let ret = res.data.object;
             //科室名
             this.title = ret.dictType;

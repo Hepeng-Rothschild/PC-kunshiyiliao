@@ -70,7 +70,7 @@
                         </Col>
                         <Col span="12">
                             <FormItem prop="priceBasis" label="收费单价(元)">
-                                <InputNumber :max="9999" :min="0.01" v-model="formValidate.priceBasis" placeholder="0.00" style='width:80px;'></InputNumber>
+                                <InputNumber :max="9999" :min="0" v-model="formValidate.priceBasis" placeholder="0.00" style='width:80px;'></InputNumber>
                             </FormItem>
                         </Col>
                     </Row>
@@ -361,6 +361,7 @@ export default {
             this.ModalTitle = '新增'
             this.buttonName = '确认添加'
         },
+        // 保存修改
         handleSubmit (name) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
@@ -400,6 +401,7 @@ export default {
                 }
             })
         },
+        // 取消保存
         handleReset (name) {
             this.$refs[name].resetFields();
             this.buttonName = '确认添加'
@@ -462,7 +464,7 @@ export default {
                         // 序号
                         item.sum = this.addZeros(index)
                         // 项目类型
-                        this.projectCategoryList.forEach(i =>{
+                        this.projectCategoryList.forEach(i => {
                             if(Number(item.itemType) == Number(i.id)) {
                                 item.itemType = i.name
                             }

@@ -100,6 +100,7 @@
             :urlCode="urlCode"
             @valueHandle="afterChange"
             style="margin:0;"
+            :height='100'
           ></vueEditor>
         </div>
         <!--预约科室-->
@@ -219,7 +220,7 @@ export default {
       this.$axios
         .post(api.medicineedit, params)
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
@@ -294,7 +295,7 @@ export default {
             id
           })
           .then(res => {
-            if (res.data.code) {
+            if (res.data.success) {
               let ret = res.data.object;
               // 科室名
               this.title = ret.dictType;

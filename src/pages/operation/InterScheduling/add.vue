@@ -610,6 +610,7 @@ export default {
                     background: #f8f8f9;
                 }
                 tr {
+                    
                     border-top: 1px solid #ddd;
                     height: 40px;
                     td {

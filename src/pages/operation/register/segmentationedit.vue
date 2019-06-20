@@ -177,7 +177,7 @@
         <Row class="bordered">
             <Col class="text-align-c borderRight" :xs="24" :md="3">医事服务费</Col>
             <Col class="padding-l" :xs="24" :md="21">
-                <InputNumber min="1" max="9999" @on-change="checkInput" v-model="cost"></InputNumber>元
+                <InputNumber min="0" max="9999" @on-change="checkInput" v-model="cost"></InputNumber>元
                 <span :class="{rdColor:costRd}" class="notice">医事服务费不能为空，最小为0元</span>
             </Col>
         </Row>
@@ -770,6 +770,7 @@ export default {
                 url = api.registerDoctorInsert;
                 msg = "添加";
             }
+            console.log("请求参数",params);
             if (params.doctorId) {
                 if(flag){
                     this.$axios

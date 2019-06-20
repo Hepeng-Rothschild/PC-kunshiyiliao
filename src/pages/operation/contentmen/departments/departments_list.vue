@@ -12,29 +12,7 @@
       </div>
       <!--列表-->
       <div class="tabList">
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <th>序号</th>
-            <th>一级科室</th>
-            <th>二级科室</th>
-            <th>院内科室</th>
-            <th>显示</th>
-            <th>排序</th>
-            <th>操作</th>
-          </tr>
-          <tr v-for="(item,index) in tableList" v-show="tableList.length" :key='index'>
-            <td>{{ addZeros(index) }}</td>
-            <td>{{ item.parentDept }}</td>
-            <td>{{ item.childDept }}</td>
-            <td>{{ item.deptNickname }}</td>
-            <td>{{ changeshow(item.display) }}</td>
-            <td>{{ item.priority }}</td>
-            <td >
-              <span @click="edit(item)" style="cursor:pointer;color:#2d8cf0;">编辑</span>
-            </td>
-          </tr>
-        </table>
-        <div class="footer" v-show="!tableList.length">暂无更多数据</div>
+        <Table stripe :columns="columnList" :data="tableList"></Table>
       </div>
     </div>
     <div style="text-align:center;margin:10px 0;" v-show = '!flag'>
@@ -58,7 +36,55 @@ export default {
       departmentsSize: 10,
       search:"",
       pageNo:1,
-      flag:""
+      flag:"",
+      columnList: [
+        {
+          title:"序号",
+          key:"sum",
+          align:"center",
+        },
+        {
+          title:"一级科室",
+          key:"parentDept",
+          align:"center",
+        },
+        {
+          title:"二级科室",
+          key:"childDept",
+          align:"center",
+        },
+        {
+          title:"院内科室",
+          key:"deptNickname",
+          align:"center",
+        },
+        {
+          title:"显示",
+          key:"display",
+          align:"center",
+        },
+        {
+          title:"排序",
+          key:"priority",
+          align:"center",
+        },
+        {
+          title:"操作",
+          align:"center",
+          render: (h,params) => {
+            let row = params.row;
+            return [
+              h('a',{
+                on: {
+                  click: () => {
+                    this.edit(row)
+                  }
+                }
+              },'编辑')
+            ]
+          }
+        }
+      ]
     };
   },
   created(){
@@ -127,8 +153,13 @@ export default {
       this.$axios
         .post(api.tesekeshi, params)
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             let ret = res.data.object;
+            console.log(res);
+            ret.list.forEach((item,index) => {
+              item.sum = this.addZeros(index);
+              item.display = item.display == 1 ? '是'  : "否"
+            })
             this.tableList = ret.list;
             this.departmentsSize = ret.count;
           }
@@ -166,43 +197,6 @@ export default {
     .tabList {
       width: 100%;
       margin: 20px 0;
-      .footer {
-        width: 100%;
-        border: 1px solid #ddd;
-        height: 40px;
-        line-height: 40px;
-        border-top: none;
-        text-align: center;
-      }
-      table {
-        width: 100%;
-        border: 1px solid #ddd;
-        font-size:12px;
-        tr:nth-child(odd) {
-          background: #f8f8f9;
-        }
-        tr:nth-child(even) {
-          background: #fff;
-        }
-        tr:not(:first-child):hover {
-          background: #ebf7ff;
-        }
-        tr {
-          border-top: 1px solid #ddd;
-          height: 40px;
-          td {
-            text-align: center;
-          }
-          .ltd {
-            color: black;
-            user-select: none;
-            cursor: pointer;
-          }
-          th {
-            text-align: center;
-          }
-        }
-      }
     }
   }
 }

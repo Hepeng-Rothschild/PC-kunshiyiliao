@@ -344,8 +344,7 @@ export default {
             } else {
                 params.typeList = [this.currentDate.serviceType]
             }
-            // console.log("请求地址", url);
-            // console.log("传递参数", params);
+            console.log("传递参数", params);
             if(this.inClassTime){
                 if(params.timesList.length == 0) {
                     this.$Message.error("请选择号源")

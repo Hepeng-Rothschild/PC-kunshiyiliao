@@ -12,39 +12,7 @@
     </div>
     <!--表格列表-->
     <div class="main">
-      <table border="0" cellspacing="0" cellpadding="0" v-show="!flag">
-        <tr>
-          <th>编号</th>
-          <th>新闻标题</th>
-          <th>首图</th>
-          <th>新闻来源</th>
-          <th>是否显示</th>
-          <th>是否置顶</th>
-          <th>操作</th>
-        </tr>
-        <tr v-for="(item,index) in tablesList" :key="index" v-show="tablesList.length">
-          <th>{{ addZeros(index) }}</th>
-          <th>{{ item.title }}</th>
-          <th>
-            <img
-              :src="analysisImages(item.newsHeadlines)"
-              alt=''
-              style="display:inline-block;margin:10px 0;width:100px;height:50px;"
-              v-show='item.newsHeadlines'
-            >
-            <span style='color:gray;'>暂无图片</span>
-          </th>
-          <th>{{ item.source}}</th>
-          <!--是否显示-->
-          <th>{{ item.enable === 1 ? '是':'否' }}</th>
-          <!--是否置顶-->
-          <th>{{ item.priority ==1 ? '是' : '否' }}</th>
-          <th :data-id="item.id" :date-id="tablesList.length">
-            <span style="cursor:pointer;color:#2d8cf0;" :data-id="item.id" @click="navto(item)">编辑</span>
-          </th>
-        </tr>
-      </table>
-      <div class="fooDiv" v-show="!tablesList.length">没有更多数据</div>
+      <Table stripe :columns="columnList" :data="tablesList"></Table>
     </div>
     <div style="text-align:center;margin:10px 0;" v-show="!flag">
       <Page :total="newsSize" @on-change="pageChange" :current="pageNo"/>
@@ -84,13 +52,81 @@ export default {
   },
   data() {
     return {
-      switch1: false,
       tablesList: [],
       search: "",
       id: sessionStorage.getItem("hospitalId"),
       newsSize: 10,
       pageNo: 1,
-      flag: false
+      flag: false,
+      columnList: [
+        {
+          title:"序号",
+          key:"sum",
+          align:"center",
+        },
+        {
+          title:"新闻标题",
+          key:"title",
+          align:"center",
+        },
+        {
+          title:"首图",
+          key:"newsHeadlines",
+          align:"center",
+          width: 100,
+          render: (h, params) => {
+            let avatar = params.row.newsHeadlines;
+            let a = ''
+            if(Boolean(avatar)) {
+              a = h("img", {
+                  attrs: {
+                      src: avatar || '',
+                      style:
+                          "width:100%;height:100%;"
+                  }
+              })
+            } else {
+              a = h("span", {
+                  attrs: {
+                      style:'color:gray'
+                  }
+              },'暂无图片')
+            }
+            return a
+        }
+        },
+        {
+          title:"新闻来源",
+          key:"source",
+          align:"center",
+        },
+        {
+          title:"是否显示",
+          key:"enable",
+          align:"center",
+        },
+        {
+          title:"是否置顶",
+          key:"priority",
+          align:"center",
+        },
+        {
+          title:"操作",
+          align:"center",
+          render: (h,params) => {
+            let row = params.row;
+            return [
+              h('a',{
+                on: {
+                  click :() => {
+                    this.navto(row)
+                  }
+                }
+              },'编辑')
+            ]
+          }
+        }
+      ]
     };
   },
   methods: {
@@ -147,6 +183,12 @@ export default {
         .then(res => {
           if (res.data.code) {
             let ret = res.data.object.list;
+            ret.forEach((item,index) => {
+              item.sum = this.addZeros(index);
+              item.enable = item.enable === 1 ? '是':'否'
+              item.priority = item.priority == 1 ? '是' : '否'
+              item.newsHeadlines = this.analysisImages(item.newsHeadlines);
+            })
             this.tablesList = ret;
             console.log(ret);
             this.newsSize = res.data.object.count;
@@ -186,35 +228,6 @@ export default {
     width: calc(90% - 40px);
     margin: 10px auto;
     padding: 0 20px;
-    table {
-      width: 100%;
-      border: 1px solid #ddd;
-      font-size:12px;
-      tr {
-        border-top: 1px solid #ddd;
-        height: 40px;
-        th {
-          text-align: center;
-        }
-      }
-      tr:nth-child(odd) {
-        background: #f8f8f9;
-      }
-      tr:nth-child(even) {
-        background: #fff;
-      }
-      tr:not(:first-child):hover {
-        background: #ebf7ff;
-      }
-    }
-    .fooDiv {
-        width: 100%;
-        height: 40px;
-        line-height: 40px;
-        border: 1px solid #ddd;
-        border-top-color: transparent;
-        text-align: center;
-      }
   }
 }
 </style>

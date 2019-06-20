@@ -26,19 +26,7 @@
                 <span class="demo-auto-complete-title">{{ option.doctorName }}</span>
             </Option>
           </AutoComplete>
-
-        <!-- <Button type="primary"  icon="ios-search" @click="search">查询</Button> -->
       </div>
-      <!-- 选择专家 -->
-      <!-- <div class="main_expert_item">
-        <div class="main_expert_title">
-          <span style="color:red;">*&nbsp;&nbsp;</span>
-          <span>选择专家</span>
-        </div>
-        <Select v-model="keshi" style="width:100px" @on-change="changes">
-          <Option v-for="(item,index) in list" :value="index" :key="index">{{ item.doctorName }}</Option>
-        </Select>
-      </div> -->
       <!--机构名称-->
       <div class="main_expert_item">
         <div class="main_expert_title">
@@ -259,7 +247,7 @@ export default {
           pageSize: 10
         })
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             if (res.data.object.list.length == 0) {
               this.$Message.error("查询失败，未查询到该专家");
             } else {
@@ -302,7 +290,7 @@ export default {
         this.$axios
           .post(api.expertedit, params)
           .then(res => {
-            if (res.data.code) {
+            if (res.data.success) {
               let ret = res.data;
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {

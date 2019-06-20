@@ -29,6 +29,7 @@
                 @click="forClick"
               >
               <label :for="'a' + items.id">{{ items.dictName }}</label>
+              <!-- <Checkbox v-model="single">{{ items.dictName }}</Checkbox> -->
             </div>
           </div>
         </div>
@@ -131,8 +132,9 @@ export default {
         id: this.id
       })
       .then(res => {
-        if (res.data.code) {
+        if (res.data.success) {
           let ret = res.data.object.hospitalVo.ids;
+          // console.log("选中的数据",ret); 
           for (let i = 0; i < ret.length; i++) {
             this.selectedArr.push(ret[i]);
           }
@@ -147,7 +149,8 @@ export default {
         if (res.data) {
           let ret = res.data.object[0].list;
           this.allMenuList = ret;
-          this.toSelected(385);
+          // console.log("全部数据",ret);
+          // this.toSelected(385);
         }
       })
       .catch(err => {

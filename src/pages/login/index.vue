@@ -32,6 +32,7 @@
                             v-model="verify"
                             placeholder="验证码"
                             @keyup.enter="checkLogin"
+                            @keyup="verify = verify.replace(/[^\w_]/g,'');"
                         >
                         <div id="verify">
                             <canvas id="verifyCanvas" style="cursor: pointer;"></canvas>
@@ -77,9 +78,10 @@ export default {
             iconClass: "",
             iconText: "",
             alertMsg: "",
+
             username: "",
-            // username:"test",
             password: "",
+            // username:"test",
             // password:"qwer1234",
             verify: "",
             verifyCode: null,
@@ -346,6 +348,7 @@ export default {
                             this.verifyCode.refresh();
                             this.$refs.username.focus();
                             this.verify = "";
+                            this.password = ''
                         }
                     })
                     .catch(err => {
@@ -442,20 +445,10 @@ export default {
         transform: translateY(-50%);
         z-index:99;
         line-height: 40px;
-        // border:1px solid #fff;
         div {
             margin: 15px 0;
             width: 100%;
             height:40px;
-            // input {
-            //     width: 80%;
-            //     height:40px;
-            //     box-sizing: border-box;
-            //     padding: 0 15px;
-            //     margin: 0 0;
-            //     outline: none;
-            //     border: 0;
-            // }
             input {
                 -webkit-appearance: none;
                     -moz-appearance: none;

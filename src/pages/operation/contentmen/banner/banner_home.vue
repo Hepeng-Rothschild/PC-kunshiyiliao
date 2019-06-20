@@ -17,33 +17,7 @@
       </div>
       <!--表格列表-->
       <div class="tabList">
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td>序号</td>
-            <td>名称</td>
-            <td>轮播图</td>
-            <td>链接</td>
-            <td>显示</td>
-            <td>排序</td>
-            <td>操作</td>
-          </tr>
-          <tr v-for="(item,index) in tbleList" v-show="tbleList.length" :key='index'>
-            <td>{{ addZeros(index) }}</td>
-            <td>{{ item.bannerName }}</td>
-            <td>
-              <img
-                :src="analysisImages(item.imageUrl)"
-                alt="路径错误"
-                style="display:inline-block;margin:10px 0;width:80px;height:80px;"
-              >
-            </td>
-            <td>{{ item.bannerUrl }}</td>
-            <td>{{ item.enable == 1 ? "是" :"否" }}</td>
-            <td>{{ item.priority }}</td>
-            <td @click="editBanner(item)" style="cursor:pointer;color:#2d8cf0;">编辑</td>
-          </tr>
-        </table>
-        <div class="footer" v-show="!tbleList.length">暂无更多数据</div>
+        <Table stripe :columns="columnList" :data="tbleList"></Table>
       </div>
       <!-- 分页-->
       <div style="text-align:center;margin:10px 0;">
@@ -68,7 +42,76 @@ export default {
       len: 10,
       id: sessionStorage.getItem("hospitalId"),
       bannerSize: 10,
-      pageNo: 1
+      pageNo: 1,
+      columnList: [
+        {
+          title:"序号",
+          key:"sum",
+          align:"center",
+        },
+        {
+          title:"名称",
+          key:"bannerName",
+          align:"center",
+        },
+        {
+          title:"轮播图",
+          key:"imageUrl",
+          align:"center",
+          width: 100,
+          render: (h, params) => {
+            let avatar = params.row.imageUrl;
+            let a = ''
+            if(Boolean(avatar)) {
+              a = h("img", {
+                  attrs: {
+                      src: avatar || '',
+                      style:
+                          "width:100%;height:100%;"
+                  }
+              })
+            } else {
+              a = h("span", {
+                  attrs: {
+                      style:'color:gray'
+                  }
+              },'暂无图片')
+            }
+            return a
+        }
+        },
+        {
+          title:"链接",
+          key:"bannerUrl",
+          align:"center",
+        },
+        {
+          title:"显示",
+          key:"enable",
+          align:"center",
+        },
+        {
+          title:"排序",
+          key:"priority",
+          align:"center",
+        },
+        {
+          title:"操作",
+          align:"center",
+          render: (h,params) => {
+            let row = params.row;
+            return [
+              h('a',{
+                on: {
+                  click: () => {
+                    this.editBanner(row)
+                  }
+                }
+              },'编辑')
+            ]
+          }
+        }
+      ]
     };
   },
   created() {
@@ -123,8 +166,13 @@ export default {
         params.bannerName = val.trim();
       }
       this.$axios.post(api.bannerHome, params).then(res => {
-        if (res.data.code) {
+        if (res.data.success) {
           let ret = res.data.object;
+          ret.list.forEach((item,index) => {
+            item.sum = this.addZeros(index);
+            item.imageUrl = this.analysisImages(item.imageUrl);
+            item.enable = item.enable == 1 ? "是" :"否"
+          })
           this.tbleList = ret.list;
           this.bannerSize = ret.count;
         }
@@ -169,38 +217,6 @@ export default {
     .tabList {
       width: 80%;
       margin: 20px auto;
-      table {
-        width: 100%;
-        border: 1px solid #ddd;
-        font-size:12px;
-        tr:nth-child(odd) {
-          background: #f8f8f9;
-        }
-        tr:nth-child(even) {
-          background: #fff;
-        }
-        tr:not(:first-child):hover {
-          background: #ebf7ff;
-        }
-        tr {
-          border-top: 1px solid #ddd;
-          height: 40px;
-          td {
-            text-align: center;
-          }
-          td.none {
-            display: none;
-          }
-        }
-      }
-      .footer {
-        width: 100%;
-        text-align: center;
-        border: 1px solid #ddd;
-        border-top: none;
-        height: 40px;
-        line-height: 40px;
-      }
     }
   }
 }

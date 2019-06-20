@@ -261,7 +261,7 @@ export default {
         this.$Message.info("科室名称不能为空");
       } else {
         this.$axios.post(api.departmentChange, params).then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
@@ -348,7 +348,7 @@ export default {
           id
         })
         .then(res => {
-          if (res.data) {
+          if (res.data.success) {
             let ret = res.data.object;
             //图片
             this.uploadList = [];
