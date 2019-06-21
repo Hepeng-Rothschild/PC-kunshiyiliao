@@ -8,7 +8,7 @@
                         type="text"
                         class="username"
                         @change="checkInput"
-                        v-model="username"
+                        v-model.trim="username"
                         placeholder="请输入用户账号"
                         ref="username"
                         @keyup="username = username.replace(/[^\w_]/g,'');"
@@ -20,7 +20,7 @@
                         type="password"
                         class="password"
                         @change="checkInput"
-                        v-model="password"
+                        v-model.trim="password"
                         placeholder="请输入登陆密码"
                     >
                 </div>
@@ -29,7 +29,7 @@
                         <input
                             type="text"
                             class="verify"
-                            v-model="verify"
+                            v-model.trim="verify"
                             placeholder="验证码"
                             @keyup.enter="checkLogin"
                             @keyup="verify = verify.replace(/[^\w_]/g,'');"
@@ -88,7 +88,7 @@ export default {
             loginFlag: true
         };
     },
-    mounted(){
+    mounted () {
         this.verifyCode = new GVerify("verify");
         this.clearData();
     },
@@ -125,6 +125,7 @@ export default {
                 axios
                     .post(api.login, params)
                     .then(resp => {
+                        console.log(resp);
                         if (resp.data.success) {
                             console.log(resp);
                             let times = 10 * 60 * 60;
@@ -352,12 +353,15 @@ export default {
                         }
                     })
                     .catch(err => {
+                        console.log(err);
                         this.loginFlag = true;
                         this.noticeClassColor = "alert-color";
                         this.iconClass = "alert-icon";
                         this.iconText = "!";
                         this.alertMsg = "登陆失败";
                         this.verifyCode.refresh();
+                        this.verify = "";
+                        this.password = ''
                     });
             }
         },
@@ -427,13 +431,13 @@ export default {
 .login {
     width: 100%;
     height: 100%;
-    // background: #50a3a2;
     position: absolute;
     .box {
-        width: 480px;
-        height: 380px;
+        // min-width: 38%;
+        width:480px;
+        // min-height: 60%;
+        height:380px;
         margin: 0 auto;
-        // background: rgba(102, 102, 102, .4);
         background:gray;
         border-radius: 5px;
         padding: 20px;
@@ -442,13 +446,14 @@ export default {
         top:50%;
         left:50%;
         margin-left:-240px;
+        // margin-left:-19%;
         transform: translateY(-50%);
         z-index:99;
         line-height: 40px;
         div {
             margin: 15px 0;
             width: 100%;
-            height:40px;
+            min-height:40px;
             input {
                 -webkit-appearance: none;
                     -moz-appearance: none;
@@ -457,6 +462,7 @@ export default {
                 border: 1px solid rgba(255, 255, 255, 0.4);
                 background-color: rgba(255, 255, 255, 0.2);
                 width: 250px;
+                // width:50%;
                 border-radius: 3px;
                 margin: 0 auto 10px auto;
                 display: block;

@@ -102,7 +102,7 @@ export default {
             getParams: {
                 // 开始时间
                 startDate: '',
-                startTime: "",
+                startTime: "00:00",
                 // 结束时间
                 endDate: "",
                 endTime: "",

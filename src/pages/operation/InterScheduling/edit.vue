@@ -35,7 +35,10 @@
             </div>
             <div style='margin-top:10px;'>
                 <span>班内排班启用标识：</span>
-                <iSwitch v-model="inClassTime" />
+                <iSwitch v-model="inClassTime"  size="large">
+                    <span slot="open">开启</span>
+                    <span slot="close">关闭</span>
+                </iSwitch>
             </div>
             <!-- 列表 -->
             <div class="table">
@@ -121,7 +124,10 @@
             </div>
             <div style='margin-top:10px;'>
                 <span>班外时间可接诊：</span>
-                <iSwitch v-model="classTime" />
+                <iSwitch v-model="classTime" size="large">
+                    <span slot="open">开启</span>
+                    <span slot="close">关闭</span>
+                </iSwitch>
             </div>
             <!-- 保存 -->
             <div class="save">

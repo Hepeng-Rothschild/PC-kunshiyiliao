@@ -103,7 +103,7 @@ export default {
         })
         .then(res => {
           console.log(res);
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
             setTimeout(() => {
               this.functionJS.paramsNavgationTo(this, "serviceManagement", {
@@ -115,15 +115,18 @@ export default {
           }
         })
     },
+    // 是否支付 开关
     ipayChange (row) {
       if(!row.ipay) {
         row.paytype = []
         row.ipay = false
       }
     },
+    // 服务是否开启
     flagChange (row) {
       if(!row.flag) {
-        row.paytype = []
+        row.paytype = [];
+        row.ipay = false
       }
     },
     // 加载医院支付方式列表
@@ -151,7 +154,7 @@ export default {
         hospitalId: this.id
       })
       .then(res => {
-        if (res.data) {
+        if (res.data.success) {
           let ret = res.data.object;
           // 循环出已经选中的服务
           ret.forEach(item => {

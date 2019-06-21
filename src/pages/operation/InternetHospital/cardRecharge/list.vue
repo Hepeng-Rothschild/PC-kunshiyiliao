@@ -110,7 +110,7 @@ export default {
                 endDate: "",
                 endTime: "",
                 // 查询条件
-                searchKey:"",
+                searchKey: "",
                 // 异常
                 single : false,
             },
@@ -263,29 +263,66 @@ export default {
         this.getParams.endTime = date.getHours() + ':' + date.getMinutes()
         this.$emit("changeBreadList", breadList);
     },
+    mounted () {
+        // this.loadingCardRechargeList(this.pageNo)
+    },
     methods: {
         // 分页器改变
         pageChange(index){
             this.pageNo = index;
+            // this.loadingCardRechargeList(this.pageNo)
         },
+        // 确认自动对账
         ok () {
             this.clinicStatus = false
             this.$Message.info('Clicked ok');
         },
+        // 弹窗消失
         cancel () {
             this.clinicStatus = false
         },
         // 对账逻辑
         cliniction (status) {
+            /*
+                status:用来区分是手动对账还是自动对账显示不同的页面信息
+                1.自动对账
+                2.手动对账
+            */
             this.buttonStatus = status
             this.clinicStatus = true
         },
-        // 显示异常数据
+            /* 
+                让自动对账失败的数据在页面显示为红色高亮 部分
+            */
         rowClassName (row, index) {
             if (index === 1) {
                 return 'demo-error-row';
             } 
             return '';
+        },
+            /*
+                加载页面列表对账信息
+            */
+        loadingCardRechargeList (pageNo) {
+            let url = ''
+            let params = {
+                pageNo: pageNo,
+                pageSize: this.pageSize,
+            }
+            if (Boolean(val)) {
+                params.searchKey = this.getParams.searchKey.trim();
+            }
+            // params.provinceCode = this.province ? this.province : null;
+            // params.cityCode = this.city ? this.city : null;
+            // params.areaCode = this.area ? this.area : null;
+            // params.hospitalId = this.hospital ? this.hospital : null;
+            this.$axios.post(url,params).then(ress => {
+                if(ress.data.success) {
+                    let ret = ress.data
+                        console.log(ret);
+                        // this.data1 = ret
+                }
+            })
         }
     }
 };

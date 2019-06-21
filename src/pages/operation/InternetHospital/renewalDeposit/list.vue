@@ -103,7 +103,7 @@ export default {
             getParams: {
                 // 开始时间
                 startDate: '',
-                startTime: "",
+                startTime: "00:00",
                 // 结束时间
                 endDate: "",
                 endTime: "",
@@ -296,11 +296,11 @@ export default {
 }
 </style>
 <style>
-    .ivu-table .demo-error-row td{
-        /* background-color: red; */
-        color: red;
-    }
-    .ivu-table .demo-error-row td a{
-        color:red
-    }
+.ivu-table .demo-error-row td{
+    /* background-color: red; */
+    color: red;
+}
+.ivu-table .demo-error-row td a{
+    color:red
+}
 </style>
