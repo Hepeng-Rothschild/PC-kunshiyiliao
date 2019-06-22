@@ -370,7 +370,7 @@ export default {
                         this.back()
                     }, 800);
                 } else {
-                    this.$Message.error(res.data.object.file || res.data.object.same)
+                    this.$Message.error("修改失败")
                 }
             });
             
@@ -409,7 +409,7 @@ export default {
         },
         // 选择时间/晚上
         changeTimeNight (val) {
-            this.value3 = val;
+            this.value5 = val;
             if (Boolean(val)) {
                 let m1 = Number(val[0].split(":")[1]);
                 let s1 = val[0].split(":")[0] * 60 + m1;

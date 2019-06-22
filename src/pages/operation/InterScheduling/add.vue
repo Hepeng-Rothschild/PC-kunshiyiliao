@@ -414,7 +414,7 @@ export default {
                         this.back()
                     }, 800);
                 } else {
-                    this.$Message.error(res.data.object.file || res.data.object.same)
+                    this.$Message.error("添加失败")
                 }
             });
             
@@ -511,7 +511,7 @@ export default {
                 let count = s2 - s1;
                 if (count <= 0) {
                     this.$Message.error("结束时间不能小于或等于开始时间");
-                    this.value3 = ['18:00','22:00']
+                    this.value5 = ['18:00','22:00']
                     return "";
                 }
                 // if (Boolean(count)) {
