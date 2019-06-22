@@ -7,7 +7,13 @@
     :theme="theme1"
     :active-name="topActiveName"
   >
-    <MenuItem v-for="item in topMenuLists" :key="item.id" :name="item.id">{{item.name}}</MenuItem>
+    <MenuItem v-for="item,index in topMenuLists" :key="item.id" :name="item.id">
+      <Icon type="ios-navigate" v-if='index == 0'></Icon>
+      <Icon type="ios-keypad" v-if='index == 1'></Icon>
+      <Icon type="ios-analytics" v-if='index == 2'></Icon>
+      <Icon type="ios-paper" v-if='index == 3'></Icon>
+    {{item.name}}
+    </MenuItem>
     <!-- <MenuItem name="1">
             运营平台
         </MenuItem>
@@ -22,7 +28,7 @@
     </MenuItem>-->
     <div class="logout">
       <div class="avatar">
-        <img :src="userIcon || './static/img/heicon.jpg'" @click="edit" style="cursor:pointer;">
+        <img :src="userIcon || './static/img/doctor.jpg'" @click="edit" style="cursor:pointer;">
       </div>
       <div class="info">
         <span>{{username || "喜大普奔"}}</span>
@@ -54,9 +60,6 @@ export default {
     this.username = cookie.getCookie("username");
     this.userIcon = cookie.getCookie("userIcon");
     this.operateUserId = cookie.getCookie("operateUserId");
-    // this.$store.commit("setTopMenuList");
-    // this.lists = this.$store.state.topMenuList;
-    // this.$store.commit("setLeftMenuList",this.topActiveName);
   },
   methods: {
     changeTop(name) {
@@ -66,6 +69,13 @@ export default {
     },
     logout() {
       window.localStorage.removeItem("access_token");
+      window.localStorage.removeItem("top");
+      window.localStorage.removeItem("sun1");
+      window.localStorage.removeItem("sun2");
+      window.localStorage.removeItem("sun3");
+      window.localStorage.removeItem("sun4");
+      window.localStorage.removeItem("sun5");
+      window.localStorage.clear();
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
       cookie.delCookie("randmId");
@@ -75,7 +85,10 @@ export default {
       cookie.delCookie("access_user");
       cookie.delCookie("ownArea");
       // 公用方法
-      this.functionJS.queryNavgationTo(this, '/login');
+      // this.functionJS.queryNavgationTo(this, '/login');
+
+      window.location.href = '#/login';
+      window.close();
     },
     edit() {
       // 公用方法

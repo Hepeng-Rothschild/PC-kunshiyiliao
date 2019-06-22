@@ -22,6 +22,7 @@
                             v-for="(item,index) in statusList"
                             :value="index"
                             :key="index"
+                            style='text-align:center'
                         >{{item}}</Option>
                     </Select>
                 </div>
@@ -107,7 +108,8 @@ export default {
                     title: "患者姓名",
                     key: "memberName",
                     align: "center",
-                    width: 180
+                    width: 130,
+                    fixed:"left"
                 },
                 { title: "性别", key: "gender", align: "center", width: 80 },
                 {
@@ -230,9 +232,10 @@ export default {
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
             // 医院名
-            params.hospitalName = hospitalName;
+            console.log(params);
+            params.hospitalName = hospitalName ? hospitalName.trim() : hospitalName;
             // 患者
-            params.memberName = memberName;
+            params.memberName = memberName ? memberName.trim() :  memberName;
             // 医院名
             params.idcard = fdsOrderId;
             console.log("家庭医生签约 params", params);

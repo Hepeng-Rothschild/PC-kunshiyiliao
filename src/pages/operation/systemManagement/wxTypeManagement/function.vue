@@ -15,7 +15,7 @@
           <span style="color:red;">*</span>类型
         </span>
         <Select v-model="params.function" style="width:80px">
-          <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Option v-for="item in cityList" :value="item.value" :key="item.value" style='text-align:center;'>{{ item.label }}</Option>
         </Select>
       </div>
       <!-- 服务图标 -->
@@ -89,12 +89,26 @@ export default {
     this.params.prentId = this.$route.query.id;
     this.title = this.$route.query.name;
   },
+  created () {
+    let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "系统管理"
+          },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "菜单管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
+  },
   methods: {
     // 添加新功能
     add() {
       let params = this.params;
       if (
-        !params.menuName ||
+        !params.menuName.trim() ||
         !params.function ||
         !params.priority ||
         !params.menuicon

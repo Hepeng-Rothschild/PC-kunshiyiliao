@@ -349,7 +349,7 @@
         </Form>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button type="primary" @click="submit('formInline')">提交</Button>
         <Button type="primary" @click="reback">返回</Button>
-        <Modal title="大图预览" :footer-hide="true" v-model="visible">
+        <Modal title="大图预览" :footer-hide="true" v-model="visible" :styles="{top: '20px'}">
             <img :src="imgName" v-if="visible" style="width: 100%">
         </Modal>
     </div>
@@ -357,7 +357,7 @@
 <script>
 import api from "@/api/commonApi";
 import { Avatar } from "iview";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 export default {
     components: {
@@ -519,7 +519,7 @@ export default {
             },
             {
                 path: "/index/operation/doctorContentCheck/list",
-                title: "健康宣教"
+                title: "内容管理"
             }
         ];
         this.$emit("changeBreadList", breadList);

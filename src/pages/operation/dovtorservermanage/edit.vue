@@ -3,27 +3,21 @@
     <div class="doctorservermanage">
         <div class="addManag">
             <h4 class="tt">医生端服务管理
-                <Button class="edit-btn" type="primary" v-if="!editFlag" @click="toEdit">编辑</Button>
-                <Button class="edit-btn" type="primary" v-if="editFlag" @click="toDetail">取消</Button>
+                <Button class="edit-btn" type="primary" v-if="!editFlag" @click="editFlag = true">编辑</Button>
+                <Button class="edit-btn" type="primary" v-if="editFlag" @click="editFlag = false">取消</Button>
             </h4>
             <div class="fuwu">
-                <!--线上服务-->
+                <!-- 医生服务-->
                 <div class="xsfw" v-for="(item,index) of allServerList" :key='index'>
-                    <p>{{ item.name }}</p>
+                    <h2 style='font-weight:bold;'>{{ item.name }}</h2>
                     <!--第一行-->
                     <div class="select_wufu" ref="all">
                         <template v-if="editFlag">
                             <div v-for="(items,index) in item.child" :key='index'>
-                                <input
-                                    type="checkbox"
-                                    :value="items.id"
-                                    :checked="items.selected == 1"
-                                    :data-id="items.id"
-                                    :id="'a' + items.id"
-                                >
-                                <label :for="'a' + items.id">{{ items.menuName }}</label>
+                                <Checkbox v-model="items.flag">{{ items.menuName }}</Checkbox>
                             </div>
                         </template>
+
                         <template v-else-if="!editFlag">
                             <div v-if="items.selected == 1" v-for="(items,index) in item.child" :key='index'>
                                 <label :for="'a' + items.id">{{ items.menuName }}</label>
@@ -46,7 +40,6 @@ import api from "@/api/commonApi";
 export default {
     data() {
         return {
-            arr: [],
             allServiceList: [],
             docServiceList: [],
             id: null,
@@ -63,15 +56,16 @@ export default {
     },
     methods: {
         navto() {
-            let wrap = document.getElementsByClassName("addManag")[0];
-            let el = wrap.getElementsByTagName("input");
-            let len = el.length;
             let arr = [];
-            for (let i = 0; i < len; i++) {
-                if (el[i].checked) {
-                    arr.push(parseInt(el[i].getAttribute("data-id")));
-                }
-            }
+            // 循环已操作的数据 找出已经选中数据的ID
+            this.allServerList.forEach(item =>{
+                item.child.forEach(i =>{
+                    if(Boolean(i.flag)) {
+                        arr.push(i.id)
+                    }
+                })
+            })
+            
             this.$axios
                 .post(api.doctorServerManageUpdate, {
                     doctorId: parseInt(this.id),
@@ -81,27 +75,11 @@ export default {
                     if (res.data.success) {
                         this.$Message.info("修改成功");
                         //   公用方法
-                        this.functionJS.queryNavgationTo(
-                            this,
-                            "/index/operation/doctormanage/list",
-                            {
-                                pageNo: this.pageNo,
-                                searchKey: this.searchKey,
-                                province: this.province,
-                                city: this.city,
-                                area: this.area,
-                                hospital: this.hospital,
-                                isBack: 2
-                            }
-                        );
+                        setTimeout(()=>{
+                            this.reback ()
+                        }, 500)
                     }
                 });
-        },
-        toEdit() {
-            this.editFlag = true;
-        },
-        toDetail() {
-            this.editFlag = false;
         },
         reback() {
             //   公用方法
@@ -186,11 +164,14 @@ export default {
                     );
                     if (index != -1) {
                         this.allServiceList[i].child[j].selected = 1;
+                        this.allServiceList[i].child[j].flag = true
                     } else {
                         this.allServiceList[i].child[j].selected = 0;
+                        this.allServiceList[i].child[j].flag = false
                     }
                 }
             }
+            // console.log(this.allServiceList);
             return this.allServiceList;
         }
     }

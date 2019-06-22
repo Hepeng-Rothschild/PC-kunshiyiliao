@@ -69,13 +69,14 @@
                     :min="1"
                     v-model="live.originPrice"
                     style="width:100px"
+                    @on-change='computedMaxPrice'
                 ></InputNumber>
             </div>
             <!-- 折后价格 -->
             <div class="live">
                 <span class="i">折后价格：</span>
                 <InputNumber
-                    :max="999999"
+                    :max="oldMoney"
                     :min="1"
                     v-model="live.discountPrice"
                     style="width:100px"
@@ -95,7 +96,7 @@
             <div class="live">
                 <span class="i">课堂类型：</span>
                 <Select v-model="live.modalDataVal" style="width:100px">
-                    <Option v-for="item in liveType" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    <Option v-for="item in liveType" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.name }}</Option>
                 </Select>
             </div>
             <!-- 播放来源 -->
@@ -106,6 +107,7 @@
                         v-for="item in videoList"
                         :value="item.id"
                         :key="item.id"
+                        style='text-align:center;'
                     >{{ item.name }}</Option>
                 </Select>
             </div>
@@ -155,7 +157,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 import bigUploadFile from "@/components/bigUploadFile";
 export default {
@@ -238,7 +240,10 @@ export default {
             src:"",
             poster: "",
             videoStyle: { width: "400px", height: "300px" },
-            videoStatus:false
+            videoStatus:false,
+            hospitalId:'',
+            // 折后价格最大限制
+            oldMoney:0
         };
     },
     created(){
@@ -274,6 +279,7 @@ export default {
                 this.live.doctorName = ret.doctorName
                 this.live.doctorId = ret.doctorId
                 // // 价格
+                this.oldMoney = ret.originalPrice
                 this.live.originPrice = ret.originalPrice
                 this.live.discountPrice = ret.discountPrice;
                 // // 路径
@@ -290,9 +296,10 @@ export default {
                 // // 推广力度
                 this.live.fictitiousNum = ret.fictitiousNum
                 // // 课堂类型
-                this.live.modalDataVal = ret.type
+                this.live.modalDataVal = ret.columnId
                 // // 审核未通过原因
                 this.live.reason = ret.reason
+                this.hospitalId=ret.hospitalId
                 // 图片
                 if (ret.headImg) {
                     this.images = ret.headImg;
@@ -320,8 +327,13 @@ export default {
                 if (item.doctorId == val) {
                     this.live.doctorName = item.doctorName;
                     this.live.doctorId = item.doctorId;
+                    this.hospitalId = item.hospitalId
                 }
             });
+        },
+        // 折后价格不得大于原始价格
+        computedMaxPrice (val) {
+            this.oldMoney = val
         },
         // 查询主讲人
         InputSearch() {
@@ -331,7 +343,7 @@ export default {
             }
             this.$axios
                 .post(api.doctorList, {
-                    searchKey: this.live.search,
+                    searchKey: this.live.search.trim(),
                     pageNo: 1,
                     pageSize: 10
                 })
@@ -369,10 +381,10 @@ export default {
                 // 点播ID
                 id:this.id,
                 // 医生姓名及ID
-                doctorName: this.live.doctorName,
+                doctorName: this.live.doctorName.trim(),
                 doctorId: this.live.doctorId,
                 // 点播标题
-                title: this.live.title,
+                title: this.live.title.trim(),
                 // 原始价格与折后价格
                 originalPrice: this.live.originPrice,
                 discountPrice: this.live.discountPrice,
@@ -383,7 +395,7 @@ export default {
                 // 播放地址
                 playbackAddress: this.live.playbackAddress,
                 // 点播类型
-                type: this.live.modalDataVal,
+                columnId: this.live.modalDataVal,
                 // 标题图片
                 headImg: this.images,
                 // 播放来源
@@ -391,7 +403,8 @@ export default {
                 // 课堂介绍
                 introduce:this.live.introduce,
                 // 点播状态
-                playStatus:this.live.playStatus
+                playStatus:this.live.playStatus,
+                hospitalId:this.hospitalId
             };
             this.$axios.post(api.lecturedemandupdate, params).then(res => {
                 if (res.data.success) {

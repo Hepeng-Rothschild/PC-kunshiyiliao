@@ -7,7 +7,7 @@
       <div class="fuwu">
         <!--线上服务-->
         <div class="xsfw" v-for="(item,index) in allMenuList" v-if="item.dept.list.length != 0" >
-          <p>{{ item.dept.entity.dictName }}</p>
+          <h2 style='font-weight:bold;'>{{ item.dept.entity.dictName }}</h2>
           <!--第一行-->
           <div class="select_wufu" ref="all">
             <div v-for="(items,index) in item.dept.list" :key='index'>
@@ -29,6 +29,7 @@
                 @click="forClick"
               >
               <label :for="'a' + items.id">{{ items.dictName }}</label>
+              <!-- <Checkbox v-model="single">{{ items.dictName }}</Checkbox> -->
             </div>
           </div>
         </div>
@@ -107,7 +108,9 @@ export default {
         // 选中科室列表
         dictTypes: arr
       };
+      console.log(params);
       this.$axios.post(api.medicineSave, params).then(res => {
+        console.log(res.data)
         if (res.data.code) {
           this.$Message.info("修改成功");
           setTimeout(() => {
@@ -117,6 +120,8 @@ export default {
               pageNo
             }); 
           }, 500);
+        } else {
+          this.$Message.error(res.data.message);
         }
       });
     }
@@ -127,8 +132,9 @@ export default {
         id: this.id
       })
       .then(res => {
-        if (res.data.code) {
+        if (res.data.success) {
           let ret = res.data.object.hospitalVo.ids;
+          // console.log("选中的数据",ret); 
           for (let i = 0; i < ret.length; i++) {
             this.selectedArr.push(ret[i]);
           }
@@ -143,7 +149,8 @@ export default {
         if (res.data) {
           let ret = res.data.object[0].list;
           this.allMenuList = ret;
-          this.toSelected(385);
+          // console.log("全部数据",ret);
+          // this.toSelected(385);
         }
       })
       .catch(err => {

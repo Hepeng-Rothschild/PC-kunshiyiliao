@@ -25,7 +25,7 @@
                     </Button>
                 </div>
                 <div class="margin-up-down">
-                    <Button type="warning" @click="goAdd">添加服务包</Button>
+                    <Button type="info" @click="goAdd">添加服务包</Button>
                 </div>
                 <!-- <Button type="default" @click="goImport">批量导入</Button> -->
             </Col>
@@ -141,6 +141,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 120,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";
@@ -156,7 +157,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                            this.goEdit(id);
+                                            this.goEdit(id,1);
                                         }
                                     }
                                 },
@@ -258,11 +259,14 @@ export default {
                 }
             );
         },
-        goEdit(id) {
+        goEdit(id,type) {
+            let url = "/index/operation/servicePackage/pEdit";
+            if(type == 1) url = "/index/operation/servicePackage/pDetail";
+
             //   公用方法
             this.functionJS.queryNavgationTo(
                 this,
-                "/index/operation/servicePackage/pEdit",
+                url,
                 {
                     id,
                     pageNo: this.pageNo,
@@ -290,7 +294,7 @@ export default {
             params.areaId = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
 
-            params.itemName = this.itemName ? this.itemName : null;
+            params.itemName = this.itemName.trim() ? this.itemName.trim() : null;
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log("服务包 params", params);

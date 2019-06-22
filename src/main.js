@@ -12,7 +12,7 @@ import VueI18n from 'vue-i18n';
 // import 'iview/dist/styles/fonts/ionicons.svg';
 // import 'iview/dist/styles/fonts/ionicons.ttf';
 // import 'iview/dist/styles/fonts/ionicons.woff';
-import { Button, Select, Option, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch } from 'iview';
+import { Button, Select, Option, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch, CellGroup, Cell } from 'iview';
 import './assets/css/base.css';
 import axios from './plugins/http';
 /* aes 对称加密 */
@@ -25,7 +25,7 @@ Object.keys(filters).forEach(key => {
 });
 
 //注册全局函数
-import {GetDate,uploadFileDecrypt,findStr,addZeros,analysisImages,functionJS} from "@/commons/function.js";
+import {GetDate,uploadFileDecrypt,findStr,addZeros,analysisImages,functionJS,packageAxios} from "@/commons/function.js";
 
 Vue.prototype.GetDate = GetDate;
 Vue.prototype.uploadFileDecrypt = uploadFileDecrypt;
@@ -34,6 +34,8 @@ Vue.prototype.addZeros = addZeros;
 Vue.prototype.pictureFormat = analysisImages;
 
 Vue.prototype.functionJS = functionJS;
+
+Vue.prototype.packageAxios = packageAxios
 
 //设置title
 router.beforeEach((to, from, next) => {
@@ -80,6 +82,8 @@ Vue.component('Upload', Upload);
 Vue.component('CheckboxGroup', CheckboxGroup);
 Vue.component('Checkbox', Checkbox);
 Vue.component("iSwitch", Switch);
+Vue.component("CellGroup", CellGroup);
+Vue.component("Cell", Cell);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
 Vue.prototype.$Modal = Modal;
@@ -129,7 +133,6 @@ if(store.state.env == "production"){
 }
 
 
-Vue.config.productionTip = false;
 Vue.prototype.tryCatch = function(jsonStr){
 	let tmpObj = null;
 	try{
@@ -152,6 +155,8 @@ Vue.prototype.tryCatch = function(jsonStr){
 	    return tmpObj;
 	}
 }
+Vue.config.devtools = false;
+Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',

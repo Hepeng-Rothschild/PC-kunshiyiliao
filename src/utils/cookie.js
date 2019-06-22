@@ -14,6 +14,16 @@ const getCookie = (name) => {
 		return null;
 	}
 };
+//读取cookies 
+const readCookie = (name) => {
+  let arr = null
+  let reg = new RegExp('(^| )'+name+'=([^;]*)(;|$)')
+  if (document.cookie && (arr = document.cookie.match(reg))) {
+	return unescape(arr[2])
+  } else {
+	return null;
+  } 
+}
 
 const delCookie = (name) => {
 	let exp = new Date();
@@ -27,5 +37,6 @@ const delCookie = (name) => {
 export default {
 	setCookie,
 	getCookie,
+	readCookie,
 	delCookie
 };

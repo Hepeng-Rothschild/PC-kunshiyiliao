@@ -13,12 +13,12 @@
                     />
                     <Button type="primary" icon="ios-search" @click="vagueSearch">查询</Button>
                     <!-- 添加账号 -->
-                    <Button @click="add">添加账号</Button>
+                    <Button @click="add" type='info'>添加账号</Button>
                 </div>
             </header>
             <!-- 列表 -->
             <div class="list">
-                <Table size="small" :columns="list" :data="data1"></Table>
+                <Table size="small" :columns="list" :data="data1" stripe></Table>
             </div>
             <!-- 分页 -->
             <Page
@@ -71,7 +71,7 @@ export default {
                         }
                         return h("img", {
                             attrs: {
-                                src: avatar || "./static/img/heicon.jpg",
+                                src: avatar || "./static/img/doctor.jpg",
                                 style:
                                     "width:40px;height:40px;border-radius:50%;"
                             }
@@ -102,7 +102,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 220,
+                    fixed:"right",
+                    width: 150,
                     render: (h, params) => {
                         let id = params.row.id;
                         return [
@@ -208,8 +209,8 @@ export default {
                 pageNo: this.pageNo,
                 pageSize: this.pageSize
             };
-            if (val != "") {
-                params.searchKey = val;
+            if (Boolean(val)) {
+                params.searchKey = val.trim();
             }
             this.$axios.post(api.adminList, params).then(res => {
                 if (res.data.code) {

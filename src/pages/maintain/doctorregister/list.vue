@@ -9,6 +9,7 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
+                        style='margin-bottom:10px;'
                     ></fourLevelLinkage>
                     <Input
                         v-model.trim="Name"
@@ -16,47 +17,14 @@
                         style="width: 260px"
                         clearable
                     />
-                    <Button type="primary" @click="getDoctorData(1)">查询</Button>
+                    <Button type="primary" icon="ios-search" @click="getDoctorData(1)">查询</Button>
+                    <Button @click="branch">批量导入</Button>
+                    <Button type="info" @click='addDoctor'>新增医生</Button>
                 </div>
-                <Button type="primary" @click="branch">批量导入</Button>
             </header>
             <!-- 列表 -->
             <div class="list">
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>编号</th>
-                        <th>医生姓名</th>
-                        <th>性别</th>
-                        <th>城市</th>
-                        <th>医院名称</th>
-                        <th>就诊科室</th>
-                        <th>职称</th>
-                        <th>医生手机号</th>
-                        <th>医生简介</th>
-                        <th>擅长</th>
-                        <th>注册时间</th>
-                        <th>数据来源</th>
-                    </tr>
-                    <tr v-for="(item,index) in list" :key='index'>
-                        <th>{{ addZero(index) }}</th>
-                        <th>{{ item.doctorName }}</th>
-                        <th>{{ item.gender == '0'? '女' :'男' }}</th>
-                        <th>{{ item.city }}</th>
-                        <th>{{ item.hospitalName }}</th>
-                        <th>{{ item.deptType }}</th>
-                        <th>{{ item.title }}</th>
-                        <th>{{ item.phone }}</th>
-
-                        <!-- <th style = 'max-width:200px;'>{{ item.personalIntroduction }}</th>
-                        <th style = 'max-width:200px;'>{{ item.doctorGood }}</th>-->
-                        <th class="one" @click="simple(item)">{{ item.personalIntroduction }}</th>
-                        <th class="one" @click="simples(item)">{{ item.doctorGood }}</th>
-
-                        <th>{{ item.createTime }}</th>
-                        <th>{{ item.ibatch == '0'? '个人注册' :'批量导入'}}</th>
-                    </tr>
-                </table>
-                <div class="notData" v-show="!list.length">暂无更多数据</div>
+                <Table stripe :columns="columns1" :data="list"></Table>
             </div>
         </div>
         <!--分页器-->
@@ -85,7 +53,126 @@ export default {
             Name: "",
             pageNo: 1,
             modal1: false,
-            path: ""
+            path: "",
+            columns1: [
+                {
+                    title: '编号',
+                    key: 'sum',
+                    align:"center",
+                    width:100,
+                    fixed:'left'
+                },
+                {
+                    title: '医生姓名',
+                    key: 'doctorName',
+                    align:"center",
+                    width:100,
+                    fixed:'left'
+                },
+                {
+                    title: '性别',
+                    key: 'gender',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '城市',
+                    key: 'city',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '医院名称',
+                    key: 'hospitalName',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '就诊科室',
+                    key: 'deptType',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '职称',
+                    key: 'title',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '医生手机号',
+                    key: 'phone',
+                    align:"center",
+                    width:120
+                },
+                {
+                    title: '医生简介',
+                    key: 'personalIntroduction',
+                    align:"center",
+                    width:120,
+                    ellipsis:true,
+                    render:(h,params) => {
+                        let avatar = params.row;
+                        return [
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);",
+                                        title: "点击查看医生简介"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.simple(avatar)
+                                        }
+                                    }
+                                },
+                                params.row.personalIntroduction
+                            )
+                        ]
+                    }
+                },
+                {
+                    title: '擅长',
+                    key: 'doctorGood',
+                    align:"center",
+                    width:120,
+                    ellipsis:true,
+                    render:(h,params) => {
+                        let avatar = params.row;
+                        return [
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);",
+                                        title: "点击查看医生擅长"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.simples(avatar)
+                                        }
+                                    }
+                                },
+                                params.row.doctorGood
+                            )
+                        ]
+                    }                    
+                },
+                {
+                    title: '注册时间',
+                    key: 'createTime',
+                    align:"center",
+                    width:100
+                },
+                {
+                    title: '数据来源',
+                    key: 'ibatch',
+                    align:"center",
+                    width:100
+                }
+            ],
+            data1: []
         };
     },
     created() {
@@ -128,6 +215,11 @@ export default {
                 pageNo: this.pageNo
             });
         },
+        addDoctor () {
+            this.functionJS.queryNavgationTo(this, "/index/maintain/doctorregister/addDoctor", {
+                pageNo: this.pageNo
+            });
+        },
         // 分页
         pageChange(index) {
             this.pageNo = index;
@@ -139,11 +231,19 @@ export default {
         },
         // 显示简介
         simple(item) {
+            if(!Boolean(item.personalIntroduction)){
+                this.$Message.info("暂无医生简介")
+                return ""
+            }
             this.modal1 = true;
             this.path = item.personalIntroduction;
         },
         // 显示特长
         simples(item) {
+            if(!Boolean(item.doctorGood)){
+                this.$Message.info("暂无医生特长")
+                return ""
+            }
             this.modal1 = true;
             this.path = item.doctorGood;
         },
@@ -154,7 +254,7 @@ export default {
                 pageSize: 10
             };
             if (this.Name != "") {
-                params.searchKey = this.Name;
+                params.searchKey = this.Name.trim();
             }
             params.provinceCode = this.province ? this.province : null;
             params.cityCode = this.city ? this.city : null;
@@ -164,6 +264,14 @@ export default {
             this.$axios.post(api.getDoctorInfo, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
+                    
+                    let arr = ['个人注册','批量导入','平台注册']
+                    ret.list.forEach((item,index) =>{
+                        item.sum = this.addZero(index);
+                        item.gender = item.gender == '0'? '女' :'男'
+                        item.ibatch = arr[item.ibatch];
+                    })
+                    console.log(ret)
                     this.doctorregisterSize = ret.count;
                     this.list = ret.list;
                 } else {
@@ -196,51 +304,15 @@ export default {
         margin: 0 auto;
         header {
             width: 100%;
-            height: 40px;
             display: flex;
             flex-direction: row;
+            flex-wrap:wrap;
             align-items: center;
             justify-content: space-between;
         }
         .list {
             width: 100%;
             margin: 10px 0;
-            table {
-                width: 100%;
-                border: 1px solid #ddd;
-                tr:nth-child(odd) {
-                    background: #f8f8f9;
-                }
-                tr:nth-child(even) {
-                    background: #fff;
-                }
-                tr:not(:first-child):hover {
-                    background: #ebf7ff;
-                }
-                tr {
-                    border-top: 1px solid #ddd;
-                    height: 40px;
-                    th {
-                        text-align: center;
-                    }
-                    th.one {
-                        max-width: 150px;
-                        padding: 0 6px;
-                        text-align: center;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        cursor: pointer;
-                    }
-                }
-            }
-            .notData {
-                width: 100%;
-                text-align: center;
-                border: 1px solid #ddd;
-                border-top: none;
-                line-height: 40px;
-            }
         }
     }
     .paging {

@@ -10,7 +10,7 @@
                 clearable
             />
             <Button type="primary" icon="ios-search" @click="search">查询</Button>
-            <Button type="primary" @click="add" style="margin-left:20px;">添加新版本</Button>
+            <Button type="info" @click="add" style="margin-left:20px;">添加新版本</Button>
         </header>
         <!-- 列表 -->
         <div class="table">
@@ -74,6 +74,7 @@ export default {
                     key: "iOperate",
                     align: "center",
                     width: 120,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         return [
@@ -144,15 +145,15 @@ export default {
                 pageNo,
                 pageSize: this.pageSize
             };
-            if (val != "") {
-                params.searchKey = val;
+            if (Boolean(val)) {
+                params.searchKey = val.trim();
             }
             this.$axios.post(api.versionlist, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
                     this.count = ret.count;
                     ret.list.forEach((item, index) => {
-                        item.sum = index + 1;
+                        item.sum = this.addZeros(index);
                         if (item.type == 1) {
                             item.type1 = "IOS";
                         } else {

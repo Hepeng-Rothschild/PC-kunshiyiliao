@@ -8,7 +8,7 @@
             placeholder="省"
             @on-change="changeProvince"
         >
-            <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in provinceList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
         <Select
             class="w-select"
@@ -18,7 +18,7 @@
             placeholder="市"
             @on-change="changeCity"
         >
-            <Option v-for="item in cityList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in cityList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
         <Select
             class="w-select"
@@ -28,7 +28,7 @@
             placeholder="区"
             @on-change="changeArea"
         >
-            <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in areaList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
         <Select
             class="w-select-hos"
@@ -38,7 +38,7 @@
             placeholder="机构"
             @on-change="changeHospital"
         >
-            <Option v-for="item in hospitalList" :value="item.id" :key="item.id">{{item.name}}</Option>
+            <Option v-for="item in hospitalList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
     </div>
 </template>
@@ -77,32 +77,25 @@ export default {
         }
     },
     created() {
-        console.log("组件内部输出start");
-        console.log(this.province);
-        console.log(this.city);
-        console.log(this.area);
-        console.log(this.hospital);
-        console.log(this.isBack);
-        console.log("组件内部输出end");
-        if (this.isBack == 1) {
-            console.log(1);
-            this.identity = this.$store.getters.getIdentity;
-            this.identityCoding = this.$store.getters.getIdentityCoding;
-            this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        //实际上不管是那种分类的账号，都要先将省级列表查询出来
+        if (this.isBack == 1) { // 首次加载页面而不是从其他页面返回的页面
+            this.identity = cookie.getCookie("idtt");
+            this.identityCoding = cookie.getCookie("idttC");
+            this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
             if (this.ownArea.province) {
-                this.provinceStatus = true;
                 this.provinceList.push(this.ownArea.province);
                 this.province = this.ownArea.province.id;
+                this.provinceStatus = true;
             }
             if (this.ownArea.city) {
-                this.cityStatus = true;
                 this.cityList.push(this.ownArea.city);
                 this.city = this.ownArea.city.id;
+                this.cityStatus = true;
             }
             if (this.ownArea.area) {
-                this.areaStatus = true;
                 this.areaList.push(this.ownArea.area);
                 this.area = this.ownArea.area.id;
+                this.areaStatus = true;
             }
             if (this.identity == 1) {
                 this.provinceList = this.$store.getters.getProvinceList;
@@ -135,7 +128,6 @@ export default {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
                     });
             } else if (this.identity == 5) {
                 this.hospital = parseInt(this.identityCoding);
@@ -156,10 +148,10 @@ export default {
                     })
                     .catch(err => {});
             }
-        }else if(this.isBack == 2){
-        //设置从其他页面返回后默认值
+        }else if(this.isBack == 2){ //这是从其他页面返回的话，携带有默认值
+            //设置从其他页面返回后默认值
+            this.provinceList = this.$store.getters.getProvinceList;
             if (this.province) {
-                this.provinceList = this.$store.getters.getProvinceList;
                 this.cityList = this.$store.getters.getCityList(this.province);
                 if (this.city) {
                     this.areaList = this.$store.getters.getAreaList(this.city);
@@ -186,11 +178,9 @@ export default {
                 }
             }
         }
-
     },
     methods: {
         changeProvince(val) {
-            console.log("changeProvince");
             val = val ? val : null;
             this.$emit("changeProvince", val);
             this.$emit("changeCity", null);
@@ -203,7 +193,6 @@ export default {
             this.cityList = this.$store.getters.getCityList(val);
         },
         changeCity(val) {
-            console.log("changeCity");
             val = val ? val : null;
             this.$emit("changeCity", val);
             this.$emit("changeArea", null);
@@ -214,7 +203,6 @@ export default {
             this.areaList = this.$store.getters.getAreaList(val);
         },
         changeArea(val) {
-            console.log("changeArea");
             val = val ? val : null;
             this.$emit("changeArea", val);
             this.$emit("changeHospital", null);
@@ -242,7 +230,6 @@ export default {
             }
         },
         changeHospital(val) {
-            console.log("changeHospital");
             val = val ? val : null;
             this.$emit("changeHospital", val);
         }

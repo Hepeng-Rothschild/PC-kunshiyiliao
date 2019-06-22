@@ -45,7 +45,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>职务</span>
         </div>
-        <Input v-model="post" placeholder="请输入专家职务" style="width: 200px" disabled/>
+        <Input v-model="post" placeholder="" style="width: 200px" disabled/>
       </div>
       <!--专业特长-->
       <div class="main_expert_inputi">
@@ -73,7 +73,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <Input v-model="isort" placeholder="请输入专家职务" style="width: 100px" @keyup="isorts"/>
+        <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         <p style="margin-left:10px;">备注:只能填写数字,1代表置顶以此类推</p>
       </div>
       <!--显示-->
@@ -153,6 +153,7 @@ export default {
             }
         ];
         this.$emit("changeBreadList", breadList);
+        this.status();
   },
   mounted() {
     let data = this.$route.params.item;
@@ -170,6 +171,19 @@ export default {
     }
   },
   methods: {
+    status() {
+      let flag = localStorage.getItem("status");
+      if (!Boolean(flag)) {
+        this.$Message.info("您还没有开通互联网医院,去开通");
+        this.flag = true;
+        localStorage.setItem("homeIndex", 0);
+        setTimeout(() => {
+          this.functionJS.paramsNavgationTo(this, "homeInfo", {
+            // 公用方法
+          }); 
+        }, 600);
+      }
+    },
     isorts() {
       if (this.isort <= 0) {
         this.isort = "";
@@ -205,7 +219,7 @@ export default {
         this.$Message.error("专家姓名不能为空");
       } else {
         this.$axios.post(api.expertedit, params).then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             let pageNo = this.$route.params.pageNo;
             this.$Message.info("修改成功");
             setTimeout(() => {

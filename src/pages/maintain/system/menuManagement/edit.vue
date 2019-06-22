@@ -43,6 +43,7 @@
                         v-for="(item,index) in functionList"
                         :value="item.id"
                         :key="index"
+                        style='text-align:center;'
                       >{{item.name}}</Option>
                     </Select>
                   </FormItem>
@@ -61,6 +62,7 @@
                         v-for="(item,index) in levelList"
                         :value="item.id"
                         :key="index"
+                        style='text-align:center;'
                       >{{item.val}}</Option>
                     </Select>
                   </FormItem>
@@ -85,6 +87,7 @@
                           v-for="(item,index) in topList"
                           :value="item.id"
                           :key="index"
+                          style='text-align:center;'
                         >{{item.menuName}}</Option>
                       </Select>
                       <Select class="w-select" v-if="info.level == 2" v-model="info.secondMenu">
@@ -92,6 +95,7 @@
                           v-for="(item,index) in secondList"
                           :value="item.id"
                           :key="index"
+                          style='text-align:center;'
                         >{{item.menuName}}</Option>
                       </Select>
                     </FormItem>
@@ -108,7 +112,7 @@
                   <FormItem class="fullItem" prop="no">
                     <Row>
                       <Col :xs="24">
-                        <Input class="w-input" v-model="searchKey" placeholder="权限/备注"/>
+                        <Input class="w-input" v-model="mSearchKey" placeholder="权限/备注"/>
                         <Button type="primary" @click="loadPermise(1)">
                           <Icon type="ios-search" size="14"/>
                         </Button>
@@ -177,8 +181,8 @@ export default {
       func: null,
       level: null,
       info: {
-        menuName: null,
-        remark: null,
+        menuName: "",
+        remark: "",
         function: "2",
         level: 2,
         topMenu: null,
@@ -282,6 +286,7 @@ export default {
       allData: [],
       selData: [],
       ids: [],
+      mSearchKey: '',
       searchKey: null,
       ppageNo: 1,
       ppageSize: 10,
@@ -387,7 +392,7 @@ export default {
       this.ppageNo = pageNo;
       //查询所有接口权限
       let params = {};
-      params.searchKey = this.searchKey;
+      params.searchKey = this.mSearchKey.trim();
       params.pageNo = this.ppageNo;
       params.pageSize = this.ppageSize;
       this.$axios
@@ -429,7 +434,7 @@ export default {
     },
     submit(name) {
       this.$refs[name].validate(valid => {
-        if (valid) {
+        if (Boolean(valid)) {
           let operateApi = "";
           let subMitObj = {};
           let noticeMsg = "";
@@ -440,10 +445,11 @@ export default {
             noticeMsg = "添加";
             operateApi = api.operatemenuinsert;
           }
+          
           subMitObj.id = this.info.id ? parseInt(this.info.id) : null;
           subMitObj.ids = this.ids;
-          subMitObj.menuName = this.info.menuName;
-          subMitObj.remark = this.info.remark;
+          subMitObj.menuName = this.info.menuName.trim();
+          subMitObj.remark = this.info.remark.trim();
           subMitObj.function = this.info.function;
           subMitObj.path = this.info.path;
           subMitObj.level = this.info.level;
@@ -456,6 +462,7 @@ export default {
             .post(operateApi, subMitObj)
             .then(resp => {
               if (resp.data.code == 1) {
+                console.log(resp);
                 //   公用方法
                 this.functionJS.queryNavgationTo(
                   this,

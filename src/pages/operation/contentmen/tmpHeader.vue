@@ -3,7 +3,7 @@
     <h1 class="hospitalName">{{ hospitalName }}</h1>
     <ul>
       <li v-for="(item,index) in dataList" @click="changeIndex(index)" :key='index'>
-        <router-link :to="item.name" :class="{active:current==index}">{{ item.title }}</router-link>
+        <router-link :to="item.name" :class="{ active:current == index }">{{ item.title }}</router-link>
       </li>
     </ul>
   </header>
@@ -53,7 +53,6 @@ export default {
           name: "/index/operation/servicePackage/list",
           title: "服务包管理"
         },
-
         {
           name: "/index/operation/remoteClinic_list",
           title: "远程门诊"
@@ -61,6 +60,14 @@ export default {
         {
           name: "/index/operation/doctorremoteClinic_list",
           title: "远程门诊类型"
+        },
+        {
+          name: "/index/operation/thirdParty",
+          title: "第三方服务"
+        },
+        {
+          name: "/index/operation/feeStandard",
+          title: "互联网收费标准"
         }
       ]
     };
@@ -68,12 +75,15 @@ export default {
   mounted() {
     let iv = store.state.iv;
     let salt = store.state.salt;
-    this.hospitalName = aesUtils.decrypt(
-      salt,
-      iv,
-      "Doctortoservice",
-      localStorage.getItem("hospitalName")
-    );
+    let storage = localStorage.getItem("hospitalName")
+    if(Boolean(storage)) {
+        this.hospitalName = aesUtils.decrypt(
+          salt,
+          iv,
+          "Doctortoservice",
+          storage
+        )
+    }
   },
   methods: {
     changeIndex(index) {
@@ -85,7 +95,6 @@ export default {
 <style scoped lang="less">
 header {
   width: 100%;
-  // height: 40px;
   padding: 30px auto;
   .hospitalName {
     width: 100%;
@@ -94,9 +103,7 @@ header {
     line-height: 40px;
   }
   ul {
-    // width: 80%;
-    min-width: 900px;
-    margin: 0 10%;
+    width:100%;
     height: 40px;
     display: flex;
     flex-direction: row;
@@ -106,6 +113,7 @@ header {
       border-bottom: 1px solid #ddd;
       a {
         display: block;
+        font-size:10px;
         color: black;
         padding: 6px 8px;
         cursor: pointer;
@@ -118,10 +126,6 @@ header {
         border-bottom: 2px solid #2d8cf0;
       }
       .active {
-        color: #2d8cf0;
-        border-bottom: 2px solid #2d8cf0;
-      }
-      .router-link-exact-active {
         color: #2d8cf0;
         border-bottom: 2px solid #2d8cf0;
       }

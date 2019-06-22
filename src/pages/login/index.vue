@@ -1,53 +1,71 @@
 <template>
     <div class="login">
-        <div class="box">
-            <div class="title">互联网医院管理系统V{{$store.state.version}}</div>
-            <div class="uname-box">
-                <input
-                    type="text"
-                    class="username"
-                    @change="checkInput"
-                    v-model="username"
-                    placeholder="用户账号"
-                    ref="username"
-                >
-            </div>
-            <div class="pwd-box">
-                <input
-                    type="password"
-                    class="password"
-                    @change="checkInput"
-                    v-model="password"
-                    placeholder="登陆密码"
-                >
-            </div>
-            <div class="verify-box">
-                <div class="verify-in-box">
+        <div class="wrapper">
+            <div class="box">
+                <div class="title">互联网医院管理系统V{{$store.state.version}}</div>
+                <div class="uname-box">
                     <input
                         type="text"
-                        class="verify"
-                        v-model="verify"
-                        placeholder="验证码"
-                        @keyup.enter="checkLogin"
+                        class="username"
+                        @change="checkInput"
+                        v-model.trim="username"
+                        placeholder="请输入用户账号"
+                        ref="username"
+                        @keyup="username = username.replace(/[^\w_]/g,'');"
                     >
-                    <div id="verify">
-                        <canvas id="verifyCanvas" style="cursor: pointer;"></canvas>
+                </div>
+                <div class="pwd-box">
+                    <input
+                        autocomplete="new-password"
+                        type="password"
+                        class="password"
+                        @change="checkInput"
+                        v-model.trim="password"
+                        placeholder="请输入登陆密码"
+                    >
+                </div>
+                <div class="verify-box">
+                    <div class="verify-in-box">
+                        <input
+                            type="text"
+                            class="verify"
+                            v-model.trim="verify"
+                            placeholder="验证码"
+                            @keyup.enter="checkLogin"
+                            @keyup="verify = verify.replace(/[^\w_]/g,'');"
+                        >
+                        <div id="verify">
+                            <canvas id="verifyCanvas" style="cursor: pointer;"></canvas>
+                        </div>
                     </div>
                 </div>
+                <div class="notice-box" :class="noticeClassColor">
+                    <i :class="iconClass">{{iconText}}</i>
+                    &nbsp;&nbsp;{{alertMsg}}
+                    <!-- <i class="success-icon">ok</i>&nbsp;&nbsp;登陆成功 -->
+                </div>
+                <div class="btn-box">
+                    <button class="login-btn" @click="checkLogin">登陆</button>
+                </div>
             </div>
-            <div class="notice-box" :class="noticeClassColor">
-                <i :class="iconClass">{{iconText}}</i>
-                &nbsp;&nbsp;{{alertMsg}}
-                <!-- <i class="success-icon">ok</i>&nbsp;&nbsp;登陆成功 -->
-            </div>
-            <div class="btn-box">
-                <button class="login-btn" @click="checkLogin">登陆</button>
-            </div>
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
         </div>
     </div>
 </template>
 <script>
 require("@/plugins/gVerify.js");
+require ("@/plugins/jquery-2.1.1.min.js")
 import api from "@/api/commonApi";
 import axios from "axios";
 import cookie from "../../utils/cookie.js";
@@ -60,31 +78,19 @@ export default {
             iconClass: "",
             iconText: "",
             alertMsg: "",
+
             username: "",
-            // username:"test",
             password: "",
+            // username:"test",
             // password:"qwer1234",
             verify: "",
             verifyCode: null,
             loginFlag: true
         };
     },
-    beforeCreate() {
-        let assets_token = window.localStorage.getItem("access_token");
-        if (assets_token) {
-            window.localStorage.removeItem("access_token");
-        }
-        cookie.delCookie("username");
-        cookie.delCookie("userIcon");
-        cookie.delCookie("randmId");
-        cookie.delCookie("operateUserId");
-        cookie.delCookie("idtt");
-        cookie.delCookie("idttC");
-        cookie.delCookie("access_user");
-        cookie.delCookie("ownArea");
-    },
-    mounted() {
+    mounted () {
         this.verifyCode = new GVerify("verify");
+        this.clearData();
     },
     methods: {
         checkLogin() {
@@ -99,7 +105,7 @@ export default {
                 this.verifyCode.refresh();
                 return;
             }
-            if (!this.username || !this.password) {
+            if (!this.username.trim() || !this.password.trim()) {
                 this.noticeClassColor = "alert-color";
                 this.iconClass = "alert-icon";
                 this.iconText = "!";
@@ -112,15 +118,16 @@ export default {
                 this.alertMsg = "输入正确，登陆中...";
             }
             let params =
-                "username=" + this.username + "&password=" + this.password;
+                "username=" + this.username.trim() + "&password=" + this.password.trim();
 
             if (this.loginFlag) {
                 this.loginFlag = false;
                 axios
                     .post(api.login, params)
                     .then(resp => {
-                        console.log("登陆返回值",resp.data);
+                        console.log(resp);
                         if (resp.data.success) {
+                            console.log(resp);
                             let times = 10 * 60 * 60;
                             window.localStorage.setItem(
                                 "access_token",
@@ -132,15 +139,18 @@ export default {
                             let identity = resp.data.object.identity;
                             let identityCoding =
                                 resp.data.object.identityCoding;
-                            let areaCode =
-                                resp.data.object.areaCode;
+                            let areaCode = resp.data.object.areaCode;
                             if (operateUserId) {
                                 let tmpObj;
-                                if(tmpIcon){
+                                if (tmpIcon) {
                                     tmpObj = JSON.parse(tmpIcon);
                                     let userIcon =
                                         this.fileBaseUrl + tmpObj.fileName;
-                                    cookie.setCookie("userIcon", userIcon, times);
+                                    cookie.setCookie(
+                                        "userIcon",
+                                        userIcon,
+                                        times
+                                    );
                                 }
                                 cookie.setCookie("username", username, times);
                                 cookie.setCookie(
@@ -166,6 +176,7 @@ export default {
                                 aesUtils.encrypt(salt, iv, key, access_user),
                                 times
                             );
+
                             //存储当前用户身份对应省市区
                             let province = null,
                                 city = null,
@@ -174,25 +185,46 @@ export default {
                                 case 1: //超级管理员，暂时不管
                                     break;
                                 case 2: //省级
-                                    province = this.$store.getters.getProvinceById( identityCoding );
+                                    province = this.$store.getters.getProvinceById(
+                                        identityCoding
+                                    );
                                     break;
                                 case 3: //市级
-                                    city = this.$store.getters.getCityById( identityCoding );
-                                    province = this.$store.getters.getProvinceByCityId( identityCoding );
+                                    city = this.$store.getters.getCityById(
+                                        identityCoding
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        identityCoding
+                                    );
                                     break;
                                 case 4: //区级
-                                    area = this.$store.getters.getAreaById( identityCoding );
-                                    city = this.$store.getters.getCityByAreaId( identityCoding );
-                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                                    area = this.$store.getters.getAreaById(
+                                        identityCoding
+                                    );
+                                    city = this.$store.getters.getCityByAreaId(
+                                        identityCoding
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        city.id
+                                    );
                                     break;
                                 case 5: //机构
-                                    area = this.$store.getters.getAreaById( areaCode );
-                                    city = this.$store.getters.getCityByAreaId( areaCode );
-                                    province = this.$store.getters.getProvinceByCityId( city.id );
+                                    area = this.$store.getters.getAreaById(
+                                        areaCode
+                                    );
+                                    city = this.$store.getters.getCityByAreaId(
+                                        areaCode
+                                    );
+                                    province = this.$store.getters.getProvinceByCityId(
+                                        city.id
+                                    );
                             }
-                            let ownArea = JSON.stringify({province,city,area});
-                            
-                            cookie.setCookie("ownArea",ownArea,times);
+                            let ownArea = JSON.stringify({
+                                province,
+                                city,
+                                area
+                            });
+                            cookie.setCookie("ownArea", ownArea, times);
                             let topMenu = [],
                                 secondMenu = [],
                                 thirdMenu = [];
@@ -293,9 +325,21 @@ export default {
                                 "top",
                                 aesUtils.encrypt(salt, iv, key, topMenu)
                             );
+                            if (menus.length <= 0) {
+                                this.$Message.error({
+                                    content: "该账号暂无任何权限",
+                                    duration: 3
+                                });
+                                this.functionJS.queryNavgationTo(
+                                    this,
+                                    "/public"
+                                );
+                                return;
+                            }
                             // 公用方法
-                            this.functionJS.queryNavgationTo(this, '/index');
-                            
+                            this.functionJS.queryNavgationTo(this, "/index");
+                            // 清空输入的内容
+                            this.resetInput();
                         } else {
                             this.loginFlag = true;
                             this.noticeClassColor = "alert-color";
@@ -304,19 +348,20 @@ export default {
                             this.alertMsg = "用户名或密码错误，请重新输入";
                             this.verifyCode.refresh();
                             this.$refs.username.focus();
+                            this.verify = "";
+                            this.password = ''
                         }
                     })
                     .catch(err => {
                         console.log(err);
                         this.loginFlag = true;
-                        if (err) {
-                            this.noticeClassColor = "";
-                            this.iconClass = "";
-                            this.iconText = "";
-                            this.alertMsg = "";
-                            // this.$Message.info("服务器超时");
-                            this.verifyCode.refresh();
-                        }
+                        this.noticeClassColor = "alert-color";
+                        this.iconClass = "alert-icon";
+                        this.iconText = "!";
+                        this.alertMsg = "登陆失败";
+                        this.verifyCode.refresh();
+                        this.verify = "";
+                        this.password = ''
                     });
             }
         },
@@ -333,35 +378,108 @@ export default {
                 this.iconText = "";
                 this.alertMsg = "";
             }
+        },
+        // 输入值重置
+        resetInput() {
+            // 样式
+            this.noticeClassColor = "";
+            this.iconClass = "";
+            // 符号
+            this.iconText = "";
+            // 弹示框
+            this.alertMsg = "";
+            // 刷新验证码
+            this.verifyCode.refresh();
+            // 失去焦点
+            this.$refs.username.focus();
+            this.verify = "";
+            // 用户名密码
+            this.username = "";
+            this.password = "";
+            // 打开允许登录
+            this.loginFlag = true;
+        },
+        clearData() {
+            let assets_token = window.localStorage.getItem("access_token");
+            if (assets_token) {
+                window.localStorage.removeItem("access_token");
+            }
+            let cookiess = document.cookie.split(";");
+            cookie.delCookie("username");
+            cookie.delCookie("userIcon");
+            cookie.delCookie("randmId");
+            cookie.delCookie("operateUserId");
+            cookie.delCookie("idtt");
+            cookie.delCookie("idttC");
+            cookie.delCookie("access_user");
+            cookie.delCookie("ownArea");
+            window.localStorage.removeItem("access_token");
+            window.localStorage.removeItem("top");
+            window.localStorage.removeItem("sun1");
+            window.localStorage.removeItem("sun2");
+            window.localStorage.removeItem("sun3");
+            window.localStorage.removeItem("sun4");
+            window.localStorage.removeItem("sun5");
+            window.localStorage.clear();
+            this.resetInput();
         }
     }
 };
 </script>
 <style lang="less" scoped>
+@import url('../../assets/css/loginBg.css');
 .login {
     width: 100%;
     height: 100%;
-    background: #f5f5f5;
     position: absolute;
     .box {
-        width: 480px;
-        height: 380px;
-        margin: 10% auto;
-        background: rgba(102, 102, 102, 1);
+        // min-width: 38%;
+        width:480px;
+        // min-height: 60%;
+        height:380px;
+        margin: 0 auto;
+        background:gray;
         border-radius: 5px;
         padding: 20px;
         text-align: center;
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-left:-240px;
+        // margin-left:-19%;
+        transform: translateY(-50%);
+        z-index:99;
         line-height: 40px;
         div {
             margin: 15px 0;
             width: 100%;
+            min-height:40px;
             input {
-                width: 80%;
-                box-sizing: border-box;
-                padding: 0 15px;
-                margin: 0 0;
-                outline: none;
-                border: 0;
+                -webkit-appearance: none;
+                    -moz-appearance: none;
+                        appearance: none;
+                outline: 0;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                background-color: rgba(255, 255, 255, 0.2);
+                width: 250px;
+                // width:50%;
+                border-radius: 3px;
+                margin: 0 auto 10px auto;
+                display: block;
+                text-align: center;
+                font-size: 18px;
+                color: white;
+                -webkit-transition-duration: 0.25s;
+                        transition-duration: 0.25s;
+                font-weight: 300;
+                }
+            input:hover {
+                background-color: rgba(255, 255, 255, 0.4);
+            }
+            input:focus {
+                background-color: white;
+                width: 300px;
+                color: red;
             }
         }
         .title {
@@ -375,7 +493,8 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 .verify {
-                    width: 55%;
+                    width: 31%;
+                    height:40px;
                 }
                 #verify {
                     width: 40%;
@@ -423,15 +542,16 @@ export default {
         .btn-box {
             text-align: center;
             .login-btn {
-                width: 80%;
+                width: 50%;
                 font-size: 22px;
-                color: #fff;
+                // color: #fff;
                 outline: none;
                 border: 0;
-                background: #689aff;
+                background: #fff;
                 border-radius: 5px;
             }
         }
     }
 }
+
 </style>

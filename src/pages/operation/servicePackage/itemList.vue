@@ -25,7 +25,7 @@
                     </Button>
                 </div>
                 <div class="margin-up-down">
-                    <Button type="warning" @click="goAdd">添加服务项</Button>
+                    <Button type="info" @click="goAdd">添加服务项</Button>
                 </div>
                 <div class="margin-up-down">
                     <Button type="default" @click="goImport">批量导入</Button>
@@ -165,7 +165,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 60,
+                    width: 80,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         return [
@@ -298,7 +299,7 @@ export default {
             params.areaId = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
 
-            params.searchKey = this.searchKey == "" ? null : this.searchKey;
+            params.searchKey = this.searchKey.trim() == "" ? null : this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log("服务项 params", params);

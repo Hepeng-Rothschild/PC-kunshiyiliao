@@ -8,35 +8,13 @@
         <div class="boxs">
           <Input v-model.trim="val" placeholder="请输入专家姓名查询" style="width: 200px" @on-keyup.enter="valChange" clearable/>
         </div>
-        <Button type="primary" @click="valChange" style="margin-left:20px;">查询</Button>
+        <Button type="primary"  icon="ios-search" @click="valChange" style="margin-left:20px;">查询</Button>
       </div>
-      <Button type="primary" @click="navto">添加专家</Button>
+      <Button type="info" @click="navto">添加专家</Button>
     </div>
     <!--表格列表-->
     <div class="main" v-show="!flag">
-      <table border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <th>编号</th>
-          <th>专家科室</th>
-          <th>专家姓名</th>
-          <th>职称</th>
-          <th>职务</th>
-          <th>显示</th>
-          <th>排序</th>
-          <th>操作</th>
-        </tr>
-        <tr v-for="(item,index) in tablesList" v-show="tablesList.length" :key='index'>
-          <th>{{ addZeros(index) }}</th>
-          <th>{{ item.deptType }}</th>
-          <th>{{ item.doctorName }}</th>
-          <th>{{ item.title }}</th>
-          <th>{{ item.post }}</th>
-          <th>{{ item.display ? '是' :'否' }}</th>
-          <th>{{ item.priority }}</th>
-          <th @click="edit(item)" style="cursor:pointer">编辑</th>
-        </tr>
-      </table>
-      <div class="footer" v-show="!tablesList.length">暂无更多数据</div>
+      <Table stripe :columns="columnList" :data="tablesList"></Table>
     </div>
     <div style="text-align:center;margin:10px 0;">
       <Page :total="expertSize" @on-change="pageChange" :current="pageNo" v-show="!flag"/>
@@ -59,7 +37,60 @@ export default {
       expertSize: 10,
       val: "",
       pageNo: 1,
-      flag: ""
+      flag: "",
+      columnList: [
+        {
+          title:"序号",
+          key:"sum",
+          align:"center"
+        },
+        {
+          title:"专家科室",
+          key:"deptType",
+          align:"center"
+        },
+        {
+          title:"专家姓名",
+          key:"doctorName",
+          align:"center"
+        },
+        {
+          title:"职称",
+          key:"title",
+          align:"center"
+        },
+        {
+          title:"职务",
+          key:"post",
+          align:"center"
+        },
+        {
+          title:"显示",
+          key:"display",
+          align:"center"
+        },
+        {
+          title:"排序",
+          key:"priority",
+          align:"center"
+        },
+        {
+          title:"操作",
+          align:"center",
+          render: (h,params) => {
+            let row = params.row;
+            return [
+              h('a',{
+                on: {
+                  click: () => {
+                    this.edit(row)
+                  }
+                }
+              },'编辑')
+            ]
+          }
+        }
+      ]
     };
   },
   created() {
@@ -69,7 +100,7 @@ export default {
     }
     this.getExpertData(this.pageNo);
 
-    let breadList = [
+    let breadList = [ 
       { path: "/index", title: "首页" },
       {
         path: "/index/operation/mechanism/index",
@@ -132,14 +163,18 @@ export default {
         pageNo,
         pageSize: 10
       };
-      if (val != "") {
-        params.doctorName = val;
+      if (Boolean(val)) {
+        params.doctorName = val.trim();
       }
       this.$axios
         .post(api.zj, params)
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             let ret = res.data.object;
+            ret.list.forEach((item,index) => {
+              item.sum = this.addZeros(index);
+              item.display = item.display ? '是' :'否'
+            })
             this.tablesList = ret.list;
             this.expertSize = ret.count;
           }
@@ -184,34 +219,6 @@ export default {
   .main {
     width: 80%;
     margin: 0 auto;
-    .footer {
-      width: 100%;
-      border: 1px solid #ddd;
-      border-top: none;
-      text-align: center;
-      height: 40px;
-      line-height: 40px;
-    }
-    table {
-      width: 100%;
-      border: 1px solid #ddd;
-      tr:nth-child(odd) {
-        background: #f8f8f9;
-      }
-      tr:nth-child(even) {
-        background: #fff;
-      }
-      tr:not(:first-child):hover {
-        background: #ebf7ff;
-      }
-      tr {
-        border-top: 1px solid #ddd;
-        height: 40px;
-        th {
-          text-align: center;
-        }
-      }
-    }
   }
 }
 </style>

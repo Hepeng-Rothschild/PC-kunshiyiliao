@@ -4,7 +4,7 @@
         <tmpHeader/>
         <!--添加专家/搜索-->
         <div class="iheader">
-            <Button type="primary" @click="navtoAdd">添加服务包</Button>
+            <Button type="info" @click="navtoAdd">添加服务包</Button>
         </div>
         <!--表格列表-->
         <div class="main">
@@ -21,7 +21,7 @@
                     <th>
                         <span v-for="(items,index) in item.result" v-show='items.packagestatus!=0' :key='index'>{{index == 0?'':' | '}}{{ items.packageName }}</span>
                     </th>
-                    <th @click="navto(item)" style="cursor:pointer;">编辑</th>
+                    <th @click="navto(item)" style="cursor:pointer;color:#2d8cf0;">编辑</th>
                 </tr>
             </table>
             <div class="footer" v-show="!tablesList.length">暂无更多数据</div>
@@ -164,6 +164,7 @@ export default {
         table {
             width: 100%;
             border: 1px solid #ddd;
+            font-size:12px;
             tr:nth-child(odd) {
                 background: #f8f8f9;
             }
@@ -178,6 +179,7 @@ export default {
                 height: 40px;
                 th {
                     text-align: center;
+                    min-width: 80px;
                 }
             }
         }

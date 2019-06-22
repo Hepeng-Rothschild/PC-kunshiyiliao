@@ -6,7 +6,7 @@
                 <Button type="primary" @click="loadPage(1)">
                     <Icon type="ios-search" size="14"/>查询
                 </Button>
-                <Button @click="add">添加</Button>
+                <Button @click="add" type='info'>添加</Button>
             </Col>
         </Row>
         <Table class="m-table" stripe :columns="columns" :data="dataList"></Table>
@@ -84,6 +84,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 120,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let func = params.row.function;
@@ -163,7 +164,7 @@ export default {
         loadPage(pageNo) {
             this.pageNo = parseInt(pageNo);
             var params = {};
-            params.searchKey = this.searchKey;
+            params.searchKey = this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios

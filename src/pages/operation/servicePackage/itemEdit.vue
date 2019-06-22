@@ -15,6 +15,7 @@
                                 v-for="item of natureList"
                                 :key="item.id"
                                 :value="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                     </FormItem>
@@ -38,6 +39,7 @@
                                 v-for="item in provinceList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -52,6 +54,7 @@
                                 v-for="item in cityList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -66,6 +69,7 @@
                                 v-for="item in areaList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -79,6 +83,7 @@
                                 v-for="item in hospitalList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.orgName}}</Option>
                         </Select>
                         <iSwitch
@@ -103,8 +108,8 @@
                         <Input
                             class="w-input"
                             v-model="info.serviceName"
-                            :maxlength="20"
-                            placeholder="请输入服务项目名称"
+                            :maxlength="60"
+                            placeholder="请输入服务项目名称1"
                         />
                     </FormItem>
                 </Col>
@@ -119,7 +124,7 @@
                             class="w-input"
                             v-model="info.serviceDes"
                             type="textarea"
-                            :maxlength="20"
+                            :maxlength="100"
                             placeholder="请填写具体操作规范"
                         />
                     </FormItem>
@@ -136,6 +141,7 @@
                                 v-for="(item,index) of numberYear"
                                 :value="item"
                                 :key="index"
+                                style='text-align:center;'
                             >{{item}}/次</Option>
                         </Select>
                     </FormItem>
@@ -152,6 +158,7 @@
                                 v-for="item of executingAgencyList"
                                 :key="item.id"
                                 :value="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                     </FormItem>
@@ -216,6 +223,24 @@
                     </FormItem>
                 </Col>
             </Row>
+            <!--  服务关联表单 -->
+            <Row>
+                <Col :xs="3" class="text-r">
+                    <i class="req-icon"></i>服务项关联表单：
+                </Col>
+                <Col :xs="21">
+                    <FormItem prop="numberYear">
+                        <Select class="w-select" v-model="info.formType">
+                            <Option
+                                v-for="(item,index) of formTypeList"
+                                :value="item.value"
+                                :key="index"
+                                style='text-align:center;'
+                            >{{item.title}}</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>
             <Row>
                 <Col :xs="3" class="text-r">
                     <i class="req-icon"></i>备注：
@@ -226,7 +251,6 @@
                             class="w-input"
                             v-model="info.remarks"
                             type="textarea"
-                            :maxlength="20"
                             placeholder="备注"
                         />
                     </FormItem>
@@ -244,7 +268,8 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
+import cookie from "@/utils/cookie.js";
 import { Avatar } from "iview";
 export default {
     data() {
@@ -265,7 +290,8 @@ export default {
                 remarks: null,
                 numberYear: 1,
                 executingAgency: 1,
-                nature: 1
+                nature: 1,
+                formType:null
                 // amountReceived: null
             },
             pageNo: null,
@@ -336,7 +362,22 @@ export default {
             city: null,
             area: null,
             hospital: null,
-            isBack: 2
+            isBack: 2,
+            // 服务关联表单
+            formTypeList:[
+                {
+                    value:0,
+                    title:"暂不关联"
+                },
+                {
+                    value:1,
+                    title:"随访表单"
+                },
+                {
+                    value:2,
+                    title:"健康宣教"
+                }
+            ]
         };
     },
     created() {
@@ -401,9 +442,9 @@ export default {
                     console.log(err);
                 });
         }
-        this.identity = this.$store.getters.getIdentity;
-        this.identityCoding = this.$store.getters.getIdentityCoding;
-        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        this.identity = cookie.getCookie("idtt");
+        this.identityCoding = cookie.getCookie("idttC");
+        this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
         if (this.ownArea.province) {
             this.provinceStatus = true;
             this.provinceList.push(this.ownArea.province);
@@ -550,6 +591,8 @@ export default {
                         this.info.executingAgency
                     );
                     params.nature = parseInt(this.info.nature);
+                    // 服务 关联表单
+                    params.formType = this.info.formType;
                     // params.amountReceived = this.info.amountReceived;
                     this.$axios
                         .post(subApi, params)

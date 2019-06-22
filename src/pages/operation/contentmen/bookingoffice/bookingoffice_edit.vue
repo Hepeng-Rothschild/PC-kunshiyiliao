@@ -4,15 +4,6 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <!-- <ul class="allList" @click="tab" v-for="item in tablsList">
-          <li>
-            <span>+</span>
-            {{ item.name }}
-          </li>
-          <ul class="oneList">
-            <li v-for="items in item.child" @click="changes(items)">{{ items.childDept }}</li>
-          </ul>
-        </ul>-->
         <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
@@ -21,7 +12,7 @@
         <!--科室名称-->
         <div class="keshi_name">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
           <Input v-model.trim="title" style="width: 300px" disabled/>
@@ -32,9 +23,8 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室就诊位置</span>
           </div>
-          <Input v-model.trim="keshiname" style="width: 300px" placeholder="门诊楼2楼1-7诊室"/>
+          <Input v-model.trim="keshiname" style="width: 300px" placeholder="例：门诊楼2楼1-7诊室"/>
         </div>
-        <!--科室图标-->
         <div class="keshi_name_fileImgs">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
@@ -96,14 +86,6 @@
             style="margin:0;"
           ></vueEditor>
         </div>
-        <!--科室特色-->
-        <!-- <div class="keshi_name_text">
-					<div class = 'left'>
-						<span style='color:red;'>&nbsp;&nbsp;&nbsp;</span>
-						<span>科室特色</span>
-					</div>
-					<textarea name="" id="" cols="30" rows="10" v-model = 'test2'></textarea>
-        </div>-->
         <!--排序-->
         <div class="keshi_name_text" style="align-items:center;">
           <div class="left">
@@ -132,9 +114,10 @@
 </template>
 
 <script>
+// 预约科室
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Tree } from "iview";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 import api from "@/api/commonApi";
 export default {
@@ -145,20 +128,23 @@ export default {
   },
   data() {
     return {
+      // 科室名称
       title: "",
+      // 科室别名
       keshiname: "",
-      test1: "",
-      test2: "",
+      // 是否显示
       switch1: true,
+      // 科室排序
       isort: "",
       defaultList: [],
+      // 科室编码
+      code:"",
       imgName: "",
       visible: false,
       tablsList: [],
       rightDetail: [],
       currentId: -1,
       id: sessionStorage.getItem("hospitalId"),
-      editorText: "请输入要编辑的内容...",
       editorTexts: "请输入要编辑的内容...",
       info: {
         content: ""
@@ -187,6 +173,7 @@ export default {
       }
     ];
     this.$emit("changeBreadList", breadList);
+    this.status();
   },
   mounted() {
     let id = this.$route.params;
@@ -224,30 +211,22 @@ export default {
       });
   },
   methods: {
+    // 富文本编辑器
     afterChange(val) {
       this.info.content = val;
     },
-    tab(e) {
-      let el = e.target;
-      let chilrens = el.parentNode.getElementsByTagName("ul");
-      let ref = this.$refs.oneList;
-      if (chilrens.length > 0) {
-        let flag = chilrens[0].style.display;
-        if (flag == "" || flag == "none") {
-          chilrens[0].style.display = "block";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "-";
-        } else {
-          chilrens[0].style.display = "none";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "+";
-        }
+    status() {
+      let flag = localStorage.getItem("status");
+      if (!Boolean(flag)) {
+        this.$Message.info("您还没有开通互联网医院,去开通");
+        this.flag = true;
+        localStorage.setItem("homeIndex", 0);
+        setTimeout(() => {
+          this.functionJS.paramsNavgationTo(this, "homeInfo", {
+            // 公用方法
+          }); 
+        }, 600);
       }
-      let ichildren = ref.getElementsByTagName("li");
-      for (let i = 0; i < ichildren.length; i++) {
-        ichildren[i].classList.remove("active");
-        if (ichildren[i].localName) {
-        }
-      }
-      el.classList.add("active");
     },
     back() {
       let pageNo = this.$route.params.pageNo;
@@ -266,7 +245,9 @@ export default {
         deptPosition: this.keshiname,
         display: Number(this.switch1),
         priority: this.isort,
-        id: this.currentId
+        id: this.currentId,
+        // code
+        // code:this.code
       };
       if (this.images != "" && this.uploadList.length) {
         params.departmenticon = this.images;
@@ -280,7 +261,7 @@ export default {
         this.$Message.info("科室名称不能为空");
       } else {
         this.$axios.post(api.departmentChange, params).then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
@@ -367,7 +348,7 @@ export default {
           id
         })
         .then(res => {
-          if (res.data) {
+          if (res.data.success) {
             let ret = res.data.object;
             //图片
             this.uploadList = [];
@@ -391,6 +372,7 @@ export default {
             this.switch1 = Boolean(ret.display);
             // 排序
             this.isort = ret.priority || 0;
+            
           }
         });
     }
@@ -399,6 +381,23 @@ export default {
 </script>
 
 <style scoped lang="less">
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
 .demo-upload-list {
   display: inline-block;
   width: 60px;
@@ -452,6 +451,7 @@ export default {
       border: 1px solid #ccc;
       border-radius: 10px;
       margin-right: 20px;
+      overflow:auto;
       ul {
         width: 100%;
         li {
@@ -496,7 +496,7 @@ export default {
         height: 50px;
         align-items: center;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
         input {
           display: inline-block;
@@ -510,7 +510,7 @@ export default {
         display: flex;
         flex-direction: row;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
 
         p {
@@ -522,7 +522,7 @@ export default {
         flex-direction: row;
         margin-top: 20px;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
         textarea {
           outline: none;

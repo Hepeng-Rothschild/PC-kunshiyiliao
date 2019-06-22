@@ -17,11 +17,12 @@
                 </div>
                 <div class="margin-up-down">
                     <span>状态:</span>
-                    <Select class="w-select" clearable v-model="status">
+                    <Select class="w-select" clearable v-model="status" style='width:130px;'>
                         <Option
                             v-for="(item,index) in statusList"
                             :value="index"
                             :key="index"
+                            style='text-align:center'
                         >{{item}}</Option>
                     </Select>
                 </div>
@@ -164,7 +165,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 60,
+                    width: 80,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.remoteClinicId;
                         let startDate = new Date(this.startDate);
@@ -298,7 +300,7 @@ export default {
             endDate = endDate.toLocaleDateString().replace(/\//g, "-");
             params.remoteDateStrar = startDate;
             params.remoteDateEnd = endDate;
-            params.searchKey = this.searchKey ? this.searchKey : null;
+            params.searchKey = this.searchKey.trim() ? this.searchKey.trim() : null;
             params.provinceCode = this.province ? this.province : null;
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;

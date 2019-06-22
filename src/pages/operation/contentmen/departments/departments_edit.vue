@@ -4,15 +4,6 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <!-- <ul class="allList" @click="tab" v-for="item,index in departmentsList">
-          <li>
-            <span>+</span>
-            {{ item.name}}
-          </li>
-          <ul class="oneList">
-            <li v-for="items,indexs in item.child" :data-id="items.id">{{ items.childDept }}</li>
-          </ul>
-        </ul> -->
         <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
@@ -21,7 +12,7 @@
         <!--科室名称-->
         <div class="keshi_name">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室名称</span>
           </div>
           <Input disabled v-model.trim="title" style="width: 300px"/>
@@ -32,7 +23,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>院内名称</span>
           </div>
-          <Input placeholder="内一科" v-model.trim="keshiname" style="width: 300px"/>
+          <Input placeholder="例：内一科" v-model.trim="keshiname" style="width: 300px"/>
         </div>
         <!--科室简介-->
         <div class="keshi_name_text">
@@ -40,7 +31,6 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
-          <!-- <textarea name rows cols v-model="test1"></textarea> -->
           <Input v-model="test1" type="textarea" :rows="6" placeholder="请输入科室简介" style='width:350px;'/>
         </div>
         <!--排序-->
@@ -119,7 +109,7 @@ export default {
         hospitalId: this.id
       })
       .then(res => {
-        if (res.data) {
+        if (res.data.success) {
           let ret = res.data.object;
           let data1 = [];
            let id = this.$route.params.id;
@@ -145,30 +135,7 @@ export default {
       });
   },
   methods: {
-    tab(e) {
-      let el = e.target;
-      let chilrens = el.parentNode.getElementsByTagName("ul");
-      let ref = this.$refs.oneList;
-      if (chilrens.length > 0) {
-        let flag = chilrens[0].style.display;
-        if (flag == "" || flag == "none") {
-          chilrens[0].style.display = "block";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "-";
-        } else {
-          chilrens[0].style.display = "none";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "+";
-        }
-      }
-      let ichildren = ref.getElementsByTagName("li");
-      for (let i = 0; i < ichildren.length; i++) {
-        ichildren[i].classList.remove("active");
-      }
-      el.classList.add("active");
-      let dataId = el.getAttribute("data-id");
-      if (dataId) {
-        this.getDepartmentsData(dataId);
-      }
-    },
+    // 返回
     back() {
       let pageNo = this.$route.params.pageNo;
       this.functionJS.paramsNavgationTo(this, "tKeshi", {
@@ -176,6 +143,7 @@ export default {
         pageNo
       });
     },
+    // 保存
     save() {
       let params = {
         //   别名
@@ -192,7 +160,7 @@ export default {
       this.$axios
         .post(api.departmentChange, params)
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
@@ -209,6 +177,7 @@ export default {
           console.log(err);
         });
     },
+    // 获取科室信息
     getDepartmentsData(id) {
       this.currentId = id;
       this.$axios
@@ -216,7 +185,7 @@ export default {
           id
         })
         .then(res => {
-          if (res.data) {
+          if (res.data.success) {
             let ret = res.data.object;
             //科室名
             this.title = ret.dictType;
@@ -248,6 +217,23 @@ export default {
 </script>
 
 <style scoped lang="less">
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
 .demo-upload-list {
   display: inline-block;
   width: 60px;
@@ -301,6 +287,7 @@ export default {
       border: 1px solid #ccc;
       border-radius:10px;
       margin-right: 20px;
+      overflow:auto;
       ul {
         width: 100%;
         li {
@@ -345,7 +332,7 @@ export default {
         height: 50px;
         align-items: center;
         .left {
-          min-width: 100px;
+          min-width: 130px;
         }
         input {
           outline: none;
@@ -357,7 +344,7 @@ export default {
         display: flex;
         flex-direction: row;
         .left {
-          min-width: 100px;
+          min-width: 130px;
         }
         p {
           margin-left: 20px;
@@ -368,7 +355,7 @@ export default {
         flex-direction: row;
         margin-top: 20px;
         .left {
-          min-width: 100px;
+          min-width: 130px;
         }
         textarea {
           outline: none;

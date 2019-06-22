@@ -26,7 +26,7 @@
 </template>
 <script>
 import tmptab from "./tmptab";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
@@ -64,6 +64,7 @@ export default {
         .then(res => {
           if (res.data.code) {
             let ret = res.data;
+            console.log(ret);
             window.open(ret.message);
           }
         });

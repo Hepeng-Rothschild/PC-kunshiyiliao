@@ -1,4 +1,3 @@
-
 const login = "/operateapi/operate/login"; //登陆接口
 
 //字典
@@ -43,6 +42,8 @@ const managementAll = '/operateapi/hospitalqueryhospitallevellist' //医院等�
 const managementGzh = '/operateapi/hospitalquerywxappnamelist'   //查询医院公众号
 const managementYlt = '/operateapi/hospitalqueryhospitalnamelist' //查询医院医联体
 const managementEdit = '/operateapi/hospitalupdatehospitaloperatedtobyid' //保存医院详情
+const hospitalgetenummap = '/operateapi/hospitalgetenummap'  //查询第三方服务
+const hospitalwxapplist = '/operateapi/hospitalhospitalwxapplist' //查询医院关联的公众号
 
 //动态新闻
 const getNews = '/operateapi/organizationselectnew' //获取动态新闻详情信息
@@ -111,6 +112,9 @@ const DoctorRemoteClinicTypeSearch = '/operateapi/outpatientquerybyid'  //查找
 const DoctorRemoteClinicTypeEdit = '/operateapi/outpatientupdate'   //修改远程门诊类型
 const remotedoctorupdateremotestatus = '/operateapi/remotedoctorupdateremotestatus'   //修改医生是否开启远程门诊
 const doctorupdatedoctorsort = '/operateapi/doctorupdatedoctorsort'   //修改医生排序
+// 第三方厂家服务
+const thirdparty = '/operateapi/hospitalthirdpartyselecthospitalthirdparty' //查询第三方厂家
+const updatethirdparty = '/operateapi/hospitalthirdpartyupdatehospitalthirdparty'//修改第三方厂家
 
 const DoctorListEdit = '/operateapi/remotedoctorupdateremotestatus' // 医生排班列表修改 
 
@@ -174,6 +178,14 @@ const downloadTxt = '/operateapi/organizationdownloadtemplate';  //批量上传�
 const orderManageAppointRegistList = '/operateapi/ordermanagementselectordermanagement';  //预约挂号订单管理
 const ordermanagementlistbyremoteorder = '/operateapi/ordermanagementlistbyremoteorder';  //远程问诊订单管理
 const ordermanagementselectbyremoteclinicid = '/operateapi/ordermanagementselectbyremoteclinicid';  //远程问诊订单详情
+const querybyorderid = '/operateapi/appointmentrecordquerybyorderid'  //预约挂号详情
+const cordreport  = '/operateapi/appointmentrecordreport' //预约挂号报到
+const replacedoctor = '/operateapi/appointmentrecordreplacedoctor' //预约挂号替诊
+const closeappointment = '/operateapi/appointmentrecordcloseappointment' //预约挂号停诊
+const hospitalidanddepartmentid = '/operateapi/appointmentrecordquerydoctorbyhospitalidanddepartmentid'  //预约挂号通过科室查询医生
+const querydeptname = '/operateapi/appointmentrecordquerydeptname' //查询所有的科室
+const cordwriteexcel= '/operateapi/appointmentrecordwriteexcel'  //导出数据
+
 
 //服务项目管理
 const fdspackageitempage = '/operateapi/fdspackageitempage';  //服务项目列表
@@ -205,8 +217,14 @@ const wxTemplateSave = '/operateapi/wxapptemplateupdatetemplate' //公众号模�
 
 const wxMenuList = '/operateapi/wxappmenuquerymenulist' // 公众号菜单管理列表
 const wxMenuListChange = '/operateapi/wxappmenuupdatebatchorinsertbatch' //公众号菜单管理列表修改
-const wxMangent = '/operateapi/wxappmanageupdateocrstatus'  //公众号功能管理
+
+
+const wxMangent = '/operateapi/wxappmanageupdatestatus'  //公众号功能管理
 const wxMangentSearch = '/operateapi/wxappmanageselectbyappid' //公众号功能管理查询
+
+
+
+
 
 // 系统管理//公众号菜单管理
 const systemManagement = '/operateapi/wxappmenuselectmenulist' //系统管理菜单列表
@@ -240,6 +258,15 @@ const adminManageChange = '/operateapi/operateuserupdateusermenu' //修改用户
 //敏感词
 const sensitiveSelectSensitive='/operateapi/sensitive/selectSensitive' //查询
 const sensitiveUpdate='/operateapi/sensitive/update' //修改
+// 支付方式
+const paymentchannelmap = '/operateapi/channeldisbursementqueryhospitalpaymentchannelmap' // 查询所有支付类型和显示端
+const channelenummap = '/operateapi/channeldisbursementgetpaymentchannelenummap' //根据支付类型查询支付渠道
+const wxappnamelist = '/operateapi/hospitalquerywxappnamelist' //查询支付账号
+const insertpaymentchannel = '/operateapi/channeldisbursementinserthospitalpaymentchannel'  //添加支付方式
+const querylist = '/operateapi/channeldisbursementquerylist' //通过医院查询医院支付方式列表
+const querybyid = '/operateapi/channeldisbursementquerybyid' //查询医院支付方式
+const updatepaymentchannel = '/operateapi/channeldisbursementupdatehospitalpaymentchannel'//修改医院支付方式
+
 //大文件分片上传接口
 const lecturedemanduploadfilemd5='/operateapi/lecturedemanduploadfilemd5' //大文件分片上传断点续传
 const lecturedemanduploadfile='/operateapi/lecturedemanduploadfile' //大文件分片上传接口
@@ -255,7 +282,47 @@ const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详�
 const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
 const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
 
-export default {
+const insertlive = '/operateapi/lecturedemandinsertlive'  //添加直播
+const updatelive = '/operateapi/lecturedemandupdatelive' //修改直播
+const livestatus = '/operateapi/lecturedemandupdatelivestatus' //修改直播状态
+const livebyid = '/operateapi/lecturedemandquerylivebyid' //查询直播
+const livelist = '/operateapi/lecturedemandquerylivelist' //查询直播列表
+
+//院内编码
+const doctorselectdoctorhisid = '/operateapi/doctorselectdoctorhisid'; //查询医生关联信息hisId
+const doctorupdatedoctorhisid = '/operateapi/doctorupdatedoctorhisid'; //修改医生关联信息hisId
+const doctorselecthisdoctorlist = '/operateapi/doctorselecthisdoctorlist'; //模糊查询医生关联信息hisId列表
+
+const hospitalquerynamelist = '/operateapi/hospitalquerynamelist' //查询支付渠道医院列表
+
+const teaminsert = '/operateapi/teaminsertfdsteam'  //医疗小组添加
+const teamupdate = '/operateapi/teamupdatefdsteam' //医疗小组编辑
+const teamquery = '/operateapi/teamqueryteam'  //医疗小组查询
+const teamlist = '/operateapi/teamqueryteamlist'  //医疗小组列表
+
+const insertdoctor = '/operateapi/authenticationinsertdoctor' //添加医生
+const countlivedata = '/operateapi/lecturedemandcountlivedata' //加载直播数据
+
+const chargeinsert = '/operateapi/itemchargeinsert'  // 添加互联网收费标准
+const chargepage = '/operateapi/itemchargepage' // 互联网收费标准列表
+const chargequerybyid = '/operateapi/itemchargequerybyid' // 互联网收费标准详情
+const chargeupdate = '/operateapi/itemchargeupdate' // 修改互联网收费标准
+const feeunitenum = '/operateapi/itemchargequeryitemfeeunitenum' //查询互联网收费标准收费单位
+
+const selectdoctorlist = '/operateapi/doctorschedulingselectdoctorlist' //查询门诊医生未排班列表
+const querydoctormenulist = '/operateapi/doctorschedulingquerydoctormenulist' //查询医生开通的服务列表并查询费用
+const insertdoctorscheduling = '/operateapi/doctorschedulinginsertdoctorscheduling' //新增医生排班
+const updatedoctorscheduling = '/operateapi/doctorschedulingupdatedoctorscheduling' //修改医生排班
+const doctorschedulingquerybyid = '/operateapi/doctorschedulingquerybyid' //查询医生排班详情
+const doctorschedulingpage = '/operateapi/doctorschedulingpage' // 查询医生排班列表
+const doctoridandservicetype = '/operateapi/doctorschedulingquerybydoctoridandservicetype'  //查询医生具体排班时间段与列表
+const querydoctorschedulinglist = '/operateapi/doctorschedulingquerydoctorschedulinglist' //查询医生开通服务
+
+const apiserviceinsert = '/operateapi/apiserviceinsert' //添加接口管理
+const apiserviceupdate = '/operateapi/apiserviceupdate' // 修改接口管理 
+const apiservicequerybyid = '/operateapi/apiservicequerybyid' // 查询接口详情
+const apiservicepage = '/operateapi/apiservicepage' //查询接口管理列表
+let testApi = {
     login,
     //字典
     dictionaryList,
@@ -270,6 +337,8 @@ export default {
     managementGzh,
     managementYlt,
     managementEdit,
+    hospitalgetenummap,
+    hospitalwxapplist,
 
     //动态新闻
     news,
@@ -359,6 +428,9 @@ export default {
     searchCurrentRoom,
     remotedoctorupdateremotestatus,
     doctorupdatedoctorsort,
+    // 第三方厂家
+    thirdparty,
+    updatethirdparty,
     // 远程门诊类型
     DoctorRemoteClinicTypeList,
     DoctorRemoteClinicTypeAdd,
@@ -450,6 +522,13 @@ export default {
     orderManageAppointRegistList,
     ordermanagementlistbyremoteorder,
     ordermanagementselectbyremoteclinicid,
+    querybyorderid,
+    cordreport,
+    replacedoctor,
+    closeappointment,
+    hospitalidanddepartmentid,
+    querydeptname,
+    cordwriteexcel,
 
     //服务项目管理
     fdspackageitempage,
@@ -475,6 +554,16 @@ export default {
     operatemenuquerybymenuid,
     operatemenuupdate,
     operatemenuprentlist,
+    // 支付方式列表
+    hospitalquerynamelist,
+    // 所有支付类型和显示端
+    paymentchannelmap,
+    channelenummap,
+    wxappnamelist,
+    insertpaymentchannel,
+    querylist,
+    querybyid,
+    updatepaymentchannel,
 
     // 运维端-账号管理
     adminList,
@@ -501,4 +590,48 @@ export default {
     lecturedemandupdate,
     lecturedemandpagebyexaminelist,
     lecturedemandupdateplaystatus,
+    // 直播
+    insertlive,
+    updatelive,
+    livestatus,
+    livebyid,
+    livelist,
+    
+    //院内编码
+    doctorselectdoctorhisid,
+    doctorupdatedoctorhisid,
+    doctorselecthisdoctorlist,
+    // 医疗小组
+    teaminsert,
+    teamupdate,
+    teamquery,
+    teamlist,
+
+    insertdoctor,
+    countlivedata,
+
+    chargeinsert,
+    chargepage,
+    chargequerybyid,
+    chargeupdate,
+    feeunitenum,
+    selectdoctorlist,
+    querydoctormenulist,
+    insertdoctorscheduling,
+    updatedoctorscheduling,
+    doctorschedulingquerybyid,
+    doctorschedulingpage,
+    doctoridandservicetype,
+    querydoctorschedulinglist,
+
+    apiserviceinsert,
+    apiserviceupdate,
+    apiservicequerybyid,
+    apiservicepage,
 }
+import weixin from './weixinApi';
+for(let key in weixin){
+    testApi[key] = weixin[key]
+}
+
+export default testApi;

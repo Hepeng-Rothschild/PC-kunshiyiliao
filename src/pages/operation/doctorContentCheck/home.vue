@@ -10,6 +10,7 @@
                                 v-for="item in sonTabList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>&nbsp;&nbsp;&nbsp;&nbsp;
                         状态：
@@ -18,6 +19,7 @@
                                 v-for="item in publicationStatusList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>&nbsp;&nbsp;&nbsp;&nbsp;
                         文章：
@@ -25,7 +27,7 @@
                         <Button type="primary" @click="loadPage(1)">
                             <Icon type="ios-search" size="14"/>查询
                         </Button>
-                        <Button class="abs-right" type="primary" @click="toAdd">新增</Button>
+                        <Button class="abs-right" type="info" @click="toAdd">新增</Button>
                     </Col>
                 </Row>
                 <Table class="list-table" stripe :columns="columns" :data="datas"></Table>
@@ -64,7 +66,6 @@ export default {
             listApi: null,
             healthEducation: [
                 { title: "序号", key: "iNum", align: "center", width: 60 },
-                { title: "排序", key: "priority", align: "center", width: 80 },
                 { title: "标题", key: "title", align: "center", width: 140 },
                 { title: "概要", key: "synopsis", align: "center", width: 220 },
                 { title: "来源", key: "source", align: "center", width: 120 },
@@ -120,11 +121,13 @@ export default {
                         });
                     }
                 },
+                { title: "排序", key: "priority", align: "center", width: 80 },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
                     width: 140,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let text = "";
@@ -174,8 +177,6 @@ export default {
                 }
             ],
             healthEducationSontab: [
-                // {id:1,name:"常用"},
-                // 修改了这里
                 { id: 1, name: "最新" },
                 { id: 2, name: "医生忠告" },
                 { id: 3, name: "用药" },
@@ -232,6 +233,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
+                    width:120,
+                    fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let text = "";
@@ -426,7 +429,7 @@ export default {
             },
             {
                 path: "/index/operation/doctorContentCheck/list",
-                title: "健康宣教"
+                title: "内容管理"
             }
         ];
         this.$emit("changeBreadList", breadList);
@@ -511,13 +514,9 @@ export default {
             var params = {};
             params.type = this.sonTab ? parseInt(this.sonTab) : null;
 
-            // 修改了这里的三目运算符
-            // params.enable = this.publicationStatus
-            //   ? parseInt(this.publicationStatus)
-            //   : null;
             params.enable = this.publicationStatus;
 
-            params.searchKey = this.articleText;
+            params.searchKey = this.articleText.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
 

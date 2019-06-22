@@ -1,6 +1,5 @@
 <template>
     <div class="remoteClinic">
-        <tempHeader :index="1"/>
         <!-- 头部选择框 -->
         <Row>
             <Col :xs="24">
@@ -22,7 +21,8 @@
                     <Input
                         class="w-input"
                         v-model="searchKey"
-                        :placeholder="'请输入职称/医院名称/医生名称'"
+                        placeholder="请输入职称/医院名称/医生名称"
+                        style='width:200px;'
                         clearable
                     />
                 </div>
@@ -34,43 +34,15 @@
                 </div>
                 <div class="margin-up-down">
                     <!-- 添加接诊医生排班 -->
-                    <Button type="primary" class="primary" @click="add">添加接诊医生排班</Button>
+                    <Button type="info" class="primary" @click="add">添加接诊医生排班</Button>
                 </div>
             </Col>
         </Row>
         <!-- 主体列表 -->
         <div class="main">
-            <table border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td>序号</td>
-                    <td>专家姓名</td>
-                    <td>医院科室</td>
-                    <td>远程门诊时间</td>
-                    <td>预约期限</td>
-                    <td>启用标示</td>
-                    <td>操作</td>
-                </tr>
-                <tr v-for="(item,index) in list" :key="index" v-show="list.length">
-                    <td>{{ addZero(index) }}</td>
-                    <td>{{ item.doctorName }}</td>
-                    <td>{{ item.deptName }}</td>
-                    <td @click="showModel(item)" style="cursor:pointer;">
-                        <p
-                            v-show="item.intervalTimeAmStart && item.intervalTimeAmEnd"
-                        >上午:{{ item.intervalTimeAmStart + '-' +item.intervalTimeAmEnd }}</p>
-                        <p
-                            v-show="item.intervalTimePmStart && item.intervalTimeAmEnd"
-                        >下午:{{ item.intervalTimePmStart + '-' +item.intervalTimeAmEnd }}</p>
-                    </td>
-                    <td>{{ item.cycleDay }}</td>
-                    <td v-if = "item.iremote == 1">启用</td>
-                    <td style="color:red;" v-else>停用</td>
-                    <td style="cursor:pointer;" @click="edit(item)">编辑</td>
-                </tr>
-            </table>
-            <div class="nodata" v-show="!list.length">暂无更多数据</div>
+            <Table :columns="column" :data="list" stripe></Table>
         </div>
-        <Modal v-model="modal1" title="远程门诊时间" footer-hide>
+        <Modal v-model="modal1" title="远程门诊时间" footer-hide width='400'>
             <p style="text-align:center;">
                 周一：
                 <span
@@ -178,7 +150,92 @@ export default {
             modal1: false,
             modelList: [],
             currentData: [],
-            list: []
+            list: [],
+            column:[
+                {
+                    title:"序号",
+                    key:"sum",
+                    align: "center",
+                    width:60
+                },
+                {
+                    title:"专家姓名",
+                    key:"doctorName",
+                    align:"center",
+                },
+                {
+                    title:"医院科室",
+                    key:"deptName",
+                    align:"center",
+                },
+                {
+                    title:"远程门诊时间",
+                    key:"deptName",
+                    align:"center",
+                    render:(h,params) => {
+                        let row = params.row
+                        let top = '上午：' + row.intervalTimeAmStart + '-' + row.intervalTimeAmEnd;
+                        let bot = '下午：' + row.intervalTimePmStart + '-' + row.intervalTimePmEnd;
+                        return h('div', [
+                            h('p', {
+                                style: {
+                                    cursor:"pointer"
+                                },
+                                attrs:{
+                                    title:"点击查看"
+                                },
+                                on: {
+                                    click : () => {
+                                        this.showModel(row)
+                                    }
+                                }
+                            }, top),
+                            h('p', {
+                                style: {
+                                    cursor:"pointer"
+                                },
+                                on:{
+                                    click : () => {
+                                        this.showModel(row)
+                                    }
+                                }
+                            }, bot)
+                        ])
+                    }
+                },
+                {
+                    title:"预约期限",
+                    key:"cycleDay",
+                    align:"center",
+                },
+                {
+                    title: "启用标示",
+                    key: "iremote",
+                    align: "center",
+                    render: (h,params) => {
+                        let name = params.row.iremote == 1 ? "启用" : "停用"
+                        let style = params.row.iremote == 1 ? {} : {color:'red'}
+                        return h('span', {
+                            style
+                        }, name)
+                    }
+                },
+                {
+                    title:"操作",
+                    align:"center",
+                    render:(h, params) => {
+                        let item = params.row;
+                        return h('a', {
+                            on:{
+                                click:() => {
+                                    this.edit(item)
+                                }
+                            }
+                        }, '编辑')
+                    }
+                },
+
+            ]
         };
     },
     created() {
@@ -335,26 +392,22 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            if (searchKey != "") {
-                params.searchKey = searchKey;
+            if (Boolean(searchKey)) {
+                params.searchKey = searchKey.trim();
             }
             console.log("家庭医生签约 params", params);
             this.$axios.post(api.doctorRomteclinicList, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
                     this.remoteClinicLength = ret.count;
+                    ret.list.forEach((item,index) => {
+                        item.sum = this.addZeros(index)
+                    })
                     this.list = ret.list;
                 } else {
                     this.$Message.info("没有访问权限");
                 }
             });
-        },
-        addZero(num) {
-            num = num + 1;
-            if (num < 10) {
-                return "0" + num;
-            }
-            return num;
         }
     }
 };
@@ -388,38 +441,6 @@ export default {
         display: flex;
         flex-direction: column;
         margin: 10px 0;
-        table {
-            width: 100%;
-            border: 1px solid #ddd;
-            tr:nth-child(odd) {
-                background: #f8f8f9;
-            }
-            tr:nth-child(even) {
-                background: #fff;
-            }
-            tr:not(:first-child):hover {
-                background: #ebf7ff;
-            }
-            tr {
-                border-top: 1px solid #ddd;
-                height: 40px;
-                td {
-                    padding: 10px 0;
-                    text-align: center;
-                }
-                td.none {
-                    display: none;
-                }
-            }
-        }
-        .nodata {
-            width: calc(100% - 1px);
-            line-height: 50px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-top: none;
-            text-align: center;
-        }
     }
     .margin-up-down {
         display: inline-block;

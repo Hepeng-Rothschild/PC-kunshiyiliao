@@ -6,7 +6,7 @@
                 <Button type="primary" @click="loadPage(1)">
                     <Icon type="ios-search" size="14"/>查询
                 </Button>
-                <Button @click="add">添加</Button>
+                <Button @click="add" type='info'>添加</Button>
             </Col>
         </Row>
         <Table class="m-table" stripe :columns="columns" :data="dataList"></Table>
@@ -20,19 +20,19 @@ export default {
         return {
             searchKey: "",
             columns: [
-                { title: "序号", key: "iNum", align: "center", width: 100 },
+                { title: "序号", key: "iNum", align: "center", width: 80 },
                 { title: "权限路径", key: "name", align: "center", width: 450 },
                 {
                     title: "备注",
                     key: "remark",
                     align: "center",
-                    width: 400
+                    width: 430
                 },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 250,
+                    width: 120,
                     render: (h, params) => {
                         let id = params.row.id;
                         return [
@@ -98,7 +98,7 @@ export default {
         loadPage(pageNo) {
             this.pageNo = parseInt(pageNo);
             let params = {};
-            params.searchKey = this.searchKey;
+            params.searchKey = this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios

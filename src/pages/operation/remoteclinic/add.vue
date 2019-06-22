@@ -15,22 +15,13 @@
                 <span>{{ selectExpert.doctorName }}</span>
             </div>
             <!-- 选择专家 -->
-            <Modal v-model="modal1" title="选择专家" :footer-hide="true">
+            <Modal v-model="modal1" title="选择专家" :footer-hide="true" width="800" :styles="{top: '20px'}">
                 <div class="modelExpert">
                     <div class="searchExpertList">
                         <input type="text" placeholder="输入医生姓名、医院、科室" v-model.trim="searchName">
                         <Button type="primary" icon="ios-search" @click="searchExpert">查询</Button>
                     </div>
-                    <div
-                        class="modelExpert_list"
-                        @click="expert(item)"
-                        v-for="item,index in expertList"
-                    >
-                        <span>{{ item.hospitalName }}</span>
-                        <span>{{ item.deptType }}</span>
-                        <span>{{ item.doctorName }}</span>
-                        <span>{{ item.title }}</span>
-                    </div>
+                    <Table stripe :columns="columns" :data="expertList"style='width:100%;'></Table>
                     <div class="total">
                         <Page :total="expertSize" :current="expertNo" @on-change="change1"/>
                     </div>
@@ -47,14 +38,15 @@
                         v-for="(item,index) in searchTypeList"
                         :value="item.id"
                         :key="item.id"
+                        style='text-align:center;'
                     >{{item.name}}</Option>
                 </Select>
-                <p style="margin-left:20px;color:gray;">！请先选择专家后，再选择远程门诊类型。</p>
+                <p style="margin-left:20px;color:red;">！请先选择专家后，再选择远程门诊类型。</p>
             </div>
             <!-- 医事服务费 -->
             <div class="item">
                 <div class="item-text">
-                    <span style="color:red;"></span>
+                    <span style="color:red;">&nbsp;</span>
                     <p>医事服务费</p>
                 </div>
                 <p>{{ money }}元</p>
@@ -66,7 +58,7 @@
                     <p>远程门诊时长</p>
                 </div>
                 <Select class="w-select" v-model="time" @on-change="remoteData">
-                    <Option v-for="item in timeList" :value="item.id" :key="item.id">{{item.name}}</Option>
+                    <Option v-for="item in timeList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
                 </Select>
             </div>
             <!--  预约周期 -->
@@ -76,17 +68,9 @@
                     <p>预约周期</p>
                 </div>
                 <Select class="w-select" v-model="cycle">
-                    <Option v-for="item in cycleList" :value="item.id" :key="item.id">{{item.name}}</Option>
+                    <Option v-for="item in cycleList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
                 </Select>
             </div>
-            <!-- 是否启用 -->
-            <!-- <div class="item">
-        <div class="item-text">
-          <span style="color:red;">*</span>
-          <p>是否启用</p>
-        </div>
-        <iSwitch v-model="switch1"/>
-            </div>-->
             <!-- 列表 -->
             <div class="table">
                 <p>远程门诊接诊数量</p>
@@ -177,7 +161,6 @@
                         </td>
                     </tr>
                 </table>
-                <!-- <p>注：数量不能超过时间段/远程门诊时长数量（如上午8:00至12:00，时长30分钟，最多可设置8次）</p> -->
             </div>
             <!-- 预约备注 -->
             <div class="text">
@@ -220,12 +203,12 @@ export default {
             //   预约周期
             cycle: 7,
             cycleList: [
-                { id: 1, name: "一天" },
-                { id: 2, name: "二天" },
-                { id: 3, name: "三天" },
-                { id: 4, name: "四天" },
-                { id: 5, name: "五天" },
-                { id: 6, name: "六天" },
+                // { id: 1, name: "一天" },
+                // { id: 2, name: "二天" },
+                // { id: 3, name: "三天" },
+                // { id: 4, name: "四天" },
+                // { id: 5, name: "五天" },
+                // { id: 6, name: "六天" },
                 { id: 7, name: "七天" },
                 { id: 8, name: "八天" },
                 { id: 9, name: "九天" },
@@ -243,32 +226,32 @@ export default {
             expertNo: 1,
             expertSize: 10,
             // 上午时间
-            value2: [],
+            value2: ["08:00", "12:00"],
             // 下午时间
-            value3: [],
+            value3: ["13:00", "17:00"],
             // 一周号源
             params: {
                 // 周一
-                oneAm: null,
-                onePm: null,
+                oneAm: 8,
+                onePm: 8,
                 // 周二
-                twoAm: null,
-                twoPm: null,
+                twoAm: 8,
+                twoPm: 8,
                 // 周三
-                threeAm: null,
-                threePm: null,
+                threeAm: 8,
+                threePm: 8,
                 // 周四
-                fourAm: null,
-                fourPm: null,
+                fourAm: 8,
+                fourPm: 8,
                 // 周五
-                fiveAm: null,
-                fivePm: null,
+                fiveAm: 8,
+                fivePm: 8,
                 // 周六
-                sixAm: null,
-                sixPm: null,
+                sixAm: 8,
+                sixPm: 8,
                 // 周天
-                sevenAm: null,
-                sevenPm: null
+                sevenAm: 8,
+                sevenPm: 8
             },
             // 医院ID
             id: 82,
@@ -279,6 +262,46 @@ export default {
                     deparment: "内科",
                     name: "李正兰",
                     host: "主任医师"
+                }
+            ],
+            // 医生表头信息
+            columns:[
+                {
+                    title:"医院名称",
+                    key:"hospitalName",
+                    align:"center"
+                },
+                {
+                    title:"科室名称",
+                    key:"deptType",
+                    align:"center"
+                },
+                {
+                    title:"医生名称",
+                    key:"doctorName",
+                    align:"center"
+                },
+                {
+                    title:"职称",
+                    key:"title",
+                    align:"center"
+                },
+                {
+                    title:"选择",
+                    align:"center",
+                    render:(h,params) =>{
+                        let row = params.row;
+                        
+                        return [
+                            h('a',{
+                                on:{
+                                    click: () => {
+                                        this.expert(row)
+                                    }
+                                }
+                            },"选择")
+                        ]
+                    }
                 }
             ],
             searchName: "",
@@ -364,6 +387,7 @@ export default {
             params.doctorId = this.selectExpert.doctorId;
             // 医院ID
             params.hospitalId = this.selectExpert.hospitalId;
+            console.log(params);
             if (this.searchType == -1) {
                 this.$Message.info("请选择远程门诊类型");
             } else if (this.time < 0) {
@@ -441,18 +465,19 @@ export default {
                     this.$Message.info("开始时间与结束时间不能相同");
                     return "";
                 }
+                console.log(count);
                 if (Boolean(count)) {
-                    this.topLength = parseInt(count / this.time);
+                    this.botLength = parseInt(count / this.time);
                 } else {
-                    this.topLength = null;
+                    this.botLength = null;
                 }
-                this.params.onePm = this.topLength;
-                this.params.twoPm = this.topLength;
-                this.params.threePm = this.topLength;
-                this.params.fourPm = this.topLength;
-                this.params.fivePm = this.topLength;
-                this.params.sixPm = this.topLength;
-                this.params.sevenPm = this.topLength;
+                this.params.onePm = this.botLength;
+                this.params.twoPm = this.botLength;
+                this.params.threePm = this.botLength;
+                this.params.fourPm = this.botLength;
+                this.params.fivePm = this.botLength;
+                this.params.sixPm = this.botLength;
+                this.params.sevenPm = this.botLength;
             }
         },
         // 选择时间/上午
@@ -497,17 +522,17 @@ export default {
                     return "";
                 }
                 if (Boolean(count)) {
-                    this.topLength = parseInt(count / this.time);
+                    this.botLength = parseInt(count / this.time);
                 } else {
-                    this.topLength = null;
+                    this.botLength = null;
                 }
-                this.params.onePm = this.topLength;
-                this.params.twoPm = this.topLength;
-                this.params.threePm = this.topLength;
-                this.params.fourPm = this.topLength;
-                this.params.fivePm = this.topLength;
-                this.params.sixPm = this.topLength;
-                this.params.sevenPm = this.topLength;
+                this.params.onePm = this.botLength;
+                this.params.twoPm = this.botLength;
+                this.params.threePm = this.botLength;
+                this.params.fourPm = this.botLength;
+                this.params.fivePm = this.botLength;
+                this.params.sixPm = this.botLength;
+                this.params.sevenPm = this.botLength;
             }
         },
         // 远程门诊类型
@@ -529,7 +554,7 @@ export default {
                 .post(api.doctorRomteclinicSearchExpert, {
                     pageNo: this.expertNo,
                     pageSize: 10,
-                    searchKey: this.searchName,
+                    searchKey: this.searchName.trim(),
                     iremote: 1
                 })
                 .then(res => {
@@ -591,14 +616,11 @@ export default {
             table {
                 width: 100%;
                 border: 1px solid #ddd;
-                tr:nth-child(odd) {
-                    background: #f8f8f9;
-                }
-                tr:nth-child(even) {
-                    background: #fff;
-                }
                 tr:not(:first-child):hover {
                     background: #ebf7ff;
+                }
+                tr:first-child{
+                    background: #f8f8f9;
                 }
                 tr {
                     border-top: 1px solid #ddd;

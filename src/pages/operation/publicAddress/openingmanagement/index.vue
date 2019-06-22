@@ -41,6 +41,10 @@ export default {
                 {
                     title: "OCR管理",
                     status: false
+                },
+                {
+                    title:"是否支付",
+                    status:false
                 }
             ]
         };
@@ -74,8 +78,11 @@ export default {
             .then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
+                    console.log('ret: ', ret);
                     // OCR管理状态
                     this.list[0].status = Boolean(ret.ocrStatus);
+                    // 是否支付
+                    this.list[1].status = Boolean(ret.ipay)
                 } else {
                     this.$Message.error("请求失败,请稍候重试");
                 }
@@ -87,11 +94,16 @@ export default {
             let params = {
                 appid: this.appid,
                 // OCR管理状态
-                ocrStatus: Number(this.list[0].status)
+                ocrStatus: Number(this.list[0].status),
+                // 是否支付
+                ipay:Number(this.list[1].status)
             };
+            // /operateapi/wxappmanage/updateStatus
+            // wxMangent
             this.$axios.post(api.wxMangent, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.data;
+                    console.log(res);
                     this.$Message.info("修改成功");
                 } else {
                     this.$Message.error("修改失败,请重试");

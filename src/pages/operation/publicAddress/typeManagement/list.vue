@@ -3,14 +3,25 @@
     <tmpHeader :index='2' />
     <div class="main">
       <div class="select" v-for="(item,index) in list" :key='index'>
-        <h3>{{ item.name }}</h3>
+        <h2>{{ item.name }}</h2>
         <div class="all">
           <div class="item" v-for="(items,index) in item.child" :key='index'>
-            <Checkbox v-model="items.flag">{{ items.menuName }}</Checkbox>
-            <div class="sort">
-              <span>排序</span>
-              <InputNumber :min="1" :max='999' v-model="items.priority" style="width:100px;"></InputNumber>
-            </div>
+              <Checkbox v-model="items.flag" style='min-width:100px;'>{{ items.menuName }}</Checkbox>
+              <!-- 排序 -->
+              <div class="sort">
+                <span>排序</span>
+                <InputNumber :min="1" :max='999' v-model="items.priority" style="width:100px;"></InputNumber>
+              </div>
+              <!-- 快捷菜单 -->
+              <div class="sort">
+                <span>快捷菜单</span>
+                <iSwitch v-model='items.shortcutFlag' />
+              </div>
+              <!-- 是否支付 -->
+              <!-- <div class="sort">
+                <span>是否支付</span>
+                <iSwitch v-model='items.ipayFlag' />
+              </div> -->
           </div>
         </div>
       </div>
@@ -34,23 +45,23 @@ export default {
       list: []
     };
   },
-    created() {
-      let iv = store.state.iv;
-      let salt = store.state.salt;
-      this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/publicHosting/index",
-                title: "公众号托管"
-            },
-            {
-                path: "/index/operation/publicAddress/list",
-                title: "公众号管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+  created() {
+    let iv = store.state.iv;
+    let salt = store.state.salt;
+    this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
+      let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/publicHosting/index",
+              title: "公众号托管"
+          },
+          {
+              path: "/index/operation/publicAddress/list",
+              title: "公众号管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     this.$axios.post(api.wxMenuList,{
         appid:this.appid
@@ -58,9 +69,12 @@ export default {
       if (res.data.code) {
         let ret = res.data;
         this.list = ret.object;
+        console.log(ret.object);
         this.list.forEach(item => {
-          item.child.forEach(items => {
+          item.child.forEach((items,index) => {
             items.flag = Boolean(Number(items.open));
+            items.shortcutFlag = Boolean(items.shortcut);
+            items.ipayFlag = Boolean(Number(items.ipay))
           });
         });
       } else {
@@ -79,16 +93,18 @@ export default {
               menuid: items.id,
               open: "1",
               priority: items.priority,
-              prentId:items.prentId
+              prentId:items.prentId,
+              ipay: Number(items.ipayFlag),
+              shortcut: Number(items.shortcutFlag).toString()
             });
           }
         });
       })
-
       let params = {
         appid: this.appid,
         list: changeList
       };
+      console.log(params)
       this.$axios.post(api.wxMenuListChange, params).then(res => {
         if (res.data.code) {
           this.$Message.info("保存成功");
@@ -118,34 +134,16 @@ export default {
       margin-bottom: 20px;
       .all {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         flex-wrap: wrap;
         .item {
-          width: 25%;
+          width: 48%;
           display: flex;
           flex-direction: row;
           align-items: center;
           line-height: 40px;
           justify-content: space-around;
-          input {
-            margin-right: 6px;
-          }
-          label {
-            user-select: none;
-          }
-          .sort {
-          }
-          //   div {
-          //     width: 100%;
-          //     display: flex;
-          //     flex-direction: row;
-          //     align-items: center;
-          //     justify-content: space-around;
-          //     span {
-          //       font-size: 12px;
-          //     }
-          //   }
         }
       }
     }

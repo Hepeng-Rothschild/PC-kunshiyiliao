@@ -11,6 +11,7 @@
                         v-for="item in cityList"
                         :value="item.id"
                         :key="item.id"
+                        style='text-align:center'
                     >{{ item.label }}</Option>
                 </Select>
             </div>
@@ -22,67 +23,21 @@
                         v-for="(item,index) in cityLists"
                         :value="item.id"
                         :key="index"
+                        style='text-align:center'
                     >{{ item.label }}</Option>
                 </Select>
             </div>
             <!--搜索输入-->
             <div class="search">
-                <Input v-model.trim="val" placeholder="请输入文章名称进行检索" style="width: 200px" clearable/>
+                <Input v-model.trim="val" placeholder="请输入文章名称进行检索" style="width: 200px;" clearable/>
             </div>
             <!--搜索按钮-->
-            <Button type="primary" icon="ios-search" @click="search">搜索</Button>
-            <Button type="primary" @click="add">新增</Button>
+            <Button type="primary" icon="ios-search" @click="search" style='margin:0 10px;'>搜索</Button>
+            <Button type="info" @click="add">新增</Button>
         </div>
-        <!--表格-->
-        <table border="0" cellspacing="0" cellpadding="0">
-            <tr>
-                <th>序号</th>
-                <th>标题</th>
-                <th>类型</th>
-                <th>栏目</th>
-                <th>阅读量</th>
-                <th>收藏量</th>
-                <th>排序</th>
-                <th>时间</th>
-                <th>状态</th>
-                <th>操作</th>
-            </tr>
-            <tr v-for="(item,index) in tableList" v-show="tableList.length" :key="index">
-                <th>{{ addZeros(index) }}</th>
-                <!-- 标题 -->
-                <th class="one">{{ item.title }}</th>
-                <!-- 类型 -->
-                <th v-show="item.type == 1">文章</th>
-                <th v-show="item.type != 1">视频</th>
-                <!-- 栏目 -->
-                <th>{{ item.columnName || '' }}</th>
-                <!-- 阅读量 -->
-                <th>{{ item.readAmount }}</th>
-                <!-- 收藏量 -->
-                <th>{{ item.countFollow}}</th>
-                <!-- 排序 -->
-                <th>{{ item.priority }}</th>
-                <th>{{ item.updateTime }}</th>
-                <!-- 状态 -->
-                <th style="color:red;" v-show="item.enable == 0">未发布</th>
-                <th v-show="item.enable == 1">已发布</th>
-                <th class="modi">
-                    <span style="color: black;cursor:pointer" @click="edit(item)">修改</span>
-                    <span
-                        v-show="item.idelete == 0"
-                        style="color: black;cursor:pointer"
-                        @click="bottomShelf(item,index)"
-                    >下架</span>
-                    <span
-                        v-show="item.idelete == 1"
-                        style="color: red;cursor:pointer"
-                        @click="topShelf(item,index)"
-                    >上架</span>
-                    <span style="color: black;cursor:pointer" @click="roof(item,index,$event)">置顶</span>
-                </th>
-            </tr>
-        </table>
-        <div class="footer" v-show="!tableList.length">暂无更多数据</div>
+        <div class="main">
+            <Table stripe :columns="column" :data="tableList" ></Table>
+        </div>
         <!--分页器-->
         <div class="paging">
             <Page :total="contentSize" @on-change="pageChange" :current="pageNo"/>
@@ -101,6 +56,7 @@ export default {
             tableList: [],
             contentSize: 10,
             pageNo: 1,
+            // 文章类型列表
             cityList: [
                 {
                     value: "文章",
@@ -108,6 +64,7 @@ export default {
                     id: 1
                 }
             ],
+            // 发布状态列表
             cityLists: [
                 {
                     value: "未发布",
@@ -120,7 +77,163 @@ export default {
                     id: 1
                 }
             ],
-            query: {}
+            query: {},
+            column:[
+                {
+                    title:"序号",
+                    key:"sum",
+                    align:"center",
+                    width:60
+                },
+                {
+                    title:"标题",
+                    key:"title",
+                    align:"center",
+                    width:300,
+                    render: (h,params) => {
+                       let a = params.row.title;
+                       return h('div', [
+                    　　　　[
+                    　　　　h('span', {
+                    　　　　　　style: {
+                    　　　　　　　　display: 'inline-block',
+                    　　　　　　　　width: params.column._width*0.8+'px',
+                    　　　　　　　　overflow: 'hidden',
+                    　　　　　　　　textOverflow: 'ellipsis',
+                    　　　　　　　　whiteSpace: 'nowrap',
+                    　　　　　　},
+                    　　　　　　}, a)
+                    　　　　]
+                    　　])
+                   }
+                },
+                {
+                    title:"类型",
+                    key:"type",
+                    align:"center",
+                    width:90,
+                    render: (h,params) => {
+                        let a = params.row.type == 1 ? "文章" : "视频";
+                        return h('div', [
+                        　　　　[
+                        　　　　h('span', {
+                        　　　　　　}, a)
+                        　　　　]
+                        　　])
+                    }
+                },
+                {
+                    title:"栏目",
+                    key:"columnName",
+                    align:"center",
+                    width:90
+                },
+                {
+                    title:"阅读量",
+                    key:"readAmount",
+                    align:"center",
+                    width:90
+                },
+                {
+                    title:"收藏量",
+                    key:"countFollow",
+                    align:"center",
+                    width:90
+                },
+                {
+                    title:"排序",
+                    key:"priority",
+                    align:"center",
+                    width:90
+                },
+                {
+                    title:"时间",
+                    key:"updateTime",
+                    align:"center",
+                    width:160
+                },
+                {
+                    title:"状态",
+                    key:"enable",
+                    align:"center",
+                    width:90,
+                    render: (h,params) => {
+                        let a = params.row.enable == 1 ? "已发布" : "未发布";
+                        let style = params.row.enable == 0 ? {color:'red'} : {};
+                        return h('div', [
+                        　　　　[
+                        　　　　h('span', {
+                        　　　　　　style,
+                        　　　　　　}, a)
+                        　　　　]
+                        　　])
+                    }
+                },
+                {
+                    title:"操作",
+                    align:"center",
+                    width:130,
+                    fixed:"right",
+                    render: (h,params) => {
+                        let item = params.row
+                        let idelete = params.row.idelete
+                        let name = idelete == 0 ? "下架" : "上架"
+                        return [
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.edit(item)
+                                        }
+                                    }
+                                },
+                                "编辑"
+                            ),
+                            "|",
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);"
+                                    },
+                                    style:{
+                                        margin:'0 4' +'px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            if(idelete == 1) {
+                                                this.topShelf(item)
+                                            } else {
+                                                this.bottomShelf(item)
+                                            }
+                                        }
+                                    }
+                                },
+                                name
+                            ),
+                            "|",
+                            h(
+                                "a",
+                                {
+                                    attrs: {
+                                        href: "javascript:void(0);"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.roof(item)
+                                        }
+                                    }
+                                },
+                                "置顶"
+                            )
+                        ];
+                    }
+                }
+            ]
         };
     },
     created() {
@@ -175,6 +288,9 @@ export default {
                 if (res.data.code) {
                     let ret = res.data.object;
                     this.contentSize = ret.count;
+                    ret.list.forEach((item,index) => {
+                        item.sum = this.addZeros(index);
+                    })
                     this.tableList = ret.list;
                 } else {
                     this.$Message.info("不允许访问");
@@ -315,16 +431,21 @@ export default {
             outline: none;
         }
     }
+    .main {
+        width: calc(100% - 20px);
+        padding: 0 10px;
+    }
     /*类型*/
     .homeSelect {
         width: 100%;
         height: 50px;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        /* justify-content: space-around; */
         align-items: center;
         .selectType {
             width: 200px;
+            margin:0 10px;
             select {
                 width: 80px;
             }
@@ -342,56 +463,6 @@ export default {
             outline: none;
             color: #fff;
         }
-    }
-    /*表单*/
-    table {
-        width: calc(100% - 20px);
-        padding: 0 10px;
-        margin: 0 auto;
-        border: 1px solid #dddee1;
-        tr:nth-child(odd) {
-            background: #f8f8f9;
-        }
-        tr:nth-child(even) {
-            background: #fff;
-        }
-        tr:not(:first-child):hover {
-            background: #ebf7ff;
-        }
-        tr {
-            border-top: 1px solid #dddee1;
-            th {
-                text-align: center;
-                height: 40px;
-                padding: 6px 0;
-                .modi {
-                    a {
-                        color: black;
-                    }
-                    span {
-                        cursor: pointer;
-                    }
-                }
-            }
-            th.one {
-                max-width: 160px;
-                overflow: hidden;
-                padding: 0 10px;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-            .red {
-                color: red;
-            }
-        }
-    }
-    .footer {
-        width: calc(100% - 20px);
-        border: 1px solid #ddd;
-        line-height: 40px;
-        margin: 0 auto;
-        border-top: none;
-        text-align: center;
     }
     /*分页器*/
     .paging {

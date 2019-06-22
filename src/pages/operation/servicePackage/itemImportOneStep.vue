@@ -28,7 +28,7 @@
 <script>
 import { Upload } from "iview";
 import tmptab from "./tmptab";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 export default {
     components: {

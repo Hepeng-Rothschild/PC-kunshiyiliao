@@ -10,11 +10,23 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/operateapi': {
+        changeOrigin: true,
+        // target: 'http://172.18.2.37:8711', //后台反向代理到的地址比如swigger地址
+        // target: 'https://www.gohealth.com.cn', //后台反向代理到的地址
+        target: 'http://test.gohealth.com.cn', //后台反向代理到的地址
+        pathRewrite: {
+          '^operateapi': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: '172.18.1.250', // can be overwritten by process.env.HOST
-//		host:'localhost',
+    // host:'localhost',
+    // host:"192.168.77.132",
+    // host:"192.168.0.119",
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
@@ -65,7 +77,7 @@ module.exports = {
     // Surge or Netlify already gzip all static assets for you.
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin
-    productionGzip: true,
+    productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
 
     // Run the build command with an extra argument to

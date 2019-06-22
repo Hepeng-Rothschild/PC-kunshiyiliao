@@ -27,39 +27,40 @@ axios.defaults.withCredentials = false;
 // http request 拦截器
 axios.interceptors.request.use(
 	config => {
+		// console.log("请求的config::",config);
 		if (store.state.env == "production" || store.state.env == "test") {
-			let RegObj = new RegExp('(operate/login)|(filemd5)','ig');
+			let RegObj = new RegExp('(operate/login)|(filemd5)', 'ig');
 
-			let fileObj = new RegExp("uploadfiles",'ig')
+			Vue.prototype.fromData = {
+				'ContentType':'multipart/form-data',
+				'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
+			}
+			
+			let fileObj = new RegExp("uploadfiles", 'ig')
 
-			if(!RegObj.test(config.url)){
-				console.log("非登陆...");
-				
-				if(!fileObj.test(config.url)) {
-					console.log("非上传接口")
+			if (!RegObj.test(config.url)) {
+				if (!fileObj.test(config.url)) {
 					let iv = store.state.iv;
 					let salt = store.state.salt;
 					let key = cookie.getCookie("randmId");
-					console.log("cookie 存储的access_user",cookie.getCookie("access_user"));
-					let access_user = aesUtils.decrypt(salt,iv,key,cookie.getCookie("access_user"));
-					console.log("解密后的access_user",access_user);
+					let access_user = aesUtils.decrypt(salt, iv, key, cookie.getCookie("access_user"));
 					config.headers["OPERATE-USER"] = access_user;
 					config.headers["FORM-ENCODE"] = 1;
 					let tdata = JSON.stringify(config.data);
-					tdata = aesUtils.encrypt(salt,iv,key,tdata);
-					config.data = {data:tdata};
+					tdata = aesUtils.encrypt(salt, iv, key, tdata);
+					config.data = { data: tdata };
 				}
-				
-			}else{
-				console.log("config.url ",config.url);
-				console.log("登陆数据不做任何处理");
+
 			}
 			
 			let access_token = window.localStorage.getItem('access_token');
+			
 			if (access_token != undefined)
 				config.headers.Authorization = "Bearer " + access_token;
-			}
-			console.log("发送的所有数据",config);
+				
+
+		}
+		// console.log("发送的所有数据",config);
 		return config;
 	},
 	err => {
@@ -78,20 +79,18 @@ axios.interceptors.response.use(
 		let salt = store.state.salt;
 		let key = cookie.getCookie("randmId");
 		let url = response.config.url;
-		let RegObj = new RegExp('operate/login','ig');
-		if(!RegObj.test(url) && response.data.encryption){
+		let RegObj = new RegExp('operate/login', 'ig');
+		if (!RegObj.test(url) && response.data.encryption) {
 			let tmpData = response.data.object;
-			if(tmpData){
-				response.data.object = JSON.parse(aesUtils.decrypt(salt,iv,key,tmpData));
+			if (tmpData) {
+				response.data.object = JSON.parse(aesUtils.decrypt(salt, iv, key, tmpData));
 			}
 		}
+		// console.log("返回的数据:::",response);
 		return response;
 	},
 	error => {
-		if (error.response) {
-			switch (error.response.status) { }
-		}
-		return Promise.reject(error.response.data);
+		return Promise.reject(error);
 	}
 )
 export default axios;

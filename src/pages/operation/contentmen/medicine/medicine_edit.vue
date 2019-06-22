@@ -4,19 +4,6 @@
     <div class="i-keshi_main">
       <!--左侧选择-->
       <div class="i-keshi_main-left" ref="oneList">
-        <!-- <ul class="allList" @click.stop="tab" v-for="item,index in list">
-          <li>
-            <span>+</span>
-            {{ item.parent.name }}
-          </li>
-          <ul class="oneList">
-            <li
-              v-for="items,index in item.sub"
-              @click.stop="tab"
-              :data-id="items.id"
-            >{{ items.childDept }}</li>
-          </ul>
-        </ul>-->
         <Tree :data="data1" @on-select-change="threeChild"></Tree>
       </div>
       <!--右侧科室-->
@@ -38,6 +25,14 @@
           </div>
           <Input v-model.trim="keshiname" style="width: 300px" placeholder="空"/>
           <p style="color:rgb(102, 102, 102);">注：只在医院自身互联网平台显示</p>
+        </div>
+        <!--科室Code-->
+        <div class="keshi_name">
+          <div class="left">
+            <span style="color:red;">&nbsp;&nbsp;</span>
+            <span>科室Code</span>
+          </div>
+          <Input v-model.trim="medicineCode" style="width: 300px"/>
         </div>
         <!--科室图标-->
         <div class="keshi_name_fileImgs">
@@ -88,7 +83,7 @@
         <!--科室简介-->
         <div class="keshi_name_text">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
           <Input v-model="test2" type="textarea" :rows="6" placeholder="请输入科室简介" />
@@ -96,7 +91,7 @@
         <!--科室特色-->
         <div class="keshi_name_text">
           <div class="left">
-            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+            <span style="color:red;">&nbsp;&nbsp;</span>
             <span>科室特色</span>
           </div>
           <vueEditor
@@ -105,6 +100,7 @@
             :urlCode="urlCode"
             @valueHandle="afterChange"
             style="margin:0;"
+            :height='100'
           ></vueEditor>
         </div>
         <!--预约科室-->
@@ -145,7 +141,7 @@
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import { Tree } from "iview";
 import vueEditor from "@/components/vueEditor";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
@@ -179,39 +175,12 @@ export default {
       currentId: -1,
       source: "",
       urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
-      data1: []
+      data1: [],
+      medicineCode:''
     };
   },
   methods: {
-    // 树
-    tab(e) {
-      let el = e.target;
-      let chilrens = el.parentNode.getElementsByTagName("ul");
-      let ref = this.$refs.oneList;
-      if (chilrens.length > 0) {
-        let flag = chilrens[0].style.display;
-        if (flag == "" || flag == "none") {
-          chilrens[0].style.display = "block";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "-";
-        } else {
-          chilrens[0].style.display = "none";
-          el.parentNode.getElementsByTagName("span")[0].innerHTML = "+";
-        }
-      }
-
-      let ichildren = ref.getElementsByTagName("li");
-      for (let i = 0; i < ichildren.length; i++) {
-        ichildren[i].classList.remove("active");
-        if (ichildren[i].localName) {
-        }
-      }
-      let id = el.getAttribute("data-id");
-      if (id) {
-        this.currentId = id;
-        this.getRightData(this.currentId);
-      }
-      el.classList.add("active");
-    },
+    // 后退
     back() {
       let pageNo = this.$route.params.pageNo;
       this.functionJS.paramsNavgationTo(this, "iKeshi", {
@@ -235,7 +204,9 @@ export default {
         specialDept: Number(this.switch2),
         id: this.currentId,
         // 科室开通远程门诊
-        iremote: Number(this.switch3)
+        iremote: Number(this.switch3),
+        // 科室code
+        code:this.medicineCode
       };
       //图片
       if (this.images != "" && this.uploadList.length) {
@@ -249,7 +220,7 @@ export default {
       this.$axios
         .post(api.medicineedit, params)
         .then(res => {
-          if (res.data.code) {
+          if (res.data.success) {
             this.$Message.info("修改成功");
             let pageNo = this.$route.params.pageNo;
             setTimeout(() => {
@@ -266,6 +237,7 @@ export default {
           console.log(err);
         });
     },
+    // 上传图片相关事件
     handleView(name) {
       this.imgName = name;
       this.visible = true;
@@ -309,9 +281,11 @@ export default {
       }
       return check;
     },
+    // 富文本编辑器
     afterChange(val) {
       this.info.content = val;
     },
+    // 获取科室详细数据
     getRightData(id) {
       if (id) {
         this.currentId = id;
@@ -321,7 +295,7 @@ export default {
             id
           })
           .then(res => {
-            if (res.data.code) {
+            if (res.data.success) {
               let ret = res.data.object;
               // 科室名
               this.title = ret.dictType;
@@ -341,7 +315,9 @@ export default {
               this.switch2 = Boolean(ret.specialDept);
               //图片
               this.uploadList = [];
-
+              // 科室Code
+              this.medicineCode = ret.code
+              // 科室开通远程门诊s
               this.switch3 = Boolean(ret.iremote);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;
@@ -360,6 +336,7 @@ export default {
           });
       }
     },
+    // 图片兼容
     analysisImages(json) {
       try {
         json = JSON.parse(json);
@@ -449,6 +426,23 @@ export default {
 };
 </script>
 <style scoped lang="less">
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
 .demo-upload-list {
   display: inline-block;
   width: 60px;
@@ -502,6 +496,7 @@ export default {
       border: 1px solid #ccc;
       margin-right: 20px;
       border-radius: 10px;
+      overflow:auto;
       ul {
         width: 100%;
         li {

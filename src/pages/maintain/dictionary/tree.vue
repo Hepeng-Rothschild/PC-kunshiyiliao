@@ -234,7 +234,7 @@ export default {
             }
             let param = {};
             param.dictLevel = this.tmpData.dictLevel;
-            param.dictName = this.renameVal;
+            param.dictName = this.renameVal.trim();
             param.dictSource = this.tmpData.dictSource;
             param.dictType = this.tmpData.dictType;
             param.id = this.tmpData.id;
@@ -282,7 +282,7 @@ export default {
             let top = this.tmpData.top;
             let param = {};
             param.dictLevel = this.tmpData.dictLevel + 1;
-            param.dictName = this.newVal;
+            param.dictName = this.newVal.trim();
             param.dictSource = this.tmpData.dictSource;
             param.dictType = "";
             param.id = null;

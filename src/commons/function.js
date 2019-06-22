@@ -1,6 +1,7 @@
 import store from '@/store';
 import cookie from '@/utils/cookie.js';
 import aesUtils from '@/plugins/aes-utils.js';
+import Vue from 'vue'
 //生成AddDayCount天之前/之后的年月日
 export function GetDate(AddDayCount = 0) {
   var dd = new Date();
@@ -67,4 +68,62 @@ export let functionJS = {
       query
     });
   }
+}
+export function getStyle(obj,attr){
+  if(obj.currentStyle){
+      //IE,OPER
+      return obj.currentStyle[attr];
+  }else{
+      //chrome、safari、FireFox
+      return window.getComputedStyle(obj)[attr];
+  }
+}
+export function checkFlash() {  
+  let hasFlash = false,flashVersion;　　　　 //是否安装了flash/flash版本    
+  
+  if(document.all) {  
+    var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');  
+    if(swf) {  
+      hasFlash = true;  
+      SwfVersion = swf.GetVariable("$version");
+      flashVersion = parseInt(SwfVersion.split(" ")[1].split(",")[0]);  
+    }  
+  } else {  
+    if(navigator.plugins && navigator.plugins.length > 0) {  
+      var swf = navigator.plugins["Shockwave Flash"];  
+      if(swf) {  
+        hasFlash = true;  
+        var codes = swf.description.split(" ");  
+        for(var i = 0; i < codes.length; ++i) {  
+          if(isNaN(parseInt(codes[i]))) continue;  
+          flashVersion = parseInt(codes[i]);  
+        }  
+      }  
+    }  
+  }  
+  return { f: hasFlash, v: flashVersion };  
+}
+
+export function packageAxios(_this,url,params,callback,fileback){
+  
+  _this.$axios.post(url,params).then(res =>{
+      callback(res)
+  }).catch(err=>{
+    fileback(err)
+  })
+}
+// 将秒数转换为时分秒
+export function formatSeconds (value) {
+    var theTime = Number(value);// 秒  
+    var theTime2 = 0;// 小时  
+    var oldTheTime2 = theTime - parseInt(theTime / 3600)
+
+    var theTime1 = 0;// 分  
+    var oldTheTime1 = parseInt(oldTheTime2 / 60)
+    var oldSection = parseInt(oldTheTime1 % 60)
+    theTime2 = parseInt(theTime / 3600);
+    theTime1 = parseInt(oldTheTime2 / 60);
+    let result = theTime2 + '小时' + theTime1 + "分钟" + oldSection +"秒";
+
+    return result;  
 }

@@ -18,7 +18,7 @@ import SparkMD5 from "spark-md5";
 import videoPlay from "@/components/videoPlayer";
 import Ajax from "@/plugins/ajax.js";
 import api from "@/api/commonApi.js";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 export default {
     data() {
         return {
@@ -92,7 +92,7 @@ export default {
                 this.currentChunk++;
                 if (this.currentChunk < this.chunks) {
                     this.loadNext();
-                } else {
+                } else {        
                     this.identifier = this.spark.end(); //文件的MD5身份标识
                     this.tmpDataList.map((el, i) => {
                         let formData = new FormData();
@@ -189,7 +189,7 @@ export default {
         },
         getProgress(evt) {
             if (evt.lengthComputable) {
-                this.percent += Math.floor(
+                this.percent += Math.floor( 
                     (evt.loaded * 100) / this.chunks / evt.total
                 );
                 if(this.percent>=99){

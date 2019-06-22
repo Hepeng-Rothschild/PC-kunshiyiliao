@@ -92,6 +92,7 @@
                                         :value="item.dictType"
                                         :key="item.dictType"
                                         v-for="item of titleList"
+                                        style='text-align:center;'
                                     >{{item.dictName}}</Option>
                                 </Select>
                             </FormItem>
@@ -101,11 +102,12 @@
                         <Col :xs="24" :md="12">
                             <i class="req-icon">*</i>科室：
                             <FormItem prop="deptTypeId">
-                                <Select class="w-select" v-model="info.deptTypeId">
+                                <Select class="w-dep-select" v-model="info.deptTypeId">
                                     <Option
                                         :value="item.dictType"
                                         :key="item.dictType"
                                         v-for="(item,index) of deptList"
+                                        style='text-align:center;'
                                     >{{item.dictName}}</Option>
                                 </Select>
                             </FormItem>
@@ -125,7 +127,7 @@
                             <i class="req-icon">*</i>医院名称：
                             <FormItem prop="hospitalId">
                                 <Select
-                                    class="w-select"
+                                    class="w-hos-select"
                                     @on-change="changeHospital"
                                     v-model="info.hospitalId"
                                 >
@@ -133,6 +135,7 @@
                                         :value="item.id"
                                         :key="index"
                                         v-for="(item,index) of hospitalList"
+                                        style='text-align:center;'
                                     >{{item.orgName}}</Option>
                                 </Select>
                             </FormItem>
@@ -142,7 +145,7 @@
                         <Col :xs="24">
                             <i class="req-icon">*</i>联系方式：
                             <FormItem prop="phone">
-                                <Input class="w-input" v-model="info.phone" placeholder="请输入联系方式"/>
+                                <Input class="w-input" v-model.trim = "info.phone" placeholder="请输入联系方式" maxlength="11"/>
                             </FormItem>
                         </Col>
                     </Row>
@@ -150,7 +153,7 @@
                         <Col :xs="24">
                             <i class="req-icon">*</i>身份证号：
                             <FormItem prop="idcard">
-                                <Input class="w-input" v-model="info.idcard" placeholder="请输入身份证号"/>
+                                <Input class="w-input" v-model.trim = "info.idcard" placeholder="请输入身份证号" maxlength="18"/>
                             </FormItem>
                         </Col>
                     </Row>
@@ -206,7 +209,7 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import { Avatar } from "iview";
 export default {
     data() {
@@ -352,6 +355,7 @@ export default {
         this.$axios
             .post(api.hospitalList)
             .then(resp => {
+                console.log(resp)
                 this.hospitalList = resp.data.object;
             })
             .catch(err => {
@@ -405,15 +409,16 @@ export default {
             this.checkStatus = false;
             let subMitObj = {};
             subMitObj.id = parseInt(this.info.id);
-            subMitObj.name = this.info.name;
+            subMitObj.name = this.info.name.trim();
             subMitObj.hospitalId = String(this.info.hospitalId);
             subMitObj.phone = this.info.phone;
             subMitObj.deptType = this.info.deptTypeId;
-            subMitObj.title = this.info.titleType;
+            subMitObj.title = this.info.titleType.trim();
             subMitObj.docIcon = this.info.docIcon;
             subMitObj.personalIntroduction = this.info.personalIntroduction;
             subMitObj.gender = parseInt(this.info.gender);
             subMitObj.doctorGood = this.info.doctorGood;
+            subMitObj.idcard = this.info.idcard;
             this.hospitalList.forEach((el, i) => {
                 if (el.id == this.info.hospitalId) {
                     subMitObj.hospitalName = el.orgName;
@@ -442,7 +447,11 @@ export default {
                         );
 
                     } else {
-                        this.$Message.error("修改失败，请重试");
+                        if(resp.data.object.same){
+                            this.$Message.error({content:resp.data.object.same,duration:5});
+                        }else{
+                            this.$Message.error("修改失败，请重试");
+                        }
                     }
                 })
                 .catch(err => {
@@ -458,6 +467,7 @@ export default {
         },
         handleSuccess(res, file) {
             res = this.uploadFileDecrypt(res);  
+            console.log(res);
             if (res.success) {
                 this.info.docIcon = JSON.stringify(res.object[0]);
                 file.url = this.fileBaseUrl + res.object[0].fileName;
@@ -549,6 +559,12 @@ export default {
     }
     .w-select {
         width: 100px;
+    }
+    .w-hos-select {
+        width: 200px;
+    }
+    .w-dep-select {
+        width: 200px;
     }
     .w-input {
         width: 200px;

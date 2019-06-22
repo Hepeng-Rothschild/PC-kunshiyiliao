@@ -2,24 +2,12 @@
   <div class="remoteClinicList">
     <tmpHeader/>
     <div class="main">
-      <!-- 预约天数 -->
-      <!-- <div class="order">
-        <p>远程门诊可预约天数：</p>
-        <span>7</span>
-      </div>-->
-      <!-- 云诊室个数 -->
-      <!-- <div class="order">
-        <p>本院开通云诊室个数：</p>
-        <span>5</span>
-        <span class="roomList" @click = 'roomListTo'>列表</span>
-      </div>-->
       <!-- 区域 -->
       <div class="headers">
         <div class="city">
           <!-- 省 -->
           <Select v-model="model.provinceCode" style="width:100px" @on-change="provinceChange">
-            <Option value>请选择</Option>
-            <Option v-for="item in provinceList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            <Option v-for="item in provinceList" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.name }}</Option>
           </Select>
           <!-- 市 -->
           <Select
@@ -27,17 +15,14 @@
             style="width:150px;margin:0 10px;"
             @on-change="cityChange"
           >
-            <Option value>请选择</Option>
-            <Option v-for="item in cityList" :value="item.id" :key="item.id">{{ item.city }}</Option>
+            <Option v-for="item in cityList" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.city }}</Option>
           </Select>
           <!-- 区 -->
           <Select v-model="model.districtCode" style="width:200px">
-            <Option value>请选择</Option>
-            <Option v-for="item in countyList" :value="item.id" :key="item.id">{{ item.area }}</Option>
+            <Option v-for="item in countyList" :value="item.id" :key="item.id" style='text-align:center;'>{{ item.area }}</Option>
           </Select>
         </div>
       </div>
-
       <!-- 检索 -->
       <div class="inputContent">
         <div class="search">
@@ -49,24 +34,37 @@
           />
           <Button type="primary" @click="searchContent">查询</Button>
         </div>
-        <p>已选择远程远程门诊合作机构</p>
       </div>
+
       <div class="transfer">
         <div class="left" ref="scrollBoxL">
-          <p @dblclick="leftHospial(item,index,$event)" v-for="item,index in hospialList">
-            {{ item.hospitalName }}
-            <img
-              src="../../../../assets/images/back/gengduo.png"
-              alt
-              v-show="item.hospitalName"
-            >
-          </p>
+          <h3>可选择远程门诊合作机构</h3>
+          <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <th>医院</th>
+              <th>操作</th>
+            </tr>
+            <tr v-for="(item,index) in hospialList" :key="index"  v-show='hospialList.length'>
+              <th>{{ item.hospitalName }}</th>
+              <th><span style='color:#2d8cf0;cursor:pointer;user-select:none;' @click='leftHospial(item,index,$event)'>选择</span></th>
+            </tr>
+          </table>
+          <div class="fooDiv" v-show='!hospialList.length'>没有更多数据</div>
         </div>
+
         <div class="right" ref="scrollBoxR">
-          <p @dblclick="rightHospial(item,index,$event)" v-for="item,index in selectHospial">
-            <img src="../../../../assets/images/back/fanhui.png" alt v-show="item.hospitalName">
-            {{ item.hospitalName }}
-          </p>
+          <h3>已选择远程门诊合作机构</h3>
+          <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <th>医院</th>
+              <th>操作</th>
+            </tr>
+            <tr v-for="(item,index) in selectHospial" :key="index" v-show='selectHospial.length'>
+              <th>{{ item.hospitalName }}</th>
+              <th><span style='color:#2d8cf0;cursor:pointer;user-select:none;' @click='rightHospial(item,index,$event)'>移除</span></th>
+            </tr>
+          </table>
+          <div class="fooDiv" v-show='!selectHospial.length'>没有更多数据</div>
         </div>
       </div>
       <!-- 保存 -->
@@ -85,23 +83,20 @@ export default {
   },
   data() {
     return {
-      remoteClinicSize: 10,
-      listStyle: {
-        width: "45%",
-        height: "450px",
-        margin: "20px 0"
-      },
-      pageNo: 1,
+      // 地区列表
       provinceList: [],
       cityList: [],
       countyList: [],
+      // 选择的地区
       model: {
         provinceCode: "",
         cityCode: "",
         districtCode: "",
         orgName: ""
       },
+      // 医院列表
       hospialList: [],
+      // 合作医院列表
       selectHospial: []
     };
   },
@@ -133,27 +128,38 @@ export default {
     this.getHospialRoom();
   },
   methods: {
-    // 跳转云诊室列表
-    roomListTo() {
-       // 公用方法
-      this.functionJS.paramsNavgationTo(this, "remoteClinicRoomList");
-    },
     // 输入值检索搜索内容
     searchContent() {
       let id = sessionStorage.getItem("hospitalId");
       let params = this.model;
       params.id = id;
+      if(!this.model.provinceCode) {
+        this.$Message.error("请选择地区后再查询")
+        return ""
+      }
       this.$axios.post(api.searchRoomList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
           let arr = [];
           ret.forEach(item => {
-            arr.push({
-              hospitalName: item.orgName,
-              remote_hospital_id: item.id
-            });
+            let flag = this.selectHospial.some(i=>{
+              return i.remote_hospital_id == item.id
+            })
+            if(!flag){
+              arr.push({
+                hospitalName: item.orgName,
+                remote_hospital_id: item.id
+              })
+            }
           });
           this.hospialList = arr;
+          if(this.hospialList.length == 0) {
+            this.$Message.error("暂未查询到医院信息")
+          }else {
+            this.$Message.success("查询成功")
+          }
+        } else {
+          this.$Message.error("查询失败")
         }
       });
     },
@@ -170,16 +176,17 @@ export default {
       };
       if (arr.length == 0) {
         this.$Message.info("请至少选择一个关联医院");
+        return ""
       } else {
         this.$axios
           .post(api.searchRoomSelectAdd, params)
           .then(res => {
             if (res.data.code) {
-              this.$Message.info("保存成功");
+              this.$Message.success("保存成功");
             }
           })
           .catch(err => {
-            this.$Message.info("保存失败,请稍候重试");
+            this.$Message.error("保存失败,请稍候重试");
           });
       }
     },
@@ -279,23 +286,6 @@ export default {
   .main {
     width: 80%;
     margin: 10px auto;
-    .order {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-top: 10px;
-      .roomList {
-        cursor: pointer;
-        border: 1px solid gray;
-        border-radius: 4px;
-        padding: 0 8px;
-      }
-      span {
-        padding: 0 18px;
-        border: 1px solid gray;
-        margin: 0 20px;
-      }
-    }
     .headers {
       width: 100%;
       display: flex;
@@ -351,7 +341,10 @@ export default {
         height: 500px;
         border: 1px solid #ddd;
         overflow: auto;
-
+        h3{
+          text-align:center;
+          padding:6px 0;
+        }
         p {
           padding: 0 10px;
           user-select: none;
@@ -367,6 +360,33 @@ export default {
           color: #fff;
           background: #ccc;
         }
+        table {
+          width: 100%;
+          border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          tr {
+            border-top: 1px solid #ddd;
+            height: 40px;
+            th {
+              min-width:80px;
+              text-align: center;
+            }
+          }
+          tr:first-child{
+            background: #f8f8f9;
+          }
+          tr:not(:first-child):hover {
+            background: #ebf7ff;
+          }
+        }
+        .fooDiv {
+            width: 100%;
+            line-height: 35px;
+            height:40px;
+            border:none;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+          }
       }
     }
     .save {

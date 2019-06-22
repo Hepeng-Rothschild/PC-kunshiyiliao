@@ -77,7 +77,8 @@
           <span>排序</span>
         </div>
         <div class="input">
-          <Input v-model.trim="isort" placeholder="无" style="width: 100px"/>
+          <!-- <Input v-model.trim="isort" placeholder="无" style="width: 100px"/> -->
+          <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         </div>
       </div>
       <!--是否显示-->
@@ -99,7 +100,7 @@
 
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
 import api from "@/api/commonApi";
 export default {
   components: {
@@ -164,13 +165,14 @@ export default {
 
       let params = {
         hospitalId: this.id,
-        bannerName: this.title,
+        bannerName: this.title.trim(),
         bannerUrl: this.lianjie,
         priority: this.isort,
         id: this.$route.params.id,
         enable: Number(this.switch1),
         imageUrl: images
       };
+      console.log(params)
       if (params.bannerName == "") {
         this.$Message.info("banner名称不能为空");
       } else {

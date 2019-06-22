@@ -252,7 +252,7 @@ export default {
                 pageSize: this.pageSize
             };
             if (Boolean(val)) {
-                params.searchKey = val;
+                params.searchKey = val.trim();
             }
             await this.$axios.post(api.starClassList, params).then(res => {
                 if (res.data.code) {

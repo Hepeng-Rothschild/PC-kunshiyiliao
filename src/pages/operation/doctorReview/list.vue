@@ -14,15 +14,16 @@
                     :isBack="isBack"
                 ></fourLevelLinkage>
                 <Input class="w-input" v-model="searchKey" :placeholder="'请输入'+keyPlaceHolder"/>
-                <Select class="w-select" clearable v-model="dictType" placeholder="职称级别">
+                <Select class="w-select" clearable v-model="dictType" placeholder="职称级别" style='width:130px;'>
                     <Option
                         v-for="item in titleList"
                         :value="item.dictType"
                         :key="item.dictType"
+                        style='text-align:center'
                     >{{item.dictName}}</Option>
                 </Select>
                 <Select class="w-select" clearable v-model="authStatus" placeholder="认证状态">
-                    <Option v-for="(item,index) in statusList" :value="index" :key="index">{{item}}</Option>
+                    <Option v-for="(item,index) in statusList" :value="index" :key="index" style='text-align:center'>{{item}}</Option>
                 </Select>
                 <Button type="primary" @click="loadPage(1)">
                     <Icon type="ios-search" size="14"/>查询
@@ -69,7 +70,7 @@ export default {
                     width: 80,
                     render: (h, params) => {
                         let avatar = params.row.avatar;
-                        let defaultSrc = require("@/assets/images/heicon.jpg");
+                        let defaultSrc = require("@/assets/images/doctor.jpg");
                         return h("img", {
                             attrs: {
                                 src: avatar || defaultSrc,
@@ -97,37 +98,38 @@ export default {
                     title: "认证状态",
                     key: "authStatus",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "图文问诊",
                     key: "imginquiry",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "电话问诊",
                     key: "phoneinquiry",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "视频问诊",
                     key: "videoinquiry",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "家庭医生",
                     key: "homedoctor",
                     align: "center",
-                    width: 100
+                    width: 90
                 },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
                     width: 140,
+                    fixed:"right",
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";
@@ -196,22 +198,22 @@ export default {
                                 },
                                 "编辑"
                             ),
-                            " | ",
-                            h(
-                                "a",
-                                {
-                                    on: {
-                                        click: () => {
-                                            this.delDoctor(
-                                                params.index,
-                                                params.row.id,
-                                                params.row.name
-                                            );
-                                        }
-                                    }
-                                },
-                                "删除"
-                            )
+                            // " | ",
+                            // h(
+                            //     "a",
+                            //     {
+                            //         on: {
+                            //             click: () => {
+                            //                 this.delDoctor(
+                            //                     params.index,
+                            //                     params.row.id,
+                            //                     params.row.name
+                            //                 );
+                            //             }
+                            //         }
+                            //     },
+                            //     "删除"
+                            // )
                         ];
                     }
                 }
@@ -309,9 +311,9 @@ export default {
             params.cityCode = this.city ? this.city : null;
             params.areaCode = this.area ? this.area : null;
             params.hospitalId = this.hospital ? this.hospital : null;
-            params.title = this.dictType;
+            params.title = this.dictType.trim();
             params.authStatus = this.authStatus;
-            params.name = this.searchKey;
+            params.name = this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             console.log(params);

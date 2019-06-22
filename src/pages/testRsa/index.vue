@@ -1,32 +1,31 @@
 <template>
-    <div>
-        <bigUploadFile :src="src" @getUrl="getUploadUrl"></bigUploadFile>
+    <div class="test">
+        <netEasePlayer></netEasePlayer>
     </div>
 </template>
 <script>
-import videoPlay from "@/components/videoPlayer";
-import bigUploadFile from "@/components/bigUploadFile";
+import api from "@/api/commonApi";
+import netEasePlayer from "@/components/netEasePlayer";
 export default {
     data() {
         return {
-            src: "",
-            poster: "",
-            videoStyle: { width: "400px", height: "300px" }
         };
     },
-    created() {},
-    components: {
-        videoPlay,
-        bigUploadFile
+    watch: {
     },
+    created() {
+    },
+    components: { netEasePlayer },
     methods: {
-        //获取上传的url
-        getUploadUrl(url) {
-            console.log("传递过来的url", url);
-            this.src = url;
-        }
     }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
+.test {
+    margin-left: 1%;
+    padding: 10px;
+    width: 98%;
+    background: #ffffff;
+    box-sizing: border-box;
+}
 </style>

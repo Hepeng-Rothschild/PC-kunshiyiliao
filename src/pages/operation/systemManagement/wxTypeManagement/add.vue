@@ -15,7 +15,7 @@
           <span style="color:red;">*</span>类型
         </span>
         <Select v-model="params.function" style="width:80px">
-          <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Option v-for="item in cityList" :value="item.value" :key="item.value" style='text-align:center;'>{{ item.label }}</Option>
         </Select>
       </div>
       <!-- 排序 -->
@@ -82,12 +82,26 @@ export default {
       ]
     };
   },
+  created () {
+    let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "系统管理"
+          },
+          {
+              path: "/index/operation/wxTypeManagement/list",
+              title: "菜单管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
+  },
   methods: {
     // 添加新服务
     add() {
       let params = this.params;
       params.shortcut = Number(this.shortcut);
-      if (!params.menuName || !params.function) {
+      if (!params.menuName.trim() || !params.function) {
         this.$Message.info("请完整填写必填项");
       } else {
         this.$axios.post(api.systemManagementAdd, params).then(res => {

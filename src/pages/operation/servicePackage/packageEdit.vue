@@ -13,7 +13,7 @@
                         <Input
                             class="w-input"
                             v-model="info.itemName"
-                            :maxlength="20"
+                            :maxlength="60"
                             placeholder="请输入服务包名称"
                         />
                     </FormItem>
@@ -50,6 +50,7 @@
                                 v-for="item in provinceList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -64,6 +65,7 @@
                                 v-for="(item) in cityList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -78,6 +80,7 @@
                                 v-for="item in areaList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.name}}</Option>
                         </Select>
                         <Select
@@ -92,8 +95,23 @@
                                 v-for="item in hospitalList"
                                 :value="item.id"
                                 :key="item.id"
+                                style='text-align:center;'
                             >{{item.orgName}}</Option>
                         </Select>
+
+                        <!-- <AutoComplete
+                            v-model="info.depantmentName"
+                            :data="departmentList"
+                            @on-search="handleSearch1"
+                            @on-select='handleSelect1'
+                            placeholder="查询院内科室"
+                            style="width:200px">
+                            <Option
+                                v-for="item in departmentList"
+                                :value="item.childDept"
+                                :key="item.id"
+                            >{{item.childDept}}</Option>
+                            </AutoComplete> -->
                         <iSwitch
                             v-if="info.hospitalId != '' && info.hospitalId != null && info.hospitalId != 0"
                             v-model="info.ascription"
@@ -245,7 +263,8 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import code from "@/config/base.js";
+import code from "@/configs/base.js";
+import cookie from "@/utils/cookie.js";
 import { Avatar } from "iview";
 export default {
     data() {
@@ -260,7 +279,9 @@ export default {
                 packageItemsIds: null,
                 provinceId: null,
                 packagestatus: 1,
-                ascription: 1
+                ascription: 1,
+                depantment:'',
+                departmentName:""
             },
 
             detail: {},
@@ -271,6 +292,7 @@ export default {
             tmpCityList: [],
             tmpAreaList: [],
             tmpHospitalList: [],
+            departmentList:[],
 
             provinceList: [],
             provinceStatus: false,
@@ -295,7 +317,7 @@ export default {
                 ]
             },
             switch1: false,
-            searchKey: null,
+            searchKey: "",
 
             identity: null,
             identityCoding: null,
@@ -305,6 +327,7 @@ export default {
             pageSize: 10,
             pageNo: 1,
             listPageNo: null,
+            DepartmentCount:0,
 
             modalStatus: false,
 
@@ -437,9 +460,9 @@ export default {
         );
         this.tabList = this.healthEducationSontab;
 
-        this.identity = this.$store.getters.getIdentity;
-        this.identityCoding = this.$store.getters.getIdentityCoding;
-        this.ownArea = JSON.parse(this.$store.getters.getOwnArea);
+        this.identity = cookie.getCookie("idtt");
+        this.identityCoding = cookie.getCookie("idttC");
+        this.ownArea = JSON.parse(cookie.getCookie("ownArea"));
         if (this.ownArea.province) {
             this.provinceStatus = true;
             this.provinceList.push(this.ownArea.province);
@@ -693,7 +716,7 @@ export default {
             } else {
                 params.hospitalId = null;
             }
-            params.searchKey = this.searchKey == "" ? null : this.searchKey;
+            params.searchKey = this.searchKey.trim() == "" ? null : this.searchKey.trim();
             params.pageNo = pageNo;
             params.pageSize = this.pageSize;
             this.$axios
@@ -754,6 +777,39 @@ export default {
             this.allData = [];
             this.selData = [];
             this.loadPage(1);
+            
+        },
+        handleSearch1 (val) {
+            this.departmentList = []
+            if(Boolean(val)){
+                let params = {
+                    hospitalId: this.info.hospitalId,
+                    pageNo:1,
+                    pageSize: 10,
+                    searchKey:val.trim()
+                };
+                this.$axios
+                    .post(api.medicine, params)
+                    .then(res => {
+                    if (res.data.code) {
+                        let ret = res.data.object;
+                        this.departmentList = ret.list
+                        console.log(ret);
+                        }
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
+            
+        },
+        handleSelect1 (val) {
+            console.log(this.info);
+            console.log(val);
+            this.departmentList.forEach(item => {
+                if(val == item.childDept) {
+                    this.info.depantment = item.id
+                }
+            })
         },
         submit(name) {
             this.$refs[name].validate(valid => {
@@ -764,7 +820,7 @@ export default {
                     let msg = this.id ? "修改" : "添加";
                     let params = {};
                     params.id = this.id ? this.id : null;
-                    params.itemName = this.info.itemName;
+                    params.itemName = this.info.itemName.trim();
                     params.packagestatus = parseInt(this.info.packagestatus);
                     params.ascription = parseInt(this.info.ascription);
                     params.hospitalId =
