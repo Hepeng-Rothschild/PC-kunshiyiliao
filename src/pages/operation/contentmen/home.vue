@@ -20,7 +20,7 @@
         </header>
         <Table stripe :columns="columns1" :data="tableList"></Table>
         <div style="text-align:center;margin:10px 0;">
-            <Page :total="homeSize" @on-change="pageChange"/>
+            <Page :total="homeSize" @on-change="pageChange" :current='pageNo' />
         </div>
     </div>
 </template>
@@ -44,6 +44,7 @@ export default {
             tableList: [],
             val: "",
             homeSize: 10,
+            pageNo:1,
             columns1:[
                 {
                     title: '排序',
@@ -182,6 +183,7 @@ export default {
         },
         // 获取医院列表
         getDate(pageNo, val) {
+            this.pageNo = pageNo;
             let params = {
                 pageNo,
                 pageSize: 10
@@ -214,11 +216,11 @@ export default {
                 });
         },
         pageChange(index) {
-            if (this.val != "") {
+            // if (this.val != "") {
                 this.getDate(index, this.val);
-            } else {
-                this.getDate(index);
-            }
+            // } else {
+            //     this.getDate(index);
+            // }
         },
         navto(item) {
             let iv = store.state.iv;

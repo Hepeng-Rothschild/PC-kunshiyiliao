@@ -27,7 +27,7 @@
                 </div>
             </div>
             <!-- 已开启的服务 -->
-            <div class = 'leftList' v-show='selectList.length'>
+            <div class = 'leftList' v-show='selectList.length' style='margin:20px 0;'>
                 <span style='color:red;'>已开启的服务：</span>
                 <ul>
                     <li v-for='(item,index) in selectList' :class="{ active: serviceType == item.serviceType }" @click='clickCurrent(item,index)'>{{ item.menuName }}</li>

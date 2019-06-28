@@ -321,7 +321,17 @@ const querydoctorschedulinglist = '/operateapi/doctorschedulingquerydoctorschedu
 const apiserviceinsert = '/operateapi/apiserviceinsert' //添加接口管理
 const apiserviceupdate = '/operateapi/apiserviceupdate' // 修改接口管理 
 const apiservicequerybyid = '/operateapi/apiservicequerybyid' // 查询接口详情
-const apiservicepage = '/operateapi/apiservicepage' //查询接口管理列表
+const apiservicepage = '/operateapi/apiservicepage' // 查询接口管理列表
+const clinicandpaycostpage = '/operateapi/accountclinicandpaycostpage' // 查询诊间缴费账单列表
+const clinicandpaycost = '/operateapi/accountclinicandpaycost' // 诊间缴费对账
+const rechargethecardpage = '/operateapi/accountrechargethecardpage' // 查询就诊卡充值账单列表
+const rechargethecard = '/operateapi/accountrechargethecard' // 就诊卡充值对账
+const inhospitalpage = '/operateapi/accountinhospitalpage' // 查询住院押金缴费账单列表
+const inhospital = '/operateapi/accountinhospital' // 住院押金缴费对账
+const updatestatus = '/operateapi/accountupdatestatus' // 所有手动对账接口
+const speedofprogress = '/operateapi/accountspeedofprogress' // 进度条
+const deleteredis = '/operateapi/accountdeleteredis' // 取消对账
+const querybyserialnumber = '/operateapi/accountquerybyserialnumber'  //通过账单流水号查询状态
 let testApi = {
     login,
     //字典
@@ -623,11 +633,22 @@ let testApi = {
     doctorschedulingpage,
     doctoridandservicetype,
     querydoctorschedulinglist,
-
+    // 接口管理
     apiserviceinsert,
     apiserviceupdate,
     apiservicequerybyid,
     apiservicepage,
+    // 对账
+    clinicandpaycostpage,
+    clinicandpaycost,
+    rechargethecardpage,
+    rechargethecard,
+    inhospitalpage,
+    inhospital,
+    updatestatus,
+    speedofprogress,
+    deleteredis,
+    querybyserialnumber,
 }
 import weixin from './weixinApi';
 for(let key in weixin){

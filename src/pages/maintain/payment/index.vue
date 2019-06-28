@@ -133,6 +133,7 @@ export default {
         },
         // 获取医院列表
         getDate(pageNo, val) {
+            this.pageNo = pageNo
             let params = {
                 pageNo,
                 pageSize: 10

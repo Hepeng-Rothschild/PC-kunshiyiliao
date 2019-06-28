@@ -292,12 +292,7 @@ export default {
             // 
         },
         pageChange(index) {
-            this.pageNo = index;
-            if (this.Name) {
-                this.getMechanismreg(this.pageNo);
-            } else {
-                this.getMechanismreg(this.pageNo);
-            }
+            this.getMechanismreg(index);
         },
         // 新增机构
         add() {
@@ -332,6 +327,7 @@ export default {
             );
         },
         getMechanismreg(pageNo) {
+            this.pageNo = pageNo
             let params = {
                 pageNo,
                 pageSize: 10

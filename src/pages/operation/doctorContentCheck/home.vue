@@ -31,7 +31,7 @@
                     </Col>
                 </Row>
                 <Table class="list-table" stripe :columns="columns" :data="datas"></Table>
-                <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage"/>
+                <Page :total="count" :current="pageNo" :page-size="pageSize" @on-change="loadPage" style='margin-top:10px;text-align:center;'/>
             </TabPane>
         </Tabs>
     </div>

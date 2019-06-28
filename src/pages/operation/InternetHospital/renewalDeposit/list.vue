@@ -17,7 +17,7 @@
                 </Col>
                 <Col span='8' style='padding-top:10px;'>
                     <Checkbox v-model="getParams.single">只显示异常</Checkbox >
-                    <Button type='primary'>查询</Button>
+                    <Button type='primary' @click='loadingCardRechargeList(1)'>查询</Button>
                     <Button type='success' @click='cliniction(1)'>自动对账</Button>
                 </Col>
             </Row>
@@ -32,14 +32,19 @@
         />
         <Modal
             v-model="clinicStatus"
-            footer-hide width='800'>
+            footer-hide width='800' :mask-closable="false" :closable="false">
              <!-- 自动对账 -->
             <div v-show='buttonStatus == 1' style='padding:30px 10px;'>
                 <h2 style='text-align:center;'>自动对账提示</h2>
                 <p style='font-size:16px;margin:10px 0;text-align:center;'>自动对账将下载医院HIS数据，自动完成对账，异常数据可手动调整处理。</p>
-                <div style='width:150px;margin:0 auto;'>
-                    <Button type='primary' @click='ok'>确定</Button>
-                    <Button @click='cancel'>取消</Button>
+                <!-- 进度条 -->
+                <Progress :percent="progressStart" status="active" style='margin:10px 0;' v-show='autoLoad' >
+                </Progress>
+                
+                <div style='width:400px;margin:0 auto;text-align:center;'>
+                    <Button type='primary' @click='ok' :loading="autoLoad">确定对账</Button>
+                    <Button @click='cancelPayment'>取消对账</Button>
+                    <Button @click='cancel'>返回</Button>
                 </div>
             </div>
             <!-- 手动对账 -->
@@ -47,41 +52,41 @@
                 <h2 style='text-align:center;margin-bottom:10px;'>手动调整</h2>
                 <div>
                     <span>交易流水号：</span>
-                    <Input v-model.trim="modalSearchKey" placeholder="请输入交易流水号查询" style="width: 200px" />
-                    <Button type='primary'>查询</Button>
+                    <Input v-model.trim="manualParams.modalSearchKey" placeholder="请输入交易流水号查询" style="width: 200px" />
+                    <Button type='primary' @click='searchSerialNumber'>查询</Button>
                 </div>
                 <div style='margin:20px 0;display:flex;
                 flex-direction:row;justify-content:space-around;'>
                     <!-- <Card style='width:200px;'>
                         <p slot="title" style='text-align:center;'>支付平台状态：</p>
-                        <p style='text-align:center;'>已支付</p>
+                        <p style='text-align:center;'>{{manualParams.PlatformStatus}}</p>
                     </Card> -->
                     <Card style='width:200px;margin:0 10px;'>
                         <p slot="title" style='text-align:center;'>互联网平台状态：</p>
-                        <Select v-model="interPlatformStatus" style="width:130px" >
+                        <Select v-model="manualParams.interPlatformStatus" style="width:130px" >
                             <Option
-                                v-for="item in orderStatusList"
-                                :value="item.id"
-                                :key="item.id"
+                                v-for="(item,index) in stautParams"
+                                :value="index"
+                                :key="index"
                                 style='text-align:center'
-                            >{{ item.name }}</Option>   
+                            >{{ item }}</Option>   
                         </Select>
                     </Card>
                     <Card style='width:200px;'>
                         <p slot="title" style='text-align:center;'>医院HIS交易状态：</p>
-                        <Select v-model="hisPlatformStatus" style="width:130px" >
+                        <Select v-model="manualParams.hisPlatformStatus" style="width:130px" >
                             <Option
-                                v-for="item in orderStatusList"
-                                :value="item.id"
-                                :key="item.id"
+                                v-for="(item, index) in stautParams"
+                                :value="index"
+                                :key="index"
                                 style='text-align:center'
-                            >{{ item.name }}</Option>   
+                            >{{ item }}</Option>   
                         </Select>
                     </Card>
                 </div>
                 <div style='width:400px;margin:0 auto;'>
-                    <Button type='primary'>更改平台状态</Button>
-                    <Button type='primary'>更改医院HIS状态</Button>
+                    <Button type='primary' @click='changePlatform'>更改平台状态</Button>
+                    <Button type='primary' @click='changeHisStatus'>更改医院HIS状态</Button>
                     <Button @click='cancel'>取消</Button>
                 </div>
             </div>
@@ -90,13 +95,14 @@
 </template>
 <script>
 import api from "@/api/commonApi";
-import { DatePicker, TimePicker, Card } from 'iview'
+import { DatePicker, TimePicker, Card, Progress } from 'iview'
 // 押金续交
 export default {
     components: {
         DatePicker,
         TimePicker,
-        Card
+        Card,
+        Progress
     },
     data () {
         return {
@@ -115,75 +121,112 @@ export default {
             // 列表数据
             columns1: [
                 {
-                    key: "Name",
+                    key: "isum",
                     title: "序号",
-                    align: "center"
+                    align: "center",
+                    width:60
                 },
                 {
-                    key: "Name",
+                    key: "serialNumber",
                     title: "流水号",
-                    align: "center"
+                    align: "center",
+                    width: 230
                 },
                 {
-                    key: "Name",
+                    key: "pay_numberv",
                     title: "支付流水号",
                     align: "center",
+                    width: 100
                 },
                 {
-                    key: "Name",
+                    key: "memberName",
                     title: "姓名",
                     align: "center",
+                    width:100
                 },
                 {
-                    key: "Name",
+                    key: "createTime",
                     title: "平台交易时间",
                     align: "center",
+                    width:180
                 },
                 {
-                    key: "Name",
+                    key: "checkingStatus",
                     title: "对账状态",
-                    align: "center"
+                    align: "center",
+                    width:100,
+                    render:(h, params) => {
+                        let checked = params.row;
+                        let name = checked.checkingStatus == 1 ? '已对账' : "未对账";
+                        return [
+                            h("span", name)
+                        ]
+                    }
                 },
+                // {
+                //     key: "platformHisStatus",
+                //     title: "支付平台与His对账状态",
+                //     align: "center",
+                //     width: 150,
+                //     render:(h, params) => {
+                //         let checked = params.row;
+                //         let name = this.stautParams[checked.platformHisStatus]
+                //         return [
+                //             h("span", name)
+                //         ]
+                //     }
+                // },
                 {
-                    key: "Name",
-                    title: "支付平台",
-                    align: "center"
-                },
-                {
-                    key: "Name",
+                    key: "thirdAmount",
                     title: "支付金额",
-                    align: "center"
+                    align: "center",
+                    width: 100
                 },
                 {
-                    key: "Name",
-                    title: "互联网平台",
-                    align: "center"
+                    key: "platformThridStatus",
+                    title: "支付平台与第三方对账状态",
+                    align: "center",
+                    width: 150,
+                    render:(h, params) => {
+                        let checked = params.row;
+                        let name = this.stautParams[checked.platformThridStatus]
+                        return [
+                            h("span", name)
+                        ]
+                    }
+
                 },
                 {
-                    key: "Name",
+                    key: "payAmount",
                     title: "互联网金额",
-                    align: "center"
-                },
-                {
-                    key: "Name",
-                    title: "His状态",
                     align: "center",
+                    width:120
                 },
+                // {
+                //     key: "hisStatus",
+                //     title: "His状态",
+                //     align: "center",
+                //     width:100
+                // },
+                // {
+                //     key: "hisAmount",
+                //     title: "His金额",
+                //     align: "center",
+                //     width:100
+                // },
                 {
-                    key: "Name",
-                    title: "His金额",
-                    align: "center",
-                },
-                {
-                    key: "Name",
+                    key: "operateorName",
                     title: "操作人员",
                     align: "center",
+                    width:100
                 },
                 {
                     key: "Name",
                     title: "操作",
                     align: "center",
-                    render:(h,params) =>{
+                    width: 80,
+                    fixed:"right",
+                    render: (h,params) =>{
                         return [
                             h("a",{
                                 attrs: {
@@ -202,9 +245,9 @@ export default {
             ],
             data1: [],
             // 分页数据
-            count: 10,
+            count: 20,
             pageNo: 1,
-            pageSize: 10,
+            pageSize: 20,
             // 弹窗状态
             clinicStatus: false,
 
@@ -232,14 +275,23 @@ export default {
                     id:'5'
                 },
             ],
-            // 平台状态
-            PlatformStatus: '',
-            // 互联网平台状态
-            interPlatformStatus: "",
-            // HIS状态
-            hisPlatformStatus: "",
-            // 弹窗查询流水号
-            modalSearchKey:"",
+            stautParams: ['未对账','对账成功','未获取到数据','金额不符','状态不符'],
+            // 手动对账
+            manualParams: {
+                // 平台状态
+                PlatformStatus: '',
+                // 互联网平台状态
+                interPlatformStatus: "",
+                // HIS状态
+                hisPlatformStatus: "",
+                // 弹窗查询流水号
+                modalSearchKey:"",
+            },
+            // 自动对账状态
+            autoLoad:false,
+             // 进度条
+            progressStart: 0,
+            uuid :''
         }
     },
     created () {
@@ -260,28 +312,220 @@ export default {
         this.getParams.endTime = date.getHours() + ':' + date.getMinutes()
         this.$emit("changeBreadList", breadList);
     },
+    mounted () {
+        this.loadingCardRechargeList(this.pageNo)
+    },
     methods: {
         // 分页器改变
         pageChange(index){
             this.pageNo = index;
+            this.loadingCardRechargeList(index)
         },
+        // 自动对账确定按钮
         ok () {
-            this.clinicStatus = false
+            this.autoLoad = true
+            this.autorecon();
         },
+        // 自动对账
+        autorecon() {
+            let url = api.inhospital
+            let params = {}
+            this.$axios.post(url, params).then(res => {
+                if (res.data.success) {
+                    let ret = res.data.object;
+                    this.uuid = ret.key
+                    this.progressbord()
+                    console.log('自动对账',ret);
+                } else {
+                    this.$Message.error("对账失败")
+                }
+            })
+        },
+        // 请求进度条
+        progressbord() {
+            let url = api.speedofprogress;
+            let params = {
+                uuid: this.uuid
+            }
+            this.$axios.post(url, params).then(res => {
+                if(res.data.success) {
+                    let ret = res.data.object;
+                    console.log("进度条", ret);
+                    let err = Boolean(ret.ERROR_COUNT) ? Number(ret.ERROR_COUNT) : 0
+                    let start = Number(ret.EXECUTE_START)
+                    let count = Boolean(ret.EXECUTE_COUNT) ? Number(ret.EXECUTE_COUNT) : 0
+                    let currentTotal = err + count
+                    
+                    // 进度条参数
+                    let progressEnd = Number(ret.TOTAL_COUNT) || 0
+                    console.log('progressEnd: ', progressEnd);
+                    let progressStart = parseInt((currentTotal * 100) / progressEnd);
+                    console.log('progressStart: ', progressStart);
+
+                    this.progressStart = progressStart
+                    if(start != 1) {
+                        return ""
+                    }
+                    // 当已对账数量+异常数据 = 总数的时候停止递归然后调用取消对账接口
+                    if(currentTotal == ret.TOTAL_COUNT) {
+                        this.$axios.post(api.deleteredis, {
+                            uuid: this.uuid
+                        }).then(res => {
+                            if (res.data.success) {
+                                this.clinicStatus = false;
+                                this.autoLoad = false;
+                                this.progressStart = 100
+                                this.loadingCardRechargeList(this.pageNo);
+                                this.$Message.success("对账成功")
+                            }
+                        })
+                        return ""
+                        // 不等于总数时继续递归调用进度条接口
+                    } else if(currentTotal != ret.TOTAL_COUNT) {
+                        console.log("继续对账");
+                        if (this.autoLoad) {
+                            this.progressbord();
+                        }
+                    }
+                }
+            })
+        },
+        // 点击弹窗取消,初始化弹窗里的值
         cancel () {
             this.clinicStatus = false
+            //支付状态
+            this.manualParams.PlatformStatus = ''
+            this.manualParams.interPlatformStatus = ''
+            this.manualParams.hisPlatformStatus = ''
+            this.manualParams.modalSearchKey = ''
+        },
+        // 取消对账
+        cancelPayment() {
+            if(!this.uuid) {
+                this.clinicStatus = false;
+                return ""
+            }
+            this.$axios.post(api.deleteredis, {
+                uuid: this.uuid
+            }).then(res => {
+                if (res.data.success) {
+                    this.$Message.success ("取消对账成功");
+                    this.clinicStatus = false
+                    this.autoLoad = false
+                }
+            })
+        },
+        // 查询账单流水号
+        searchSerialNumber () {
+            let url = api.querybyserialnumber;
+            let params = {
+                serialNumber: this.manualParams.modalSearchKey
+            }
+            console.log(params);
+            return ""
+            this.$axios.post(url,params).then(res => {
+                if(res.data.success) {
+                    let ret = res.data;
+                    console.log(ret);
+                }
+            })
         },
         // 对账逻辑
         cliniction (status) {
             this.buttonStatus = status
             this.clinicStatus = true
+            if(status == 2) {
+                this.manualParams.PlatformStatus = row.checkingStatus == 1 ? '已对账' : "未对账";
+                // 互联网平台状态
+                this.manualParams.interPlatformStatus = row.platformThridStatus
+                // HIS状态
+                this.manualParams.hisPlatformStatus = row.platformHisStatus
+                // id
+                this.manualParams.transId = row.transId
+                console.log(this.manualParams);
+            }
+        },
+        //更改平台状态
+        changePlatform () {
+            console.log('更改平台状态');
+            let url = ''
+            let params = {}
+            return ""
+            this.$axios.post(url, params).then(res => {
+                if (res.data.success) {
+                    // this.$Message.info('由于对账信息较多,请等待5-10分钟重新查看!');
+                } else {
+                    this.$Message.error("更改平台状态失败")
+                }
+                this.clinicStatus = false
+            })
+        },
+        //更改His平台状态
+        changeHisStatus () {
+            console.log('更改His平台状态');
+            let url = ''
+            let params = {}
+            return ""
+            this.$axios.post(url, params).then(res => {
+                if (res.data.success) {
+                    
+                } else {
+                    this.$Message.error("更改His平台状态失败")
+                }
+                this.clinicStatus = false
+            })
         },
         // 显示异常数据
         rowClassName (row, index) {
-            if (index === 1) {
+            if (row.checkingStatus != 1) {
                 return 'demo-error-row';
             } 
             return '';
+        },
+        loadingCardRechargeList (pageNo) {
+            /*
+                加载页面列表对账信息
+            */
+            this.pageNo = pageNo
+            let url = api.inhospitalpage
+            let params = {
+                pageNo: pageNo,
+                pageSize: this.pageSize,
+                startTime: this.getData(this.getParams.startDate) + ' ' + this.getParams.startTime,
+                endTime: this.getData(this.getParams.endDate) + ' ' + this.getParams.endTime,
+                hisStatus: Number(this.getParams.single)
+            }
+            if (Boolean(this.getParams.searchKey)) {
+                params.searchKey = this.getParams.searchKey.trim();
+            }
+            console.log('押金续交参数', params);
+            // return ""
+            this.$axios.post(url,params).then(ress => {
+                if(ress.data.success) {
+                    let ret = ress.data.object
+                    ret.list.forEach((item, index) => {
+                        item.isum = this.addZeros(index)
+                    })
+                    console.log(ret);
+                    this.data1 = ret.list
+                } else {
+                    this.$Message.info("请确认当前账号是否绑定机构")
+                }
+            })
+        },
+        // 转换日期格式 
+        getData(data){
+            let datas = new Date(data)
+            var curr_date = datas.getDate();
+            var curr_month = datas.getMonth() + 1; 
+            var curr_year = datas.getFullYear();
+            function add(num){
+                if(Number(num)<10) {
+                    return '0' + num
+                }
+                return num
+            }
+            return curr_year + "-" + add(curr_month)+'-' + add(curr_date)
         }
     }
 };

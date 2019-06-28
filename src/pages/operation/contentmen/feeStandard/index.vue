@@ -82,10 +82,11 @@
                             <FormItem label="使用业务模块" prop="modular">
                                 <!-- 咨询列表 -->
                                 <Select v-model="formValidate.modular" style='width:150px;' v-show='formValidate.projectCategory == 1'>
-                                    <Option  style='text-align:center;' :value="item.id" v-for='item,index in consultList' :key='index'>{{ item.name }}</Option>
+                                    <Option  style='text-align:center;' :value="item.id" v-for='item,index in 
+                                    consultList' :key='index'>{{ item.name }}</Option>
                                 </Select>
                                 <!-- 问诊列表 -->
-                                <Select v-model="formValidate.modular" style='width:150px;' v-show='formValidate.projectCategory==2'>
+                                <Select v-model="formValidate.modular" style='width:150px;' v-show='formValidate.projectCategory == 2'>
                                     <Option  style='text-align:center;' :value="item.id" v-for='item,index in inquiryList' :key='index'>{{ item.name }}</Option>
                                 </Select>
                                 <!-- 未选择时的列表 -->
@@ -94,6 +95,18 @@
                                 </Select>
                             </FormItem>
                         </Col>
+                        <!-- <Col span='8'>
+                            <FormItem prop="consult" label="咨询类型">
+                                <Select v-model="formValidate.consult" style='width:150px;'>
+                                    <Option  style='text-align:center;' :value="item.id" v-for='item,index in consultTypeList' :key='index'>{{ item.name }}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span='8'>
+                            <FormItem prop="consultPrice" label="咨询价格">
+                                <InputNumber :max="9999" :min="0" v-model="formValidate.consultPrice" placeholder="0.00" style='width:80px;'></InputNumber>
+                            </FormItem>
+                        </Col> -->
                     </Row>
                     <FormItem label="是否启用">
                         <iSwitch v-model="formValidate.status" />
@@ -207,6 +220,9 @@ export default {
                                                 this.formValidate.title = ret.title
                                                 this.formValidate.id = ret.id
 
+                                                // this.formValidate.consult = ret.consult
+                                                // this.formValidate.consultPrice = ret.consultPrice
+
                                             } else {
                                                 this.$Message.error("加载项目详情失败")
                                             }
@@ -256,6 +272,10 @@ export default {
                 id: "",
                 // 医院ID
                 hospitalId: sessionStorage.getItem("hospitalId"),
+                // 咨询类型
+                consult : "",
+                // 咨询价格
+                consultPrice: ""
             },
             ruleValidate: {
                 projectCategory: [{ required: true, message: '请选择项目', trigger: 'change' }],
@@ -264,6 +284,8 @@ export default {
                 chargingUnit: [{ required: true, message: '请选择收费单位', trigger: 'change' }],
                 priceBasis: [{ required: true, message: '请输入收费单价', trigger: 'blur', type:'number' }],
                 modular: [{ required: true, message: '请选择项目', trigger: 'change', type:'number'}],
+                consult: [{ required: true, message: '请选择咨询类型', trigger: 'change'}],
+                consultPrice: [{ required: true, message: '请输入咨询价格', trigger: 'blur', type:'number' }]
             },
             // 项目类型列表
             projectCategoryList: [
@@ -379,6 +401,8 @@ export default {
                         "remark": this.formValidate.reason,
                         "serviceType": String(this.formValidate.modular),
                         "title": this.formValidate.title,
+                        // consult: this.formValidate.consult,
+                        // consultPrice: this.formValidate.consultPrice,
                     }
                     if(Boolean(this.formValidate.id)) {
                         params.id = this.formValidate.id
@@ -429,6 +453,8 @@ export default {
             // 标识Id
             this.formValidate.id = ''
             this.modalStatus = false
+            this.formValidate.consult = ''
+             this.formValidate.consultPrice = ''
         },
         //获取职称列表
         getTitleList () {

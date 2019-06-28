@@ -304,7 +304,7 @@ export default {
             let params = {}
             params.id = this.params.id,
             params.playStatus = this.currentStatus
-            if(this.currentStatus!=2) {
+            if(this.currentStatus != 2) {
                 params.reason = this.value8
             }
             this.$axios.post(api.livestatus, params).then(res => {
@@ -313,9 +313,10 @@ export default {
                     this.getLiveData();
                     setTimeout(() => {
                         this.back();
-                    },800)
-                }else {
-                    this.$Message.error("修改失败")
+                    }, 800)
+                } else {
+                    let name = res.data.object.same || res.data.object.file ||　'修改失败';
+                    this.$Message.error(name)
                 }
             })
             

@@ -222,12 +222,7 @@ export default {
         },
         // 分页
         pageChange(index) {
-            this.pageNo = index;
-            if (this.Name) {
-                this.getDoctorData(1, this.Name);
-            } else {
-                this.getDoctorData(index);
-            }
+            this.getDoctorData(index);
         },
         // 显示简介
         simple(item) {
@@ -249,6 +244,7 @@ export default {
         },
         // 获取页面数据
         getDoctorData(pageNo) {
+            this.pageNo = pageNo;
             let params = {
                 pageNo,
                 pageSize: 10

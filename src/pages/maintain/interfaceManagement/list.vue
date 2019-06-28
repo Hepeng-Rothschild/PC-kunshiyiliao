@@ -164,7 +164,6 @@ export default {
         // 分页器改变
         loadPage (index) {
             this.pageNo = index;
-            console.log(index);
             this.getTabList(index)
         },
         showModal(title, content) {
@@ -174,6 +173,7 @@ export default {
         },
         // 加载列表数据
         getTabList (pageNo) {
+            this.pageNo = pageNo
             let url = api.apiservicepage
             let params = {
                 pageNo,

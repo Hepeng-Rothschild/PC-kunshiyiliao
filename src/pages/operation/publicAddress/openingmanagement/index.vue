@@ -18,6 +18,18 @@
             </Col>
             <Col span="14">&nbsp;</Col>
         </Row>
+        <Row
+            type="flex"
+            justify="space-around"
+            class="code-row-bg"
+        >
+            <Col span="4">功能未开通时是否显示菜单</Col>
+                <Select v-model="showVal" style="width:200px">
+                <Option v-for="(item,index) in showList" :value="index" :key="index">{{ item }}</Option>
+            </Select>
+            <Col span="14">&nbsp;</Col>
+        </Row>
+
         <Row type="flex" justify="space-around" class="code-row-bg">
             <Col span="4">
                 <Button type="primary" @click="save">保存</Button>
@@ -42,11 +54,13 @@ export default {
                     title: "OCR管理",
                     status: false
                 },
-                {
-                    title:"是否支付",
-                    status:false
-                }
-            ]
+                // {
+                //     title:"是否支付",
+                //     status:false
+                // }
+            ],
+            showVal:"",
+            showList: ['不显示','显示正常菜单','显示灰色菜单']
         };
     },
     created() {
@@ -82,7 +96,9 @@ export default {
                     // OCR管理状态
                     this.list[0].status = Boolean(ret.ocrStatus);
                     // 是否支付
-                    this.list[1].status = Boolean(ret.ipay)
+                    // this.list[1].status = Boo/lean(ret.ipay)
+                    // 是否显示菜单
+                    this.showVal = Number(ret.showmenu)
                 } else {
                     this.$Message.error("请求失败,请稍候重试");
                 }
@@ -96,9 +112,11 @@ export default {
                 // OCR管理状态
                 ocrStatus: Number(this.list[0].status),
                 // 是否支付
-                ipay:Number(this.list[1].status)
+                // ipay:Number(this.list[1].status),
+                // 是否显示菜单
+                showmenu: this.showVal.toString()
             };
-            // /operateapi/wxappmanage/updateStatus
+            console.log(params);
             // wxMangent
             this.$axios.post(api.wxMangent, params).then(res => {
                 if (res.data.code) {

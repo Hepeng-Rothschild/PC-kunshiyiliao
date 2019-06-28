@@ -162,11 +162,7 @@ export default {
         // 页码改变
         change(index) {
             this.pageNo = index;
-            if (this.searchKey != "") {
-                this.getDoctorList(1, this.city, this.searchKey);
-            } else {
-                this.getDoctorList(index);
-            }
+            this.getDoctorList(index, this.city, this.searchKey);
         },
         // 新增
         add() {
@@ -198,14 +194,10 @@ export default {
             });
         },
         search() {
-            let params = {
-                city: this.city,
-                // 医院/医生名称
-                searchKey: this.searchKey
-            };
             this.getDoctorList(1, this.city, this.searchKey);
         },
         getDoctorList(pageNo, provinceId, searchKey) {
+            this.pageNo = pageNo;
             let params = {
                 pageNo,
                 pageSize: this.pageSize
