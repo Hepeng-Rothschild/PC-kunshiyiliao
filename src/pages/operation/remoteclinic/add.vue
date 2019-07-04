@@ -30,7 +30,7 @@
             <!-- 远程门诊类型 -->
             <div class="item">
                 <div class="item-text">
-                    <span style="color:red;">*</span>
+                    <span style="color:red;">*&nbsp;</span>
                     <p>远程门诊类型</p>
                 </div>
                 <Select class="w-select" @on-change="changeSearchType" v-model="searchType">
@@ -46,7 +46,7 @@
             <!-- 医事服务费 -->
             <div class="item">
                 <div class="item-text">
-                    <span style="color:red;">&nbsp;</span>
+                    <span style="color:red;">&nbsp; </span>
                     <p>医事服务费</p>
                 </div>
                 <p>{{ money }}元</p>
@@ -54,7 +54,7 @@
             <!-- 远程门诊时长 -->
             <div class="item">
                 <div class="item-text">
-                    <span style="color:red;">*</span>
+                    <span style="color:red;">*&nbsp;</span>
                     <p>远程门诊时长</p>
                 </div>
                 <Select class="w-select" v-model="time" @on-change="remoteData">
@@ -64,7 +64,7 @@
             <!--  预约周期 -->
             <div class="item">
                 <div class="item-text">
-                    <span style="color:red;">*</span>
+                    <span style="color:red;">*&nbsp;</span>
                     <p>预约周期</p>
                 </div>
                 <Select class="w-select" v-model="cycle">
@@ -598,7 +598,7 @@ export default {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                width: 100px;
+                width: 130px;
             }
             .w-select {
                 width: 150px;

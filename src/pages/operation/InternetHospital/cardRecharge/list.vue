@@ -37,7 +37,7 @@
             :mask-closable="false"
             :closable="false"
             footer-hide width='800'>
-             <!-- 自动对账 -->
+            <!-- 自动对账 -->
             <div v-show='buttonStatus == 1' style='padding:30px 10px;'>
                 <h1 style='text-align:center;'>自动对账提示</h1>
                 <p style='font-size:16px;margin:10px 0;text-align:center;'>自动对账将下载医院HIS数据，自动完成对账，异常数据可手动调整处理。</p>
@@ -433,10 +433,11 @@ export default {
                 serialNumber: this.manualParams.modalSearchKey
             }
             console.log(params);
-            return ""
+            // return ""
             this.$axios.post(url,params).then(res => {
                 if(res.data.success) {
-                    let ret = res.data;
+                    let ret = res.data.object;
+                    this.cliniction(2,ret)
                     console.log(ret);
                 }
             })
@@ -524,13 +525,12 @@ export default {
                 pageSize: this.pageSize,
                 startTime: this.getData(this.getParams.startDate) + ' ' + this.getParams.startTime,
                 endTime: this.getData(this.getParams.endDate) + ' ' + this.getParams.endTime,
-                hisStatus: Number(this.getParams.single)
+                status: Number(this.getParams.single)
             }
             if (Boolean(this.getParams.searchKey)) {
                 params.searchKey = this.getParams.searchKey.trim();
             }
             console.log('就诊卡对账参数', params);
-            // return ""
             this.$axios.post(url, params).then(ress => {
                 if(ress.data.success) {
                     let ret = ress.data.object

@@ -368,7 +368,7 @@ export default {
     background: #ffffff;
     box-sizing: border-box;
     .container {
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
         .paging {
             width: 100%;

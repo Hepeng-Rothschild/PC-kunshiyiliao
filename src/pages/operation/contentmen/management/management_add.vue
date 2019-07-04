@@ -18,9 +18,10 @@
                 </div>
                 <div v-show='items.flag'>
                   <span style='min-width:80px;'>支付方式：</span>
-                  <CheckboxGroup v-model="items.paytype">
+                  <CheckboxGroup v-model="items.paytype"  v-show='paymentList.length' >
                     <Checkbox v-for="item in paymentList" :label='item.id' :key='item.id'>{{ item.paymentTypeName +' ' + item.paymentChannelName }}</Checkbox>
                   </CheckboxGroup>
+                  <span v-show='!paymentList.length' style='color:gray;'>暂无支付方式</span>
                 </div>
                 
             </div>
@@ -141,7 +142,7 @@ export default {
                 })
                 this.paymentList = ret || []
                 
-                console.log('支付方式列表',ret);
+                console.log('支付方式列表', ret);
             } else {
                 this.$Message.error("加载医院支付方式列表失败,请重试")
             }

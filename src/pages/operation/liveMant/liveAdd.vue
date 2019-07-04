@@ -61,7 +61,7 @@
             <!-- 标题 -->
             <div class="live">
                 <span class="i">标题：</span>
-                <Input v-model="live.title" placeholder="请输入点播标题" clearable style="width: 200px"/>
+                <Input v-model="live.title" placeholder="请输入点播标题" clearable style="width: 200px" maxlength='20' />
             </div>
             <!-- 首页图片 -->
             <div class="live">
@@ -115,7 +115,7 @@
                     style="width:100px"
                     @on-change='computedMaxPrice'
                 ></InputNumber>
-                 <span>折后价格需要小于原始价格</span>
+                 <span>&nbsp;&nbsp;折后价格需要小于原始价格</span>
             </div>
             <!-- 折后价格 -->
             <div class="live">
@@ -126,7 +126,7 @@
                     v-model="live.discountPrice"
                     style="width:100px"
                 ></InputNumber>
-                <span>请先输入原始价格再选择折后价格</span>
+                <span>&nbsp;&nbsp;请先输入原始价格再选择折后价格</span>
             </div>
             <!-- 推广力度 -->
             <div class="live">
@@ -161,7 +161,7 @@
             <div class="live" v-if="live.videoSource==2">
                 <span class="i">上传视频：</span>
                     <bigUploadFile :src="live.filePath" @getUrl="getUploadUrl"></bigUploadFile>
-                <p>如需更改视频需再次上传文件即可覆盖</p>
+                <p>&nbsp;&nbsp;如需更改视频需再次上传文件即可覆盖</p>
             </div>
             <!-- 文件路径 -->
             <div class="live" v-else>

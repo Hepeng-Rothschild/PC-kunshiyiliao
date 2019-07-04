@@ -1,16 +1,20 @@
 <template>
   <header>
     <h1 class="hospitalName">{{ hospitalName }}</h1>
-    <ul>
-      <li v-for="(item,index) in dataList" @click="changeIndex(index)" :key='index'>
-        <router-link :to="item.name" :class="{ active:current == index }">{{ item.title }}</router-link>
-      </li>
-    </ul>
+    <div class="wrapper">
+      <ul class ='wrapper-box'>
+        <li v-for="(item,index) in dataList" @click="changeIndex(index,$event)" :key='index'>
+          <router-link :to="item.name" :class="{ active:current == index }">{{ item.title }}</router-link>
+        </li>
+      </ul>
+    </div>
+
   </header>
 </template>
 <script>
 import aesUtils from "@/plugins/aes-utils.js";
 import store from "@/store";
+import BScroll from 'better-scroll'
 export default {
   data() {
     return {
@@ -68,8 +72,17 @@ export default {
         {
           name: "/index/operation/feeStandard",
           title: "互联网收费标准"
+        },
+        {
+          name: "/index/operation/followupNotice/index",
+          title: "随访告知书"
+        },
+        {
+          name : "/index/operation/followForm/index",
+          title : "随访表单"
         }
-      ]
+      ],
+      scroll: null
     };
   },
   mounted() {
@@ -84,6 +97,19 @@ export default {
           storage
         )
     }
+
+    let _wrapperbox = document.querySelector('.wrapper-box')
+    let len = this.dataList.length;
+    _wrapperbox.style.width = len * 120 + 'px'
+
+    let wrapper = document.querySelector('.wrapper')
+    this.scroll = new BScroll(wrapper, {
+      scrollX: true,
+      click: true
+    })
+    let _li = _wrapperbox.getElementsByTagName('li')
+    this.scroll.scrollToElement(_li[this.current], 0, true)
+
   },
   methods: {
     changeIndex(index) {
@@ -94,26 +120,36 @@ export default {
 </script>
 <style scoped lang="less">
 header {
-  width: 100%;
+  // width: 100%;
   padding: 30px auto;
+  overflow:hidden;
   .hospitalName {
     width: 100%;
     text-align: center;
-    height: 40px;
+    height: 50px;
     line-height: 40px;
   }
+  .wrapper{
+    // width:100%;
+    height:40px;
+    // overflow:hidden;
+  }
   ul {
-    width:100%;
+    width:300%;
     height: 40px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    // display: flex;
+    // overflow:auto;
+    // flex-direction: row;
+    // align-items: center;
     li {
+      min-width:120px;
+      text-align:center;
+      padding:0 2px;
       float: left;
       border-bottom: 1px solid #ddd;
       a {
         display: block;
-        font-size:10px;
+        font-size:12px;
         color: black;
         padding: 6px 8px;
         cursor: pointer;

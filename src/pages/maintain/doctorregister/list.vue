@@ -260,10 +260,9 @@ export default {
             this.$axios.post(api.getDoctorInfo, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
-                    
                     let arr = ['个人注册','批量导入','平台注册']
                     ret.list.forEach((item,index) =>{
-                        item.sum = this.addZero(index);
+                        item.sum = this.addZeros(index);
                         item.gender = item.gender == '0'? '女' :'男'
                         item.ibatch = arr[item.ibatch];
                     })
@@ -274,13 +273,6 @@ export default {
                     this.$Message.info(res.data.message);
                 }
             });
-        },
-        addZero(num) {
-            num = num + 1;
-            if (num < 10) {
-                return "0" + num;
-            }
-            return num;
         }
     },
     components: {
@@ -296,7 +288,7 @@ export default {
     background: #ffffff;
     box-sizing: border-box;
     .container {
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
         header {
             width: 100%;

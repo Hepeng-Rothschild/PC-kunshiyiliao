@@ -46,7 +46,7 @@
                 <Modal title="预览图片" v-model="visible" footer-hide>
                     <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
                 </Modal>
-                <span>添加图片</span>
+                <span>&nbsp;添加图片</span>
             </div>
             <!--机构等级-->
             <div class="main_type">
@@ -64,7 +64,7 @@
             <div class="main_info">
                 <span>医联体上级医院</span>
                 <Select v-model="info.orgParentCode" style="width:200px;">
-                    <Option value="0">请选择</Option>
+                    <Option value="0" >请选择</Option>
                     <Option
                         :value="item.orgCode"
                         v-for="(item) in ylt"
@@ -592,6 +592,7 @@ export default {
             .then(res => {
                 if (res.data.object) {
                     let ret = res.data.object;  
+                    console.log('机构详细信息',ret);
                     // 医院图片
                     if (ret.hosIcon) {
                         this.source = ret.hosIcon;

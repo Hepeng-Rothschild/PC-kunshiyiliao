@@ -14,6 +14,23 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
+                    <i class="req-icon"></i>服务包状态：
+                </Col>
+                <Col :xs="21">
+                    <FormItem prop="numberYear">
+                        <Select class="w-select" v-model="info.pattern" disabled style='width:150px;'>
+                            <Option
+                                v-for="(item,index) of formStatusList"
+                                :value="index+1"
+                                :key="index"
+                                style='text-align:center;'
+                            >{{ item }}</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>
+            <Row>
+                <Col :xs="3" class="text-r">
                     <i class="req-icon"></i>是否启用：
                 </Col>
                 <Col :xs="21">
@@ -128,6 +145,7 @@
                         :current="pageNo"
                         :page-size="pageSize"
                         @on-change="loadPage"
+                        style='text-align:center;margin:4px 0;'
                     />
                 </Col>
                 <Col offset="2" :xs="9">
@@ -259,8 +277,11 @@ export default {
                 packageItemsIds: null,
                 provinceId: null,
                 packagestatus: 1,
-                ascription: 1
+                ascription: 1,
+                pattern: null
             },
+
+            formStatusList:["私人团队签约",'家医团队签约','院后随访签约'],
 
             detail: {},
             natureList: ["", "增值付费项目", "基本公共卫生服务承担项目"],
@@ -513,6 +534,7 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.info = resp.data.object;
+                        console.log(this.info);
                         for (let item of this.info.packageItems) {
                             this.selData.push({
                                 id: item.id,

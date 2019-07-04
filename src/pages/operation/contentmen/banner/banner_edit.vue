@@ -1,35 +1,25 @@
 <template>
   <!--Banner-->
   <div class="i_addBanner">
-    <tmpHeader/>
-    <div class="i_addBanner_main">
-      <!-- <h3>banner信息</h3> -->
-      <!--banner名称-->
-      <div class="main_title">
-        <div class="main_title_info">
-          <span style="color:red;">*&nbsp;&nbsp;</span>
-          <span>banner名称</span>
-        </div>
+    <tmpHeader style='margin-bottom:10px;'/>
+    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
+      <FormItem label="banner名称" prop="bannerName">
+        <Input
+          v-model.trim="formValidate.bannerName"
+          placeholder="请输入医院banner图名称"
+          style="width: 360px"
+        />
+      </FormItem>
+      <FormItem label="banner图片">
         <div class="input">
-          <Input v-model.trim="title" placeholder="请输入Banner图名称" style="width: 360px"/>
-        </div>
-      </div>
-      <!--banner图片-->
-      <div class="main_imgs">
-        <div class="main_title_info">
-          <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-          <span>banner图片</span>
-        </div>
-        <div class="input">
-          <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
+          <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
             <div v-if="item.status === 'finished'">
-              <img :src="item.url">
+              <img :src="item.url" />
               <div class="demo-upload-list-cover">
                 <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
                 <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
               </div>
             </div>
-
             <div v-else>
               <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
             </div>
@@ -56,44 +46,32 @@
             </div>
           </Upload>
           <Modal title="预览图片" v-model="visible" footer-hide>
-            <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+            <img :src=" uploadList[0].url " v-if="visible" style="width: 100%" />
           </Modal>
         </div>
-      </div>
-      <!--banner链接-->
-      <div class="main_title">
-        <div class="main_title_info">
-          <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-          <span>banner链接</span>
-        </div>
-        <div class="input">
-          <Input v-model.trim="lianjie" placeholder="无" style="width: 360px"/>
-        </div>
-      </div>
-      <!--排序-->
-      <div class="main_title">
-        <div class="main_title_info">
-          <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-          <span>排序</span>
-        </div>
-        <div class="input">
-          <!-- <Input v-model.trim="isort" placeholder="无" style="width: 100px"/> -->
-          <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
-        </div>
-      </div>
-      <!--是否显示-->
-      <div class="main_title">
-        <div class="main_title_info">
-          <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-          <span>显示</span>
-        </div>
-        <iSwitch v-model.trim="switch1" @on-change="change"/>
-      </div>
-      <!--保存-->
-      <div class="save">
-        <Button @click="save" type="primary">保存</Button>
-        <Button @click="back">取消</Button>
-      </div>
+      </FormItem>
+      <FormItem label="banner链接">
+        <Input
+          v-model.trim="formValidate.bannerUrl"
+          placeholder="请输入banner链接"
+          style="width: 360px"
+        />
+      </FormItem>
+      <FormItem label="排序">
+        <InputNumber
+          :max="99999"
+          :min="1"
+          v-model.trim="formValidate.priority"
+          style="width: 100px"
+        ></InputNumber>
+      </FormItem>
+      <FormItem label="是否显示">
+        <iSwitch v-model.trim="formValidate.enable" />
+      </FormItem>
+    </Form>
+    <div class="save">
+      <Button @click="save('formValidate')" type="primary">保存</Button>
+      <Button @click="back">取消</Button>
     </div>
   </div>
 </template>
@@ -108,10 +86,17 @@ export default {
   },
   data() {
     return {
-      title: "",
-      lianjie: "",
-      isort: "",
-      switch1: true,
+      formValidate: {
+        bannerName: "",
+        bannerUrl: "",
+        priority: "",
+        enable: false
+      },
+      ruleValidate: {
+        bannerName: [
+          { required: true, message: "请输入医院banner图名称", trigger: "blur" }
+        ]
+      },
       defaultList: [],
       imgName: "",
       visible: false,
@@ -151,51 +136,53 @@ export default {
         pageNo
       });
     },
-    save() {
-      let images = "";
-      // 上传
-      if (this.images != "") {
-        images = this.images;
-      } else if (this.sourceImages != "" && this.uploadList.length) {
-        images = this.sourceImages;
-        // 默认
-      } else {
-        images = "";
-      }
+    save(name) {
+      this.$refs[name].validate(valid => {
+        if (valid) {
+          let images = "";
+          // 上传
+          if (this.images != "") {
+            images = this.images;
+          } else if (this.sourceImages != "" && this.uploadList.length) {
+            images = this.sourceImages;
+            // 默认
+          } else {
+            images = "";
+          }
 
-      let params = {
-        hospitalId: this.id,
-        bannerName: this.title.trim(),
-        bannerUrl: this.lianjie,
-        priority: this.isort,
-        id: this.$route.params.id,
-        enable: Number(this.switch1),
-        imageUrl: images
-      };
-      console.log(params)
-      if (params.bannerName == "") {
-        this.$Message.info("banner名称不能为空");
-      } else {
-        this.$axios
-          .post(api.bannerChange, params)
-          .then(res => {
-            if (res.data.code) {
-              this.$Message.info("修改成功");
-              let pageNo = this.$route.params.pageNo;
-              setTimeout(() => {
-                //functionJS公用跳转方法
-                this.functionJS.paramsNavgationTo(this, "iBanner", {
-                  pageNo
-                });
-              }, 500);
-            } else {
-              this.$Message.info("修改失败请重试");
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+          let params = {
+            hospitalId: this.id,
+            bannerName: this.formValidate.bannerName.trim(),
+            bannerUrl: this.formValidate.bannerUrl,
+            priority: this.formValidate.priority,
+            id: this.$route.params.id,
+            enable: Number(this.formValidate.enable),
+            imageUrl: images
+          };
+          console.log(params);
+            this.$axios
+              .post(api.bannerChange, params)
+              .then(res => {
+                if (res.data.code) {
+                  this.$Message.info("修改成功");
+                  let pageNo = this.$route.params.pageNo;
+                  setTimeout(() => {
+                    //functionJS公用跳转方法
+                    this.functionJS.paramsNavgationTo(this, "iBanner", {
+                      pageNo
+                    });
+                  }, 500);
+                } else {
+                  this.$Message.info("修改失败请重试");
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+        } else {
+          this.$Message.error("请完整填写必填项!");
+        }
+      });
     },
     handleView(name) {
       this.imgName = name;
@@ -242,10 +229,11 @@ export default {
         .then(res => {
           if (res.data.code) {
             let ret = res.data.object;
-            this.title = ret.bannerName;
-            this.lianjie = ret.bannerUrl;
-            this.isort = ret.priority;
-            this.switch1 = Boolean(ret.enable);
+
+            this.formValidate.bannerName = ret.bannerName;
+            this.formValidate.bannerUrl = ret.bannerUrl;
+            this.formValidate.priority = ret.priority;
+            this.formValidate.enable = Boolean(ret.enable);
             //图片
             if (ret.imageUrl) {
               this.sourceImages = ret.imageUrl;
@@ -310,71 +298,10 @@ export default {
   padding: 10px 30px;
   margin: 0 auto;
   background: #fff;
-  .i_addBanner_main {
-    width: 80%;
-    margin: 10px auto;
-    display: flex;
-    flex-direction: column;
-    h3 {
-      padding-left: 6px;
-      border-left: 2px solid #2d8cf0;
-    }
-    .main_title {
-      width: 80%;
-      display: flex;
-      flex-direction: row;
-      margin: 10px auto;
-      height: 30px;
-      line-height: 30px;
-      .main_title_info {
-        min-width: 100px;
-      }
-      .input {
-        position: relative;
-        width: 400px;
-        input {
-          display: inline-block;
-          width: 100%;
-          outline: none;
-          text-indent: 5px;
-        }
-        span {
-          position: absolute;
-          right: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-      }
-    }
-    .main_imgs {
-      width: 80%;
-      display: flex;
-      flex-direction: row;
-      margin: 10px auto;
-      .main_title_info {
-        min-width: 100px;
-      }
-    }
-    .save {
+  .save {
       width: 200px;
       height: 30px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
       margin: 0 auto;
-      div:first-child {
-        background: #2d8cf0;
-      }
-      div {
-        width: 80px;
-        height: 30px;
-        background: #c9c9c9;
-        border-radius: 20px;
-        text-align: center;
-        line-height: 30px;
-        color: #fff;
-      }
     }
-  }
 }
 </style>

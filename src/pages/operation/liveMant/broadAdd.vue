@@ -7,7 +7,7 @@
                 <!--  -->
                 <h2>基本信息</h2>
                 <FormItem label="直播标题" prop="title">
-                    <Input v-model.trim="params.title" placeholder="请输入直播标题" style="width: 300px" maxlength='60'></Input>
+                    <Input v-model.trim="params.title" placeholder="请输入直播标题" style="width: 300px" maxlength='20'></Input>
                 </FormItem>
                 <!-- 开始时间 -->
                 <div class="timers" style="display:flex;flex-direction:row;">
@@ -714,7 +714,8 @@ export default {
                     this.disabledHours.push(i)
                 }
             }
-            // console.log(this.disabledHours);
+            // this.params.endTimers
+            console.log(this.disabledHours);
         },
         // 返回
         back() {
@@ -838,7 +839,7 @@ export default {
     background: #fff;
     font-size: 12px;
     .val {
-        h1,h2{
+        h1,h2 {
             font-weight:bold;
         }
         .spacing {

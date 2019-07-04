@@ -9,7 +9,7 @@
                     @changeHospital="changeHospital"
                 ></fourLevelLinkage>
             </div>
-            <span style='margin-left:10px;'>机构名称：</span>
+            <span style='margin-left:10px;'>&nbsp;&nbsp;机构名称：</span>
             <Input
                 v-model.trim="val"
                 placeholder="请输入医疗机构名称检索"
@@ -243,15 +243,15 @@ export default {
 
 <style scoped lang = "less">
 .management1 {
-    width: calc(100% - 20px);
-    padding: 10px 30px;
+    width: 98%;
+    padding:10px;
     margin: 0 auto;
     background: #fff;
     header {
         width: 100%;
         display: flex;
         flex-direction: row;
-        margin: 20px 0;
+        margin: 10px 0;
         span {
             color: black;
             line-height: 30px;

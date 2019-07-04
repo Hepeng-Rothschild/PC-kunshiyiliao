@@ -35,7 +35,17 @@
             <h1>直播信息</h1>
             <div class = 'liveStatus'>
                 <span style='color:red;'>状态：{{statueName}}</span>
+                <div style='float:right'>
+                    <!-- 直播中warning -->
+                    <Button type="primary" v-if='playStatus == 5' @click='enterLive'>进入直播间</Button>
+                    <!-- 审核中 -->
+                    <Button type="warning" v-if='playStatus == 1' @click='changeStatusBack(7)'>撤回</Button>
+                    <!-- 审核未通过 -->
+                    <Button  type="primary"  @click='edit' v-if='playStatus == 3'>重新提交</Button>
+                    <Button @click='reback'>返回</Button>
+                </div>
             </div>
+            
             <!-- 审核人 -->
             <div class = 'columnBox' style='margin-bottom:20px;'>
                 <p v-if='playStatus != 1'>审核人：{{ examineName }}</p>
@@ -96,6 +106,9 @@
                 <div class = 'information_item'>
                     <span>推广力度：{{params.fictitiousNum ? params.fictitiousNum : '无'}}</span>
                 </div>
+                <div class = 'information_item'>
+                    <span>销售数量：{{ params.stock ? params.stock : '0' }}</span>
+                </div>
             </div>
             <h3>课堂介绍</h3>
             <div class='information'>
@@ -105,14 +118,7 @@
             <div class='information' v-if='playStatus == 3 || playStatus == 4 || playStatus == 8'>
                 <h3 style='color:red;'><span style='color:black'>审核原因：</span>{{ params.reason }}</h3>
             </div>
-            <!-- 审核中 -->
-            <Button type="warning" v-if='playStatus == 1' @click='changeStatusBack(7)'>撤回</Button>
-            <!-- 审核未通过 -->
-            <Button  type="primary"  @click='edit' v-if='playStatus == 3'>重新提交</Button>
-            <!-- 直播中warning -->
-            <!-- <Button type="primary" v-if='playStatus == 5' @click='enterLive'>进入直播间</Button> -->
             
-            <Button @click='reback'>返回</Button>
         </div>
         <Modal v-model="modal2" width="600" footer-hide>
             <img :src="params.headImg" alt="" style='display:block;width:100%'>
@@ -162,7 +168,9 @@ export default {
                 discountPrice:"",
                 id:"",
                 // 真实开始直播时间
-                liveStartTime:""
+                liveStartTime:"",
+                //销售数量
+                stock:""
 
             },
             // 头部直播数据
@@ -405,6 +413,8 @@ export default {
                     this.params.type = type
 
                     this.examineName = ret.auditorName
+
+                    this.params.stock = ret.stock;
                 } else {
                     this.$Message.error("加载详情失败");
                 }

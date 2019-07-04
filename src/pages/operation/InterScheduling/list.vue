@@ -48,6 +48,7 @@
                 :current="pageNo"
                 @on-change="change"
                 :page-size="pageSize"
+                style='text-align:center;'
             />
         </div>
     </div>
@@ -147,6 +148,7 @@ export default {
         this.getDoctorList(this.pageNo);
     },
     methods: {
+        // 获取当前账号所在地区npm
         changeProvince(val) {
             this.province = val;
         },
@@ -193,9 +195,11 @@ export default {
                 }
             });
         },
+        // 查询排班
         search() {
             this.getDoctorList(1, this.city, this.searchKey);
         },
+        // 加载数据
         getDoctorList(pageNo, provinceId, searchKey) {
             this.pageNo = pageNo;
             let params = {
@@ -233,7 +237,7 @@ export default {
 <style lang="less" scoped>
 .remoteClinic {
     width: 98%;
-    padding: 10px;
+    padding:0 10px;
     margin-left: 1%;
     margin: 0 auto;
     background: #fff;

@@ -1,5 +1,6 @@
 <template>
     <div class = 'review'>
+        <h2 style='font-weight:bold;margin:10px 0;'>查看医疗小组</h2>
         <div class="main">
             <div class = 'text'>
                 <span>医疗团队名称：</span>

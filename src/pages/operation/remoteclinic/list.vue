@@ -415,7 +415,7 @@ export default {
 <style lang="less" scoped>
 .remoteClinic {
     width: 98%;
-    padding: 10px;
+    padding:0  10px;
     margin-left: 1%;
     margin: 0 auto;
     background: #fff;
@@ -427,7 +427,7 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: center;
-        margin: 10px 0;
+        // margin: 10px 0;
         .w-select {
             width: 100px;
             margin: 0 10px;

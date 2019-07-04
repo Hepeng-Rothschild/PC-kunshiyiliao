@@ -3,12 +3,12 @@
         <header style='margin:5px 0;'>
             <Input
                 v-model.trim="searchKey"
-                placeholder="输入公司名称进行查询"
+                placeholder="请输入公司名称进行查询"
                 style="width: 260px"
                 clearable
             />
             <Button type="primary" icon="ios-search" @click="getTabList(1)">查询</Button>
-            <Button type="info" @click='addInterface'>新增用户</Button>
+            <Button type="info" @click='addInterface'>新增</Button>
         </header>
         <div class='main'>
             <Table size="small" :columns="list" :data="data1" stripe></Table>
@@ -217,8 +217,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .list {
-    width: calc(100% - 20px);
-    padding: 10px 30px;
+    width: 98%;
+    padding: 10px;
     margin: 0 auto;
     background: #fff;
 }

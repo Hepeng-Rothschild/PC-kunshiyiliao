@@ -35,6 +35,7 @@
             <h1>直播信息</h1>
             <div class = 'liveStatus'>
                 <span>状态：{{ statueName }}</span>
+                <Button type="error" @click='reback(8)' v-if='playStatus==5' style='float:right'>结束直播</Button>
             </div>
             <!-- 审核人 -->
             <div class = 'columnBox' style='margin-bottom:20px;'>
@@ -97,6 +98,9 @@
                 <div class = 'information_item'>
                     <span>推广力度：{{params.fictitiousNum ? params.fictitiousNum : '无'}}</span>
                 </div>
+                <div class = 'information_item'>
+                    <span>销售数量：{{ params.stock ? params.stock : '0' }}</span>
+                </div>
             </div>
             <h3>课堂介绍</h3>
             <div class='information'>
@@ -109,13 +113,13 @@
             <Button type="primary" @click='reback(2)' v-if='playStatus==1'>审核通过</Button>
             <Button @click='reback(3)' v-if='playStatus==1'>审核不通过</Button>
             <Button type="warning" @click='reback(4)' v-if='playStatus==6'>下架</Button>
-            <Button type="error" @click='reback(8)' v-if='playStatus==5'>结束直播</Button>
             <Button @click='back'>返回</Button>
         </div>
         <Modal
             v-model="modal1"
             title="审核提示："
             @on-ok="ok"
+            :mask-closable="false"
             @on-cancel="cancel">
             <p style='color:red;margin:4px 0;'  v-if='currentStatus==8'>温馨提示：此课程为收费课程，若提交原因审核通过后，课程费用需要退还给购买课程人员</p>
             <p v-if='currentStatus == 2'>确认审核通过，是否继续？</p>
@@ -126,7 +130,7 @@
                         type="textarea"
                         :placeholder="grayinfor"
                         :rows="4"
-                        style='width:70%;'
+                        style='width:90%;'
                         maxlength="200"
                     />
             </div>
@@ -182,7 +186,9 @@ export default {
                 discountPrice:"",
                 id:"",
                 // 真实开始时间
-                liveStartTime:""
+                liveStartTime:"",
+                //销售数量
+                stock:""
 
             },
             // 头部直播数据
@@ -423,6 +429,7 @@ export default {
                     this.params.type = type
 
                     this.examineName = ret.auditorName
+                    this.params.stock = ret.stock
                 } else {
                     this.$Message.error("加载详情失败");
                 }

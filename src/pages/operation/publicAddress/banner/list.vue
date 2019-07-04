@@ -30,8 +30,10 @@
             <td>
               <img
                 :src="analysisImages(item.imageUrl)"
-                style="display:inline-block;margin:10px 0;width:80px;height:80px;"
+                style="display:inline-block;margin:10px 0;width:60px;height:60px;"
+                v-show='item.imageUrl'
               >
+              <span v-show='!item.imageUrl' style='color:gray;'>暂无图片</span>
             </td>
             <td>{{ item.bannerUrl }}</td>
             <td>{{ item.enable == 1? "是" :"否" }}</td>

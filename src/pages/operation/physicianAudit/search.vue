@@ -93,6 +93,7 @@
         <Modal
             v-model="modal1"
             title="审核不通过原因"
+            :mask-closable="false"
             @on-ok="backLive(3)">
             <div class="live">
                 <span class="i">原因</span>

@@ -1,5 +1,6 @@
 <template>
     <div class = 'add'>
+        <h2 style='font-weight:bold;margin:10px 0;'>新增医疗小组</h2>
         <header>
             <fourLevelLinkage
                 @changeProvince="changeProvince"
@@ -221,7 +222,7 @@ export default {
             searchKey:"",
             // 医生列表分页
             pageNo:1,
-            pageSize:10,
+            pageSize:8,
             count:10,
             // 左侧医疗团队成员
             member:[
@@ -393,6 +394,7 @@ export default {
     },
     mounted (){
         this.uploadList = this.$refs.upload.fileList;
+        this.loadDoctorPage(1);
     },
     methods:{
         changeProvince(val) {

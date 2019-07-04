@@ -321,7 +321,7 @@ export default {
     },
     methods: {
         // 分页器改变
-        pageChange(index){
+        pageChange (index) {
             this.pageNo = index;
             this.loadingCardRechargeList(index)
         },
@@ -331,7 +331,7 @@ export default {
             this.autorecon();
         },
         // 自动对账
-        autorecon() {
+        autorecon () {
             let url = api.clinicandpaycost
             let params = {}
             this.$axios.post(url, params).then(res => {
@@ -348,7 +348,7 @@ export default {
             })
         },
         // 请求进度条
-        progressbord() {
+        progressbord () {
             let url = api.speedofprogress;
             let params = {
                 uuid: this.uuid
@@ -407,7 +407,7 @@ export default {
             this.manualParams.modalSearchKey = ''
         },
         // 取消对账
-        cancelPayment() {
+        cancelPayment () {
             if(!this.uuid) {
                 this.clinicStatus = false;
                 return ""
@@ -460,10 +460,11 @@ export default {
                 serialNumber: this.manualParams.modalSearchKey
             }
             console.log(params);
-            return ""
+            // return ""
             this.$axios.post(url,params).then(res => {
                 if(res.data.success) {
-                    let ret = res.data;
+                    let ret = res.data.object;
+                    this.cliniction(2,ret)
                     console.log(ret);
                 }
             })
@@ -495,7 +496,7 @@ export default {
                 pageSize: this.pageSize,
                 startTime: this.getData(this.getParams.startDate) + ' ' + this.getParams.startTime,
                 endTime: this.getData(this.getParams.endDate) + ' ' + this.getParams.endTime,
-                hisStatus: Number(this.getParams.single)
+                status: Number(this.getParams.single)
             }
             if (Boolean(this.getParams.searchKey)) {
                 params.searchKey = this.getParams.searchKey.trim();

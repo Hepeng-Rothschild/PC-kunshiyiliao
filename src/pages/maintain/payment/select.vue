@@ -393,7 +393,8 @@ export default {
                     width: 150,
                     render: (h, params) => {
                         let name = params.row;
-                        let par = JSON.parse(name.parameterConfig).mchKey
+                        let par = JSON.parse(name.parameterConfig).mchKey || ''
+                        console.log(par);
                         return h("div", [
                             h(
                                 "span",

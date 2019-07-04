@@ -193,6 +193,8 @@ const fdspackageiteminsert = '/operateapi/fdspackageiteminsert';  //新增服务
 const fdspackageitemselectbyid = '/operateapi/fdspackageitemselectbyid';  //服务项目详情
 const fdspackageitemupdate = '/operateapi/fdspackageitemupdate';  //修改服务项目
 const fdspackageiteminsertbatch = '/operateapi/fdspackageiteminsertbatch';  //服务项目导入
+const queryarticlelist = '/operateapi/educationqueryarticlelist' //服务项目关联内容
+const itemformiselection = '/operateapi/itemformiselection' //服务项关联表单
 
 //服务包管理
 const servicepackageinsert = '/operateapi/servicepackageinsert';  //新增/修改服务包
@@ -332,6 +334,22 @@ const updatestatus = '/operateapi/accountupdatestatus' // 所有手动对账接�
 const speedofprogress = '/operateapi/accountspeedofprogress' // 进度条
 const deleteredis = '/operateapi/accountdeleteredis' // 取消对账
 const querybyserialnumber = '/operateapi/accountquerybyserialnumber'  //通过账单流水号查询状态
+
+
+const agreementinsertagreement = '/operateapi/agreementinsertagreement' //添加随访告知书内容
+const agreementupdateagreement = '/operateapi/agreementupdateagreement' //修改随访告知书内容
+const agreementquerybyid = '/operateapi/agreementquerybyid' //查看随访告知书内容
+const agreementlist = '/operateapi/agreementlist' //查看随访告知书列表
+
+const itemforminsertform = '/operateapi/itemforminsertform' //添加随访表单
+const itemformupdatetform = '/operateapi/itemformupdatetform' //修改随访表单
+const itemformlist = '/operateapi/itemformlist' //查询医院随访表单列表
+
+const formcontentinsertformcontent = '/operateapi/formcontentinsertformcontent' //添加表单题目
+const formcontentupdateformcontent = '/operateapi/formcontentupdateformcontent' //修改表单题目
+const formcontentquerybyid = '/operateapi/formcontentquerybyid' //查询表单题目详情
+const formcontentlist = '/operateapi/formcontentlist' //查询表单题目列表
+
 let testApi = {
     login,
     //字典
@@ -546,6 +564,8 @@ let testApi = {
     fdspackageitemselectbyid,
     fdspackageitemupdate,
     fdspackageiteminsertbatch,
+    queryarticlelist,
+    itemformiselection,
     //服务包管理
     servicepackageinsert,
     servicepackagepage,
@@ -649,6 +669,18 @@ let testApi = {
     speedofprogress,
     deleteredis,
     querybyserialnumber,
+    agreementinsertagreement,
+    agreementupdateagreement,
+    agreementquerybyid,
+    agreementlist,
+
+    itemforminsertform,
+    itemformupdatetform,
+    itemformlist,
+    formcontentinsertformcontent,
+    formcontentupdateformcontent,
+    formcontentquerybyid,
+    formcontentlist,
 }
 import weixin from './weixinApi';
 for(let key in weixin){

@@ -311,9 +311,48 @@ const feeStandard = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-InstitutionalOperation' */"@/pages/operation/contentmen/feeStandard/index")
 }
+// 随访告知书
+const followupNotice = {
+	path: 'operation/followupNotice/index',
+	name: 'followupNotice',
+	meta: {
+		index: 2,
+		title: '随访告知书'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-followupNotice' */"@/pages/operation/contentmen/followupNotice/index")
+}
+// 随访表单
+const followForm = {
+	path: 'operation/followForm/index',
+	name: 'followForm',
+	meta: {
+		index: 2,
+		title: '随访表单'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-followupForm' */"@/pages/operation/contentmen/followForm/index")
+}
+// 修改随访表单
+const followFormEdit = {
+	path: 'operation/followForm/edit',
+	name: 'followFormEdit',
+	meta: {
+		index: 2,
+		title: '修改随访表单'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-followupForm' */"@/pages/operation/contentmen/followForm/edit")
+}
 
 
 export default {
+	// 修改随访表单
+	followFormEdit,
+	// 随访表单
+	followForm,
+	// 随访告知书
+	followupNotice,
 	// 互联网收费标准
 	feeStandard,
     // 医生远程门诊列表

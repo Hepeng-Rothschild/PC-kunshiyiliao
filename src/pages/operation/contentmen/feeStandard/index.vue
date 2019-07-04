@@ -95,6 +95,7 @@
                                 </Select>
                             </FormItem>
                         </Col>
+                        <!-- ... -->
                         <!-- <Col span='8'>
                             <FormItem prop="consult" label="咨询类型">
                                 <Select v-model="formValidate.consult" style='width:150px;'>
@@ -109,7 +110,10 @@
                         </Col> -->
                     </Row>
                     <FormItem label="是否启用">
-                        <iSwitch v-model="formValidate.status" />
+                        <iSwitch size="large" v-model="formValidate.status">
+                            <span slot="open">开启</span>
+                            <span slot="close">关闭</span>
+                        </iSwitch>
                         <span style='margin-left:10px;color:#FF9800;'>每个职称对应每个业务模块有且只有一个收费项目启用，停用后可能会导致业务模块不能检索到医生。</span>
                     </FormItem>
                 </Form>

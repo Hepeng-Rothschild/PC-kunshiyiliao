@@ -1,5 +1,6 @@
 <template>
     <div class = 'add'>
+        <h2 style='font-weight:bold;margin:10px 0;'>修改医疗小组</h2>
         <header v-if='flag'>
             <fourLevelLinkage
                 @changeProvince="changeProvince"

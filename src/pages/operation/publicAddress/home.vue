@@ -5,7 +5,7 @@
             <span>公众号</span>
             <Input
                 v-model.trim="params.uId"
-                placeholder="请输入检索内容"
+                placeholder="请输入公众号名称查询"
                 style="width: 200px;margin:0 20px;"
                 clearable
             />

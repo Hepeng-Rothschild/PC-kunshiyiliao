@@ -422,11 +422,12 @@ export default {
                 serialNumber: this.manualParams.modalSearchKey
             }
             console.log(params);
-            return ""
+            // return ""
             this.$axios.post(url,params).then(res => {
                 if(res.data.success) {
-                    let ret = res.data;
+                    let ret = res.data.object;
                     console.log(ret);
+                    this.cliniction(2,ret)
                 }
             })
         },
@@ -493,13 +494,12 @@ export default {
                 pageSize: this.pageSize,
                 startTime: this.getData(this.getParams.startDate) + ' ' + this.getParams.startTime,
                 endTime: this.getData(this.getParams.endDate) + ' ' + this.getParams.endTime,
-                hisStatus: Number(this.getParams.single)
+                status: Number(this.getParams.single)
             }
             if (Boolean(this.getParams.searchKey)) {
                 params.searchKey = this.getParams.searchKey.trim();
             }
             console.log('押金续交参数', params);
-            // return ""
             this.$axios.post(url,params).then(ress => {
                 if(ress.data.success) {
                     let ret = ress.data.object

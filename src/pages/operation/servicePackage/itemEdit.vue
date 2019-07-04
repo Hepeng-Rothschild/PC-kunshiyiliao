@@ -10,7 +10,7 @@
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="nature" v-if="natureList.length>0">
-                        <Select class="w-select" v-model="info.nature" @on-change="changeHospital">
+                        <Select class="w-select" v-model="info.nature" @on-change="changeHospital" style='width:180px;'>
                             <Option
                                 v-for="item of natureList"
                                 :key="item.id"
@@ -226,17 +226,51 @@
             <!--  服务关联表单 -->
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>服务项关联表单：
+                    <i class="req-icon"></i>关联表单：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="numberYear">
-                        <Select class="w-select" v-model="info.formType">
+                        <Select class="w-select" v-model="info.formType" @on-change='fromTypeChange'>
                             <Option
                                 v-for="(item,index) of formTypeList"
                                 :value="item.value"
                                 :key="index"
                                 style='text-align:center;'
                             >{{item.title}}</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>
+            <Row>
+                <Col :xs="3" class="text-r">
+                    <i class="req-icon"></i>关联模式：
+                </Col>
+                <Col :xs="21">
+                    <FormItem prop="numberYear">
+                        <Select class="w-select" v-model="info.pattern">
+                            <Option
+                                v-for="(item,index) of formModule"
+                                :value="index+1"
+                                :key="index"
+                                style='text-align:center;'
+                            >{{ item }}</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>
+            <Row>
+                <Col :xs="3" class="text-r">
+                    <i class="req-icon"></i>关联内容：
+                </Col>
+                <Col :xs="21">
+                    <FormItem prop="numberYear">
+                        <Select class="w-select" v-model="info.formRelation">
+                            <Option
+                                v-for="(item,index) of formContent"
+                                :value="item.id"
+                                :key="index"
+                                style='text-align:center;'
+                            >{{ item.title }}</Option>
                         </Select>
                     </FormItem>
                 </Col>
@@ -291,7 +325,9 @@ export default {
                 numberYear: 1,
                 executingAgency: 1,
                 nature: 1,
-                formType:null
+                formType:null,
+                pattern: null,
+                formRelation:null
                 // amountReceived: null
             },
             pageNo: null,
@@ -364,20 +400,34 @@ export default {
             hospital: null,
             isBack: 2,
             // 服务关联表单
-            formTypeList:[
+            formTypeList: [
                 {
-                    value:0,
-                    title:"暂不关联"
+                    value: 0,
+                    title: "暂不关联"
                 },
+                // {
+                //     value: 1,
+                //     title: "家庭医生慢病随访表单"
+                // },
+                // {
+                //     value: 2,
+                //     title: "健康宣教"
+                // },
+                // {
+                //     value: 3,
+                //     title: "院后随访关联表单"
+                // }
+            ],
+            // 关联模式
+            formModule: ["私人团队签约",'家医团队签约','院后随访签约'],
+            // 关联内容
+            formContent: [
                 {
-                    value:1,
-                    title:"随访表单"
-                },
-                {
-                    value:2,
-                    title:"健康宣教"
+                    id : 0,
+                    title:"无"
                 }
             ]
+
         };
     },
     created() {
@@ -398,6 +448,23 @@ export default {
         this.pageNo = this.$route.query.pageNo
             ? parseInt(this.$route.query.pageNo)
             : 1;
+            
+            // 关联表单列表
+            this.$axios.post(api.itemformiselection,{
+
+            }).then(res => {
+                if(res.data.success) {
+                    let ret = res.data.object;
+                    ret.forEach(item =>{
+                        this.formTypeList.push({
+                            value: Number(item.id),
+                            title: item.name
+                        })
+                    })
+                } else {
+                    this.$Message.error("加载关联表单失败")
+                }
+            })
         if (isNaN(id)) {
             this.editTt = `添加服务项目`;
         } else {
@@ -408,6 +475,7 @@ export default {
                 .then(resp => {
                     if (resp.data.success) {
                         this.info = resp.data.object;
+                        console.log(this.info);
                         if (this.info.provinceId) {
                             this.cityList = this.$store.getters.getCityList(
                                 this.info.provinceId
@@ -418,6 +486,11 @@ export default {
                                 this.info.cityId
                             );
                         }
+                        this.formContent = []
+                        this.formContent.push({
+                            title : this.info.patternName,
+                            id : Number(this.info.formRelation)
+                        })
                         if (this.info.areaId) {
                             var params = {};
                             params.provinceCode = parseInt(
@@ -518,6 +591,52 @@ export default {
     },
     components: { Avatar },
     methods: {
+        // 通过关联表单加载关联内容数据
+        fromTypeChange (val) {
+            console.log(val);
+            this.formContent = []
+            // if(val != 0) {
+                this.loadingFormContentList(val)
+            // } else {
+            //     this.formContent.push({
+            //         id : 0,
+            //         title:"无"
+            //     })
+            // }
+            
+        },
+        // 加载关联内容数据
+        loadingFormContentList (id) {
+            let url = ''
+            if(id == 2) {
+                url = api.queryarticlelist
+            }
+            let params = {
+                id,
+                pageNo: 1,
+                pageSize: 99
+            }
+            if(!Boolean(url)) {
+                return ""
+            }
+            console.log(url);
+            // return ""
+            this.$axios.post(url, params).then(res => {
+                if(res.data.success) {
+                    let ret = res.data.object;
+                    console.log(ret);
+                    this.formContent.push({
+                        id : 0,
+                        title:"无"
+                    })
+                    ret.list.forEach(item =>{
+                        this.formContent.push(item)
+                    })
+                } else {
+                    this.$Message.error("加载关联内容失败")
+                }
+            })
+        },
         changeProvince() {
             this.info.cityId = null;
             this.info.areaId = null;
@@ -593,6 +712,12 @@ export default {
                     params.nature = parseInt(this.info.nature);
                     // 服务 关联表单
                     params.formType = this.info.formType;
+
+                    // 关联模式
+                    params.pattern = this.info.pattern
+                    // 关联内容
+                    params.formRelation = this.info.formRelation
+                    console.log("传递数据",params);
                     // params.amountReceived = this.info.amountReceived;
                     this.$axios
                         .post(subApi, params)

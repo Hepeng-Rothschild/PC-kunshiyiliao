@@ -192,7 +192,7 @@ export default {
                     if (ret.list) {
                         this.residentregisterSize = ret.count;
                         ret.list.forEach((item,index) =>{
-                            item.sum = this.addZero(index)
+                            item.sum = this.addZeros(index)
                         })
                         this.list = ret.list;
                     } else {
@@ -204,13 +204,6 @@ export default {
                     this.$Message.info("不允许访问");
                 }
             });
-        },
-        addZero(num) {
-            num = num + 1;
-            if (num < 10) {
-                return "0" + num;
-            }
-            return num;
         }
     },
     components: {
@@ -227,7 +220,7 @@ export default {
     background: #ffffff;
     box-sizing: border-box;
     .container {
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
         header {
             width: 100%;

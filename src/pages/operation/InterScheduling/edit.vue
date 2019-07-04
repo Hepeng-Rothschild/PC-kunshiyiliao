@@ -507,11 +507,11 @@ export default {
         // 通过医生ID和服务类型获取医生预约时间段
         getServiceTime(id) {
             this.clearData();
-            
-            this.selectExpert.hospitalName = ''
-            this.selectExpert.deptType = ''
-            this.selectExpert.doctorName = ''
-            this.selectExpert.doctorId = ''
+            // 解决医生信息闪动问题
+            // this.selectExpert.hospitalName = ''
+            // this.selectExpert.deptType = ''
+            // this.selectExpert.doctorName = ''
+            // this.selectExpert.doctorId = ''
 
             this.$axios.post(api.doctorschedulingquerybyid, {
                id
