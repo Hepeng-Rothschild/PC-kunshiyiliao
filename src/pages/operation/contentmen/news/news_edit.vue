@@ -87,7 +87,6 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <!-- <Input v-model.trim="isort" style="width: 100px"/> -->
         <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
@@ -97,7 +96,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch v-model="switch1" @on-change="change"/>
+        <iSwitch size="large"  v-model="switch1" @on-change="change" >
+            <span slot="open">开启</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!--保存-->
       <div class="save">

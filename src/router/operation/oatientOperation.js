@@ -149,6 +149,17 @@ const broadReview = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-poatientOperation-liveMant' */"@/pages/operation/liveMant/broadReview")
 }
+const broadlookLive = {
+	// 直播管理
+	path: 'operation/liveMant/broadlookLive',
+	name: 'liveMantbroadlookLive',
+	meta: {
+		index: 3,
+		title: '进入直播'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-poatientOperation-liveMant' */"@/pages/operation/liveMant/broadLookLive")
+}
 const physicianAudit = {
 	// 讲堂审核
 	path: 'operation/physicianAudit/list',
@@ -263,7 +274,9 @@ export default{
     // 添加直播
     broadAdd,
     // 编辑直播
-    broadEdit,
+	broadEdit,
+	// 进入直播
+	broadlookLive,
     // 查看直播
     broadReview,
     // 讲堂审核列表

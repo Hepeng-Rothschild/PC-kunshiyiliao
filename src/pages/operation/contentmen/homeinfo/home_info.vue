@@ -1,7 +1,7 @@
 <template>
     <div class="Institutional_information">
         <tmpHeader/>
-        <div class="main">
+        <div class="main" v-show='info.title'>
             <!--机构名称 -->
             <div class="main_info">
                 <span>机构名称</span>
@@ -117,41 +117,45 @@
             <!--是否开通互联网医院-->
             <div class="main_yy">
                 <span class="main_yy_name">开通互联网医院</span>
-                <iSwitch v-model="info.internetHospital" @on-change="change"/>
+                <iSwitch size="large"  v-model="info.internetHospital" @on-change="change">
+                    <span slot="open">开通</span>
+                    <span slot="close">关闭</span>
+                </iSwitch>
             </div>
             <!--医院关联公众号-->
             <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
                 <span>医院关联公众号</span>
-                <div v-for='item,index in info.appidList' :key = 'index'>
-                    <Select v-model="item.value" style="width:150px;margin-right:4px;" :disabled="status" @on-change='relationwx' clearable @on-clear='relationwx'>
-                        <Option
-                            v-for ="item in gzh"
-                            :value="item.appid"
-                            :key="item.appid"
-                            :disabled='item.status'
-                            style='text-align:center;'
-                        >{{ item.nick }}</Option>
-                    </Select>
+                <div style='position:relative;width:500px;height:auto;'>
+                    <div v-for='item,index in info.appidList' :key='index' style='margin:10px 0;'>
+                        <Select v-model="item.value" style="width:150px;margin-right:4px;" :disabled="status" @on-change='relationwx' clearable @on-clear='relationwx'>
+                            <Option
+                                v-for ="item in gzh"
+                                :value="item.appid"
+                                :key="item.appid"
+                                :disabled='item.status'
+                                style='text-align:center;'
+                            >{{ item.nick }}</Option>
+                        </Select>
+                        <span>医院主公众号:</span>
+                        <iSwitch size="large"  v-model='item.imaster' style='min-width:auto;' @on-change='masterSwitch(index)' :disabled='!item.value'  >
+                            <span slot="open">开通</span>
+                            <span slot="close">关闭</span>
+                        </iSwitch>
+                    </div>
+                    <div style='position:absolute;top:15px;right:0;'>
+                        <button class="cus-btn" @click='addAppid'>+</button>
+                        <button class="cus-btn" @click='unAppid'>-</button>
+                    </div>
                 </div>
-                <button class="cus-btn" @click='addAppid'>+</button>
-                <button class="cus-btn" @click='unAppid'>-</button>
-            </div>
-            <!-- 医院公众号支付 -->
-            <div class="main_moban" style='flex-wrap:wrap;height:auto;'>
-                <span>医院公众号支付</span>
-                <Select v-model="info.wxappPay" style="width:150px;" :disabled="status" clearable>
-                    <Option
-                        v-for="item in selectGzh"
-                        :value="item.appid"
-                        :key="item.appid"
-                        style='text-align:center;'
-                    >{{ item.nick }}</Option>
-                </Select>
+                
             </div>
             <!--是否加入医院联盟-->
             <div class="main_yy">
                 <span class="main_yy_name">加入医院联盟</span>
-                <iSwitch v-model="info.unionHospital" :disabled="status" @on-change="change2"/>
+                <iSwitch size="large"  v-model="info.unionHospital" :disabled="status" @on-change="change2">
+                    <span slot="open">开通</span>
+                    <span slot="close">关闭</span>
+                </iSwitch>
             </div>
             <!--医院联盟排序-->
             <div class="main_info">
@@ -171,7 +175,10 @@
             <!--是否开通处方流转-->
             <div class="main_yy">
                 <span class="main_yy_name">开通处方流转</span>
-                <iSwitch v-model="info.ipres"/>
+                <iSwitch size="large"  v-model="info.ipres" >
+                    <span slot="open">开通</span>
+                    <span slot="close">关闭</span>
+                </iSwitch>
             </div>
             <!--处方流转平台接口ID-->
             <div class="main_info">
@@ -208,7 +215,10 @@ export default {
         "imyswitch": {
             template: '<div class="main_yy">'+
                             '<span class="main_yy_name" style="margin-right:10px;min-width:100px;">{{ title }}</span>'+
-                            '<iSwitch v-model="flag" @on-change="Change"/>'+
+                            '<iSwitch v-model="flag" @on-change="Change" size="large">'+
+                                '<span slot="open">开启</span>'+
+                                '<span slot="close">关闭</span>'+
+                            '</iSwitch>'+
                     '</div>',
             props: ['status','title'],
             data () {
@@ -248,9 +258,7 @@ export default {
                 // 互联网医院
                 internetHospital:false,
                 // 医院关联公众号
-                appidList:[],
-                // 支付公众号
-                wxappPay:"",
+                appidList: [],
                 // 医院聪明
                 unionHospital:false,
                 // 联盟排序
@@ -269,6 +277,8 @@ export default {
                 registerPayStatus: false,
                 // 预约挂号池是否为第三方
                 registerIthirdparty: false,
+                // 关联主公众 号
+                imaster: ""
             },
             // 所有的公众号列表
             gzh: [],
@@ -318,6 +328,22 @@ export default {
         registerIthirdpartyChange (status) {
             this.info.registerIthirdparty = status
         },
+        // 医院主公众号
+        masterSwitch(index) {
+            let status = this.info.appidList[index].imaster;
+            // console.log(status);
+            if(status) {
+                this.info.appidList.forEach((item, s) => {
+                    if(s == index) {
+                        item.imaster = status
+                    } else {
+                        item.imaster = false
+                    }
+                })
+            }
+            // console.log(this.info.appidList);
+            
+        },
         // 公众号列表限制
         addAppid () {
             if (this.status) {
@@ -329,7 +355,7 @@ export default {
             // 添加的公众号列表
             let applen = this.info.appidList.length
             if (gzhlen <= applen) {
-                this.$Message.error('当前仅有'+gzhlen+'个公众号可选择')
+                this.$Message.error('当前仅有'+gzhlen+'个公众号可关联')
                 return ""
             }
             this.info.appidList.forEach(item => {
@@ -341,7 +367,8 @@ export default {
             })
             this.info.appidList.push({
                 value : "",
-                status : false
+                status : false,
+                ipay: false
             })
             this.relationwx();
         },
@@ -351,7 +378,8 @@ export default {
                 return ""
             }
             if(this.info.appidList.length != 1) {
-                this.info.appidList.splice(this.info.appidList.length-1,1);
+                // this.info.appidList.splice(this.info.appidList.length-1, 1);
+                this.info.appidList.pop();
             } else {
                 this.$Message.error("请至少关联一个公众号")
             }
@@ -364,6 +392,9 @@ export default {
             this.gzh.forEach((i,m) => {
                 i.status = false
             })
+            this.info.appidList.forEach(item => {
+                item.imaster = false
+            })
             // 新选择的公众号
             this.info.appidList.forEach(item => {
                 this.gzh.forEach((i,m) => {
@@ -373,7 +404,6 @@ export default {
                     }
                 })
             })
-            this.info.wxappPay = ''
             this.selectGzh = list
         },
         // 是否开通互联网医院关联数据
@@ -411,12 +441,25 @@ export default {
             }
               //关联的多个公众号的appid
             let appid = []
+            let appidFlag = true;
             if(this.info.internetHospital) {
                 this.info.appidList.forEach(item => {
                     if(Boolean(item.value)) {
-                        appid.push(item.value);
+                        appid.push({
+                            appid: item.value,
+                            imaster: Number(item.imaster)
+                        })
                     }
                 })
+                appid.forEach(s => {
+                    if(Boolean(s.imaster)) {
+                        appidFlag = false;
+                    }
+                })
+                if(appidFlag || !appid.length) {
+                    this.$Message.error("开通互联网医院时,请确认是否关联公众号或主公众号");
+                    return ''
+                }
             }
             // 全部参数
             let params = {
@@ -441,8 +484,6 @@ export default {
                 internetHospital: Number(this.info.internetHospital),
                 // 关联公众号列表
                 appidList: appid,
-                //公众号支付
-                wxappPay: this.info.wxappPay,
                 //医院联盟
                 unionHospital: Number(this.info.unionHospital),
                 //处方平台UID
@@ -461,6 +502,8 @@ export default {
                 registerPayStatus: Number(this.info.registerPayStatus),
                 // 预约挂号池是否为第三方
                 registerIthirdparty: Number(this.info.registerIthirdparty),
+                // 医生关联公众号
+                appidList : appid
             };
             if(this.title == '') {
                 this.$Message.error("医院数据加载失败，请重试")
@@ -468,11 +511,10 @@ export default {
             }
             // 当医院关闭互联网医院时把appid清空
             if (!this.info.internetHospital) {
-                params.wxappPay = '';
                 params.appidList = []
             } else if(this.info.internetHospital) {
-                if(!Boolean(params.wxappPay) || params.appidList.length == 0){
-                    this.$Message.error("请选择医院关联公众号与医院公众号支付")
+                if(params.appidList.length == 0) {
+                    this.$Message.error("请选择医院关联公众号")
                     return ""
                 }
             }
@@ -486,10 +528,18 @@ export default {
                 .post(api.managementEdit, params)
                 .then(res => {
                     console.log(res);
-                    if (res.data.code) {
-                        this.$Message.info("修改成功");
+                    if (res.data.success) {
+                        this.$Message.info(res.data.object.success);
                     } else {
-                        this.$Message.info("修改失败,请重试");
+                        let message = ''
+                        if(Boolean(res.data.object.same)) {
+                            message = res.data.object.same
+                        } else if(Boolean(res.data.object.file)) {
+                            message = res.data.object.file
+                        } else {
+                            message = '修改失败,请重试'
+                        }
+                        this.$Message.info(message);
                     }
                 })
                 .catch(err => {
@@ -544,24 +594,26 @@ export default {
         addData() {
             // 医院等级
             this.$axios.post(api.managementAll, {}).then(res => {
-                if (res.data.code) {
+                if (res.data.success) {
                     let ret = res.data.object;
                     this.types = ret;
                 }
             });
             // 医联体
             this.$axios.post(api.managementYlt).then(res => {
-                if (res.data) {
+                if (res.data.success) {
                     let ret = res.data.object;
                     this.ylt = ret;
                 }
             });
             // 公众号
             this.$axios.post(api.managementGzh).then(res => {
-                if (res.data.code) {
+                if (res.data.success) {
                     let ret = res.data.object;
+                    console.log('公众号', ret);
                     ret.forEach(item => {
                         item.status = false
+                        item.ipay = false
                     })
                     this.gzh = ret;
                 }
@@ -570,9 +622,13 @@ export default {
             this.$axios.post(api.hospitalwxapplist, {
                 hospitalId:this.id
             }).then(res => {
-                if(res.data.message) {
+                console.log(res);
+                if(res.data.success) {
                     let ret = res.data.object;
-                    this.selectGzh = ret;
+                    this.selectGzh = ret.filter(item =>{
+                        return item.appid != 'wxe2a09bde0ab0a2d2'
+                    })
+                    console.log('医院关联公众号', ret);
                 }
             })
         }
@@ -590,7 +646,7 @@ export default {
                 hospitalId: this.id
             })
             .then(res => {
-                if (res.data.object) {
+                if (res.data.success) {
                     let ret = res.data.object;  
                     console.log('机构详细信息',ret);
                     // 医院图片
@@ -624,26 +680,25 @@ export default {
                     this.info.hosAddr = ret.hosAddr
                     // appidList关联公众号列表
                     let appidList = ret.appidList || []
-                   
                     //互联网医院
                     this.info.internetHospital = Boolean(ret.internetHospital)
                     if (Boolean(ret.internetHospital)) {
                         this.status = false;
                         localStorage.setItem("status", "show");
-                        // wxappPay公众号支付
-                        this.info.wxappPay = ret.wxappPay
                          // 医院关联公众号回显
                         if (Boolean(appidList.length)) {
                             appidList.forEach(i => {
                                 this.info.appidList.push({
-                                    value : i,
+                                    value : i.appid,
                                     status : true,
+                                    imaster: Boolean(i.imaster)
                                 })
                             })
                         } else {
                             this.info.appidList.push({
                                 value : '',
-                                status : false
+                                status : false,
+                                imaster: Boolean(i.imaster)
                             })
                         }
                     } else {
@@ -651,7 +706,8 @@ export default {
                         localStorage.setItem("status", "");
                         this.info.appidList.push({
                             value : '',
-                            status : false
+                            status : false,
+                            imaster: false
                         })
                     }
                     // 医院联盟
@@ -682,14 +738,12 @@ export default {
                     }
                     this.appointmentRegistration = appointmentRegistration
                     this.info.appointmentRegistration = appointmentRegistration;
-
                     // 是否强制用卷
                     this.info.usedCoupon = Boolean(ret.usedCoupon);
                     // 预约挂号支付
                     this.info.registerPayStatus = Boolean(ret.registerPayStatus);
                     // 预约挂号池是否为第三方
                     this.info.registerIthirdparty = Boolean(ret.registerIthirdparty);
-                    
                 }
             });
     }

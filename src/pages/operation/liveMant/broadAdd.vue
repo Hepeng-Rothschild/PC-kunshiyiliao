@@ -242,6 +242,14 @@
                         style="width:200px;"
                     ></InputNumber>
                 </div>
+                <div class="spacing">
+                    销售数量
+                    <InputNumber
+                        :min="0"
+                        v-model="params.stock"
+                        style="width:200px;"
+                    ></InputNumber>
+                </div>
                 <h2>课堂介绍</h2>
                 <!-- 讲堂介绍 -->
                 <div class="vueeditor spacing">
@@ -307,6 +315,8 @@ export default {
                 Intensity: "",
                 // 介绍
                 content: "",
+                // 库存
+                stock:""
             },
             ruleValidate: {
                 // 登录账号
@@ -460,10 +470,14 @@ export default {
             images: "",
 
             // 直播类型
-            liveTypeList:[
+            liveTypeList: [
                 {
                     id:"0",
                     name:"医师讲堂"
+                },
+                {
+                    id:"1",
+                    name:"医学讲堂"
                 }
             ],
             // 直播形式
@@ -606,7 +620,9 @@ export default {
                         title: this.params.title,
                         // 课堂类型
                         columnId: this.params.type,
-                        playStatus:"1"
+                        playStatus:"1",
+                        // 库存
+                        stock : this.params.stock
                     }
                     if (params.icharge == 0) {
                         params.discountPrice = 0;

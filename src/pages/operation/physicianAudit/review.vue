@@ -35,7 +35,14 @@
             <h1>直播信息</h1>
             <div class = 'liveStatus'>
                 <span>状态：{{ statueName }}</span>
-                <Button type="error" @click='reback(8)' v-if='playStatus==5' style='float:right'>结束直播</Button>
+                <div style='float:right'>
+                    <Button type="error" @click='demanStatus' v-if='playStatus==5'>{{ params.iopen == 1 ? '恢复' : '暂停' }}</Button>
+                    <Button type="primary" v-if='playStatus == 5' @click='enterLive' >进入直播间</Button>
+                    <Button type="primary" @click='reback(2)' v-if='playStatus==1'>审核通过</Button>
+                    <Button @click='reback(3)' v-if='playStatus==1'>审核不通过</Button>
+                    <Button type="warning" @click='reback(4)' v-if='playStatus==6'>下架</Button>
+                    <Button @click='back'>返回</Button>
+                </div>
             </div>
             <!-- 审核人 -->
             <div class = 'columnBox' style='margin-bottom:20px;'>
@@ -110,10 +117,7 @@
             <div class='information' v-if='playStatus == 3 || playStatus == 4 || playStatus == 8'>
                 <h3 style='color:red;'><span style='color:black'>审核原因：</span>{{ params.reason }}</h3>
             </div>
-            <Button type="primary" @click='reback(2)' v-if='playStatus==1'>审核通过</Button>
-            <Button @click='reback(3)' v-if='playStatus==1'>审核不通过</Button>
-            <Button type="warning" @click='reback(4)' v-if='playStatus==6'>下架</Button>
-            <Button @click='back'>返回</Button>
+            
         </div>
         <Modal
             v-model="modal1"
@@ -138,6 +142,24 @@
         <Modal v-model="modal2" width="600" footer-hide>
             <img :src="params.headImg" alt="" style='display:block;width:100%;'>
         </Modal>
+
+        <Modal
+            v-model="modalStatus"
+            title="提示"
+            :footer-hide='true'
+            :closable = 'false'
+            :mask-closable='false'
+            >
+            <div class='reason'>
+                <span>结束原因：</span>
+                <Input v-model="reason" type="textarea" placeholder="请输入结束直播及退费申请原因" />
+            </div>
+            <br />
+            <div class = 'closeLive'>
+                <Button type='primary' @click='closeLive(0)'>确定</Button>
+                <Button @click='cancelModal'>取消</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
@@ -145,6 +167,9 @@ import api from "@/api/commonApi";
 export default {
     data () {
         return {
+            modalStatus: false,
+            // 结束原因
+            reason: "",
             modal2:false,
             grayinfor: "请输入本次审核不通过的原因",
             value8:"",
@@ -188,12 +213,10 @@ export default {
                 // 真实开始时间
                 liveStartTime:"",
                 //销售数量
-                stock:""
+                stock:"",
+                // 直播状态
+                iopen:""
 
-            },
-            // 头部直播数据
-            headDate: {
-                
             },
             // 直播类型
             liveTypeList:[
@@ -262,7 +285,6 @@ export default {
                 time: "暂无数据" ,
                 Visitors: "暂无数据",
                 manTime:"暂无数据"
-
             }
         }
     },
@@ -295,7 +317,19 @@ export default {
             } else if (val == 8) {
                 this.grayinfor = '请输入结束直播及退费申请原因'
             }
-            
+        },
+        // 进入直播间
+        enterLive () {
+            if(this.thisType != 2) {
+                this.$Message.error("仅有视频直播可进入直播间")
+                return ''
+            }
+            let query = this.$route.query;
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/liveMant/broadlookLive",
+                query
+            );
         },
         back () {
             // 返回上一步
@@ -326,6 +360,42 @@ export default {
                 }
             })
             
+        },
+        // 暂停恢复直播
+        demanStatus (status) {
+            if(Boolean(this.params.iopen)) {
+                this.closeLive(1)
+            } else {
+                this.modalStatus = true
+            }
+        },
+        // 关闭直播
+        closeLive (iopen) {
+            let query = this.$route.query;
+            let url = api.lecturedemandupdatechannelstatus
+            let params = {
+                demandId: query.id,
+                reason: this.reason,
+                iopen: iopen
+            }
+            console.log(params);
+            return ""
+            this.$axios.post(url, params).then(res => {
+                if(res.data.success) {
+                    this.$Message.success("修改成功")
+                    this.cancelModal();
+                } else {
+                    let name = res.data.object.same || res.data.object.file ||　'修改失败';
+                    this.$Message.error(name)
+                }
+            })
+            
+        },
+        // 取消直播
+        cancelModal () {
+            this.modalStatus = false;
+            this.reason = ''
+
         },
         cancel () {
         },
@@ -389,6 +459,7 @@ export default {
                     // // 结束时间
                     this.params.aboutEndTime = ret.aboutEndTime
                     this.params.liveStartTime = ret.liveStartTime
+                    this.params.iopen = ret.iopen
                     // // 图片
                     this.params.headImg = ''
                     if (ret.headImg) {

@@ -9,12 +9,6 @@
           <span style="color:red;">&nbsp;&nbsp;*</span>
           <span>专家姓名</span>
         </div>
-        <!-- <Input
-          v-model="name"
-          placeholder="请输入专家姓名查询"
-          style="width: 360px"
-          @on-keyup.enter="search"
-        /> -->
         <AutoComplete
           v-model="name"
           @on-search="search"
@@ -104,7 +98,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch v-model="switch1"/>
+        <iSwitch size="large"  v-model="switch1" >
+            <span slot="open">开启</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!--是否为专家-->
       <div class="main_expert_item">
@@ -112,7 +109,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否为专家</span>
         </div>
-        <iSwitch v-model="switch2"/>
+        <iSwitch size="large"  v-model="switch2" >
+            <span slot="open">开启</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!--保存-->
       <div class="expert_save">

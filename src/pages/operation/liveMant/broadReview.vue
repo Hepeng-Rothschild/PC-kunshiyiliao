@@ -37,7 +37,7 @@
                 <span style='color:red;'>状态：{{statueName}}</span>
                 <div style='float:right'>
                     <!-- 直播中warning -->
-                    <Button type="primary" v-if='playStatus == 5' @click='enterLive'>进入直播间</Button>
+                    <!-- <Button type="primary" v-if='playStatus == 5' @click='enterLive'>进入直播间</Button> -->
                     <!-- 审核中 -->
                     <Button type="warning" v-if='playStatus == 1' @click='changeStatusBack(7)'>撤回</Button>
                     <!-- 审核未通过 -->
@@ -173,15 +173,15 @@ export default {
                 stock:""
 
             },
-            // 头部直播数据
-            headDate: {
-                
-            },
             // 直播类型
             liveTypeList: [
                 {
                     id:"0",
                     name:"医师讲堂"
+                },
+                {
+                    id:"1",
+                    name:"医学讲堂"
                 }
             ],
             // 直播形式
@@ -244,7 +244,8 @@ export default {
                 Visitors: "暂无数据",
                 manTime:"暂无数据"
 
-            }
+            },
+            thisType:''
         }
     },
     created () {
@@ -393,6 +394,7 @@ export default {
                             liveFrom = item.name
                         }
                     })
+                    this.thisType = ret.liveForm
                     this.params.liveForm = liveFrom
                     // // 推广力度
                     this.params.fictitiousNum = ret.fictitiousNum
@@ -410,6 +412,7 @@ export default {
                             type = item.name
                         }
                     })
+                    
                     this.params.type = type
 
                     this.examineName = ret.auditorName
@@ -493,7 +496,16 @@ export default {
         },
         // 进入直播间
         enterLive () {
-
+            // if(this.thisType != 2) {
+            //     this.$Message.error("仅有视频直播可进入直播间")
+            //     return ''
+            // }
+            let query = this.$route.query;
+            this.functionJS.queryNavgationTo(
+                this,
+                "/index/operation/liveMant/broadlookLive",
+                query
+            );
         },
         // 转换秒数
         formatSeconds (value) {

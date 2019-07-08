@@ -13,7 +13,7 @@
         <div class="keshi_name">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>科室名称</span>
+            <span class ='leftname'>科室名称</span>
           </div>
           <Input v-model="title" disabled style="width: 300px"/>
         </div>
@@ -21,16 +21,16 @@
         <div class="keshi_name">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>院内名称</span>
+            <span class ='leftname'>院内名称</span>
           </div>
           <Input v-model.trim="keshiname" style="width: 300px" placeholder="空"/>
-          <p style="color:rgb(102, 102, 102);">注：只在医院自身互联网平台显示</p>
+          <p style="color:rgb(102, 102, 102);font-size:12px;">只在医院自身互联网平台显示</p>
         </div>
         <!--科室Code-->
         <div class="keshi_name">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>科室Code</span>
+            <span class ='leftname'>第三方科室Code</span>
           </div>
           <Input v-model.trim="medicineCode" style="width: 300px"/>
         </div>
@@ -38,7 +38,7 @@
         <div class="keshi_name_fileImgs">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>科室图标</span>
+            <span class ='leftname'>科室图标</span>
           </div>
           <div class="input">
             <div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
@@ -84,7 +84,7 @@
         <div class="keshi_name_text">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>科室简介</span>
+            <span class ='leftname'>科室简介</span>
           </div>
           <Input v-model="test2" type="textarea" :rows="6" placeholder="请输入科室简介" />
         </div>
@@ -92,7 +92,7 @@
         <div class="keshi_name_text">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>科室特色</span>
+            <span class ='leftname'>科室特色</span>
           </div>
           <vueEditor
             id="editor_id"
@@ -107,25 +107,34 @@
         <div class="keshi_name_text">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-            <span>是否预约科室</span>
+            <span class ='leftname'>是否预约科室</span>
           </div>
-          <iSwitch v-model="switch1" style="margin-left:10px;"/>
+          <iSwitch size="large"  v-model="switch1" style="margin-left:10px;" >
+              <span slot="open">开启</span>
+              <span slot="close">关闭</span>
+          </iSwitch>
         </div>
         <!--特色科室-->
         <div class="keshi_name_text">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-            <span>是否特色科室</span>
+            <span class ='leftname'>是否特色科室</span>
           </div>
-          <iSwitch v-model="switch2" style="margin-left:10px;"/>
+          <iSwitch size="large"  v-model="switch2" style="margin-left:10px;" >
+              <span slot="open">开启</span>
+              <span slot="close">关闭</span>
+          </iSwitch>
         </div>
         <!--远程门诊-->
         <div class="keshi_name_text">
           <div class="left">
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
-            <span>是否开通远程门诊</span>
+            <span class ='leftname'>是否开通远程门诊</span>
           </div>
-          <iSwitch v-model="switch3" style="margin-left:10px;"/>
+          <iSwitch size="large"  v-model="switch3" style="margin-left:10px;" >
+              <span slot="open">开启</span>
+              <span slot="close">关闭</span>
+          </iSwitch>
         </div>
         <!--保存-->
         <div class="save">
@@ -539,7 +548,7 @@ export default {
         height: 50px;
         align-items: center;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
         input {
           outline: none;
@@ -551,7 +560,7 @@ export default {
         display: flex;
         flex-direction: row;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
         p {
           margin-left: 20px;
@@ -562,7 +571,7 @@ export default {
         flex-direction: row;
         margin-top: 20px;
         .left {
-          min-width: 100px;
+          min-width: 150px;
         }
         textarea {
           outline: none;

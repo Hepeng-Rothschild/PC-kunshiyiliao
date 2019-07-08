@@ -283,6 +283,8 @@ const lecturedemandselectbyid = '/operateapi/lecturedemandselectbyid' //查询�
 const lecturedemandupdate = '/operateapi/lecturedemandupdate' //修改点播详情
 const lecturedemandpagebyexaminelist = '/operateapi/lecturedemandpagebyexaminelist' //讲堂审核列表
 const lecturedemandupdateplaystatus = '/operateapi/lecturedemandupdateplaystatus' //修改讲堂审核状态
+const lecturedemandupdatechannelstatus = '/operateapi/lecturedemandupdatechannelstatus' // 关闭直播
+const lecturedemandintolive = '/operateapi/lecturedemandintolive' //进入直播间
 
 const insertlive = '/operateapi/lecturedemandinsertlive'  //添加直播
 const updatelive = '/operateapi/lecturedemandupdatelive' //修改直播
@@ -620,6 +622,8 @@ let devApi = {
     lecturedemandupdate,
     lecturedemandpagebyexaminelist,
     lecturedemandupdateplaystatus,
+    lecturedemandupdatechannelstatus,
+    lecturedemandintolive,
     // 直播
     insertlive,
     updatelive,

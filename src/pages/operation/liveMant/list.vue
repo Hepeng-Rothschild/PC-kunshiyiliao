@@ -181,10 +181,28 @@ export default {
                     key: "doctorName",
                     align: "center"
                 },
+                // liveForm
                 {
                     title: "所在医院",
                     key: "hospitalName",
                     align: "center"
+                },
+                {
+                    title: "直播类型",
+                    key: "liveForm",
+                    align: "center",
+                    render:(h,params)=>{
+                        let status = params.row.liveForm
+                        let content = ""
+                        this.liveListForm.forEach(item => {
+                            if(Number(item.id) == Number(status)) {
+                                content = item.name
+                            }
+                        })
+                        return h('span', {
+
+                        }, content)
+                    }
                 },
                 {
                     title: "直播状态",
@@ -445,6 +463,21 @@ export default {
                     id:"8",
                     name:"已关闭"
                 }
+            ],
+            // 直播形式
+            liveListForm: [
+                {
+                    id:"0",
+                    name:"轻直播"
+                },
+                {
+                    id:"1",
+                    name:"语音直播"
+                },
+                {
+                    id:"2",
+                    name:"视频直播"
+                },
             ],
         };
     },

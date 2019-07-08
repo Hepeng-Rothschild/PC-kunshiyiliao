@@ -25,7 +25,7 @@
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="numberYear">
-                        <Select class="w-select" v-model="info.pattern" style='width:150px;'>
+                        <Select class="w-select" v-model="info.pattern" style='width:150px;' @on-change='loadPage(1)'>
                             <Option
                                 v-for="(item,index) of formStatusList"
                                 :value="index+1"
@@ -300,7 +300,7 @@ export default {
                 ascription: 1,
                 depantment:'',
                 departmentName:"",
-                pattern: null
+                pattern: 1
             },
             formStatusList:["私人团队签约",'家医团队签约','院后随访签约'],
 
@@ -708,6 +708,12 @@ export default {
         loadPage(pageNo) {
             this.pageNo = pageNo;
             var params = {};
+            // pattern
+            if(!Boolean(this.info.pattern)) {
+                this.$Message.info("请选择服务包状态")
+                return ""
+            }
+            params.pattern = this.info.pattern;
             params.provinceId = parseInt(
                 this.info.provinceId == 0 ? null : this.info.provinceId
             );

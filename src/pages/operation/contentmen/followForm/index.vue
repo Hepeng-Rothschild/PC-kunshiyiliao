@@ -4,7 +4,7 @@
     <br />
     <Button type="info" @click='addForm'>添加表单</Button>
     <Table stripe :columns="columns1" :data="data1" style="margin:10px 0;"></Table>
-    <Page :total="count" @on-change="pageChange" :current="pageNo"/>
+    <Page :total="count" @on-change="pageChange" :current="pageNo" :page-size='pageSize' style='text-align:center;' />
 
     <Modal
         v-model="modalStatus"
@@ -17,8 +17,8 @@
             <FormItem label="表单名称" prop="formName">
                 <Input v-model="formValidate.formName" placeholder="请输入表单名称" style='width:370px;'></Input>
             </FormItem>
-            <FormItem label="表单类型" prop="formType">
-                <Select v-model="formValidate.formType" style="width:200px">
+            <FormItem label="表单类型" prop="pattern">
+                <Select v-model="formValidate.pattern" style="width:200px">
                     <Option v-for="(item, index) in followList" :value="item.id" :key="index" style='text-align:center;'>{{ item.name }}</Option>
                 </Select>
             </FormItem>
@@ -91,7 +91,7 @@ export default {
                                 click: () => {
                                     this.modalStatus = true
                                     this.modalTitle = '修改表单'
-                                    this.formValidate.formType = String(row.formType)
+                                    this.formValidate.pattern = String(row.pattern)
                                     this.formValidate.formName = row.formName
                                     this.formValidate.id = row.id
                                 }
@@ -104,13 +104,13 @@ export default {
       ],
       data1: [],
       formValidate: {
-        formType : null,
+        pattern : null,
         formName : "",
         id: ""
       },
       ruleValidate: {
         formName: [{ required: true, message: '请输入表单名称', trigger: 'blur' }],
-        formType: [{ required: true, message: '请输入表单类型', trigger: 'change'}]
+        pattern: [{ required: true, message: '请输入表单类型', trigger: 'change'}]
       },
       followList:[]
     };
@@ -147,7 +147,7 @@ export default {
                 let url = ''
                 let params = {}
                 params.formName = this.formValidate.formName
-                params.formType = this.formValidate.formType
+                params.pattern = this.formValidate.pattern
                 params.hospitalId = this.id
                 if(!Boolean(this.formValidate.id)){
                     url = api.itemforminsertform
@@ -183,22 +183,23 @@ export default {
         let url = api.itemformlist;
         let params = {
             pageNo,
-            pageSize: 10,
+            pageSize: this.pageSize,
             hospitalId: this.id
         };
         this.$axios.post(url,params).then(res => {
             if(res.data.success) {
                 let ret = res.data.object;
                 console.log("表单列表", ret);
-                ret.forEach((item, index) => {
+                this.count = ret.count;
+                ret.list.forEach((item, index) => {
                     item.isum = this.addZeros(index)
                     this.followList.forEach(is => {
-                        if (Number(item.formType) == Number(is.id)) {
+                        if (Number(item.pattern) == Number(is.id)) {
                             item.formTypeName = is.name
                         }
                     })
                 })
-                this.data1 = ret;
+                this.data1 = ret.list;
             } else {
                 this.$Message.error("加载随访表单列表失败!")
             }

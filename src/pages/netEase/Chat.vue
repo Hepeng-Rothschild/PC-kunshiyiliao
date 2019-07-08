@@ -210,7 +210,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang='less'>
 .g-window .m-tab .m-tab-right{
   width: 5rem;
   right: -1rem;

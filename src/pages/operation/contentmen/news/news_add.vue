@@ -97,7 +97,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch v-model="switch1" @on-change="change"/>
+        <iSwitch size="large"  v-model="switch1" @on-change="change" >
+            <span slot="open">开启</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!--保存-->
       <div class="save">

@@ -66,10 +66,16 @@
         ></InputNumber>
       </FormItem>
       <FormItem label="是否显示">
-        <iSwitch v-model.trim="formValidate.enable" />
+        <iSwitch size="large"  v-model="formValidate.enable" >
+            <span slot="open">显示</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </FormItem>
       <FormItem label="是否可点击">
-        <iSwitch v-model.trim="formValidate.iclick" />
+        <iSwitch size="large"  v-model="formValidate.iclick" >
+            <span slot="open">开启</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </FormItem>
     </Form>
     <div class="save">

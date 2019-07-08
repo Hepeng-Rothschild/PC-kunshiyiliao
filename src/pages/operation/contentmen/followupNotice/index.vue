@@ -4,8 +4,7 @@
     <br />
     <Button type="info" @click='addFollow'>添加新告知书</Button>
     <Table stripe :columns="columns1" :data="data1" style="margin:10px 0;"></Table>
-    <Page :total="count" @on-change="pageChange" :current="pageNo"/>
-
+    <!-- <Page :total="count" @on-change="pageChange" :current="pageNo" :page-size='pageSize' style='text-align:center;' /> -->
 
     <Modal
         v-model="modalStatus"
@@ -202,6 +201,7 @@ export default {
         this.pageNo = pageNo;
         this.$axios.post(url, params).then(res => {
             if(res.data.success) {
+              console.log(res);
                 let ret = res.data.object;
                 ret.forEach((item,index) => {
                     item.isum = this.addZeros(index)

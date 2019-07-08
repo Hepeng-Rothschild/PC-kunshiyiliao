@@ -82,7 +82,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch v-model="switch1" @on-change="change"/>
+        <iSwitch size="large"  v-model="switch1" @on-change="change" >
+            <span slot="open">开启</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!-- 是否为专家 -->
       <div class="main_expert_item">
@@ -90,7 +93,10 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否为专家</span>
         </div>
-        <iSwitch v-model="switch2"/>
+        <iSwitch size="large"  v-model="switch2" >
+            <span slot="open">开启</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!--保存-->
       <div class="expert_save">

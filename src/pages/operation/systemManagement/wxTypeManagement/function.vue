@@ -46,7 +46,11 @@
       <!-- 是否开启 -->
       <div class="item">
         <span class="title">快捷菜单</span>
-        <iSwitch v-model="shortcut"/>
+        <!-- <iSwitch v-model="shortcut"/> -->
+        <iSwitch size="large"  v-model="shortcut" >
+            <span slot="open">启用</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </div>
       <!-- 保存 -->
       <div class="save">

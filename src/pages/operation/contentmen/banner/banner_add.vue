@@ -66,7 +66,10 @@
         ></InputNumber>
       </FormItem>
       <FormItem label="是否显示">
-        <iSwitch v-model.trim="formValidate.enable" />
+        <iSwitch size="large"  v-model="formValidate.enable" >
+            <span slot="open">显示</span>
+            <span slot="close">关闭</span>
+        </iSwitch>
       </FormItem>
     </Form>
     <div class="save">

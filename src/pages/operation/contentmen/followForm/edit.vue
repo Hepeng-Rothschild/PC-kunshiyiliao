@@ -5,12 +5,13 @@
         <Button type='info' @click="addAnswer">添加问题</Button>
         <Button @click="back">返回随访表单</Button>
         <Table stripe :columns="columns1" :data="data1" style="margin:10px 0;"></Table>
-        <Page :total="count" @on-change="pageChange" :current="pageNo"/>
+        <Page :total="count" @on-change="pageChange" :current="pageNo" :page-size='pageSize' style='text-align:center;' />
         
         <Modal
             v-model="Status"
             :title="modalTitle"
             :mask-closable='false'
+            :closable='false'
             footer-hide
             :styles="{top: '20px'}"
             width='800'>
@@ -30,12 +31,10 @@
                         <Option v-for="(item, index) in followList" :value="index + 1" :key="index" style='text-align:center;'>{{ item }}</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="填空题答案" >
-                    <Input v-model.trim="formValidate.answerSelect" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入填空题答案"></Input>
+                <FormItem label="必填项" v-show='formValidate.questionType == 2'>
+                    <Input v-model.trim="formValidate.answerSelect" placeholder="请输入必填项" style='width:100px;' maxlength="1"></Input>
+                    <span style='color:red;'>如果选择A必填就写A</span>
                 </FormItem>
-                <!-- <FormItem label="填空题答案" prop="answerSelect" v-show='formValidate.questionType == 2'>
-                    <Input v-model.trim="formValidate.answerSelect" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入填空题答案"></Input>
-                </FormItem> -->
                 <FormItem>
                     <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
                     <Button @click="handleReset('formValidate')" style="margin-left: 8px">取消</Button>
@@ -76,6 +75,19 @@ export default {
                     title:"问题名称",
                     key:'question',
                     align:'center'
+                },
+                {
+                    title:"题目类型",
+                    key:'questionType',
+                    align:'center',
+                    render:(h,params) => {
+                        let row = params.row;
+                        let type = this.followList[row.questionType - 1]
+                        return [
+                            h('span', {
+                            }, type)
+                        ]
+                    }
                 },
                 {
                     title:"操作",
@@ -178,19 +190,19 @@ export default {
             let url = api.formcontentlist
             let params = {
                 pageNo,
-                pageSize: 10,
+                pageSize: this.pageSize,
                 hospitalId: this.id,
                 formId: this.formId
             };
             this.$axios.post(url,params).then(res => {
-                console.log(res);
                 if(res.data.success) {
                     let ret = res.data.object;
-                    ret.forEach((item,index) => {
+                    this.count = ret.count
+                    ret.list.forEach((item,index) => {
                         item.isum = this.addZeros(index)
                     })
-                    this.data1 = ret;
-                    // console.log(ret);
+                    this.data1 = ret.list;
+                    console.log(ret);
                 } else {
                     this.$Message.error("加载随访表单列表失败!")
                 }
@@ -242,7 +254,6 @@ export default {
             this.formValidate.answerSelect =''
         }
     }
-    
 }
 </script>
 <style lang="less" scoped>

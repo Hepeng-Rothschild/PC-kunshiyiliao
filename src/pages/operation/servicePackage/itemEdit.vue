@@ -595,43 +595,65 @@ export default {
         fromTypeChange (val) {
             console.log(val);
             this.formContent = []
-            // if(val != 0) {
-                this.loadingFormContentList(val)
-            // } else {
-            //     this.formContent.push({
-            //         id : 0,
-            //         title:"无"
-            //     })
-            // }
+            this.loadingFormContentList(val)
             
         },
         // 加载关联内容数据
         loadingFormContentList (id) {
             let url = ''
-            if(id == 2) {
-                url = api.queryarticlelist
+            if(id != 0) {
+                if(id == 2) {
+                    url = api.queryarticlelist
+                } else {
+                    url = api.itemformlist
+                }
+            } else {
+                this.formContent = []
+                this.formContent.push({
+                    id : 0,
+                    title:"无"
+                })
             }
             let params = {
                 id,
                 pageNo: 1,
-                pageSize: 99
+                pageSize: 99,
+                hospitalId: this.info.hospitalId
             }
             if(!Boolean(url)) {
+                return ""
+            }
+            if(!Boolean(this.info.hospitalId)) {
+                this.$Message.info("请先选择医院后再查看关联表单数据!")
                 return ""
             }
             console.log(url);
             // return ""
             this.$axios.post(url, params).then(res => {
+                console.log(res);
                 if(res.data.success) {
                     let ret = res.data.object;
                     console.log(ret);
-                    this.formContent.push({
-                        id : 0,
-                        title:"无"
-                    })
-                    ret.list.forEach(item =>{
-                        this.formContent.push(item)
-                    })
+                    if(id == 2) {
+                        this.formContent.push({
+                            id : 0,
+                            title:"无"
+                        })
+                        ret.list.forEach(item =>{
+                            this.formContent.push(item)
+                        })
+                    } else {
+                        this.formContent.push({
+                            id : 0,
+                            title:"无"
+                        })
+                        ret.forEach(item => {
+                            this.formContent.push({
+                                id: item.id,
+                                title: item.formName
+                            })
+                        })
+                    }
                 } else {
                     this.$Message.error("加载关联内容失败")
                 }
