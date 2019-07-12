@@ -109,7 +109,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span class ='leftname'>是否预约科室</span>
           </div>
-          <iSwitch size="large"  v-model="switch1" style="margin-left:10px;" >
+          <iSwitch size="large"  v-model="registeredReservation" style="margin-left:10px;" >
               <span slot="open">开启</span>
               <span slot="close">关闭</span>
           </iSwitch>
@@ -120,7 +120,7 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span class ='leftname'>是否特色科室</span>
           </div>
-          <iSwitch size="large"  v-model="switch2" style="margin-left:10px;" >
+          <iSwitch size="large"  v-model="specialDept" style="margin-left:10px;" >
               <span slot="open">开启</span>
               <span slot="close">关闭</span>
           </iSwitch>
@@ -131,7 +131,18 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span class ='leftname'>是否开通远程门诊</span>
           </div>
-          <iSwitch size="large"  v-model="switch3" style="margin-left:10px;" >
+          <iSwitch size="large"  v-model="iremote" style="margin-left:10px;" >
+              <span slot="open">开启</span>
+              <span slot="close">关闭</span>
+          </iSwitch>
+        </div>
+        <!-- 是否支持第三方预约挂号池 -->
+        <div class="keshi_name_text">
+          <div class="left">
+            <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
+            <span class ='leftname'>是否支持第三方预约挂号池</span>
+          </div>
+          <iSwitch size="large"  v-model="thirdPartyRegistration" style="margin-left:10px;" >
               <span slot="open">开启</span>
               <span slot="close">关闭</span>
           </iSwitch>
@@ -162,11 +173,13 @@ export default {
     return {
       title: "",
       keshiname: "",
-      test1: "",
       test2: "",
-      switch1: true,
-      switch2: true,
-      switch3: true,
+      // 开启按钮
+      registeredReservation: true,
+      specialDept: true,
+      iremote: true,
+      thirdPartyRegistration:false,
+
       defaultList: [],
       imgName: "",
       visible: false,
@@ -208,14 +221,16 @@ export default {
         //特色
         deptDetails: this.info.content,
         //预约科室
-        registeredReservation: Number(this.switch1),
+        registeredReservation: Number(this.registeredReservation),
         //特色科室
-        specialDept: Number(this.switch2),
+        specialDept: Number(this.specialDept),
         id: this.currentId,
         // 科室开通远程门诊
-        iremote: Number(this.switch3),
+        iremote: Number(this.iremote),
         // 科室code
-        code:this.medicineCode
+        code:this.medicineCode,
+        // 第三方预约挂号池
+        thirdPartyRegistration: Number(this.thirdPartyRegistration)
       };
       //图片
       if (this.images != "" && this.uploadList.length) {
@@ -225,6 +240,7 @@ export default {
       } else {
         params.departmenticon = "";
       }
+      console.log('参数',params);
 
       this.$axios
         .post(api.medicineedit, params)
@@ -306,6 +322,7 @@ export default {
           .then(res => {
             if (res.data.success) {
               let ret = res.data.object;
+              console.log('数据',ret);
               // 科室名
               this.title = ret.dictType;
               // 别名
@@ -315,19 +332,17 @@ export default {
               //特色
               this.info.content = ret.deptDetails;
               //预约科室
-              let switch1 = false;
-              if (ret.registeredReservation) {
-                switch1 = true;
-              }
-              this.switch1 = Boolean(ret.registeredReservation);
+              this.registeredReservation = Boolean(ret.registeredReservation);
               // 预约科室
-              this.switch2 = Boolean(ret.specialDept);
+              this.specialDept = Boolean(ret.specialDept);
+              // 第三方预约挂号池
+              this.thirdPartyRegistration = Boolean(ret.thirdPartyRegistration)
               //图片
               this.uploadList = [];
               // 科室Code
               this.medicineCode = ret.code
               // 科室开通远程门诊s
-              this.switch3 = Boolean(ret.iremote);
+              this.iremote = Boolean(ret.iremote);
               if (ret.departmenticon) {
                 this.source = ret.departmenticon;
                 this.uploadList.push({
@@ -585,7 +600,7 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        margin: 0 auto;
+        margin: 10px auto;
         div:first-child {
           background: #2d8cf0;
         }

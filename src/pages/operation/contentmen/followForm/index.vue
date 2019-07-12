@@ -10,6 +10,7 @@
         v-model="modalStatus"
         :title="modalTitle"
         :mask-closable='false'
+        :closable='false'
         footer-hide
         :styles="{top: '20px'}"
         width='600'>
@@ -83,7 +84,7 @@ export default {
                             }
                         }
                     }, 
-                    '查看'),
+                    '查看问题'),
                     " | ",
                     h(
                         'a',{
@@ -97,7 +98,7 @@ export default {
                                 }
                             }
                     }, 
-                    '编辑'),
+                    '编辑表单'),
                 ]
             }
         }
@@ -157,15 +158,11 @@ export default {
                 }
                 this.$axios.post(url, params).then(res => {
                     if(res.data.success) {
-                        this.modalStatus = false;
-                        let ret = res.data.object;
-                        console.log(ret);
-                        let message = ret.success || '保存成功'
-                        this.$Message.success(message)
+                        this.handleReset('formValidate')
                         this.loadingFollow(1)
+                        this.$Message.success('保存成功')
                     } else {
-                        let message = res.data.object.same || res.data.object.file || '保存失败'
-                        this.$Message.error(message)
+                        this.$Message.error('保存失败')
                     }
                 })
             } else {
@@ -176,6 +173,9 @@ export default {
     handleReset (name) {
         this.modalStatus = false;
         this.$refs[name].resetFields();
+        this.formValidate.pettern = '';
+        this.formValidate.formName = ''
+        this.formValidate.id = ''
     },
     // 查询所有表单数据
     loadingFollow(pageNo) {

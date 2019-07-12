@@ -76,6 +76,7 @@ export default {
       window.localStorage.removeItem("sun4");
       window.localStorage.removeItem("sun5");
       window.localStorage.clear();
+      window.sessionStorage.clear();
       cookie.delCookie("username");
       cookie.delCookie("userIcon");
       cookie.delCookie("randmId");

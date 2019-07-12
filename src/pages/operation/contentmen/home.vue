@@ -216,11 +216,7 @@ export default {
                 });
         },
         pageChange(index) {
-            // if (this.val != "") {
-                this.getDate(index, this.val);
-            // } else {
-            //     this.getDate(index);
-            // }
+            this.getDate(index, this.val);
         },
         navto(item) {
             let iv = store.state.iv;

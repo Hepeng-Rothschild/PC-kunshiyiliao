@@ -698,7 +698,7 @@ export default {
                             this.info.appidList.push({
                                 value : '',
                                 status : false,
-                                imaster: Boolean(i.imaster)
+                                imaster: false
                             })
                         }
                     } else {

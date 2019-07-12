@@ -2,7 +2,8 @@
     <div class="login">
         <div class="wrapper">
             <div class="box">
-                <div class="title">互联网医院管理系统V{{$store.state.version}}</div>
+                <!-- <div class="title">互联网医院管理系统V{{$store.state.version}}</div> -->
+                <div class="title">智能家庭医生慢病管理系统V{{$store.state.version}}</div>
                 <div class="uname-box">
                     <input
                         type="text"
@@ -434,7 +435,7 @@ export default {
     position: absolute;
     .box {
         // min-width: 38%;
-        width:480px;
+        width:500px;
         // min-height: 60%;
         height:380px;
         margin: 0 auto;
@@ -483,7 +484,7 @@ export default {
             }
         }
         .title {
-            font-size: 32px;
+            font-size: 28px;
             color: #ffffff;
         }
         .verify-box {

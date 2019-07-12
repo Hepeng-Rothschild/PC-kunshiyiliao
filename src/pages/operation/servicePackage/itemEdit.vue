@@ -634,6 +634,7 @@ export default {
                 if(res.data.success) {
                     let ret = res.data.object;
                     console.log(ret);
+                    console.log(id);
                     if(id == 2) {
                         this.formContent.push({
                             id : 0,
@@ -647,7 +648,7 @@ export default {
                             id : 0,
                             title:"无"
                         })
-                        ret.forEach(item => {
+                        ret.list.forEach(item => {
                             this.formContent.push({
                                 id: item.id,
                                 title: item.formName

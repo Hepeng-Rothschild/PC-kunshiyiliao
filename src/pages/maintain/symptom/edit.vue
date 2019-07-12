@@ -93,33 +93,43 @@ export default {
                 if (valid) {
                     let operateApi = '';
                     let subMitObj = {};
+                    let message = ''
                     if (this.id) {
                       operateApi = api.updateSymptomInfo;
+                      message = '修改成功'
+                      subMitObj.id = parseInt(this.info.id);
                     } else {
                       operateApi = api.insertSymptom;
+                      message = '添加成功'
                     }
-                    subMitObj.id = parseInt(this.info.id);
                     subMitObj.symptom = this.info.symptom.trim();
                     subMitObj.gender = this.info.gender;
+                    console.log(subMitObj);
                     this.$axios
                         .post(operateApi, subMitObj)
                         .then(resp => {
+                            console.log(resp);
                             if (resp.data.code == 1) {
-                                 //   公用方法
+                                this.$Message.success(message)
+                                setTimeout(() => {
+                                    //   公用方法
                                     this.functionJS.queryNavgationTo(
                                         this,
                                         "/index/maintain/symptom/list",
                                         {
                                             pageNo: this.pageNo,
-                                                                searchKey:this.searchKey
+                                            searchKey:this.searchKey
                                         }
                                     );
-
-                            } else if(resp.data.code == 2){
-                              this.$Message.error("名称重复，请修改");
-                            }else{
-                                this.$Message.error(noticeMsg+"失败，请重试");
+                                },500)
+                            } else {
+                                this.$Message.error(resp.data.message);
                             }
+                            //  else if(resp.data.code == 2){
+                            //   this.$Message.error("名称重复，请修改");
+                            // } else if(resp.data.code == 0){
+                            //     this.$Message.error('该症状已添加');
+                            // }
                         })
                         .catch(err => {
                             console.log(err);

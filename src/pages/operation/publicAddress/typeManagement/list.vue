@@ -15,13 +15,11 @@
               <!-- 快捷菜单 -->
               <div class="sort">
                 <span>快捷菜单</span>
-                <iSwitch v-model='items.shortcutFlag' />
+                <iSwitch size="large" v-model="items.shortcutFlag">
+                    <span slot="open">开启</span>
+                    <span slot="close">关闭</span>
+                </iSwitch>
               </div>
-              <!-- 是否支付 -->
-              <!-- <div class="sort">
-                <span>是否支付</span>
-                <iSwitch v-model='items.ipayFlag' />
-              </div> -->
           </div>
         </div>
       </div>
@@ -41,7 +39,6 @@ export default {
   data() {
     return {
       appid: '',
-      switch1: true,
       list: []
     };
   },
@@ -63,7 +60,7 @@ export default {
       this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    this.$axios.post(api.wxMenuList,{
+    this.$axios.post(api.wxMenuList, {
         appid:this.appid
     }).then(res => {
       if (res.data.code) {
@@ -112,9 +109,6 @@ export default {
           this.$Message.info("保存失败,请稍候重试");
         }
       });
-    },
-    switchBoolean(num) {
-      return Boolean(num);
     }
   }
 };

@@ -12,37 +12,7 @@
         </div>
          <Button type="primary" @click="navto">添加Banner</Button>
       </div>
-      <!--表格列表-->
-      <div class="tabList">
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td>序号</td>
-            <td>名称</td>
-            <td>图片</td>
-            <td>链接</td>
-            <td>显示</td>
-            <td>排序</td>
-            <td>操作</td>
-          </tr>
-          <tr v-for="(item,index) in tbleList" v-show="tbleList.length" :key='index'>
-            <td>{{ addZeros(index) }}</td>
-            <td>{{ item.bannerName }}</td>
-            <td>
-              <img
-                :src="analysisImages(item.imageUrl)"
-                style="display:inline-block;margin:10px 0;width:60px;height:60px;"
-                v-show='item.imageUrl'
-              >
-              <span v-show='!item.imageUrl' style='color:gray;'>暂无图片</span>
-            </td>
-            <td>{{ item.bannerUrl }}</td>
-            <td>{{ item.enable == 1? "是" :"否" }}</td>
-            <td>{{ item.priority }}</td>
-            <td @click="change(item)" style="cursor:pointer;color:#2d8cf0;">编辑</td>
-          </tr>
-        </table>
-        <div class="footer" v-show="!tbleList.length">暂无更多数据</div>
-      </div>
+      <Table stripe :columns="columns" :data="tbleList" style="width:100%;margin:10px 0;"></Table>
       <!-- 分页-->
       <div style="text-align:center;margin:10px 0;">
         <Page :total="bannerSize" @on-change="pageChange" :current="pageNo" :page-size="pageSize"/>
@@ -69,26 +39,95 @@ export default {
       appid:"",
       bannerSize: 10,
       pageNo: 1,
-      pageSize: 10
+      pageSize: 10,
+      columns:[
+        {
+          title:"序号",
+          key:"sum",
+          align:"center",
+        },
+        {
+          title:"名称",
+          key:"bannerName",
+          align:"center",
+        },
+        {
+          title:"轮播图",
+          key:"imageUrl",
+          align:"center",
+          width: 100,
+          render: (h, params) => {
+            let avatar = params.row.imageUrl;
+            let a = ''
+            if(Boolean(avatar)) {
+              a = h("img", {
+                  attrs: {
+                      src: avatar || '',
+                      style:
+                          "width:100%;height:100%;"
+                  }
+              })
+            } else {
+              a = h("span", {
+                  attrs: {
+                      style:'color:gray'
+                  }
+              },'暂无图片')
+            }
+            return a
+        }
+        },
+        {
+          title:"链接",
+          key:"bannerUrl",
+          align:"center",
+        },
+        {
+          title:"显示",
+          key:"enable",
+          align:"center",
+        },
+        {
+          title:"排序",
+          key:"priority",
+          align:"center",
+        },
+        {
+          title:"操作",
+          align:"center",
+          render: (h,params) => {
+            let row = params.row;
+            return [
+              h('a',{
+                on: {
+                  click: () => {
+                    this.change(row)
+                  }
+                }
+              },'编辑')
+            ]
+          }
+        }
+      ]
     };
   },
-    created() {
-      let iv = store.state.iv;
-      let salt = store.state.salt;
-      this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/publicHosting/index",
-                title: "公众号托管"
-            },
-            {
-                path: "/index/operation/publicAddress/list",
-                title: "公众号管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+  created() {
+    let iv = store.state.iv;
+    let salt = store.state.salt;
+    this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
+      let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/publicHosting/index",
+              title: "公众号托管"
+          },
+          {
+              path: "/index/operation/publicAddress/list",
+              title: "公众号管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
+  },
   methods: {
     // 根据输入的值获取不同的数据
     searchData () {
@@ -128,6 +167,11 @@ export default {
       this.$axios.post(api.wxBannerList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
+          ret.list.forEach((item,index) => {
+            item.sum = this.addZeros(index)
+            item.imageUrl = this.analysisImages(item.imageUrl)
+            item.enable = item.enable == 1 ? "是" :"否" 
+          })
           this.tbleList = ret.list;
           this.bannerSize = ret.count;
         }
@@ -168,47 +212,6 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-    }
-    .tabList {
-      width: 100%;
-      margin: 20px auto;
-      table {
-        width: 100%;
-        border: 1px solid #ddd;
-        font-size:12px;
-        tr:nth-child(odd) {
-          background: #f8f8f9;
-        }
-        tr:nth-child(even) {
-          background: #fff;
-        }
-        tr:not(:first-child):hover {
-          background: #ebf7ff;
-        }
-        tr {
-          border-top: 1px solid #ddd;
-          height: 40px;
-          td {
-            text-align: center;
-            min-width: 100px;
-            max-width: 200px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          td.none {
-            display: none;
-          }
-        }
-      }
-      .footer {
-        width: 100%;
-        text-align: center;
-        border: 1px solid #ddd;
-        border-top: none;
-        height: 40px;
-        line-height: 40px;
-      }
     }
   }
 }

@@ -248,7 +248,32 @@ const patientManagement = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-poatientOperation' */"@/pages/operation/patientmanagement/patientmanagement_home")
 }
+// 直播转换
+const liveTransitionList = {
+	path: 'operation/liveTransition/list',
+	name: 'liveTransitionList',
+	meta: {
+		index: 2,
+		title: '患者管理'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-liveTransition' */"@/pages/operation/liveTransition/list")
+}
+const liveTransitionReview = {
+	path: 'operation/liveTransition/review',
+	name: 'liveTransitionReview',
+	meta: {
+		index: 2,
+		title: '患者管理'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-liveTransition' */"@/pages/operation/liveTransition/review")
+}
 export default{
+	// 查看直播转换
+	liveTransitionReview,
+	// 直播转换
+	liveTransitionList,
     // 患者端运营
     patientOperation,
     // 内容管理列表

@@ -21,6 +21,7 @@ const changeRegisterStatus = "/operateapi/registerupdatestatus"; //改变预约�
 const registerDoctorList = "/operateapi/registerselectdoctornotscheduling"; //预约挂号专家列表
 const registerDoctorUpdate = "/operateapi/registerupdate"; //预约挂号修改
 const registerDoctorInsert = "/operateapi/registerinsertdoctorappointment"; //预约挂号添加
+const registerselectdept = '/operateapi/registerselectdeptnotscheduling' // 预约挂号科室列表
 // 医生端远程门诊
 const doctorRomteclinicAdd = '/operateapi/remotedoctorinsert'  //新增远程门诊医生排班
 const doctorRomteclinicEdit = '/operateapi/remotedoctorupdate' //编辑远程门诊医生排班详情
@@ -386,6 +387,7 @@ let production = {
     registerDoctorList,
     registerDoctorUpdate,
     registerDoctorInsert,
+    registerselectdept,
     // 远程门诊医生排班
     doctorRomteclinicAdd,
     doctorRomteclinicEdit,

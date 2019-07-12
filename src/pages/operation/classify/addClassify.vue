@@ -50,7 +50,7 @@
 						zhuanlan:'问诊就医-医师讲堂',
 						show:"显示",
 						type:"视频",
-						childType:[
+						childType: [
 							{
 								title:"医生说"
 							},

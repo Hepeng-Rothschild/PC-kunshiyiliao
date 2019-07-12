@@ -6,12 +6,15 @@
             </Col>
         </Row>
         <Row>
-            <Col :xs="24" :md="3">{{info.hospitalName}}</Col>
-            <Col :xs="24" :md="3">{{info.dept}}</Col>
-            <Col :xs="24" :md="2">{{info.doctorName}}</Col>
-            <Col :xs="24" :md="3">
+            
+            <Col :xs="24" :md="3" v-if='status == 1'>{{info.hospitalName}}</Col>
+            <Col :xs="24" :md="3" v-if='status == 1'>{{info.dept}}</Col>
+            <Col :xs="24" :md="2" v-if='status == 1'>{{info.doctorName}}</Col>
+            <Col :xs="24" :md="3" v-if='status == 1'>
                 <!-- {{info.address}} -->
             </Col>
+            <Col :xs="24" :md="3" v-if='status == 2'>{{info.hospitalName}}</Col>
+            <Col :xs="24" :md="3" v-if='status == 2'>{{info.dept}}</Col>
         </Row>
         <br>
         <Row class="bordered">
@@ -152,43 +155,28 @@ export default {
         };
     },
     created() {
-        this.id = parseInt(this.$route.query.id);
-        this.pageNo = parseInt(this.$route.query.pageNo);
-        this.province = this.$route.query.province?parseInt(this.$route.query.province):null;
-        this.city = this.$route.query.city?parseInt(this.$route.query.city):null;
-        this.area = this.$route.query.area?parseInt(this.$route.query.area):null;
-        this.hospital = this.$route.query.hospital?parseInt(this.$route.query.hospital):null;
-        this.searchType = this.$route.query.searchType?parseInt(this.$route.query.searchType):1;
-        this.searchKey = this.$route.query.searchKey?this.$route.query.searchKey:"";
-        this.deptKey = this.$route.query.deptKey?this.$route.query.deptKey:"";
-        this.dictType = this.$route.query.dictType?this.$route.query.dictType:"";
+        let query = this.$route.query
+        this.id = parseInt(query.id);
+        this.pageNo = parseInt(query.pageNo);
+        this.province = query.province?parseInt(query.province):null;
+        this.city = query.city?parseInt(query.city):null;
+        this.area = query.area?parseInt(query.area):null;
+        this.hospital = query.hospital?parseInt(query.hospital):null;
+        this.searchType = query.searchType?parseInt(query.searchType):1;
+        this.searchKey = query.searchKey?query.searchKey:"";
+        this.deptKey = query.deptKey?query.deptKey:"";
+        this.dictType = query.dictType?query.dictType:"";
+        this.status = query.status ? query.status:'';
 
-        this.$axios
-            .post(api.registerDoctorDetail, { registerId: this.id })
-            .then(resp => {
-                this.info = resp.data.object;
-                for (let i = 0; i < this.info.registerTimes.length; i++) {
-                    let tmpregistertimes = this.info.registerTimes[i];
-                    this.info[
-                        "wd" + tmpregistertimes.week + tmpregistertimes.day
-                    ] = tmpregistertimes.num;
-                }
-                this.registerFlag = this.info.iclose;
-                if (this.info.iclose == 1) {
-                    this.icloseText = "开启";
-                } else {
-                    this.icloseText = "关闭";
-                }
-            })
-            .catch(err => {
-                // this.$Message.info("服务器超时，请重新访问")
-            });
-
+        if(this.id) {
+            this.reviewDoctorDefalt();
+        }
+        
         let breadList = [
             { path: "/index", title: "首页" },
             {
                 path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
+                title: "患者端运营"
             },
             {
                 path: "/index/operation/register/list",
@@ -203,6 +191,30 @@ export default {
         tempHeader
     },
     methods: {
+        // 加载医生
+        reviewDoctorDefalt() {
+            
+            this.$axios.post(api.registerDoctorDetail, { registerId: this.id, schedulingType: this.status  }).then(resp => {
+                this.info = resp.data.object;
+                for (let i = 0; i < this.info.registerTimes.length; i++) {
+                    let tmpregistertimes = this.info.registerTimes[i];
+                    this.info[
+                        "wd" + tmpregistertimes.week + tmpregistertimes.day
+                    ] = tmpregistertimes.num;
+                }
+                console.log(this.info);
+                this.registerFlag = this.info.iclose;
+                if (this.info.iclose == 1) {
+                    this.icloseText = "开启";
+                } else {
+                    this.icloseText = "关闭";
+                }
+            })
+            .catch(err => {
+                // this.$Message.info("服务器超时，请重新访问")
+            });
+        },
+        // 返回上一页
         reback() {
              //   公用方法
             this.functionJS.queryNavgationTo(
@@ -218,11 +230,13 @@ export default {
                     searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
-                    dictType: this.dictType
+                    dictType: this.dictType,
+                    
                 }
             );
 
         },
+        // 开启关闭预约
         changeRegisterFlag() {
             if (this.registerFlag == 1) {
                 this.registerFlag = 0;
@@ -251,6 +265,7 @@ export default {
                     // this.$Message.info("服务器超时，请重新访问")
                 });
         },
+        // 跳转编辑页面
         toEdit() {
              //   公用方法
             this.functionJS.queryNavgationTo(
@@ -267,7 +282,8 @@ export default {
                     searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
-                    dictType: this.dictType
+                    dictType: this.dictType,
+                    status: this.status
                 }
             );
 

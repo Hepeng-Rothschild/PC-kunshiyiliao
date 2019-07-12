@@ -108,21 +108,28 @@ export default {
                     this.$axios
                         .post(operateApi, subMitObj)
                         .then(resp => {
+                            console.log(resp);
                             if (resp.data.code == 1) {
                                 //   公用方法
-                                this.functionJS.queryNavgationTo(
-                                    this,
-                                    "/index/maintain/disease/list",
-                                    {
-                                      pageNo: this.pageNo,
-                                      searchKey:this.searchKey
-                                    }
-                                );
-                            } else if(resp.data.code == 2){
-                              this.$Message.error("名称重复，请修改");
-                            }else{
-                                this.$Message.error(noticeMsg+"失败，请重试");
+                                this.$Message.success(noticeMsg + '成功')
+                                setTimeout(() => {
+                                    this.functionJS.queryNavgationTo(
+                                        this,
+                                        "/index/maintain/disease/list",
+                                        {
+                                        pageNo: this.pageNo,
+                                        searchKey:this.searchKey
+                                        }
+                                    );
+                                },500)
+                            } else {
+                                this.$Message.error(resp.data.message);
                             }
+                            //  if(resp.data.code == 2){
+                            //   this.$Message.error("名称重复，请修改");
+                            // }else if(resp.data.code == 0){
+                            //     this.$Message.error('该疾病已添加');
+                            // }
                         })
                         .catch(err => {
                             console.log(err);

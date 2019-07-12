@@ -152,34 +152,55 @@ export default {
     },
     created() {
         this.id = this.$route.query.id;
-        this.pageNo = this.$route.query.pageNo
-            ? parseInt(this.$route.query.pageNo)
+        let query = this.$route.query
+        this.pageNo = query.pageNo
+            ? parseInt(query.pageNo)
             : 1;
-        this.searchKey = this.$route.query.searchKey
-            ? this.$route.query.searchKey
+        this.searchKey = query.searchKey
+            ? query.searchKey
             : "";
-        this.deptKey = this.$route.query.deptKey
-            ? this.$route.query.deptKey
+        this.deptKey = query.deptKey
+            ? query.deptKey
             : "";
-        this.dictType = this.$route.query.dictType
-            ? this.$route.query.dictType
+        this.dictType = query.dictType
+            ? query.dictType
             : "";
-        this.province = this.$route.query.province
-            ? parseInt(this.$route.query.province)
+        this.province = query.province
+            ? parseInt(query.province)
             : null;
-        this.city = this.$route.query.city
-            ? parseInt(this.$route.query.city)
+        this.city = query.city
+            ? parseInt(query.city)
             : null;
-        this.area = this.$route.query.area
-            ? parseInt(this.$route.query.area)
+        this.area = query.area
+            ? parseInt(query.area)
             : null;
-        this.hospital = this.$route.query.hospital
-            ? parseInt(this.$route.query.hospital)
+        this.hospital = query.hospital
+            ? parseInt(query.hospital)
+            : null;
+        this.status = query.status
+            ? parseInt(query.status)
             : null;
 
-        this.$axios
-            .post(api.registerDoctorDetail, { registerId: this.id })
-            .then(resp => {
+                this.loadingDoctorPage()
+
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/operation/doctorManagement/index",
+                title: "患者端运营"
+            },
+            {
+                path: "/index/operation/register/list",
+                title: "预约挂号"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
+    components: { Avatar, tempHeader },
+    methods: {
+        // 加载详细信息
+        loadingDoctorPage() {
+            this.$axios.post(api.registerDoctorDetail, { registerId: this.id, schedulingType: this.status }).then(resp => {
                 this.info = resp.data.object;
                 this.info.registerTimes.map((el, i) => {
                     if(el.day == 1){
@@ -230,6 +251,7 @@ export default {
                         }
                     }
                 });
+                console.log(this.info);
                 this.registerFlag = this.info.iclose;
                 if (this.info.iclose == 1) {
                     this.icloseText = "开启";
@@ -240,22 +262,8 @@ export default {
             .catch(err => {
                 // this.$Message.info("服务器超时，请重新访问")
             });
-
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/doctorManagement/index",
-                title: "医生端运营"
-            },
-            {
-                path: "/index/operation/register/list",
-                title: "预约挂号"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
-    components: { Avatar, tempHeader },
-    methods: {
+        },
+        // 预约
         changeRegisterFlag() {
             if (this.registerFlag == 1) {
                 this.registerFlag = 0;
@@ -284,6 +292,7 @@ export default {
                     // this.$Message.info("服务器超时，请重新访问")
                 });
         },
+        // 编辑 
         toEdit() {
             //   公用方法
             this.functionJS.queryNavgationTo(
@@ -300,11 +309,12 @@ export default {
                     searchType: this.searchType,
                     searchKey: this.searchKey,
                     deptKey: this.deptKey,
-                    dictType: this.dictType
+                    dictType: this.dictType,
+                    status: this.status
                 }
             );
         },
-
+        // 返回
         reback() {
             //   公用方法
             this.functionJS.queryNavgationTo(

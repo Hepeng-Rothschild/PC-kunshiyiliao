@@ -338,8 +338,8 @@ const followFormEdit = {
 	path: 'operation/followForm/edit',
 	name: 'followFormEdit',
 	meta: {
-		index: 2,
-		title: '修改随访表单'
+		index: 3,
+		title: '随访表单问题'
 	},
 	component: () =>
 		import(/* webpackChunkName: 'operation-followupForm' */"@/pages/operation/contentmen/followForm/edit")

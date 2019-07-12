@@ -17,14 +17,14 @@
             width='800'>
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="120">
                 <FormItem label="题号" prop="questionNumber">
-                    <Input v-model.trim="formValidate.questionNumber" placeholder="请输入题号" style='width:300px;'></Input>
+                    <InputNumber v-model="formValidate.questionNumber" placeholder="请输入题号" style='width:300px;'></InputNumber>
                 </FormItem>
                 <FormItem label="问题" prop="question">
                     <Input v-model.trim="formValidate.question" placeholder="请输入问题" style='width:300px;'></Input>
                 </FormItem>
                 <FormItem label="选择题答案" prop="sections">
                     <Input v-model.trim="formValidate.sections" placeholder="请输入选择题答案" style='width:300px;'></Input>
-                    <span style='color:red;'>多个答案用 && 隔开 例:A、良好&&B、一般&&C、未愈合</span>
+                    <span style='color:red;'>多个答案用 && 隔开 例:A.良好&&B.一般&&C.未愈合</span>
                 </FormItem>
                 <FormItem label="题目类型" prop="questionType">
                     <Select v-model="formValidate.questionType" style="width:200px">
@@ -109,7 +109,7 @@ export default {
                                         console.log(res);
                                         if(res.data.success) {
                                             let ret = res.data.object;
-                                            this.formValidate.questionNumber = ret.questionNumber + ''
+                                            this.formValidate.questionNumber = Number(ret.questionNumber)
                                             this.formValidate.question = ret.question
                                             this.formValidate.sections = ret.sections
                                             this.formValidate.questionType = Number(ret.questionType)
@@ -138,7 +138,7 @@ export default {
                 id : ""
             },
             ruleValidate: {
-                questionNumber: [{ required: true, message: '请输入题号', trigger: 'blur' }],
+                questionNumber: [{ required: true, message: '请输入题号', trigger: 'blur', type:'number' }],
                 question: [{ required: true, message: '请输入问题', trigger: 'blur' }],
                 sections: [{ required: true, message: '请输入选择题答案', trigger: 'blur' }],
                 questionType: [{ required: true, message: '请输入题目类型', trigger: 'change', type:'number'}],
@@ -173,6 +173,7 @@ export default {
         addAnswer () {
             this.Status = true
             this.modalTitle = "添加题目"
+            this.$refs['formValidate'].resetFields();
         },
         back () {
             let params = {}
@@ -231,9 +232,10 @@ export default {
                         if(res.data.success) {
                             let ret = res.data.object
                             this.Status = false;
-                            let message = ret.success || "保存成功"
                             this.loadingFollow(1)
+                            let message = ret.success || "保存成功"
                             this.$Message.success(message)
+                            this.handleReset('formValidate');
                         } else {
                             let message = res.data.object.same || res.data.object.file || '保存失败'
                             this.$Message.error(message)
@@ -247,11 +249,12 @@ export default {
         handleReset (name) {
             this.Status = false
             this.$refs[name].resetFields();
-            this.formValidate.questionNumber =''
-            this.formValidate.question =''
-            this.formValidate.sections =''
-            this.formValidate.questionType =''
-            this.formValidate.answerSelect =''
+            this.formValidate.questionNumber = ''
+            this.formValidate.question = ''
+            this.formValidate.sections = ''
+            this.formValidate.questionType = ''
+            this.formValidate.answerSelect = ''
+            this.formValidate.id = ''
         }
     }
 }

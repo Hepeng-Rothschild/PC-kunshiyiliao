@@ -77,6 +77,12 @@ export default {
           align:"center",
         },
         {
+          title: "科室支持第三方预约挂号池",
+          key: "thirdPartyRegistration",
+          align: "center",
+          width: 140
+        },
+        {
           title:"操作",
           align:"center",
           render: (h,params) => {
@@ -158,10 +164,12 @@ export default {
         .then(res => {
           if (res.data.success) {
             let ret = res.data.object;
+            console.log(ret);
             this.medicineSize = ret.count;
             ret.list.forEach((item,index) => {
-              item.registeredReservation = item.registeredReservation == '1'? '是':"否"
-              item.specialDept = item.specialDept == '1'? '是':"否"
+              item.registeredReservation = item.registeredReservation == '1'? '开启' : "关闭"
+              item.specialDept = item.specialDept == '1'? '开启' : "关闭"
+              item.thirdPartyRegistration = Number(item.thirdPartyRegistration) == 1 ? '开启' : '关闭'
               item.sum = this.addZeros(index)
             })
             this.tableList = ret.list;

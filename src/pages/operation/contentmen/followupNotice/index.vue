@@ -10,6 +10,7 @@
         v-model="modalStatus"
         :title="modalTitle"
         :mask-closable='false'
+        :closable='false'
         footer-hide
         :styles="{top: '20px'}"
         width='800'>
@@ -140,6 +141,7 @@ export default {
   methods: {
     afterChange(val) {
       this.formValidate.content = val;
+      console.log(val);
     },
     pageChange(index) {
         this.loadingData(index)
@@ -155,27 +157,27 @@ export default {
             if (valid) {
                 let url = '';
                 let params = {
-                    hospitalId: this.id,
-                    content: this.formValidate.content,
-                    title: this.formValidate.title,
-                    type: this.formValidate.type,
+                  hospitalId: this.id,
+                  content: this.formValidate.content,
+                  title: this.formValidate.title,
+                  type: this.formValidate.type,
                 }
                 if(!Boolean(this.formValidate.id)) {
-                    url = api.agreementinsertagreement
+                  url = api.agreementinsertagreement
                 } else {
-                    url = api.agreementupdateagreement
-                    params.id = this.formValidate.id
+                  url = api.agreementupdateagreement
+                  params.id = this.formValidate.id
                 }
                 console.log('告知书参数',params);
                 this.$axios.post(url, params).then(res => {
                     console.log(res);
                     if(res.data.success) {
-                        let ret = res.data.object;
-                        this.$Message.success(ret.success)
-                        this.handleReset('formValidate')
+                      this.handleReset('formValidate')
+                      this.loadingData(1)
+                      this.$Message.success('保存成功')
                     } else {
-                        let message = res.data.object.same || res.data.object.file || "操作失败"
-                        this.$Message.error(message)
+                      let message = res.data.object.same || res.data.object.file || "操作失败"
+                      this.$Message.error(message)
                     }
                 })
             } else {

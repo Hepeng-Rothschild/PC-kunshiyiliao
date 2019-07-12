@@ -130,21 +130,15 @@ header {
     line-height: 40px;
   }
   .wrapper{
-    // width:100%;
     height:40px;
-    // overflow:hidden;
   }
   ul {
     width:300%;
     height: 40px;
-    // display: flex;
-    // overflow:auto;
-    // flex-direction: row;
-    // align-items: center;
     li {
       min-width:120px;
       text-align:center;
-      padding:0 2px;
+      // padding:0 2px;
       float: left;
       border-bottom: 1px solid #ddd;
       a {

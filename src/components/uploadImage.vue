@@ -29,18 +29,19 @@
             :data="uploadData"
             style="display: inline-block;width:58px;"
         >
-            <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="ios-camera" size="20"></Icon>
-            </div>
+          <div style="width: 58px;height:58px;line-height: 58px;">
+              <Icon type="ios-camera" size="20"></Icon>
+          </div>
         </Upload>
-        <Modal title="预览图片" v-model="visible" footer-hide>
-            <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+        <Modal title="预览图片" v-model="visible" footer-hide width='420'>
+            <img :src="uploadList[0].url " v-if="visible" style="width: 100%;height:400px;">
         </Modal>
     </div>
 </template>
 
 <script>
 import code from "@/configs/base.js";
+import cookie from "./../utils/cookie.js";
 import api from "@/api/commonApi";
 export default {
     data() {
@@ -88,6 +89,10 @@ export default {
             file.name = res.object[0].fileName;
           } else {
             this.$Message.error("Token不合法,请重新登录重试!")
+            // this.$axios.
+            setTimeout(() => {
+              this.logout();
+            }, 500)
           }
         },
         handleFormatError(file) {
@@ -108,7 +113,29 @@ export default {
             this.$Message.info("只能上传一张图片");
           }
           return check;
-        }
+        },
+        logout() {
+          window.localStorage.removeItem("access_token");
+          window.localStorage.removeItem("top");
+          window.localStorage.removeItem("sun1");
+          window.localStorage.removeItem("sun2");
+          window.localStorage.removeItem("sun3");
+          window.localStorage.removeItem("sun4");
+          window.localStorage.removeItem("sun5");
+          window.localStorage.clear();
+          window.sessionStorage.clear();
+          cookie.delCookie("username");
+          cookie.delCookie("userIcon");
+          cookie.delCookie("randmId");
+          cookie.delCookie("operateUserId");
+          cookie.delCookie("idtt");
+          cookie.delCookie("idttC");
+          cookie.delCookie("access_user");
+          cookie.delCookie("ownArea");
+
+          window.location.href = '#/login';
+          window.close();
+      },
     },
     mounted() {
         this.uploadList = this.$refs.upload.fileList;

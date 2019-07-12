@@ -93,8 +93,20 @@
                 <div v-if='timeStatus < 5'>
                     <h2>预约码：{{orderParams.orderNumber}}</h2>
                     <h2>就诊人：{{orderParams.memberName}}</h2>
+                    <h2>挂号类型：{{orderParams.schedulingType == 1 ? '专家挂号' : "科室挂号" }}</h2>
                     <h2>就诊科室：{{orderParams.department}}</h2>
-                    <h2>就诊医生：{{orderParams.doctorName}}</h2>
+                    <h2 v-show='orderParams.schedulingType == 1'>就诊医生：{{orderParams.doctorName}}</h2>
+                    <h2 v-show='orderParams.doctorName == 2'>就诊医生：
+                        <Select v-model="orderParams.orderDoctor" style="width:200px">
+                            <Option
+                                v-for="(item,index) in DeptInDoctorList"
+                                :value="item.doctor_id"
+                                :key="index"
+                                style='text-align:center;'
+                            >{{item.doctor_name}}</Option>
+                        </Select>
+                    </h2>
+                     
                     <h2>就诊时间：{{orderParams.appointmentTime}}</h2>
                     <h2>医事服务费：{{orderParams.registrationFee}}</h2>
                     <h2>就诊卡号：{{orderParams.cardNumber}}</h2>
@@ -233,6 +245,19 @@ export default {
                 },
                 { title: "科室", key: "dept", align: "center", width: 120 },
                 {
+                    title: "挂号类型",
+                    key: "schedulingType",
+                    align: "center",
+                    width: 100,
+                    render:(h, params) => {
+                        let row = params.row;
+                        let content = row.schedulingType == 1 ? '专家挂号' : "科室挂号";
+                        return h('span', {
+
+                        }, content)
+                    }
+                },
+                {
                     title: "医生",
                     key: "doctorName",
                     align: "center",
@@ -344,10 +369,11 @@ export default {
                                         if(status == 1 || status == 6) {
                                             this.orderParams.status = status;
                                             this.soureStatus(1, orderId)
+                                            console.log(this.orderParams);
                                         }
                                     }
                                 }
-                            },name),
+                            }, name),
                             "|",
                             h('a',{
                                 // 替诊\
@@ -410,14 +436,20 @@ export default {
                 registrationFee:"",
                 // 就诊卡号
                 cardNumber:"",
-
+                // 医生id
+                orderDoctor:"",
+                // 医生姓名
+                orderDoctorName:"",
+                // 挂号类型
+                schedulingType:""
             },
+            DeptInDoctorList:[],
             timeStatus: 4,
-            selectTimeStatus:1,
+            selectTimeStatus: 1,
             timeList: ['预约就诊日期','预约登记日期'],
             closeReason: ['医生临时手术','医生出差调整','医院工作调整','其他'],
             // 批量停诊/替诊的数据表头
-            columnsObj:[
+            columnsObj: [
                 { title: "订单号", key: "orderNum", align: "center", width: 140 },
                 { title: "科室", key: "dept", align: "center", width: 120 },
                 { title: "医生", key: "doctorName", align: "center", width: 100 },
@@ -511,7 +543,7 @@ export default {
             if(Number(val) < 5) {
                 this.$axios.post(api.querybyorderid, {
                     orderId
-                }).then(res =>{
+                }).then(res => {
                     if(res.data.success) {
                         let ret = res.data.object;
                         this.orderParams.orderNumber = ret.orderNumber
@@ -521,6 +553,8 @@ export default {
                         this.orderParams.department = ret.department
                         // 就诊医生
                         this.orderParams.doctorName = ret.doctorName
+                        // 报到类型
+                        this.orderParams.schedulingType = ret.schedulingType
                         console.log(ret);
                         // 就诊时间
                         let timeStart = ret.timeStart ? ret.timeStart : "";
@@ -530,10 +564,13 @@ export default {
                         this.orderParams.registrationFee = ret.registrationFee
                         // 就诊卡号
                         this.orderParams.cardNumber = ret.cardNumber
+
+
+                        this.loadingDeptDoctor(ret.hospitalId, ret.departmentId);
                     }else {
                         this.$Message.error("加载失败")
                     }
-                }).catch(err =>{
+                }).catch(err => {
                     console.log(err);
                     // this.$Message.error("加载失败")
                 })
@@ -646,6 +683,18 @@ export default {
             if(Number(val) == 1) {
                 url = api.cordreport;
                 params.orderId = this.orderParams.orderId
+                // 报到类型
+                params.schedulingType = this.orderParams.schedulingType
+
+                if(!this.orderParams.doctorName){
+                    params.afterDoctorId = this.orderParams.orderDoctor
+                    this.DeptInDoctorList.forEach(item => {
+                        if(Number(params.afterDoctorId == item.doctor_id)) {
+                            params.afterDoctorName = item.doctor_name
+                        }
+                    })
+                }
+
                 if(Number(this.orderParams.status) == 6) {
                     params.status = '1'
                 } else {
@@ -775,7 +824,8 @@ export default {
                 }
             }
             console.log(params);
-            this.$axios.post(url,params).then(res =>{
+            
+            this.$axios.post(url, params).then(res =>{
                 if (res.data.success) {
                     this.$Message.success("修改成功")
                     this.loadPage(this.pageNo)
@@ -791,10 +841,10 @@ export default {
         // 通过医院ID加载科室
         Hospitaldepartment(hospitalId){
             let params = {
-                    hospitalId,
-                    pageNo:1,
-                    pageSize:100
-                }
+                hospitalId,
+                pageNo: 1,
+                pageSize:100
+            }
             this.$axios.post(api.kDepartment, params)
             .then(res => {
                 if (res.data.code) {
@@ -809,11 +859,28 @@ export default {
                 this.$Message.error('加载医院科室失败')
             });
         },
+        // 科室报到时加载医生
+        loadingDeptDoctor(hospitalId,departmentId,){
+            let params = {
+                departmentId,
+                hospitalId,
+            }
+
+            this.packageAxios(this,api.hospitalidanddepartmentid,params,(res)=>{
+                if (res.data.success) {
+                    let ret = res.data.object;
+                    this.DeptInDoctorList = ret;
+                    console.log('加载科室的参数',ret);
+                } else {
+                    this.$Message.error("加载医生数据失败!")
+                }
+            })
+        },
         // 通过科室加载科室下医生
         Selectdepartment () {
             let params = {
-                departmentId:this.departmentVal,
-                hospitalId:this.hospitalId,
+                departmentId: this.departmentVal,
+                hospitalId: this.hospitalId,
             }
             if(Boolean(params.departmentVal)) {
                 return ""
@@ -862,7 +929,7 @@ export default {
             startDate = startDate.toLocaleDateString().replace(/\//g, "-");
             endDate = endDate.toLocaleDateString().replace(/\//g, "-");
             
-            if(Number(this.selectTimeStatus) ==1) {
+            if(Number(this.selectTimeStatus) == 2) {
                 params.startTime = startDate;
                 params.endTime = endDate;
             } else {
@@ -874,6 +941,7 @@ export default {
             params.pageNo = 1;
             params.pageSize = this.count;
 
+            console.log(params);
             this.$axios.post(url, params, { responseType: "arraybuffer" }).then(res =>{
                 if (res.data) {
                     let ret = res.data;
@@ -924,6 +992,7 @@ export default {
                         this.lvyue = parseInt(lvyue * 100) + "%";
                         this.shuangyue = parseInt(shuangyue * 100) + "%";
                         // console.log(resp);
+                        console.log(tmpObj);
                         this.count = tmpObj.count;
                         this.orderList = tmpObj.list;
                         for (let i = 0; i < this.orderList.length; i++) {
