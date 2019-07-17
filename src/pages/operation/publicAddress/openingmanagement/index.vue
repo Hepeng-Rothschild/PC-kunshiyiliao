@@ -2,7 +2,6 @@
     <div class="management">
         <tmpHeader :index="3"/>
         <!-- 功能管理 -->
-
         <div class = 'wrapper' v-for="(item,index) in list"
             :key="index">
             <span class ='name'>{{ item.title }}</span>
@@ -23,7 +22,6 @@
             <span class ='name'>首页推荐医生显示数量</span>
             <InputNumber :max="10" :min="1" v-model="params.doctorShowNumber" style="width:200px;"></InputNumber>
         </div>
-
         <div class = 'wrapper'>
             <span class ='name'>首页推荐医生显示规则</span>
             <Select v-model="params.doctorVal" style="width:200px;">
@@ -33,15 +31,14 @@
                 <Option v-for="(item,index) in doctorList" :value="index" :key="index">{{ item }}</Option>
             </Select>
         </div>
-
         <div class = 'wrapper'>
             <span class ='name'>公众号承载机构类型</span>
             <Select v-model="params.mengentType" style="width:100px">
                 <Option v-for="(item,index) in mengentList" :value="index" :key="index">{{ item }}</Option>
             </Select>
-        </div> 
-
-        <fourLevelLinkage
+        </div>  -->
+        
+        <!-- <fourLevelLinkage
           @changeProvince="changeProvince"
           @changeCity="changeCity"
           @changeArea="changeArea"
@@ -51,9 +48,7 @@
           :area="area"
           :hospital="hospital"
         ></fourLevelLinkage>
-        
         -->
-
 
         <Row type="flex" justify="space-around" class="code-row-bg">
             <Col span="4">

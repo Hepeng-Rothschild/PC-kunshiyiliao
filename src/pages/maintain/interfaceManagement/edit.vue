@@ -10,9 +10,9 @@
             <FormItem label="访问用户名" prop="userName">
                 <Input v-model="formValidate.userName" placeholder="请输入访问用户名" style='width:300px;'></Input>
             </FormItem>
-            <FormItem label="aseKey">
-                <p style='color:#5cadff;'>{{ formValidate.aseKey }}</p>
-                <Button @click='copyContent(formValidate.aseKey)'>点击复制</Button>
+            <FormItem label="aesKey">
+                <p style='color:#5cadff;'>{{ formValidate.aesKey }}</p>
+                <Button @click='copyContent(formValidate.aesKey)'>点击复制</Button>
             </FormItem>
             <FormItem label="token">
                 <p style='color:#5cadff;'>{{ formValidate.token }}</p>
@@ -46,7 +46,7 @@ export default {
                 // 开关
                 iopen: true,
                 // 64位生成码
-                aseKey: "",
+                aesKey: "",
                 // 128位生成码
                 token: "",
                 // 访问用户名
@@ -57,7 +57,6 @@ export default {
                 corporateName: [{ required: true, message: '请输入公司名称', trigger: 'blur' }],
                 purpose: [{ required: true, message: '请输入用途', trigger: 'blur' }],
                 userName: [{ required: true, message: '请输入访问用户名', trigger: 'blur' }],
-
             },
 
         };
@@ -91,10 +90,10 @@ export default {
                     params.purpose = this.formValidate.purpose
                     params.userName = this.formValidate.userName
                     params.corporateName = this.formValidate.corporateName
-                    params.aseKey = this.formValidate.aseKey
+                    params.aesKey = this.formValidate.aesKey
                     params.token = this.formValidate.token
                     params.id = this.formValidate.id
-
+                    console.log(params);
                     this.$axios.post(url, params).then(res => {
                         if (res.data.success) {
                             this.$Message.success(res.data.object.success)
@@ -126,22 +125,21 @@ export default {
             this.$axios.post(url, params).then(res => {
                 console.log(res);
                 if(res.data.success) {
-                let ret = res.data.object;
-                    // 公司名称
-                this.formValidate.corporateName = ret.corporateName
-                // 用途
-                this.formValidate.purpose = ret.purpose
-                // 开关
-                this.formValidate.iopen = Boolean(Number(ret.iopen))
-                // 64位生成码
-                this.formValidate.aseKey = ret.aesKey
-                // 128位生成码
-                this.formValidate.token = ret.token
-                // 访问用户名
-                this.formValidate.userName = ret.userName
-                this.formValidate.id = ret.id
+                    let ret = res.data.object;
+                        // 公司名称
+                    this.formValidate.corporateName = ret.corporateName
+                    // 用途
+                    this.formValidate.purpose = ret.purpose
+                    // 开关
+                    this.formValidate.iopen = Boolean(Number(ret.iopen))
+                    // 64位生成码
+                    this.formValidate.aesKey = ret.aesKey
+                    // 128位生成码
+                    this.formValidate.token = ret.token
+                    // 访问用户名
+                    this.formValidate.userName = ret.userName
+                    this.formValidate.id = ret.id
                 
-
                 } else {
                     this.$Message.error("加载接口管理详情失败")
                 }

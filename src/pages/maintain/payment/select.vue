@@ -11,15 +11,16 @@
             @on-ok="handleSubmit('formValidate')"
             :styles="{top: '20px'}"
             :mask-closable='false'
+            :closable="false"
             :width='650'
             @on-cancel="cancel">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-                <!-- 支付类型 -->
-                <FormItem label="支付类型" prop="paymentType">
+                <!-- 支付渠道 -->
+                <FormItem label="支付渠道" prop="paymentType">
                     <Select
                         class="w-select-hos"
-                        placeholder="请选择支付类型"
-                        v-model="formValidate.paymentType"
+                        placeholder="请选择支付渠道"
+                        v-model="formValidate.paymentChannel"
                         style='width:180px;'
                         @on-change='paymentChannelChange'
                     >
@@ -31,12 +32,12 @@
                         >{{item.name}}</Option>
                     </Select>
                 </FormItem>
-                <!-- 支付渠道 -->
-                <FormItem label="支付渠道" prop="paymentChannel">
+                <!-- 支付类型 -->
+                <FormItem label="支付类型" prop="paymentChannel">
                     <Select
                         class="w-select-hos"
-                        placeholder="请选择支付渠道"
-                        v-model="formValidate.paymentChannel"
+                        placeholder="请选择支付类型"
+                        v-model="formValidate.paymentType"
                         style='width:180px;'
                     >
                         <Option
@@ -49,8 +50,9 @@
                     </Select>
                 </FormItem>
                 <!-- 支付账号 -->
-                <!-- formValidate.paymentType) == 3 -->
-                <FormItem label="支付账号" prop="paymentAccount" v-show='formValidate.paymentType != 3'>
+                <!-- 当支付类型为就诊卡时,支付账号,商户号,支付参数为非必填项 -->
+                <!-- formValidate.paymentChannel == 3 -->
+                <FormItem label="支付账号" prop="paymentAccount" v-show='formValidate.paymentChannel != 3'>
                     <Select
                         class="w-select-hos"
                         placeholder="请选择支付账号"
@@ -65,7 +67,7 @@
                         >{{item.nick}}</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="支付账号"  v-show='formValidate.paymentType == 3'>
+                <FormItem label="支付账号"  v-show='formValidate.paymentChannel == 3'>
                     <Select
                         class="w-select-hos"
                         placeholder="请选择支付账号"
@@ -112,17 +114,17 @@
                     </Select>
                 </FormItem>
                 <!-- 商户号 -->
-                <FormItem label="商户号" prop="merchantIdentification" v-show='formValidate.paymentType != 3'>
+                <FormItem label="商户号" prop="merchantIdentification" v-show='formValidate.paymentChannel != 3'>
                     <Input v-model="formValidate.merchantIdentification" placeholder="请输入商户号" style="width: 300px" />
                 </FormItem>
-                <FormItem label="商户号" v-show='formValidate.paymentType == 3'>
+                <FormItem label="商户号" v-show='formValidate.paymentChannel == 3'>
                     <Input v-model="formValidate.merchantIdentification" placeholder="请输入商户号" style="width: 300px" />
                 </FormItem>
                 <!-- 支付参数 -->
-                <FormItem label="支付参数" prop="parameterConfig" v-show='formValidate.paymentType != 3'>
+                <FormItem label="支付参数" prop="parameterConfig" v-show='formValidate.paymentChannel != 3'>
                     <Input v-model="formValidate.parameterConfig" placeholder="请输入支付参数" style="width: 300px" />
                 </FormItem>
-                <FormItem label="支付参数" v-show='formValidate.paymentType == 3'>
+                <FormItem label="支付参数" v-show='formValidate.paymentChannel == 3'>
                     <Input v-model="formValidate.parameterConfig" placeholder="请输入支付参数" style="width: 300px" />
                 </FormItem>
                 <FormItem label="状态" prop="startType">
@@ -145,9 +147,9 @@ export default {
             modalStatus: false,
             // 数据
             formValidate: {
-                // 支付类型
-                paymentType: "",
                 // 支付渠道
+                paymentType: "",
+                // 支付类型
                 paymentChannel: "",
                 // 支付账号
                 paymentAccount: "",
@@ -164,24 +166,24 @@ export default {
             },
             // 验证
             ruleValidate: {
-                //支付类型
+                //支付渠道
                 paymentType: [
 					{
 						// 是否校验
 						required: true,
 						// 提示文字
-						message: "请选择支付类型",
+						message: "请选择支付渠道",
 						// 触发事件
 						trigger: "change"
 					}
                 ],
-                // 支付渠道
+                // 支付类型
                 paymentChannel: [
 					{
 						// 是否校验
 						required: true,
 						// 提示文字
-						message: "请选择支付渠道",
+						message: "请选择支付类型",
 						// 触发事件
 						trigger: "change"
 					}
@@ -262,31 +264,6 @@ export default {
             list: [],
             columns1: [
                 {
-                    title: "支付类型",
-                    align: "center",
-                    key:"paymentTypeName",
-                    width: 150,
-                    render: (h, params) => {
-                        let name = params.row;
-                        return h("div", [
-                            h(
-                                "span",
-                                {
-                                    style: {
-                                        display: "inline-block",
-                                        width:
-                                            params.column._width * 0.8 + "px",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        whiteSpace: "nowrap"
-                                    }
-                                },
-                                name.paymentTypeName
-                            )
-                        ]);
-                    }
-                },
-                {
                     title: "支付渠道",
                     align: "center",
                     key: "paymentChannelName",
@@ -307,6 +284,31 @@ export default {
                                     }
                                 },
                                 name.paymentChannelName
+                            )
+                        ]);
+                    }
+                },
+                {
+                    title: "支付类型",
+                    align: "center",
+                    key:"paymentTypeName",
+                    width: 150,
+                    render: (h, params) => {
+                        let name = params.row;
+                        return h("div", [
+                            h(
+                                "span",
+                                {
+                                    style: {
+                                        display: "inline-block",
+                                        width:
+                                            params.column._width * 0.8 + "px",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: "nowrap"
+                                    }
+                                },
+                                name.paymentTypeName
                             )
                         ]);
                     }
@@ -394,7 +396,6 @@ export default {
                     render: (h, params) => {
                         let name = params.row;
                         let par = JSON.parse(name.parameterConfig).mchKey || ''
-                        console.log(par);
                         return h("div", [
                             h(
                                 "span",
@@ -583,7 +584,7 @@ export default {
         // 加载医院列表数据
         this.loadingHospitalId();
     },
-    methods:{
+    methods: {
         // 返回
         back(){
             let pageNo = this.$route.query
@@ -643,10 +644,10 @@ export default {
                         let config = JSON.parse(ret.parameterConfig).mchKey
                         // 支付类型
                         this.formValidate.paymentType = String(ret.paymentType)
-                        // 通过支付类型,加载支付渠道
-                        this.paymentChannelChange()
                         // 支付渠道
                         this.formValidate.paymentChannel = String(ret.paymentChannel)
+                        // 通过支付类型,加载支付渠道
+                        this.paymentChannelChange()
                         // 支付账号
                         this.formValidate.paymentAccount = ret.paymentAccount
                         // 交易类型
@@ -669,15 +670,15 @@ export default {
         // 选择支付类型后加载支付渠道
         paymentChannelChange() {
             // 当选择就诊卡的表单验证选择
-            if(Number(this.formValidate.paymentType) == 3) {
+            if(Number(this.formValidate.paymentChannel) == 3) {
                 this.ruleValidate = this.cart
             } else {
                 this.ruleValidate = this.stop
             }
             this.paymentChannelList = []
-            if(this.formValidate.paymentType) {
+            if(this.formValidate.paymentChannel) {
                 this.$axios.post(api.channelenummap, {
-                    parent:this.formValidate.paymentType
+                    parent:this.formValidate.paymentChannel
                 }).then(res => {
                     if (res.data.success) {
                         let ret = res.data.object
@@ -704,7 +705,6 @@ export default {
             this.$refs['formValidate'].resetFields();
             // 清空支付渠道
             this.paymentChannelList = []
-
         },
         // 请求支付类型,显示端,医院账号,交易类型
         loadingData () {
@@ -758,6 +758,7 @@ export default {
             this.$axios.post(api.querylist, {
                 hospitalId:this.hospitalId
             }).then(res => {
+                console.log(res);
                 if(res.data.success) {
                     let ret = res.data.object;
                     this.list = ret || []

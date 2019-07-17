@@ -5,7 +5,7 @@
             <!--机构名称 -->
             <div class="main_info">
                 <span>机构名称</span>
-                <Input :value="info.title" style="width: 300px" disabled/>
+                <Input :value="info.title" style="width: 370px" disabled/>
             </div>
             <!--机构首图-->
             <div class="main_imgs">
@@ -51,7 +51,7 @@
             <!--机构等级-->
             <div class="main_type">
                 <span>机构等级</span>
-                <Select v-model="info.grade" style="width:100px" clearable>
+                <Select v-model="info.grade" style="width:200px" clearable>
                     <Option
                         v-for="item in types"
                         :value="item.dictType"
@@ -76,7 +76,7 @@
             <!--背景模板-->
             <div class="main_moban">
                 <span>背景模板</span>
-                <Select v-model="info.cssTemplate" style="width:100px;" clearable>
+                <Select v-model="info.cssTemplate" style="width:200px;" clearable>
                     <Option :value="2">默认模板</Option>
                     <Option :value="1">中医院模板</Option>
                 </Select>
@@ -161,7 +161,7 @@
             <div class="main_info">
                 <span>医院联盟排序</span>
                 <InputNumber :max="99999" :min="1" v-model="info.internetHospitalSort" placeholder="医院联盟排序" :disabled="hospitalFlag"
-                style="width:120px;"
+                style="width:150px;"
                 ></InputNumber>
                 <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
@@ -169,7 +169,7 @@
             <div class="main_info">
                 <span>预约挂号排序</span>
                 <InputNumber :max="99999" :min="1" v-model="info.appointmentRegistration" placeholder="预约挂号排序" 
-                style="width:120px;"></InputNumber>
+                style="width:150px;"></InputNumber>
                 <p style='margin-left:8px;'>备注:只能填写数字，1代表置顶以此类推</p>
             </div>
             <!--是否开通处方流转-->
