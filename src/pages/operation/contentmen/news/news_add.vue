@@ -70,6 +70,7 @@
             :textHtml="info.content"
             :urlCode="urlCode"
             @valueHandle="afterChange"
+            :height='100'
           ></vueEditor>
         </div>
       </div>
@@ -87,7 +88,6 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>排序</span>
         </div>
-        <!-- <Input v-model.trim="isort" style="width: 100px"/> -->
         <InputNumber :max="99999" :min="1" v-model.trim="isort" style="width: 100px" placeholder="无"></InputNumber>
         <p>备注:只能填写数字,1代表置顶以此类推</p>
       </div>
@@ -127,7 +127,7 @@ export default {
       title: "",
       isort: "",
       isource: "",
-      id: "tinymce-editor",
+      // id: "tinymce-editor",
       height: 200,
       tinymceHtml: "",
       defaultList: [],

@@ -2,79 +2,81 @@
   <!--Banner-->
   <div class="i_addBanner">
     <tmpHeader style='margin-bottom:10px;'/>
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
-      <FormItem label="banner名称" prop="bannerName">
-        <Input
-          v-model.trim="formValidate.bannerName"
-          placeholder="请输入医院banner图名称"
-          style="width: 360px"
-        />
-      </FormItem>
-      <FormItem label="banner图片">
-        <div class="input">
-          <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
-            <div v-if="item.status === 'finished'">
-              <img :src="item.url" />
-              <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+    <div class="main">
+      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
+        <FormItem label="banner名称" prop="bannerName">
+          <Input
+            v-model.trim="formValidate.bannerName"
+            placeholder="请输入医院banner图名称"
+            style="width: 360px"
+          />
+        </FormItem>
+        <FormItem label="banner图片">
+          <div class="input">
+            <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
+              <div v-if="item.status === 'finished'">
+                <img :src="item.url" />
+                <div class="demo-upload-list-cover">
+                  <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                  <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                </div>
+              </div>
+              <div v-else>
+                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
               </div>
             </div>
-            <div v-else>
-              <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-            </div>
+            <Upload
+              ref="upload"
+              :show-upload-list="false"
+              :default-file-list="defaultList"
+              :on-success="handleSuccess"
+              :format="['jpg','jpeg','png']"
+              :max-size="2000"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              :before-upload="handleBeforeUpload"
+              multiple
+              type="drag"
+              :action="uploadUrl"
+              :headers="fromData"
+              :data="uploadData"
+              style="display: inline-block;width:58px;"
+            >
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="ios-camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <Modal title="预览图片" v-model="visible" footer-hide>
+              <img :src=" uploadList[0].url " v-if="visible" style="width: 100%" />
+            </Modal>
           </div>
-          <Upload
-            ref="upload"
-            :show-upload-list="false"
-            :default-file-list="defaultList"
-            :on-success="handleSuccess"
-            :format="['jpg','jpeg','png']"
-            :max-size="2000"
-            :on-format-error="handleFormatError"
-            :on-exceeded-size="handleMaxSize"
-            :before-upload="handleBeforeUpload"
-            multiple
-            type="drag"
-            :action="uploadUrl"
-            :headers="fromData"
-            :data="uploadData"
-            style="display: inline-block;width:58px;"
-          >
-            <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="ios-camera" size="20"></Icon>
-            </div>
-          </Upload>
-          <Modal title="预览图片" v-model="visible" footer-hide>
-            <img :src=" uploadList[0].url " v-if="visible" style="width: 100%" />
-          </Modal>
-        </div>
-      </FormItem>
-      <FormItem label="banner链接">
-        <Input
-          v-model.trim="formValidate.bannerUrl"
-          placeholder="请输入banner链接"
-          style="width: 360px"
-        />
-      </FormItem>
-      <FormItem label="排序">
-        <InputNumber
-          :max="99999"
-          :min="1"
-          v-model.trim="formValidate.priority"
-          style="width: 100px"
-        ></InputNumber>
-      </FormItem>
-      <FormItem label="是否显示">
-        <iSwitch size="large"  v-model="formValidate.enable" >
-            <span slot="open">显示</span>
-            <span slot="close">关闭</span>
-        </iSwitch>
-      </FormItem>
-    </Form>
-    <div class="save">
-      <Button @click="save('formValidate')" type="primary">保存</Button>
-      <Button @click="back">取消</Button>
+        </FormItem>
+        <FormItem label="banner链接">
+          <Input
+            v-model.trim="formValidate.bannerUrl"
+            placeholder="请输入banner链接"
+            style="width: 360px"
+          />
+        </FormItem>
+        <FormItem label="排序">
+          <InputNumber
+            :max="99999"
+            :min="1"
+            v-model.trim="formValidate.priority"
+            style="width: 100px"
+          ></InputNumber>
+        </FormItem>
+        <FormItem label="是否显示">
+          <iSwitch size="large"  v-model="formValidate.enable" >
+              <span slot="open">显示</span>
+              <span slot="close">关闭</span>
+          </iSwitch>
+        </FormItem>
+        <FormItem>
+          <Button @click="save('formValidate')" type="primary">保存</Button>
+          <Button @click="back">取消</Button>
+        </FormItem>
+      </Form>
     </div>
   </div>
 </template>
@@ -301,9 +303,8 @@ export default {
   padding: 10px 30px;
   margin: 0 auto;
   background: #fff;
-  .save {
-      width: 200px;
-      height: 30px;
+  .main {
+      width: 70%;
       margin: 0 auto;
     }
 }

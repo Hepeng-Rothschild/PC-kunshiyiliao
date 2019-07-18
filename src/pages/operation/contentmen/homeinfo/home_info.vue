@@ -214,7 +214,7 @@ export default {
         vueEditor,
         "imyswitch": {
             template: '<div class="main_yy">'+
-                            '<span class="main_yy_name" style="margin-right:10px;min-width:100px;">{{ title }}</span>'+
+                            '<span class="main_yy_name" style="margin-right:10px;min-width:150px;">{{ title }}</span>'+
                             '<iSwitch v-model="flag" @on-change="Change" size="large">'+
                                 '<span slot="open">开启</span>'+
                                 '<span slot="close">关闭</span>'+
@@ -331,7 +331,6 @@ export default {
         // 医院主公众号
         masterSwitch(index) {
             let status = this.info.appidList[index].imaster;
-            // console.log(status);
             if(status) {
                 this.info.appidList.forEach((item, s) => {
                     if(s == index) {
@@ -341,8 +340,6 @@ export default {
                     }
                 })
             }
-            // console.log(this.info.appidList);
-            
         },
         // 公众号列表限制
         addAppid () {
@@ -821,7 +818,7 @@ export default {
     margin: 0 auto;
     background: #fff;
     .main {
-        width: 80%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         padding: 30px 0;
@@ -835,7 +832,7 @@ export default {
             align-items: center;
             span {
                 display: inline-block;
-                min-width: 100px;
+                min-width: 150px;
                 line-height: 30px;
             }
             input {
@@ -854,7 +851,7 @@ export default {
             margin: 5px auto;
             .main_yy_name {
                 display: inline-block;
-                min-width: 100px;
+                min-width: 150px;
                 margin-right: 10px;
             }
         }
@@ -869,7 +866,7 @@ export default {
             align-items:center;
             span {
                 display: inline-block;
-                min-width: 100px;
+                min-width: 150px;
             }
             .cus-btn{
                 width:30px;
@@ -896,7 +893,7 @@ export default {
             margin: 5px auto;
             span {
                 display: inline-block;
-                min-width: 100px;
+                min-width: 150px;
             }
             div {
                 margin: 0;

@@ -521,36 +521,6 @@ export default {
       margin-right: 20px;
       border-radius: 10px;
       overflow:auto;
-      ul {
-        width: 100%;
-        li {
-          width: 100%;
-          padding-left: 20px;
-          user-select: none;
-          cursor: pointer;
-        }
-        li.active {
-          background: #2d8cf0;
-        }
-      }
-      .oneList {
-        display: none;
-        li {
-          padding-left: 40px;
-        }
-        li.active {
-          background: #2d8cf0;
-        }
-      }
-      .twoList {
-        display: none;
-        li {
-          padding-left: 60px;
-        }
-        li.active {
-          background: #2d8cf0;
-        }
-      }
     }
     .i-keshi_main-right {
       flex: 1;
@@ -596,24 +566,7 @@ export default {
       }
       .save {
         width: 200px;
-        height: 30px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        margin: 10px auto;
-        div:first-child {
-          background: #2d8cf0;
-        }
-        div {
-          width: 80px;
-          height: 30px;
-          background: #c9c9c9;
-          border-radius: 20px;
-          text-align: center;
-          line-height: 30px;
-          color: #fff;
-          cursor: pointer;
-        }
+        margin: 20px auto;
       }
     }
   }

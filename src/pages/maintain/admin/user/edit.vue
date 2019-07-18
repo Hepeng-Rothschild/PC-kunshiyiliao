@@ -1,27 +1,15 @@
 <template>
   <div class="edit">
     <div class="container">
-      <header>
-        <div>编辑账号</div>
-      </header>
+      <h2 style='font-weight:bold;margin:10px 0;'>编辑账号</h2>
       <div class="main">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
           <!-- 登录账号 -->
-          <div class="formItem">
-            <div class="item-left">
-              <span style="color:red;">*</span>
-              <span>登录账号</span>
-            </div>
-            <FormItem  prop="userName">
-              <Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" autocomplete="off"  id='userName' @on-keyup="formValidate.userName = formValidate.userName.replace(/[^\w_]/g,'');" maxlength="64"/>
-            </FormItem>
-          </div>
+          <FormItem prop="userName" label='登录账号'>
+            <Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" autocomplete="off"  id='userName' @on-keyup="formValidate.userName = formValidate.userName.replace(/[^\w_]/g,'');" maxlength="64"/>
+          </FormItem>
           <!-- 更改密码 -->
-          <div class="item">
-            <div class="item-left">
-              <span style="color:red;">&nbsp;</span>
-              <span>更改密码</span>
-            </div>
+          <FormItem label='更改密码'>
             <Input
               v-model.trim="pass"
               placeholder="请输入登录密码"
@@ -31,158 +19,118 @@
               autocomplete="new-password"
               id='passWord'
             />
-          </div>
-          <p class="info">未填写更改密码时,不修改密码</p>
+            <span>未填写更改密码时,不修改密码</span>
+          </FormItem>
           <!-- 用户昵称 -->
-          <div class="formItem">
-            <div class="item-left">
-              <span style="color:red;">&nbsp;</span>
-              <span>用户昵称</span>
+          <FormItem prop="niceName" label='用户昵称'>
+            <Input v-model.trim="formValidate.niceName" placeholder="请填写用户昵称" style="width: 300px" />
+          </FormItem>
+          <FormItem label='用户头像'>
+              <div class="input">
+                  <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
+                    <div v-if="item.status === 'finished'">
+                      <img :src="item.url">
+                      <div class="demo-upload-list-cover">
+                        <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                        <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                    </div>
+                  </div>
+                  <Upload
+                    ref="upload"
+                    :show-upload-list="false"
+                    :default-file-list="defaultList"
+                    :on-success="handleSuccess"
+                    :format="['jpg','jpeg','png']"
+                    :max-size="2000"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    :before-upload="handleBeforeUpload"
+                    multiple
+                    type="drag"
+                    :action="uploadUrl"
+                    :headers="fromData"
+                    :data="uploadData"
+                    style="display: inline-block;width:58px;"
+                  >
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="ios-camera" size="20"></Icon>
+                  </div>
+                </Upload>
+                <Modal title="预览图片" v-model="visible" footer-hide :styles="{top: '20px'}">
+                  <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
+                </Modal>
+              </div>
+          </FormItem>
+           <!-- 用户身份 -->
+          <FormItem label='用户身份'>
+            <div>
+              <Select class="w-select-identity" placeholder="用户身份" v-model="identity" disabled>
+                <Option v-for="item in identityList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
+              </Select>
             </div>
-            <FormItem prop="niceName">
-              <Input v-model.trim="formValidate.niceName" placeholder="请填写用户昵称" style="width: 300px" />
-            </FormItem>
-          </div>
-          </Form>
-        
-        <!-- 用户头像 -->
-        <div class="main_imgs">
-          <div class="main_title_info">
-            <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>用户头像</span>
-          </div>
-          <div class="input">
-            <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
-              <div v-if="item.status === 'finished'">
-                <img :src="item.url">
-                <div class="demo-upload-list-cover">
-                  <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                  <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                </div>
-              </div>
-              <div v-else>
-                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-              </div>
+          </FormItem>
+          <!-- 用户所属 -->
+          <FormItem label='用户所属'>
+            <div>
+              <Select
+                class="w-select"
+                @on-change="changeProvince"
+                placeholder="省"
+                v-model="provinceId"
+                disabled
+                v-if="identity >= 2 && identity != 5"
+              >
+                <!-- <Option value="0">全国</Option> -->
+                <Option v-for="item in provinceList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
+              </Select>
+              <Select
+                class="w-select"
+                @on-change="changeCity"
+                placeholder="市"
+                v-model="cityId"
+                disabled
+                v-if="identity >= 3 && identity != 5"
+              >
+                <Option v-for="(item) in cityList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
+              </Select>
+              <Select
+                class="w-select"
+                @on-change="changeArea"
+                placeholder="区/县"
+                v-model="areaId"
+                disabled
+                v-if="identity >= 4 && identity != 5"
+              >
+                <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
+              </Select>
+              <Select
+                class="w-select-hos"
+                placeholder="医院"
+                v-model="hospitalId"
+                disabled
+                v-if="identity == 5"
+              >
+                <Option v-for="item in hospitalList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.orgName}}</Option>
+              </Select>
             </div>
-            <Upload
-              ref="upload"
-              :show-upload-list="false"
-              :default-file-list="defaultList"
-              :on-success="handleSuccess"
-              :format="['jpg','jpeg','png']"
-              :max-size="2000"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              :before-upload="handleBeforeUpload"
-              multiple
-              type="drag"
-              :action="uploadUrl"
-              :headers="fromData"
-              :data="uploadData"
-              style="display: inline-block;width:58px;"
-            >
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="ios-camera" size="20"></Icon>
-              </div>
-            </Upload>
-            <Modal title="预览图片" v-model="visible" footer-hide :styles="{top: '20px'}">
-              <img :src=" uploadList[0].url " v-if="visible" style="width: 100%">
-            </Modal>
-          </div>
-        </div>
-        <!-- 用户身份 -->
-        <div class="item">
-          <div class="item-left">
-            <span style="color:red;">*</span>
-            <span>用户身份</span>
-          </div>
-          <div>
-            <Select class="w-select-identity" placeholder="用户身份" v-model="identity" disabled>
-              <Option v-for="item in identityList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
-            </Select>
-          </div>
-        </div>
-        <div class="item">
-          <div class="item-left">
-            <span style="color:red;">&nbsp;</span>
-            <span>用户所属</span>
-          </div>
-          <div>
-            <Select
-              class="w-select"
-              @on-change="changeProvince"
-              placeholder="省"
-              v-model="provinceId"
-              disabled
-              v-if="identity >= 2 && identity != 5"
-            >
-              <!-- <Option value="0">全国</Option> -->
-              <Option v-for="item in provinceList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
-            </Select>
-            <Select
-              class="w-select"
-              @on-change="changeCity"
-              placeholder="市"
-              v-model="cityId"
-              disabled
-              v-if="identity >= 3 && identity != 5"
-            >
-              <Option v-for="(item) in cityList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.name}}</Option>
-            </Select>
-            <Select
-              class="w-select"
-              @on-change="changeArea"
-              placeholder="区/县"
-              v-model="areaId"
-              disabled
-              v-if="identity >= 4 && identity != 5"
-            >
-              <Option v-for="item in areaList" :value="item.id" :key="item.id">{{item.name}}</Option>
-            </Select>
-            <Select
-              class="w-select-hos"
-              placeholder="医院"
-              v-model="hospitalId"
-              disabled
-              v-if="identity == 5"
-            >
-              <Option v-for="item in hospitalList" :value="item.id" :key="item.id" style='text-align:center;'>{{item.orgName}}</Option>
-            </Select>
-          </div>
-        </div>
-        <!-- 是否开启 -->
-        <div class="item">
-          <div class="item-left">
-            <span style="color:red;">&nbsp;</span>
-            <span>是否开启</span>
-          </div>
-          <iSwitch v-model="switch1" size="large">
-            <span slot="open">启用</span>
-            <span slot="close">禁用</span>
-          </iSwitch>
-        </div>
-        <!-- 联系电话 -->
-        <!-- <div class="item">
-          <div class="item-left">
-            <span style="color:red;">*</span>
-            <span>联系电话</span>
-          </div>
-          <Input v-model.trim="phone" placeholder="请填写常用电话号码" style="width: 300px" :maxlength="11"/>
-        </div>
-        <p class="info">请填写常用手机号码</p>-->
-        <!-- 备注 -->
-        <!-- <div class="item">
-          <div class="item-left">
-            <span style="color:red;">&nbsp;&nbsp;</span>
-            <span>备注</span>
-          </div>
-          <Input v-model="remarks" type="textarea" :rows="4"/>
-        </div>-->
-        <!-- 保存 -->
-        <div class="save">
-          <Button type="primary" @click="save('formValidate')">保存</Button>
-          <Button @click="back">取消</Button>
-        </div>
+          </FormItem>
+          <!-- 是否开启 -->
+          <FormItem  label='是否开启'>
+            <iSwitch v-model="switch1" size="large">
+              <span slot="open">启用</span>
+              <span slot="close">禁用</span>
+            </iSwitch>
+          </FormItem>
+          <!-- 保存 -->
+          <FormItem>
+            <Button type="primary" @click="save('formValidate')">保存</Button>
+            <Button @click="back">取消</Button>
+          </FormItem>
+        </Form>
       </div>
     </div>
   </div>
@@ -193,7 +141,6 @@ import code from "@/configs/base.js";
 export default {
   data() {
     return {
-      // 
       formValidate:{
         userName:"",
         niceName:""
@@ -614,103 +561,11 @@ input:-webkit-autofill {
   .container {
     width: 90%;
     margin: 0 auto;
-    header {
-      div {
-        font-size: 18px;
-      }
-    }
     .main {
-      width: 100%;
+      width: 70%;
       margin: 20px auto;
       display: flex;
       flex-direction: column;
-      .formItem{
-        display:flex;
-        flex-direction:row;
-        width:500px;
-        margin:10px auto;
-        .item-left{
-          width:100px;
-          line-height:32px;
-        }
-        
-      }
-      .item {
-        width: 500px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin: 10px auto;
-        .item-left {
-          width: 100px;
-          margin-right:80px;
-          span {
-            width: 30px;
-          }
-        }
-        textarea {
-          display: inline-block;
-          width: 400px;
-          border-radius: 4px;
-          border: 1px solid #ddd;
-          outline: none;
-        }
-        select {
-          width: 100px;
-          line-height: 30px;
-          border-radius: 4px;
-          outline: none;
-        }
-
-        input {
-          display: inline-block;
-          width: 400px;
-          border-radius: 4px;
-          border: 1px solid #ddd;
-          text-indent: 10px;
-          line-height: 40px;
-          background: #fff;
-          outline: none;
-        }
-      }
-      .main_imgs {
-        width: 500px;
-        display: flex;
-        flex-direction: row;
-        margin: 10px auto;
-        align-items: center;
-        .main_title_info {
-          margin-right:80px;
-          min-width: 100px;
-        }
-      }
-      .info {
-        
-        width: 300px;
-        margin: 0 auto;
-        color: #999;
-      }
-      .save {
-        display: flex;
-        flex-direction: row;
-        width: 300px;
-        justify-content: space-around;
-        margin: 20px auto;
-        div:last-child {
-          background: skyblue;
-        }
-        div {
-          width: 80px;
-          height: 30px;
-          border-radius: 4px;
-          border: 1px solid #ddd;
-          background: #ddd;
-          text-align: center;
-          line-height: 30px;
-          color: #fff;
-          cursor: pointer;
-        }
-      }
     }
   }
 }

@@ -1,48 +1,24 @@
 <template>
     <div class="add">
         <div class="container">
-            <header>
-                <div>添加账号</div>
-            </header>
+            <h2 style='font-weight:bold;margin:10px 0;'>添加账号</h2>
             <div class="main">
 				<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
 					<!-- 登录账号 -->
-					<div class="userName">
-						<div class="left">
-							<span style="color:red;">*</span>
-							<span>登录账号</span>
-						</div>
-						<FormItem prop="userName">
-							<Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" @on-keyup="formValidate.userName = formValidate.userName.replace(/[^\w_]/g,'');" maxlength="64"></Input>
-						</FormItem>
-					</div>
+                    <FormItem prop="userName" label='登录账号'>
+                        <Input v-model.trim="formValidate.userName" placeholder="请输入登录账号" style="width: 300px" @on-keyup="formValidate.userName = formValidate.userName.replace(/[^\w_]/g,'');" maxlength="64"></Input>
+                    </FormItem>
 					<!-- 登录密码 -->
-					<div class="userName">
-						<div class="left">
-							<span style="color:red;">*</span>
-							<span>登录密码</span>
-						</div>
-						<FormItem prop="passWord">
-							<Input v-model.trim="formValidate.passWord" placeholder="请设置登录密码" style="width: 300px" type="password" :maxlength="16" autocomplete="new-password"></Input>
-						</FormItem>
-					</div>
+                    <FormItem prop="passWord"  label='登录密码'>
+                        <Input v-model.trim="formValidate.passWord" placeholder="请设置登录密码" style="width: 300px" type="password" :maxlength="16" autocomplete="new-password"></Input>
+                    </FormItem>
 					<!-- 用户昵称 -->
-					<div class="userName">
-						<div class="left">
-							<span style="color:red;">*</span>
-							<span>用户昵称</span>
-						</div>
-						<FormItem prop="nickName">
-							<Input v-model.trim="formValidate.nickName" placeholder="请设置用户昵称" style="width: 300px"></Input>
-						</FormItem>
-					</div>
-					<!-- 用户头像 -->
-					<div class="main_imgs">
-						<div class="main_title_info">
-							<span style="color:red;">&nbsp;&nbsp;</span>
-							<span>用户头像</span>
-						</div>
-						<div class="input">
+                    <FormItem prop="nickName" label='用户昵称'>
+                        <Input v-model.trim="formValidate.nickName" placeholder="请设置用户昵称" style="width: 300px"></Input>
+                    </FormItem>
+                    <!-- 用户头像 -->
+                    <FormItem label='用户头像'>
+                       <div class="input">
 							<div class="demo-upload-list" v-for="(item,index) in uploadList" :key='index'>
 								<div v-if="item.status === 'finished'">
 									<img :src="item.url">
@@ -90,114 +66,100 @@
 								<img :src="uploadList[0].url " v-if="visible" style="width: 100%">
 							</Modal>
 						</div>
-						</div>
+                    </FormItem>
 					<!-- 用户身份 -->
-					<div class="userName">
-						<div class="left">
-							<span style="color:red;">*</span>
-							<span>用户身份</span>
-						</div>
-						<FormItem prop="identityAdd">
-							<div>
-								<Select class="w-select-identity" placeholder="用户身份" v-model="formValidate.identityAdd">
-									<Option
-										v-for="item in identityList"
-										:value="item.id"
-										:key="item.id"
-                                        style='text-align:center;'
-									>{{item.name}}</Option>
-								</Select>
-							</div>
-						</FormItem>
-					</div>
+                    <FormItem prop="identityAdd" label='用户身份'>
+                        <div>
+                            <Select class="w-select-identity" placeholder="用户身份" v-model="formValidate.identityAdd">
+                                <Option
+                                    v-for="item in identityList"
+                                    :value="item.id"
+                                    :key="item.id"
+                                    style='text-align:center;'
+                                >{{item.name}}</Option>
+                            </Select>
+                        </div>
+                    </FormItem>
 					<!-- 用户所属 -->
-					<div class="pass">
-						<div class="left">
-							<span style="color:red;">*</span>
-							<span>用户所属</span>
-						</div>
-						<div>
-							<Select
-								class="w-select"
-								@on-change="changeProvince"
-								placeholder="省"
-								v-model="provinceId"
-								:clearable="!provinceStatus"
-								:disabled="provinceStatus"
-								v-if="formValidate.identityAdd >= 2 || formValidate.identityAdd == 5"
-							>
-								<Option
-									v-for="item in provinceList"
-									:value="item.id"
-									:key="item.id"
+                    <FormItem label='用户所属'>
+                        <div>
+                            <Select
+                                class="w-select"
+                                @on-change="changeProvince"
+                                placeholder="省"
+                                v-model="provinceId"
+                                :clearable="!provinceStatus"
+                                :disabled="provinceStatus"
+                                v-if="formValidate.identityAdd >= 2 || formValidate.identityAdd == 5"
+                            >
+                                <Option
+                                    v-for="item in provinceList"
+                                    :value="item.id"
+                                    :key="item.id"
                                     style='text-align:center;'
-								>{{item.name}}</Option>
-							</Select>
-							<Select
-								class="w-select"
-								@on-change="changeCity"
-								placeholder="市"
-								v-model="cityId"
-								:clearable="!cityStatus"
-								:disabled="cityStatus"
-								v-if="formValidate.identityAdd >= 3 || formValidate.identityAdd == 5"
-							>
-								<Option
-									v-for="(item) in cityList"
-									:value="item.id"
-									:key="item.id"
+                                >{{item.name}}</Option>
+                            </Select>
+                            <Select
+                                class="w-select"
+                                @on-change="changeCity"
+                                placeholder="市"
+                                v-model="cityId"
+                                :clearable="!cityStatus"
+                                :disabled="cityStatus"
+                                v-if="formValidate.identityAdd >= 3 || formValidate.identityAdd == 5"
+                            >
+                                <Option
+                                    v-for="(item) in cityList"
+                                    :value="item.id"
+                                    :key="item.id"
                                     style='text-align:center;'
-								>{{item.name}}</Option>
-							</Select>
-							<Select
-								class="w-select"
-								@on-change="changeArea"
-								placeholder="区/县"
-								v-model="areaId"
-								:clearable="!areaStatus"
-								:disabled="areaStatus"
-								v-if="formValidate.identityAdd >= 4 || formValidate.identityAdd == 5"
-							>
-								<Option
-									v-for="item in areaList"
-									:value="item.id"
-									:key="item.id"
+                                >{{item.name}}</Option>
+                            </Select>
+                            <Select
+                                class="w-select"
+                                @on-change="changeArea"
+                                placeholder="区/县"
+                                v-model="areaId"
+                                :clearable="!areaStatus"
+                                :disabled="areaStatus"
+                                v-if="formValidate.identityAdd >= 4 || formValidate.identityAdd == 5"
+                            >
+                                <Option
+                                    v-for="item in areaList"
+                                    :value="item.id"
+                                    :key="item.id"
                                     style='text-align:center;'
-								>{{item.name}}</Option>
-							</Select>
-							<Select
-								class="w-select-hos"
-								placeholder="医院"
-								v-model="hospitalId"
-								:clearable="!hospitalStatus"
-								:disabled="hospitalStatus"
-								v-if="formValidate.identityAdd == 5"
-							>
-								<Option
-									v-for="item in hospitalList"
-									:value="item.id"
-									:key="item.id"
+                                >{{item.name}}</Option>
+                            </Select>
+                            <Select
+                                class="w-select-hos"
+                                placeholder="医院"
+                                v-model="hospitalId"
+                                :clearable="!hospitalStatus"
+                                :disabled="hospitalStatus"
+                                v-if="formValidate.identityAdd == 5"
+                            >
+                                <Option
+                                    v-for="item in hospitalList"
+                                    :value="item.id"
+                                    :key="item.id"
                                     style='text-align:center;'
-								>{{item.orgName}}</Option>
-							</Select>
-						</div>
-					</div>
+                                >{{item.orgName}}</Option>
+                            </Select>
+                        </div>
+                    </FormItem>
 					<!-- 是否开启 -->
-					<div class="pass">
-						<div class="left">
-							<span style="color:red;">&nbsp;</span>
-							<span>是否开启</span>
-						</div>
-						<iSwitch v-model="switch1" size="large">
-							<span slot="open">启用</span>
-							<span slot="close">禁用</span>
-						</iSwitch>
-					</div>
+                    <FormItem label='是否开启'>
+                        <iSwitch v-model="switch1" size="large">
+                            <span slot="open">启用</span>
+                            <span slot="close">禁用</span>
+                        </iSwitch>
+                    </FormItem>
 					<!-- 保存 -->
-					<div class="save">
-						<Button type="primary" @click="save('formValidate')">添加</Button>
+                    <FormItem>
+                        <Button type="primary" @click="save('formValidate')">添加</Button>
 						<Button @click="back">取消</Button>
-					</div>
+                    </FormItem>
 				</Form>
             </div>
         </div>
@@ -650,93 +612,11 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset !important;}
     .container {
         width: 90%;
         margin: 0 auto;
-        header {
-            div {
-                font-size: 18px;
-            }
-        }
         .main {
-            width: 90%;
+            width: 70%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            .pass {
-                width: 800px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                margin: 10px auto;
-                .left {
-					width: 100px;
-					margin-right:80px;
-                }
-                .sex {
-                    margin: 0 20px;
-                    input {
-                        width: 15px;
-                        height: 15px;
-                    }
-                }
-			}
-			.userName{
-				width:800px;
-				display:flex;
-				flex-direction:row;
-				margin:10px auto;	
-				.left{
-					width:100px;
-					line-height:32px;
-				}
-			}
-            .main_imgs {
-                display: flex;
-                width: 800px;
-                flex-direction: row;
-                margin: 10px auto;
-                align-items: center;
-                .main_title_info {
-					margin-right:80px;
-                    min-width: 100px;
-                }
-            }
-            .remarks {
-                display: flex;
-                width: 600px;
-                flex-direction: row;
-                margin: 10px auto;
-                .left {
-                    width: 100px;
-                }
-                textarea {
-                    display: inline-block;
-                    outline: none;
-                    text-indent: 10px;
-                    width: 400px;
-                }
-            }
-            .save {
-                width: 300px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin: 20px auto;
-                div {
-                    width: 100px;
-                    line-height: 30px;
-                    text-align: center;
-                    cursor: pointer;
-                }
-                div:first-child {
-                    background: #fff;
-                    border: 1px solid #cacaca;
-                    border-radius: 4px;
-                }
-                div:last-child {
-                    background: #3399ff;
-                    color: #fff;
-                    border-radius: 4px;
-                }
-            }
         }
     }
 }

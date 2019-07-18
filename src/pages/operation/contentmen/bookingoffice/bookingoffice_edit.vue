@@ -77,12 +77,12 @@
             <span style="color:red;">&nbsp;&nbsp;&nbsp;</span>
             <span>科室简介</span>
           </div>
-
           <vueEditor
             id="editor_id"
             :textHtml="info.content"
             :urlCode="urlCode"
             @valueHandle="afterChange"
+            :height='100'
             style="margin:0;"
           ></vueEditor>
         </div>
@@ -455,36 +455,6 @@ export default {
       border-radius: 10px;
       margin-right: 20px;
       overflow:auto;
-      ul {
-        width: 100%;
-        li {
-          width: 100%;
-          padding-left: 20px;
-          user-select: none;
-          cursor: pointer;
-        }
-        li.active {
-          background: #41c7db;
-        }
-      }
-      .oneList {
-        display: none;
-        li {
-          padding-left: 40px;
-        }
-        li.active {
-          background: #41c7db;
-        }
-      }
-      .twoList {
-        display: none;
-        li {
-          padding-left: 60px;
-        }
-        li.active {
-          background: #41c7db;
-        }
-      }
     }
 
     .i-keshi_main-right {
@@ -492,7 +462,6 @@ export default {
       display: flex;
       flex-direction: column;
       padding: 30px 0;
-
       .keshi_name {
         display: flex;
         flex-direction: row;
@@ -535,24 +504,7 @@ export default {
       }
       .save {
         width: 200px;
-        height: 30px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        margin: 0 auto;
-        div:first-child {
-          background: #2d8cf0;
-        }
-        div {
-          width: 80px;
-          height: 30px;
-          background: #c9c9c9;
-          border-radius: 20px;
-          text-align: center;
-          line-height: 30px;
-          color: #fff;
-          cursor: pointer;
-        }
+        margin: 20px auto;
       }
     }
   }
