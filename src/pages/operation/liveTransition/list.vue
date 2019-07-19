@@ -51,6 +51,7 @@
 <script>
 import api from "@/api/commonApi";
 import fourLevelLinkage from "@/components/fourLevelLinkage";
+// 直播转换点播列表
 export default {
     components: {
         fourLevelLinkage

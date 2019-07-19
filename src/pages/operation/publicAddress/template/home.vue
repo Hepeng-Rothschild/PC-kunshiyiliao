@@ -29,23 +29,23 @@ export default {
       appid: ''
     };
   },
-    created() {
-      let iv = store.state.iv;
-      let salt = store.state.salt;
-      this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
-        let breadList = [
-            { path: "/index", title: "首页" },
-            {
-                path: "/index/operation/publicHosting/index",
-                title: "公众号托管"
-            },
-            {
-                path: "/index/operation/publicAddress/list",
-                title: "公众号管理"
-            }
-        ];
-        this.$emit("changeBreadList", breadList);
-    },
+  created() {
+    let iv = store.state.iv;
+    let salt = store.state.salt;
+    this.appid = aesUtils.decrypt(salt,iv,"wxAppid",localStorage.getItem("appid"))
+      let breadList = [
+          { path: "/index", title: "首页" },
+          {
+              path: "/index/operation/publicHosting/index",
+              title: "公众号托管"
+          },
+          {
+              path: "/index/operation/publicAddress/list",
+              title: "公众号管理"
+          }
+      ];
+      this.$emit("changeBreadList", breadList);
+  },
   mounted() {
     this.loadingData();
   },
@@ -55,6 +55,7 @@ export default {
         list: this.list,
         appid: this.appid
       }
+      console.log('模板参数',params);
       this.$axios.post(api.wxTemplateSave, params).then(res => {
         if (res.data.code) {
           let ret = res.data;
@@ -88,6 +89,7 @@ export default {
   margin: 0 auto;
   background: #fff;
   .main {
+    position:relative;
     width: 100%;
     .item {
       span {
@@ -97,8 +99,9 @@ export default {
       margin: 10px 0;
     }
     .save {
-      width: 200px;
-      margin: 0 auto;
+      position:fixed;
+      right:50px;
+      bottom:50px;
     }
   }
 }

@@ -89,7 +89,6 @@ export default {
             file.name = res.object[0].fileName;
           } else {
             this.$Message.error("Token不合法,请重新登录重试!")
-            // this.$axios.
             setTimeout(() => {
               this.logout();
             }, 500)

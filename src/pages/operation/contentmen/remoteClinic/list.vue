@@ -41,7 +41,7 @@
           <h3>可选择远程门诊合作机构</h3>
           <table border="0" cellspacing="0" cellpadding="0">
             <tr>
-              <th>医院</th>
+              <th>医院名称</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item,index) in hospialList" :key="index"  v-show='hospialList.length'>
@@ -56,7 +56,7 @@
           <h3>已选择远程门诊合作机构</h3>
           <table border="0" cellspacing="0" cellpadding="0">
             <tr>
-              <th>医院</th>
+              <th>医院名称</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item,index) in selectHospial" :key="index" v-show='selectHospial.length'>

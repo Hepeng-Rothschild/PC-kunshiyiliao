@@ -8,23 +8,7 @@
         </div>
         <!--表格列表-->
         <div class="main">
-            <table border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <th>编号</th>
-                    <th>范围</th>
-                    <th>服务包</th>
-                    <th>操作</th>
-                </tr>
-                <tr v-for="(item,index) in tablesList" v-show="tablesList.length" :key='index'>
-                    <th>{{ addZeros(index) }}</th>
-                    <th>{{ item.menuName }}</th>
-                    <th>
-                        <span v-for="(items,index) in item.result" v-show='items.packagestatus!=0' :key='index'>{{index == 0?'':' | '}}{{ items.packageName }}</span>
-                    </th>
-                    <th @click="navto(item)" style="cursor:pointer;color:#2d8cf0;">编辑</th>
-                </tr>
-            </table>
-            <div class="footer" v-show="!tablesList.length">暂无更多数据</div>
+            <Table stripe :columns="columns" :data="tablesList"></Table>
         </div>
     </div>
 </template>
@@ -40,7 +24,37 @@ export default {
     data() {
         return {
             tablesList: [],
-            hospitalId: sessionStorage.getItem("hospitalId")
+            hospitalId: sessionStorage.getItem("hospitalId"),
+            columns:[
+                {
+                    key:"isum",
+                    title:"编号",
+                    align:"center"
+                },
+                {
+                    key:"menuName",
+                    title:"服务分类",
+                    align:"center",
+                },
+                {
+                    key:"result",
+                    title:"已开通服务",
+                    align:'center'
+                },
+                {
+                    title:"操作",
+                    align:'center',
+                    render:(h,params) => {
+                        return h('a', {
+                        on: {
+                            click: () => {
+                                this.navto(params.row)
+                            }
+                        }
+                        }, '编辑')
+                    }
+                }
+            ]
         };
     },
   created(){
@@ -85,6 +99,7 @@ export default {
                     
                     if (res.data.success) {
                         let ret = res.data.object[0];
+                        console.log(ret);
                         let list = [];
                         let proList = {
                             menuName:'省',
@@ -136,6 +151,14 @@ export default {
                         this.tablesList.push(areaList);
                         this.tablesList.push(orgList);
                         this.tablesList.push(hosList);
+                        this.tablesList.forEach((item,index) => {
+                            let _result = []
+                            item.result.forEach(s => {
+                                _result.push(s.packageName)
+                            })
+                            item.result = _result.join(" | ")
+                            item.isum = this.addZeros(index)
+                        })
                     }else{
                         this.$Message.info("查询失败,请重试");
                     }
@@ -161,36 +184,6 @@ export default {
     .main {
         width: 80%;
         margin: 0 auto;
-        table {
-            width: 100%;
-            border: 1px solid #ddd;
-            font-size:12px;
-            tr:nth-child(odd) {
-                background: #f8f8f9;
-            }
-            tr:nth-child(even) {
-                background: #fff;
-            }
-            tr:not(:first-child):hover {
-                background: #ebf7ff;
-            }
-            tr {
-                border-top: 1px solid #ddd;
-                height: 40px;
-                th {
-                    text-align: center;
-                    min-width: 80px;
-                }
-            }
-        }
-        .footer {
-            width: 100%;
-            border: 1px solid #ddd;
-            border-top: none;
-            text-align: center;
-            height: 40px;
-            line-height: 40px;
-        }
     }
 }
 </style>

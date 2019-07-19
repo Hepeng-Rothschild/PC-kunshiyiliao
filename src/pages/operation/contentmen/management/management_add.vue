@@ -23,7 +23,6 @@
                   </CheckboxGroup>
                   <span v-show='!paymentList.length' style='color:gray;'>暂无支付方式</span>
                 </div>
-                
             </div>
           </div>
         </div>
@@ -190,6 +189,7 @@ export default {
   margin: 0 auto;
   background: #fff;
   .addManag {
+    position:relative;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -216,11 +216,11 @@ export default {
       }
     }
     .expert_save {
+      position:fixed;
+      bottom:30px;
+      right:30px;
       width: 200px;
       margin: 10px auto;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
     }
   }
 }

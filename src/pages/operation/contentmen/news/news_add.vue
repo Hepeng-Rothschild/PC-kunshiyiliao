@@ -27,7 +27,6 @@
               <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
             </div>
           </div>
-
           <div v-else>
             <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
           </div>
@@ -97,7 +96,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch size="large"  v-model="switch1" @on-change="change" >
+        <iSwitch size="large"  v-model="enable">
             <span slot="open">开启</span>
             <span slot="close">关闭</span>
         </iSwitch>
@@ -108,7 +107,6 @@
         <Button @click="back">取消</Button>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -127,17 +125,14 @@ export default {
       title: "",
       isort: "",
       isource: "",
-      // id: "tinymce-editor",
-      height: 200,
-      tinymceHtml: "",
+      enable: true,
+      info: {
+        content: ""
+      },
       defaultList: [],
       imgName: "",
       visible: false,
       uploadList: [],
-      switch1: true,
-      info: {
-        content: ""
-      },
       uploadModal: true,
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
@@ -169,10 +164,6 @@ export default {
   methods: {
     afterChange(val) {
       this.info.content = val;
-    },
-    chan(e) {},
-    valueHandle(param) {
-      this.tinymceHtml = param;
     },
     handleView(name) {
       this.imgName = name;
@@ -207,9 +198,6 @@ export default {
       }
       return check;
     },
-    change(status) {
-      //              this.$Message.info('开关状态：' + status);
-    },
     save() {
       let params = {};
       let images = "";
@@ -218,7 +206,7 @@ export default {
       }
       params = {
         content: this.info.content,
-        enable: Number(this.switch1),
+        enable: Number(this.enable),
         hospitalId: this.id,
         priority: this.isort,
         source: this.isource,
@@ -236,7 +224,7 @@ export default {
         this.$axios
           .post(api.newsA, params)
           .then(res => {
-            if (res.data.code) {
+            if (res.data.success) {
               let pageNo = this.$route.params.pageNo;
               this.$Message.info("添加成功");
               setTimeout(() => {

@@ -195,6 +195,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    position:relative;
     .fuwu {
       width: calc(100% - 100px);
       margin: 0 auto;
@@ -216,7 +217,6 @@ export default {
             display: flex;
             flex-direction: row;
             align-items: center;
-
             input {
               outline: none;
               border: none;
@@ -229,11 +229,10 @@ export default {
       }
     }
     .expert_save {
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
       width: 200px;
-      margin: 10px auto;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
     }
   }
 }

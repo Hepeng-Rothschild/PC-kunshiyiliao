@@ -2,7 +2,6 @@
     <div class="login">
         <div class="wrapper">
             <div class="box">
-                <!-- <div class="title">互联网医院管理系统V{{$store.state.version}}</div> -->
                 <div class="title">智能家庭医生慢病管理系统V{{$store.state.version}}</div>
                 <div class="uname-box">
                     <input

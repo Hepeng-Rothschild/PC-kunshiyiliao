@@ -96,7 +96,7 @@
           <span style="color:red;">&nbsp;&nbsp;</span>
           <span>是否显示</span>
         </div>
-        <iSwitch size="large"  v-model="switch1" @on-change="change" >
+        <iSwitch size="large"  v-model="enable">
             <span slot="open">开启</span>
             <span slot="close">关闭</span>
         </iSwitch>
@@ -125,17 +125,16 @@ export default {
       title: "",
       isort: "",
       isource: "",
-      id: "tinymce-editor",
-      height: 200,
-      tinymceHtml: "",
+      enable: true,
+      info: {
+        content: ""
+      },
+
       defaultList: [],
       imgName: "",
       visible: false,
       uploadList: [],
-      switch1: true,
-      info: {
-        content: ""
-      },
+      
       uploadModal: true,
       activeUploadId: "5c2bf345-b973-4ffd-a52e-87bb9c1d2b72",
       uploadUrl: api.fileAll,
@@ -164,21 +163,21 @@ export default {
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
-    let item = this.$route.params.id;
-    if (item) {
+    let _id = this.$route.params.id;
+    if (_id) {
       this.$axios
         .post(api.getNews, {
           hospitalId: this.id,
-          id: item
+          id: _id
         })
         .then(res => {
-          if (res.data.object) {
+          if (res.data.success) {
             let ret = res.data.object;
             this.title = ret.title;
             this.info.content = ret.content;
             this.isource = ret.source;
             this.isort = ret.priority;
-            this.switch1 = Boolean(ret.enable);
+            this.enable = Boolean(ret.enable);
             if (ret.newsHeadlines) {
               this.uploadList.push({
                 name: "a42bdcc1178e62b4694c830f028db5c0",
@@ -190,6 +189,8 @@ export default {
               this.source = ret.newsHeadlines;
               this.img = ret.newsHeadlines;
             }
+          } else {
+            this.$Message.error("查询动态新闻失败!")
           }
         })
         .catch(err => {
@@ -200,11 +201,6 @@ export default {
   methods: {
     afterChange(val) {
       this.info.content = val;
-    },
-    chan(e) {
-    },
-    valueHandle(param) {
-      this.tinymceHtml = param;
     },
     handleView(name) {
       this.imgName = name;
@@ -239,9 +235,6 @@ export default {
       }
       return check;
     },
-    change(status) {
-      //              this.$Message.info('开关状态：' + status);
-    },
     save() {
       let params = {};
       let images = "";
@@ -254,7 +247,7 @@ export default {
       }
       params = {
         content: this.info.content,
-        enable: Number(this.switch1),
+        enable: Number(this.enable),
         hospitalId: this.id,
         priority: this.isort,
         source: this.isource,
@@ -272,7 +265,7 @@ export default {
         this.$axios
           .post(api.addNews, params)
           .then(res => {
-            if (res.data) {
+            if (res.data.success) {
               this.$Message.info("修改成功");
               let pageNo = this.$route.params.pageNo;
               setTimeout(() => {
@@ -284,7 +277,7 @@ export default {
                 }, 500);
               });
             } else {
-              this.$Message.info("修改失败请重试");
+              this.$Message.info("修改动态新闻失败!");
             }
           })
           .catch(err => {

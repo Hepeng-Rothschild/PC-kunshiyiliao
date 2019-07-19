@@ -1025,7 +1025,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.bookingofficeInfo{
+.bookingofficeInfo {
     width:80%;
     height:auto;
     display:flex;

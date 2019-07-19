@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <Button type="primary" @click="save">保存</Button>
+      <Button type="primary" @click="save" class = 'main_save'>保存</Button>
     </div>
   </div>
 </template>
@@ -120,6 +120,7 @@ export default {
   margin: 0 auto;
   background: #fff;
   .main {
+    position: relative;
     width: 100%;
     margin-top: 10px;
     .select {
@@ -140,6 +141,11 @@ export default {
           justify-content: space-around;
         }
       }
+    }
+    .main_save{
+      position:fixed;
+      right:50px;
+      bottom:50px;
     }
   }
 }

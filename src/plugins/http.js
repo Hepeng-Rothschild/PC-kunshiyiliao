@@ -72,6 +72,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
 	response => {
 		if (response.data.code === 401) {
+			alert("Token已失效,请重新登录重试!")
 			router.push("/login")
 			return Promise.reject(response);
 		}

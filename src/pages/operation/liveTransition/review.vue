@@ -24,6 +24,7 @@
     </div>
 </template>
 <script>
+// 直播转换点播详情
 import api from "@/api/commonApi";
 export default {
     data () {

@@ -2,48 +2,20 @@
   <div class="list">
     <tmpHeader/>
     <div class="main">
-      <Button type="info" class="primary" @click="add">新增远程门诊类型</Button>
+      <Button type="info" @click="add" style='margin:10px;'>新增远程门诊类型</Button>
       <div class="tabList">
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td>序号</td>
-            <td>名称</td>
-            <td>医事服务费价格（元）</td>
-            <td>操作</td>
-          </tr>
-          <tr v-for="(item,index) in list" v-show="list.length" :key='index'>
-            <td>{{ index+1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.cost }}</td>
-            <td style="cursor:pointer;color:#2d8cf0;" @click="edit(item)">编辑</td>
-          </tr>
-        </table>
-        <div class="footer" v-show="!list.length">暂无更多数据</div>
+        <Table stripe :columns="columns1" :data="list"></Table>
       </div>
-      <!-- 新增model -->
-      <Modal v-model="model.one" title="新增远程门诊类型" @on-ok="oneSave" @on-cancel="oneCancel">
+      <!-- model -->
+      <Modal v-model="modalStatus" title="编辑远程门诊类型" @on-ok="Save" @on-cancel="Cancel">
         <div class="model">
           <div class="user">
             <span>门诊名称：</span>
-            <input type="text" placeholder="请输入远程门诊类型名称" v-model.trim="one.name">
+            <input type="text" placeholder="请输入远程门诊类型名称" v-model.trim="params.name">
           </div>
           <div class="user">
             <span>门诊价格：</span>
-            <input type="text" placeholder="请输入价格" v-model.trim="one.cost">
-          </div>
-        </div>
-      </Modal>
-
-      <!-- 编辑model -->
-      <Modal v-model="model.two" title="编辑远程门诊类型" @on-ok="twoSave" @on-cancel="twoCancel">
-        <div class="model">
-          <div class="user">
-            <span>门诊名称：</span>
-            <input type="text" placeholder="请输入远程门诊类型名称" v-model.trim="two.name">
-          </div>
-          <div class="user">
-            <span>门诊价格：</span>
-            <input type="text" placeholder="请输入价格" v-model.trim="two.cost">
+            <InputNumber :min='0' v-model.number="params.cost"></InputNumber>
           </div>
         </div>
       </Modal>
@@ -59,21 +31,44 @@ export default {
   },
   data() {
     return {
-      model: {
-        one: false,
-        two: false
-      },
-      one: {
-        name: "",
-        cost: ""
-      },
-      two: {
+      modalStatus:false,
+      params: {
         name: "",
         cost: "",
         id: ""
       },
       list: [],
-      id: sessionStorage.getItem("hospitalId")
+      id: sessionStorage.getItem("hospitalId"),
+      columns1:[
+        {
+          key:"isum",
+          title:"编号",
+          align:"center",
+        },
+        {
+          key:"name",
+          title:"名称",
+          align:"center"
+        },
+        {
+          key:"cost",
+          title:"医事服务费价格（元）",
+          align:"center"
+        },
+        {
+          title:"操作",
+          align:'center',
+          render:(h,params) => {
+            return h('a', {
+              on: {
+                click: () => {
+                  this.edit(params.row)
+                }
+              }
+            }, '编辑')
+          }
+        }
+      ]
     };
   },
   created(){
@@ -105,47 +100,40 @@ export default {
   methods: {
     //  新增
     add() {
-      this.model.one = true;
-    },
-    // 取消
-    oneCancel() {
-      this.model.one = false;
-      this.one.name = "";
-      this.one.cost = "";
-    },
-    //添加
-    oneSave() {
-      this.model.one = false;
-      let params = this.one;
-      params.hospitalId = this.id;
-      this.$axios.post(api.DoctorRemoteClinicTypeAdd, params).then(res => {
-        if (res.data.code) {
-          this.$Message.info("操作成功");
-          this.getDataDoctorList();
-        }
-      });
+      this.modalStatus = true;
     },
     //  编辑
     edit(item) {
-      this.model.two = true;
-      this.two.name = item.name;
-      this.two.cost = item.cost;
-      this.two.id = item.id;
+      this.modalStatus = true;
+      this.params.name = item.name;
+      this.params.cost = item.cost;
+      this.params.id = item.id;
     },
     // 取消
-    twoCancel() {
-      this.model.two = false;
-      this.two.name = "";
-      this.two.cost = "";
+    Cancel() {
+      this.modalStatus = false;
+      this.params.name = "";
+      this.params.cost = "";
+      this.params.id = ''
     },
-    // 添加
-    twoSave() {
-      this.model.two = false;
-      let params = this.two;
-      params.hospitalId = this.id;
-      this.$axios.post(api.DoctorRemoteClinicTypeEdit, params).then(res => {
-        if (res.data.code) {
-          this.$Message.info("修改成功");
+    // 修改成功
+    Save() {
+      let _params = this.params;
+      let _message = '成功'
+      let _url = ''
+      if(Boolean(_params.id)) {
+        _url = api.DoctorRemoteClinicTypeEdit
+        _message = '修改成功'
+      } else {
+        _url = api.DoctorRemoteClinicTypeAdd
+        _params.id = null;
+        _message = '添加成功'
+      }
+      _params.hospitalId = this.id;
+      this.$axios.post(_url, _params).then(res => {
+        if (res.data.success) {
+          this.modalStatus = false;
+          this.$Message.info(_message);
           this.getDataDoctorList();
         }
       });
@@ -159,6 +147,9 @@ export default {
         .then(res => {
           if (res.data.code) {
             let ret = res.data.object;
+            ret.forEach((item,index) => {
+              item.isum = this.addZeros(index)
+            })
             this.list = ret;
           }
         });
@@ -172,108 +163,12 @@ export default {
   padding: 10px 30px;
   margin: 0 auto;
   background: #fff;
-  display: flex;
-  flex-direction: column;
-  position: relative;
   .main {
     width: 80%;
     margin: 0 auto;
-    .wrapper {
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      position: absolute;
-      top: 0;
-      left: 0;
-      .model {
-        width: 400px;
-        background: #fff;
-        display: flex;
-        flex-direction: column;
-        padding: 30px;
-        border: 1px solid #ddd;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        .user {
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin: 10px 0;
-          span {
-            width: 100px;
-          }
-          input {
-            text-indent: 10px;
-            flex: 1;
-            border-radius: 4px;
-            line-height: 30px;
-            border: none;
-            border: 1px solid #ddd;
-            outline: none;
-          }
-        }
-        .save {
-          width: 200px;
-          margin: 15px auto;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-around;
-          div {
-            cursor: pointer;
-            width: 80px;
-            line-height: 30px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 40px;
-          }
-        }
-      }
-    }
-
-    .primary {
-      margin: 10px 10px;
-      float: right;
-    }
     .tabList {
       width: 100%;
-      margin: 20px auto;
-      table {
-        width: 100%;
-        border: 1px solid #ddd;
-        font-size:12px;
-        tr:nth-child(odd) {
-          background: #f8f8f9;
-        }
-        tr:nth-child(even) {
-          background: #fff;
-        }
-        tr:not(:first-child):hover {
-          background: #ebf7ff;
-        }
-        tr {
-          border-top: 1px solid #ddd;
-          height: 40px;
-          td {
-            text-align: center;
-          }
-          td.none {
-            display: none;
-          }
-        }
-      }
-      .footer {
-        width: 100%;
-        text-align: center;
-        border: 1px solid #ddd;
-        border-top: none;
-        height: 40px;
-        line-height: 40px;
-        background: #fff;
-      }
+      margin: 0 auto;
     }
   }
 }
@@ -300,22 +195,6 @@ export default {
       border: none;
       border: 1px solid #ddd;
       outline: none;
-    }
-  }
-  .save {
-    width: 200px;
-    margin: 15px auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    div {
-      cursor: pointer;
-      width: 80px;
-      line-height: 30px;
-      text-align: center;
-      border: 1px solid #ddd;
-      border-radius: 40px;
     }
   }
 }
