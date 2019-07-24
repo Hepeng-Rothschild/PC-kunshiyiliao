@@ -170,7 +170,7 @@ export default {
                 // },
                 {
                     key: "platformHisStatus",
-                    title: "支付平台与His对账状态",
+                    title: "互联网平台与His对账状态",
                     align: "center",
                     width: 150,
                     render:(h, params) => {
@@ -183,7 +183,7 @@ export default {
                 },
                 {
                     key: "platformThridStatus",
-                    title: "支付平台与第三方对账状态",
+                    title: "互联网平台与第三方对账状态",
                     align: "center",
                     width: 150,
                     render:(h, params) => {

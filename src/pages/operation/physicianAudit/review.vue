@@ -36,7 +36,7 @@
             <div class = 'liveStatus'>
                 <span>状态：{{ statueName }}</span>
                 <div style='float:right'>
-                    <Button type="error" @click='demanStatus' v-if='playStatus == 5 && thisType == 2'>{{ params.iopen == 1 ? '恢复' : '暂停' }}</Button>
+                    <!-- <Button type="error" @click='demanStatus' v-if='playStatus == 5 && thisType == 2'>{{ params.iopen == 1 ? '恢复' : '暂停' }}</Button> -->
                     <Button type="primary" v-if='playStatus == 5 && thisType == 2' @click='enterLive' >进入直播间</Button>
                     <Button type="primary" @click='reback(2)' v-if='playStatus==1'>审核通过</Button>
                     <Button @click='reback(3)' v-if='playStatus==1'>审核不通过</Button>
