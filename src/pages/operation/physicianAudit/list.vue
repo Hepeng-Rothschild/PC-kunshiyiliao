@@ -434,6 +434,7 @@ export default {
                     ret.list.forEach((item, index) => {
                         item.iSum = this.addZeros(index);
                     });
+                    console.log(ret.list);
                     this.count = ret.count
                     this.data1 = ret.list
                 }

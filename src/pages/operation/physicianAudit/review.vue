@@ -36,8 +36,8 @@
             <div class = 'liveStatus'>
                 <span>状态：{{ statueName }}</span>
                 <div style='float:right'>
-                    <!-- <Button type="error" @click='demanStatus' v-if='playStatus == 5 && thisType == 2'>{{ params.iopen == 1 ? '恢复' : '暂停' }}</Button> -->
-                    <!-- <Button type="primary" v-if='playStatus == 5 && thisType == 2' @click='enterLive' >进入直播间</Button> -->
+                    <Button type="error" @click='demanStatus' v-if='playStatus == 5 && thisType == 2'>{{ params.iopen == 1 ? '恢复' : '暂停' }}</Button>
+                    <Button type="primary" v-if='playStatus == 5 && thisType == 2' @click='enterLive' >进入直播间</Button>
                     <Button type="primary" @click='reback(2)' v-if='playStatus==1'>审核通过</Button>
                     <Button @click='reback(3)' v-if='playStatus==1'>审核不通过</Button>
                     <Button type="warning" @click='reback(4)' v-if='playStatus==6'>下架</Button>
@@ -68,7 +68,6 @@
                 </div>
                 <div class = 'information_item'>
                     <span>直播封面：</span>
-                    <!-- <img :src="params.headImg" alt=""> -->
                     <img :src="params.headImg" title="点击查看大图" alt="暂无图片" style='cursor:pointer;' @click='modal2=true' v-if='params.headImg'>
                     <span v-if='!params.headImg'>暂无封面</span>
                 </div>
@@ -285,7 +284,8 @@ export default {
                 time: "暂无数据" ,
                 Visitors: "暂无数据",
                 manTime:"暂无数据"
-            }
+            },
+            thisType:""
         }
     },
     created () {
@@ -320,10 +320,10 @@ export default {
         },
         // 进入直播间
         enterLive () {
-            if(this.thisType != 2) {
-                this.$Message.error("仅有视频直播可进入直播间")
-                return ''
-            }
+            // if(this.thisType != 2) {
+            //     this.$Message.error("仅有视频直播可进入直播间")
+            //     return ''
+            // }
             let query = this.$route.query;
             this.functionJS.queryNavgationTo(
                 this,
@@ -348,6 +348,7 @@ export default {
                 params.reason = this.value8
             }
             this.$axios.post(api.livestatus, params).then(res => {
+                console.log(res);
                 if(res.data.success) {
                     this.$Message.success("修改成功")
                     this.getLiveData();
@@ -460,6 +461,9 @@ export default {
                     this.params.aboutEndTime = ret.aboutEndTime
                     this.params.liveStartTime = ret.liveStartTime
                     this.params.iopen = ret.iopen
+
+
+                    this.thisType = ret.liveForm
                     // // 图片
                     this.params.headImg = ''
                     if (ret.headImg) {

@@ -1,14 +1,14 @@
 <template>
   <header>
     <h1 class="hospitalName">{{ hospitalName }}</h1>
-    <div class="wrapper">
+    <div class="wrapper" title='菜单左右滑动查看更多服务'>
       <ul class ='wrapper-box'>
         <li v-for="(item,index) in dataList" @click="changeIndex(index,$event)" :key='index'>
           <router-link :to="item.name" :class="{ active:current == index }">{{ item.title }}</router-link>
         </li>
       </ul>
     </div>
-
+    <!-- <p style='text-align:center;'>菜单左右滑动查看更多服务</p> -->
   </header>
 </template>
 <script>

@@ -32,7 +32,17 @@
             <!-- 观看信息 -->
             <div class ='video'>
                 <p>&nbsp;&nbsp;<span style='margin-left:20px;'>观看人次：{{ countWatch }}人观看</span></p>
-                <video :src="params.videoUrl" controls></video>
+
+                <video-player
+                    class="video-player vjs-custom-skin video-viewport"
+                    ref="videoPlayer"
+                    :playsinline="true"
+                    :options="playerOptions"
+                    @play="onPlayerPlay($event)"
+                    @pause="onPlayerPause($event)"
+                    v-if='src'
+                ></video-player>
+
             </div>
             <!-- 互动直播 -->
             <div class ='chat' style='display:none;'>
@@ -87,13 +97,13 @@
                     <Button type='primary'>发送</Button>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
 <script>
 import api from "@/api/commonApi";
 import BScroll from 'better-scroll'
+import flash from 'videojs-flash'
 export default {
     data () {
         return {
@@ -115,13 +125,41 @@ export default {
             countWatch: 0,
             params: {
                 videoUrl:"",
-                // /static/video01.mp4
                 doctorIcon:"/static/img/doctor.jpg",
-                doctorName:"医到健康的直播间",
+                doctorName:"的直播间",
                 doctorTitle:"浅谈如何防护病毒性感冒--学术交流"
-
-            }
-
+            },
+            playerOptions: {
+                playbackRates: [0.5, 1.0, 1.5, 2.0, 3.0, 6.0, 12.0], //播放速度
+                autoplay: true, //如果true,浏览器准备好时开始回放。
+                controls:true,
+                muted: false, // 默认情况下将会消除任何音频。
+                loop: false, // 导致视频一结束就重新开始。
+                preload: "auto", // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+                language: "zh-CN",
+                aspectRatio: "4:3", // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+                fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+                sources: [
+                    {
+                        type: "video/x-flv",
+                        src: "" //你的视频地址（必填）
+                    }
+                ],
+                techOrder: ['flash'],
+                poster: "", //你的封面地址
+                width: document.documentElement.clientWidth,
+                height: '700',
+                notSupportedMessage: "此视频暂无法播放，请稍后再试", //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+                controlBar: {
+                    timeDivider: true,
+                    durationDisplay: true,
+                    remainingTimeDisplay: false,
+                    fullscreenToggle: true //全屏按钮
+                }
+            },
+            src: '',
+            poster: '',
+            videoStyle: ''
         }
     },
     created () {
@@ -144,6 +182,11 @@ export default {
         this.getData()
         // 加载直播人次数据
         this.loadingliveData();
+        this.playerOptions.poster = this.poster;
+        this.$Notice.info({
+            title: "温馨提示",
+            desc: "如视频无法播放请检查网站flash是否开启或医生直播状态"
+        });
     },
     methods: {
         getData () {
@@ -235,7 +278,6 @@ export default {
         cancelModal () {
             this.modalStatus = false;
             this.reason = ''
-
         },
         // 返回讲堂
         backLive () {
@@ -258,7 +300,7 @@ export default {
                 if(res.data.success) {
                     let ret = res.data.object;
                     console.log(ret);
-                    this.countWatch = ret.countWatch;
+                    this.countWatch = ret.countFollow;
                 } else {
                     this.$Message.error("加载直播数据失败!")
                 }
@@ -268,24 +310,39 @@ export default {
             }).then(res => {
                 console.log(res);
                 if(res.data.success) {
-
+                    let ret = res.data.object;
+                    this.params.videoUrl = ret.httpPullUrl;
+                    this.params.doctorName = ret.doctorName + this.params.doctorName
+                    this.params.doctorTitle = ret.title;
+                    this.src = ret.httpPullUrl;
+                    // 直播链接
+                    this.playerOptions.sources[0].src = ret.httpPullUrl
+                    // 直播封面
+                    // this.playerOptions.poster = this.poster;
                 } else {
-                    // let message = ''
-                    // if(Boolean(res.data.object.same)) {
-                    //     message = res.data.object.same
-                    // } else if(Boolean(res.data.object.file)) {
-                    //     message =  res.data.object.file
-                    // } else {
-                    //     message = '加载失败'
-                    // }
-                    this.$Message.error('进入直播间失败')
+                    this.$Message.error('进入直播间失败,请重试!')
                 }
             })
+        },
+        onPlayerPlay(player) {
+            console.log(player);
+            console.log("触发播放");
+        },
+        onPlayerPause(player) {
+            console.log("触发暂停");
         }
-    }
+    },
+    computed: {
+        player() {//暂时没用到
+            return this.$refs.videoPlayer.player;
+        }
+    },
 }
 </script>
 <style lang="less" scoped>
+.vjs_video_3-dimensions{
+    padding:50% !important;
+}
 .reason {
     display:flex;
     flex-direction:row;
@@ -342,14 +399,12 @@ export default {
     display:flex;
     flex-direction:row;
     .video {
-        width:100%;
-        // width:65%;
-        height:100%;
+        width:70%;
+        margin: 0 auto;
         display:flex;
         flex-direction: column;
-        video {
-            width:100%;
-            flex:1;
+        .vjs-custom-skin {
+            height:360px !important;
         }
         p {
             width:100%;

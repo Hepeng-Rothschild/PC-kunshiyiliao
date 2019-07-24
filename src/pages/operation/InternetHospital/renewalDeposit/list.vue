@@ -133,10 +133,10 @@ export default {
                     width: 230
                 },
                 {
-                    key: "pay_numberv",
+                    key: "payNumber",
                     title: "支付流水号",
                     align: "center",
-                    width: 100
+                    width: 230
                 },
                 {
                     key: "memberName",
@@ -164,23 +164,23 @@ export default {
                     }
                 },
                 // {
-                //     key: "platformHisStatus",
-                //     title: "支付平台与His对账状态",
+                //     key: "paymentType",
+                //     title: "支付类型",
                 //     align: "center",
-                //     width: 150,
-                //     render:(h, params) => {
-                //         let checked = params.row;
-                //         let name = this.stautParams[checked.platformHisStatus]
-                //         return [
-                //             h("span", name)
-                //         ]
-                //     }
+                //     width: 120
                 // },
                 {
-                    key: "thirdAmount",
-                    title: "支付金额",
+                    key: "platformHisStatus",
+                    title: "支付平台与His对账状态",
                     align: "center",
-                    width: 100
+                    width: 150,
+                    render:(h, params) => {
+                        let checked = params.row;
+                        let name = this.stautParams[checked.platformHisStatus]
+                        return [
+                            h("span", name)
+                        ]
+                    }
                 },
                 {
                     key: "platformThridStatus",
@@ -197,22 +197,95 @@ export default {
 
                 },
                 {
+                    key:"thridHisStatus",
+                    title: "第三方与HIS对账状态",
+                    align: "center",
+                    width: 150,
+                    render:(h, params) => {
+                        let checked = params.row;
+                        let name = this.stautParams[checked.thridHisStatus]
+                        return [
+                            h("span", name)
+                        ]
+                    }
+                },
+                {
+                    key: "platformStatus",
+                    title: "互联网平台状态",
+                    align: "center",
+                    width:100,
+                    render:(h, params) => {
+                        let checked = params.row;
+                        let index = Number(checked.platformStatus)
+                        let name = this.statusList[index]
+                        return [
+                            h("span", name)
+                        ]
+                    }
+                },
+                {
                     key: "payAmount",
-                    title: "互联网金额",
+                    title: "互联网平台金额",
+                    align: "center",
+                    width:120
+                },
+                {
+                    key: "thirdStatus",
+                    title: "第三方状态",
+                    align: "center",
+                    width: 120,
+                    render:(h, params) => {
+                        let checked = params.row;
+                        let index = Number(checked.thirdStatus)
+                        let name = this.statusList[index]
+                        return [
+                            h("span", name)
+                        ]
+                    }
+                },
+                {
+                    key: "thirdAmount",
+                    title: "第三方价格",
                     align: "center",
                     width:120
                 },
                 // {
-                //     key: "hisStatus",
-                //     title: "His状态",
+                //     key: "thirdFileReason",
+                //     title: "第三方失败原因",
                 //     align: "center",
-                //     width:100
+                //     width:120
                 // },
                 // {
-                //     key: "hisAmount",
-                //     title: "His金额",
+                //     key: "thirdContent",
+                //     title: "第三方内容",
                 //     align: "center",
-                //     width:100
+                //     width:120
+                // },
+                {
+                    key: "hisStatus",
+                    title: "HIS状态",
+                    align: "center",
+                    width: 120,
+                    render:(h, params) => {
+                        let checked = params.row;
+                        let index = Number(checked.hisStatus)
+                        let name = this.statusList[index]
+                        return [
+                            h("span", name)
+                        ]
+                    }
+                },
+                {
+                    key: "hisAmount",
+                    title: "HIS金额",
+                    align: "center",
+                    width:120
+                },
+                // {
+                //     key: "hisFileReason",
+                //     title: "HIS失败原因",
+                //     align: "center",
+                //     width:120
                 // },
                 {
                     key: "operateorName",
@@ -220,36 +293,37 @@ export default {
                     align: "center",
                     width:100
                 },
-                {
-                    key: "Name",
-                    title: "操作",
-                    align: "center",
-                    width: 80,
-                    fixed:"right",
-                    render: (h,params) =>{
-                        return [
-                            h("a",{
-                                attrs: {
-                                    href: "javascript:void(0);"
-                                },
-                                on: {
-                                    click: () => {
-                                        // function全局方法
-                                        this.cliniction(2)
-                                    }
-                                }
-                            }, '操作')
-                        ]
-                    }
-                }
+                // {
+                //     title: "操作",
+                //     align: "center",
+                //     width: 80,
+                //     fixed:"right",
+                //     render: (h,params) =>{
+                //         return [
+                //             h("a",{
+                //                 attrs: {
+                //                     href: "javascript:void(0);"
+                //                 },
+                //                 on: {
+                //                     click: () => {
+                //                         // function全局方法
+                //                         this.cliniction(2)
+                //                     }
+                //                 }
+                //             }, '操作')
+                //         ]
+                //     }
+                // }
             ],
             data1: [],
             // 分页数据
             count: 20,
             pageNo: 1,
-            pageSize: 20,
+            pageSize: 10,
             // 弹窗状态
             clinicStatus: false,
+            // 单个平台状态列表
+            statusList: ['失败','交易成功','退费'],
 
             // 点击来源
             buttonStatus: 1,
@@ -289,7 +363,7 @@ export default {
             },
             // 自动对账状态
             autoLoad:false,
-             // 进度条
+            // 进度条
             progressStart: 0,
             uuid :''
         }
@@ -357,7 +431,7 @@ export default {
                     let currentTotal = err + count
                     
                     // 进度条参数
-                    let progressEnd = Number(ret.TOTAL_COUNT) || 0
+                    let progressEnd = Boolean(ret.TOTAL_COUNT) ? Number(ret.TOTAL_COUNT) : 0
                     console.log('progressEnd: ', progressEnd);
                     let progressStart = parseInt((currentTotal * 100) / progressEnd);
                     console.log('progressStart: ', progressStart);
@@ -366,7 +440,7 @@ export default {
                     if(start != 1) {
                         return ""
                     }
-                    // 当已对账数量+异常数据 = 总数的时候停止递归然后调用取消对账接口
+                    // 当已对账数量 EXECUTE_START+异常数据 ERROR_COUNT = 总数的时候停止递归然后调用取消对账接口
                     if(currentTotal == ret.TOTAL_COUNT) {
                         this.$axios.post(api.deleteredis, {
                             uuid: this.uuid
@@ -478,9 +552,13 @@ export default {
         },
         // 显示异常数据
         rowClassName (row, index) {
-            if (row.checkingStatus != 1) {
+            if(Number(row.checkingStatus) == 0) {
+                return ''
+            } else if (row.platformHisStatus != 1) {
                 return 'demo-error-row';
-            } 
+            } else if(Number(row.checkingStatus) == 1) {
+                return 'demo-success-row'
+            }
             return '';
         },
         loadingCardRechargeList (pageNo) {
@@ -503,6 +581,7 @@ export default {
             this.$axios.post(url,params).then(ress => {
                 if(ress.data.success) {
                     let ret = ress.data.object
+                    this.count = ret.count
                     ret.list.forEach((item, index) => {
                         item.isum = this.addZeros(index)
                     })
@@ -540,11 +619,16 @@ export default {
 }
 </style>
 <style>
-.ivu-table .demo-error-row td{
-    /* background-color: red; */
+.ivu-table .demo-error-row td {
     color: red;
 }
-.ivu-table .demo-error-row td a{
+.ivu-table .demo-error-row td a {
     color:red
+}
+.ivu-table .demo-success-row td {
+    color: #2b85e4;
+}
+.ivu-table .demo-success-row td a {
+    color:#2b85e4
 }
 </style>

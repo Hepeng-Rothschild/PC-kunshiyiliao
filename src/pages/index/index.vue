@@ -3,7 +3,7 @@
         <Row>
             <Col class="top" :xs="24" :md="4">
                 <img class="logo" src="@/assets/images/logo.png">
-                <span class="logo-text">智能家医平台</span>
+                <span class="logo-text">互联网医院平台</span>
             </Col>
             <Col :xs="24" :md="20">
                 <top-menu :topMenuLists="topMenuLists" :topActiveName="topActiveName"></top-menu>
@@ -20,7 +20,7 @@
             </Col>
             <Col class="content" :xs="24" :md="20">
                 <bread :breadTitle="breadTitle" :breadList="breadList"></bread>
-                 <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到智能家庭医生慢病管理系统</div>
+                 <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到互联网医院管理系统</div>
                     <router-view @changeBreadList="changeBreadList"></router-view>
             </Col>
         </Row>
