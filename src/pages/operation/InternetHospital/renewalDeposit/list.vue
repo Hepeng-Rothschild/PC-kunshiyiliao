@@ -173,7 +173,7 @@ export default {
                     key: "platformHisStatus",
                     title: "互联网平台与His对账状态",
                     align: "center",
-                    width: 150,
+                    width: 200,
                     render:(h, params) => {
                         let checked = params.row;
                         let name = this.stautParams[checked.platformHisStatus]
@@ -186,7 +186,7 @@ export default {
                     key: "platformThridStatus",
                     title: "互联网平台与第三方对账状态",
                     align: "center",
-                    width: 150,
+                    width: 250,
                     render:(h, params) => {
                         let checked = params.row;
                         let name = this.stautParams[checked.platformThridStatus]
@@ -213,7 +213,7 @@ export default {
                     key: "platformStatus",
                     title: "互联网平台状态",
                     align: "center",
-                    width:100,
+                    width:150,
                     render:(h, params) => {
                         let checked = params.row;
                         let index = Number(checked.platformStatus)

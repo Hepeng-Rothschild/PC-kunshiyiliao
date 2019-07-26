@@ -495,11 +495,14 @@ export default {
                 .verify {
                     width: 31%;
                     height:40px;
+                    margin: 0 10px 0 60px;
                 }
                 #verify {
-                    width: 40%;
+                    width: 30%;
                     height: 40px;
                     background: #ffffff;
+                    position: relative;
+                    left: -16%;
                     margin: 0 0;
                     #verifyCanvas {
                         width: 100%;

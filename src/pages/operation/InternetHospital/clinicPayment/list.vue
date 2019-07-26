@@ -172,7 +172,7 @@ export default {
                     key: "platformHisStatus",
                     title: "互联网平台与His对账状态",
                     align: "center",
-                    width: 150,
+                    width: 250,
                     render:(h, params) => {
                         let checked = params.row;
                         let name = this.stautParams[checked.platformHisStatus]
@@ -181,38 +181,38 @@ export default {
                         ]
                     }
                 },
-                {
-                    key: "platformThridStatus",
-                    title: "互联网平台与第三方对账状态",
-                    align: "center",
-                    width: 150,
-                    render:(h, params) => {
-                        let checked = params.row;
-                        let name = this.stautParams[checked.platformThridStatus]
-                        return [
-                            h("span", name)
-                        ]
-                    }
+                // {
+                //     key: "platformThridStatus",
+                //     title: "互联网平台与第三方对账状态",
+                //     align: "center",
+                //     width: 150,
+                //     render:(h, params) => {
+                //         let checked = params.row;
+                //         let name = this.stautParams[checked.platformThridStatus]
+                //         return [
+                //             h("span", name)
+                //         ]
+                //     }
 
-                },
-                {
-                    key:"thridHisStatus",
-                    title: "第三方与HIS对账状态",
-                    align: "center",
-                    width: 150,
-                    render:(h, params) => {
-                        let checked = params.row;
-                        let name = this.stautParams[checked.thridHisStatus]
-                        return [
-                            h("span", name)
-                        ]
-                    }
-                },
+                // },
+                // {
+                //     key:"thridHisStatus",
+                //     title: "第三方与HIS对账状态",
+                //     align: "center",
+                //     width: 150,
+                //     render:(h, params) => {
+                //         let checked = params.row;
+                //         let name = this.stautParams[checked.thridHisStatus]
+                //         return [
+                //             h("span", name)
+                //         ]
+                //     }
+                // },
                 {
                     key: "platformStatus",
                     title: "互联网平台状态",
                     align: "center",
-                    width:100,
+                    width:150,
                     render:(h, params) => {
                         let checked = params.row;
                         let index = Number(checked.platformStatus)
@@ -228,26 +228,26 @@ export default {
                     align: "center",
                     width:120
                 },
-                {
-                    key: "thirdStatus",
-                    title: "第三方状态",
-                    align: "center",
-                    width: 120,
-                    render:(h, params) => {
-                        let checked = params.row;
-                        let index = Number(checked.thirdStatus)
-                        let name = this.statusList[index]
-                        return [
-                            h("span", name)
-                        ]
-                    }
-                },
-                {
-                    key: "thirdAmount",
-                    title: "第三方价格",
-                    align: "center",
-                    width:120
-                },
+                // {
+                //     key: "thirdStatus",
+                //     title: "第三方状态",
+                //     align: "center",
+                //     width: 120,
+                //     render:(h, params) => {
+                //         let checked = params.row;
+                //         let index = Number(checked.thirdStatus)
+                //         let name = this.statusList[index]
+                //         return [
+                //             h("span", name)
+                //         ]
+                //     }
+                // },
+                // {
+                //     key: "thirdAmount",
+                //     title: "第三方价格",
+                //     align: "center",
+                //     width:120
+                // },
                 // {
                 //     key: "thirdFileReason",
                 //     title: "第三方失败原因",
