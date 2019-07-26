@@ -327,6 +327,7 @@ const apiserviceinsert = '/operateapi/apiserviceinsert' //添加接口管理
 const apiserviceupdate = '/operateapi/apiserviceupdate' // 修改接口管理 
 const apiservicequerybyid = '/operateapi/apiservicequerybyid' // 查询接口详情
 const apiservicepage = '/operateapi/apiservicepage' // 查询接口管理列表
+
 const clinicandpaycostpage = '/operateapi/accountclinicandpaycostpage' // 查询诊间缴费账单列表
 const clinicandpaycost = '/operateapi/accountclinicandpaycost' // 诊间缴费对账
 const rechargethecardpage = '/operateapi/accountrechargethecardpage' // 查询就诊卡充值账单列表
