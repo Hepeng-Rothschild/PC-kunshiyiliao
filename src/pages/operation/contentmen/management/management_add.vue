@@ -12,6 +12,11 @@
           <div class="select_wufu" >
             <div v-for="(items,index) in item.dtoList" :key='index' style='margin:5px 0;'>
                 <Checkbox v-model="items.flag" style='width:90px;' @on-change='flagChange(items)'>{{ items.menuName }}</Checkbox>
+                <!-- 排序 -->
+                <div class="sort">
+                  <span>排序</span>
+                  <InputNumber :min="1" :max='999' v-model="items.priority" style="width:100px;"></InputNumber>
+                </div>
                 <div>
                   <span style='min-width:80px;'>是否支付：</span>
                   <iSwitch v-model="items.ipay" @on-change='ipayChange(items)'/>
@@ -76,7 +81,8 @@ export default {
             let obj = {
               menuId: i.id,
               ipay: Number(i.ipay).toString(),
-              paytype: ""
+              paytype: "",
+              priority: i.priority,
             }
             if(i.ipay) {
               obj.paytype = i.paytype.join(",")

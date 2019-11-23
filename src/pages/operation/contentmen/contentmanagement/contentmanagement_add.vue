@@ -228,7 +228,7 @@ export default {
                   //把页面上的参数获取到
                   let params = {
                     ids: [this.formValidate.ids],
-                    operateArticle: {
+                    kbaoOperateArticleEntity: {
                       title: this.formValidate.title.trim(),
                       synopsis: this.formValidate.synopsis.trim(),
                       priority: this.formValidate.priority,
@@ -246,7 +246,7 @@ export default {
                   } else {
                     images = "";
                   }
-                  params.operateArticle.cover = images;
+                  params.kbaoOperateArticleEntity.cover = images;
                   this.$axios
                     .post(api.createdWrap, params)
                     .then(res => {

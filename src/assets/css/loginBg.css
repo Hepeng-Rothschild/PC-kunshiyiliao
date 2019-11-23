@@ -1,9 +1,9 @@
 
 .wrapper {
-  background: #50a3a2;
+  /* background: #50a3a2;
   background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
   background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
-  opacity: 1;
+  opacity: 1; */
   position: absolute;
   /* top: 50%; */
   left: 0;
@@ -11,7 +11,10 @@
   height: 100%;
   /* margin-top: -300px; */
   overflow: hidden;
-
+  background-image: url('../../assets/images/loginbg.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='loginbg.jpg',sizingMethod='scale');
 }
 
 .wrapper.form-success .container h1 {

@@ -58,28 +58,28 @@
                         <div class="chatLeft">
                         <img src="/static/img/doctor.jpg" alt="">
                         <div class='chatContent'>
-                            <span class="title">医到健康</span>
+                            <span class="title">享康健康</span>
                             <p class="content">0:文字,1:图片,2:语音,3:视频,4:名片,5:直播介绍,6:系统医生名片,7:单独禁言,8:解除单独禁言,9:全员禁言,10:解除全员禁言,11:直播正常关闭,12:直播超时关闭,13:直播系统人员异常关闭,100:开始直播</p>
                         </div>
                         </div>
                         <!-- 我发的消息 -->
                         <div class="chatRight">
                             <div class='chatContent'>
-                                <p class="title">医到健康</p>
+                                <p class="title">享康健康</p>
                                 <p class="content">0:文字,1:图片,2:语音,3:视频,4:名片,5:直播介绍,6:系统医生名片,7:单独禁言,8:解除单独禁言,9:全员禁言,10:解除全员禁言,11:直播正常关闭,12:直播超时关闭,13:直播系统人员异常关闭,100:开始直播</p>
                             </div>
                             <img src="/static/img/doctor.jpg" alt="">
                         </div>
                         <div class="chatRight">
                             <div class='chatContent'>
-                                <p class="title">医到健康</p>
+                                <p class="title">享康健康</p>
                                 <p class="content">0:文字,1:图片,2:语音,3:视频,4:名片,5:直播介绍,6:系统医生名片,7:单独禁言,8:解除单独禁言,9:全员禁言,10:解除全员禁言,11:直播正常关闭,12:直播超时关闭,13:直播系统人员异常关闭,100:开始直播</p>
                             </div>
                             <img src="/static/img/doctor.jpg" alt="">
                         </div>
                         <div class="chatRight">
                             <div class='chatContent'>
-                                <p class="title">医到健康</p>
+                                <p class="title">享康健康</p>
                                 <p class="content">0:文字,1:图片,2:语音,3:视频,4:名片,5:直播介绍,6:系统医生名片,7:单独禁言,8:解除单独禁言,9:全员禁言,10:解除全员禁言,11:直播正常关闭,12:直播超时关闭,13:直播系统人员异常关闭,100:开始直播</p>
                             </div>
                             <img src="/static/img/doctor.jpg" alt="">

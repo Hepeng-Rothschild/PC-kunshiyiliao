@@ -1,7 +1,7 @@
 import addressConfig from '@/configs/address.js';
 /* 内存数据状态 */
 export default {
-  env:"test", // dev/test/production
+  env:"production", // dev/test/production
   version:"1.7.1",
   // 国际化默认中文 （cookie里面取，然后存到store里面）
   locale: 'zh-CN',

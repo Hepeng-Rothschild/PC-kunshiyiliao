@@ -30,7 +30,7 @@ const CardRecharge = {
 		title: '就诊卡充值'
 	},
 	component: () =>
-		import(/* webpackChunkName: 'operation-CardRecharge' */"@/pages/operation/internetHospital/CardRecharge/list")
+		import(/* webpackChunkName: 'operation-CardRecharge' */"@/pages/operation/internetHospital/cardRecharge/list")
 }   
 export default {
     // 就诊卡充值

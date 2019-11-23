@@ -2,7 +2,6 @@
     <div class="login">
         <div class="wrapper">
             <div class="box">
-                <div class="title">互联网医院管理系统V{{$store.state.version}}</div>
                 <div class="uname-box">
                     <input
                         type="text"
@@ -48,18 +47,6 @@
                     <button class="login-btn" @click="checkLogin">登陆</button>
                 </div>
             </div>
-            <ul class="bg-bubbles">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
         </div>
     </div>
 </template>
@@ -433,20 +420,18 @@ export default {
     height: 100%;
     position: absolute;
     .box {
-        // min-width: 38%;
-        width:500px;
-        // min-height: 60%;
+        width:400px;
         height:380px;
-        margin: 0 auto;
-        background:gray;
+        background-image: url('../../assets/images/loginbox.png');
+        background-repeat: no-repeat;
+        background-size: 400px 380px;
         border-radius: 5px;
         padding: 20px;
         text-align: center;
         position:absolute;
         top:50%;
-        left:50%;
-        margin-left:-240px;
-        // margin-left:-19%;
+        left:65%;
+        padding-top: 50px;
         transform: translateY(-50%);
         z-index:99;
         line-height: 40px;
@@ -454,32 +439,36 @@ export default {
             margin: 15px 0;
             width: 100%;
             min-height:40px;
+            input::-webkit-input-placeholder {
+                color:#00eaff;
+            }
             input {
                 -webkit-appearance: none;
                     -moz-appearance: none;
                         appearance: none;
                 outline: 0;
-                border: 1px solid rgba(255, 255, 255, 0.4);
-                background-color: rgba(255, 255, 255, 0.2);
+                border: 1px solid #00eaff;
+                background: none;
+                border-top-right-radius: 10px;
+                border-bottom-left-radius: 10px;
                 width: 250px;
-                // width:50%;
-                border-radius: 3px;
-                margin: 0 auto 10px auto;
+                color: #00eaff;
+                margin: 10px auto 30px auto;
                 display: block;
-                text-align: center;
+                text-align: left;
+                text-indent: 30px;
                 font-size: 18px;
-                color: white;
                 -webkit-transition-duration: 0.25s;
                         transition-duration: 0.25s;
                 font-weight: 300;
                 }
             input:hover {
-                background-color: rgba(255, 255, 255, 0.4);
+                background: none;
             }
             input:focus {
-                background-color: white;
+                background: none;
                 width: 300px;
-                color: red;
+                color:#09d1e3;
             }
         }
         .title {
@@ -488,21 +477,21 @@ export default {
         }
         .verify-box {
             .verify-in-box {
-                width: 80%;
+                width: 100%;
                 margin: 0 auto;
                 display: flex;
                 justify-content: space-between;
                 .verify {
-                    width: 31%;
+                    width: 32%;
                     height:40px;
-                    margin: 0 10px 0 60px;
+                    margin: 0 10px 0 55px;
                 }
                 #verify {
-                    width: 30%;
+                    width: 31%;
                     height: 40px;
                     background: #ffffff;
                     position: relative;
-                    left: -16%;
+                    left: -15%;
                     margin: 0 0;
                     #verifyCanvas {
                         width: 100%;
@@ -543,15 +532,19 @@ export default {
             color: #0f0;
         }
         .btn-box {
+            margin-top: -20px;
             text-align: center;
             .login-btn {
-                width: 50%;
+                width: 70%;
                 font-size: 22px;
-                // color: #fff;
+                color: #333;
                 outline: none;
                 border: 0;
+                letter-spacing: 2px;
                 background: #fff;
-                border-radius: 5px;
+                border-top-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+                background: #00eaff;
             }
         }
     }

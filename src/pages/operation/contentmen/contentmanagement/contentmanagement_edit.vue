@@ -168,7 +168,7 @@ export default {
                 .then(res => {
                     if (res.data.code) {
                         let ret = res.data.object;
-                        let detail = ret.operateArticle;
+                        let detail = ret.kbaoOperateArticleEntity;
                         if (detail.cover) {
                             this.uploadList = [];
                             this.source = detail.cover;
@@ -262,7 +262,7 @@ export default {
                     let params = {
                         //栏目
                         ids: [this.formValidate.ids],
-                        operateArticle: {
+                        kbaoOperateArticleEntity: {
                             //标题
                             title: this.formValidate.title.trim(),
                             // 副标题

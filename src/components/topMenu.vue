@@ -7,13 +7,13 @@
     :theme="theme1"
     :active-name="topActiveName"
   >
-    <MenuItem v-for="item,index in topMenuLists" :key="item.id" :name="item.id">
+    <!-- <MenuItem v-for="item,index in topMenuLists" :key="item.id" :name="item.id">
       <Icon type="ios-navigate" v-if='index == 0'></Icon>
       <Icon type="ios-keypad" v-if='index == 1'></Icon>
       <Icon type="ios-analytics" v-if='index == 2'></Icon>
       <Icon type="ios-paper" v-if='index == 3'></Icon>
     {{item.name}}
-    </MenuItem>
+    </MenuItem> -->
     <!-- <MenuItem name="1">
             运营平台
         </MenuItem>
@@ -31,7 +31,7 @@
         <img :src="userIcon || './static/img/doctor.jpg'" @click="edit" style="cursor:pointer;">
       </div>
       <div class="info">
-        <span>{{username || "喜大普奔"}}</span>
+        <span>{{username || "admin"}}</span>
         <br>
         <a href="javascript:void(0);" @click="logout">退出</a>
       </div>
@@ -105,12 +105,12 @@ export default {
   margin-top: 10px !important;
   position: relative;
   .logout {
-    display: inline-flex;
+    display: flex;
     justify-content: start;
     position: absolute;
     right: 30px;
     width: 150px;
-    height: 50px;
+    height: 50px; 
     .avatar {
       img {
         width: 50px;

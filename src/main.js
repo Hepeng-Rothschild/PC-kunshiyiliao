@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
 		if(to.path != "/login"){
 			let access_token = window.localStorage.getItem("access_token");
 			if(access_token != undefined){
-				let title = to.meta.title?to.meta.title:"互联网医院管理系统";
+				let title = to.meta.title?to.meta.title:"易享康后台运营";
 				document.title = title;
 				next();
 			}else{
@@ -113,7 +113,7 @@ const i18n = new VueI18n({
 
 //资源所在地址
 if(store.state.env == "production"){
-	Vue.prototype.fileBaseUrl = "https://ydjk-pro.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
 		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')

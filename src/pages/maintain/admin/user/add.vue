@@ -405,6 +405,13 @@ export default {
             params.provinceCode = parseInt(
                 this.provinceId == 0 ? null : this.provinceId
             );
+            params.cityCode = parseInt(
+                this.cityId == 0 ? null : this.cityId
+            );
+            params.districtCode = parseInt(
+                this.areaId == 0 ? null : this.areaId
+            );
+            console.log('参数',params)
             this.$axios
                 .post(api.hospitalselectbyprovincecode, params)
                 .then(resp => {
@@ -472,6 +479,7 @@ export default {
                         // 所属机构
                         identityCoding: parseInt(this.formValidate.identityAddCoding)
                     };
+                    console.log(params)
                     this.$axios.post(api.adminAdd, params).then(res => {
                             if (res.data.code) {
                                 let a = res.data.object.fail || res.data.object.success;

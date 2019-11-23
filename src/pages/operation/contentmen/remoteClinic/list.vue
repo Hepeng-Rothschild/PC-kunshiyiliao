@@ -138,6 +138,7 @@ export default {
         return ""
       }
       this.$axios.post(api.searchRoomList, params).then(res => {
+        console.log(params)
         if (res.data.code) {
           let ret = res.data.object;
           let arr = [];
@@ -200,6 +201,7 @@ export default {
         return;
       }
       this.provinceList.forEach(item => {
+        console.log('省级',item)
         if (item.id == this.model.provinceCode) {
           this.cityList = item.cityList;
         }

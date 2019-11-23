@@ -3,7 +3,7 @@
         <Row>
             <Col class="top" :xs="24" :md="4">
                 <img class="logo" src="@/assets/images/logo.png">
-                <span class="logo-text">互联网医院平台</span>
+                <span class="logo-text">易享康后台运营</span>
             </Col>
             <Col :xs="24" :md="20">
                 <top-menu :topMenuLists="topMenuLists" :topActiveName="topActiveName"></top-menu>
@@ -20,7 +20,7 @@
             </Col>
             <Col class="content" :xs="24" :md="20">
                 <bread :breadTitle="breadTitle" :breadList="breadList"></bread>
-                 <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到互联网医院管理系统</div>
+                 <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到易享康后台运营系统</div>
                     <router-view @changeBreadList="changeBreadList"></router-view>
             </Col>
         </Row>
@@ -145,7 +145,7 @@ export default {
 #main {
     .top {
         .logo {
-            width: 60px;
+            width: 50px;
             vertical-align: middle;
             margin:5px 0 0 25px;
         }
