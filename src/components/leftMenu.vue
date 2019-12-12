@@ -42,5 +42,42 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
+  .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
+    color: #fff;
+    background: #2d8cf0;
+    border-right: 2px solid #2d8cf0;
+    z-index: 2;
+  }
+  .ivu-menu-submenu-title{
+    padding: 14px 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+    color: #fff;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+  }
+  .ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title:hover {
+    padding: 14px 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+    color: #fff;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+  .ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title {
+    padding: 14px 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+    color: #fff;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-vertical .ivu-menu-submenu-title:hover {
+    background: #2988fd;
+    color: #fff;
+}
 </style>
