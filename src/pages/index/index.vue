@@ -144,21 +144,28 @@ export default {
 <style lang="less" scoped>
 #main {
     .top {
+        height: 70px;
+        line-height: 70px;
+        background: #1890ff;
         .logo {
             width: 50px;
             vertical-align: middle;
-            margin:5px 0 0 25px;
+            margin:0 0 0 25px;
         }
         .logo-text {
             text-align: center;
             display: inline-block;
             // width: 150px;
             font-size:18px;
+            color: #fff;
             vertical-align: middle;
         }
     }
     .left-menu {
         width: 100% !important;
+        height: 700px;
+        overflow: auto;
+        background: #1b243c;
     }
     .content {
         // padding:15px 0 0 15px;
