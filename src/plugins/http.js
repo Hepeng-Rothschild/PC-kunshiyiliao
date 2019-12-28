@@ -36,8 +36,7 @@ axios.interceptors.request.use(
 				'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
 			}
 			
-			let fileObj = new RegExp("uploadfiles", 'ig')
-
+			let fileObj = new RegExp("hospital/uploadOperateFiles", 'ig')
 			if (!RegObj.test(config.url)) {
 				if (!fileObj.test(config.url)) {
 					let iv = store.state.iv;

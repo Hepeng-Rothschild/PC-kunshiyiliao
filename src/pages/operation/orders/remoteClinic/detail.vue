@@ -27,9 +27,13 @@
                             姓名：
                             <span>{{info.memberName}}</span>
                         </Col>
-                        <Col :xs="8">
+                        <Col :xs="8" v-if="info.gender != 3">
                             性别：
                             <span>{{info.gender | fGender }}</span>
+                        </Col>
+                        <Col :xs="8" v-if="info.gender == 3">
+                            性别：
+                            <span>未知</span>
                         </Col>
                         <Col :xs="8">
                             出生日期：

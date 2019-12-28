@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
 		if(to.path != "/login"){
 			let access_token = window.localStorage.getItem("access_token");
 			if(access_token != undefined){
-				let title = to.meta.title?to.meta.title:"易享康后台运营";
+				let title = to.meta.title?to.meta.title:"易享康 后台运营";
 				document.title = title;
 				next();
 			}else{
@@ -124,8 +124,7 @@ if(store.state.env == "production"){
 		'ContentType':'multipart/form-data'
 	};
 }else if(store.state.env == "test") {
-	// Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
-	Vue.prototype.fileBaseUrl = "https://ydjk-test.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
 		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')

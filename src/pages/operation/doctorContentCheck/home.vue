@@ -66,7 +66,7 @@ export default {
             listApi: null,
             healthEducation: [
                 { title: "序号", key: "iNum", align: "center", width: 60 },
-                { title: "标题", key: "title", align: "center", width: 140 },
+                { title: "标题", key: "title", align: "center", width: 200 },
                 { title: "概要", key: "synopsis", align: "center", width: 220 },
                 { title: "来源", key: "source", align: "center", width: 120 },
                 {
@@ -79,7 +79,7 @@ export default {
                     title: "栏目",
                     key: "type",
                     align: "center",
-                    width: 140,
+                    // width: 140,
                     render: (h, params) => {
                         let typeText = "全部";
                         this.sonTabList.forEach(ele => {
@@ -99,13 +99,13 @@ export default {
                     title: "创建时间",
                     key: "createTime",
                     align: "center",
-                    width: 180
+                    // width: 180
                 },
                 {
                     title: "状态",
                     key: "enable",
                     align: "center",
-                    width: 80,
+                    // width: 80,
                     render: (h, params) => {
                         let enable = params.row.enable,
                             btnText = "";
@@ -127,7 +127,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 140,
-                    fixed: 'right',
+                   // fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let text = "";
@@ -234,7 +234,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width:120,
-                    fixed: 'right',
+                   // fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         let text = "";

@@ -1,5 +1,5 @@
 const noEncrypt = [
-    "hospitaloperateuploadfiles",
+    "hospitaluploadOperateFiles",
     "organizationinsertbatchdoctor",
     "organizationinsertbatchhospital",
     "organizationdownloadtemplate"

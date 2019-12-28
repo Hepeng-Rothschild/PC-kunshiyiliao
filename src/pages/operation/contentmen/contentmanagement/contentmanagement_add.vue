@@ -147,6 +147,7 @@ export default {
       uploadData: { json: '{"urlCode":"' + code.urlCode.patientNews + '"}' },
       images: "",
       urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
+      // urlCode:  { json: '{"urlCode":"' + code.urlCode.richText + '"}' },
       selectList: [
         {
           value: 1,

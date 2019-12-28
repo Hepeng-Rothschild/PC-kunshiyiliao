@@ -18,9 +18,13 @@
                         <b>姓名：</b>
                         {{info.name}}
                     </Col>
-                    <Col :xs="24" :md="12">
+                    <Col :xs="24" :md="12" v-if="info.gender != 3">
                         <b>性别：</b>
                         {{info.gender | fGender}}
+                    </Col>
+                     <Col :xs="24" :md="12" v-if="info.gender == 3">
+                        <b>性别：</b>
+                        未知
                     </Col>
                 </Row>
                 <Row>
@@ -283,6 +287,7 @@ export default {
             .post(api.reviewDoctorInfo, { id: this.id })
             .then(resp => {
                 this.info = resp.data.object;
+                console.log(this.info)
                 if (this.info.authStatus == 1) {
                     this.showReviewBtn = true;
                 } else {

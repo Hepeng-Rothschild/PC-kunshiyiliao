@@ -3,7 +3,7 @@
         <Row>
             <Col class="top" :xs="24" :md="4">
                 <img class="logo" src="@/assets/images/logo.png">
-                <span class="logo-text">易享康后台运营</span>
+                <span class="logo-text">易享康 后台运营</span>
             </Col>
             <Col :xs="24" :md="20">
                 <top-menu :topMenuLists="topMenuLists" :topActiveName="topActiveName"></top-menu>
@@ -20,7 +20,7 @@
             </Col>
             <Col class="content" :xs="24" :md="20">
                 <bread :breadTitle="breadTitle" :breadList="breadList"></bread>
-                 <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到易享康后台运营系统</div>
+                 <div class="welcome" v-if="showWelcome" style="user-select:none;">欢迎来到易享康 后台运营系统</div>
                     <router-view @changeBreadList="changeBreadList"></router-view>
             </Col>
         </Row>
@@ -143,6 +143,8 @@ export default {
 </script>
 <style lang="less" scoped>
 #main {
+    height: 100%;
+    overflow:hidden;
     .top {
         height: 70px;
         line-height: 70px;
@@ -163,13 +165,15 @@ export default {
     }
     .left-menu {
         width: 100% !important;
-        height: 700px;
+        height: 1000px;
         overflow: auto;
         background: #1b243c;
     }
     .content {
         // padding:15px 0 0 15px;
         background: #f5f5f5;
+        height: 1000px;
+        overflow:scroll;
         .welcome {
             height: 500px;
             width: 100%;

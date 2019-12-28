@@ -166,7 +166,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 80,
-                    fixed: 'right',
+                   // fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.remoteClinicId;
                         let startDate = new Date(this.startDate);

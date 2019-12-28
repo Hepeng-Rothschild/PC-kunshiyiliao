@@ -39,11 +39,11 @@
                                 style="width:80px;margin:0 10px;"
                             >
                                 <Option
-                                    v-for="item in cityList"
-                                    :value="item.id"
-                                    :key="item.value"
+                                    v-for="items in cityList"
+                                    :value="items.id"
+                                    :key="items.city"
                                     style='text-align:center;'
-                                >{{ item.city }}</Option>
+                                >{{items.city}}</Option>
                             </Select>
                         </FormItem>
                         <!-- 县 -->
@@ -52,7 +52,7 @@
                                 <Option
                                     v-for="item in countyList"
                                     :value="item.id"
-                                    :key="item.value"
+                                    :key="item.area"
                                 >{{ item.area }}</Option>
                             </Select>
                         </FormItem>
@@ -418,16 +418,20 @@ export default {
             this.formValidate.cityCode = "";
             // 区县
 			this.formValidate.districtCode = "";
-			this.countyList = []
+            this.countyList = []
+            let citylist
             if (list != -1) {
                 for (let i = 0; i < len; i++) {
+                    console.log(this.formValidate.provinceCode)
                     if (list[i].id == this.formValidate.provinceCode) {
+                        citylist = list[i].cityList;
+                        console.log(list[i].cityList)
                         list[i].cityList.forEach(item => {
                             item.id = item.id.toString();
                         });
-                        this.cityList = list[i].cityList;
                     }
                 }
+                this.cityList = citylist
             }
         },
         //市级改变获取县级
@@ -455,7 +459,8 @@ export default {
         handleSubmit(name) {
             this.$refs[name].validate(valid => {
                 if (valid) {
-					// 必填项填写完成
+                    // 必填项填写完成
+                    console.log(this.formValidate)
 					this.$axios.post(api.mechanismregAdd, this.formValidate).then(res => {
 						if (res.data.code) {
 							this.$Message.info("添加成功");

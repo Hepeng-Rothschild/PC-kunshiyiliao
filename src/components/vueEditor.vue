@@ -96,6 +96,7 @@ export default {
 			let formdata = new FormData();
 			formdata.set('file', blobInfo.blob());
 			formdata.set('json', this.urlCode);
+			console.log(formdata)
 			this.$axios.post(api.fileAll, formdata,{
 				headers:this.fromData
 			}).then(res => {

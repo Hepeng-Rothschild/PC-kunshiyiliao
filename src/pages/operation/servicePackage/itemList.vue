@@ -58,7 +58,7 @@ export default {
                     title: "序号",
                     key: "iNum",
                     align: "center",
-                    width: 60,
+                    // width: 60,
                     render: (h, params) => {
                         return h("span", {
                             domProps: {
@@ -96,7 +96,7 @@ export default {
                     title: "服务项目归属",
                     key: "attribution",
                     align: "center",
-                    width: 160,
+                    width: 140,
                     render: (h, params) => {
                         return h("span", {
                             domProps: {
@@ -121,31 +121,31 @@ export default {
                     title: "收费标准(元/次)",
                     key: "amt",
                     align: "center",
-                    width: 120
+                    width: 100
                 },
                 {
                     title: "实收金额",
                     key: "amountReceived",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "自付金额",
                     key: "residentowncost",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "政府补贴",
                     key: "governmentsubsidycost",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "是否启用",
                     key: "packagestatus",
                     align: "center",
-                    width: 90,
+                    // width: 90,
                     render: (h, params) => {
                         let packagestatus = params.row.packagestatus;
                         let text = "";
@@ -165,8 +165,8 @@ export default {
                     title: "操作",
                     key: "operate",
                     align: "center",
-                    width: 80,
-                    fixed: 'right',
+                    // width: 80,
+                    //// fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         return [

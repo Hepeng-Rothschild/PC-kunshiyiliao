@@ -40,7 +40,7 @@
                                 <Option
                                     v-for="item in cityList"
                                     :value="item.id"
-                                    :key="item.value"
+                                    :key="item.city"
                                     style='text-align:center;'
                                 >{{ item.city }}</Option>
                             </Select>
@@ -380,7 +380,8 @@ export default {
 		handleSubmit(name) {
 			this.$refs[name].validate(valid => {
 				if (valid) {
-				// 必填项填写完成
+                // 必填项填写完成
+                console.log(this.formValidate)
 					this.$axios.post(api.mechanismregEdit, this.formValidate).then(res => {
 						if (res.data.code) {
 							let ret = res.data;

@@ -308,7 +308,7 @@ const dictionaryInsert = "/operateapi/operate/diction/insertKbaoOperateDictionEn
 const dictionaryUpdate = "/operateapi/operate/diction/updateKbaoOperateDictionEntity";//修改字典
 //医生审核预约挂号
 const news = '/operateapi/organization/findKbaoHospitalNewsPage'; //动态新闻列表分页
-const fileAll = "/operateapi/hospital/operateUploadFiles"; //上传接口 不加密
+const fileAll = "/operateapi/hospital/uploadOperateFiles"; //上传接口 不加密
 const getProvince = "/operateapi/authentication/findProvince"; //获取省级列表
 const getTitle = "/operateapi/authentication/findKbaoDictionDtoList"; //获取职称列表
 const getReviewDoctorList = "/operateapi/authentication/findKbaoOperateDoctorDtoPage"; //获取审核医生列表
@@ -319,7 +319,7 @@ const reviewDoctorUpdate = "/operateapi/authentication/updateKbadDoctorByOperate
 const hospitalList = "/operateapi/authentication/findKbaoHospitalEntityList"; //医生审核
 const registerList = "/operateapi/register/findKbaoAppointmentRegistrationDtoPage"; //预约挂号列表
 const registerDoctorDetail = "/operateapi/register/findKbaoAppointmentRegistrationDtoById"; //预约医生详情
-const changeRegisterStatus = "/operateapi/registerupdatestatus"; //改变预约状态
+const changeRegisterStatus = "/operateapi/register/updateStatus"; //改变预约状态
 const registerDoctorList = "/operateapi/register/findKbaoDoctorNotScheduling"; //预约挂号专家列表
 const registerDoctorUpdate = "/operateapi/register/updateKbaoAppointmentRegistration"; //预约挂号修改
 const registerDoctorInsert = "/operateapi/register/insertKbaoAppointmentRegistration"; //预约挂号添加
@@ -331,7 +331,7 @@ const doctorRomteclinicSearchExpert = '/operateapi/remote/doctor/findRemoteDocto
 const doctorRomteclinicList = '/operateapi/remote/doctor/findPageRemoteDoctor' //远程门诊医生列表
 const doctorRomteclinicDetail = '/operateapi/remote/doctor/findOutpatientDoctorScheduling' //查询远程门诊医生详情
 //医生端版本管理
-const versioninsert = '/operateapi/version/insertKbaoOperateVersionEntityv'   //医生端版本管理添加
+const versioninsert = '/operateapi/version/insertKbaoOperateVersionEntity'   //医生端版本管理添加
 const versionlist = '/operateapi/version/findKbaoOperateVersionEntityList' //医生端版本管理列表
 const versiondetail = '/operateapi/version/findVersion' //医生端版本管理详情
 const versionupdate = '/operateapi/version/updateKbaoOperateVersionEntity' //医生端版本管理修改
@@ -419,7 +419,7 @@ const mechanismregEnable = '/operateapi/hospital/updateEnableById' //机构注�
 const mechanismregAdd = '/operateapi/hospital/insertKbaoHospitalEntity' // 新增机构
 const mechanismregSearch = '/operateapi/hospital/findHospitalOperateDtoById'  //根据医院ID查询医院详情
 const mechanismregEdit = '/operateapi/hospital/updateKbaoHospitalEntity' //修改医院详情
-const mechanismregUpLoad = '/operateapi/organization/insertBatchKbaoHospita' //批量上传机构信息  不加密
+const mechanismregUpLoad = '/operateapi/organization/insertBatchKbaoHospital' //批量上传机构信息  不加密
 /* ********************************************* */
 const doctorList = '/operateapi/doctor/findKbadDoctorEntityList' //医生列表
 const doctorServerManage = '/operateapi/organization/findKbaoMenuList' //医生所有服务管理列表

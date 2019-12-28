@@ -98,38 +98,38 @@ export default {
                     title: "认证状态",
                     key: "authStatus",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "图文问诊",
                     key: "imginquiry",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "电话问诊",
                     key: "phoneinquiry",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "视频问诊",
                     key: "videoinquiry",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "家庭医生",
                     key: "homedoctor",
                     align: "center",
-                    width: 90
+                    // width: 90
                 },
                 {
                     title: "操作",
                     key: "operate",
                     align: "center",
                     width: 140,
-                    fixed:"right",
+                    // fixed:"right",
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";

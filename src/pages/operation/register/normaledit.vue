@@ -792,7 +792,7 @@ export default {
                 this.deptPagepageNo = pageNo;
                 this.deptListModal = true;
             } else {
-                this.$Message.info("查询失败，请重试");
+                this.$Message.info("未分配【查询医院没有排班的科室】权限");
             }
         }).catch(err => {
             console.log(err);

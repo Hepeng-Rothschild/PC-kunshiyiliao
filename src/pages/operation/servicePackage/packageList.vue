@@ -141,7 +141,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 120,
-                    fixed: 'right',
+                   // fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.id;
                         var btnTxt = "查看";

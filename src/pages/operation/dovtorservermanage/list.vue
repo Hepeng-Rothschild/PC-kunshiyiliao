@@ -313,7 +313,7 @@ export default {
                     key: "operate",
                     align: "center",
                     width: 180,
-                    fixed: 'right',
+                   // fixed: 'right',
                     render: (h, params) => {
                         let id = params.row.doctorId,
                             _index = params.row._index;
