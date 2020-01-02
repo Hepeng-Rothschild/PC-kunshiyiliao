@@ -109,7 +109,7 @@
                             class="w-input"
                             v-model="info.serviceName"
                             :maxlength="60"
-                            placeholder="请输入服务项目名称1"
+                            placeholder="请输入服务项目名称"
                         />
                     </FormItem>
                 </Col>
@@ -166,24 +166,29 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>收费标准：
+                    <i class="req-icon">*</i>收费标准：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amt">
-                        <Input class="w-number" v-model="info.amt" :maxlength="20"/>
+                        <InputNumber class="w-number" 
+                            v-model="info.amt" 
+                            :maxlength="20"
+                            placeholder="请输入收费标准"
+                        />
                     </FormItem>
                 </Col>
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>政府补贴：
+                    <i class="req-icon">*</i>政府补贴：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="governmentsubsidycost">
-                        <Input
+                        <InputNumber
                             class="w-number"
                             v-model="info.governmentsubsidycost"
                             :maxlength="20"
+                            placeholder="请输入政府补贴"
                         />
                     </FormItem>
                 </Col>
@@ -362,14 +367,21 @@ export default {
                         message: "服务项目名称不能为空",
                         trigger: "blur"
                     }
+                ],
+                amt: [
+                    {
+                        required: true,
+                        message: "收费标准不能为空",
+                        trigger: "blur"
+                    }
+                ],
+                governmentsubsidycost: [
+                    {
+                        required: true,
+                        message: "政府补贴不能为空",
+                        trigger: "blur"
+                    }
                 ]
-                // amt: [
-                //     {
-                //         required: true,
-                //         message: "收费标准不能为空",
-                //         trigger: "blur"
-                //     }
-                // ],
                 // amountReceived: [
                 //     {
                 //         required: true,
@@ -384,13 +396,6 @@ export default {
                 //         trigger: "blur"
                 //     }
                 // ],
-                // governmentsubsidycost: [
-                //     {
-                //         required: true,
-                //         message: "政府补贴不能为空",
-                //         trigger: "blur"
-                //     }
-                // ]
             },
             switch1: false,
 
@@ -476,6 +481,12 @@ export default {
                     if (resp.data.success) {
                         this.info = resp.data.object;
                         console.log(this.info);
+                        if(this.info.amt){
+                            this.info.amt = resp.data.object.amt
+                        }
+                        if(this.info.amt){
+                            this.info.governmentsubsidycost = resp.data.object.governmentsubsidycost
+                        }
                         if (this.info.provinceId) {
                             this.cityList = this.$store.getters.getCityList(
                                 this.info.provinceId
@@ -695,7 +706,7 @@ export default {
         },
         submit(name) {
             this.$refs[name].validate(valid => {
-                if (valid) {
+                // if (valid) {
                     let msg = this.id ? "修改" : "添加";
                     let subApi = this.id
                         ? api.fdspackageitemupdate
@@ -742,6 +753,12 @@ export default {
                     params.formRelation = this.info.formRelation
                     console.log("传递数据",params);
                     // params.amountReceived = this.info.amountReceived;
+                    if(params.governmentsubsidycost && params.amt){
+                        if(params.governmentsubsidycost > params.amt){
+                            this.$Message.error('政府补贴金额不得大于收费标准金额')
+                            return
+                        }
+                    }
                     this.$axios
                         .post(subApi, params)
                         .then(resp => {
@@ -767,9 +784,9 @@ export default {
                         .catch(err => {
                             console.log(err);
                         });
-                } else {
-                    this.$Message.error("数据不正确");
-                }
+                // } else {
+                //     this.$Message.error("数据不正确");
+                // }
             });
         },
         reback() {

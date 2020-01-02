@@ -170,7 +170,7 @@ export default {
                     key: "itemFeeUnit",
                     title: "单位",
                     align: "center",
-                    width: 80
+                  
                 },
                 {
                     key: "itemFeePrice",
@@ -188,12 +188,11 @@ export default {
                     key: "itemUsed",
                     title: "状态",
                     align: "center",
-                    width:60
+                  
                 },
                 {
                     title: "操作",
                     align: "center",
-                    fixed: "right",
                     width:100,
                     render:(h,params) => {
                         let row = params.row;
@@ -421,7 +420,7 @@ export default {
                             // 弹窗数据初始化
                             this.handleReset('formValidate')
                         } else {
-                            this.$Message.error("添加失败")
+                            this.$Message.error(res.data.message)
                         }
                     })
                 } else {

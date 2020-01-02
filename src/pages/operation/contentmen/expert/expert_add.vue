@@ -249,13 +249,13 @@ export default {
         .then(res => {
           if (res.data.success) {
             if (res.data.object.list.length == 0) {
-              this.$Message.error("查询失败，未查询到该专家");
+                // this.$Message.error("查询失败，未查询到该专家");
+              return
             } else {
-              this.$Message.success("查询成功，请选择专家");
-              this.keshi = ''
-              this.deloldDate();
+                // this.$Message.success("查询成功，请选择专家");
+                this.keshi = ''
+                this.deloldDate();
             }
-            
             this.list = res.data.object.list;
             console.log(this.list);
           }

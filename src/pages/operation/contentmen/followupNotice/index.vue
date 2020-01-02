@@ -45,6 +45,7 @@
 <script>
 import tmpHeader from "@/pages/operation/contentmen/tmpHeader";
 import api from "@/api/commonApi";
+import code from "@/configs/base.js";
 import vueEditor from "@/components/vueEditor";
 export default {
   components: {
@@ -118,7 +119,8 @@ export default {
       },
       modalStatus: false,
       modalTitle :"新增告知书",
-      followList:["签约随访"]
+      followList:["签约随访"],
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
     };
   },
   created () {
