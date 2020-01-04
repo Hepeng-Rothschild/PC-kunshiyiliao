@@ -27,7 +27,7 @@
                     </Select>
                 </div>
                 <div class="margin-up-down">
-                    <span>日期:</span>
+                    <span>预约日期:</span>
                     <DatePicker
                         type="date"
                         :clearable="false"

@@ -467,7 +467,7 @@ const replacedoctor = '/operateapi/appointment/record/findReplaceDoctor' //预�
 const closeappointment = '/operateapi/appointment/record/findCloseAppointment' //预约挂号停诊
 const hospitalidanddepartmentid = '/operateapi/appointment/record/findDoctorByHospitalIdAndDepartmentId'  //预约挂号通过科室查询医生
 const querydeptname = '/operateapi/appointment/record/findDeptNameList' //查询所有的科室
-const cordwriteexcel= '/operateapi/appointmentrecordwriteexcel'  //导出数据
+const cordwriteexcel= '/operateapi/appointment/record/writeExcel'  //导出数据
 //服务项目管理
 const fdspackageitempage = '/operateapi/fds/packageItem/findKbafFdsPackageItemsEntityDtoPage';  //服务项目列表
 const fdspackageiteminsert = '/operateapi/fds/packageItem/insertKbafFdsPackageItemsEntity';  //新增服务项目
