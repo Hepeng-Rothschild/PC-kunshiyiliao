@@ -403,7 +403,7 @@ export default {
                 this.$Message.error("请检查是否有时间段未填写完整!");
                 return ""
             } else if (typeList.length <= 0) {
-                this.$Message.error("当前医生/医院未开通服务")
+                this.$Message.error("请确认该医生权限配置或职称价格是否配置")
                 return ''
             }
             this.$axios.post(api.insertdoctorscheduling, params).then(res => {
@@ -435,7 +435,7 @@ export default {
                         item.flag = false;
                     })
                     if(this.servericeList.length == 0) {
-                        this.$Message.info("当前医生/医院没有开通服务")
+                        this.$Message.error(ret.object.message)
                     }
                 } else {
                     this.$Message.error("加载医生服务列表失败")

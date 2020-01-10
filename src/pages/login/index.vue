@@ -44,7 +44,7 @@
                     <!-- <i class="success-icon">ok</i>&nbsp;&nbsp;登陆成功 -->
                 </div>
                 <div class="btn-box">
-                    <button class="login-btn" @click="checkLogin">登陆</button>
+                    <button class="login-btn" @click="checkLogin">登录</button>
                 </div>
             </div>
         </div>

@@ -231,7 +231,7 @@
             <!--  服务关联表单 -->
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>关联表单：
+                    <i class="req-icon">*</i>关联表单：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="numberYear">
@@ -248,7 +248,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>关联模式：
+                    <i class="req-icon">*</i>关联模式：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="numberYear">
@@ -265,7 +265,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon"></i>关联内容：
+                    <i class="req-icon">*</i>关联内容：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="numberYear">
@@ -756,6 +756,18 @@ export default {
                     if(params.governmentsubsidycost && params.amt){
                         if(params.governmentsubsidycost > params.amt){
                             this.$Message.error('政府补贴金额不得大于收费标准金额')
+                            return
+                        }
+                        if(params.formType == null){
+                            this.$Message.error('请选择关联表单')
+                            return
+                        }
+                        if(params.pattern == null){
+                            this.$Message.error('请选择关联模式')
+                            return
+                        }
+                        if(params.formRelation == null){
+                            this.$Message.error('请选择关联内容')
                             return
                         }
                     }

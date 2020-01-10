@@ -5,7 +5,7 @@
         </Row>
         <Row>
             <Col :xs="24">
-                <i class="req-icon">*</i>头像：
+                <i class="req-icon"></i>头像：
                 <span class="avatar-box" v-for="(item,index) of uploadList" :key="index">
                     <template v-if="item.status === 'finished'">
                         <Avatar shape="square" icon="ios-person" :src="item.url"/>
