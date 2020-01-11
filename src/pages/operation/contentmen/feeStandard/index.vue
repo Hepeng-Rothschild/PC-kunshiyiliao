@@ -118,7 +118,7 @@
                     </FormItem>
                 </Form>
                 <div style='width:300px;margin:0 auto;'>
-                    <Button type='primary' @click='handleSubmit("formValidate")'>{{buttonName}}</Button>
+                    <Button type='primary' @click='handleSubmit("formValidate")' :disabled="isDisable">{{buttonName}}</Button>
                     <Button @click='handleReset("formValidate")'>取消</Button>
                 </div>
             </Modal>
@@ -134,6 +134,7 @@ export default {
     },
     data () {
         return {
+            isDisable: false,//表单重复提交
             // 列表数据
             columns1: [
                 {
@@ -200,6 +201,7 @@ export default {
                             h('a', {
                                 on: {
                                     click: () => {
+                                        this.isDisable = false
                                         this.modalStatus = true
                                         this.buttonName = '确认修改'
                                         this.ModalTitle = '修改'
@@ -382,12 +384,14 @@ export default {
         },
         // 新增项目
         modalShow () {
+            this.isDisable = false
             this.modalStatus = true
             this.ModalTitle = '新增'
             this.buttonName = '确认添加'
         },
         // 保存修改
         handleSubmit (name) {
+            this.isDisable = true  //不可点击
             this.$refs[name].validate((valid) => {
                 if (valid) {
                     let url = api.chargeinsert;
@@ -417,6 +421,7 @@ export default {
                             this.$Message.success(res.data.object.success)
                             // 重新加载列表
                             this.getDate();
+                            this.isDisable = false;//放开点击了
                             // 弹窗数据初始化
                             this.handleReset('formValidate')
                         } else {
@@ -479,6 +484,7 @@ export default {
         },
         // 加载列表数据
         getDate () {
+            this.isDisable = false
             let params = {
                 "hospitalId": this.formValidate.hospitalId,
                 "pageNo": this.pageNo,
