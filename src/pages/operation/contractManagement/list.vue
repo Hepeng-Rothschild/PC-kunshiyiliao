@@ -140,13 +140,13 @@ export default {
                     title: "签约日期",
                     key: "contractStartTime",
                     align: "center",
-                    width: 180
+                    // width: 180
                 },
                 {
                     title: "签约机构",
                     key: "hospitalName",
                     align: "center",
-                    width: 140
+                    // width: 140
                 }
             ],
             data1: []

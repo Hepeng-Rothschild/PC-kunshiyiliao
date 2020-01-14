@@ -99,7 +99,7 @@ export default {
             editTag: {},
             columns: [
                 { title: "序号", key: "iNum", align: "center", width: 100 },
-                { title: "标签", key: "evaLabel", align: "center", width: 300 },
+                { title: "标签", key: "evaLabel", align: "center"},
                 {
                     title: "星级",
                     key: "starLevel",

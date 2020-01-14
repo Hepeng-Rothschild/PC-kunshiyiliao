@@ -49,8 +49,8 @@ export default {
         return {
             tabs: [
                 { id: 1, name: "健康宣教" },
-                { id: 2, name: "经典案例" },
-                { id: 3, name: "热门推荐" }
+                { id: 2, name: "学术交流" },
+                { id: 3, name: "医学资讯" }
             ],
             tabId: 0,
             sonTabList: [],

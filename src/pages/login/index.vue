@@ -20,7 +20,7 @@
                         class="password"
                         @change="checkInput"
                         v-model.trim="password"
-                        placeholder="请输入登陆密码"
+                        placeholder="请输入登录密码"
                     >
                 </div>
                 <div class="verify-box">
@@ -102,7 +102,7 @@ export default {
                 this.noticeClassColor = "success-color";
                 this.iconClass = "success-icon";
                 this.iconText = "ok";
-                this.alertMsg = "输入正确，登陆中...";
+                this.alertMsg = "输入正确，登录中...";
             }
             let params =
                 "username=" + this.username.trim() + "&password=" + this.password.trim();
@@ -345,7 +345,7 @@ export default {
                         this.noticeClassColor = "alert-color";
                         this.iconClass = "alert-icon";
                         this.iconText = "!";
-                        this.alertMsg = "登陆失败";
+                        this.alertMsg = "登录失败";
                         this.verifyCode.refresh();
                         this.verify = "";
                         this.password = ''

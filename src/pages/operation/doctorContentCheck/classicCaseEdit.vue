@@ -462,9 +462,9 @@ export default {
         
         this.tabList = this.classicCaseSontab;
         if (isNaN(id)) {
-            this.editTt = `新增-经典案例`;
+            this.editTt = `新增-学术交流`;
         } else {
-            this.editTt = `修改-经典案例`;
+            this.editTt = `修改-学术交流`;
             this.id = id;
             this.$axios
                 .post(api.doctorclassicDetailById, { id: this.id })

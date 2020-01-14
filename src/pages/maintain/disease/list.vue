@@ -25,7 +25,7 @@ export default {
                     title: "疾病名称",
                     key: "disease",
                     align: "center",
-                    width: 300
+                    // width: 300
                 },
                 {
                     title: "针对人群",

@@ -126,25 +126,25 @@ export default {
                     title:"栏目",
                     key:"columnName",
                     align:"center",
-                    width:90
+                    // width:90
                 },
                 {
                     title:"阅读量",
                     key:"readAmount",
                     align:"center",
-                    width:90
+                    // width:90
                 },
                 {
                     title:"收藏量",
                     key:"countFollow",
                     align:"center",
-                    width:90
+                    // width:90
                 },
                 {
                     title:"排序",
                     key:"priority",
                     align:"center",
-                    width:90
+                    // width:90
                 },
                 {
                     title:"时间",

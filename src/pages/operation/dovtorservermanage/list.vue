@@ -195,14 +195,14 @@ export default {
                     title: "医生姓名",
                     key: "doctorName",
                     align: "center",
-                    width: 100,
+                    // width: 100,
                     // fixed: 'left',
                 },
                 {
                     title: "院内编码",
                     key: "hisId",
                     align: "center",
-                    width: 100
+                    // width: 100
                 },
                 {
                     title: "所在医院",

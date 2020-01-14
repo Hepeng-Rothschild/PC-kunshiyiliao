@@ -82,7 +82,7 @@ export default {
           title: "医院科室",
           key: "hospitaldept",
           align: "center",
-          width: 200,
+          // width: 200,
           render: (h, params) => {
             let item = params.row.hospitaldept;
             return h("span", {

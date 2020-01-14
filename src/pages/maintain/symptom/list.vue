@@ -25,7 +25,7 @@ export default {
                     title: "症状名称",
                     key: "symptom",
                     align: "center",
-                    width: 300
+                    // width: 300
                 },
                 {
                     title: "针对人群",

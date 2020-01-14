@@ -16,46 +16,74 @@
                             <span style="color:red;">*</span>
                             <span>区域</span>
                         </div>
-                        <!-- 省 -->
-                        <FormItem prop="provinceCode">
-                            <Select
-                                v-model="formValidate.provinceCode"
-                                @on-change="provChange"
-                                style="width:80px"
-                            >
-                                <Option
-                                    v-for="item in provList"
-                                    :value="item.id"
-                                    :key="item.value"
-                                    style='text-align:center;'
-                                >{{ item.name }}</Option>
-                            </Select>
-                        </FormItem>
-                        <!-- 市 -->
-                        <FormItem prop="cityCode">
-                            <Select
-                                v-model="formValidate.cityCode"
-                                @on-change="cityChange"
-                                style="width:80px;margin:0 10px;"
-                            >
-                                <Option
-                                    v-for="items in cityList"
-                                    :value="items.id"
-                                    :key="items.city"
-                                    style='text-align:center;'
-                                >{{items.city}}</Option>
-                            </Select>
-                        </FormItem>
-                        <!-- 县 -->
-                        <FormItem prop="districtCode">
-                            <Select v-model="formValidate.districtCode" style="width:130px">
-                                <Option
-                                    v-for="item in countyList"
-                                    :value="item.id"
-                                    :key="item.area"
-                                >{{ item.area }}</Option>
-                            </Select>
-                        </FormItem>
+                        <div v-if="idtt == 2 || idtt == 3" style="margin-bottom:20px">
+                            <Col span="24"  offset="6">
+                                <newfourLevelLinkage
+                                    @changeProvince="changeProvince"
+                                    @changeCity="changeCity"
+                                    @changeArea="changeArea"
+                                ></newfourLevelLinkage>
+                            </Col>
+                        </div>
+                        <div v-if="idtt == 4 || idtt == 5">
+                            <FormItem>
+                                <Select v-model="newprovince" :disabled="cStatus" style="width:100px">
+                                    <Option :value="newprovince">{{ newprovince }}</Option>
+                                </Select>
+                                <Select v-model="newcity" :disabled="cStatus" style="width:100px">
+                                    <Option :value="newcity">{{ newcity }}</Option>
+                                </Select>
+                                <Select v-model="newdistrict" :disabled="cStatus" style="width:90px">
+                                    <Option :value="newdistrict">{{ newdistrict }}</Option>
+                                </Select>
+                            </FormItem>
+                        </div>
+                        <div v-if="idtt == 0">
+                            <!-- 省 -->
+                            <Col span="6">
+                                <FormItem prop="provinceCode">
+                                    <Select
+                                        v-model="formValidate.provinceCode"
+                                        @on-change="provChange"
+                                        style="width:100px"
+                                    >
+                                        <Option
+                                            v-for="item in provList"
+                                            :value="item.id"
+                                            :key="item.value"
+                                            style='text-align:center;'
+                                        >{{ item.name }}</Option>
+                                    </Select>
+                                </FormItem>
+                            </Col>
+                            <Col span="6">
+                                <FormItem prop="cityCode">
+                                    <Select
+                                        v-model="formValidate.cityCode"
+                                        @on-change="cityChange"
+                                        style="width:80px;"
+                                    >
+                                        <Option
+                                            v-for="items in cityList"
+                                            :value="items.id"
+                                            :key="items.city"
+                                            style='text-align:center;'
+                                        >{{items.city}}</Option>
+                                    </Select>
+                                </FormItem>
+                            </Col>
+                            <Col span="6">
+                                <FormItem prop="districtCode">
+                                    <Select v-model="formValidate.districtCode" style="width:130px">
+                                        <Option
+                                            v-for="item in countyList"
+                                            :value="item.id"
+                                            :key="item.area"
+                                        >{{ item.area }}</Option>
+                                    </Select>
+                                </FormItem>
+                            </Col>
+                        </div>
                     </div>
 					<!-- 机构名称 -->
 					<div class="address">
@@ -179,7 +207,12 @@
 <script>
 import api from "@/api/commonApi";
 import address from "@/configs/address";
+import cookie from "@/utils/cookie.js";
+import newfourLevelLinkage from "@/components/newfourLevelLinkage";
 export default {
+    components: {
+        newfourLevelLinkage
+    },
     data() {
         return {
             formValidate: {
@@ -334,10 +367,32 @@ export default {
             city: null,
             area: null,
             hospital: null,
-            isBack: 2
+            isBack: 2,
+            newprovince:'',
+            newcity:'',
+            newdistrict:'',
+            cStatus:true,
+            idtt:'',
         };
     },
     created() {
+        console.log(cookie.getCookie("idtt"))
+        if(cookie.getCookie("idtt") == 4 || cookie.getCookie("idtt") == 5){
+            this.newprovince = JSON.parse(sessionStorage.getItem('list'))[0].province
+            this.newcity = JSON.parse(sessionStorage.getItem('list'))[0].city
+            this.newdistrict = JSON.parse(sessionStorage.getItem('list'))[0].district
+            console.log(sessionStorage.getItem('list'))
+            console.log(this.newprovince,this.newcity, this.newdistrict)
+            this.idtt = 5
+        }else if(cookie.getCookie("idtt")== 2){
+            this.idtt = 2
+        }else if(cookie.getCookie("idtt")== 3){
+            this.idtt = 3
+        }else if(cookie.getCookie("idtt")== 4){
+            this.idtt = 4
+        }else{
+            this.idtt = 0
+        }
         this.province = this.$route.query.province
             ? parseInt(this.$route.query.province)
             : null;
@@ -370,6 +425,15 @@ export default {
         this.getGrent();
     },
     methods: {
+        changeProvince(val) {
+            this.province = val;
+        },
+        changeCity(val) {
+            this.city = val;
+        },
+        changeArea(val) {
+            this.area = val;
+        },
         // 返回上一步
         back() {
             // 获取路由参数
@@ -401,6 +465,7 @@ export default {
         getCity() {
             this.$axios.post(api.getCity).then(res => {
                 if (res.data) {
+                    console.log(res.data)
                     let ret = res.data.object;
                     ret.forEach(item => {
                         item.id = item.id.toString();
@@ -457,10 +522,15 @@ export default {
         },
         // 提交表单
         handleSubmit(name) {
+            console.log(this.formValidate)
+            if(this.idtt == 5 || this.idtt == 4){
+                this.formValidate.provinceCode = this.$route.query.province
+                this.formValidate.cityCode = this.$route.query.city
+                this.formValidate.districtCode = this.$route.query.area
+            }
             this.$refs[name].validate(valid => {
                 if (valid) {
                     // 必填项填写完成
-                    console.log(this.formValidate)
 					this.$axios.post(api.mechanismregAdd, this.formValidate).then(res => {
 						if (res.data.code) {
 							this.$Message.info("添加成功");

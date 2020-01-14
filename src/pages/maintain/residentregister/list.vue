@@ -75,7 +75,7 @@ export default {
                     title:"注册昵称",
                     key:"nickname",
                     align:"center",
-                    width:140
+                    // width:140
                 },
                 {
                     title:"联系方式（手机）",

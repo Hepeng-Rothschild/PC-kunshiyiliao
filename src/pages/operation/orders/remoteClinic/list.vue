@@ -101,7 +101,7 @@ export default {
                     title: "远程医院",
                     key: "remoteHospitalName",
                     align: "center",
-                    width: 140
+                    // width: 140
                 },
                 {
                     title: "远程科室",
@@ -137,7 +137,7 @@ export default {
                     title: "远程门诊费用",
                     key: "cost",
                     align: "center",
-                    width: 80
+                    // width: 80
                 },
                 {
                     title: "状态",

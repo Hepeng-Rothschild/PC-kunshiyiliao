@@ -130,19 +130,19 @@ const login = "/operateapi/operate/login"; //登陆接口
 // const educationDetailById = '/operateapi/educationfindkbaddoctoreducationarticleentitybyid';//根据ID查询健康宣教详情
 // const educationUpdate = '/operateapi/educationupdatekbaddoctoreducationarticleentity';//更新健康宣教信息
 // const educationUpdateFlag = '/operateapi/educationupdateenable';//更改健康宣教状态
-// //2.经典案例
-// const doctorclassicDelete = '/operateapi/doctorclassiccasedelete'; //删除经典案例
-// const doctorclassicInsert = '/operateapi/doctorclassiccaseinsertkbaddoctorclassiccaseentity'; //新增经典案例
-// const doctorclassicArticleList = '/operateapi/doctorclassiccasefindkbaddoctorclassiccaseentitypage'; //经典案例list
-// const doctorclassicDetailById = '/operateapi/doctorclassiccasefindkbaddoctorclassiccaseentitybyid';//根据ID查询经典案例详情
-// const doctorclassicUpdate = '/operateapi/doctorclassiccaseupdatekbaddoctorclassiccaseentity';//更新经典案例信息
-// const doctorclassicUpdateFlag = '/operateapi/doctorclassiccaseupdateenableddisable';//更改经典案例状态
-// //3.热门推荐
-// const recommendInsert = '/operateapi/recommendarticleinsertkbaddoctorrecommendentity'; //新增热门推荐
-// const recommendArticleList = '/operateapi/recommendarticlefinddoctorrecommendpage'; //热门推荐list
-// const recommendDetailById = '/operateapi/recommendarticlefindkbaodoctorrecommendentitybyid';//根据ID查询热门推荐详情
-// const recommendUpdate = '/operateapi/recommendarticleupdatekbaddoctorrecommendentity';//更新热门推荐信息
-// const recommendUpdateFlag = '/operateapi/recommendarticleupdateenable';//更改热门推荐状态
+// //2.学术交流
+// const doctorclassicDelete = '/operateapi/doctorclassiccasedelete'; //删除学术交流
+// const doctorclassicInsert = '/operateapi/doctorclassiccaseinsertkbaddoctorclassiccaseentity'; //新增学术交流
+// const doctorclassicArticleList = '/operateapi/doctorclassiccasefindkbaddoctorclassiccaseentitypage'; //学术交流list
+// const doctorclassicDetailById = '/operateapi/doctorclassiccasefindkbaddoctorclassiccaseentitybyid';//根据ID查询学术交流详情
+// const doctorclassicUpdate = '/operateapi/doctorclassiccaseupdatekbaddoctorclassiccaseentity';//更新学术交流信息
+// const doctorclassicUpdateFlag = '/operateapi/doctorclassiccaseupdateenableddisable';//更改学术交流状态
+// //3.医学资讯
+// const recommendInsert = '/operateapi/recommendarticleinsertkbaddoctorrecommendentity'; //新增医学资讯
+// const recommendArticleList = '/operateapi/recommendarticlefinddoctorrecommendpage'; //医学资讯list
+// const recommendDetailById = '/operateapi/recommendarticlefindkbaodoctorrecommendentitybyid';//根据ID查询医学资讯详情
+// const recommendUpdate = '/operateapi/recommendarticleupdatekbaddoctorrecommendentity';//更新医学资讯信息
+// const recommendUpdateFlag = '/operateapi/recommendarticleupdateenable';//更改医学资讯状态
 // //疾病/症状管理
 // const getDiseaseList = '/operateapi/diseasefindkbaooperatebodydiseaseentitypage';//查询疾病列表
 // const changeDiseaseStatus = '/operateapi/diseaseupdatestatus';//更改疾病状态
@@ -432,19 +432,19 @@ const educationArticleList = '/operateapi/education/findKbadDoctorEducationArtic
 const educationDetailById = '/operateapi/education/findKbadDoctorEducationArticleEntityById';//根据ID查询健康宣教详情
 const educationUpdate = '/operateapi/education/updateKbadDoctorEducationArticleEntity';//更新健康宣教信息
 const educationUpdateFlag = '/operateapi/education/updateEnable';//更改健康宣教状态
-//2.经典案例
-const doctorclassicDelete = '/operateapi/doctor/classic/case/delete'; //删除经典案例
-const doctorclassicInsert = '/operateapi/doctor/classic/case/insertKbadDoctorClassicCaseEntity'; //新增经典案例
-const doctorclassicArticleList = '/operateapi/doctor/classic/case/findKbadDoctorClassicCaseEntityPage'; //经典案例list
-const doctorclassicDetailById = '/operateapi/doctor/classic/case/findKbadDoctorClassicCaseEntityById';//根据ID查询经典案例详情
-const doctorclassicUpdate = '/operateapi/doctor/classic/case/updateKbadDoctorClassicCaseEntity';//更新经典案例信息
-const doctorclassicUpdateFlag = '/operateapi/doctor/classic/case/updateEnabledDisable';//更改经典案例状态
-//3.热门推荐
-const recommendInsert = '/operateapi/recommend/article/insertKbadDoctorRecommendEntity'; //新增热门推荐
-const recommendArticleList = '/operateapi/recommend/article/findDoctorRecommendPage'; //热门推荐list
-const recommendDetailById = '/operateapi/recommend/article/findKbaoDoctorRecommendEntityById';//根据ID查询热门推荐详情
-const recommendUpdate = '/operateapi/recommend/article/updateKbadDoctorRecommendEntity';//更新热门推荐信息
-const recommendUpdateFlag = '/operateapi/recommend/article/updateEnable';//更改热门推荐状态
+//2.学术交流
+const doctorclassicDelete = '/operateapi/doctor/classic/case/delete'; //删除学术交流
+const doctorclassicInsert = '/operateapi/doctor/classic/case/insertKbadDoctorClassicCaseEntity'; //新增学术交流
+const doctorclassicArticleList = '/operateapi/doctor/classic/case/findKbadDoctorClassicCaseEntityPage'; //学术交流list
+const doctorclassicDetailById = '/operateapi/doctor/classic/case/findKbadDoctorClassicCaseEntityById';//根据ID查询学术交流详情
+const doctorclassicUpdate = '/operateapi/doctor/classic/case/updateKbadDoctorClassicCaseEntity';//更新学术交流信息
+const doctorclassicUpdateFlag = '/operateapi/doctor/classic/case/updateEnabledDisable';//更改学术交流状态
+//3.医学资讯
+const recommendInsert = '/operateapi/recommend/article/insertKbadDoctorRecommendEntity'; //新增医学资讯
+const recommendArticleList = '/operateapi/recommend/article/findDoctorRecommendPage'; //医学资讯list
+const recommendDetailById = '/operateapi/recommend/article/findKbaoDoctorRecommendEntityById';//根据ID查询医学资讯详情
+const recommendUpdate = '/operateapi/recommend/article/updateKbadDoctorRecommendEntity';//更新医学资讯信息
+const recommendUpdateFlag = '/operateapi/recommend/article/updateEnable';//更改医学资讯状态
 //疾病/症状管理
 const getDiseaseList = '/operateapi/disease/findKbaoOperateBodyDiseaseEntityPage';//查询疾病列表
 const changeDiseaseStatus = '/operateapi/disease/updateStatus';//更改疾病状态
@@ -768,14 +768,14 @@ let production = {
     educationDetailById,
     educationUpdate,
     educationUpdateFlag,
-    //经典案例
+    //学术交流
     doctorclassicDelete,
     doctorclassicInsert,
     doctorclassicArticleList,
     doctorclassicDetailById,
     doctorclassicUpdate,
     doctorclassicUpdateFlag,
-    //热门推荐
+    //医学资讯
     recommendInsert,
     recommendArticleList,
     recommendDetailById,

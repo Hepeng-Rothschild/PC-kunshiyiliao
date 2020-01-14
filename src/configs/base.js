@@ -4,11 +4,11 @@ export default {
         hospitalDynamicNews:9998,//医院动态新闻头像
         hospitalBanner:9997,//医院Banner
         patientNews:9996,//患者资讯
-        classicCase:9995,//经典案例
-        hotRecommend:9994,//热门推荐
+        classicCase:9995,//学术交流
+        hotRecommend:9994,//医学资讯
         healthEducation:9993,//健康宣教
-        classicCaseData:9992,//经典案例病例资料
-        classicCaseCarousel:9991,//经典案例轮播图
+        classicCaseData:9992,//学术交流病例资料
+        classicCaseCarousel:9991,//学术交流轮播图
         richText:9990,//富文本编辑器上传图片
         reviewAvatar:102,//医生审核认证头像
         wxBanner:9989,//微信首页banner图

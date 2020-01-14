@@ -9,11 +9,6 @@
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
-                        :province="province"
-                        :city="city"
-                        :area="area"
-                        :hospital="hospital"
-                        :isBack="isBack"
                     ></fourLevelLinkage>
                     <Input
                         v-model.trim="Name"
@@ -76,7 +71,7 @@ export default {
                     title:"机构名称",
                     key:"hospitalName",
                     align:"center",
-                    width:200,
+                    // width:200,
                     render: (h, params) => {
                         let name = params.row.hospitalName;
                         return h('p',{
@@ -173,7 +168,7 @@ export default {
                     title:"注册时间",
                     key:"createTime",
                     align:"center",
-                    width:150
+                    // width:150
                 },
                 {
                     title:"操作",
@@ -348,6 +343,8 @@ export default {
                         item.sum = this.addZeros(index)
                     })
                     this.list = ret.list;
+                    console.log(this.list)
+                    sessionStorage.setItem('list',JSON.stringify(this.list))
                 } else {
                     this.$Message.info("不允许访问");
                 }

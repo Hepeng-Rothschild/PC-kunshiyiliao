@@ -85,7 +85,7 @@ export default {
                     title: '医院名称',
                     key: 'hospitalName',
                     align:"center",
-                    width:100
+                    // width:100
                 },
                 {
                     title: '就诊科室',
@@ -163,7 +163,7 @@ export default {
                     title: '注册时间',
                     key: 'createTime',
                     align:"center",
-                    width:100
+                    // width:100
                 },
                 {
                     title: '数据来源',

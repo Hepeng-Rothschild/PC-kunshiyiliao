@@ -430,6 +430,7 @@ export default {
                     })
                 } else {
                     this.$Message.error('请完整填写必填项!');
+                    this.isDisable = false  //不可点击
                 }
             })
         },

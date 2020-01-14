@@ -286,7 +286,7 @@ export default {
                     title: "预约时间",
                     key: "appointmentTime",
                     align: "center",
-                    width: 140
+                    // width: 140
                 },
                 {
                     title: "状态",

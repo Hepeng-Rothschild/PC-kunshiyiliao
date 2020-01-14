@@ -217,9 +217,9 @@ export default {
 
         this.tabList = this.hotRecommendSontab;
         if (isNaN(id)) {
-            this.editTt = `新增-热门推荐`;
+            this.editTt = `新增-医学资讯`;
         } else {
-            this.editTt = `修改-热门推荐`;
+            this.editTt = `修改-医学资讯`;
             this.id = id;
             this.$axios
                 .post(api.recommendDetailById, { id: this.id })
