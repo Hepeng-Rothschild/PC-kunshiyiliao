@@ -19,7 +19,7 @@
                 </Upload>
             </div>
             <div>
-                <Button type="primary" class="w-btn" @click="next">下一步</Button>
+                <Button type="primary" class="w-btn" :class="{'disabled':disabled}" @click="next">下一步</Button>
                 <Button type="primary" class="w-btn" @click="reback">取消</Button>
             </div>
         </div>
@@ -78,9 +78,12 @@ export default {
         handleSuccess(res, file) {
             res = this.uploadFileDecrypt(res);
             if (res.code) {
+                // let ret = res.object[0];
+                // this.disabled = false;
+                // this.errorData.success += ret.success;
                 let ret = res.object[0];
                 this.disabled = false;
-                this.errorData.success += ret.success;
+                this.errorData = ret;
                 this.$Message.info("上传成功");
                 /* 移除上传文件列表的删除图标 start */
                 let uploadListObj = window.document.getElementsByClassName('ivu-upload-list')[0];
@@ -96,16 +99,13 @@ export default {
             }
         },
         next() {
+            console.log(this.errorData)
             if (!this.disabled) {
                  //   公用方法
-            this.functionJS.queryNavgationTo(
-                this,
-                "/index/operation/servicePackage/itemImportTwo",
-                {
+                this.functionJS.queryNavgationTo(this,"/index/operation/servicePackage/itemImportTwo",{
                         fail: this.errorData
                 }
             );
-
             } else {
                 this.$Message.info("请选择批量上传的文件");
             }

@@ -5,7 +5,7 @@
             <!--机构名称 -->
             <div class="main_info">
                 <span>机构名称</span>
-                <Input :value="info.title" style="width: 300px" disabled/>
+                <Input :value="info.title" style="width: 370px" disabled/>
             </div>
             <!--机构首图-->
             <div class="main_imgs">

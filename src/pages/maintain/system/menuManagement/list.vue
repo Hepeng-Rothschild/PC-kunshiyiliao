@@ -51,7 +51,7 @@ export default {
                     title: "备注",
                     key: "remark",
                     align: "center",
-                    width: 250
+                    // width: 250
                 },
                 {
                     title: "层级",

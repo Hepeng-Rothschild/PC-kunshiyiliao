@@ -4,12 +4,12 @@
             <!-- 头部信息 -->
             <header>
                 <div class="search">
-                    <fourLevelLinkage
+                    <!-- <fourLevelLinkage
                         @changeProvince="changeProvince"
                         @changeCity="changeCity"
                         @changeArea="changeArea"
                         @changeHospital="changeHospital"
-                    ></fourLevelLinkage>
+                    ></fourLevelLinkage> -->
                     <Input
                         v-model.trim="Name"
                         placeholder="输入注册昵称/联系方式/公众号名称查询"

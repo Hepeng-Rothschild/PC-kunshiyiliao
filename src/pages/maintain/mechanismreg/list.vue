@@ -168,7 +168,7 @@ export default {
                     title:"注册时间",
                     key:"createTime",
                     align:"center",
-                    // width:150
+                    width:150
                 },
                 {
                     title:"操作",
@@ -338,11 +338,13 @@ export default {
             this.$axios.post(api.mechanismregList, params).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object;
+                    console.log('列表数据',res.data.object)
                     this.doctorregisterSize = ret.count;
                     ret.list.forEach((item,index) => {
                         item.sum = this.addZeros(index)
                     })
                     this.list = ret.list;
+                   
                     console.log(this.list)
                     sessionStorage.setItem('list',JSON.stringify(this.list))
                 } else {

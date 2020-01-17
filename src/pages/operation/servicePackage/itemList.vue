@@ -130,13 +130,13 @@ export default {
                     // width: 90
                 },
                 {
-                    title: "自付金额",
+                    title: "自付金额(单次)",
                     key: "residentowncost",
                     align: "center",
                     // width: 90
                 },
                 {
-                    title: "政府补贴",
+                    title: "政府补贴(单次)",
                     key: "governmentsubsidycost",
                     align: "center",
                     // width: 90

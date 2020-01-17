@@ -17,12 +17,12 @@
                 <!-- <button @click="next">下一步</button>
                 <span @click="prev">返回重新上传</span>-->
                 <!-- <div> -->
-                <Button type="primary" class="w-btn" @click="next">下一步</Button>
+                <Button type="primary" class="w-btn" :disabled = 'disabled' @click="next">下一步</Button>
                 <Button type="primary" class="w-btn" @click="prev">重新上传</Button>
                 <!-- </div> -->
             </div>
             <!-- 列表 -->
-            <div class="list" v-show="list.length">
+            <div class="list">
                 <table border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <th>编号</th>
@@ -50,7 +50,8 @@ export default {
     data() {
         return {
             list: [],
-            all: {}
+            all: {},
+            disabled:true
         };
     },
     created() {
@@ -72,6 +73,7 @@ export default {
         if (fail) {
             this.all = fail;
             this.list = fail.fail;
+            this.disabled = false;
         }
     },
     methods: {

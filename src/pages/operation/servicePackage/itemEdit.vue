@@ -166,7 +166,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>收费标准：
+                    <i class="req-icon">*</i>收费标准(单次)：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="amt">
@@ -180,7 +180,7 @@
             </Row>
             <Row>
                 <Col :xs="3" class="text-r">
-                    <i class="req-icon">*</i>政府补贴：
+                    <i class="req-icon">*</i>政府补贴(单次)：
                 </Col>
                 <Col :xs="21">
                     <FormItem prop="governmentsubsidycost">
@@ -475,6 +475,7 @@ export default {
         } else {
             this.editTt = `修改服务项目`;
             this.id = id;
+            console.log(this.id)
             this.$axios
                 .post(api.fdspackageitemselectbyid, { id: this.id })
                 .then(resp => {

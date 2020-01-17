@@ -66,7 +66,7 @@ export default {
                     title: "服务包名称",
                     key: "itemName",
                     align: "center",
-                    width: 120
+                    // width: 120
                 },
                 {
                     title: "服务项目归属",
@@ -91,13 +91,13 @@ export default {
                     title: "服务项目/个",
                     key: "count",
                     align: "center",
-                    width: 120
+                    // width: 120
                 },
                 {
                     title: "服务价格(元/次)",
                     key: "amt",
                     align: "center",
-                    width: 120
+                    // width: 120
                 },
                 {
                     title: "实收金额",

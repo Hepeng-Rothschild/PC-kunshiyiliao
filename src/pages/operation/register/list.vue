@@ -82,7 +82,7 @@ export default {
           title: "医院科室",
           key: "hospitaldept",
           align: "center",
-          // width: 200,
+          width: 200,
           render: (h, params) => {
             let item = params.row.hospitaldept;
             return h("span", {
@@ -96,13 +96,13 @@ export default {
           title: "专家姓名",
           key: "doctorName",
           align: "center",
-          width: 140
+          width: 120
         },
         {
           title: "排班类型",
           key: "schedulingType",
           align: "center",
-          width: 140,
+          width: 120,
           render: (h, params) => {
             let item = params.row.schedulingType == 1 ? "专家排班" : "科室排班";
             return h("span", {
@@ -116,13 +116,13 @@ export default {
           title: "就诊地址",
           key: "address",
           align: "center",
-          width: 200
+          width: 150
         },
         {
           title: "预约挂号门诊时间",
           key: "registerTimes",
           align: "center",
-          width: 140,
+          width: 160,
           render: (h, params) => {
             let id = params.row.id;
             let tmpTimes = params.row.registerTimes;
@@ -139,12 +139,12 @@ export default {
             });
           }
         },
-        { title: "预约期限", key: "term", align: "center", width: 140 },
+        { title: "预约期限", key: "term", align: "center"},
         {
           title: "备注信息",
           key: "remarks",
           align: "center",
-          width: 200
+          // width: 200
         },
         {
           title: "操作",

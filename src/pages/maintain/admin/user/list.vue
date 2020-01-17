@@ -63,7 +63,7 @@ export default {
                     title: "用户头像",
                     key: "avatar",
                     align: "center",
-                    width: 220,
+                    // width: 220,
                     render: (h, params) => {
                         let avatar = this.pictureFormat(params.row.userIcon);
                         if (Boolean(avatar)) {

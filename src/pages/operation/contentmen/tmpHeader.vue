@@ -114,6 +114,11 @@ export default {
   methods: {
     changeIndex(index) {
       localStorage.setItem("homeIndex", index);
+      if(index == 13){
+        if(this.$route.path == '/index/operation/followupNotice/index'){
+        window.location.reload()
+        }
+      }
     }
   }
 };

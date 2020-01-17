@@ -61,13 +61,13 @@ export default {
                     title: "下载路径",
                     key: "downloadPath",
                     align: "center",
-                    width: 180
+                    // width: 180
                 },
                 {
                     title: "版本内容",
                     key: "content",
                     align: "center",
-                    width: 220
+                    // width: 220
                 },
                 {
                     title: "操作",

@@ -72,6 +72,7 @@ export default {
       this.all = fail;
       this.list = fail.fail;
       this.disabled = false;
+      console.log(this.list)
     }
   },
   methods: {

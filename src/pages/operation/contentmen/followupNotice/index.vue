@@ -13,7 +13,7 @@
         :closable='false'
         footer-hide
         :styles="{top: '20px'}"
-        width='800'>
+        width='1000'>
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="120">
             <FormItem label="告知书标题" prop="title">
                 <Input v-model="formValidate.title" placeholder="请输入告知书标题" style='width:370px;'></Input>
@@ -54,6 +54,7 @@ export default {
   },
   data() {
     return {
+      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
       pageNo: 1,
       pageSize: 10,
       count: 10,
@@ -120,7 +121,7 @@ export default {
       modalStatus: false,
       modalTitle :"新增告知书",
       followList:["签约随访"],
-      urlCode: '{"urlCode":"' + code.urlCode.richText + '"}',
+      
     };
   },
   created () {

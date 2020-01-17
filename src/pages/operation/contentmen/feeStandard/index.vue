@@ -418,13 +418,14 @@ export default {
                     console.log("修改参数",params);
                     this.$axios.post(url, params).then(res => {
                         if(res.data.success) {
-                            this.$Message.success(res.data.object.success)
+                            this.$Message.success(res.data.message)
                             // 重新加载列表
                             this.getDate();
                             this.isDisable = false;//放开点击了
                             // 弹窗数据初始化
                             this.handleReset('formValidate')
                         } else {
+                            this.isDisable = false;//放开点击了
                             this.$Message.error(res.data.message)
                         }
                     })

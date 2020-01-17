@@ -443,12 +443,12 @@ export default {
                 this,
                 "/index/maintain/mechanismreg/list",
                 {
-                    pageNo,
-                    province: this.province,
-                    city: this.city,
-                    area: this.area,
-                    hospital: this.hospital,
-                    isBack: 2
+                    // pageNo,
+                    // // province: this.province,
+                    // // city: this.city,
+                    // // area: this.area,
+                    // hospital: this.hospital,
+                    // isBack: 2
                 }
             );
         },
@@ -523,7 +523,7 @@ export default {
         // 提交表单
         handleSubmit(name) {
             console.log(this.formValidate)
-            if(this.idtt == 5 || this.idtt == 4){
+            if(this.idtt == 5 || this.idtt == 4 || this.idtt == 3){
                 this.formValidate.provinceCode = this.$route.query.province
                 this.formValidate.cityCode = this.$route.query.city
                 this.formValidate.districtCode = this.$route.query.area
@@ -544,7 +544,7 @@ export default {
 								pageNo,
 								province: this.province,
 								city: this.city,
-								area: this.area,
+								area: null,
 								hospital: this.hospital,
 								isBack: 2
 								}

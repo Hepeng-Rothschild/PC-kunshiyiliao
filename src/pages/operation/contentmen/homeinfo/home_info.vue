@@ -147,7 +147,6 @@
                         <button class="cus-btn" @click='unAppid'>-</button>
                     </div>
                 </div>
-                
             </div>
             <!--是否加入医院联盟-->
             <div class="main_yy">
