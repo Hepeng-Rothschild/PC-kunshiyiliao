@@ -286,7 +286,7 @@ export default {
                     title: "预约时间",
                     key: "appointmentTime",
                     align: "center",
-                    // width: 140
+                    width: 140
                 },
                 {
                     title: "状态",
@@ -337,9 +337,9 @@ export default {
                 },
                 {
                     title:"操作",
-                    width: 150,
+                    width: 180,
                     align:'center',
-                    fixed:"right",
+                    // fixed:"right",
                     render:(h,params) => {
                         let orderId = params.row.orderId;
                         let status = params.row.status;
@@ -940,14 +940,20 @@ export default {
             params.searchKey = this.searchKey.trim() ? this.searchKey.trim() : null;
             params.pageNo = 1;
             params.pageSize = this.count;
-
+            const link = document.createElement('a')
             console.log(params);
             this.$axios.post(url, params, { responseType: "arraybuffer" }).then(res =>{
                 if (res.data) {
                     let ret = res.data;
-                    var blob = new Blob([ret],{ type:"application/vnd.ms-excel" });
-                    let objUrl = URL.createObjectURL(blob);
-                    window.location.href = objUrl;
+                    // var blob = new Blob([ret],{ type:"application/vnd.ms-excel" });
+                    // let objUrl = URL.createObjectURL(blob);
+                    // window.location.href = objUrl;
+                    let blob = new Blob([ret], {type: "application/vnd.ms-excel"})
+                    let objectUrl = URL.createObjectURL(blob) // 创建URL
+                    link.href = objectUrl
+                    link.download = '预约挂号订单表' // 自定义文件名
+                    link.click() // 下载文件
+                    URL.revokeObjectURL(objectUrl); // 释放内存
                 }
             })
         },
