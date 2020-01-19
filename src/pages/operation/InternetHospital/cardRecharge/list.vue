@@ -272,7 +272,7 @@ export default {
                     key: "hisStatus",
                     title: "HIS状态",
                     align: "center",
-                    width: 120,
+                    // width: 120,
                     render:(h, params) => {
                         let checked = params.row;
                         let index = Number(checked.hisStatus)

@@ -418,7 +418,7 @@ export default {
                     console.log("修改参数",params);
                     this.$axios.post(url, params).then(res => {
                         if(res.data.success) {
-                            this.$Message.success(res.data.message)
+                            this.$Message.success('保存成功')
                             // 重新加载列表
                             this.getDate();
                             this.isDisable = false;//放开点击了

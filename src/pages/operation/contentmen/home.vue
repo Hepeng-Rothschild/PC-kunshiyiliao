@@ -128,7 +128,7 @@ export default {
                     title:"联盟排序",
                     key:"internetHospitalSort",
                     align: 'center',
-                    width: 120,
+                    // width: 120,
                 },
                 {
                     title:"操作",
