@@ -173,6 +173,7 @@
                         <InputNumber class="w-number" 
                             v-model="info.amt" 
                             :maxlength="20"
+                            :min="1"
                             placeholder="请输入收费标准"
                         />
                     </FormItem>
@@ -188,6 +189,7 @@
                             class="w-number"
                             v-model="info.governmentsubsidycost"
                             :maxlength="20"
+                            :min="1"
                             placeholder="请输入政府补贴"
                         />
                     </FormItem>
