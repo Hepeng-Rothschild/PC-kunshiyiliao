@@ -461,6 +461,11 @@ const downloadTxt = '/operateapi/organization/downloadTemplate';  //批量上传
 const orderManageAppointRegistList = '/operateapi/order/management/findOrderManagement';  //预约挂号订单管理
 const ordermanagementlistbyremoteorder = '/operateapi/order/management/findListByRemoteOrder';  //远程问诊订单管理
 const ordermanagementselectbyremoteclinicid = '/operateapi/order/management/findKbaoRemoteOrderDetailsDtoByRemoteClinicId';  //远程问诊订单详情
+const operateinqfindPageByOperate = '/operateapi/operate/inq/findPageByOperate';  //咨询问诊订单列表  
+const operateinqfindDetailIngByid = '/operateapi/operate/inq/findDetailIngByid';  //咨询问诊订单详情
+const operateinqfindWxChatPage = '/operateapi/operate/inq/findWxChatPage';  //咨询问诊订单id获取聊天记录详情
+const operatefindDoctorListByDeptAndHos = '/operateapi/operate/inq/findDoctorListByDeptAndHos'//根据机构id和部门码获得医生列表
+
 const querybyorderid = '/operateapi/appointment/record/findEntityByOrderId'  //预约挂号详情
 const cordreport  = '/operateapi/appointment/record/findReport' //预约挂号报到
 const replacedoctor = '/operateapi/appointment/record/findReplaceDoctor' //预约挂号替诊
@@ -497,6 +502,14 @@ const wxMenuList = '/operateapi/wxapp/menu/findMenuList' // 公众号菜单管�
 const wxMenuListChange = '/operateapi/wxapp/menu/updateOrInsertBatch' //公众号菜单管理列表修改
 const wxMangent = '/operateapi/wxappmanage/updateStatus'  //公众号功能管理
 const wxMangentSearch = '/operateapi/wxappmanage/findKbaWxappEntityByAppid' //公众号功能管理查询
+const insertOrUpdate = '/operateapi/kbao/wxapp/function/insertOrUpdate'//新增或修改,appLogo上传code为20036
+const findKbaWxappFunctionByAppid = '/operateapi/kbao/wxapp/function/findKbaWxappFunctionByAppid'//新获取公众号配置
+//公众号新增功能--添加注册协议
+const wxprotocolpage = '/operateapi/kbao/protocol/page'//公众号协议列表
+const wxprotocolinsert = '/operateapi/kbao/protocol/insert'//公众号协议添加
+const wxprotocolupdate = '/operateapi/kbao/protocol/update'//公众号协议修改
+const wxprotocolfindById = '/operateapi/kbao/protocol/findById'//公众号协议详情
+const wxprotocolfindProtocolTypeEnums = '/operateapi/kbao/protocol/findProtocolTypeEnums'//公众号协议类型
 // 系统管理//公众号菜单管理
 const systemManagement = '/operateapi/wxapp/menu/findMenuListMap' //系统管理菜单列表
 const systemManagementAdd = '/operateapi/wxapp/menu/insertKbaWxMenuEntity' //添加系统管理菜单
@@ -729,15 +742,23 @@ let devApi = {
     // 公众号模板管理
     wxTemplateList,
     wxTemplateSave,
+    findKbaWxappFunctionByAppid,
     // 公众号功能管理
     wxMangent,
     wxMangentSearch,
+    insertOrUpdate,//new
     // 公众号菜单管理
     wxMenuList,
     wxMenuListChange,
     systemManagement,
     systemManagementAdd,
     systemManagementEdit,
+    //公众号协议
+    wxprotocolpage,
+    wxprotocolinsert,
+    wxprotocolupdate,
+    wxprotocolfindById,
+    wxprotocolfindProtocolTypeEnums,
     // 星级列表
     starClassList,
     starClassAdd,
@@ -811,6 +832,12 @@ let devApi = {
     hospitalidanddepartmentid,
     querydeptname,
     cordwriteexcel,
+
+    //咨询问诊订单
+    operateinqfindPageByOperate,
+    operateinqfindDetailIngByid,  
+    operateinqfindWxChatPage,
+    operatefindDoctorListByDeptAndHos,
 
     //服务项目管理
     fdspackageitempage,

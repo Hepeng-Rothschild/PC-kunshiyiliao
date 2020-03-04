@@ -27,6 +27,10 @@ export default {
         {
           title:"功能管理",
           name:"/index/operation/wxopeningmanagement/index"
+        },
+        {
+          title:"公共协议维护",
+          name:"/index/operation/protocolmaintenance/list"
         }
       ]
     };
@@ -36,6 +40,12 @@ export default {
     navgationTo(item){
       // function全局方法
       this.functionJS.queryNavgationTo(this,item.name)
+      console.log(item)
+      // if(item.title == '公共协议维护'){
+      //   window.location.reload()
+      // }else{
+      //   return
+      // }
     }
   }
 };

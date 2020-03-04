@@ -8,6 +8,7 @@ const topMenu = [
 const operationLeftMenu = [
     {id:1,level:1,name:"订单管理",childLists:[
         {id:36,level:2,name:"预约挂号订单",path:"/index/operation/orders/reservation/list"},
+        {id:51,level:2,name:"咨询问诊订单",path:"/index/operation/orders/consultingorder/list"},
         {id:42,level:2,name:"远程门诊订单",path:"/index/operation/orders/remoteClinic/list"},
         {id:43,level:2,name:"家医签约管理",path:"/index/operation/contractManagement/list"},
     ]},

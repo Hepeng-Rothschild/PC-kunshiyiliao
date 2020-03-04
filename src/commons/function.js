@@ -17,6 +17,13 @@ export function GetDate(AddDayCount = 0) {
   }
   return y + "-" + m + "-" + d;
 }
+//判断是否为空对象
+export function isEmptyObject(obj) {
+  for (let key in obj) {
+    return false
+  };
+  return true
+};
 //上传接口返回值解密
 export function uploadFileDecrypt(res) {
   let salt = store.state.salt;

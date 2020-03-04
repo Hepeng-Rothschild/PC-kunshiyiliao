@@ -166,6 +166,7 @@ export default {
       }
       this.$axios.post(api.wxBannerList, params).then(res => {
         if (res.data.code) {
+          console.log(res)
           let ret = res.data.object;
           ret.list.forEach((item,index) => {
             item.sum = this.addZeros(index)

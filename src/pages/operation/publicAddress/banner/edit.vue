@@ -252,6 +252,7 @@ export default {
             this.formValidate.priority = ret.priority;
             this.formValidate.enable = Boolean(ret.enable);
             this.formValidate.iclick = Boolean(ret.iclick);
+            console.log('banner',ret)
             //图片
             if (ret.imageUrl) {
               this.sourceImages = ret.imageUrl;

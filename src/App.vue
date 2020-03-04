@@ -45,7 +45,7 @@ export default {
                     "FORM-ENCODE": 0
                 };
             }
-        }
+        },
     },
     mounted() {
         // let top = window.localStorage.getItem("top")
