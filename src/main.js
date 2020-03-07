@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
 		if(to.path != "/login"){
 			let access_token = window.localStorage.getItem("access_token");
 			if(access_token != undefined){
-				let title = to.meta.title?to.meta.title:"易享康 后台运营";
+				let title = to.meta.title?to.meta.title:"昆时云医后台运营";
 				document.title = title;
 				next();
 			}else{
@@ -94,6 +94,10 @@ require("vue-video-player/src/custom-theme.css");
 import VideoPlayer from "vue-video-player";
 Vue.use(VideoPlayer)
 
+//分页组件
+import VueScroller from "vue-scroller"
+Vue.use(VueScroller);
+
 // 国际化
 Vue.use(VueI18n);
 
@@ -113,13 +117,14 @@ const i18n = new VueI18n({
 
 //资源所在地址
 if(store.state.env == "production"){
-	Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
+	// Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";//kba
+	Vue.prototype.fileBaseUrl = "https://hlwyy-20191220.oss-cn-beijing.aliyuncs.com/";//ks
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
 		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
 	};
 }else if(store.state.env == "dev"){
-	Vue.prototype.fileBaseUrl = "https://ydjk-dev.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data'
 	};
