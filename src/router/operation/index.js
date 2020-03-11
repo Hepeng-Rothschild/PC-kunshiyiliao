@@ -17,11 +17,11 @@ import InternetHospital from './internetHospital'
 // 药店端系统管理
 import pharmacyManagement from './pharmacyManagement'
 
-let operationPathManagement = {...pharmacyManagement,...orderManagement, ...doctorOperation, ...oatientOperation, ...InstitutionalOperation, ...servicePackage, ...publicManagement, ...systemManagement, ...InternetHospital}
 // 药品目录管理
 import drugmanagement from './drugManagement'
 
 let operationPath = {
+    ...pharmacyManagement,
     ...orderManagement,
     ...doctorOperation,
     ...oatientOperation,
@@ -33,7 +33,4 @@ let operationPath = {
     ...drugmanagement
 }
 
-export default {
-    operationPath,
-    operationPathManagement
-} 
+export default operationPath;
