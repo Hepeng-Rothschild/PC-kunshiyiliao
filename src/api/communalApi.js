@@ -616,6 +616,14 @@ const formcontentupdateformcontent = '/operateapi/form/content/updateKbafFdsItem
 const formcontentquerybyid = '/operateapi/form/content/findKbafFdsItemsFormContentEntityById' //查询表单题目详情
 const formcontentlist = '/operateapi/form/content/findKbafFdsItemsFormContentEntityPage' //查询表单题目列表
 
+//药品目录管理
+const findOperateDrugPage = '/operateapi/operate/drug/findOperateDrugPage' // 统一药品目录维护列表
+const insertKbaoOperateDrugEntity = '/operateapi/operate/drug/insertKbaoOperateDrugEntity' // 统一药品目录新增
+const updateKbaoOperateDrugEntity = '/operateapi/operate/drug/updateKbaoOperateDrugEntity' // 统一药品目录修改
+const delDrug = '/operateapi/operate/drug/delDrug' // 统一药品目录删除(处方)
+const insertBatchKbaoOperateDrug = '/operateapi/operate/drug/insertBatchKbaoOperateDrug' // 批量导入药品标准库信息(处方)
+const findDrugDict = '/operateapi/operate/drug/findDrugDict' // 获得药品目录相关字典(处方)
+
 export default {
     login,
     //字典
@@ -964,4 +972,12 @@ export default {
     formcontentupdateformcontent,
     formcontentquerybyid,
     formcontentlist,
+
+    //药品目录管理
+    findOperateDrugPage, // 统一药品目录维护列表
+    insertKbaoOperateDrugEntity, // 统一药品目录新增
+    updateKbaoOperateDrugEntity, // 统一药品目录修改
+    delDrug, // 统一药品目录删除(处方)
+    insertBatchKbaoOperateDrug, // 批量导入药品标准库信息(处方)
+    findDrugDict //字典
 }

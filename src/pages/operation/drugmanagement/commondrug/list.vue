@@ -9,7 +9,7 @@
                 </div>
                 <div class="filter-item">
                     <label>药品编码：</label>
-                    <i-input class="input" v-model.trim="filterObj.id" placeholder="请输入药品编码"></i-input>
+                    <i-input class="input" v-model.trim="filterObj.code" placeholder="请输入药品编码"></i-input>
                 </div>
                 <div class="filter-item">
                     <label>厂家：</label>
@@ -21,11 +21,11 @@
                 </div>
                 <div class="filter-item">
                     <label>在用状态：</label>
-                    <i-select class="select" v-model.trim="filterObj.status" placeholder="请输入在用状态">
+                    <i-select class="select" v-model.trim="filterObj.status" placeholder="请选择在用状态">
                         <i-option value="all">全部</i-option>
-                        <i-option :value="1">在用</i-option>
-                        <i-option :value="0">未启用</i-option>
-                        <i-option :value="2">停用</i-option>
+                        <i-option value="1">在用</i-option>
+                        <i-option value="0">未启用</i-option>
+                        <i-option value="2">停用</i-option>
                     </i-select>
                 </div>
                 <div class="filter-btn-group">
@@ -36,7 +36,7 @@
             <div class="fun-part">
                 <i-button type="primary" @click="handleAddMedical">添加药品</i-button>
                 <i-button type="primary" @click="handleBatchDelete">批量删除</i-button>
-                <i-button type="primary">批量导入</i-button>
+                <i-button type="primary" @click="handleBatch">批量导入</i-button>
                 <a>下载药品信息导入模版</a>
             </div>
         </header>
@@ -47,24 +47,25 @@
                 :columns="columns" 
                 :data="data1"
                 @on-selection-change="selectChange"
+                :loading="loading"
                 stripe></Table>
                 
             <div class="page-wrapper">
                 <div class="des">
-                    显示第{{pageSize * (pageNo - 1) + 1}}到第{{pageSize * pageNo}}条记录，总共{{count}}条记录 每页显示
-                    <i-select class="select" v-model.trim="pageSize" placeholder="请输入在用状态">
-                        <i-option :value="1">1</i-option>
-                        <i-option :value="5">5</i-option>
-                        <i-option :value="10">10</i-option>
-                        <i-option :value="20">20</i-option>
-                        <i-option :value="50">50</i-option>
+                    显示第{{filterObj.pageSize * (filterObj.pageNo - 1) + 1}}到第{{filterObj.pageSize * filterObj.pageNo}}条记录，总共{{count}}条记录 每页显示
+                    <i-select class="select" v-model.trim="filterObj.pageSize" placeholder="请输入在用状态">
+                        <i-option value="1">1</i-option>
+                        <i-option value="5">5</i-option>
+                        <i-option value="10">10</i-option>
+                        <i-option value="20">20</i-option>
+                        <i-option value="50">50</i-option>
                     </i-select>
                     条记录
                 </div>
                 <Page
                     :total="count"
-                    :current="pageNo"
-                    :page-size="pageSize"
+                    :current="filterObj.pageNo"
+                    :page-size="filterObj.pageSize"
                     @on-change="loadPage"
                     class="pages"
                 />
@@ -74,6 +75,7 @@
         <Modal
             v-model="showMedicalModal"
             width="800"
+            @on-cancel="() => {$refs['formInline'].resetFields()}"
             class="drugmanagement-commondrug-list-MedicalModal">
             <p slot="header">
                 <span>{{{add: '添加药品', edit: '编辑药品', review: '查看药品'}[modalType]}}</span>
@@ -86,52 +88,64 @@
                     label-position="right"
                     :label-width="90">
                     <Row gutter="40">
-                        <i-col :span="item.span" v-for="(item, index) in medicalFormObj" :key="index">
+                        <i-col :span="item.span" v-for="(item, index) in medicalFormObj" :key="item.key">
                             <FormItem :prop="item.key" :label="item.label" :rules="item.rules">
-                                <Input 
-                                    v-if="item.type === 'input'"
-                                    v-model="formData[item.key]"
-                                    :placeholder="item.placeholder" />
-                                <Select 
-                                    v-if="item.type === 'select'"
-                                    v-model="formData[item.key]">
-                                    <Option
-                                        v-for="(selectItem, index) in item.selections"
-                                        :key="index"
-                                        :value="selectItem.value">
-                                        {{selectItem.label}}
-                                    </Option>
-                                </Select>
-                                <RadioGroup 
-                                    v-if="item.type === 'radio'"
-                                    v-model="formData[item.key]">
-                                    <Radio
-                                        v-for="(selectItem, index) in item.selections"
-                                        :key="index"
-                                        :label="selectItem.value">
-                                        {{selectItem.label}}
-                                    </Radio>
-                                </RadioGroup>
-                                <Input
-                                    v-if="item.type === 'textarea'"
-                                    v-model="formData[item.key]"
-                                    :rows="4"
-                                    :placeholder="item.placeholder"
-                                    type="textarea" />
+                                <div v-if="modalType === 'review'" style="overflow-x: auto;">
+                                    <span v-if="item.key !== 'status'">{{formData[item.key]}}</span>
+                                    <span v-else>{{['未启用', '在用', '停用'][formData[item.key]]}}</span>
+                                </div>
+                                <template v-else>
+                                    <Input
+                                        v-if="item.type === 'input'"
+                                        v-model="formData[item.key]"
+                                        :disabled="item.disabled"
+                                        :placeholder="item.placeholder" />
+                                    <Select
+                                        v-if="item.type === 'select'"
+                                        v-model="formData[item.key]">
+                                        <Option
+                                            v-for="(selectItem, index) in item.selections"
+                                            :key="index"
+                                            :value="selectItem.value">
+                                            {{selectItem.label}}
+                                        </Option>
+                                    </Select>
+                                    <RadioGroup
+                                        v-if="item.type === 'radio'"
+                                        v-model="formData[item.key]">
+                                        <Radio
+                                            v-for="(selectItem, index) in item.selections"
+                                            :key="index"
+                                            :label="selectItem.value">
+                                            {{selectItem.label}}
+                                        </Radio>
+                                    </RadioGroup>
+                                    <Input
+                                        v-if="item.type === 'textarea'"
+                                        v-model="formData[item.key]"
+                                        :rows="4"
+                                        :placeholder="item.placeholder"
+                                        type="textarea" />
+                                </template>
                             </FormItem>
                         </i-col>
-                        <!-- <i-col :span="12">
-                            <FormItem prop="ypwh" label="药品文号：">
-                                <Input v-model="formData.ypwh" placeholder="请输入药品文号" />
-                            </FormItem>
-                        </i-col>
-                        <i-col :span="24">
-                            <FormItem>
-                                <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>
-                            </FormItem>
-                        </i-col> -->
                     </Row>
                 </Form>
+                <div class="btn-group" v-if="modalType !== 'review'">
+                    <Button class="save" type="primary" :loading="saveLoading"  @click="handleSave">保存</Button>
+                    <Button class="close" @click="() => {showMedicalModal = false; $refs['formInline'].resetFields()}">关闭</Button>
+                </div>
+            </div>
+        </Modal>
+        <!-- 删除确认弹窗 -->
+        <Modal
+            v-model="showDelModal"
+            title="确认删除弹窗"
+            class="drugmanagement-commondrug-list-delModal">
+            <p>删除后不可恢复，确认删除所选项吗？</p>
+            <div slot="footer">
+                <Button class="cancel-btn btn" @click="showDelModal = false">取消</Button>
+                <Button class="save-btn btn" type="primary" :loading="delLoading" @click="delDrug">确认</Button>
             </div>
         </Modal>
     </div>
@@ -139,10 +153,12 @@
 <script>
 const filterObj = {
     ypmc: null,
-    commonCode: null,
+    code: null,
     scqymc: null,
     pzwh: null,
-    status: 1,
+    status: 'all',
+    pageNo: '1',
+    pageSize: '10',
 };
 const medicalFormObj = [
     {
@@ -151,10 +167,11 @@ const medicalFormObj = [
         span: 12,
         label: '药品编码：',
         placeholder: '请输入药品编码',
-        rules: [ { required: true, message: '请输入药品编码', trigger: 'blur' } ]
+        rules: [ { required: true, message: '请输入药品编码', trigger: 'blur' } ],
+        disabled: true,
     },
     {
-        key: 'ypwh',
+        key: 'pzwh',
         type: 'input',
         span: 12,
         label: '药品文号：',
@@ -180,7 +197,7 @@ const medicalFormObj = [
     {
         key: 'yplb',
         type: 'select',
-        selections: [{value: 1, label: '在用'}, {value: 0, label: '未启用'}, {value: 2, label: '停用'}],
+        selections: [{value: '1', label: '在用'}, {value: '0', label: '未启用'}, {value: '2', label: '停用'}],
         span: 12,
         label: '药品类别：',
         placeholder: '请选择药品类别',
@@ -189,7 +206,7 @@ const medicalFormObj = [
     {
         key: 'drugCalss',
         type: 'select',
-        selections: [],
+        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
         span: 12,
         label: '药理分类：',
         placeholder: '请选择药理分类',
@@ -198,7 +215,7 @@ const medicalFormObj = [
     {
         key: 'zxdw',
         type: 'select',
-        selections: [],
+        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
         span: 12,
         label: '基本单位：',
         placeholder: '请选择基本单位',
@@ -207,7 +224,7 @@ const medicalFormObj = [
     {
         key: 'zxbzdw',
         type: 'select',
-        selections: [],
+        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
         span: 12,
         label: '包装单位：',
         placeholder: '请选择包装单位',
@@ -216,7 +233,7 @@ const medicalFormObj = [
     {
         key: 'ypjx',
         type: 'select',
-        selections: [],
+        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
         span: 12,
         label: '剂型：',
         placeholder: '请选择剂型',
@@ -241,7 +258,7 @@ const medicalFormObj = [
     {
         key: 'attr2',
         type: 'select',
-        selections: [],
+        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
         span: 12,
         label: '剂量单位：',
         placeholder: '请选择剂量单位',
@@ -258,7 +275,7 @@ const medicalFormObj = [
     {
         key: 'ypyf',
         type: 'select',
-        selections: [],
+        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
         span: 24,
         label: '默认给药路径：',
         placeholder: '请选择默认给药路径',
@@ -267,20 +284,20 @@ const medicalFormObj = [
     {
         key: 'status',
         type: 'radio',
-        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
+        selections: [],
         span: 24,
         label: '在用状态：',
         placeholder: '请选择在用状态',
-        rules: [{ required: true, message: '请选择在用状态', trigger: 'blur' }]
+        rules: [{ required: true, message: '请选择在用状态', trigger: 'change' }]
     },
     {
         key: 'yypc',
         type: 'select',
-        selections: [],
+        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
         span: 24,
         label: '用药频次：',
         placeholder: '请选择用药频次',
-        rules: []
+        rules: [{ required: true, message: '请选择在用状态', trigger: 'change' }]
     },
     {
         key: 'content',
@@ -288,7 +305,6 @@ const medicalFormObj = [
         span: 24,
         label: '药品说明：',
         placeholder: '请输入药品说明',
-        rules: []
     },
 ];
 import api from "@/api/commonApi";
@@ -300,9 +316,7 @@ export default {
             params: {
                 uId: ""
             },
-            filterObj: JSON.parse(JSON.stringify(filterObj)),
-            pageNo: 1,
-            pageSize: 10,
+            filterObj: this.deepClone(filterObj),
             count: 0,
             columns: [
                 {type: 'selection', width: 60, align: 'center'},
@@ -372,12 +386,30 @@ export default {
             showMedicalModal: false,
             modalType: '', // add新增 edit编辑 review查看
             formData: {
-                id: '', //药品编码
-                pzwh: '', //药品文号
-                ypmc: '', //药品通用名
-                ypmb: '', //商品名
+                id: null, //药品编码
+                pzwh: null, //药品文号
+                ypmc: null, //药品通用名
+                ypmb: null, //商品名
+                yplb: null, //药品类别
+                drugCalss: null, // 药理分类
+                zxdw: null, // 基本单位
+                zxbzdw: null, // 包装单位
+                ypjx: null, // 剂型
+                attr1: null, // 最小剂量
+                ypgg: null, // 规格
+                attr2: null, // 计量单位
+                scqymc: null, // 厂家名称
+                ypyf: null, // 默认给药路径
+                status: '0',// 在用状态
+                yypc: null, // 用药频次
+                content: null, // 药品说明
             },
-            medicalFormObj,
+            medicalFormObj: this.deepClone(medicalFormObj),
+            loading: false,
+            showDelModal: false,
+            curRecord: {},
+            delLoading: false,
+            saveLoading: false,
         };
     },
     created() {
@@ -394,58 +426,98 @@ export default {
         ];
         this.$emit("changeBreadList", breadList);
     },
+    computed: {
+    },
     mounted() {
-        this.loadingData(1);
+        this.findOperateDrugPage();
+        this.findDrugDict();
     },
     methods: {
         loadPage(index) {
-            this.pageNo = index;
-            this.loadingData(index);
+            this.filterObj.pageNo = index;
+            this.findOperateDrugPage();
         },
         handleSearch() {
-            this.loadingData(1, this.filterObj);
+            this.findOperateDrugPage(this.filterObj);
         },
         handleReset() {
-            this.filterObj = JSON.parse(JSON.stringify(filterObj));
+            this.filterObj = this.deepClone(filterObj);
+            this.findOperateDrugPage();
         },
         selectChange(selections) {
             this.selections = selections;
         },
         handleAddMedical() {
             this.modalType = 'add';
+            this.medicalFormObj = this.deepClone(medicalFormObj);
+            const statusItem = this.getItemByKey('status');
+            statusItem.selections = [{value: '0', label: '未启用'}, {value: '1', label: '在用'}];
+            this.medicalFormObj.shift();
             this.showMedicalModal = true;
+        },
+        getItemByKey(key) {
+            const idItem = this.medicalFormObj.filter((item, index) => item.key === key)[0];
+            return idItem;
+        },
+        handleRemove(record) {
+            this.removeType = 'single';
+            this.showDelModal = true;
+            this.curRecord = record.row;
         },
         handleBatchDelete() {
             if (!this.selections.length) {
                 this.$Message.error('请选择删除项');
             } else {
-                alert('发起删除请求')
+                this.removeType = 'batch';
+                this.showDelModal = true;
             }
+        },
+        handleBatch() {
+            this.functionJS.queryNavgationTo(this, "/index/operation/drugmanagement/batchone", {
+                pageNo: this.filterObj.pageNo
+            });
         },
         handleEdit(record) {
             this.modalType = 'edit';
+            this.medicalFormObj = this.deepClone(medicalFormObj);
+            const statusItem = this.getItemByKey('status');
+            statusItem.selections = record.status === '0'
+                                    ? [{value: '0', label: '未启用'}, {value: '1', label: '在用'}]
+                                    : [{value: '2', label: '停用'}, {value: '1', label: '在用'}];
             this.showMedicalModal = true;
             console.log(record)
         },
         handleReview(record) {
             this.modalType = 'review';
+            this.medicalFormObj = this.deepClone(medicalFormObj);
             this.showMedicalModal = true;
             console.log(record)
         },
-        handleRemove(record) {
-            alert('删除药品逻辑')
-            console.log(record)
+        handleSave() {
+            this.$refs['formInline'].validate((valid) => {
+                if (valid) {
+                    console.log(this.formData);
+                    if (modalType === 'add') {
+                        this.insertKbaoOperateDrugEntity();
+                    } else if (modalType === 'edit') {
+                        this.updateKbaoOperateDrugEntity();
+                    }
+                }
+            })
         },
-        loadingData(pageNo, val) {
-            let params = {
-                pageNo,
-                pageSize: this.pageSize
-            };
-            
-            if (Boolean(val)) {
-                params.searchKey = val.trim();
+        findOperateDrugPage(params = {}) {
+            const reqData = Object.assign({}, this.filterObj, params);
+            for (var k in reqData) {
+                if (!reqData[k]) {
+                    delete reqData[k]
+                }
+                if (k === 'status' && reqData[k] === 'all') {
+                    delete reqData[k]
+                }
             }
-            this.$axios.post(api.wxList, params).then(res => {
+            console.log(reqData)
+            this.loading = true;
+            this.$axios.post(api.wxList, reqData).then(res => {
                 if (res.data.code) {
                     let ret = res.data.object.list;
                     ret.forEach((item, index) => {
@@ -456,12 +528,67 @@ export default {
                 } else {
                     this.$Message.info("没有访问权限");
                 }
+                this.loading = false;
+            }).catch(() => {
+                this.loading = false;
             });
+        },
+        findDrugDict() {
+            this.$axios.post(api.findDrugDict).then((res) => {
+                console.log(res)
+                // 选项复制操作
+            }).catch((res) => {
+                console.log(res)
+            })
+        },
+        insertKbaoOperateDrugEntity() {
+            this.saveLoading = true;
+            this.$axios.post(api.insertKbaoOperateDrugEntity, this.formData).then((res) => {
+                this.$Message.success('添加成功');
+                this.saveLoading = false;
+                this.findOperateDrugPage();
+            }).catch((res) => {
+                this.saveLoading = false;
+                console.log(res)
+            })
+        },
+        updateKbaoOperateDrugEntity() {
+            this.saveLoading = true;
+            this.$axios.post(api.updateKbaoOperateDrugEntity, this.formData).then((res) => {
+                this.$Message.success('更新成功');
+                this.saveLoading = false;
+                this.findOperateDrugPage();
+            }).catch((res) => {
+                this.saveLoading = false;
+                console.log(res)
+            })
+        },
+        delDrug() {
+            let reqData = [];
+            if (this.removeType === 'single') {
+                reqData[0] = this.curRecord;
+            } else if (this.removeType === 'batch') {
+                reqData = this.selections;
+            }
+            console.log(reqData)
+            this.delLoading = true;
+            this.$axios.post(api.delDrug, reqData).then((res) => {
+                this.$Message.success('删除成功');
+                this.findOperateDrugPage();
+                this.showDelModal = false;
+                this.delLoading = false;
+            }).catch((res) => {
+                console.log(res)
+                this.delLoading = false;
+            })
+        },
+        deepClone(obj) {
+            return JSON.parse(JSON.stringify(obj))
         }
     },
     watch: {
-        pageSize(nv, ov) {
-            this.loadingData(1);
+        'filterObj.pageSize'(nv, ov) {
+            this.findOperateDrugPage();
         }
     }
 };
@@ -523,8 +650,7 @@ export default {
         }
     }
 }
-.drugmanagement-commondrug-list-MedicalModal{
-    display: inline;
+.drugmanagement-commondrug-list-MedicalModal {
     /deep/ .ivu-modal-wrap {
         label.ivu-form-item-label {
             padding-right: 0;
@@ -532,7 +658,25 @@ export default {
         .ivu-modal-footer {
             display: none;
         }
+        .btn-group {
+            text-align: center;
+            .save {
+                width: 100px;
+                margin-right: 20px;
+            }
+            .close {
+                margin-left: 20px;
+                width: 100px;
+            }
+        }
     }
     
+}
+.drugmanagement-commondrug-list-delModal {
+    /deep/ .ivu-modal-wrap {
+        .btn {
+            width: 80px;
+        }
+    }
 }
 </style>

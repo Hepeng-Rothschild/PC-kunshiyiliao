@@ -90,6 +90,7 @@ axios.interceptors.response.use(
 		return response;
 	},
 	error => {
+		Vue.prototype.$Message.error('接口异常请联系管理员')
 		return Promise.reject(error);
 	}
 )
