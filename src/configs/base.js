@@ -17,5 +17,6 @@ export default {
         lectureDemand:9987,// 视频上传
         doctorGroup:303,//医生小组上传图片
         liveStart:9985,//直播上传图片
+        appLogo:20036,//公众号logo
     }
 }

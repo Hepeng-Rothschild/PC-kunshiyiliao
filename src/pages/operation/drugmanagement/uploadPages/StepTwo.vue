@@ -14,24 +14,24 @@
         <span>数据:{{ list.length }}条</span>
       </div>
       <div class="next">
-        <Button type="primary" @click="next">下一步</Button>
-        <Button @click="prev">返回重新上传</Button>
+        <button @click="next" :disabled = 'disabled'>下一步</button>
+        <span @click="prev">返回重新上传</span>
       </div>
       <!-- 列表 -->
-      <div class="list" v-show="list.length">
+      <div class="list" v-show = 'list.length'>
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <th>编号</th>
-            <th>机构等级</th>
-            <th>机构名称</th>
-            <th>机构组织代码</th>
+            <th>医生姓名</th>
+            <th>医院名称</th>
+            <th>医生手机号码</th>
             <th>错误提示</th>
           </tr>
           <tr v-for="(item,index) in list" :key='index'>
-            <th>{{ index+1 }}</th>
-            <th>{{ item.grade }}</th>
+            <th>{{ addZeros(index) }}</th>
+            <th>{{ item.doctorName }}</th>
             <th>{{ item.hospitalName }}</th>
-            <th>{{ item.orgCode }}</th>
+            <th>{{ item.phone }}</th>
             <th>{{ item.errorPrompt }}</th>
           </tr>
         </table>
@@ -48,45 +48,49 @@ export default {
   data() {
     return {
       list: [],
-      all: {}
+      all:{},
+      disabled:true
     };
   },
   created() {
-    let breadList = [
-      { path: "/index", title: "首页" },
-      {
-        path: "/index/maintain/indexManagement/index",
-        title: "索引管理"
-      },
-      {
-        path: "/index/maintain/mechanismreg/list",
-        title: "机构注册信息"
-      }
-    ];
-    this.$emit("changeBreadList", breadList);
-  },
+        let breadList = [
+            { path: "/index", title: "首页" },
+            {
+                path: "/index/maintain/indexManagement/index",
+                title: "索引管理"
+            },
+            {
+                path: "/index/maintain/doctorregister/list",
+                title: "医生注册信息"
+            }
+        ];
+        this.$emit("changeBreadList", breadList);
+    },
   mounted() {
     let fail = this.$route.params.fail;
     if (fail) {
       this.all = fail;
       this.list = fail.fail;
+      this.disabled = false;
+      console.log(this.list)
     }
   },
   methods: {
     //   下一步
     next() {
-      let fail = this.$route.params.fail;
-      let success = fail.success;
-      let error = fail.fail.length;
-      // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this, "mechanismregeditbatchthree", {
-        success,
-        error
-      });
+     let fail = this.$route.params.fail;
+     let success = fail.success;
+     let error = fail.fail.length;
+      // FunctionJS公用方法
+      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchthree", {
+          success,
+          error
+        });
     },
     //   上一步
     prev() {
-      this.$router.back();
+      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchone");
+      
     }
   }
 };
@@ -109,6 +113,20 @@ export default {
       margin: 20px auto;
     }
     .next {
+      button {
+        width: 100px;
+        height: 30px;
+        border: none;
+        outline: none;
+        background: #2d8cf0;
+        border-radius: 4px;
+        color: #fff;
+      }
+      span {
+        margin-left:20px;
+        color: red;
+        cursor: pointer;
+      }
     }
     .list {
       width: 80%;
@@ -116,7 +134,6 @@ export default {
       table {
         border: 1px solid #ddd;
         width: 100%;
-
         tr:nth-child(odd) {
           background: #f8f8f9;
         }

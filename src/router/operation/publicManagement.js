@@ -51,6 +51,28 @@ const wxBannerEdit = {
 	component: () =>
 		import(/* webpackChunkName: 'operation-publicManagement' */"@/pages/operation/publicAddress/banner/edit")
 }
+const maintenancelist = {
+	// 公共协议维护
+	path: 'operation/protocolmaintenance/list',
+	name: 'wxbannerAdd',
+	meta: {
+		index: 3,
+		title: '公共协议维护'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-publicManagement' */"@/pages/operation/publicAddress/protocolmaintenance/list")
+}
+const maintenanceedit = {
+	// 公共协议维护
+	path: 'operation/protocolmaintenance/edit',
+	name: 'wxbannerAdd',
+	meta: {
+		index: 3,
+		title: '公共协议维护'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-publicManagement' */"@/pages/operation/publicAddress/protocolmaintenance/edit")
+}
 const templateHome = {
 	// 微信公众号模板
 	path: 'operation/template/home',
@@ -111,5 +133,8 @@ export default {
     // 公众号管理
     publicAddressList,
     // 公众号托管
-    publicHostingIndex,
+	publicHostingIndex,
+	//公关协议维护
+	maintenancelist,
+	maintenanceedit,
 }

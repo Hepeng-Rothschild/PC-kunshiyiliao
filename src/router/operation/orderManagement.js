@@ -38,6 +38,28 @@ const remoteClinicOrdersDetail = { //远程门诊订单详情
 	component: () =>
 		import(/* webpackChunkName: 'operation-ordersmanagement' */"@/pages/operation/orders/remoteClinic/detail")
 }
+//咨询问诊列表
+const consultingorderlist = {  
+	path: 'operation/orders/consultingorder/list',
+	name: 'consultingorderlist',  
+	meta: {
+		index: 2,
+		title: '咨询问诊列表'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-ordersmanagement' */"@/pages/operation/orders/consultingorder/list")
+}
+//咨询问诊订单详情
+const consultingorderDetail = { 
+	path: 'operation/orders/consultingorder/detail',
+	name: 'consultingorderDetail',
+	meta: {
+		index: 3,
+		title: '咨询问诊订单详情'
+	},
+	component: () =>
+		import(/* webpackChunkName: 'operation-ordersmanagement' */"@/pages/operation/orders/consultingorder/detail")
+}
 // 家医签约管理
 const contractManagement = {
 	path: 'operation/contractManagement/list',
@@ -60,4 +82,8 @@ export default{
     remoteClinicOrders,
     // 远程门诊订单详情
 	remoteClinicOrdersDetail,
+	//咨询问诊列表
+	consultingorderlist,
+	//咨询问诊订单详情
+	consultingorderDetail
 }

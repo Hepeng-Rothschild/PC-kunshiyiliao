@@ -59,8 +59,7 @@ export default {
                                         click: () => {
                                             // FunctionJS方法
                                             this.functionJS.paramsNavgationTo(
-                                                this,
-                                                "wxbannerList"
+                                                this,"wxbannerList",
                                             );
                                             let iv = store.state.iv;
                                             let salt = store.state.salt;

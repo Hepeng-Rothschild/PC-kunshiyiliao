@@ -14,7 +14,26 @@ import publicManagement from './publicManagement'
 import systemManagement from './systemManagement'
 // 互联网医院
 import InternetHospital from './internetHospital'
+// 药店端系统管理
+import pharmacyManagement from './pharmacyManagement'
 
-let operationPath = {...orderManagement, ...doctorOperation, ...oatientOperation, ...InstitutionalOperation, ...servicePackage, ...publicManagement, ...systemManagement, ...InternetHospital}
+let operationPathManagement = {...pharmacyManagement,...orderManagement, ...doctorOperation, ...oatientOperation, ...InstitutionalOperation, ...servicePackage, ...publicManagement, ...systemManagement, ...InternetHospital}
+// 药品目录管理
+import drugmanagement from './drugManagement'
 
-export default operationPath
+let operationPath = {
+    ...orderManagement,
+    ...doctorOperation,
+    ...oatientOperation,
+    ...InstitutionalOperation,
+    ...servicePackage,
+    ...publicManagement,
+    ...systemManagement,
+    ...InternetHospital,
+    ...drugmanagement
+}
+
+export default {
+    operationPath,
+    operationPathManagement
+} 
