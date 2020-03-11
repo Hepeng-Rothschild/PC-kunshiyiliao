@@ -128,32 +128,7 @@
               <FormItem prop="hospitalType">
                 <Select v-model="formValidate.hospitalType" style="width:200px">
                   <Option
-                    v-for="item in formValidate.typeList"
-                    :value="item.value"
-                    :key="item.value"
-                  >{{ item.label }}</Option>
-                </Select>
-              </FormItem>
-              <FormItem prop="hospitalSuperiorList">
-                <Select v-model="formValidate.hospitalSuperiorList_1" style="width:200px">
-                  <Option
-                    v-for="item in formValidate.hospitalSuperiorList"
-                    :value="item.value"
-                    :key="item.value"
-                  >{{ item.label }}</Option>
-                </Select>
-              </FormItem>
-            </div>
-            <!-- 机构级别 -->
-            <div class="address">
-              <div class="left">
-                <span style="color:red;">*</span>
-                <span>机构级别:</span>
-              </div>
-              <FormItem prop="SuperiorList">
-                <Select v-model="formValidate.SuperiorList_1" style="width:200px">
-                  <Option
-                    v-for="item in formValidate.SuperiorList"
+                    v-for="item in typeList"
                     :value="item.value"
                     :key="item.value"
                   >{{ item.label }}</Option>
@@ -163,9 +138,9 @@
                 <span>上级医院:</span>
               </div>
               <FormItem prop="hospitalSuperior">
-                <Select v-model="formValidate.hospitalSuperior_1" style="width:200px">
+                <Select v-model="formValidate.hospitalSuperior" style="width:200px">
                   <Option
-                    v-for="item in formValidate.hospitalSuperior"
+                    v-for="item in hospitalSuperiorList"
                     :value="item.value"
                     :key="item.value"
                   >{{ item.label }}</Option>
@@ -203,6 +178,7 @@
             <!-- 机构简介 -->
             <div class="address">
               <div class="left">
+                <span style="color:red;">*</span>
                 <span>机构简介:</span>
               </div>
               <FormItem prop="introduce">
@@ -239,8 +215,8 @@
               <div class="left">
                 <span>收费许可证号:</span>
               </div>
-              <FormItem prop="feelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.feelicense" style="width: 200px"></Input>
+              <FormItem prop="licence" style="display:flex;">
+                <Input v-model.trim="formValidate.licence" style="width: 200px"></Input>
               </FormItem>
               <Upload action max-size="200" accept="jpg">
                 <Button type="primary">选择文件上传</Button>
@@ -253,8 +229,8 @@
               <div class="left">
                 <span>放射诊疗许可证号:</span>
               </div>
-              <FormItem prop="radiationpermit" style="display:flex;">
-                <Input v-model.trim="formValidate.radiationpermit" style="width: 200px"></Input>
+              <FormItem prop="licence" style="display:flex;">
+                <Input v-model.trim="formValidate.licence" style="width: 200px"></Input>
               </FormItem>
               <Upload action max-size="200" accept="jpg">
                 <Button type="primary">选择文件上传</Button>
@@ -267,8 +243,8 @@
               <div class="left">
                 <span>母婴保健技术服务执业许可证号:</span>
               </div>
-              <FormItem prop="healthlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.healthlicense" style="width: 200px"></Input>
+              <FormItem prop="licence" style="display:flex;">
+                <Input v-model.trim="formValidate.licence" style="width: 200px"></Input>
               </FormItem>
               <Upload action max-size="200" accept="jpg">
                 <Button type="primary">选择文件上传</Button>
@@ -281,8 +257,8 @@
               <div class="left">
                 <span>大型医疗设备许可证号:</span>
               </div>
-              <FormItem prop="equipmentlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.equipmentlicense" style="width: 200px"></Input>
+              <FormItem prop="licence" style="display:flex;">
+                <Input v-model.trim="formValidate.licence" style="width: 200px"></Input>
               </FormItem>
               <Upload action max-size="200" accept="jpg">
                 <Button type="primary">选择文件上传</Button>
@@ -295,8 +271,8 @@
               <div class="left">
                 <span>卫生许可证编号:</span>
               </div>
-              <FormItem prop="hygienelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.hygienelicense" style="width: 200px"></Input>
+              <FormItem prop="licence" style="display:flex;">
+                <Input v-model.trim="formValidate.licence" style="width: 200px"></Input>
               </FormItem>
               <Upload action max-size="200" accept="jpg">
                 <Button type="primary">选择文件上传</Button>
@@ -309,8 +285,8 @@
               <div class="left">
                 <span>其他资质证书说明:</span>
               </div>
-              <FormItem prop="otherlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.otherlicence" style="width: 200px"></Input>
+              <FormItem prop="licence" style="display:flex;">
+                <Input v-model.trim="formValidate.licence" style="width: 200px"></Input>
               </FormItem>
               <Upload action max-size="200" accept="jpg">
                 <Button type="primary">选择文件上传</Button>
@@ -322,8 +298,7 @@
           </div>
         </Form>
         <div class="button-bottom">
-          <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
-          <Button @click="$router.go(-1)" style="margin-left:30px">取消</Button>
+          <Button @click="$router.go(-1)" style="margin-left:30px">返回上一步</Button>
         </div>
       </div>
     </div>
@@ -341,53 +316,28 @@ export default {
   },
   data() {
     return {
+      // 上级医院
+      hospitalSuperiorList: [
+        {
+          value: "综合医院",
+          label: "综合医院"
+        }
+      ],
+      typeList: [
+        {
+          value: "综合医院",
+          label: "综合医院"
+        },
+        {
+          value: "专科医院",
+          label: "专科医院"
+        },
+        {
+          value: "中医医院",
+          label: "中医医院"
+        }
+      ],
       formValidate: {
-        // 机构级别
-        SuperiorList: [
-          {
-            value: "1",
-            label: "三级甲等"
-          },
-          {
-            value: "2",
-            label: "三级乙等"
-          }
-        ],
-        hospitalSuperior: [
-          {
-            value: "1",
-            label: "无"
-          },
-          {
-            value: "2",
-            label: "1"
-          }
-        ],
-        //  机构分类
-        hospitalSuperiorList: [
-          {
-            value: "1",
-            label: "公立"
-          },
-          {
-            value: "2",
-            label: "私立"
-          }
-        ],
-        typeList: [
-          {
-            value: "1",
-            label: "综合医院"
-          },
-          {
-            value: "2",
-            label: "专科医院"
-          },
-          {
-            value: "3",
-            label: "中医医院"
-          }
-        ],
         provinceCode: "",
         // 市
         cityCode: "",
@@ -400,28 +350,15 @@ export default {
         //机构组织代码
         orgCode: "",
         //机构分类
-        hospitalSuperiorList_1: "1",
-        hospitalSuperior_1: "1",
-        SuperiorList_1: '',
-        hospitalType: "1",
-        // 其他许可证号
-        otherlicence: "",
-        // 卫生许可证
-        hygienelicense: "",
-        // 设备许可证
-        equipmentlicense: "",
-        //保健许可证
-        healthlicense: "",
-        // 收费许可证
-        feelicense: "",
-        // 放射许可证
-        radiationpermit: "",
+        hospitalType: null,
         //公私
         property: null,
         //机构等级
         grade: null,
         //机构电话
         telephone: "",
+        //上级医院
+        hospitalSuperior: null,
         //联系人
         linkman: "",
         //联系人电话
@@ -429,48 +366,9 @@ export default {
         //医疗结构简介
         introduce: "",
         //医疗机构执业许可证登记号
-        licence: ""
+        licence: null
       },
       ruleValidate: {
-        // 机构级别
-        hospitalSuperior_1: [
-          {
-            required: true,
-            message: "请选择机构级别",
-            trigger: "change"
-          }
-        ],
-        SuperiorList_1: [
-          {
-            required: true,
-            message: "请选择机构级别",
-            trigger: "change"
-          }
-        ],
-
-        // 机构分类
-        hospitalSuperiorList_1: [
-          {
-            required: true,
-            message: "请选择机构分类",
-            trigger: "change"
-          }
-        ],
-        hospitalType: [
-          {
-            required: true,
-            message: "请选择机构分类",
-            trigger: "change"
-          }
-        ],
-        // 医疗机构执业许可证登记号
-        licence: [
-          {
-            required: true,
-            message: "请输入医疗机构执业许可证登记号",
-            trigger: "blur"
-          }
-        ],
         // 城
         provinceCode: [
           {
@@ -548,10 +446,10 @@ export default {
         grade: [
           {
             required: true,
-            message: "请选择机构级别",
+            message: "请选择医院等级",
             trigger: "change"
           }
-        ],
+        ]
         // 机构电话
         // telephone:[
         // 	{
@@ -563,28 +461,28 @@ export default {
         // 		trigger: "blur"
         // 	}
         // ],
-        // 联系人
-        linkman: [
-          {
-            // 是否校验
-            required: true,
-            // 提示文字
-            message: "请输入联系人",
-            // 触发事件
-            trigger: "blur"
-          }
-        ],
-        // 联系人电话
-        linkmanTelephone: [
-          {
-            // 是否校验
-            required: true,
-            // 提示文字
-            message: "请输入联系电话",
-            // 触发事件
-            trigger: "blur"
-          }
-        ]
+        //联系人
+        // linkman: [
+        // 	{
+        // 		// 是否校验
+        // 		required: false,
+        // 		// 提示文字
+        // 		message: "请输入机构联系人",
+        // 		// 触发事件
+        // 		trigger: "blur"
+        // 	}
+        // ],
+        //联系人电话
+        // linkmanTelephone: [
+        // 	{
+        // 		// 是否校验
+        // 		required: false,
+        // 		// 提示文字
+        // 		message: "请输入机构联系人电话",
+        // 		// 触发事件
+        // 		trigger: "blur"
+        // 	}
+        // ]
       },
       idtt: ""
     };
@@ -623,7 +521,41 @@ export default {
     //获取省级信息
     this.getCity();
     // a获取医院等级
-    // this.getGrent();
+    this.getGrent();
+    // 渲染编辑的数据
+    let id = this.$route.query.id;
+    if (id) {
+      this.$axios
+        .post(api.mechanismregSearch, {
+          hospitalId: id
+        })
+        .then(res => {
+          if (res.data.code) {
+            let ret = res.data.object;
+            //省
+            this.formValidate.provinceCode = ret.provinceCode.toString();
+            //市
+            this.formValidate.cityCode = ret.cityCode.toString();
+            // //机构全称
+            this.formValidate.orgName = ret.orgName;
+            // //机构代码
+            this.formValidate.orgCode = ret.orgCode;
+            // //机构类型
+            // this.formValidate.hospitalType = ret.hospitalType.toString();
+            // //机构等级
+            // this.formValidate.grade = ret.grade;
+            // //联系人
+            this.formValidate.linkman = ret.linkman;
+            // //联系人电话
+            this.formValidate.linkmanTelephone = ret.linkmanTelephone;
+            // 地址
+            this.formValidate.hosAddr = ret.hosAddr;
+            // 医院ID
+            // this.formValidate.id = ret.hospitalId;
+          } else {
+          }
+        });
+    }
   },
   methods: {
     changeProvince(val) {
@@ -636,15 +568,14 @@ export default {
       this.area = val;
     },
     //获取医院等级
-    // getGrent() {
-    //   this.$axios.post(api.classification).then(res => {
-    //     if (res.data) {
-    //       let ret = res.data.object;
-    //       // this.gradeList = ret;
-    //       console.log("dengji", ret);
-    //     }
-    //   });
-    // },
+    getGrent() {
+      this.$axios.post(api.managementAll).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.gradeList = ret;
+        }
+      });
+    },
     // 获取省级
     getCity() {
       this.$axios.post(api.getCity).then(res => {
@@ -703,46 +634,6 @@ export default {
             }
           });
       }
-    },
-    // 提交表单
-    handleSubmit(name) {
-      console.log(this.formValidate);
-      if (this.idtt == 5 || this.idtt == 4 || this.idtt == 3) {
-        this.formValidate.provinceCode = this.$route.query.province;
-        this.formValidate.cityCode = this.$route.query.city;
-        this.formValidate.districtCode = this.$route.query.area;
-      }
-      this.$refs[name].validate(valid => {
-        if (valid) {
-          // 必填项填写完成
-          this.$axios.post(api.mechanismregAdd, this.formValidate).then(res => {
-            if (res.data.code) {
-              this.$Message.info("添加成功");
-              let pageNo = this.$route.query.pageNo;
-              setTimeout(() => {
-                // functionJS公用 方法
-                this.functionJS.queryNavgationTo(
-                  this,
-                  "/index/maintain/mechanismreg/list",
-                  {
-                    pageNo,
-                    province: this.province,
-                    city: this.city,
-                    area: null,
-                    hospital: this.hospital,
-                    isBack: 2
-                  }
-                );
-              }, 500);
-            } else {
-              this.$Message.info(res.data.message);
-            }
-          });
-        } else {
-          // 必填项填写失败
-          this.$Message.error("请检查必填项是否填写正确!");
-        }
-      });
     }
   }
 };

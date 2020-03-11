@@ -2,7 +2,7 @@
   <div class="Theone">
     <div class="container">
       <tmptab :active="0"></tmptab>
-      <div class="download" @click="download">下载机构信息表模板</div>
+      <div class="download" @click="download">下载药店导入模板</div>
       <div class="uploading">
         <Upload
           multiple
@@ -13,7 +13,7 @@
         >
           <div style="padding: 20px 0">
             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-            <p>上传填好的机构信息表</p>
+            <p>上传填好的药店信息表</p>
           </div>
         </Upload>
       </div>
@@ -60,8 +60,8 @@ export default {
         title: "索引管理"
       },
       {
-        path: "/index/maintain/mechanismreg/list",
-        title: "机构注册信息"
+        path: "/index/maintain/pharmacy/list",
+        title: "药店信息管理"
       }
     ];
     this.$emit("changeBreadList", breadList);
@@ -105,7 +105,7 @@ export default {
     next() {
       if (!this.disabled) {
         // function全局方法
-        this.functionJS.paramsNavgationTo(this, "mechanismregeditbatchtwo", {
+        this.functionJS.paramsNavgationTo(this, "pharmacyeditbatchtwo", {
           fail: this.errorData
         });
       } else {
@@ -118,7 +118,7 @@ export default {
       // functionJS公用 方法
       this.functionJS.queryNavgationTo(
         this,
-        "/index/maintain/mechanismreg/list",
+        "/index/maintain/pharmacy/list",
         {
           pageNo,
           province: this.province,

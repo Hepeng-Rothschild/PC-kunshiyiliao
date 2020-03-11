@@ -8,8 +8,8 @@
             @changeProvince="changeProvince"
             @changeCity="changeCity"
             @changeArea="changeArea"
-          ></fourLevelLinkage>机构名称：
-          <Input v-model.trim="Name" clearable style="width: 260px" />处方流转服务状态：
+          ></fourLevelLinkage>药店名称：
+          <Input v-model.trim="Name" clearable placeholder style="width: 260px" />处方流转服务状态：
           <Select v-model="selectstate" style="width:200px">
             <Option v-for="item in stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
@@ -17,7 +17,10 @@
           <Button @click="reset">重置</Button>
         </div>
         <div class="btn">
-          <Button type="primary" @click="add">添加新机构</Button>
+          <Button type="primary" @click="add">添加新药店</Button>
+          <Button type="primary">批量删除</Button>
+          <Button type="primary" @click="batch">批量导入</Button>
+          <!-- <a href style="color:skyblue;text-decoration:underline;" @click="download">下载药店导入模板</a> -->
         </div>
       </header>
       <!-- 列表 -->
@@ -107,10 +110,10 @@ export default {
       ],
       selectpage: "10",
       selectstate: "全部",
-      totalText: "10",
       province: null,
       city: null,
       area: null,
+      pharmacy: null,
       isBack: 1,
       doctorregisterSize: 10,
       list: [],
@@ -118,18 +121,19 @@ export default {
       pageNo: 1,
       column: [
         {
-          title: "序号",
-          key: "sum",
-          align: "center",
-          // width: 60
-          render: (h, params) => {
-            let sum = params.row.sum;
-            return h("span", sum);
-          }
+          type: "selection",
+          // width: 60,
+          align: "center"
         },
         {
-          title: "机构名称",
-          key: "hospitalName",
+          title: "序号",
+          key: "sum",
+          align: "center"
+          // width: 70
+        },
+        {
+          title: "药店名称",
+          key: "pharmacyName",
           align: "center",
           // width: 300,
           render: (h, params) => {
@@ -150,12 +154,12 @@ export default {
           }
         },
         {
-          title: "机构地址",
-          key: "hospitalAddress",
+          title: "药店地址",
+          key: "pharmacyAddress",
           align: "center",
           // width: 300,
           render: (h, params) => {
-            let name = params.row.hosAddr;
+            let name = params.row.hospitalAddress;
             return h(
               "p",
               {
@@ -172,7 +176,7 @@ export default {
           }
         },
         {
-          title: "机构分类",
+          title: "省医保定点",
           key: "internetHospital",
           align: "center",
           // width: 100,
@@ -183,13 +187,13 @@ export default {
           }
         },
         {
-          title: "机构级别",
+          title: "市医保定点",
           key: "levelHospital",
           align: "center",
-          // width: 100,
+          width: 100,
           render: (h, params) => {
-            let row = params.row;
-            let name = row.grade;
+            // let row = params.row;
+            // let name = row.internetHospital == "0" ? "企业" : "医院";
             return h("span", {}, name);
           }
         },
@@ -247,7 +251,7 @@ export default {
           title: "处方流转服务",
           key: "enable",
           align: "center",
-          // width: 100,
+          width: 100,
           render: (h, params) => {
             let enable = params.row.enable;
             let name;
@@ -258,6 +262,7 @@ export default {
             } else if (enable == -1) {
               name = "未开通";
             }
+            return h("span", {}, name);
             return h("span", {}, name);
           }
         },
@@ -471,6 +476,7 @@ export default {
     this.area = this.$route.query.area
       ? parseInt(this.$route.query.area)
       : null;
+
     this.isBack = this.$route.query.isBack
       ? parseInt(this.$route.query.isBack)
       : 1;
@@ -481,8 +487,8 @@ export default {
         title: "索引管理"
       },
       {
-        path: "/index/maintain/mechanismreg/list",
-        title: "机构注册信息"
+        path: "/index/maintain/pharmacy/list",
+        title: "药店信息管理"
       }
     ];
     this.$emit("changeBreadList", breadList);
@@ -495,6 +501,21 @@ export default {
     this.getMechanismreg(this.pageNo);
   },
   methods: {
+    //  下载药店导入模板
+    // download() {
+    //   this.$axios
+    //     .post(api.downloadTxt, {
+    //       type: 2
+    //     })
+    //     .then(res => {
+    //       if (res.data.code) {
+    //         // console.log(res.data.code);
+            
+    //         let ret = res.data;
+    //         window.open(ret.message);
+    //       }
+    //     });
+    // },
     reset() {
       this.selectstate = "全部";
       this.Name = "";
@@ -545,26 +566,8 @@ export default {
     changeArea(val) {
       this.area = val;
     },
-    // 详情页面
-    details(item) {
-      let id = item.id;
-      this.functionJS.queryNavgationTo(
-        this,
-        "/index/maintain/mechanismreg/mechanismregDetails",
-        {
-          id,
-          pageNo: this.pageNo,
-          province: this.province,
-          city: this.city,
-          area: this.area,
-          isBack: 2
-        }
-      );
-    },
     //停用/启用
     enable(item) {
-      console.log(item);
-      
       let id = item.id;
       let enable = 0;
       if (!item.enable) {
@@ -583,13 +586,11 @@ export default {
           }
         });
     },
-    // 删除此条数据
-    delete(item) {},
     // 批量导入
     batch() {
       this.functionJS.queryNavgationTo(
         this,
-        "/index/maintain/mechanismreg/batchone",
+        "/index/maintain/pharmacy/batchone",
         {
           pageNo: this.pageNo,
           province: this.province,
@@ -603,35 +604,43 @@ export default {
     pageChange(index) {
       this.getMechanismreg(index);
     },
-    // 新增机构
-    add() {
+    // 药店详情
+    details() {
       this.functionJS.queryNavgationTo(
         this,
-        "/index/maintain/mechanismreg/mechanismregAdd",
+        "/index/maintain/pharmacy/details",
         {
           pageNo: this.pageNo,
           province: this.province,
           city: this.city,
           area: this.area,
+          pharmacy: this.pharmacy,
           isBack: 2
         }
       );
     },
+    // 新增机构
+    add() {
+      this.functionJS.queryNavgationTo(this, "/index/maintain/pharmacy/add", {
+        pageNo: this.pageNo,
+        province: this.province,
+        city: this.city,
+        area: this.area,
+        pharmacy: this.pharmacy,
+        isBack: 2
+      });
+    },
     // 编辑机构
     edit(item) {
       let id = item.id;
-      this.functionJS.queryNavgationTo(
-        this,
-        "/index/maintain/mechanismreg/mechanismregEdit",
-        {
-          id,
-          pageNo: this.pageNo,
-          province: this.province,
-          city: this.city,
-          area: this.area,
-          isBack: 2
-        }
-      );
+      this.functionJS.queryNavgationTo(this, "/index/maintain/pharmacy/edit", {
+        id,
+        pageNo: this.pageNo,
+        province: this.province,
+        city: this.city,
+        area: this.area,
+        isBack: 2
+      });
     },
     getMechanismreg(pageNo) {
       this.pageNo = pageNo;
@@ -653,6 +662,8 @@ export default {
       params.cityCode = this.city ? this.city : null;
       params.areaCode = this.area ? this.area : null;
       console.log("机构注册信息params", params);
+      // console.log(api);
+
       this.$axios.post(api.mechanismregList, params).then(res => {        
         if (res.data.code) {
           let ret = res.data.object;
@@ -662,6 +673,7 @@ export default {
             item.sum = this.addZeros(index);
           });
           this.list = ret.list;
+
           console.log(this.list);
           sessionStorage.setItem("list", JSON.stringify(this.list));
         } else {
@@ -670,7 +682,6 @@ export default {
       });
     }
   },
-
   components: {
     Page,
     fourLevelLinkage

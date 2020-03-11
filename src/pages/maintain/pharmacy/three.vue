@@ -36,8 +36,8 @@ export default {
                 title: "索引管理"
             },
             {
-                path: "/index/maintain/mechanismreg/list",
-                title: "机构注册信息"
+                path: "/index/maintain/pharmacy/list",
+                title: "药店信息管理"
             }
         ];
         this.$emit("changeBreadList", breadList);
@@ -52,7 +52,7 @@ export default {
     methods: {
         uploadsuccess () {
           // functionJS公用 方法
-            this.functionJS.paramsNavgationTo(this, "mechanismreglist");
+            this.functionJS.paramsNavgationTo(this, "pharmacyList");
         }
     }
 

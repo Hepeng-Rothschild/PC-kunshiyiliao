@@ -339,8 +339,10 @@ const versionupdate = '/operateapi/version/updateKbaoOperateVersionEntity' //医
 const contractManagementList = '/operateapi/order/management/findKbafFdsOrderManageDtoPage'   //家医签约管理列表
 // 机构管理
 const management = '/operateapi/hospital/findKbaoHospitalOperateInfoDtoPage'  //机构管理医院列表
+const pharmacyInfo = '/operateapi/organization/findKbaoPharmacyRegisterDtoPage'     // 索引-药店信息管理
 const managementInfo = '/operateapi/hospital/findHospitalOperateDtoById'   //医院详细信息
 const managementAll = '/operateapi/hospital/findKbaoOperateDictionEntityPage' //医院等级列表
+const classification = '/operateapi/organization/findOrgTypeByDict'     //   机构分类
 const managementGzh = '/operateapi/hospital/findWxAppNameList'   //查询医院公众号
 const managementYlt = '/operateapi/hospital/findHospitalNameList' //查询医院医联体
 const managementEdit = '/operateapi/hospital/updateKbaoHospitalOperateEntityById' //保存医院详情
@@ -625,6 +627,8 @@ export default {
 
     fileAll,
     //机构管理
+    classification,
+    pharmacyInfo,
     management,
     managementInfo,
     managementAll,

@@ -30,7 +30,7 @@
         >
             <Option v-for="item in areaList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
         </Select>
-        <Select
+        <!-- <Select
             class="w-select-hos"
             :clearable="!hospitalStatus"
             :disabled="hospitalStatus"
@@ -39,7 +39,7 @@
             @on-change="changeHospital"
         >
             <Option v-for="item in hospitalList" :value="item.id" :key="item.id" style='text-align:center'>{{item.name}}</Option>
-        </Select>
+        </Select> -->
     </div>
 </template>
 <script>
