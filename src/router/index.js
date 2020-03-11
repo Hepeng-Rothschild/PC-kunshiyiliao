@@ -27,7 +27,6 @@ let childrenPath = [
 		component: () => import(/* webpackChunkName: 'rsa' */'@/pages/testRsa/jump')
 	},
 ]
-
 let path = {...operation, ...maintain, ...statistics, ...supervision, ...netease, ...chat}
 for (let i in path) {
 	childrenPath.push(path[i])

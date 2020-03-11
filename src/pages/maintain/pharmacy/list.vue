@@ -661,10 +661,10 @@ export default {
       params.provinceCode = this.province ? this.province : null;
       params.cityCode = this.city ? this.city : null;
       params.areaCode = this.area ? this.area : null;
-      console.log("机构注册信息params", params);
+      console.log("药店信息params", params);
       // console.log(api);
 
-      this.$axios.post(api.mechanismregList, params).then(res => {        
+      this.$axios.post(api.pharmacyInfo, params).then(res => {        
         if (res.data.code) {
           let ret = res.data.object;
           console.log("列表数据", res.data.object);

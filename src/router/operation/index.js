@@ -16,7 +16,6 @@ import systemManagement from './systemManagement'
 import InternetHospital from './internetHospital'
 // 药店端系统管理
 import pharmacyManagement from './pharmacyManagement'
-
 // 药品目录管理
 import drugmanagement from './drugManagement'
 
