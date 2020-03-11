@@ -7,7 +7,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/operateapi': {
+      '/operateapi/': {
         changeOrigin: true,
         // target: 'https://wx.kbansoft.com', //后台反向代理到的地址
         target: 'https://jiankang.hbksnet.com', //后台反向代理到的地址
@@ -15,6 +15,12 @@ module.exports = {
         pathRewrite: {
           '^/operateapi': '/operateapitest'
         }
+      },
+      '/operateapitest': {
+        changeOrigin: true,
+        // target: 'https://wx.kbansoft.com', //后台反向代理到的地址
+        target: 'https://jiankang.hbksnet.com', //后台反向代理到的地址
+        // target: 'http://192.168.1.102:8711', //后台反向代理到的地址
       }
     },
     // Various Dev Server settings

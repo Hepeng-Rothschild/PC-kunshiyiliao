@@ -124,12 +124,14 @@ if(store.state.env == "production"){
 		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
 	};
 }else if(store.state.env == "dev"){
-	Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
+	// Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fileBaseUrl = "https://hlwyy-20191220.oss-cn-beijing.aliyuncs.com/";//ks
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data'
 	};
 }else if(store.state.env == "test") {
-	Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
+	// Vue.prototype.fileBaseUrl = "https://enjoyhealth-pro.oss-cn-beijing.aliyuncs.com/";
+	Vue.prototype.fileBaseUrl = "https://hlwyy-20191220.oss-cn-beijing.aliyuncs.com/";//ks
 	Vue.prototype.fromData = {
 		'ContentType':'multipart/form-data',
 		'Authorization':"Bearer "+ window.localStorage.getItem('access_token')
