@@ -1,3 +1,6 @@
+
+import store from '@/store';
+
 const login = "/operateapi/operate/login"; //登陆接口
 /*fegin层 */
 //字典
@@ -624,7 +627,8 @@ const delDrug = '/operateapi/operate/drug/delDrug' // 统一药品目录删除(�
 const insertBatchKbaoOperateDrug = '/operateapi/operate/drug/insertBatchKbaoOperateDrug' // 批量导入药品标准库信息(处方)
 const findDrugDict = '/operateapi/operate/drug/findDrugDict' // 获得药品目录相关字典(处方)
 
-export default {
+
+let communalApi = {
     login,
     //字典
     dictionaryList,
@@ -981,3 +985,10 @@ export default {
     insertBatchKbaoOperateDrug, // 批量导入药品标准库信息(处方)
     findDrugDict //字典
 }
+// 测试环境修改api前缀
+if (store.state.env === 'test') {
+    for (let i in communalApi) {
+        communalApi[i] = communalApi[i].replace(/^\/operateapi\//, '/operateapitest/');
+    }
+}
+export default communalApi;
