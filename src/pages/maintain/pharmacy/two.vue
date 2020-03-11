@@ -59,8 +59,8 @@ export default {
         title: "索引管理"
       },
       {
-        path: "/index/maintain/mechanismreg/list",
-        title: "机构注册信息"
+        path: "/index/maintain/pharmacy/list",
+        title: "药店信息管理"
       }
     ];
     this.$emit("changeBreadList", breadList);
@@ -79,7 +79,7 @@ export default {
       let success = fail.success;
       let error = fail.fail.length;
       // functionJS公用 方法
-      this.functionJS.paramsNavgationTo(this, "mechanismregeditbatchthree", {
+      this.functionJS.paramsNavgationTo(this, "pharmacyeditbatchthree", {
         success,
         error
       });
