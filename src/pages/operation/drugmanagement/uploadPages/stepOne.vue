@@ -17,9 +17,9 @@
           </div>
         </Upload>
       </div>
-      <div>
-        <button class="next" :class="{'disabled':disabled}" @click="next">下一步</button>
-        <span @click="back" style="user-select:none;cursor:pointer;">上一步</span>
+      <div class="btn-group">
+        <Button class="btn" type="primary" :disabled="disabled" @click="next">下一步</Button>
+        <Button class="btn" type="primary" @click="back">上一步</Button>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      uploadUrl: api.uploadXls,
+      uploadUrl: api.insertBatchKbaoOperateDrug,
       uploadData: { json: '{"urlCode":"' + code.urlCode.hospitalBanner + '"}' },
       disabled: true,
       errorData: {}
@@ -59,13 +59,13 @@ export default {
     download() {
       this.$axios
         .post(api.downloadTxt, {
-          type: 1
+          type: 4
         })
         .then(res => {
           if (res.data.code) {
             let ret = res.data;
             console.log(ret);
-            window.open(ret.message);
+            location.href = ret.message;
           }
         });
     },
@@ -91,9 +91,11 @@ export default {
       }
     },
     next() {
+      console.log(this.errorData)
+      debugger
       if (!this.disabled) {
         // FUNCTION公用 方法
-        this.functionJS.paramsNavgationTo(this, "doctorregisterbatchtwo", {
+        this.functionJS.paramsNavgationTo(this, "commondrugbatchtwo", {
           fail: this.errorData
         });
       } else {
@@ -103,7 +105,7 @@ export default {
     back() {
       let pageNo = this.$route.query.pageNo;
       // FUNCTION公用 方法
-      this.functionJS.queryNavgationTo(this, "/index/maintain/doctorregister/list", {
+      this.functionJS.queryNavgationTo(this, "/index/operation/drugmanagement/commondrug/list", {
         pageNo
       });
     }
@@ -141,8 +143,15 @@ export default {
       background: #2d8cf0;
       transition: all 0.5s;
     }
-    .disabled {
-      background: #ccc;
+    .btn-group {
+      width: 300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      .btn {
+        width: 100px;
+      }
     }
   }
 }

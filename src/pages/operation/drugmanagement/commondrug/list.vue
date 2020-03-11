@@ -37,7 +37,7 @@
                 <i-button type="primary" @click="handleAddMedical">添加药品</i-button>
                 <i-button type="primary" @click="handleBatchDelete">批量删除</i-button>
                 <i-button type="primary" @click="handleBatch">批量导入</i-button>
-                <a>下载药品信息导入模版</a>
+                <!-- <a>下载药品信息导入模版</a> -->
             </div>
         </header>
         <!-- 列表 -->
@@ -48,14 +48,14 @@
                 :data="data1"
                 @on-selection-change="selectChange"
                 :loading="loading"
-                stripe></Table>
+                stripe>
+
+            </Table>
                 
             <div class="page-wrapper">
                 <div class="des">
                     显示第{{filterObj.pageSize * (filterObj.pageNo - 1) + 1}}到第{{filterObj.pageSize * filterObj.pageNo}}条记录，总共{{count}}条记录 每页显示
                     <i-select class="select" v-model.trim="filterObj.pageSize" placeholder="请输入在用状态">
-                        <i-option value="1">1</i-option>
-                        <i-option value="5">5</i-option>
                         <i-option value="10">10</i-option>
                         <i-option value="20">20</i-option>
                         <i-option value="50">50</i-option>
@@ -102,7 +102,8 @@
                                         :placeholder="item.placeholder" />
                                     <Select
                                         v-if="item.type === 'select'"
-                                        v-model="formData[item.key]">
+                                        v-model="formData[item.key]"
+                                        filterable>
                                         <Option
                                             v-for="(selectItem, index) in item.selections"
                                             :key="index"
@@ -157,7 +158,7 @@ const filterObj = {
     scqymc: null,
     pzwh: null,
     status: 'all',
-    pageNo: '1',
+    pageNo: 1,
     pageSize: '10',
 };
 const medicalFormObj = [
@@ -167,7 +168,7 @@ const medicalFormObj = [
         span: 12,
         label: '药品编码：',
         placeholder: '请输入药品编码',
-        rules: [ { required: true, message: '请输入药品编码', trigger: 'blur' } ],
+        // rules: [ { required: true, message: '请输入药品编码', trigger: 'blur' } ],
         disabled: true,
     },
     {
@@ -197,7 +198,7 @@ const medicalFormObj = [
     {
         key: 'yplb',
         type: 'select',
-        selections: [{value: '1', label: '在用'}, {value: '0', label: '未启用'}, {value: '2', label: '停用'}],
+        selections: [],
         span: 12,
         label: '药品类别：',
         placeholder: '请选择药品类别',
@@ -215,7 +216,7 @@ const medicalFormObj = [
     {
         key: 'zxdw',
         type: 'select',
-        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
+        selections: [],
         span: 12,
         label: '基本单位：',
         placeholder: '请选择基本单位',
@@ -224,7 +225,7 @@ const medicalFormObj = [
     {
         key: 'zxbzdw',
         type: 'select',
-        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
+        selections: [],
         span: 12,
         label: '包装单位：',
         placeholder: '请选择包装单位',
@@ -233,7 +234,7 @@ const medicalFormObj = [
     {
         key: 'ypjx',
         type: 'select',
-        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
+        selections: [],
         span: 12,
         label: '剂型：',
         placeholder: '请选择剂型',
@@ -258,7 +259,7 @@ const medicalFormObj = [
     {
         key: 'attr2',
         type: 'select',
-        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
+        selections: [],
         span: 12,
         label: '剂量单位：',
         placeholder: '请选择剂量单位',
@@ -275,7 +276,7 @@ const medicalFormObj = [
     {
         key: 'ypyf',
         type: 'select',
-        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
+        selections: [],
         span: 24,
         label: '默认给药路径：',
         placeholder: '请选择默认给药路径',
@@ -293,7 +294,7 @@ const medicalFormObj = [
     {
         key: 'yypc',
         type: 'select',
-        selections: [{value: '西药', label: '西药'}, {value: '中成药', label: '中成药'}],
+        selections: [],
         span: 24,
         label: '用药频次：',
         placeholder: '请选择用药频次',
@@ -307,6 +308,25 @@ const medicalFormObj = [
         placeholder: '请输入药品说明',
     },
 ];
+const formData = {
+    id: null, //药品编码
+    pzwh: null, //药品文号
+    ypmc: null, //药品通用名
+    ypmb: null, //商品名
+    yplb: null, //药品类别
+    drugCalss: null, // 药理分类
+    zxdw: null, // 基本单位
+    zxbzdw: null, // 包装单位
+    ypjx: null, // 剂型
+    attr1: null, // 最小剂量
+    ypgg: null, // 规格
+    attr2: null, // 计量单位
+    scqymc: null, // 厂家名称
+    ypyf: null, // 默认给药路径
+    status: '0',// 在用状态
+    yypc: null, // 用药频次
+    content: null, // 药品说明
+}
 import api from "@/api/commonApi";
 import aesUtils from "@/plugins/aes-utils.js";
 import store from "@/store";
@@ -327,14 +347,20 @@ export default {
                 { title: "规格", key: "ypgg", align: "center"},
                 { title: "厂家", key: "scqymc", align: "center"},
                 { title: "批准文号", key: "pzwh", align: "center"},
-                { title: "在用状态", key: "status", align: "center"},
+                {
+                    title: "在用状态",
+                    key: "status",
+                    align: "center",
+                    render: (h, params) => {
+                        return ['未启用', '在用', '停用'][params.row.status]
+                    }
+                },
                 {
                     title: "操作",
                     key: "iOperate",
                     align: "center",
                     width: 200,
                     render: (h, params) => {
-                        let id = params.row.appid;
                         return h('div',[
                                 h('Button', {
                                     props: {
@@ -363,6 +389,7 @@ export default {
                                         }
                                     }
                                 }, '详情'),
+                                (params.row.status === '0') ?
                                 h('Button', {
                                     props: {
                                         type: 'error',
@@ -376,7 +403,7 @@ export default {
                                             this.handleRemove(params)
                                         }
                                     }
-                                }, '删除')
+                                }, '删除') : null
                         ]);
                     }
                 }
@@ -385,26 +412,8 @@ export default {
             selections: [],
             showMedicalModal: false,
             modalType: '', // add新增 edit编辑 review查看
-            formData: {
-                id: null, //药品编码
-                pzwh: null, //药品文号
-                ypmc: null, //药品通用名
-                ypmb: null, //商品名
-                yplb: null, //药品类别
-                drugCalss: null, // 药理分类
-                zxdw: null, // 基本单位
-                zxbzdw: null, // 包装单位
-                ypjx: null, // 剂型
-                attr1: null, // 最小剂量
-                ypgg: null, // 规格
-                attr2: null, // 计量单位
-                scqymc: null, // 厂家名称
-                ypyf: null, // 默认给药路径
-                status: '0',// 在用状态
-                yypc: null, // 用药频次
-                content: null, // 药品说明
-            },
-            medicalFormObj: this.deepClone(medicalFormObj),
+            formData: {},
+            medicalFormObj: null,
             loading: false,
             showDelModal: false,
             curRecord: {},
@@ -438,6 +447,7 @@ export default {
             this.findOperateDrugPage();
         },
         handleSearch() {
+            this.filterObj.pageNo = 1;
             this.findOperateDrugPage(this.filterObj);
         },
         handleReset() {
@@ -448,15 +458,24 @@ export default {
             this.selections = selections;
         },
         handleAddMedical() {
+            if (!this.medicalFormObj) {
+                this.$Message.info('字典接口无数据该功能不能使用');
+            }
             this.modalType = 'add';
             this.medicalFormObj = this.deepClone(medicalFormObj);
+            this.formData = this.deepClone(formData);
             const statusItem = this.getItemByKey('status');
             statusItem.selections = [{value: '0', label: '未启用'}, {value: '1', label: '在用'}];
             this.medicalFormObj.shift();
             this.showMedicalModal = true;
+            console.log(this.formData)
         },
         getItemByKey(key) {
             const idItem = this.medicalFormObj.filter((item, index) => item.key === key)[0];
+            return idItem;
+        },
+        getOriginItemByKey(key) {
+            const idItem = medicalFormObj.filter((item, index) => item.key === key)[0];
             return idItem;
         },
         handleRemove(record) {
@@ -478,28 +497,34 @@ export default {
             });
         },
         handleEdit(record) {
+            if (!this.medicalFormObj) {
+                this.$Message.info('字典接口无数据该功能不能使用');
+            }
             this.modalType = 'edit';
             this.medicalFormObj = this.deepClone(medicalFormObj);
             const statusItem = this.getItemByKey('status');
-            statusItem.selections = record.status === '0'
+            statusItem.selections = (record.status === '0' || !record.status)
                                     ? [{value: '0', label: '未启用'}, {value: '1', label: '在用'}]
                                     : [{value: '2', label: '停用'}, {value: '1', label: '在用'}];
             this.showMedicalModal = true;
-            console.log(record)
+            this.formData = this.deepClone(record.row);
+            console.log(this.medicalFormObj, this.formData)
         },
         handleReview(record) {
             this.modalType = 'review';
             this.medicalFormObj = this.deepClone(medicalFormObj);
             this.showMedicalModal = true;
-            console.log(record)
+            this.formData = this.deepClone(record.row);
+            console.log(this.formData)
         },
         handleSave() {
             this.$refs['formInline'].validate((valid) => {
+                console.log(valid)
                 if (valid) {
                     console.log(this.formData);
-                    if (modalType === 'add') {
+                    if (this.modalType === 'add') {
                         this.insertKbaoOperateDrugEntity();
-                    } else if (modalType === 'edit') {
+                    } else if (this.modalType === 'edit') {
                         this.updateKbaoOperateDrugEntity();
                     }
                 }
@@ -517,25 +542,77 @@ export default {
             }
             console.log(reqData)
             this.loading = true;
-            this.$axios.post(api.wxList, reqData).then(res => {
-                if (res.data.code) {
-                    let ret = res.data.object.list;
-                    ret.forEach((item, index) => {
-                        item.sum = index + 1;
-                    });
-                    this.count = res.data.object.count;
-                    this.data1 = ret;
-                } else {
-                    this.$Message.info("没有访问权限");
-                }
+            this.$axios.post(api.findOperateDrugPage, reqData).then(res => {
                 this.loading = false;
+                if (!res.data.code) {
+                    this.$Message.error('请求异常');
+                    return false;
+                }
+                let ret = res.data.object.list;
+                this.count = res.data.object.count;
+                this.data1 = ret;
             }).catch(() => {
                 this.loading = false;
             });
         },
         findDrugDict() {
             this.$axios.post(api.findDrugDict).then((res) => {
-                console.log(res)
+                if (!res.data.code) {
+                    this.$Message.error('请求异常');
+                    return false;
+                }
+                console.log('findDrugDict', res)
+                const obj = res.data.object;
+                // 药品类别
+                this.getOriginItemByKey('yplb').selections = obj.ybflList.map((item) => {
+                    return {
+                        value: item.dictName,
+                        label: item.dictName
+                    }
+                });
+                // 药品剂型
+                this.getOriginItemByKey('ypjx').selections = obj.jxlList.map((item) => {
+                    return {
+                        value: item.dictName,
+                        label: item.dictName
+                    }
+                });
+                // 包装单位
+                this.getOriginItemByKey('zxbzdw').selections = obj.bzdwList.map((item) => {
+                    return {
+                        value: item.dictName,
+                        label: item.dictName
+                    }
+                });
+                // 基本单位
+                this.getOriginItemByKey('zxdw').selections = obj.jbdwList.map((item) => {
+                    return {
+                        value: item.dictName,
+                        label: item.dictName
+                    }
+                });
+                // 计量单位
+                this.getOriginItemByKey('attr2').selections = obj.jldwList.map((item) => {
+                    return {
+                        value: item.dictName,
+                        label: item.dictName
+                    }
+                });
+                // 给药路径
+                this.getOriginItemByKey('ypyf').selections = obj.gyljList.map((item) => {
+                    return {
+                        value: item.dictName,
+                        label: item.dictName
+                    }
+                });
+                // 用药频次
+                this.getOriginItemByKey('yypc').selections = obj.yypcList.map((item) => {
+                    return {
+                        value: item.dictName,
+                        label: item.dictName
+                    }
+                });
+                this.medicalFormObj = this.deepClone(medicalFormObj);
                 // 选项复制操作
             }).catch((res) => {
                 console.log(res)
@@ -543,9 +620,16 @@ export default {
         },
         insertKbaoOperateDrugEntity() {
             this.saveLoading = true;
+            console.log(JSON.stringify(this.formData));
             this.$axios.post(api.insertKbaoOperateDrugEntity, this.formData).then((res) => {
-                this.$Message.success('添加成功');
+                console.log(res)
                 this.saveLoading = false;
+                if (!res.data.code) {
+                    this.$Message.error('请求异常');
+                    return false;
+                }
+                this.$Message.success('添加成功');
+                this.showMedicalModal = false;
                 this.findOperateDrugPage();
             }).catch((res) => {
                 this.saveLoading = false;
@@ -555,8 +639,12 @@ export default {
         updateKbaoOperateDrugEntity() {
             this.saveLoading = true;
             this.$axios.post(api.updateKbaoOperateDrugEntity, this.formData).then((res) => {
-                this.$Message.success('更新成功');
                 this.saveLoading = false;
+                if (!res.data.code) {
+                    this.$Message.error('请求异常');
+                    return false;
+                }
+                this.$Message.success('更新成功');
                 this.findOperateDrugPage();
             }).catch((res) => {
                 this.saveLoading = false;
@@ -566,17 +654,23 @@ export default {
         delDrug() {
             let reqData = [];
             if (this.removeType === 'single') {
-                reqData[0] = this.curRecord;
+                reqData = this.curRecord;
             } else if (this.removeType === 'batch') {
-                reqData = this.selections;
+                // reqData = this.selections;
+                this.$Message.info('该功能暂未提供')
+                return false;
             }
             console.log(reqData)
             this.delLoading = true;
             this.$axios.post(api.delDrug, reqData).then((res) => {
+                this.delLoading = false;
+                if (!res.data.code) {
+                    this.$Message.error('请求异常');
+                    return false;
+                }
                 this.$Message.success('删除成功');
                 this.findOperateDrugPage();
                 this.showDelModal = false;
-                this.delLoading = false;
             }).catch((res) => {
                 console.log(res)
                 this.delLoading = false;
@@ -589,7 +683,7 @@ export default {
     watch: {
         'filterObj.pageSize'(nv, ov) {
             this.findOperateDrugPage();
-        }
+        },
     }
 };
 </script>

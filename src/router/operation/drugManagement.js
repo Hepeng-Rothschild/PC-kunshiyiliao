@@ -11,7 +11,7 @@ const commondrug = {
 }
 const commondrugBatchOne = {
     path: 'operation/drugmanagement/batchone',
-    name: 'drugmanagementbatchone',
+    name: 'commondrugbatchone',
     meta: {
         index: 11,
         title: '药品管理-统一药品目录维护上传-第一步'
@@ -20,7 +20,7 @@ const commondrugBatchOne = {
 }
 const commondrugBatchTwo = {
     path: 'operation/drugmanagement/batchtwo',
-    name: 'drugmanagementbatchtwo',
+    name: 'commondrugbatchtwo',
     meta: {
         index: 12,
         title: '药品管理-统一药品目录维护上传-第二步'
@@ -29,7 +29,7 @@ const commondrugBatchTwo = {
 }
 const commondrugBatchThree = {
     path: 'operation/drugmanagement/batchthree',
-    name: 'drugmanagementbatchThree',
+    name: 'commondrugbatchthree',
     meta: {
         index: 12,
         title: '药品管理-统一药品目录维护上传-第三步'

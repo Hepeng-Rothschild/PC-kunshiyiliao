@@ -13,25 +13,30 @@
         <span>本次不可导入</span>
         <span>数据:{{ list.length }}条</span>
       </div>
-      <div class="next">
+      <!-- <div class="next">
+        
         <button @click="next" :disabled = 'disabled'>下一步</button>
         <span @click="prev">返回重新上传</span>
+      </div> -->
+      <div class="btn-group">
+        <Button class="btn" type="primary" :disabled="disabled" @click="next">下一步</Button>
+        <Button class="btn" type="primary" @click="prev">返回重新上传</Button>
       </div>
       <!-- 列表 -->
       <div class="list" v-show = 'list.length'>
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <th>编号</th>
-            <th>医生姓名</th>
+            <!-- <th>医生姓名</th>
             <th>医院名称</th>
-            <th>医生手机号码</th>
+            <th>医生手机号码</th> -->
             <th>错误提示</th>
           </tr>
           <tr v-for="(item,index) in list" :key='index'>
             <th>{{ addZeros(index) }}</th>
-            <th>{{ item.doctorName }}</th>
+            <!-- <th>{{ item.doctorName }}</th>
             <th>{{ item.hospitalName }}</th>
-            <th>{{ item.phone }}</th>
+            <th>{{ item.phone }}</th> -->
             <th>{{ item.errorPrompt }}</th>
           </tr>
         </table>
@@ -82,14 +87,14 @@ export default {
      let success = fail.success;
      let error = fail.fail.length;
       // FunctionJS公用方法
-      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchthree", {
+      this.functionJS.paramsNavgationTo(this, "commondrugbatchthree", {
           success,
           error
         });
     },
     //   上一步
     prev() {
-      this.functionJS.paramsNavgationTo(this, "doctorregisterbatchone");
+      this.functionJS.paramsNavgationTo(this, "commondrugbatchone");
       
     }
   }
@@ -126,6 +131,16 @@ export default {
         margin-left:20px;
         color: red;
         cursor: pointer;
+      }
+    }
+    .btn-group {
+      width: 300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      .btn {
+        width: 100px;
       }
     }
     .list {

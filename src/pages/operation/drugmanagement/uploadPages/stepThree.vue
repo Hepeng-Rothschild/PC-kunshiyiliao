@@ -12,7 +12,9 @@
         <span>本次不可导入</span>
         <span>数据:{{ error }}条</span>
       </div>
-      <button class="btn" @click="uploadsuccess">完成</button>
+      <div class="btn-group">
+        <Button type="primary" @click="uploadsuccess">完成</Button>
+      </div>
     </div>
   </div>
 </template>
@@ -51,7 +53,7 @@ export default {
   },
   methods: {
     uploadsuccess() {
-      this.functionJS.paramsNavgationTo(this, "doctorregisterlist");
+      this.functionJS.paramsNavgationTo(this, "commondrug");
     }
   }
 };
@@ -72,6 +74,16 @@ export default {
       background: #fffbf6;
       padding: 20px 30px;
       margin: 20px auto;
+    }
+    .btn-group {
+      width: 300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      .btn {
+        width: 100px;
+      }
     }
     .btn {
       border: none;
