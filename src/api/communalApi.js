@@ -342,7 +342,6 @@ const versionupdate = '/operateapi/version/updateKbaoOperateVersionEntity' //医
 const contractManagementList = '/operateapi/order/management/findKbafFdsOrderManageDtoPage'   //家医签约管理列表
 // 机构管理
 const management = '/operateapi/hospital/findKbaoHospitalOperateInfoDtoPage'  //机构管理医院列表
-const pharmacyInfo = '/operateapi/organization/findKbaoPharmacyRegisterDtoPage'     // 索引-药店信息管理
 const managementInfo = '/operateapi/hospital/findHospitalOperateDtoById'   //医院详细信息
 const managementAll = '/operateapi/hospital/findKbaoOperateDictionEntityPage' //医院等级列表
 const classification = '/operateapi/organization/findOrgTypeByDict'     //   机构分类
@@ -422,6 +421,8 @@ const getCounty = '/operateapi/sys/province/findKbaAreaList' //根据市级查�
 const mechanismregList = '/operateapi/organization/findKbaoHospitalRegisterDtoPage' //机构注册信息列表查询
 const mechanismregEnable = '/operateapi/hospital/updateEnableById' //机构注册信息启用禁用
 const mechanismregAdd = '/operateapi/hospital/insertKbaoHospitalEntity' // 新增机构
+const mechanismregClose = '/operateapi/organization/updateHospitalCloseIpres'  // 根据机构id 关闭处方流转(处方)
+const mechanismregOpen = '/operateapi//organization/updateHospitalOpenIpres'   // 根据机构id 开启处方流转(处方)
 const mechanismregSearch = '/operateapi/hospital/findHospitalOperateDtoById'  //根据医院ID查询医院详情
 const mechanismregEdit = '/operateapi/hospital/updateKbaoHospitalEntity' //修改医院详情
 const mechanismregUpLoad = '/operateapi/organization/insertBatchKbaoHospital' //批量上传机构信息  不加密
@@ -630,6 +631,14 @@ const insertBatchKbaoOperateDrug = '/operateapi/operate/drug/insertBatchKbaoOper
 const findDrugDict = '/operateapi/operate/drug/findDrugDict' // 获得药品目录相关字典(处方)
 
 
+// 药店信息管理
+const pharmacyInfo = '/operateapi/organization/findKbaoPharmacyRegisterDtoPage'     // 索引-药店信息管理列表
+const updatePharmacyInfo = '/operateapi/hospital/updateKbaoHospitalEntity'   // 药店信息修改
+const insertPharmacyInfo = '/operateapi/hospital/insertKbaoHospitalPharmacyEntity'  // 药店信息保存
+
+
+
+
 let communalApi = {
     login,
     //字典
@@ -640,6 +649,10 @@ let communalApi = {
     fileAll,
     //机构管理
     classification,
+    mechanismregClose,
+    mechanismregOpen,
+    updatePharmacyInfo,
+    insertPharmacyInfo,
     pharmacyInfo,
     management,
     managementInfo,

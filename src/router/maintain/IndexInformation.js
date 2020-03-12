@@ -80,24 +80,7 @@ const mechanismregAdd = {
     },
     component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/add")
 }
-const mechanismregDepartment = {
-    path:'maintain/mechanismreg/mechanismregDepartment',
-    name:'mechanismregdepartment',
-    meta:{
-        index:3,
-        title:'机构注册信息-院内科室'
-    },
-    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/department")
-}
-const mechanismregDepartmentAdd = {
-    path:'maintain/mechanismreg/mechanismregDepartment/add',
-    name:'mechanismregdepartmentadd',
-    meta:{
-        index:3,
-        title:'机构注册信息-新增-院内科室'
-    },
-    component:()=>import(/* webpackChunkName: 'maintain-residentregister-mechanism' */"@/pages/maintain/mechanismreg/departmentadd")
-}
+
 const mechanismregEdit = {
     path:'maintain/mechanismreg/mechanismregEdit',
     name:'mechanismregedit',
@@ -197,9 +180,6 @@ export default {
     mechanismregDetails,
     // 机构注册信息-新增
     mechanismregAdd,
-    //新增院内科室
-    mechanismregDepartment,
-    mechanismregDepartmentAdd,
     // 机构注册信息
     mechanismregList,
     // 医生注册信息-批量加入

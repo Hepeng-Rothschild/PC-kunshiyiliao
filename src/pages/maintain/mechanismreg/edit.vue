@@ -1,12 +1,11 @@
 <template>
   <div class="mechanismregAdd">
-    <span>医院基本信息</span>
-    <span @click="$router.push('/index/maintain/mechanismreg/mechanismregDepartment')">院内科室</span>
+
     <div class="container">
       <div class="container-main">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" style="display:flex;">
-          <div>
-            <span>基本信息</span>
+          <div style="margin-right:100px;">
+            <span style="color:blue;font-size:20px">基本信息</span>
             <!-- 机构名称 -->
             <div class="address">
               <div class="left">
@@ -18,7 +17,7 @@
                   v-model.trim="formValidate.orgName"
                   placeholder="请输入机构名称"
                   clearable
-                  style="width: 300px"
+                  style="width: 500px"
                 ></Input>
               </FormItem>
             </div>
@@ -126,7 +125,7 @@
                 <span>机构分类:</span>
               </div>
               <FormItem prop="hospitalType">
-                <Select v-model="formValidate.hospitalType" style="width:200px">
+                <Select v-model="formValidate.hospitalType" style="width:200px;margin-right:10px">
                   <Option
                     v-for="item in typeList"
                     :value="item.value"
@@ -134,13 +133,38 @@
                   >{{ item.label }}</Option>
                 </Select>
               </FormItem>
+              <FormItem prop="hospitalSuperiorList">
+                <Select v-model="formValidate.hospitalSuperiorList_1" style="width:200px">
+                  <Option
+                    v-for="item in hospitalSuperiorList"
+                    :value="item.value"
+                    :key="item.value"
+                  >{{ item.label }}</Option>
+                </Select>
+              </FormItem>
+            </div>
+            <!-- 机构级别 -->
+            <div class="address">
+              <div class="left">
+                <span style="color:red;">*</span>
+                <span>机构级别:</span>
+              </div>
+              <FormItem prop="SuperiorList">
+                <Select v-model="formValidate.SuperiorList_1" style="width:200px;margin-right:10px">
+                  <Option
+                    v-for="item in SuperiorList"
+                    :value="item.id"
+                    :key="item.id"
+                  >{{ item.dictName }}</Option>
+                </Select>
+              </FormItem>
               <div class="left">
                 <span>上级医院:</span>
               </div>
               <FormItem prop="hospitalSuperior">
-                <Select v-model="formValidate.hospitalSuperior" style="width:200px">
+                <Select v-model="formValidate.hospitalSuperior_1" style="width:200px">
                   <Option
-                    v-for="item in hospitalSuperiorList"
+                    v-for="item in hospitalSuperior"
                     :value="item.value"
                     :key="item.value"
                   >{{ item.label }}</Option>
@@ -158,7 +182,7 @@
                   v-model.trim="formValidate.linkman"
                   placeholder
                   clearable
-                  style="width: 300px"
+                  style="width: 300px;margin-right:10px"
                 />
               </FormItem>
               <div class="left">
@@ -192,7 +216,7 @@
           </div>
 
           <div>
-            <span>资质信息</span>
+            <span style="color:blue;font-size:20px">资质信息</span>
             <span style="color:red;">(注意:图片只能上传jpg格式，且文件大小不超过200KB)</span>
             <!-- 医疗机构执业许可证上传 -->
             <div class="address">
@@ -201,13 +225,25 @@
                 <span>医疗机构执业许可证登记号:</span>
               </div>
               <FormItem prop="licence" style="display:flex;">
-                <Input v-model.trim="formValidate.licence" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.licence" style="width: 300px"></Input>
               </FormItem>
-              <Upload action max-size="200" accept="jpg">
-                <Button type="primary">选择文件上传</Button>
+              <Upload
+                :action="uploadUrl"
+                :format="['jpg']"
+                :on-format-error="uploadFormatError"
+                max-size="200"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="preview"
+              >
+                <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input style="width: 100px"></Input>
-              <Button type="primary" style="width:72px;height:35px;">查看</Button>
+              <!-- <Input style="width: 100px"></Input> -->
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="handleView"
+                class="button-upload"
+              >查看</Button>
             </div>
             <!-- 收费许可证号 -->
             <div class="address">
@@ -215,13 +251,24 @@
                 <span>收费许可证号:</span>
               </div>
               <FormItem prop="feelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.feelicense" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.feelicense" style="width: 300px"></Input>
               </FormItem>
-              <Upload action max-size="200" accept="jpg">
-                <Button type="primary">选择文件上传</Button>
+              <Upload
+                :action="uploadUrl"
+                :format="['jpg']"
+                :on-format-error="uploadFormatError"
+                max-size="200"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="preview"
+              >
+                <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input style="width: 100px"></Input>
-              <Button type="primary" style="width:72px;height:35px;">查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="handleView"
+                class="button-upload"
+              >查看</Button>
             </div>
             <!-- 放射诊疗许可证号-->
             <div class="address">
@@ -229,13 +276,24 @@
                 <span>放射诊疗许可证号:</span>
               </div>
               <FormItem prop="radiationpermit" style="display:flex;">
-                <Input v-model.trim="formValidate.radiationpermit" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.radiationpermit" style="width: 300px"></Input>
               </FormItem>
-              <Upload action max-size="200" accept="jpg">
-                <Button type="primary">选择文件上传</Button>
+              <Upload
+                :action="uploadUrl"
+                :format="['jpg']"
+                :on-format-error="uploadFormatError"
+                max-size="200"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="preview"
+              >
+                <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input style="width: 100px"></Input>
-              <Button type="primary" style="width:72px;height:35px;">查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="handleView"
+                class="button-upload"
+              >查看</Button>
             </div>
             <!-- 母婴保健技术服务执业许可证号 -->
             <div class="address">
@@ -243,13 +301,24 @@
                 <span>母婴保健技术服务执业许可证号:</span>
               </div>
               <FormItem prop="healthlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.healthlicense" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.healthlicense" style="width: 300px"></Input>
               </FormItem>
-              <Upload action max-size="200" accept="jpg">
-                <Button type="primary">选择文件上传</Button>
+              <Upload
+                :action="uploadUrl"
+                :format="['jpg']"
+                :on-format-error="uploadFormatError"
+                max-size="200"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="preview"
+              >
+                <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input style="width: 100px"></Input>
-              <Button type="primary" style="width:72px;height:35px;">查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="handleView"
+                class="button-upload"
+              >查看</Button>
             </div>
             <!-- 大型医疗设备许可证号 -->
             <div class="address">
@@ -257,13 +326,24 @@
                 <span>大型医疗设备许可证号:</span>
               </div>
               <FormItem prop="equipmentlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.equipmentlicense" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.equipmentlicense" style="width: 300px"></Input>
               </FormItem>
-              <Upload action max-size="200" accept="jpg">
-                <Button type="primary">选择文件上传</Button>
+              <Upload
+                :action="uploadUrl"
+                :format="['jpg']"
+                :on-format-error="uploadFormatError"
+                max-size="200"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="preview"
+              >
+                <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input style="width: 100px"></Input>
-              <Button type="primary" style="width:72px;height:35px;">查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="handleView"
+                class="button-upload"
+              >查看</Button>
             </div>
             <!-- 卫生许可证编号 -->
             <div class="address">
@@ -271,13 +351,24 @@
                 <span>卫生许可证编号:</span>
               </div>
               <FormItem prop="hygienelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.hygienelicense" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.hygienelicense" style="width: 300px"></Input>
               </FormItem>
-              <Upload action max-size="200" accept="jpg">
-                <Button type="primary">选择文件上传</Button>
+              <Upload
+                :action="uploadUrl"
+                :format="['jpg']"
+                :on-format-error="uploadFormatError"
+                max-size="200"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="preview"
+              >
+                <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input style="width: 100px"></Input>
-              <Button type="primary" style="width:72px;height:35px;">查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="handleView"
+                class="button-upload"
+              >查看</Button>
             </div>
             <!-- 其他资质证书说明 -->
             <div class="address">
@@ -285,23 +376,38 @@
                 <span>其他资质证书说明:</span>
               </div>
               <FormItem prop="otherlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.otherlicence" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.otherlicence" style="width: 300px"></Input>
               </FormItem>
-              <Upload action max-size="200" accept="jpg">
-                <Button type="primary">选择文件上传</Button>
+              <Upload
+                :action="uploadUrl"
+                :format="['jpg']"
+                :on-format-error="uploadFormatError"
+                max-size="200"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="preview"
+              >
+                <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input style="width: 100px"></Input>
-              <Button type="primary" style="width:72px;height:35px;">查看</Button>
-              <Button type="primary" style="width:72px;height:35px;">删除</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="handleView"
+                class="button-upload"
+              >查看</Button>
             </div>
           </div>
         </Form>
         <div class="button-bottom">
           <Button type="primary" @click="handleSubmit('formValidate')">修改机构</Button>
-          <Button @click="$router.go(-1)" style="margin-left:30px">取消</Button>
+          <Button @click="$router.go(-1)" style="margin-left:30px">返回上一步</Button>
         </div>
       </div>
     </div>
+    <Modal title="查看上传照片" width="30" v-model="viewModal" footer-hide>
+      <div>
+        <img :src="src" style="width: 100%" />
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -316,24 +422,46 @@ export default {
   },
   data() {
     return {
-      // 上级医院
+      // 预览图片的src
+      src: "",
+      // 预览图片Modal
+      viewModal: false,
+      uploadUrl: api.fileAll,
+      // 机构级别
+      SuperiorList: [
+      ],
+      hospitalSuperior: [
+        {
+          value: "1",
+          label: "无"
+        },
+        {
+          value: "2",
+          label: "1"
+        }
+      ],
+      //  机构分类
       hospitalSuperiorList: [
         {
-          value: "综合医院",
-          label: "综合医院"
+          value: "1",
+          label: "公立"
+        },
+        {
+          value: "2",
+          label: "私立"
         }
       ],
       typeList: [
         {
-          value: "综合医院",
+          value: "1",
           label: "综合医院"
         },
         {
-          value: "专科医院",
+          value: "2",
           label: "专科医院"
         },
         {
-          value: "中医医院",
+          value: "3",
           label: "中医医院"
         }
       ],
@@ -350,7 +478,10 @@ export default {
         //机构组织代码
         orgCode: "",
         //机构分类
-        hospitalType: '',
+        hospitalSuperiorList_1: "1",
+        hospitalSuperior_1: "1",
+        SuperiorList_1: 224,
+        hospitalType: "1",
         // 其他许可证号
         otherlicence: "",
         // 卫生许可证
@@ -365,12 +496,8 @@ export default {
         radiationpermit: "",
         //公私
         property: null,
-        //机构等级
-        grade: null,
         //机构电话
         telephone: "",
-        //上级医院
-        hospitalSuperior: null,
         //联系人
         linkman: "",
         //联系人电话
@@ -381,6 +508,37 @@ export default {
         licence: ""
       },
       ruleValidate: {
+        // 机构级别
+        hospitalSuperior_1: [
+          {
+            required: true,
+            message: "请选择机构级别",
+            trigger: "change"
+          }
+        ],
+        SuperiorList_1: [
+          {
+            required: true,
+            message: "请选择机构级别",
+            trigger: "change"
+          }
+        ],
+
+        // 机构分类
+        hospitalSuperiorList_1: [
+          {
+            required: true,
+            message: "请选择机构分类",
+            trigger: "change"
+          }
+        ],
+        hospitalType: [
+          {
+            required: true,
+            message: "请选择机构分类",
+            trigger: "change"
+          }
+        ],
         // 医疗机构执业许可证登记号
         licence: [
           {
@@ -462,14 +620,6 @@ export default {
             trigger: "change"
           }
         ],
-        // 公私
-        grade: [
-          {
-            required: true,
-            message: "请选择机构级别",
-            trigger: "change"
-          }
-        ],
         // 机构电话
         // telephone:[
         // 	{
@@ -504,6 +654,19 @@ export default {
           }
         ]
       },
+      //城市列表
+      provList: [],
+      cityList: [],
+      countyList: [],
+
+      province: null,
+      city: null,
+      area: null,
+      isBack: 2,
+      newprovince: "",
+      newcity: "",
+      newdistrict: "",
+      cStatus: true,
       idtt: ""
     };
   },
@@ -533,15 +696,12 @@ export default {
     this.area = this.$route.query.area
       ? parseInt(this.$route.query.area)
       : null;
-    this.hospital = this.$route.query.hospital
-      ? parseInt(this.$route.query.hospital)
-      : null;
   },
   mounted() {
-    //获取省级信息
-    this.getCity();
     // a获取医院等级
     this.getGrent();
+    //获取省级信息
+    this.getCity();
     let id = this.$route.query.id;
     if (id) {
       this.$axios
@@ -551,8 +711,6 @@ export default {
         .then(res => {
           if (res.data.code) {
             let ret = res.data.object;
-            console.log(ret);
-            
             //省
             this.formValidate.provinceCode = ret.provinceCode.toString();
             //市
@@ -579,6 +737,30 @@ export default {
     }
   },
   methods: {
+        // 获取医院等级
+    getGrent() {
+      this.$axios.post(api.managementAll).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.SuperiorList = ret;
+        }
+      });
+    },
+    preview(file) {
+      this.src = window.URL.createObjectURL(file);
+    },
+    // 上传图片大小错误提醒
+    handleMaxSize() {
+      this.$Message.error("上传图片大小不能超过200kb");
+    },
+    // 查看预览图片
+    handleView(file) {
+      this.viewModal = true;
+    },
+    // 上传图片格式错误提醒
+    uploadFormatError() {
+      this.$Message.error("上传图片类型只能是jpg格式");
+    },
     changeProvince(val) {
       this.province = val;
     },
@@ -588,21 +770,11 @@ export default {
     changeArea(val) {
       this.area = val;
     },
-    //获取医院等级
-    getGrent() {
-      this.$axios.post(api.classification).then(res => {
-        if (res.data) {
-          let ret = res.data.object;
-          // this.gradeList = ret;
-          console.log("dengji", ret);
-        }
-      });
-    },
     // 获取省级
     getCity() {
       this.$axios.post(api.getCity).then(res => {
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           let ret = res.data.object;
           ret.forEach(item => {
             item.id = item.id.toString();
@@ -659,41 +831,39 @@ export default {
     },
     // 提交表单
     handleSubmit(name) {
-      console.log(this.formValidate);
-      if (this.idtt == 5 || this.idtt == 4 || this.idtt == 3) {
-        this.formValidate.provinceCode = this.$route.query.province;
-        this.formValidate.cityCode = this.$route.query.city;
-        this.formValidate.districtCode = this.$route.query.area;
-      }
       this.$refs[name].validate(valid => {
         if (valid) {
           // 必填项填写完成
-          this.$axios.post(api.mechanismregAdd, this.formValidate).then(res => {
-            if (res.data.code) {
-              this.$Message.info("添加成功");
-              let pageNo = this.$route.query.pageNo;
-              setTimeout(() => {
-                // functionJS公用 方法
-                this.functionJS.queryNavgationTo(
-                  this,
-                  "/index/maintain/mechanismreg/list",
-                  {
-                    pageNo,
-                    province: this.province,
-                    city: this.city,
-                    area: null,
-                    hospital: this.hospital,
-                    isBack: 2
-                  }
-                );
-              }, 500);
-            } else {
-              this.$Message.info(res.data.message);
-            }
-          });
+          console.log(this.formValidate);
+          this.$axios
+            .post(api.mechanismregEdit, this.formValidate)
+            .then(res => {
+              if (res.data.code) {
+                let ret = res.data;
+                this.$Message.info("修改成功");
+                let pageNo = this.$route.query.pageNo;
+                setTimeout(() => {
+                  // functionJS公用 方法
+                  this.functionJS.queryNavgationTo(
+                    this,
+                    "/index/maintain/mechanismreg/list",
+                    {
+                      pageNo,
+                      province: this.province,
+                      city: this.city,
+                      area: this.area,
+                      hospital: this.hospital,
+                      isBack: 2
+                    }
+                  );
+                }, 500);
+              } else {
+                this.$Message.info("修改失败请重试");
+              }
+            });
         } else {
           // 必填项填写失败
-          this.$Message.error("请检查必填项是否填写正确!");
+          this.$Message.error("请检查必填项是否填写正确！");
         }
       });
     }
@@ -703,12 +873,13 @@ export default {
 <style lang='less' scoped>
 .mechanismregAdd {
   margin-left: 1%;
-  padding: 10px;
   width: 98%;
   box-sizing: border-box;
   .container {
     width: 100%;
     height: 800px;
+    padding: 10px;
+
     background: #ffffff;
     // display: flex;
     flex-direction: column;
@@ -731,7 +902,8 @@ export default {
         display: flex;
         flex-direction: row;
         .left {
-          font-size: 20px;
+          font-size: 14px;
+          padding-top: 5px;
           span:last-child {
             font-weight: 600;
           }
@@ -747,9 +919,12 @@ export default {
         }
       }
       .region {
+        .ivu-col-span-6 {
+          margin-right: 20px;
+        }
         select {
           width: 100px;
-          margin-right: 10px;
+          // margin-right: 20px;
           outline: none;
           option {
             text-align: center;
@@ -757,8 +932,27 @@ export default {
         }
       }
       .hosAddr {
-        margin-left: 110px;
+        margin-left: 80px;
       }
+    }
+  }
+}
+.button-upload {
+  margin-left: 10px;
+}
+.ivu-upload {
+  display: flex;
+  height: 100%;
+  .ivu-upload-select {
+    height: 100%;
+  }
+  /deep/ .ivu-upload-list {
+    height: 100%;
+    margin-top: -10px;
+    padding-left: 4px;
+    padding-right: 4px;
+    .ivu-upload-list-file {
+      padding: 0px;
     }
   }
 }
