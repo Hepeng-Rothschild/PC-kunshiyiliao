@@ -48,6 +48,7 @@
                 :data="data1"
                 @on-selection-change="selectChange"
                 :loading="loading"
+                no-data-text="未查询到符合条件的记录"
                 stripe>
 
             </Table>
@@ -99,17 +100,17 @@
                                         v-if="item.type === 'input'"
                                         v-model="formData[item.key]"
                                         :disabled="item.disabled"
+                                        clearable
                                         :placeholder="item.placeholder" />
                                     <Select
                                         v-if="item.type === 'select'"
                                         v-model="formData[item.key]"
+                                        clearable
                                         filterable>
                                         <Option
                                             v-for="(selectItem, index) in item.selections"
                                             :key="index"
-                                            :value="selectItem.value">
-                                            {{selectItem.label}}
-                                        </Option>
+                                            :value="selectItem.value">{{selectItem.label}}</Option>
                                     </Select>
                                     <RadioGroup
                                         v-if="item.type === 'radio'"
@@ -146,7 +147,7 @@
             <p>删除后不可恢复，确认删除所选项吗？</p>
             <div slot="footer">
                 <Button class="cancel-btn btn" @click="showDelModal = false">取消</Button>
-                <Button class="save-btn btn" type="primary" :loading="delLoading" @click="delDrug">确认</Button>
+                <Button class="save-btn btn" type="primary" :loading="delLoading" @click="handleDel">确认</Button>
             </div>
         </Modal>
     </div>
@@ -358,7 +359,6 @@ export default {
                 {
                     title: "操作",
                     key: "iOperate",
-                    align: "center",
                     width: 200,
                     render: (h, params) => {
                         return h('div',[
@@ -491,9 +491,15 @@ export default {
                 this.showDelModal = true;
             }
         },
+        handleDel() {
+            if (this.removeType === 'single') {
+                this.delDrug();
+            } else if (this.removeType === 'batch') {
+                this.delBatchDrug();
+            }
+        },
         handleBatch() {
-            this.functionJS.queryNavgationTo(this, "/index/operation/drugmanagement/batchone", {
-                pageNo: this.filterObj.pageNo
+            this.functionJS.queryNavgationTo(this, "/index/operation/drugmanagement/commondrug/batchone", {
             });
         },
         handleEdit(record) {
@@ -506,15 +512,12 @@ export default {
             statusItem.selections = (record.status === '0' || !record.status)
                                     ? [{value: '0', label: '未启用'}, {value: '1', label: '在用'}]
                                     : [{value: '2', label: '停用'}, {value: '1', label: '在用'}];
-            this.showMedicalModal = true;
-            this.formData = this.deepClone(record.row);
-            console.log(this.medicalFormObj, this.formData)
+            this.findKbaoOperateDrugEntity(record.row);
         },
         handleReview(record) {
             this.modalType = 'review';
             this.medicalFormObj = this.deepClone(medicalFormObj);
-            this.showMedicalModal = true;
-            this.formData = this.deepClone(record.row);
+            this.findKbaoOperateDrugEntity(record.row);
             console.log(this.formData)
         },
         handleSave() {
@@ -544,15 +547,34 @@ export default {
             this.loading = true;
             this.$axios.post(api.findOperateDrugPage, reqData).then(res => {
                 this.loading = false;
-                if (!res.data.code) {
+                if (res.data.code === 1) {
+                    let ret = res.data.object.list;
+                    this.count = res.data.object.count;
+                    this.data1 = ret;
+                    if (!ret || !ret.length) {
+                        this.$Message.info('未查询到符合条件的记录')
+                    }
+                } else {
                     this.$Message.error('请求异常');
                     return false;
                 }
-                let ret = res.data.object.list;
-                this.count = res.data.object.count;
-                this.data1 = ret;
             }).catch(() => {
                 this.loading = false;
+            });
+        },
+        findKbaoOperateDrugEntity(data) {
+            this.$axios.post(api.findKbaoOperateDrugEntity, data).then(res => {
+                if (res.data.code === 1) {
+                    this.showMedicalModal = true;
+                    this.formData = this.deepClone(res.data.object);
+                    if (!ret || !ret.length) {
+                        this.$Message.info('未查询到符合条件的记录')
+                    }
+                } else {
+                    this.$Message.error('请求异常');
+                    return false;
+                }
+            }).catch(() => {
             });
         },
         findDrugDict() {
@@ -652,14 +674,7 @@ export default {
             })
         },
         delDrug() {
-            let reqData = [];
-            if (this.removeType === 'single') {
-                reqData = this.curRecord;
-            } else if (this.removeType === 'batch') {
-                // reqData = this.selections;
-                this.$Message.info('该功能暂未提供')
-                return false;
-            }
+            let reqData = this.curRecord;
             console.log(reqData)
             this.delLoading = true;
             this.$axios.post(api.delDrug, reqData).then((res) => {
@@ -671,6 +686,26 @@ export default {
                 this.$Message.success('删除成功');
                 this.findOperateDrugPage();
                 this.showDelModal = false;
+            }).catch((res) => {
+                console.log(res)
+                this.delLoading = false;
+            })
+        },
+        delBatchDrug() {
+            let reqData = {ids: this.selections.map((item) => item.id).join(',')};
+            console.log(reqData)
+            this.delLoading = true;
+            this.$axios.post(api.delBatchDrug, reqData).then((res) => {
+                console.log(res)
+                this.delLoading = false;
+                if (res.data.code === 1) {
+                    this.$Message.success('删除成功');
+                    this.findOperateDrugPage();
+                    this.showDelModal = false;
+                } else {
+                    this.$Message.error(res.data.object.join('\n'));
+                    return false;
+                }
             }).catch((res) => {
                 console.log(res)
                 this.delLoading = false;
@@ -706,6 +741,8 @@ export default {
                 label {
                     white-space: nowrap;
                     line-height: 32px;
+                    width: 84px;
+                    text-align: right;
                 }
                 .input {
                     width: 220px;
