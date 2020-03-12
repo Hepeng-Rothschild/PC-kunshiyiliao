@@ -8,13 +8,21 @@
             @changeProvince="changeProvince"
             @changeCity="changeCity"
             @changeArea="changeArea"
-          ></fourLevelLinkage>机构名称：
-          <Input v-model.trim="Name" clearable style="width: 260px" />处方流转服务状态：
+          ></fourLevelLinkage>
+          <span style="margin-left:30px;">机构名称：</span>
+
+          <Input v-model.trim="Name" clearable style="width: 260px" />
+          <span style="margin-left:30px;">处方流转服务状态：</span>
+
           <Select v-model="selectstate" style="width:200px">
             <Option v-for="item in stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          <Button type="primary" @click="getMechanismreg(1)">查询</Button>
-          <Button @click="reset">重置</Button>
+          <Button
+            type="primary"
+            @click="getMechanismreg(1)"
+            style="margin-left:30px;width:92px;height:32px"
+          >查询</Button>
+          <Button @click="reset" style="margin-left:30px;width:92px;height:32px">重置</Button>
         </div>
         <div class="btn">
           <Button type="primary" @click="add">添加新机构</Button>
@@ -27,12 +35,17 @@
       <!--分页器-->
       <div class="paging">
         <div>
-          显示第1到{{selectpage}}条的记录,总共66条记录 每页显示
-          <Select v-model="selectpage" style="width:60px" placement="top">
+          显示第1到{{pageSize}}条的记录,总共{{pagetotal}}条记录 每页显示
+          <Select v-model="pageSize" style="width:60px" placement="top">
             <Option v-for="item in pageList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>条记录
         </div>
-        <Page :total="doctorregisterSize" @on-change="pageChange" :current="pageNo"></Page>
+        <Page
+          :total="doctorregisterSize"
+          @on-change="pageChange"
+          :page-size="pageSize"
+          :current="pageNo"
+        ></Page>
       </div>
     </div>
   </div>
@@ -47,44 +60,20 @@ export default {
     return {
       pageList: [
         {
-          value: "1",
-          label: "1"
+          value: 5,
+          label: 5
         },
         {
-          value: "2",
-          label: "2"
+          value: 10,
+          label: 10
         },
         {
-          value: "3",
-          label: "3"
+          value: 20,
+          label: 20
         },
         {
-          value: "4",
-          label: "4"
-        },
-        {
-          value: "5",
-          label: "5"
-        },
-        {
-          value: "6",
-          label: "6"
-        },
-        {
-          value: "7",
-          label: "7"
-        },
-        {
-          value: "8",
-          label: "8"
-        },
-        {
-          value: "9",
-          label: "9"
-        },
-        {
-          value: "10",
-          label: "10"
+          value: 50,
+          label: 50
         }
       ],
       stateList: [
@@ -105,9 +94,10 @@ export default {
           label: "已关闭"
         }
       ],
-      selectpage: "10",
+      pageSize: 10,
       selectstate: "全部",
       totalText: "10",
+      pagetotal: null,
       province: null,
       city: null,
       area: null,
@@ -121,7 +111,7 @@ export default {
           title: "序号",
           key: "sum",
           align: "center",
-          // width: 60
+          width: 60,
           render: (h, params) => {
             let sum = params.row.sum;
             return h("span", sum);
@@ -155,7 +145,10 @@ export default {
           align: "center",
           // width: 300,
           render: (h, params) => {
-            let name = params.row.hosAddr;
+            let province = params.row.province;
+            let city = params.row.city;
+            let district = params.row.district;
+            let name = province + city + district + params.row.hosAddr;
             return h(
               "p",
               {
@@ -249,13 +242,13 @@ export default {
           align: "center",
           // width: 100,
           render: (h, params) => {
-            let enable = params.row.enable;
+            let ipres = params.row.ipres;
             let name;
-            if (enable == 0) {
+            if (ipres == 0) {
               name = "已关闭";
-            } else if (enable == 1) {
+            } else if (ipres == 1) {
               name = "已开通";
-            } else if (enable == -1) {
+            } else if (ipres == null) {
               name = "未开通";
             }
             return h("span", {}, name);
@@ -267,9 +260,9 @@ export default {
           // width: 300,
           fixed: "right",
           render: (h, params) => {
-            let enable = params.row.enable;
+            let ipres = params.row.ipres;
             let row = params.row;
-            if (enable == -1) {
+            if (ipres == null) {
               return h("div", [
                 h(
                   "Button",
@@ -310,14 +303,16 @@ export default {
                   "Button",
                   {
                     props: {
-                      size: "small"
+                      size: "small",
+                      type: "primary"
                     },
                     style: {
                       marginRight: "5px"
                     },
                     on: {
                       click: () => {
-                        this.enable(row);
+                        // this.enable(row);
+                        this.open(row);
                       }
                     }
                   },
@@ -343,7 +338,7 @@ export default {
                 )
               ]);
             }
-            if (enable == 1) {
+            if (ipres == 1) {
               return h("div", [
                 h(
                   "Button",
@@ -391,7 +386,7 @@ export default {
                     },
                     on: {
                       click: () => {
-                        this.enable(row);
+                        this.close(row);
                       }
                     }
                   },
@@ -399,7 +394,7 @@ export default {
                 )
               ]);
             }
-            if (enable == 0) {
+            if (ipres == 0) {
               return h("div", [
                 h(
                   "Button",
@@ -448,7 +443,7 @@ export default {
                     },
                     on: {
                       click: () => {
-                        this.enable(row);
+                        this.open(row);
                       }
                     }
                   },
@@ -460,6 +455,11 @@ export default {
         }
       ]
     };
+  },
+  watch: {
+    pageSize(nv, ov) {
+      this.getMechanismreg();
+    }
   },
   created() {
     this.province = this.$route.query.province
@@ -501,6 +501,7 @@ export default {
       this.province = null;
       this.city = null;
       this.area = null;
+      // this.getMechanismreg(this.pageNo);
     },
     selectTotal(name) {
       if (name == "1") {
@@ -561,28 +562,62 @@ export default {
         }
       );
     },
-    //停用/启用
-    enable(item) {
-      console.log(item);
-      
+    // 关闭处方流转
+    close(item) {
       let id = item.id;
-      let enable = 0;
-      if (!item.enable) {
-        enable = 1;
-      }
       this.$axios
-        .post(api.mechanismregEnable, {
-          enable,
+        .post(api.mechanismregClose, {
           id
         })
         .then(res => {
+          console.log(res);
           if (res.data.code) {
-            let ret = res.data.object;
-            item.enable = enable;
             this.$Message.info("修改成功");
           }
         });
     },
+    // 开启处方流转
+    open(item) {
+      let id = item.id;
+      this.$axios
+        .post(api.mechanismregOpen, {
+          id
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.code) {
+            this.$Message.info("修改成功");
+          }
+        });
+    },
+    // //停用/启用
+    // enable(item) {
+    //   console.log(item);
+
+    //   let id = item.id;
+    //   let ipres;
+    //   if (item.ipres == null) {
+    //     ipres = 1;
+    //   } else if (item.ipres == 0) {
+    //     ipres = 1;
+    //   } else if (item.ipres == 1) {
+    //     ipres = 0;
+    //   }
+    //   this.$axios
+    //     .post(api.mechanismregEnable, {
+    //       ipres,
+    //       id
+    //     })
+    //     .then(res => {
+    //       if (res.data.code) {
+    //         // let ret = res.data.object;
+    //         // console.log(ret);
+
+    //         item.ipres = ipres;
+    //         this.$Message.info("修改成功");
+    //       }
+    //     });
+    // },
     // 删除此条数据
     delete(item) {},
     // 批量导入
@@ -637,7 +672,7 @@ export default {
       this.pageNo = pageNo;
       let params = {
         pageNo,
-        pageSize: 10
+        pageSize: this.pageSize
       };
       if (this.Name != "") {
         params.searchKey = this.Name.trim();
@@ -653,7 +688,7 @@ export default {
       params.cityCode = this.city ? this.city : null;
       params.areaCode = this.area ? this.area : null;
       console.log("机构注册信息params", params);
-      this.$axios.post(api.mechanismregList, params).then(res => {        
+      this.$axios.post(api.mechanismregList, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
           console.log("列表数据", res.data.object);
@@ -662,6 +697,7 @@ export default {
             item.sum = this.addZeros(index);
           });
           this.list = ret.list;
+          this.pagetotal = ret.list.length;
           console.log(this.list);
           sessionStorage.setItem("list", JSON.stringify(this.list));
         } else {
@@ -692,6 +728,8 @@ export default {
       width: 100%;
       margin: 10px auto;
       text-align: center;
+      flex-direction: row;
+      justify-content: space-between;
     }
     header {
       width: 100%;

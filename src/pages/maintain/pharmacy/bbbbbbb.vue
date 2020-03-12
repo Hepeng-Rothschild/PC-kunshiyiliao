@@ -3,8 +3,8 @@
     <div class="container">
       <div class="container-main">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" style="display:flex;">
-          <div style="margin-right:100px;">
-            <span style="color:blue;font-size:20px">基本信息</span>
+          <div>
+            <span>基本信息</span>
             <!-- 药店名称 -->
             <div class="address">
               <div class="left">
@@ -12,7 +12,7 @@
                 <span>药店名称:</span>
               </div>
               <FormItem prop="orgName">
-                <Input v-model.trim="formValidate.orgName" clearable style="width: 500px"></Input>
+                <Input v-model.trim="formValidate.orgName" clearable style="width: 300px"></Input>
               </FormItem>
             </div>
             <div class="region">
@@ -99,7 +99,7 @@
             </FormItem>
             <!-- 医保定点 -->
 
-            <div class="address" style="margin-bottom:24px">
+            <div class="address">
               <div class="left">
                 <span>省医保定点:</span>
               </div>
@@ -108,14 +108,14 @@
                 <Radio label="是"></Radio>
                 <Radio label="否"></Radio>
               </RadioGroup>
-              <div class="left" style="margin-left:100px;">市医保定点:</div>
+              <div class="left">市医保定点:</div>
               <RadioGroup v-model="formValidate.cityyb">
                 <Radio label="是"></Radio>
                 <Radio label="否"></Radio>
               </RadioGroup>
             </div>
             <!-- 所属药企 -->
-            <div class="address" style="margin-bottom:24px">
+            <div class="address">
               <div class="left">
                 <span>所属药企:</span>
               </div>
@@ -174,7 +174,7 @@
                 <Input
                   v-model.trim="formValidate.introduce"
                   type="textarea"
-                  :rows="2"
+                  :rows="4"
                   style="width: 500px"
                 />
               </FormItem>
@@ -188,7 +188,7 @@
                 <Input
                   v-model.trim="formValidate.businessScope"
                   type="textarea"
-                  :rows="2"
+                  :rows="4"
                   style="width: 500px"
                 />
               </FormItem>
@@ -196,7 +196,7 @@
           </div>
 
           <div>
-            <span style="color:blue;font-size:20px">资质信息</span>
+            <span>资质信息</span>
             <span style="color:red;">(注意:图片只能上传jpg格式，且文件大小不超过200KB)</span>
             <!-- 营业执照编号 -->
             <div class="address">
@@ -205,24 +205,13 @@
                 <span>营业执照编号:</span>
               </div>
               <FormItem prop="licencecode" style="display:flex;">
-                <Input v-model.trim="formValidate.licencecode" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.licencecode" style="width: 200px"></Input>
               </FormItem>
-              <Upload
-                :action="uploadUrl"
-                :format="['jpg']"
-                :on-format-error="uploadFormatError"
-                max-size="200"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="preview"
-              >
-                <Button type="primary" class="button-upload">选择文件上传</Button>
+              <Upload action max-size="200" accept="jpg">
+                <Button type="primary">选择文件上传</Button>
               </Upload>
-              <Button
-                type="primary"
-                style="width:72px;height:35px;"
-                class="button-upload"
-                @click="handleView"
-              >查看</Button>
+              <Input style="width: 100px"></Input>
+              <Button type="primary" style="width:72px;height:35px;">查看</Button>
             </div>
             <!-- 药品经营许可证号 -->
             <div class="address">
@@ -232,24 +221,13 @@
                 <span>药品经营许可证号:</span>
               </div>
               <FormItem prop="businessLicense" style="display:flex;">
-                <Input v-model.trim="formValidate.businessLicense" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.businessLicense" style="width: 200px"></Input>
               </FormItem>
-              <Upload
-                :action="uploadUrl"
-                :format="['jpg']"
-                :on-format-error="uploadFormatError"
-                max-size="200"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="preview"
-              >
-                <Button type="primary" class="button-upload">选择文件上传</Button>
+              <Upload action max-size="200" accept="jpg">
+                <Button type="primary">选择文件上传</Button>
               </Upload>
-              <Button
-                type="primary"
-                style="width:72px;height:35px;"
-                class="button-upload"
-                @click="handleView"
-              >查看</Button>
+              <Input style="width: 100px"></Input>
+              <Button type="primary" style="width:72px;height:35px;">查看</Button>
             </div>
             <!-- 药品经营质量管理规范认证证书编号-->
             <div class="address">
@@ -259,24 +237,13 @@
                 <span>药品经营质量管理规范认证证书编号:</span>
               </div>
               <FormItem prop="qualitySpecification" style="display:flex;">
-                <Input v-model.trim="formValidate.qualitySpecification" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.qualitySpecification" style="width: 200px"></Input>
               </FormItem>
-              <Upload
-                :action="uploadUrl"
-                :format="['jpg']"
-                :on-format-error="uploadFormatError"
-                max-size="200"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="preview"
-              >
-                <Button type="primary" class="button-upload">选择文件上传</Button>
+              <Upload action max-size="200" accept="jpg">
+                <Button type="primary">选择文件上传</Button>
               </Upload>
-              <Button
-                type="primary"
-                style="width:72px;height:35px;"
-                class="button-upload"
-                @click="handleView"
-              >查看</Button>
+              <Input style="width: 100px"></Input>
+              <Button type="primary" style="width:72px;height:35px;">查看</Button>
             </div>
             <!-- 执业药师证编号 -->
             <div class="address">
@@ -286,24 +253,13 @@
                 <span>执业药师证编号:</span>
               </div>
               <FormItem prop="pharmacistlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.pharmacistlicence" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.pharmacistlicence" style="width: 200px"></Input>
               </FormItem>
-              <Upload
-                :action="uploadUrl"
-                :format="['jpg']"
-                :on-format-error="uploadFormatError"
-                max-size="200"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="preview"
-              >
-                <Button type="primary" class="button-upload">选择文件上传</Button>
+              <Upload action max-size="200" accept="jpg">
+                <Button type="primary">选择文件上传</Button>
               </Upload>
-              <Button
-                type="primary"
-                style="width:72px;height:35px;"
-                class="button-upload"
-                @click="handleView"
-              >查看</Button>
+              <Input style="width: 100px"></Input>
+              <Button type="primary" style="width:72px;height:35px;">查看</Button>
             </div>
             <!-- 医疗器械经营许可证号 -->
             <div class="address">
@@ -311,24 +267,13 @@
                 <span>医疗器械经营许可证号:</span>
               </div>
               <FormItem prop="businesslicense" style="display:flex;">
-                <Input v-model.trim="formValidate.businesslicense" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.businesslicense" style="width: 200px"></Input>
               </FormItem>
-              <Upload
-                :action="uploadUrl"
-                :format="['jpg']"
-                :on-format-error="uploadFormatError"
-                max-size="200"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="preview"
-              >
-                <Button type="primary" class="button-upload">选择文件上传</Button>
+              <Upload action max-size="200" accept="jpg">
+                <Button type="primary">选择文件上传</Button>
               </Upload>
-              <Button
-                type="primary"
-                style="width:72px;height:35px;"
-                class="button-upload"
-                @click="handleView"
-              >查看</Button>
+              <Input style="width: 100px"></Input>
+              <Button type="primary" style="width:72px;height:35px;">查看</Button>
             </div>
             <!-- 卫生许可证编号 -->
             <div class="address">
@@ -336,24 +281,13 @@
                 <span>卫生许可证编号:</span>
               </div>
               <FormItem prop="hygienelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.hygienelicense" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.hygienelicense" style="width: 200px"></Input>
               </FormItem>
-              <Upload
-                :action="uploadUrl"
-                :format="['jpg']"
-                :on-format-error="uploadFormatError"
-                max-size="200"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="preview"
-              >
-                <Button type="primary" class="button-upload">选择文件上传</Button>
+              <Upload action max-size="200" accept="jpg">
+                <Button type="primary">选择文件上传</Button>
               </Upload>
-              <Button
-                type="primary"
-                style="width:72px;height:35px;"
-                class="button-upload"
-                @click="handleView"
-              >查看</Button>
+              <Input style="width: 100px"></Input>
+              <Button type="primary" style="width:72px;height:35px;">查看</Button>
             </div>
             <!-- 其他资质证书说明 -->
             <div class="address">
@@ -361,38 +295,23 @@
                 <span>其他资质证书说明:</span>
               </div>
               <FormItem prop="otherlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.otherlicence" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.otherlicence" style="width: 200px"></Input>
               </FormItem>
-              <Upload
-                :action="uploadUrl"
-                :format="['jpg']"
-                :on-format-error="uploadFormatError"
-                max-size="200"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="preview"
-              >
-                <Button type="primary" class="button-upload">选择文件上传</Button>
+              <Upload action max-size="200" accept="jpg">
+                <Button type="primary">选择文件上传</Button>
               </Upload>
-              <Button
-                type="primary"
-                style="width:72px;height:35px;"
-                class="button-upload"
-                @click="handleView"
-              >查看</Button>
+              <Input style="width: 100px"></Input>
+              <Button type="primary" style="width:72px;height:35px;">查看</Button>
+              <Button type="primary" style="width:72px;height:35px;">删除</Button>
             </div>
           </div>
         </Form>
         <div class="button-bottom">
-          <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
+          <Button type="primary" @click="handleSubmit('formValidate')">修改药店</Button>
           <Button @click="$router.go(-1)" style="margin-left:30px">取消</Button>
         </div>
       </div>
     </div>
-    <Modal title="查看上传照片" width="30" v-model="viewModal" footer-hide>
-      <div>
-        <img :src="src" style="width: 100%" />
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -407,23 +326,6 @@ export default {
   },
   data() {
     return {
-      // 预览图片的src
-      src: "",
-      // 预览图片Modal
-      viewModal: false,
-      uploadUrl: api.fileAll,
-      provList: [],
-      cityList: [],
-      countyList: [],
-
-      province: null,
-      city: null,
-      area: null,
-      isBack: 2,
-      newprovince: "",
-      newcity: "",
-      newdistrict: "",
-      cStatus: true,
       enterpriseList: [
         {
           value: "1",
@@ -648,24 +550,9 @@ export default {
     //获取省级信息
     this.getCity();
     // a获取医院等级
-    this.getGrent();
+    // this.getGrent();
   },
   methods: {
-    preview(file) {
-      this.src = window.URL.createObjectURL(file);
-    },
-    // 上传图片大小错误提醒
-    handleMaxSize() {
-      this.$Message.error("上传图片大小不能超过200kb");
-    },
-    // 查看预览图片
-    handleView(file) {
-      this.viewModal = true;
-    },
-    // 上传图片格式错误提醒
-    uploadFormatError() {
-      this.$Message.error("上传图片类型只能是jpg格式");
-    },
     changeProvince(val) {
       this.province = val;
     },
@@ -676,14 +563,14 @@ export default {
       this.area = val;
     },
     //获取医院等级
-    getGrent() {
-      this.$axios.post(api.managementAll).then(res => {
-        if (res.data) {
-          let ret = res.data.object;
-          this.gradeList = ret;
-        }
-      });
-    },
+    // getGrent() {
+    //   this.$axios.post(api.managementAll).then(res => {
+    //     if (res.data) {
+    //       let ret = res.data.object;
+    //       this.gradeList = ret;
+    //     }
+    //   });
+    // },
     // 获取省级
     getCity() {
       this.$axios.post(api.getCity).then(res => {
@@ -789,13 +676,12 @@ export default {
 <style lang='less' scoped>
 .mechanismregAdd {
   margin-left: 1%;
+  padding: 10px;
   width: 98%;
   box-sizing: border-box;
   .container {
     width: 100%;
     height: 800px;
-    padding: 10px;
-
     background: #ffffff;
     // display: flex;
     flex-direction: column;
@@ -817,13 +703,8 @@ export default {
       .address {
         display: flex;
         flex-direction: row;
-        .ivu-radio-group {
-          padding-top: 5px;
-        }
         .left {
-          font-size: 14px;
-          padding-top: 5px;
-
+          font-size: 20px;
           span:last-child {
             font-weight: 600;
           }
@@ -839,12 +720,9 @@ export default {
         }
       }
       .region {
-        .ivu-col-span-6 {
-          margin-right: 20px;
-        }
         select {
           width: 100px;
-          // margin-right: 20px;
+          margin-right: 10px;
           outline: none;
           option {
             text-align: center;
@@ -852,27 +730,8 @@ export default {
         }
       }
       .hosAddr {
-        margin-left: 80px;
+        margin-left: 110px;
       }
-    }
-  }
-}
-.button-upload {
-  margin-left: 10px;
-}
-.ivu-upload {
-  display: flex;
-  height: 100%;
-  .ivu-upload-select {
-    height: 100%;
-  }
-  /deep/ .ivu-upload-list {
-    height: 100%;
-    margin-top: -10px;
-    padding-left: 4px;
-    padding-right: 4px;
-    .ivu-upload-list-file {
-      padding: 0px;
     }
   }
 }
