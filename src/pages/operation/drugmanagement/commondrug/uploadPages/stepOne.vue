@@ -70,7 +70,9 @@ export default {
         });
     },
     handleSuccess(res, file) {
+      console.log(JSON.stringify(res));
       res = this.uploadFileDecrypt(res);
+      console.log(res)
       if (res.code) {
         let ret = res.object[0];
         this.disabled = false;
