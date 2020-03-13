@@ -530,6 +530,7 @@ export default {
           console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
+            this.getMechanismreg();
           }
         });
     },
@@ -544,6 +545,7 @@ export default {
           console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
+            this.getMechanismreg();
           }
         });
     },
@@ -579,12 +581,13 @@ export default {
         .post(api.delDrug, reqData)
         .then(res => {
           this.$Message.success("删除成功");
-          this.findOperateDrugPage();
+          this.getMechanismreg();
           this.showDelModal = false;
           this.delLoading = false;
         })
         .catch(res => {
           console.log(res);
+          this.showDelModal = false;
           this.delLoading = false;
         });
     },

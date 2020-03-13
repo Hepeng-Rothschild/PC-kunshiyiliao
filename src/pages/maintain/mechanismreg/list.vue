@@ -121,7 +121,7 @@ export default {
           title: "机构名称",
           key: "hospitalName",
           align: "center",
-          // width: 300,
+          width: 300,
           render: (h, params) => {
             let name = params.row.hospitalName;
             return h(
@@ -143,7 +143,7 @@ export default {
           title: "机构地址",
           key: "hospitalAddress",
           align: "center",
-          // width: 300,
+          width: 400,
           render: (h, params) => {
             let province = params.row.province;
             let city = params.row.city;
@@ -168,7 +168,7 @@ export default {
           title: "机构分类",
           key: "internetHospital",
           align: "center",
-          // width: 100,
+          width: 100,
           render: (h, params) => {
             let row = params.row;
             let name = row.internetHospital == "0" ? "企业" : "医院";
@@ -179,7 +179,7 @@ export default {
           title: "机构级别",
           key: "levelHospital",
           align: "center",
-          // width: 100,
+          width: 100,
           render: (h, params) => {
             let row = params.row;
             let name = row.grade;
@@ -190,7 +190,7 @@ export default {
           title: "联系人",
           key: "linkman",
           align: "center",
-          // width: 150,
+          width: 150,
           render: (h, params) => {
             let row = params.row;
             let name = "";
@@ -215,7 +215,7 @@ export default {
           title: "联系电话",
           key: "linkmanTelephone",
           align: "center",
-          // width: 150,
+          width: 150,
           render: (h, params) => {
             let row = params.row;
             let name = "";
@@ -240,7 +240,7 @@ export default {
           title: "处方流转服务",
           key: "enable",
           align: "center",
-          // width: 100,
+          width: 100,
           render: (h, params) => {
             let ipres = params.row.ipres;
             let name;
@@ -257,7 +257,7 @@ export default {
         {
           title: "操作",
           align: "center",
-          // width: 300,
+          width: 300,
           fixed: "right",
           render: (h, params) => {
             let ipres = params.row.ipres;
@@ -573,6 +573,7 @@ export default {
           console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
+            this.getMechanismreg();
           }
         });
     },
@@ -587,6 +588,7 @@ export default {
           console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
+            this.getMechanismreg();
           }
         });
     },
