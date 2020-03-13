@@ -2,34 +2,32 @@
     <div class="list">
         <!-- 头部搜索 -->
         <header>
+            <Button type="primary" class="chooseDep">选择医疗机构</Button>
             <div class="filter-part">
-              <div class="filter-item">
-                  <fourLevelLinkage
-                    :province="filterObj.provinceCode"
-                    :city="filterObj.cityCode"
-                    :area="filterObj.areaCode"
-                    @changeProvince="changeProvince"
-                    @changeCity="changeCity"
-                    @changeArea="changeArea"
-                    ref="fourLevelLinkage"
-                  ></fourLevelLinkage>
+                <div class="filter-item">
+                  <label>医疗机构ID：</label>
+                  <div class="content">{{depInfo.id}}都是粉色的防辐射地方</div>
                 </div>
                 <div class="filter-item">
                   <label>医疗机构名称：</label>
-                  <Input v-model.trim="filterObj.searchKey" clearable style="width: 260px" />
+                  <div class="content">{{depInfo.name}}都是粉色的防辐射地方</div>
                 </div>
-                <div class="filter-btn-group">
-                   <i-button type="primary" @click="handleSearch">查询</i-button>
-                   <i-button @click="handleReset">重置</i-button>
+                <div class="filter-item">
+                  <label>联系电话：</label>
+                  <div class="content">{{depInfo.tel}}都是粉色的防辐射地方</div>
+                </div>
+                <div class="filter-item">
+                  <label>地址：</label>
+                  <div class="content">{{depInfo.addr}}都是粉色的防辐射地方</div>
                 </div>
             </div>
             <div class="fun-part">
-                <i-button type="primary" @click="handleAdd">新建药品目录对照</i-button>
+                <i-button type="primary">选择药品目录</i-button>
             </div>
         </header>
         <!-- 列表 -->
         <div class="table">
-            <Table 
+            <Table
                 size="small" 
                 :columns="columns" 
                 :data="data"
@@ -58,35 +56,16 @@
                 />
             </div>
         </div>
-        <!-- 删除确认弹窗 -->
-        <!-- <Modal
-            v-model="showDelModal"
-            title="确认删除弹窗"
-            class="drugmanagement-commondrug-list-delModal">
-            <p>删除后不可恢复，确认删除所选项吗？</p>
-            <div slot="footer">
-                <Button class="cancel-btn btn" @click="showDelModal = false">取消</Button>
-                <Button class="save-btn btn" type="primary" :loading="delLoading" @click="handleDel">确认</Button>
-            </div>
-        </Modal> -->
     </div>
 </template>
 
 <script>
 import api from "@/api/commonApi";
-import fourLevelLinkage from "@/components/fourLevelLinkage";
 const filterObj = {
-    provinceCode: null,
-    cityCode: null,
-    areaCode: null,
-    searchKey: null,
     pageNo: 1,
     pageSize: '10',
-};
+}
 export default {
-  components: {
-    fourLevelLinkage
-  },
   data() {
     return {
       filterObj: this.deepClone(filterObj),
@@ -148,7 +127,8 @@ export default {
           }
         },
       ],
-      data: []
+      data: [],
+      depInfo: {}
     }
   },
   created() {
@@ -166,61 +146,12 @@ export default {
       this.$emit("changeBreadList", breadList);
   },
   mounted() {
-    this.findKbaoHospitalDrugDtoPage();
+    // this.findKbaoHospitalDrugDtoPage();
   },
   methods: {
-      handleSearch() {
-          this.filterObj.pageNo = 1;
-          this.findKbaoHospitalDrugDtoPage();
-      },
-      handleReset() {
-          this.filterObj = this.deepClone(filterObj);
-          this.findKbaoHospitalDrugDtoPage();
-      },
-      handleAdd() {
-        this.functionJS.queryNavgationTo(this, "/index/operation/drugmanagement/departmentdrug/add", {
-        });
-      },
-      handleReview() {
-
-      },
-      handleEdit() {
-
-      },
-      handleRemove() {
-
-      },
       changePage(index) {
           this.filterObj.pageNo = index;
-          this.findKbaoHospitalDrugDtoPage();
-      },
-      changeProvince(val) {
-        this.filterObj.provinceCode = val;
-      },
-      changeCity(val) {
-        this.filterObj.cityCode = val;
-      },
-      changeArea(val) {
-        this.filterObj.areaCode = val;
-      },
-      findKbaoHospitalDrugDtoPage() {
-          this.loading = true;
-          this.$axios.post(api.findKbaoHospitalDrugDtoPage, this.filterObj).then(res => {
-              this.loading = false;
-              if (res.data.code === 1) {
-                  const ret = res.data.object.list;
-                  this.data = ret || [];
-                  this.count = res.data.object.count;
-                  if (!ret || !ret.length) {
-                      this.$Message.info('未查询到符合条件的记录')
-                  }
-              } else {
-                  this.$Message.error('请求异常');
-                  return false;
-              }
-          }).catch(() => {
-              this.loading = false;
-          });
+        //   this.findKbaoHospitalDrugDtoPage();
       },
       deepClone(obj) {
           return JSON.parse(JSON.stringify(obj))
@@ -245,10 +176,16 @@ export default {
             .filter-item {
                 display: flex;
                 margin: 10px 10px 10px 0;
+                line-height: 32px;
+                &:first-child {
+                    label {
+                        width: auto;
+                    }
+                }
                 label {
                     white-space: nowrap;
                     line-height: 32px;
-                    width: 100px;
+                    width: 120px;
                     text-align: right;
                 }
                 .input {
@@ -264,7 +201,6 @@ export default {
             }
         }
         .fun-part {
-            margin-top: 15px;
             margin-bottom: 10px;
             a {
                 vertical-align: bottom;

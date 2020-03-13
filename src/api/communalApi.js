@@ -622,13 +622,20 @@ const formcontentupdateformcontent = '/operateapi/form/content/updateKbafFdsItem
 const formcontentquerybyid = '/operateapi/form/content/findKbafFdsItemsFormContentEntityById' //查询表单题目详情
 const formcontentlist = '/operateapi/form/content/findKbafFdsItemsFormContentEntityPage' //查询表单题目列表
 
-//药品目录管理
+/**
+ * 药品目录管理
+ * **/
+// 统一药品目录维护
 const findOperateDrugPage = '/operateapi/operate/drug/findOperateDrugPage' // 统一药品目录维护列表
+const findKbaoOperateDrugEntity = '/operateapi/operate/drug/findKbaoOperateDrugEntity' // 药品详情(处方)
 const insertKbaoOperateDrugEntity = '/operateapi/operate/drug/insertKbaoOperateDrugEntity' // 统一药品目录新增
 const updateKbaoOperateDrugEntity = '/operateapi/operate/drug/updateKbaoOperateDrugEntity' // 统一药品目录修改
 const delDrug = '/operateapi/operate/drug/delDrug' // 统一药品目录删除(处方)
+const delBatchDrug = '/operateapi/operate/drug/delBatchDrug' // 统一药品目录删除(处方)
 const insertBatchKbaoOperateDrug = '/operateapi/operate/drug/insertBatchKbaoOperateDrug' // 批量导入药品标准库信息(处方)
 const findDrugDict = '/operateapi/operate/drug/findDrugDict' // 获得药品目录相关字典(处方)
+// 医疗机构药品目录对照
+const findKbaoHospitalDrugDtoPage = '/operateapi/operate/drugContrast/findKbaoHospitalDrugDtoPage' // 药品目录对照-医疗机构信息管理
 
 
 // 药店信息管理
@@ -994,13 +1001,20 @@ let communalApi = {
     formcontentquerybyid,
     formcontentlist,
 
-    //药品目录管理
+    /***
+     * 药品目录管理
+     * */
+    //统一药品目录维护
     findOperateDrugPage, // 统一药品目录维护列表
+    findKbaoOperateDrugEntity, //
     insertKbaoOperateDrugEntity, // 统一药品目录新增
     updateKbaoOperateDrugEntity, // 统一药品目录修改
     delDrug, // 统一药品目录删除(处方)
+    delBatchDrug,
     insertBatchKbaoOperateDrug, // 批量导入药品标准库信息(处方)
-    findDrugDict //字典
+    findDrugDict, //字典
+    //机构药品目录对照
+    findKbaoHospitalDrugDtoPage, //列表
 }
 // 测试环境修改api前缀
 if (store.state.env === 'test') {

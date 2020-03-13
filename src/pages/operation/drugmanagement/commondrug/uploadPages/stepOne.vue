@@ -42,15 +42,15 @@ export default {
   },
   created() {
     let breadList = [
-      { path: "/index", title: "首页" },
-      {
-        path: "/index/maintain/indexManagement/index",
-        title: "索引管理"
-      },
-      {
-        path: "/index/maintain/doctorregister/list",
-        title: "医生注册信息"
-      }
+        { path: "/index", title: "首页" },
+        {
+            path: "",
+            title: "药品目录管理"
+        },
+        {
+            path: "/index/operation/drugmanagement/commondrug/list",
+            title: "统一药品目录维护"
+        }
     ];
     this.$emit("changeBreadList", breadList);
   },
@@ -92,11 +92,10 @@ export default {
     },
     next() {
       console.log(this.errorData)
-      debugger
       if (!this.disabled) {
         // FUNCTION公用 方法
-        this.functionJS.paramsNavgationTo(this, "commondrugbatchtwo", {
-          fail: this.errorData
+        this.functionJS.queryNavgationTo(this, "/index/operation/drugmanagement/commondrug/batchtwo", {
+          fail: JSON.stringify(this.errorData)
         });
       } else {
         this.$Message.info("请选择批量上传的文件");

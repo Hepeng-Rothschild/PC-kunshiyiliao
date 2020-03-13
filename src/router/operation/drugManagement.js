@@ -10,31 +10,31 @@ const commondrug = {
         import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/commondrug/list")
 }
 const commondrugBatchOne = {
-    path: 'operation/drugmanagement/batchone',
+    path: 'operation/drugmanagement/commondrug/batchone',
     name: 'commondrugbatchone',
     meta: {
         index: 11,
         title: '药品管理-统一药品目录维护上传-第一步'
     },
-    component: () => import(/* webpackChunkName: 'operation-drugmanagement-upload' */"@/pages/operation/drugmanagement/uploadPages/stepOne")
+    component: () => import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/commondrug/uploadPages/stepOne")
 }
 const commondrugBatchTwo = {
-    path: 'operation/drugmanagement/batchtwo',
+    path: 'operation/drugmanagement/commondrug/batchtwo',
     name: 'commondrugbatchtwo',
     meta: {
         index: 12,
         title: '药品管理-统一药品目录维护上传-第二步'
     },
-    component: () => import(/* webpackChunkName: 'operation-drugmanagement-upload' */"@/pages/operation/drugmanagement/uploadPages/stepTwo")
+    component: () => import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/commondrug/uploadPages/stepTwo")
 }
 const commondrugBatchThree = {
-    path: 'operation/drugmanagement/batchthree',
+    path: 'operation/drugmanagement/commondrug/batchthree',
     name: 'commondrugbatchthree',
     meta: {
         index: 12,
         title: '药品管理-统一药品目录维护上传-第三步'
     },
-    component: () => import(/* webpackChunkName: 'operation-drugmanagement-upload' */"@/pages/operation/drugmanagement/uploadPages/stepThree")
+    component: () => import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/commondrug/uploadPages/stepThree")
 }
 // 医疗机构药品目录对照
 const departmentdrug = {
@@ -42,12 +42,31 @@ const departmentdrug = {
     name: 'departmentdrug',
     meta: {
         index: 2,
-        title: '医疗机构药品目录对照'
+        title: '医疗机构药品目录对照-列表页'
     },
     component: () =>
         import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/departmentdrug/list")
 }
-
+const departmentdrugadd = {
+    path: 'operation/drugmanagement/departmentdrug/add',
+    name: 'departmentdrugadd',
+    meta: {
+        index: 21,
+        title: '医疗机构药品目录对照-新建页'
+    },
+    component: () =>
+        import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/departmentdrug/add")
+}
+const departmentdrugedit = {
+    path: 'operation/drugmanagement/departmentdrug/edit',
+    name: 'departmentdrugedit',
+    meta: {
+        index: 22,
+        title: '医疗机构药品目录对照-编辑页'
+    },
+    component: () =>
+        import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/departmentdrug/edit")
+}
 // 药店药品目录对照
 const storedrug = {
     path: 'operation/drugmanagement/storedrug/list',
@@ -67,6 +86,8 @@ export default {
     commondrugBatchThree,
     // 医疗机构药品目录对照
     departmentdrug,
+    departmentdrugadd,
+    departmentdrugedit,
     // 药店药品目录对照
     storedrug,
 }
