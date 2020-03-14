@@ -105,7 +105,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath1}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView1"
                 class="button-upload"
               >查看</Button>
@@ -121,7 +121,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath2}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView2"
                 class="button-upload"
               >查看</Button>
@@ -137,7 +137,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath3}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView3"
                 class="button-upload"
               >查看</Button>
@@ -153,7 +153,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath4}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView4"
                 class="button-upload"
               >查看</Button>
@@ -169,7 +169,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath5}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView5"
                 class="button-upload"
               >查看</Button>
@@ -185,7 +185,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath6}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView6"
                 class="button-upload"
               >查看</Button>
@@ -201,7 +201,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath7}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView7"
                 class="button-upload"
               >查看</Button>
@@ -453,30 +453,58 @@ export default {
       this.viewModal1 = true;
       // "{"fileName":"operate/user/img/20200307144207572555036.png","smallFileName":"operate/user/img/s_20200307144207572555036.png"}"
       let arr = this.certList;
-      console.log(arr);
-      let str = arr[0].filePath.split(",");
+      let str = arr[0].filePath;
       let strindex1 = arr[0].filePath.indexOf(",");
-      // let str1 = str.substring(13,strindex1 - 1).toString()
-      this.src = str;
-      console.log(this.src);
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src1 = this.fileBaseUrl + str1;
     },
     handleView7(file) {
       this.viewModal7 = true;
+      let arr = this.certList;
+      let str = arr[6].filePath;
+      let strindex1 = arr[6].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src7 = this.fileBaseUrl + str1;
     },
     handleView6(file) {
       this.viewModal6 = true;
+      let arr = this.certList;
+      let str = arr[5].filePath;
+      let strindex1 = arr[5].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src6 = this.fileBaseUrl + str1;
     },
     handleView5(file) {
       this.viewModal5 = true;
+      let arr = this.certList;
+      let str = arr[4].filePath;
+      let strindex1 = arr[4].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src5 = this.fileBaseUrl + str1;
     },
     handleView4(file) {
       this.viewModal4 = true;
+      let arr = this.certList;
+      let str = arr[3].filePath;
+      let strindex1 = arr[3].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src4 = this.fileBaseUrl + str1;
     },
     handleView3(file) {
       this.viewModal3 = true;
+      let arr = this.certList;
+      let str = arr[2].filePath;
+      let strindex1 = arr[2].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src3 = this.fileBaseUrl + str1;
     },
     handleView2(file) {
       this.viewModal2 = true;
+      let arr = this.certList;
+      let str = arr[1].filePath;
+      let strindex1 = arr[1].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src2 = this.fileBaseUrl + str1;
     }
   }
 };
@@ -534,6 +562,7 @@ export default {
           font-size: 14px;
         }
       }
+
       .region {
         .ivu-col-span-6 {
           margin-right: 20px;

@@ -144,7 +144,7 @@ export default {
           title: "药店名称",
           key: "pharmacyName",
           align: "center",
-          width: 300,
+          width: 200,
           render: (h, params) => {
             let name = params.row.hospitalName;
             return h(
@@ -166,7 +166,7 @@ export default {
           title: "药店地址",
           key: "pharmacyAddress",
           align: "center",
-          width: 600,
+          width: 400,
           render: (h, params) => {
             let province = params.row.province;
             let city = params.row.city;
@@ -191,7 +191,7 @@ export default {
           title: "省医保定点",
           key: "internetHospital",
           align: "center",
-          width: 100,
+          // width: 100,
           render: (h, params) => {
             let row = params.row;
             let name = row.provinceMedical;
@@ -210,7 +210,7 @@ export default {
           title: "市医保定点",
           key: "levelHospital",
           align: "center",
-          width: 100,
+          // width: 100,
           render: (h, params) => {
             let row = params.row;
             let name = row.cityMedical;
@@ -229,7 +229,7 @@ export default {
           title: "联系人",
           key: "linkman",
           align: "center",
-          width: 150,
+          // width: 150,
           render: (h, params) => {
             let row = params.row;
             let name = "";
@@ -297,7 +297,6 @@ export default {
           title: "操作",
           align: "center",
           width: 300,
-          fixed: "right",
           render: (h, params) => {
             let ipres = params.row.ipres;
             let row = params.row;

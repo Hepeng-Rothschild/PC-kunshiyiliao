@@ -96,7 +96,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath1}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView1"
                 class="button-upload"
               >查看</Button>
@@ -112,7 +112,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath2}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView2"
                 class="button-upload"
               >查看</Button>
@@ -128,7 +128,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath3}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView3"
                 class="button-upload"
               >查看</Button>
@@ -144,7 +144,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath4}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView4"
                 class="button-upload"
               >查看</Button>
@@ -160,7 +160,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath5}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView5"
                 class="button-upload"
               >查看</Button>
@@ -176,7 +176,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath6}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView6"
                 class="button-upload"
               >查看</Button>
@@ -192,7 +192,7 @@
               <span style="margin-top:5px;margin-left:100px">{{filePath7}}</span>
               <Button
                 type="primary"
-                style="width:72px;height:32px;margin-left:100px;"
+                style="width:72px;height:32px;"
                 @click="handleView7"
                 class="button-upload"
               >查看</Button>
@@ -304,7 +304,7 @@ export default {
   mounted() {
     let id = this.$route.query.id;
     console.log(id);
-    
+
     if (id) {
       this.$axios
         .post(api.mechanismregSearch, {
@@ -523,6 +523,7 @@ export default {
           font-size: 14px;
         }
       }
+
       .region {
         .ivu-col-span-6 {
           margin-right: 20px;

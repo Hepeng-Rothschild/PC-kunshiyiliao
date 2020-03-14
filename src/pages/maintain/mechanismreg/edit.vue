@@ -16,7 +16,7 @@
                   v-model.trim="formValidate.orgName"
                   placeholder="请输入机构名称"
                   clearable
-                  style="width: 300px"
+                  style="width: 480px"
                 ></Input>
               </FormItem>
             </div>
@@ -99,7 +99,7 @@
                 v-model.trim="formValidate.hosAddr"
                 placeholder="请输入详细地址"
                 clearable
-                style="width: 300px"
+                style="width: 480px"
               ></Input>
             </FormItem>
             <!-- 机构组织编码 -->
@@ -113,7 +113,7 @@
                   v-model.trim="formValidate.orgCode"
                   placeholder
                   clearable
-                  style="width: 200px"
+                  style="width: 417px"
                 ></Input>
               </FormItem>
             </div>
@@ -208,7 +208,7 @@
                   v-model.trim="formValidate.hosIntroduction"
                   type="textarea"
                   :rows="4"
-                  style="width: 300px"
+                  style="width: 490px"
                 />
               </FormItem>
             </div>
@@ -218,7 +218,7 @@
             <span style="color:blue;font-size:20px">资质信息</span>
             <span style="color:red;">(注意:图片只能上传jpg格式，且文件大小不超过200KB)</span>
             <!-- 医疗机构执业许可证上传 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span style="color:red;">*</span>
                 <span>医疗机构执业许可证登记号:</span>
@@ -256,13 +256,13 @@
                 @click="onremove1"
                 class="button-upload"
               >删除</Button>
-            </div>收费许可证号
-            <div class="address">
+            </div>
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span>收费许可证号:</span>
               </div>
               <FormItem prop="feelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[1].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[1].code" style="width: 305px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -296,12 +296,12 @@
               >删除</Button>
             </div>
             <!-- 放射诊疗许可证号-->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span>放射诊疗许可证号:</span>
               </div>
               <FormItem prop="radiationpermit" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[2].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[2].code" style="width: 278px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -335,12 +335,12 @@
               >删除</Button>
             </div>
             <!-- 母婴保健技术服务执业许可证号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span>母婴保健技术服务执业许可证号:</span>
               </div>
               <FormItem prop="healthlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[3].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[3].code" style="width: 189px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -374,12 +374,12 @@
               >删除</Button>
             </div>
             <!-- 大型医疗设备许可证号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span>大型医疗设备许可证号:</span>
               </div>
               <FormItem prop="equipmentlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[4].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[4].code" style="width: 250px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -413,12 +413,12 @@
               >删除</Button>
             </div>
             <!-- 卫生许可证编号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span>卫生许可证编号:</span>
               </div>
               <FormItem prop="hygienelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[5].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[5].code" style="width: 295px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -457,8 +457,10 @@
                 <span>其他资质证书说明:</span>
               </div>
               <FormItem prop="otherlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[6].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[6].code" style="width: 680px"></Input>
               </FormItem>
+            </div>
+            <div style="display:flex;">
               <Upload
                 ref="upload"
                 :headers="fromData"
@@ -476,7 +478,7 @@
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input v-model="filePath7" style="width: 100px"></Input>
+              <Input v-model="filePath7" style="width: 508px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
@@ -610,6 +612,7 @@ export default {
       ],
       typeList: [],
       formValidate: {
+        id: null,
         provinceCode: "",
         // 市
         cityCode: "",
@@ -819,6 +822,7 @@ export default {
     // 获取上级医院
     this.getLastHospital();
     let id = this.$route.query.id;
+    this.formValidate.id = id;
     if (id) {
       this.$axios
         .post(api.mechanismregSearch, {
@@ -1288,67 +1292,6 @@ export default {
           });
       }
     },
-    // 控制编辑查看图片开始---------------------------------------------------------------------------
-    // // 查看预览图片
-    // handleView1() {
-    //   this.viewModal1 = true;
-    //   // "{"fileName":"operate/user/img/20200307144207572555036.png","smallFileName":"operate/user/img/s_20200307144207572555036.png"}"
-    //   let arr = this.certList;
-    //   let str = arr[0].filePath;
-
-    //   let strindex1 = arr[0].filePath.indexOf(",");
-    //   let str1 = str.substring(13, strindex1 - 1).toString();
-    //   this.src1 = this.fileBaseUrl + str1;
-    // },
-    // handleView7(file) {
-    //   this.viewModal7 = true;
-    //   let arr = this.certList;
-    //   let str = arr[6].filePath;
-    //   let strindex1 = arr[6].filePath.indexOf(",");
-    //   let str1 = str.substring(13, strindex1 - 1).toString();
-    //   this.src7 = this.fileBaseUrl + str1;
-    // },
-    // handleView6(file) {
-    //   this.viewModal6 = true;
-    //   let arr = this.certList;
-    //   let str = arr[5].filePath;
-    //   let strindex1 = arr[5].filePath.indexOf(",");
-    //   let str1 = str.substring(13, strindex1 - 1).toString();
-    //   this.src6 = this.fileBaseUrl + str1;
-    // },
-    // handleView5(file) {
-    //   this.viewModal5 = true;
-    //   let arr = this.certList;
-    //   let str = arr[4].filePath;
-    //   let strindex1 = arr[4].filePath.indexOf(",");
-    //   let str1 = str.substring(13, strindex1 - 1).toString();
-    //   this.src5 = this.fileBaseUrl + str1;
-    // },
-    // handleView4(file) {
-    //   this.viewModal4 = true;
-    //   let arr = this.certList;
-    //   let str = arr[3].filePath;
-    //   let strindex1 = arr[3].filePath.indexOf(",");
-    //   let str1 = str.substring(13, strindex1 - 1).toString();
-    //   this.src4 = this.fileBaseUrl + str1;
-    // },
-    // handleView3(file) {
-    //   this.viewModal3 = true;
-    //   let arr = this.certList;
-    //   let str = arr[2].filePath;
-    //   let strindex1 = arr[2].filePath.indexOf(",");
-    //   let str1 = str.substring(13, strindex1 - 1).toString();
-    //   this.src3 = this.fileBaseUrl + str1;
-    // },
-    // handleView2(file) {
-    //   this.viewModal2 = true;
-    //   let arr = this.certList;
-    //   let str = arr[1].filePath;
-    //   let strindex1 = arr[1].filePath.indexOf(",");
-    //   let str1 = str.substring(13, strindex1 - 1).toString();
-    //   this.src2 = this.fileBaseUrl + str1;
-    // },
-    //控制编辑查看图片结束-----------------------------------------------------------------------------
 
     // 提交表单
     handleSubmit(name) {

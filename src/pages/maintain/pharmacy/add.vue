@@ -12,7 +12,7 @@
                 <span>药店名称:</span>
               </div>
               <FormItem prop="orgName">
-                <Input v-model.trim="formValidate.orgName" clearable style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.orgName" clearable style="width: 470px"></Input>
               </FormItem>
             </div>
             <div class="region">
@@ -94,7 +94,7 @@
                 v-model.trim="formValidate.hosAddr"
                 placeholder="请输入详细地址"
                 clearable
-                style="width: 300px"
+                style="width: 471px"
               ></Input>
             </FormItem>
             <!-- 药店编码 -->
@@ -104,7 +104,7 @@
                 <span>药店编码:</span>
               </div>
               <FormItem prop="orgCode">
-                <Input v-model.trim="formValidate.orgCode" style="width: 200px" />
+                <Input v-model.trim="formValidate.orgCode" style="width: 470px" />
               </FormItem>
             </div>
             <!-- 医保定点 -->
@@ -130,7 +130,7 @@
                 <span>所属药企:</span>
               </div>
               <FormItem prop="drugEnterprise">
-                <Input v-model.trim="formValidate.drugEnterprise" clearable style="width: 200px" />
+                <Input v-model.trim="formValidate.drugEnterprise" clearable style="width: 480px" />
               </FormItem>
             </div>
             <!-- 联系人和电话 -->
@@ -167,7 +167,7 @@
                 <span>营业时间说明:</span>
               </div>
               <FormItem prop="businessHours">
-                <Input v-model.trim="formValidate.businessHours" businessHours style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.businessHours" businessHours style="width: 451px"></Input>
               </FormItem>
             </div>
             <!-- 药店简介 -->
@@ -180,7 +180,7 @@
                   v-model.trim="formValidate.hosIntroduction"
                   type="textarea"
                   :rows="2"
-                  style="width: 300px"
+                  style="width: 480px"
                 />
               </FormItem>
             </div>
@@ -194,7 +194,7 @@
                   v-model.trim="formValidate.businessScope"
                   type="textarea"
                   :rows="2"
-                  style="width: 300px"
+                  style="width: 480px"
                 />
               </FormItem>
             </div>
@@ -204,7 +204,7 @@
             <span style="color:blue;font-size:20px">资质信息</span>
             <span style="color:red;">(注意:图片只能上传jpg格式，且文件大小不超过200KB)</span>
             <!-- 营业执照编号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span style="color:red;">*</span>
                 <span>营业执照编号:</span>
@@ -244,14 +244,14 @@
               >删除</Button>
             </div>
             <!-- 药品经营许可证号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span style="color:red;">*</span>
 
                 <span>药品经营许可证号:</span>
               </div>
               <FormItem prop="businessLicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[1].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[1].code" style="width: 171px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -285,14 +285,14 @@
               >删除</Button>
             </div>
             <!-- 药品经营质量管理规范认证证书编号-->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span style="color:red;">*</span>
 
                 <span>药品经营质量管理规范认证证书编号:</span>
               </div>
               <FormItem prop="qualitySpecification" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[2].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[2].code" style="width: 96px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -326,14 +326,14 @@
               >删除</Button>
             </div>
             <!-- 执业药师证编号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span style="color:red;">*</span>
 
                 <span>执业药师证编号:</span>
               </div>
               <FormItem prop="pharmacistlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[3].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[3].code" style="width: 191px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -367,12 +367,12 @@
               >删除</Button>
             </div>
             <!-- 医疗器械经营许可证号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span>医疗器械经营许可证号:</span>
               </div>
               <FormItem prop="businesslicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[4].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[4].code" style="width: 162px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -406,12 +406,12 @@
               >删除</Button>
             </div>
             <!-- 卫生许可证编号 -->
-            <div class="address">
+            <div class="address" style="justify-content: space-between;">
               <div class="left">
                 <span>卫生许可证编号:</span>
               </div>
               <FormItem prop="hygienelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[5].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[5].code" style="width: 210px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
@@ -450,8 +450,10 @@
                 <span>其他资质证书说明:</span>
               </div>
               <FormItem prop="otherlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[6].code" style="width: 200px"></Input>
+                <Input v-model.trim="formValidate.certListMap[6].code" style="width: 680px"></Input>
               </FormItem>
+            </div>
+            <div style="display:flex;">
               <Upload
                 ref="upload"
                 :headers="fromData"
@@ -469,7 +471,7 @@
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <Input v-model="filePath7" style="width: 100px"></Input>
+              <Input v-model="filePath7" style="width: 508px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:35px;"
@@ -1195,6 +1197,7 @@ export default {
       width: 100%;
       .button-bottom {
         text-align: center;
+        margin-top: 20px;
         button {
           width: 200px;
           height: 50px;
