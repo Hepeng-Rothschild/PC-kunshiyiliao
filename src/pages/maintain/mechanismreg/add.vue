@@ -7,7 +7,7 @@
     <div class="container">
       <div class="container-main">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" style="display:flex;">
-          <div style="margin-right:100px;">
+          <div style="width:40%">
             <span style="color:blue;font-size:20px">基本信息</span>
             <!-- 机构名称 -->
             <div class="address">
@@ -20,7 +20,7 @@
                   v-model.trim="formValidate.orgName"
                   placeholder="请输入机构名称"
                   clearable
-                  style="width: 500px"
+                  style="width: 300px"
                 ></Input>
               </FormItem>
             </div>
@@ -117,7 +117,7 @@
                   v-model.trim="formValidate.orgCode"
                   placeholder
                   clearable
-                  style="width: 300px"
+                  style="width: 200px"
                 ></Input>
               </FormItem>
             </div>
@@ -131,8 +131,8 @@
                 <Select v-model="formValidate.hospitalNature" style="width:200px;margin-right:10px">
                   <Option
                     v-for="item in typeList"
-                    :value="item.dictValue"
-                    :key="item.id"
+                    :value="item.dictType"
+                    :key="item.dictType"
                   >{{ item.dictName }}</Option>
                 </Select>
               </FormItem>
@@ -158,7 +158,7 @@
                     v-for="item in SuperiorList"
                     :value="item.dictType"
                     :key="item.dictType"
-                  >{{ item.dictName }}</Option>
+                  >{{ item.dictName}}</Option>
                 </Select>
               </FormItem>
               <div class="left">
@@ -185,7 +185,7 @@
                   v-model.trim="formValidate.linkman"
                   placeholder
                   clearable
-                  style="width: 300px;margin-right:10px"
+                  style="width: 200px;margin-right:10px"
                 />
               </FormItem>
               <div class="left">
@@ -197,7 +197,7 @@
                   v-model.trim="formValidate.linkmanTelephone"
                   placeholder
                   clearable
-                  style="width: 300px"
+                  style="width: 200px"
                   :maxlength="11"
                 />
               </FormItem>
@@ -212,7 +212,7 @@
                   v-model.trim="formValidate.hosIntroduction"
                   type="textarea"
                   :rows="4"
-                  style="width: 500px"
+                  style="width: 300px"
                 />
               </FormItem>
             </div>
@@ -228,13 +228,13 @@
                 <span>医疗机构执业许可证登记号:</span>
               </div>
               <FormItem prop="licence" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[0].code" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.certListMap[0].code" style="width: 200px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
                 :headers="fromData"
                 :action="uploadUrl"
-                :default-file-list="defaultList1"
+                :default-file-list="uploadList1"
                 :format="['jpg']"
                 :on-format-error="uploadFormatError"
                 max-size="200"
@@ -243,16 +243,23 @@
                 :data="uploadData"
                 :on-success="handleSuccess1"
                 :on-remove="onremove1"
+                :show-upload-list="noshow"
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
-              <!-- <Input style="width: 100px"></Input> -->
+              <Input v-model="filePath1" style="width: 100px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
                 @click="handleView1"
                 class="button-upload"
               >查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="onremove1"
+                class="button-upload"
+              >删除</Button>
             </div>
             <!-- 收费许可证号 -->
             <div class="address">
@@ -260,13 +267,13 @@
                 <span>收费许可证号:</span>
               </div>
               <FormItem prop="feelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[1].code" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.certListMap[1].code" style="width: 200px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
                 :headers="fromData"
                 :action="uploadUrl"
-                :default-file-list="defaultList2"
+                :default-file-list="uploadList2"
                 :format="['jpg']"
                 :on-format-error="uploadFormatError"
                 max-size="200"
@@ -275,15 +282,23 @@
                 :data="uploadData"
                 :on-success="handleSuccess2"
                 :on-remove="onremove2"
+                :show-upload-list="noshow"
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
+              <Input v-model="filePath2" style="width: 100px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
                 @click="handleView2"
                 class="button-upload"
               >查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="onremove2"
+                class="button-upload"
+              >删除</Button>
             </div>
             <!-- 放射诊疗许可证号-->
             <div class="address">
@@ -291,13 +306,13 @@
                 <span>放射诊疗许可证号:</span>
               </div>
               <FormItem prop="radiationpermit" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[2].code" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.certListMap[2].code" style="width: 200px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
                 :headers="fromData"
                 :action="uploadUrl"
-                :default-file-list="defaultList3"
+                :default-file-list="uploadList3"
                 :format="['jpg']"
                 :on-format-error="uploadFormatError"
                 max-size="200"
@@ -306,15 +321,23 @@
                 :data="uploadData"
                 :on-success="handleSuccess3"
                 :on-remove="onremove3"
+                :show-upload-list="noshow"
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
+              <Input v-model="filePath3" style="width: 100px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
                 @click="handleView3"
                 class="button-upload"
               >查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="onremove3"
+                class="button-upload"
+              >删除</Button>
             </div>
             <!-- 母婴保健技术服务执业许可证号 -->
             <div class="address">
@@ -322,13 +345,13 @@
                 <span>母婴保健技术服务执业许可证号:</span>
               </div>
               <FormItem prop="healthlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[3].code" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.certListMap[3].code" style="width: 200px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
                 :headers="fromData"
                 :action="uploadUrl"
-                :default-file-list="defaultList4"
+                :default-file-list="uploadList4"
                 :format="['jpg']"
                 :on-format-error="uploadFormatError"
                 max-size="200"
@@ -337,15 +360,23 @@
                 :data="uploadData"
                 :on-success="handleSuccess4"
                 :on-remove="onremove4"
+                :show-upload-list="noshow"
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
+              <Input v-model="filePath4" style="width: 100px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
                 @click="handleView4"
                 class="button-upload"
               >查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="onremove4"
+                class="button-upload"
+              >删除</Button>
             </div>
             <!-- 大型医疗设备许可证号 -->
             <div class="address">
@@ -353,13 +384,13 @@
                 <span>大型医疗设备许可证号:</span>
               </div>
               <FormItem prop="equipmentlicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[4].code" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.certListMap[4].code" style="width: 200px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
                 :headers="fromData"
                 :action="uploadUrl"
-                :default-file-list="defaultList5"
+                :default-file-list="uploadList5"
                 :format="['jpg']"
                 :on-format-error="uploadFormatError"
                 max-size="200"
@@ -368,15 +399,23 @@
                 :data="uploadData"
                 :on-success="handleSuccess5"
                 :on-remove="onremove5"
+                :show-upload-list="noshow"
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
+              <Input v-model="filePath5" style="width: 100px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
                 @click="handleView5"
                 class="button-upload"
               >查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="onremove5"
+                class="button-upload"
+              >删除</Button>
             </div>
             <!-- 卫生许可证编号 -->
             <div class="address">
@@ -384,13 +423,13 @@
                 <span>卫生许可证编号:</span>
               </div>
               <FormItem prop="hygienelicense" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[5].code" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.certListMap[5].code" style="width: 200px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
                 :headers="fromData"
                 :action="uploadUrl"
-                :default-file-list="defaultList6"
+                :default-file-list="uploadList6"
                 :format="['jpg']"
                 :on-format-error="uploadFormatError"
                 max-size="200"
@@ -399,15 +438,23 @@
                 :data="uploadData"
                 :on-success="handleSuccess6"
                 :on-remove="onremove6"
+                :show-upload-list="noshow"
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
+              <Input v-model="filePath6" style="width: 100px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
                 @click="handleView6"
                 class="button-upload"
               >查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="onremove6"
+                class="button-upload"
+              >删除</Button>
             </div>
             <!-- 其他资质证书说明 -->
             <div class="address">
@@ -415,13 +462,13 @@
                 <span>其他资质证书说明:</span>
               </div>
               <FormItem prop="otherlicence" style="display:flex;">
-                <Input v-model.trim="formValidate.certListMap[6].code" style="width: 300px"></Input>
+                <Input v-model.trim="formValidate.certListMap[6].code" style="width: 200px"></Input>
               </FormItem>
               <Upload
                 ref="upload"
                 :headers="fromData"
                 :action="uploadUrl"
-                :default-file-list="defaultList7"
+                :default-file-list="uploadList7"
                 :format="['jpg']"
                 :on-format-error="uploadFormatError"
                 max-size="200"
@@ -430,15 +477,23 @@
                 :data="uploadData"
                 :on-success="handleSuccess7"
                 :on-remove="onremove7"
+                :show-upload-list="noshow"
               >
                 <Button type="primary" class="button-upload">选择文件上传</Button>
               </Upload>
+              <Input v-model="filePath7" style="width: 100px"></Input>
               <Button
                 type="primary"
                 style="width:72px;height:32px;"
                 @click="handleView7"
                 class="button-upload"
               >查看</Button>
+              <Button
+                type="primary"
+                style="width:72px;height:32px;"
+                @click="onremove7"
+                class="button-upload"
+              >删除</Button>
             </div>
           </div>
         </Form>
@@ -498,6 +553,7 @@ export default {
   },
   data() {
     return {
+      noshow: false,
       uploadData: {
         json: '{"urlCode":"' + code.urlCode.userImage + '"}'
       },
@@ -510,8 +566,6 @@ export default {
       uploadList6: [],
       uploadList7: [],
 
-      // 默认已上传的文件列表
-      defaultList: [],
       // 预览图片的src
       src1: "",
       src2: "",
@@ -520,7 +574,14 @@ export default {
       src5: "",
       src6: "",
       src7: "",
-
+      // 图片名字
+      filePath1: "",
+      filePath2: "",
+      filePath3: "",
+      filePath4: "",
+      filePath5: "",
+      filePath6: "",
+      filePath7: "",
       // 预览图片Modal
       viewModal1: false,
       viewModal2: false,
@@ -570,7 +631,7 @@ export default {
         property: "1",
         orgParentCode: "0",
         grade: "03f12e03-0c2a-4339-84e7-31a50229d018",
-        hospitalNature: "综合医院",
+        hospitalNature: "YLJGLB01",
         //联系人
         linkman: "",
         //联系人电话
@@ -808,6 +869,8 @@ export default {
 
     onremove1(file, fileList) {
       this.uploadList1 = [];
+      this.filePath1 = "";
+      this.src1 = "";
     },
     // 文件上传成功触发的函数
     handleSuccess1(res, file) {
@@ -817,24 +880,26 @@ export default {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;
-        // this.formValidate.certListMap[0].filePath = res.object[0]
-        this.formValidate.certListMap[0].filePath = `{"fileName":"${res.object[0].fileName}","smallFileName":"${res.object[0].smallFileName}"}`;
+        this.formValidate.certListMap[0].filePath = res.object[0];
         let obj = {};
         obj.name = file.name;
         obj.url = file.url;
         this.uploadList1.push(obj);
+
+        let strindex = file.name.indexOf("j");
+        let strindex1 = file.name.indexOf("g");
+        this.filePath1 = file.name.substring(strindex1 + 2, strindex + 3);
       } else {
         this.$Message.info("上传失败,请重试");
       }
     },
     preview1(file) {
-      this.src1 = window.URL.createObjectURL(file);
-
       const check = this.uploadList1.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
+      } else {
+        this.src1 = window.URL.createObjectURL(file);
       }
-      return check;
     },
     // 查看预览图片
     handleView1(file) {
@@ -843,6 +908,8 @@ export default {
     //       第二个----------------------------------
     onremove2(file, fileList) {
       this.uploadList2 = [];
+      this.filePath2 = "";
+      this.src2 = "";
     },
     // 文件上传成功触发的函数
     handleSuccess2(res, file) {
@@ -853,23 +920,26 @@ export default {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;
-        this.formValidate.certListMap[1].filePath = `{"fileName":"${res.object[0].fileName}","smallFileName":"${res.object[0].smallFileName}"}`;
-
+        this.formValidate.certListMap[1].filePath = res.object[0];
         let obj = {};
         obj.name = file.name;
         obj.url = file.url;
         this.uploadList2.push(obj);
+
+        let strindex = file.name.indexOf("j");
+        let strindex1 = file.name.indexOf("g");
+        this.filePath2 = file.name.substring(strindex1 + 2, strindex + 3);
       } else {
         this.$Message.info("上传失败,请重试");
       }
     },
     preview2(file) {
-      this.src2 = window.URL.createObjectURL(file);
       const check = this.uploadList2.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
+      } else {
+        this.src2 = window.URL.createObjectURL(file);
       }
-      return check;
     },
     handleView2(file) {
       this.viewModal2 = true;
@@ -877,6 +947,8 @@ export default {
     // 第三个-----------
     onremove3(file, fileList) {
       this.uploadList3 = [];
+      this.filePath3 = "";
+      this.src3 = "";
     },
     // 文件上传成功触发的函数
     handleSuccess3(res, file) {
@@ -886,23 +958,26 @@ export default {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;
-        this.formValidate.certListMap[2].filePath = `{"fileName":"${res.object[0].fileName}","smallFileName":"${res.object[0].smallFileName}"}`;
-
+        this.formValidate.certListMap[2].filePath = res.object[0];
         let obj = {};
         obj.name = file.name;
         obj.url = file.url;
         this.uploadList3.push(obj);
+
+        let strindex = file.name.indexOf("j");
+        let strindex1 = file.name.indexOf("g");
+        this.filePath3 = file.name.substring(strindex1 + 2, strindex + 3);
       } else {
         this.$Message.info("上传失败,请重试");
       }
     },
     preview3(file) {
-      this.src3 = window.URL.createObjectURL(file);
       const check = this.uploadList3.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
+      } else {
+        this.src3 = window.URL.createObjectURL(file);
       }
-      return check;
     },
     handleView3(file) {
       this.viewModal3 = true;
@@ -910,6 +985,8 @@ export default {
     // 第四个------------
     onremove4(file, fileList) {
       this.uploadList4 = [];
+      this.filePath4 = "";
+      this.src4 = "";
     },
     // 文件上传成功触发的函数
     handleSuccess4(res, file) {
@@ -919,23 +996,26 @@ export default {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;
-        this.formValidate.certListMap[3].filePath = `{"fileName":"${res.object[0].fileName}","smallFileName":"${res.object[0].smallFileName}"}`;
-
+        this.formValidate.certListMap[3].filePath = res.object[0];
         let obj = {};
         obj.name = file.name;
         obj.url = file.url;
         this.uploadList4.push(obj);
+
+        let strindex = file.name.indexOf("j");
+        let strindex1 = file.name.indexOf("g");
+        this.filePath4 = file.name.substring(strindex1 + 2, strindex + 3);
       } else {
         this.$Message.info("上传失败,请重试");
       }
     },
     preview4(file) {
-      this.src4 = window.URL.createObjectURL(file);
       const check = this.uploadList4.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
+      } else {
+        this.src4 = window.URL.createObjectURL(file);
       }
-      return check;
     },
     handleView4(file) {
       this.viewModal4 = true;
@@ -943,6 +1023,8 @@ export default {
     // 第五个----------
     onremove5(file, fileList) {
       this.uploadList5 = [];
+      this.filePath5 = "";
+      this.src5 = "";
     },
     // 文件上传成功触发的函数
     handleSuccess5(res, file) {
@@ -952,23 +1034,26 @@ export default {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;
-        this.formValidate.certListMap[4].filePath = `{"fileName":"${res.object[0].fileName}","smallFileName":"${res.object[0].smallFileName}"}`;
-
+        this.formValidate.certListMap[4].filePath = res.object[0];
         let obj = {};
         obj.name = file.name;
         obj.url = file.url;
         this.uploadList5.push(obj);
+
+        let strindex = file.name.indexOf("j");
+        let strindex1 = file.name.indexOf("g");
+        this.filePath5 = file.name.substring(strindex1 + 2, strindex + 3);
       } else {
         this.$Message.info("上传失败,请重试");
       }
     },
     preview5(file) {
-      this.src5 = window.URL.createObjectURL(file);
       const check = this.uploadList5.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
+      } else {
+        this.src5 = window.URL.createObjectURL(file);
       }
-      return check;
     },
     handleView5(file) {
       this.viewModal5 = true;
@@ -976,6 +1061,8 @@ export default {
     // 第六个------
     onremove6(file, fileList) {
       this.uploadList6 = [];
+      this.filePath6 = "";
+      this.src6 = "";
     },
     // 文件上传成功触发的函数
     handleSuccess6(res, file) {
@@ -985,23 +1072,26 @@ export default {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;
-        this.formValidate.certListMap[5].filePath = `{"fileName":"${res.object[0].fileName}","smallFileName":"${res.object[0].smallFileName}"}`;
-
+        this.formValidate.certListMap[5].filePath = res.object[0];
         let obj = {};
         obj.name = file.name;
         obj.url = file.url;
         this.uploadList6.push(obj);
+
+        let strindex = file.name.indexOf("j");
+        let strindex1 = file.name.indexOf("g");
+        this.filePath6 = file.name.substring(strindex1 + 2, strindex + 3);
       } else {
         this.$Message.info("上传失败,请重试");
       }
     },
     preview6(file) {
-      this.src6 = window.URL.createObjectURL(file);
       const check = this.uploadList6.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
+      } else {
+        this.src6 = window.URL.createObjectURL(file);
       }
-      return check;
     },
     handleView6(file) {
       this.viewModal6 = true;
@@ -1009,6 +1099,8 @@ export default {
     // 第七个 -----------
     onremove7(file, fileList) {
       this.uploadList7 = [];
+      this.filePath7 = "";
+      this.src7 = "";
     },
     // 文件上传成功触发的函数
     handleSuccess7(res, file) {
@@ -1018,23 +1110,26 @@ export default {
         file.url = this.fileBaseUrl + res.object[0].fileName;
         this.images = JSON.stringify(res.object[0]);
         file.name = res.object[0].fileName;
-        this.formValidate.certListMap[6].filePath = `{"fileName":"${res.object[0].fileName}","smallFileName":"${res.object[0].smallFileName}"}`;
-
+        this.formValidate.certListMap[6].filePath = res.object[0];
         let obj = {};
         obj.name = file.name;
         obj.url = file.url;
         this.uploadList7.push(obj);
+
+        let strindex = file.name.indexOf("j");
+        let strindex1 = file.name.indexOf("g");
+        this.filePath7 = file.name.substring(strindex1 + 2, strindex + 3);
       } else {
         this.$Message.info("上传失败,请重试");
       }
     },
     preview7(file) {
-      this.src7 = window.URL.createObjectURL(file);
       const check = this.uploadList7.length < 1;
       if (!check) {
         this.$Message.info("只能上传一张图片");
+      } else {
+        this.src7 = window.URL.createObjectURL(file);
       }
-      return check;
     },
     handleView7(file) {
       this.viewModal7 = true;
@@ -1183,7 +1278,7 @@ export default {
     flex-direction: column;
     .container-main {
       flex-direction: column;
-      width: 80%;
+      width: 100%;
       .button-bottom {
         margin-top: 100px;
         text-align: center;
@@ -1237,6 +1332,7 @@ export default {
 }
 .button-upload {
   margin-left: 10px;
+  margin-right: 10px;
 }
 .ivu-upload {
   display: flex;

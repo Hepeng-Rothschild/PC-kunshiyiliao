@@ -307,8 +307,7 @@
           </div>
         </Form>
         <div class="button-bottom">
-          <Button type="primary" @click="handleSubmit('formValidate')">修改药店</Button>
-          <Button @click="$router.go(-1)" style="margin-left:30px">取消</Button>
+          <Button @click="$router.go(-1)" style="margin-left:30px">返回上一步</Button>
         </div>
       </div>
     </div>
@@ -550,7 +549,7 @@ export default {
     //获取省级信息
     this.getCity();
     // a获取医院等级
-    // this.getGrent();
+    this.getGrent();
   },
   methods: {
     changeProvince(val) {
@@ -563,14 +562,14 @@ export default {
       this.area = val;
     },
     //获取医院等级
-    // getGrent() {
-    //   this.$axios.post(api.managementAll).then(res => {
-    //     if (res.data) {
-    //       let ret = res.data.object;
-    //       this.gradeList = ret;
-    //     }
-    //   });
-    // },
+    getGrent() {
+      this.$axios.post(api.managementAll).then(res => {
+        if (res.data) {
+          let ret = res.data.object;
+          this.gradeList = ret;
+        }
+      });
+    },
     // 获取省级
     getCity() {
       this.$axios.post(api.getCity).then(res => {
@@ -630,46 +629,6 @@ export default {
           });
       }
     },
-    // 提交表单
-    handleSubmit(name) {
-      console.log(this.formValidate);
-      if (this.idtt == 5 || this.idtt == 4 || this.idtt == 3) {
-        this.formValidate.provinceCode = this.$route.query.province;
-        this.formValidate.cityCode = this.$route.query.city;
-        this.formValidate.districtCode = this.$route.query.area;
-      }
-      this.$refs[name].validate(valid => {
-        if (valid) {
-          // 必填项填写完成
-          this.$axios.post(api, this.formValidate).then(res => {
-            if (res.data.code) {
-              this.$Message.info("添加成功");
-              let pageNo = this.$route.query.pageNo;
-              setTimeout(() => {
-                // functionJS公用 方法
-                this.functionJS.queryNavgationTo(
-                  this,
-                  "/index/maintain/pharmacy/list",
-                  {
-                    pageNo,
-                    province: this.province,
-                    city: this.city,
-                    area: null,
-                    hospital: this.hospital,
-                    isBack: 2
-                  }
-                );
-              }, 500);
-            } else {
-              this.$Message.info(res.data.message);
-            }
-          });
-        } else {
-          // 必填项填写失败
-          this.$Message.error("请检查必填项是否填写正确!");
-        }
-      });
-    }
   }
 };
 </script>

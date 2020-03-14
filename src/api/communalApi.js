@@ -423,7 +423,7 @@ const mechanismregEnable = '/operateapi/hospital/updateEnableById' //机构注�
 const mechanismregAdd = '/operateapi/hospital/insertKbaoHospitalEntity' // 新增机构
 const mechanismregClose = '/operateapi/organization/updateHospitalCloseIpres'  // 根据机构id 关闭处方流转(处方)
 const mechanismregOpen = '/operateapi//organization/updateHospitalOpenIpres'   // 根据机构id 开启处方流转(处方)
-const mechanismregSearch = '/operateapi/hospital/findHospitalOperateDtoById'  //根据医院ID查询医院详情
+const mechanismregSearch = '/operateapi/hospital/findHospitalOperateDtoById'  //根据医院/药店ID查询医院详情
 const mechanismregEdit = '/operateapi/hospital/updateKbaoHospitalEntity' //修改医院详情
 const mechanismregUpLoad = '/operateapi/organization/insertBatchKbaoHospital' //批量上传机构信息  不加密
 /* ********************************************* */
@@ -642,6 +642,7 @@ const findKbaoHospitalDrugDtoPage = '/operateapi/operate/drugContrast/findKbaoHo
 const pharmacyInfo = '/operateapi/organization/findKbaoPharmacyRegisterDtoPage'     // 索引-药店信息管理列表
 const updatePharmacyInfo = '/operateapi/hospital/updateKbaoHospitalEntity'   // 药店信息修改
 const insertPharmacyInfo = '/operateapi/hospital/insertKbaoHospitalPharmacyEntity'  // 药店信息保存
+const deleteController = '/operateapi/organization/delByHospitalIds'   //   机构的删除与批量删除
 
 
 
@@ -657,6 +658,7 @@ let communalApi = {
     //机构管理
     classification,
     mechanismregClose,
+    deleteController,
     mechanismregOpen,
     updatePharmacyInfo,
     insertPharmacyInfo,

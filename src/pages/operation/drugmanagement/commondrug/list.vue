@@ -675,7 +675,6 @@ export default {
         },
         delDrug() {
             let reqData = this.curRecord;
-            console.log(reqData)
             this.delLoading = true;
             this.$axios.post(api.delDrug, reqData).then((res) => {
                 this.delLoading = false;

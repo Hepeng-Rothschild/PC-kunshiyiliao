@@ -97,7 +97,7 @@
               <Button
                 type="primary"
                 style="width:72px;height:32px;margin-left:100px;"
-                @click="handleView"
+                @click="handleView1"
                 class="button-upload"
               >查看</Button>
             </div>
@@ -113,7 +113,7 @@
               <Button
                 type="primary"
                 style="width:72px;height:32px;margin-left:100px;"
-                @click="handleView"
+                @click="handleView2"
                 class="button-upload"
               >查看</Button>
             </div>
@@ -129,7 +129,7 @@
               <Button
                 type="primary"
                 style="width:72px;height:32px;margin-left:100px;"
-                @click="handleView"
+                @click="handleView3"
                 class="button-upload"
               >查看</Button>
             </div>
@@ -145,7 +145,7 @@
               <Button
                 type="primary"
                 style="width:72px;height:32px;margin-left:100px;"
-                @click="handleView"
+                @click="handleView4"
                 class="button-upload"
               >查看</Button>
             </div>
@@ -161,7 +161,7 @@
               <Button
                 type="primary"
                 style="width:72px;height:32px;margin-left:100px;"
-                @click="handleView"
+                @click="handleView5"
                 class="button-upload"
               >查看</Button>
             </div>
@@ -177,7 +177,7 @@
               <Button
                 type="primary"
                 style="width:72px;height:32px;margin-left:100px;"
-                @click="handleView"
+                @click="handleView6"
                 class="button-upload"
               >查看</Button>
             </div>
@@ -193,7 +193,7 @@
               <Button
                 type="primary"
                 style="width:72px;height:32px;margin-left:100px;"
-                @click="handleView"
+                @click="handleView7"
                 class="button-upload"
               >查看</Button>
             </div>
@@ -204,9 +204,39 @@
         </div>
       </div>
     </div>
-    <Modal title="查看上传照片" width="30" v-model="viewModal" footer-hide>
+    <Modal title="预览图片" width="30" v-model="viewModal1" footer-hide>
       <div>
-        <img :src="src" style="width: 100%" />
+        <img :src="src1" style="width: 100%" />
+      </div>
+    </Modal>
+    <Modal title="预览图片" width="30" v-model="viewModal2" footer-hide>
+      <div>
+        <img :src="src2" style="width: 100%" />
+      </div>
+    </Modal>
+    <Modal title="预览图片" width="30" v-model="viewModal3" footer-hide>
+      <div>
+        <img :src="src3" style="width: 100%" />
+      </div>
+    </Modal>
+    <Modal title="预览图片" width="30" v-model="viewModal4" footer-hide>
+      <div>
+        <img :src="src4" style="width: 100%" />
+      </div>
+    </Modal>
+    <Modal title="预览图片" width="30" v-model="viewModal5" footer-hide>
+      <div>
+        <img :src="src5" style="width: 100%" />
+      </div>
+    </Modal>
+    <Modal title="预览图片" width="30" v-model="viewModal6" footer-hide>
+      <div>
+        <img :src="src6" style="width: 100%" />
+      </div>
+    </Modal>
+    <Modal title="预览图片" width="30" v-model="viewModal7" footer-hide>
+      <div>
+        <img :src="src7" style="width: 100%" />
       </div>
     </Modal>
   </div>
@@ -223,8 +253,7 @@ export default {
   },
   data() {
     return {
-        hospitalSuperior_1: "",
-hosIntroduction:"",
+      hosIntroduction: "",
       certList: [],
       // 资质信息代号
       arrcode1: "",
@@ -234,7 +263,7 @@ hosIntroduction:"",
       arrcode5: "",
       arrcode6: "",
       arrcode7: "",
-      // 图片地址
+      // 图片地址名字
       filePath1: "",
       filePath2: "",
       filePath3: "",
@@ -243,56 +272,23 @@ hosIntroduction:"",
       filePath6: "",
       filePath7: "",
       // 预览图片的src
-      src: "",
+      src1: "",
+      src2: "",
+      src3: "",
+      src4: "",
+      src5: "",
+      src6: "",
+      src7: "",
       // 预览图片Modal
-      viewModal: false,
+      viewModal1: false,
+      viewModal2: false,
+      viewModal3: false,
+      viewModal4: false,
+      viewModal5: false,
+      viewModal6: false,
+      viewModal7: false,
       uploadUrl: api.fileAll,
-      // 机构级别
-      SuperiorList: [
-        {
-          value: "1",
-          label: "三级甲等"
-        },
-        {
-          value: "2",
-          label: "三级乙等"
-        }
-      ],
-      hospitalSuperior: [
-        {
-          value: "1",
-          label: "无"
-        },
-        {
-          value: "2",
-          label: "1"
-        }
-      ],
-      //  机构分类
-      hospitalSuperiorList: [
-        {
-          value: "1",
-          label: "公立"
-        },
-        {
-          value: "2",
-          label: "私立"
-        }
-      ],
-      typeList: [
-        {
-          value: "1",
-          label: "综合医院"
-        },
-        {
-          value: "2",
-          label: "专科医院"
-        },
-        {
-          value: "3",
-          label: "中医医院"
-        }
-      ],
+
       hosAddr: "",
       //机构名称
       orgName: "",
@@ -301,48 +297,14 @@ hosIntroduction:"",
       //联系人
       linkman: "",
       //联系人电话
-      linkmanTelephone: "",
-      formValidate: {
-        provinceCode: "",
-        // 市
-        cityCode: "",
-        //县
-        districtCode: "",
-        //详细地址
-
-        //机构分类
-        hospitalSuperiorList_1: "1",
-        hospitalSuperior_1: "1",
-        SuperiorList_1: "1",
-        hospitalType: "1",
-        // 其他许可证号
-        otherlicence: "",
-        // 卫生许可证
-        hygienelicense: "",
-        // 设备许可证
-        equipmentlicense: "",
-        //保健许可证
-        healthlicense: "",
-        // 收费许可证
-        feelicense: "",
-        // 放射许可证
-        radiationpermit: "",
-        //公私
-        property: null,
-        //机构电话
-        telephone: "",
-
-        //医疗结构简介
-        introduce: "",
-        //医疗机构执业许可证登记号
-        licence: ""
-      }
+      linkmanTelephone: ""
     };
   },
-  created() {
-  },
+  created() {},
   mounted() {
     let id = this.$route.query.id;
+    console.log(id);
+    
     if (id) {
       this.$axios
         .post(api.mechanismregSearch, {
@@ -351,32 +313,24 @@ hosIntroduction:"",
         .then(res => {
           if (res.data.code) {
             let ret = res.data.object;
-            //省
-            this.formValidate.provinceCode = ret.provinceCode.toString();
-            //市
-            this.formValidate.cityCode = ret.cityCode.toString();
+
             // //机构全称
             this.orgName = ret.orgName;
             // //机构代码
             this.orgCode = ret.orgCode;
-            // //机构类型
-            this.formValidate.hospitalType = ret.hospitalType.toString();
-            // //机构等级
-            this.formValidate.grade = ret.grade;
+
             // //联系人
             this.linkman = ret.linkman;
             // //联系人电话
             this.linkmanTelephone = ret.linkmanTelephone;
             // 地址
             this.hosAddr = ret.hosAddr;
-            // 医院ID
-            this.formValidate.id = ret.hospitalId;
             // 资质列表数组
             this.certList = ret.certList;
             this.certListArr();
-            this.hospitalSuperior_1 = ret.gradeName
-            this.hosIntroduction = ret.hosIntroduction
-          } 
+            this.hospitalSuperior_1 = ret.gradeName;
+            this.hosIntroduction = ret.hosIntroduction;
+          }
         });
     }
   },
@@ -402,49 +356,49 @@ hosIntroduction:"",
         }
       });
       arr.map(item => {
-        if (item.type == "1") {
+        if (item.type == "1" && item.filePath != "null") {
           let strindex = item.filePath.indexOf(",");
           let strindex1 = item.filePath.indexOf("g");
           return (this.filePath1 = item.filePath.substring(
             strindex1 + 2,
             strindex - 1
           ));
-        } else if (item.type == "2") {
+        } else if (item.type == "2" && item.filePath != "null") {
           let strindex = item.filePath.indexOf(",");
           let strindex1 = item.filePath.indexOf("g");
           return (this.filePath2 = item.filePath.substring(
             strindex1 + 2,
             strindex - 1
           ));
-        } else if (item.type == "3") {
+        } else if (item.type == "3" && item.filePath != "null") {
           let strindex = item.filePath.indexOf(",");
           let strindex1 = item.filePath.indexOf("g");
           return (this.filePath3 = item.filePath.substring(
             strindex1 + 2,
             strindex - 1
           ));
-        } else if (item.type == "4") {
+        } else if (item.type == "4" && item.filePath != "null") {
           let strindex = item.filePath.indexOf(",");
           let strindex1 = item.filePath.indexOf("g");
           return (this.filePath4 = item.filePath.substring(
             strindex1 + 2,
             strindex - 1
           ));
-        } else if (item.type == "5") {
+        } else if (item.type == "5" && item.filePath != "null") {
           let strindex = item.filePath.indexOf(",");
           let strindex1 = item.filePath.indexOf("g");
           return (this.filePath5 = item.filePath.substring(
             strindex1 + 2,
             strindex - 1
           ));
-        } else if (item.type == "6") {
+        } else if (item.type == "6" && item.filePath != "null") {
           let strindex = item.filePath.indexOf(",");
           let strindex1 = item.filePath.indexOf("g");
           return (this.filePath6 = item.filePath.substring(
             strindex1 + 2,
             strindex - 1
           ));
-        } else if (item.type == "7") {
+        } else if (item.type == "7" && item.filePath != "null") {
           let strindex = item.filePath.indexOf(",");
           let strindex1 = item.filePath.indexOf("g");
           return (this.filePath7 = item.filePath.substring(
@@ -456,28 +410,63 @@ hosIntroduction:"",
     },
 
     // 查看预览图片
-    handleView() {
-      this.viewModal = true;
+    handleView1() {
+      this.viewModal1 = true;
       // "{"fileName":"operate/user/img/20200307144207572555036.png","smallFileName":"operate/user/img/s_20200307144207572555036.png"}"
       let arr = this.certList;
-      arr.map(item => {
-        if (item.type == "1") {
-          return (this.src = "operate/user/img/" + this.filePath1);
-        } else if (item.type == "2") {
-          return (this.src = "operate/user/img/" + this.filePath2);
-        } else if (item.type == "3") {
-          return (this.src = "operate/user/img/" + this.filePath3);
-        } else if (item.type == "4") {
-          return (this.src = "operate/user/img/" + this.filePath4);
-        } else if (item.type == "5") {
-          return (this.src = "operate/user/img/" + this.filePath5);
-        } else if (item.type == "6") {
-          return (this.src = "operate/user/img/" + this.filePath6);
-        } else if (item.type == "7") {
-          return (this.src = "operate/user/img/" + this.filePath27);
-        }
-      });
+      let str = arr[0].filePath;
+      let strindex1 = arr[0].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src1 = this.fileBaseUrl + str1;
     },
+    handleView7(file) {
+      this.viewModal7 = true;
+      let arr = this.certList;
+      let str = arr[6].filePath;
+      let strindex1 = arr[6].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src7 = this.fileBaseUrl + str1;
+    },
+    handleView6(file) {
+      this.viewModal6 = true;
+      let arr = this.certList;
+      let str = arr[5].filePath;
+      let strindex1 = arr[5].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src6 = this.fileBaseUrl + str1;
+    },
+    handleView5(file) {
+      this.viewModal5 = true;
+      let arr = this.certList;
+      let str = arr[4].filePath;
+      let strindex1 = arr[4].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src5 = this.fileBaseUrl + str1;
+    },
+    handleView4(file) {
+      this.viewModal4 = true;
+      let arr = this.certList;
+      let str = arr[3].filePath;
+      let strindex1 = arr[3].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src4 = this.fileBaseUrl + str1;
+    },
+    handleView3(file) {
+      this.viewModal3 = true;
+      let arr = this.certList;
+      let str = arr[2].filePath;
+      let strindex1 = arr[2].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src3 = this.fileBaseUrl + str1;
+    },
+    handleView2(file) {
+      this.viewModal2 = true;
+      let arr = this.certList;
+      let str = arr[1].filePath;
+      let strindex1 = arr[1].filePath.indexOf(",");
+      let str1 = str.substring(13, strindex1 - 1).toString();
+      this.src2 = this.fileBaseUrl + str1;
+    }
   }
 };
 </script>

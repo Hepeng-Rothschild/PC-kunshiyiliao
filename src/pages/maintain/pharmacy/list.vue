@@ -63,7 +63,7 @@
       <p>删除后不可恢复，确认删除所选项吗？</p>
       <div slot="footer">
         <Button class="cancel-btn btn" @click="showDelModal = false">取消</Button>
-        <Button class="save-btn btn" type="primary" :loading="delLoading" @click="delDrug">确认</Button>
+        <Button class="save-btn btn" type="primary" :loading="delLoading" @click="handleDel">确认</Button>
       </div>
     </Modal>
   </div>
@@ -76,7 +76,7 @@ import fourLevelLinkage from "@/components/fourLevelLinkage";
 export default {
   data() {
     return {
-      selections: [],
+      curRecord: [],
       showDelModal: false,
       delLoading: false,
       pagetotal: null,
@@ -144,7 +144,7 @@ export default {
           title: "药店名称",
           key: "pharmacyName",
           align: "center",
-          // width: 300,
+          width: 300,
           render: (h, params) => {
             let name = params.row.hospitalName;
             return h(
@@ -166,7 +166,7 @@ export default {
           title: "药店地址",
           key: "pharmacyAddress",
           align: "center",
-          // width: 300,
+          width: 600,
           render: (h, params) => {
             let province = params.row.province;
             let city = params.row.city;
@@ -191,10 +191,18 @@ export default {
           title: "省医保定点",
           key: "internetHospital",
           align: "center",
-          // width: 100,
+          width: 100,
           render: (h, params) => {
             let row = params.row;
-            let name = row.internetHospital == "0" ? "企业" : "医院";
+            let name = row.provinceMedical;
+            if (name == "") {
+              return "";
+            } else if (name == "0") {
+              return "否";
+            } else if (name == "1") {
+              return "是";
+            }
+            // "0" ? "否" : "是";
             return h("span", {}, name);
           }
         },
@@ -204,8 +212,16 @@ export default {
           align: "center",
           width: 100,
           render: (h, params) => {
-            // let row = params.row;
-            // let name = row.internetHospital == "0" ? "企业" : "医院";
+            let row = params.row;
+            let name = row.cityMedical;
+            // == "0" ? "否" : "是";
+            if (name == "") {
+              return "";
+            } else if (name == "0") {
+              return "否";
+            } else if (name == "1") {
+              return "是";
+            }
             return h("span", {}, name);
           }
         },
@@ -213,7 +229,7 @@ export default {
           title: "联系人",
           key: "linkman",
           align: "center",
-          // width: 150,
+          width: 150,
           render: (h, params) => {
             let row = params.row;
             let name = "";
@@ -238,7 +254,7 @@ export default {
           title: "联系电话",
           key: "linkmanTelephone",
           align: "center",
-          // width: 150,
+          width: 150,
           render: (h, params) => {
             let row = params.row;
             let name = "";
@@ -280,7 +296,7 @@ export default {
         {
           title: "操作",
           align: "center",
-          // width: 300,
+          width: 300,
           fixed: "right",
           render: (h, params) => {
             let ipres = params.row.ipres;
@@ -346,7 +362,8 @@ export default {
                   "Button",
                   {
                     props: {
-                      size: "small"
+                      size: "small",
+                      type:"error"
                     },
                     style: {
                       marginRight: "5px"
@@ -527,7 +544,6 @@ export default {
           id
         })
         .then(res => {
-          console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
             this.getMechanismreg();
@@ -542,70 +558,25 @@ export default {
           id
         })
         .then(res => {
-          console.log(res);
           if (res.data.code) {
             this.$Message.info("修改成功");
             this.getMechanismreg();
           }
         });
     },
-    //  操作按钮删除
-    handleRemove(record) {
-      this.removeType = "single";
-      this.showDelModal = true;
-      this.curRecord = record.row;
-    },
-    selectChange(selections) {
-      this.selections = selections;
+
+    selectChange(curRecord) {
+      let arr = curRecord.map(id => id["id"]);
+      this.curRecord = arr;
     },
     // 批量删除
     handleBatchDelete() {
-      if (!this.selections.length) {
+      if (!this.curRecord.length) {
         this.$Message.error("请选择删除项");
       } else {
-        this.removeType = "batch";
         this.showDelModal = true;
       }
     },
-    // 删除弹框
-    delDrug() {
-      let reqData = [];
-      if (this.removeType === "single") {
-        reqData[0] = this.curRecord;
-      } else if (this.removeType === "batch") {
-        reqData = this.selections;
-      }
-      console.log(reqData);
-      this.delLoading = true;
-      this.$axios
-        .post(api.delDrug, reqData)
-        .then(res => {
-          this.$Message.success("删除成功");
-          this.getMechanismreg();
-          this.showDelModal = false;
-          this.delLoading = false;
-        })
-        .catch(res => {
-          console.log(res);
-          this.showDelModal = false;
-          this.delLoading = false;
-        });
-    },
-    //  下载药店导入模板
-    // download() {
-    //   this.$axios
-    //     .post(api.downloadTxt, {
-    //       type: 2
-    //     })
-    //     .then(res => {
-    //       if (res.data.code) {
-    //         // console.log(res.data.code);
-
-    //         let ret = res.data;
-    //         window.open(ret.message);
-    //       }
-    //     });
-    // },
     reset() {
       this.selectstate = "全部";
       this.Name = "";
@@ -695,11 +666,13 @@ export default {
       this.getMechanismreg(index);
     },
     // 药店详情
-    details() {
+    details(item) {
+      let id = item.id;
       this.functionJS.queryNavgationTo(
         this,
         "/index/maintain/pharmacy/details",
         {
+          id,
           pageNo: this.pageNo,
           province: this.province,
           city: this.city,
@@ -710,8 +683,10 @@ export default {
       );
     },
     // 新增机构
-    add() {
+    add(item) {
+      let id = item.id;
       this.functionJS.queryNavgationTo(this, "/index/maintain/pharmacy/add", {
+        id,
         pageNo: this.pageNo,
         province: this.province,
         city: this.city,
@@ -719,6 +694,32 @@ export default {
         pharmacy: this.pharmacy,
         isBack: 2
       });
+    },
+    // 删除机构
+    delete(item) {
+      let id = item.id;
+      this.curRecord.push(id);
+      this.showDelModal = true;
+    },
+    // 手动删除
+    handleDel() {
+      this.delLoading = true;
+      this.$axios
+        .post(api.deleteController, this.curRecord)
+        .then(res => {
+          this.delLoading = false;
+          if (!res.data.code) {
+            this.$Message.error("请求异常");
+            return false;
+          }
+          this.$Message.success("删除成功");
+          this.showDelModal = false;
+          this.getMechanismreg();
+          this.curRecord = [];
+        })
+        .catch(res => {
+          this.delLoading = false;
+        });
     },
     // 编辑机构
     edit(item) {
@@ -751,13 +752,10 @@ export default {
       params.provinceCode = this.province ? this.province : null;
       params.cityCode = this.city ? this.city : null;
       params.areaCode = this.area ? this.area : null;
-      console.log("药店信息params", params);
-      // console.log(api);
 
       this.$axios.post(api.pharmacyInfo, params).then(res => {
         if (res.data.code) {
           let ret = res.data.object;
-          console.log("列表数据", res.data.object);
           this.doctorregisterSize = ret.count;
           ret.list.forEach((item, index) => {
             item.sum = this.addZeros(index);

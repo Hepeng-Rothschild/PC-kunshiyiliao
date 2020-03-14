@@ -48,6 +48,14 @@
         ></Page>
       </div>
     </div>
+    <!-- 删除确认弹框 -->
+    <Modal v-model="showDelModal" title="确认删除弹窗" class="drugmanagement-commondrug-list-delModal">
+      <p>删除后不可恢复，确认删除所选项吗？</p>
+      <div slot="footer">
+        <Button class="cancel-btn btn" @click="showDelModal = false">取消</Button>
+        <Button class="save-btn btn" type="primary" :loading="delLoading" @click="handleDel">确认</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -58,6 +66,9 @@ import fourLevelLinkage from "@/components/fourLevelLinkage";
 export default {
   data() {
     return {
+      showDelModal: false,
+      delLoading: false,
+      curRecord: [],
       pageList: [
         {
           value: 5,
@@ -143,7 +154,7 @@ export default {
           title: "机构地址",
           key: "hospitalAddress",
           align: "center",
-          width: 400,
+          width: 600,
           render: (h, params) => {
             let province = params.row.province;
             let city = params.row.city;
@@ -215,7 +226,7 @@ export default {
           title: "联系电话",
           key: "linkmanTelephone",
           align: "center",
-          width: 150,
+          width: 300,
           render: (h, params) => {
             let row = params.row;
             let name = "";
@@ -240,7 +251,7 @@ export default {
           title: "处方流转服务",
           key: "enable",
           align: "center",
-          width: 100,
+          // width: 100,
           render: (h, params) => {
             let ipres = params.row.ipres;
             let name;
@@ -323,7 +334,8 @@ export default {
                   "Button",
                   {
                     props: {
-                      size: "small"
+                      size: "small",
+                      type:"error"
                     },
                     style: {
                       marginRight: "5px"
@@ -621,7 +633,30 @@ export default {
     //     });
     // },
     // 删除此条数据
-    delete(item) {},
+    delete(item) {
+      let id = item.id;
+      this.curRecord.push(id);
+      this.showDelModal = true;
+    },
+    handleDel() {
+      this.delLoading = true;
+      this.$axios
+        .post(api.deleteController, this.curRecord)
+        .then(res => {
+          this.delLoading = false;
+          if (!res.data.code) {
+            this.$Message.error("请求异常");
+            return false;
+          }
+          this.$Message.success("删除成功");
+          this.showDelModal = false;
+          this.getMechanismreg();
+        })
+        .catch(res => {
+          console.log(res);
+          this.delLoading = false;
+        });
+    },
     // 批量导入
     batch() {
       this.functionJS.queryNavgationTo(
@@ -742,6 +777,13 @@ export default {
     .list {
       width: 100%;
       margin: 10px 0;
+    }
+  }
+}
+.drugmanagement-commondrug-list-delModal {
+  /deep/ .ivu-modal-wrap {
+    .btn {
+      width: 80px;
     }
   }
 }
