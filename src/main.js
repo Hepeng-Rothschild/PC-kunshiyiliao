@@ -12,7 +12,7 @@ import VueI18n from 'vue-i18n';
 // import 'iview/dist/styles/fonts/ionicons.svg';
 // import 'iview/dist/styles/fonts/ionicons.ttf';
 // import 'iview/dist/styles/fonts/ionicons.woff';
-import { Button, Select, Option, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch, CellGroup, Cell } from 'iview';
+import { Button, Select, Option, Message, Notice, Modal, Row, Col, Icon, Input, Table, Page, Form, FormItem, InputNumber, Upload, Checkbox, CheckboxGroup, Switch, CellGroup, Cell, Tabs } from 'iview';
 import './assets/css/base.css';
 import axios from './plugins/http';
 /* aes 对称加密 */
@@ -84,6 +84,7 @@ Vue.component('Checkbox', Checkbox);
 Vue.component("iSwitch", Switch);
 Vue.component("CellGroup", CellGroup);
 Vue.component("Cell", Cell);
+Vue.component("Tabs", Tabs);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
 Vue.prototype.$Modal = Modal;

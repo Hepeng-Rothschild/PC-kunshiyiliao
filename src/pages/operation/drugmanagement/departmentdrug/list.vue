@@ -29,7 +29,8 @@
         </header>
         <!-- 列表 -->
         <div class="table">
-            <Table 
+            <Table
+                border
                 size="small" 
                 :columns="columns" 
                 :data="data"
@@ -181,13 +182,18 @@ export default {
         this.functionJS.queryNavgationTo(this, "/index/operation/drugmanagement/departmentdrug/add", {
         });
       },
-      handleReview() {
-
+      handleReview(record) {
+        record = record.row;
+        this.functionJS.queryNavgationTo(this, `/index/operation/drugmanagement/departmentdrug/review/${record.id}`, {
+            hospitalName: record.hospitalName,
+            linkmanTelephone: record.linkmanTelephone,
+            hosAddr: record.hosAddr,
+        });
       },
-      handleEdit() {
-
+      handleEdit(record) {
+        //   this.findDrugContrastPage(id);
       },
-      handleRemove() {
+      handleRemove(record) {
 
       },
       changePage(index) {
@@ -225,6 +231,11 @@ export default {
       deepClone(obj) {
           return JSON.parse(JSON.stringify(obj))
       }
+  },
+  watch: {
+    'filterObj.pageSize'(nv, ov) {
+        // this.findOperateDrugPage();
+    },
   }
 }
 </script>

@@ -57,8 +57,18 @@ const departmentdrugadd = {
     component: () =>
         import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/departmentdrug/add")
 }
+const departmentdrugreview = {
+    path: 'operation/drugmanagement/departmentdrug/review/:id',
+    name: 'departmentdrugreview',
+    meta: {
+        index: 22,
+        title: '医疗机构药品目录对照-查看页'
+    },
+    component: () =>
+        import(/* webpackChunkName: 'operation-drugmanagement' */"@/pages/operation/drugmanagement/departmentdrug/review")
+}
 const departmentdrugedit = {
-    path: 'operation/drugmanagement/departmentdrug/edit',
+    path: 'operation/drugmanagement/departmentdrug/edit/:id',
     name: 'departmentdrugedit',
     meta: {
         index: 22,
@@ -87,6 +97,7 @@ export default {
     // 医疗机构药品目录对照
     departmentdrug,
     departmentdrugadd,
+    departmentdrugreview,
     departmentdrugedit,
     // 药店药品目录对照
     storedrug,

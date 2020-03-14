@@ -29,7 +29,7 @@ export function uploadFileDecrypt(res) {
   let salt = store.state.salt;
   let iv = store.state.iv;
   let key = cookie.getCookie("randmId");
-  if (res.code == 1 && res.encryption) {
+  if (res.object && res.encryption) {
     res.object = JSON.parse(aesUtils.decrypt(salt, iv, key, res.object));
   }
   return res;

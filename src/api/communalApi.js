@@ -636,6 +636,9 @@ const insertBatchKbaoOperateDrug = '/operateapi/operate/drug/insertBatchKbaoOper
 const findDrugDict = '/operateapi/operate/drug/findDrugDict' // 获得药品目录相关字典(处方)
 // 医疗机构药品目录对照
 const findKbaoHospitalDrugDtoPage = '/operateapi/operate/drugContrast/findKbaoHospitalDrugDtoPage' // 药品目录对照-医疗机构信息管理
+const findDrugContrastPage = '/operateapi/operate/drugContrast/findDrugContrastPage'  // 查看对照结果
+const findKbaoHospitalRegisterDtoPage = '/operateapi/organization/findKbaoHospitalRegisterDtoPage' //机构注册信息列表查询
+const insertBatchKbaoOperateDrug2 = '/operateapi/operate/drugContrast/insertBatchKbaoOperateDrug' //机构药品目录excel模板导入对照(处方)
 
 
 // 药店信息管理
@@ -1017,6 +1020,9 @@ let communalApi = {
     findDrugDict, //字典
     //机构药品目录对照
     findKbaoHospitalDrugDtoPage, //列表
+    findDrugContrastPage, // 对照结果列表
+    findKbaoHospitalRegisterDtoPage, // 复用机构列表接口
+    insertBatchKbaoOperateDrug2, //模版上传
 }
 // 测试环境修改api前缀
 if (store.state.env === 'test') {
