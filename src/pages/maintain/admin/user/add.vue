@@ -519,6 +519,7 @@ export default {
             this.imgName = name;
             this.visible = true;
         },
+        //sss
         handleRemove(file) {
             const fileList = this.$refs.upload.fileList;
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
