@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^1.0.8",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "better-scroll": "^1.15.2",
     "file-saver": "^2.0.2",
     "iview": "^2.14.3",
